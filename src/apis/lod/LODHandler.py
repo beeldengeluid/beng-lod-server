@@ -15,7 +15,7 @@ class LODHandler(object):
 		if returnFormat == 'xml':
 			return xml, 'text/xml'
 		elif returnFormat == 'rdf/xml':
-			return '%s to be implemented' % returnFormat, 'text/plain'
+			return self._transformToLD(xml, returnFormat)
 
 		return '%s to be implemented' % returnFormat, 'text/plain'
 
@@ -25,3 +25,7 @@ class LODHandler(object):
 		resp = requests.get(url)
 		if resp.status_code == 200:
 			return resp.text
+
+	def _transformToLD(self, xml, returnFormat):
+		print('implement this you lazy piece of crap')
+		return '%s to be implemented' % returnFormat, 'text/plain'
