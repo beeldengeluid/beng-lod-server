@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://oaipmh.beeldengeluid.nl/basic">
+<xs:import namespace="http://purl.org/dc/terms/" schemaLocation="bg_basic1.xsd"/>
+<xs:import namespace="http://purl.org/dc/elements/1.1/" schemaLocation="bg_basic0.xsd"/>
+  <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="bgelement" type="bas:bgelementType"/>
+  <xs:complexType name="titleType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="language" type="xs:string" use="optional"/>
+        <xs:attribute name="source" type="xs:string" use="optional"/>
+        <xs:attribute name="type" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="maintitlesType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="title" type="bas:titleType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="subtitlesType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="title" type="bas:titleType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="rolesType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="role" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="creatorType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="clarification" type="xs:string"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" minOccurs="0" name="roles" type="bas:rolesType"/>
+      <xs:element minOccurs="0" name="role" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="creatorsType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="creator" type="bas:creatorType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="originalCreatorsType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="creator" type="bas:creatorType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="castType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="character" type="xs:string"/>
+      <xs:element name="clarification" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="castsType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="cast" type="bas:castType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="speakerType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="role" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="speakersType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="speaker" type="bas:speakerType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="executiveType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="role" type="xs:string"/>
+      <xs:element name="clarification" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="executivesType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="executive" type="bas:executiveType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="producerType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="producersType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="producer" type="bas:producerType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="contractorType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="contractorsType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="contractor" type="bas:contractorType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="funderType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="fundersType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="funder" type="bas:funderType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="sponsorType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="sponsorsType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="sponsor" type="bas:sponsorType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="recordinglocationsType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="location" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="productioncountriesType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="country" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="used-archivematerialsType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="used-archivematerial" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="languageType">
+    <xs:sequence>
+      <xs:element name="language" type="xs:string"/>
+      <xs:element name="use" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="languagesType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="language" type="bas:languageType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="nationalityType">
+    <xs:sequence>
+      <xs:element name="country" type="xs:string"/>
+      <xs:element name="role" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="nationalitiesType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="nationality" type="bas:nationalityType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="contextType">
+    <xs:sequence>
+      <xs:element name="awards" type="xs:string"/>
+      <xs:element name="occasion" type="xs:string"/>
+      <xs:element name="colour" type="xs:string"/>
+      <xs:element name="silent" type="xs:string"/>
+      <xs:element name="context" type="xs:string"/>
+      <xs:element name="composition" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="recordingType">
+    <xs:sequence>
+      <xs:element name="startdate" type="xs:string"/>
+      <xs:element name="enddate" type="xs:string"/>
+      <xs:element name="dateprecision" type="xs:string"/>
+      <xs:element name="productionyear" type="xs:string"/>
+      <xs:element name="montagedate" type="xs:string"/>
+      <xs:element name="starttime" type="xs:string"/>
+      <xs:element name="endtime" type="xs:string"/>
+      <xs:element name="withaudience" type="xs:string"/>
+      <xs:element name="annotation" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="recordingsType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="recording" type="bas:recordingType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="qualificationType">
+    <xs:sequence>
+      <xs:element name="source" type="xs:string"/>
+      <xs:element name="rights" type="xs:string"/>
+      <xs:element name="block" type="xs:string"/>
+      <xs:element name="license" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="carrierType">
+    <xs:sequence>
+      <xs:element name="starttime" type="xs:string"/>
+      <xs:element name="endtime" type="xs:string"/>
+      <xs:element name="annotation" type="xs:string"/>
+      <xs:element name="startoncarrier" type="xs:string"/>
+      <xs:element name="endoncarrier" type="xs:string"/>
+      <xs:element name="sequencenumber" type="xs:string"/>
+      <xs:element name="carrierreference" type="xs:string"/>
+      <xs:element name="carriertype" type="xs:string"/>
+      <xs:element name="archivestatus" type="xs:string"/>
+      <xs:element name="depotstatus" type="xs:string"/>
+      <xs:element name="repository" type="xs:string"/>
+      <xs:element name="storageunit" type="xs:string"/>
+      <xs:element name="carrier-annotation" type="xs:string"/>
+      <xs:element name="carrierclass" type="xs:string"/>
+      <xs:element name="carrierid" type="xs:string"/>
+      <xs:element name="dmguid" type="xs:string"/>
+      <xs:element name="startoffset" type="xs:string"/>
+      <xs:element name="publid" type="xs:string"/>
+      <xs:element name="externalreference" type="xs:string"/>
+      <xs:element name="carrier-startposition" type="xs:string"/>
+      <xs:element name="carrier-endposition" type="xs:string"/>
+      <xs:element name="format" type="xs:string"/>
+      <xs:element name="origin" type="xs:string"/>
+      <xs:element name="audiotype" type="xs:string"/>
+      <xs:element name="metrage" type="xs:string"/>
+      <xs:element name="sorting" type="xs:string"/>
+      <xs:element name="location" type="xs:string"/>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="technicaldetails" type="xs:string"/>
+      <xs:element name="creationdate" type="xs:string"/>
+      <xs:element name="parentcarrierid" type="xs:string"/>
+      <xs:element name="streamingurl" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="carriersType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="carrier" type="bas:carrierType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="transcriptType">
+    <xs:sequence>
+      <xs:element name="text" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="annotation" type="xs:string" use="optional"/>
+    <xs:attribute name="endtime" type="xs:string" use="optional"/>
+    <xs:attribute name="label" type="xs:string" use="optional"/>
+    <xs:attribute name="rights" type="xs:string" use="optional"/>
+    <xs:attribute name="sequencenumber" type="xs:string" use="optional"/>
+    <xs:attribute name="source" type="xs:string" use="optional"/>
+    <xs:attribute name="speaker" type="xs:string" use="optional"/>
+    <xs:attribute name="starttime" type="xs:string" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="transcriptsType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="transcript" type="bas:transcriptType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="genresType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="genre" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="targetgroupsType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="targetgroup" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="availablecollectionsType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="collection" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="themesType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="theme" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="keywordType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="sequencenumber" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="keywordsType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="keyword" type="bas:keywordType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deprecatedkeywordType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="keyword" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="rvdgenresType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="rvdgenre" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="personnamesType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="personname" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="locationsType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="location" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="namesType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="musicstylesType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="musicstyle" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="linkType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="sequencenumber" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="linksType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="link" type="bas:linkType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="museum-genresType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="genre" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="museum-targetgroupsType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="targetgroup" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="museum-availablecollectionsType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="collection" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="museum-themesType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="theme" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="museum-keywordsType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="keyword" type="bas:keywordType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="museum-deprecatedkeywordType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="keyword" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="museum-rvdgenresType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="rvdgenre" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="museum-personnamesType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="personname" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="museum-locationsType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="location" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="museum-namesType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="museum-musicstylesType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="musicstyle" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="museum-linksType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="link" type="bas:linkType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="networksType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="network" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="broadcastersType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="broadcaster" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="publicationType">
+    <xs:sequence>
+      <xs:element name="title" type="xs:string"/>
+      <xs:element name="type" type="xs:string"/>
+      <xs:element name="startdate" type="xs:string"/>
+      <xs:element name="enddate" type="xs:string"/>
+      <xs:element name="dateprecision" type="xs:string"/>
+      <xs:element name="starttime" type="xs:string"/>
+      <xs:element name="endtime" type="xs:string"/>
+      <xs:element name="duration" type="xs:string"/>
+      <xs:element name="duration-annotation" type="xs:string"/>
+      <xs:element name="starttimestamp" type="xs:string"/>
+      <xs:element name="publication-annotation" type="xs:string"/>
+      <xs:element name="timecodestandard" type="xs:string"/>
+      <xs:element name="distributionchannel" type="xs:string"/>
+      <xs:element name="distributionformat" type="xs:string"/>
+      <xs:element name="occasion" type="xs:string"/>
+      <xs:element name="rebroadcast" type="xs:string"/>
+      <xs:element name="live" type="xs:string"/>
+      <xs:element name="frequency" type="xs:string"/>
+      <xs:element name="start-within-program" type="xs:string"/>
+      <xs:element name="end-within-program" type="xs:string"/>
+      <xs:element name="datereceived" type="xs:string"/>
+      <xs:element name="weeknumber" type="xs:string"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="networks" type="bas:networksType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="broadcasters" type="bas:broadcastersType"/>
+      <xs:element name="sortdate" type="xs:string"/>
+      <xs:element name="sorttype" type="xs:string"/>
+      <xs:element name="technical-annotation" type="xs:string"/>
+      <xs:element name="broadcastnorm" type="xs:string"/>
+      <xs:element name="productid" type="xs:string"/>
+      <xs:element name="ugstatus" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="publicationsType">
+    <xs:sequence>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="publication" type="bas:publicationType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="bgelementType">
+    <xs:sequence>
+      <xs:element xmlns:ns="http://purl.org/dc/elements/1.1/" ref="ns:identifier"/>
+      <xs:element xmlns:ns="http://purl.org/dc/elements/1.1/" ref="ns:relation"/>
+      <xs:element xmlns:ter="http://purl.org/dc/terms/" ref="ter:isPartOf"/>
+      <xs:element name="external-id" type="xs:string"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="maintitles" type="bas:maintitlesType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="subtitles" type="bas:subtitlesType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="creators" type="bas:creatorsType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="originalCreators" type="bas:originalCreatorsType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="casts" type="bas:castsType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="speakers" type="bas:speakersType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="executives" type="bas:executivesType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="producers" type="bas:producersType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="contractors" type="bas:contractorsType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="funders" type="bas:fundersType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="sponsors" type="bas:sponsorsType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="recordinglocations" type="bas:recordinglocationsType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="productioncountries" type="bas:productioncountriesType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="used-archivematerials" type="bas:used-archivematerialsType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="languages" type="bas:languagesType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="nationalities" type="bas:nationalitiesType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="context" type="bas:contextType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="recordings" type="bas:recordingsType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" maxOccurs="unbounded" minOccurs="0" name="qualification" type="bas:qualificationType"/>
+      <xs:element name="distributionchannel" type="xs:string"/>
+      <xs:element name="numberofepisodes" type="xs:string"/>
+      <xs:element name="sourcecatalog" type="xs:string"/>
+      <xs:element name="duration" type="xs:string"/>
+      <xs:element name="clearingstatus" type="xs:string"/>
+      <xs:element name="episodenumber" type="xs:string"/>
+      <xs:element name="part" type="xs:string"/>
+      <xs:element name="availability" type="xs:string"/>
+      <xs:element name="type" type="xs:string"/>
+      <xs:element name="starttime" type="xs:string"/>
+      <xs:element name="endtime" type="xs:string"/>
+      <xs:element name="sequencenumber" type="xs:string"/>
+      <xs:element name="duration-annotation" type="xs:string"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="carriers" type="bas:carriersType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="transcripts" type="bas:transcriptsType"/>
+      <xs:element name="summary" type="xs:string"/>
+      <xs:element name="description" type="xs:string"/>
+      <xs:element name="annotation" type="xs:string"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="genres" type="bas:genresType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="targetgroups" type="bas:targetgroupsType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="availablecollections" type="bas:availablecollectionsType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="themes" type="bas:themesType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="keywords" type="bas:keywordsType"/>
+      <xs:element name="museumtitle" type="xs:string"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="deprecatedkeyword" type="bas:deprecatedkeywordType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="rvdgenres" type="bas:rvdgenresType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="personnames" type="bas:personnamesType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="locations" type="bas:locationsType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="names" type="bas:namesType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="musicstyles" type="bas:musicstylesType"/>
+      <xs:element name="catalog" type="xs:string"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="links" type="bas:linksType"/>
+      <xs:element name="taskid" type="xs:string"/>
+      <xs:element name="languageid" type="xs:string"/>
+      <xs:element name="museum-summary" type="xs:string"/>
+      <xs:element name="museum-description" type="xs:string"/>
+      <xs:element name="museum-annotation" type="xs:string"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="museum-genres" type="bas:museum-genresType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="museum-targetgroups" type="bas:museum-targetgroupsType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="museum-availablecollections" type="bas:museum-availablecollectionsType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="museum-themes" type="bas:museum-themesType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="museum-keywords" type="bas:museum-keywordsType"/>
+      <xs:element name="museum-museumtitle" type="xs:string"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="museum-deprecatedkeyword" type="bas:museum-deprecatedkeywordType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="museum-rvdgenres" type="bas:museum-rvdgenresType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="museum-personnames" type="bas:museum-personnamesType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="museum-locations" type="bas:museum-locationsType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="museum-names" type="bas:museum-namesType"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="museum-musicstyles" type="bas:museum-musicstylesType"/>
+      <xs:element name="museum-catalog" type="xs:string"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="museum-links" type="bas:museum-linksType"/>
+      <xs:element name="museum-taskid" type="xs:string"/>
+      <xs:element name="museum-languageid" type="xs:string"/>
+      <xs:element xmlns:bas="http://oaipmh.beeldengeluid.nl/basic" name="publications" type="bas:publicationsType"/>
+    </xs:sequence>
+    <xs:attribute name="aggregationType" type="xs:string"/>
+    <xs:attribute name="id" type="xs:byte"/>
+  </xs:complexType>
+</xs:schema>
