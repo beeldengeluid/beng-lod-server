@@ -8,7 +8,6 @@
 @prefix bg: <http://lod.beeldengeluid.nl/catalogue/>
 
 <http://lod.beeldengeluid.nl/catalogue/>
-	a rdfs:Class ;
     dcterms:publisher <http://lod.beeldengeluid.nl/catalogue/publisher> ;
     dcterms:title "Netherlands Institute for Sound and Vision Catalogue Metadata model"@en ;
     dcterms:title "Nederlands Instituut voor Beeld en Geluid Catalogus Metadata model"@nl ;
