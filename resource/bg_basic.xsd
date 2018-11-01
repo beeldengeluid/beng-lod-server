@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://oaipmh.beeldengeluid.nl/basic">
+<xs:import namespace="http://purl.org/dc/elements/1.1/" schemaLocation="bg_basic0.xsd"/>
+<xs:import namespace="http://purl.org/dc/terms/" schemaLocation="bg_basic1.xsd"/>
+<xs:include schemaLocation="bg_basic2.xsd"/>
+</xs:schema>
