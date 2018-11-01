@@ -1,11 +1,11 @@
 import json
 
-from flask import current_app, request
+from flask import current_app, request, Response
 from flask_restplus import Api, Namespace, fields, Resource
 
-#from LODHandler import LODHandler
+from apis.lod.LODHandler import LODHandler
 
-api = Namespace('LOD', description='LOD')
+api = Namespace('lod', description='LOD')
 
 #generic response model
 responseModel = api.model('Response', {
@@ -16,11 +16,20 @@ responseModel = api.model('Response', {
 """ --------------------------- GENERIC ANNOTATION ENDPOINTS -------------------------- """
 
 @api.doc(params={'programId': 'The program ID'}, required=False)
-@api.route('/program/<programId>', endpoint='dereference')
+@api.route('resource/<level>/<identifier>', endpoint='dereference')
 class LODAPI(Resource):
 
 	@api.response(200, 'Success', responseModel)
 	@api.response(404, 'Resource does not exist error')
-	def get(self, programId):
-		print('dereferencing %s' % programId)
-		return {}#LODHandler(current_app.config).test()
+	def get(self, level, identifier):
+		#http://oaipmh.beeldengeluid.nl/resource/program/5382355?output=bg
+		acceptType = request.headers.get('Accept-Type')
+		returnFormat = 'xml'
+		if acceptType:
+			if acceptType.find('rdf/xml') != -1:
+				returnFormat = 'rdf/xml'
+		resp, mimeType = LODHandler(current_app.config).getOAIRecord(level, identifier, returnFormat)
+
+		if resp and mimeType:
+			return Response(resp, mimetype=mimeType)
+		return 'dikke pech gozert'

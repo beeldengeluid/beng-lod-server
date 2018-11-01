@@ -35,7 +35,7 @@ REGULAR ROUTING (STATIC CONTENT)
 
 @app.route('/')
 def home():
-	return render_template('index.html', loggedIn=isLoggedIn(request))
+	return render_template('index.html')
 
 
 if __name__ == '__main__':
