@@ -19,17 +19,22 @@ responseModel = api.model('Response', {
 @api.route('resource/<level>/<identifier>', endpoint='dereference')
 class LODAPI(Resource):
 
-	@api.response(200, 'Success', responseModel)
-	@api.response(404, 'Resource does not exist error')
-	def get(self, level, identifier):
-		#http://oaipmh.beeldengeluid.nl/resource/program/5382355?output=bg
-		acceptType = request.headers.get('Accept-Type')
-		returnFormat = 'xml'
-		if acceptType:
-			if acceptType.find('rdf/xml') != -1:
-				returnFormat = 'rdf/xml'
-		resp, mimeType = LODHandler(current_app.config).getOAIRecord(level, identifier, returnFormat)
+    @api.response(200, 'Success', responseModel)
+    @api.response(404, 'Resource does not exist error')
+    def get(self, level, identifier):
+        #http://oaipmh.beeldengeluid.nl/resource/program/5382355?output=bg
+        acceptType = request.headers.get('Accept')
+        returnFormat = 'xml'
+        if acceptType.find('rdf+xml') != -1:
+            returnFormat = 'application/rdf+xml'
+        elif acceptType.find('ld+json') != -1:
+            returnFormat = 'application/ld+json'
+     
+        resp, mimeType = LODHandler(current_app.config).getOAIRecord(level, identifier, returnFormat)
 
-		if resp and mimeType:
-			return Response(resp, mimetype=mimeType)
-		return 'dikke pech gozert'
+#         print resp
+#         print mimeType
+        
+        if resp and mimeType:
+            return Response(resp, mimetype=mimeType)
+        return 'dikke pech gozert'
