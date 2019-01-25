@@ -3,6 +3,7 @@ from rdflib import Graph
 from lxml import etree
 from io import BytesIO
 from lxml.etree import XSLTError
+from os.path import expanduser
 
 class LODHandler(object):
 	''' OAI-PMH provider serves catalogue data on a URL, 
@@ -15,11 +16,12 @@ class LODHandler(object):
 		self.config = config
 		
 		#TODO: remove hard coded paths...
-		self._xsltfile = '/home/willem/eclipse-workspace/beng-lod-server/resource/nisv-bg-oai2lod-v01.xsl'
+		home = expanduser("~")
+
+		# '/home/willem/eclipse-workspace/beng-lod-server/resource/nisv-bg-oai2lod-v01.xsl'
+		self._xsltfile = '/'.join([home, 'eclipse-workspace','beng-lod-server','resource','nisv-bg-oai2lod-v01.xsl'])
 		assert self._xsltfile
-		
-# 		self._context = None
-		self._graph = Graph()
+
 		parser = etree.XMLParser(remove_comments=True,ns_clean=True,no_network=False)
 		xslTree = etree.parse(self._xsltfile, parser=parser)
 		self._transform = etree.XSLT(xslTree)
@@ -27,9 +29,11 @@ class LODHandler(object):
 
 	def getOAIRecord(self, level, identifier, returnFormat):
 		url = self.prepareURI(level, identifier)
+		print url
 		return self._OAI2LOD(url, returnFormat), returnFormat
 	
 	def prepareURI(self,level,identifier):
+		# TODO: make this an OAI-PMH GetRecord request
 		return 'http://oaipmh.beeldengeluid.nl/resource/%s/%s?output=bg' % (level, identifier)
 
 	def _OAI2LOD(self, url, returnFormat):
@@ -38,12 +42,11 @@ class LODHandler(object):
 
 		try:
 			result = self._transform(root)
-# 			self._context = result.getroot().nsmap
-			self._graph = Graph()   # empty existing graph
-			self._graph.parse(data=etree.tostring(result, xml_declaration=True))
-			print self._graph.serialize(	context=result.getroot().nsmap, 
-											format=returnFormat)
-			return self._graph.serialize(	context=result.getroot().nsmap, 
+			graph = Graph()
+			graph.parse(data=etree.tostring(result, xml_declaration=True))
+# 			print graph.serialize(	context=result.getroot().nsmap, 
+# 											format=returnFormat)
+			return graph.serialize(	context=result.getroot().nsmap, 
 											format=returnFormat), returnFormat
 
 		except XSLTError, e:

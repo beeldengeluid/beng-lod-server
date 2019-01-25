@@ -9,8 +9,8 @@
 	xmlns:oaipmh="http://www.openarchives.org/OAI/2.0/" 
 	xmlns:dcterms="http://purl.org/dc/terms/"
 	xmlns:bg= "http://oaipmh.beeldengeluid.nl/basic"
-	xmlns:bgmod= "http://data.rdlabs.nl/schema/"
-	xmlns:bgres= "http://data.rdlabs.nl/resource/"
+	xmlns:schema= "http://data.rdlabs.beeldengeluid.nl/schema/"
+	xmlns:bgres= "http://data.rdlabs.beeldengeluid.nl/api/resource/"
 	exclude-result-prefixes="oaipmh oai_dc xsl xsi">
 
 	<xsl:output method="xml" indent="yes" encoding="utf-8"/>
@@ -27,7 +27,7 @@
 		<rdf:RDF>
 			<rdf:Description>
 				<xsl:attribute name="rdf:about">
-					<xsl:value-of select="concat('http://data.rdlabs.nl/resource/',$level,'/',$id)" />
+					<xsl:value-of select="concat('http://data.rdlabs.beeldengeluid.nl/resource/',$level,'/',$id)" />
 				</xsl:attribute>
 			  	<xsl:apply-templates />
 			</rdf:Description>
@@ -46,6 +46,7 @@
 		</xsl:element>
 	</xsl:template>
 
+	<!-- TODO rewrite the parent URI -->
 	<xsl:template match="dcterms:isPartOf">
 		<xsl:element name="{name()}">
 				<xsl:attribute name="rdf:resource">
@@ -55,25 +56,17 @@
 	</xsl:template>
 
 	<xsl:template match="bg:external-id">
-		<xsl:element name="bgmod:external-id">
+		<xsl:element name="schema:external-id">
 			<xsl:value-of select="."/>
 		</xsl:element>
 	</xsl:template>
 
 	<xsl:template match="bg:maintitles">
-		<xsl:element name="bgmod:title">
-		  	<xsl:apply-templates />
-		</xsl:element>
-	</xsl:template>
-
-	<xsl:template match="bg:title">
-		<xsl:element name="bgmod:title">
-			<xsl:value-of select="."/>
-		</xsl:element>
+	  	<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="bg:productioncountries">
-		<xsl:element name="bgmod:productioncountries">
+		<xsl:element name="schema:productioncountries">
 		  	<xsl:apply-templates />
 		</xsl:element>
 	</xsl:template>
@@ -85,7 +78,7 @@
 			  	<xsl:apply-templates />
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:element name="bgmod:language">
+				<xsl:element name="schema:language">
 					<xsl:value-of select="."/>
 				</xsl:element>
 			</xsl:otherwise>
@@ -93,7 +86,7 @@
 	</xsl:template>
 
 	<xsl:template match="bg:context">
-		<xsl:element name="bgmod:context">
+		<xsl:element name="schema:context">
 		  	<xsl:apply-templates />
 		</xsl:element>
 	</xsl:template>
@@ -101,27 +94,28 @@
 	<!-- A generic template for all elements that are only there to validate the sequence in XML. 
 		For matching pattern see: Eg. https://stackoverflow.com/questions/1007018/xslt-expression-to-check-if-variable-belongs-to-set-of-elements
 	-->
-	<xsl:variable name="list" select="'recordings producers carriers languages creators roles'" />
-	<xsl:variable name="k" select="local-name()" />
-
 	<xsl:template match="bg:*">
-		<xsl:choose>
-			<xsl:when test="
-			  contains( 
-				concat(' ', $list, ' '),
-				concat(' ', $k, ' ')
-			  )
-			">
+		<xsl:variable name="list" select="'recordings producers carriers languages creators roles publications genres'" />
+		<xsl:variable name="k" select="local-name()" />
+		<xsl:choose> 
+			<xsl:when test="contains( concat(' ', $list, ' '), concat(' ', $k, ' ') ) ">
 			  	<xsl:apply-templates />
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:element name="bgmod:{local-name()}">
-					<xsl:value-of select="."/>
+				<xsl:element name="schema:{local-name()}">
+					<xsl:choose>
+						<xsl:when test="*">
+						  <!-- 	<xsl:apply-templates />	 -->
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="."/>
+						</xsl:otherwise>
+					</xsl:choose>
 				</xsl:element>
 			</xsl:otherwise>
 		</xsl:choose>
-	</xsl:template>
-
+ 	</xsl:template>
+	
 	<xsl:template match="text()"/>
 
 </xsl:transform>
