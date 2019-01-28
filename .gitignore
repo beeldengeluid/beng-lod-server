@@ -3,3 +3,5 @@
 settings.py
 venv
 __pycache__
+*.xml
+*.iml
