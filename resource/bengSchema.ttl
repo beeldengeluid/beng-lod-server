@@ -88,13 +88,6 @@ schema:isPartOfSeries rdf:type rdf:Property ;
                       rdfs:label "is part of Series" .
 
 
-###  http://www.beeldengeluid.nl/schema/layer__asr
-schema:layer__asr rdf:type rdf:Property ;
-                  rdfs:domain schema:Program ;
-                  rdfs:range schema:Layer__asr ;
-                  rdfs:label "layer__asr" .
-
-
 ###  http://www.beeldengeluid.nl/schema/nationality
 schema:nationality rdf:type rdf:Property ;
                    rdfs:domain schema:PlayableAudioVisualEntity ;
@@ -163,19 +156,6 @@ schema:sponsor rdf:type rdf:Property ;
                rdfs:domain schema:AudioVisualEntity ;
                rdfs:range schema:Sponsor ;
                rdfs:label "sponsor" .
-
-
-###  http://www.beeldengeluid.nl/schema/subtitles
-schema:subtitles rdf:type rdf:Property ;
-                 rdfs:domain schema:AudioVisualEntity ;
-                 rdfs:label "subtitles" .
-
-
-###  http://www.beeldengeluid.nl/schema/transcript
-schema:transcript rdf:type rdf:Property ;
-                  rdfs:domain schema:PlayableAudioVisualEntity ;
-                  rdfs:range schema:Transcript ;
-                  rdfs:label "transcript" .
 
 
 ###  http://www.beeldengeluid.nl/schema/annotation
@@ -248,25 +228,11 @@ schema:carrier-startposition rdf:type rdf:Property ;
                              rdfs:label "carrier-startposition" .
 
 
-###  http://www.beeldengeluid.nl/schema/carrierId
-schema:carrierId rdf:type rdf:Property ;
-                 rdfs:domain schema:Layer__asr ;
-                 rdfs:range xsd:string ;
-                 rdfs:label "carrierId" .
-
-
 ###  http://www.beeldengeluid.nl/schema/carrierclass
 schema:carrierclass rdf:type rdf:Property ;
                     rdfs:domain schema:Carrier ;
                     rdfs:range xsd:string ;
                     rdfs:label "carrierclass" .
-
-
-###  http://www.beeldengeluid.nl/schema/carrierid
-schema:carrierid rdf:type rdf:Property ;
-                 rdfs:domain schema:Carrier ;
-                 rdfs:range xsd:string ;
-                 rdfs:label "carrierid" .
 
 
 ###  http://www.beeldengeluid.nl/schema/carrierreference
@@ -323,6 +289,13 @@ schema:colour rdf:type rdf:Property ;
               rdfs:domain schema:Context ;
               rdfs:range xsd:string ;
               rdfs:label "colour" .
+
+
+###  http://www.beeldengeluid.nl/schema/composition
+schema:composition rdf:type rdf:Property ;
+                   rdfs:domain schema:Context ;
+                   rdfs:range xsd:string ;
+                   rdfs:label "composition" .
 
 
 ###  http://www.beeldengeluid.nl/schema/country
@@ -457,13 +430,6 @@ schema:format rdf:type rdf:Property ;
               rdfs:label "format" .
 
 
-###  http://www.beeldengeluid.nl/schema/fragmentId
-schema:fragmentId rdf:type rdf:Property ;
-                  rdfs:domain schema:Layer__asr ;
-                  rdfs:range xsd:string ;
-                  rdfs:label "fragmentId" .
-
-
 ###  http://www.beeldengeluid.nl/schema/frequency
 schema:frequency rdf:type rdf:Property ;
                  rdfs:domain schema:Publication ;
@@ -476,6 +442,13 @@ schema:genre rdf:type rdf:Property ;
              rdfs:domain schema:AudioVisualEntity ;
              rdfs:range xsd:string ;
              rdfs:label "genre" .
+
+
+###  http://www.beeldengeluid.nl/schema/hasCarrierId
+schema:hasCarrierId rdf:type rdf:Property ;
+                    rdfs:domain schema:Carrier ;
+                    rdfs:range xsd:long ;
+                    rdfs:label "has carrier ID" .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasCarrierLocation
@@ -506,6 +479,11 @@ schema:hasMuseumGenre rdf:type rdf:Property ;
                       rdfs:label "has museum genre" .
 
 
+###  http://www.beeldengeluid.nl/schema/hasMuseumKeyword
+schema:hasMuseumKeyword rdf:type rdf:Property ;
+                        rdfs:label "has museum keyword" .
+
+
 ###  http://www.beeldengeluid.nl/schema/hasMuseumLocation
 schema:hasMuseumLocation rdf:type rdf:Property ;
                          rdfs:domain schema:PlayableAudioVisualEntity ;
@@ -525,13 +503,13 @@ schema:hasName rdf:type rdf:Property ;
                rdfs:domain schema:InvolvedPerson ;
                rdfs:range xsd:string ;
                rdfs:label "has name" .
-
-
+			   
 ###  http://www.beeldengeluid.nl/schema/hasNisvId
 schema:hasNisvId rdf:type rdf:Property ;
-                 rdfs:comment "ID as it is in the NISV DAAN database" ;
-                 rdfs:label "has NISV ID" .
-
+				 rdfs:comment "ID as it is in the NISV DAAN database" ;                
+                 rdfs:domain schema:AudioVisualEntity ;
+				 rdfs:range xsd:string;
+				 rdfs:label "has NISV ID" .
 
 ###  http://www.beeldengeluid.nl/schema/hasPortalLink
 schema:hasPortalLink rdf:type rdf:Property ;
@@ -556,13 +534,6 @@ schema:hasSubTitle rdf:type rdf:Property ;
                    rdfs:label "has sub title" .
 
 
-###  http://www.beeldengeluid.nl/schema/id
-schema:id rdf:type rdf:Property ;
-          rdfs:domain schema:Carrier ;
-          rdfs:range xsd:long ;
-          rdfs:label "id" .
-
-
 ###  http://www.beeldengeluid.nl/schema/involvesEntity
 schema:involvesEntity rdf:type rdf:Property ;
                       rdfs:domain schema:AudioVisualEntity ;
@@ -577,13 +548,6 @@ schema:involvesMuseumEntity rdf:type rdf:Property ;
                             rdfs:range xsd:string ;
                             rdfs:comment "This is the museum-name.name property" ;
                             rdfs:label "involves museum entity" .
-
-
-###  http://www.beeldengeluid.nl/schema/involvesMuseumName
-schema:involvesMuseumName rdf:type rdf:Property ;
-                          rdfs:domain schema:Program ;
-                          rdfs:range xsd:string ;
-                          rdfs:label "involves museum name" .
 
 
 ###  http://www.beeldengeluid.nl/schema/involvesMuseumPerson
@@ -798,13 +762,6 @@ schema:role rdf:type rdf:Property ;
             rdfs:label "role" .
 
 
-###  http://www.beeldengeluid.nl/schema/sequenceNr
-schema:sequenceNr rdf:type rdf:Property ;
-                  rdfs:domain schema:Layer__asr ;
-                  rdfs:range xsd:long ;
-                  rdfs:label "sequenceNr" .
-
-
 ###  http://www.beeldengeluid.nl/schema/sequencenumber
 schema:sequencenumber rdf:type rdf:Property ;
                       rdfs:domain schema:SequenceMember ;
@@ -852,13 +809,6 @@ schema:sourcecatalog rdf:type rdf:Property ;
                      rdfs:domain schema:PlayableAudioVisualEntity ;
                      rdfs:range xsd:string ;
                      rdfs:label "sourcecatalog" .
-
-
-###  http://www.beeldengeluid.nl/schema/start
-schema:start rdf:type rdf:Property ;
-             rdfs:domain schema:Layer__asr ;
-             rdfs:range xsd:float ;
-             rdfs:label "start" .
 
 
 ###  http://www.beeldengeluid.nl/schema/startdate
@@ -930,13 +880,6 @@ schema:technicaldetails rdf:type rdf:Property ;
                         rdfs:label "technicaldetails" .
 
 
-###  http://www.beeldengeluid.nl/schema/text
-schema:text rdf:type rdf:Property ;
-            rdfs:domain schema:Transcript ;
-            rdfs:range xsd:string ;
-            rdfs:label "text" .
-
-
 ###  http://www.beeldengeluid.nl/schema/theme
 schema:theme rdf:type rdf:Property ;
              rdfs:domain schema:PlayableAudioVisualEntity ;
@@ -997,62 +940,6 @@ schema:withaudience rdf:type rdf:Property ;
                     rdfs:domain schema:Recording ;
                     rdfs:range xsd:string ;
                     rdfs:label "withaudience" .
-
-
-###  http://www.beeldengeluid.nl/schema/words
-schema:words rdf:type rdf:Property ;
-             rdfs:domain schema:Layer__asr ;
-             rdfs:range xsd:string ;
-             rdfs:label "words" .
-
-
-###  http://www.beeldengeluid.nl/schema/@annotation
-<http://www.beeldengeluid.nl/schema/@annotation> rdf:type rdf:Property ;
-                                                 rdfs:domain schema:Transcript ;
-                                                 rdfs:range xsd:string ;
-                                                 rdfs:label "annotation (transcript)" .
-
-
-###  http://www.beeldengeluid.nl/schema/@endtime
-<http://www.beeldengeluid.nl/schema/@endtime> rdf:type rdf:Property ;
-                                              rdfs:domain schema:Transcript ;
-                                              rdfs:range xsd:string ;
-                                              rdfs:label "endtime (transcript)" .
-
-
-###  http://www.beeldengeluid.nl/schema/@label
-<http://www.beeldengeluid.nl/schema/@label> rdf:type rdf:Property ;
-                                            rdfs:domain schema:Transcript ;
-                                            rdfs:range xsd:string ;
-                                            rdfs:label "label (transcript)" .
-
-
-###  http://www.beeldengeluid.nl/schema/@rights
-<http://www.beeldengeluid.nl/schema/@rights> rdf:type rdf:Property ;
-                                             rdfs:domain schema:Transcript ;
-                                             rdfs:range xsd:string ;
-                                             rdfs:label "rights (transcript)" .
-
-
-###  http://www.beeldengeluid.nl/schema/@sequencenumber
-<http://www.beeldengeluid.nl/schema/@sequencenumber> rdf:type rdf:Property ;
-                                                     rdfs:domain schema:Transcript ;
-                                                     rdfs:range xsd:string ;
-                                                     rdfs:label "sequence number (transcript)" .
-
-
-###  http://www.beeldengeluid.nl/schema/@source
-<http://www.beeldengeluid.nl/schema/@source> rdf:type rdf:Property ;
-                                             rdfs:domain schema:Transcript ;
-                                             rdfs:range xsd:string ;
-                                             rdfs:label "source (transcript)" .
-
-
-###  http://www.beeldengeluid.nl/schema/@starttime
-<http://www.beeldengeluid.nl/schema/@starttime> rdf:type rdf:Property ;
-                                                rdfs:domain schema:Transcript ;
-                                                rdfs:range xsd:string ;
-                                                rdfs:label "starttime (transcript)" .
 
 
 #################################################################
@@ -1148,11 +1035,6 @@ schema:InvolvedPersonWithClarification rdf:type rdfs:Class ;
 ###  http://www.beeldengeluid.nl/schema/Language
 schema:Language rdf:type rdfs:Class ;
                 rdfs:label "Language" .
-
-
-###  http://www.beeldengeluid.nl/schema/Layer__asr
-schema:Layer__asr rdf:type rdfs:Class ;
-                  rdfs:label "Layer__asr" .
 
 
 ###  http://www.beeldengeluid.nl/schema/Nationality
@@ -1254,20 +1136,5 @@ schema:Speaker rdf:type rdfs:Class ;
 schema:Sponsor rdf:type rdfs:Class ;
                rdfs:subClassOf schema:InvolvedPerson ;
                rdfs:label "Sponsor" .
-
-
-###  http://www.beeldengeluid.nl/schema/Transcript
-schema:Transcript rdf:type rdfs:Class ;
-                  rdfs:label "Transcript" .
-
-
-#################################################################
-#    Annotations
-#################################################################
-
-schema:maintitles rdfs:label "maintitles" .
-
-
-schema:recordinglocations rdfs:label "recordinglocations" .
 
 
