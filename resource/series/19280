@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><bg:bgelement xmlns:bg="http://oaipmh.beeldengeluid.nl/basic" xmlns:bga="http://oaipmh.beeldengeluid.nl/aggregated" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" aggregationType="series" id="19280">
+    <dc:identifier>19280@series</dc:identifier>
+    <bg:maintitles>
+        <bg:title type="titel">MAX MAAKT MOGELIJK</bg:title>
+    </bg:maintitles>
+    <bg:distributionchannel>televisie</bg:distributionchannel>
+    <bg:summary>Serie reportages waarin een financiële bijdrage van de kijker wordt gevraagd voor het bekostigen van projecten die het welzijn van ouderen verbeteren.</bg:summary>
+    <bg:genres>
+        <bg:genre>inzamelingsactie</bg:genre>
+        <bg:genre>reportage</bg:genre>
+    </bg:genres>
+    <bg:keywords>
+        <bg:keyword>hulpacties</bg:keyword>
+        <bg:keyword>ouderen</bg:keyword>
+        <bg:keyword>welzijn</bg:keyword>
+    </bg:keywords>
+    <bg:catalog>Bewegend beeld/TV/Publieke omroep/Overige programma's</bg:catalog>
+    <bg:taskid>62365</bg:taskid>
+    <bg:languageid>1</bg:languageid>
+</bg:bgelement>

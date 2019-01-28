@@ -102,19 +102,16 @@
 			  	<xsl:apply-templates />
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:element name="schema:{local-name()}">
-					<xsl:choose>
-						<xsl:when test="*">
+				<xsl:choose>
+					<xsl:when test="*">
+					  <xsl:apply-templates />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:element name="schema:{local-name()}">
 							<xsl:value-of select="."/>
-<!-- 
-						  <xsl:apply-templates />
- -->
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="."/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:element>
+						</xsl:element>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:otherwise>
 		</xsl:choose>
  	</xsl:template>
