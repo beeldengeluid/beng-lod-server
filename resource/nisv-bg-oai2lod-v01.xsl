@@ -105,7 +105,10 @@
 				<xsl:element name="schema:{local-name()}">
 					<xsl:choose>
 						<xsl:when test="*">
-						  <!-- 	<xsl:apply-templates />	 -->
+							<xsl:value-of select="."/>
+<!-- 
+						  <xsl:apply-templates />
+ -->
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:value-of select="."/>
