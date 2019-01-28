@@ -1,13 +1,16 @@
 import requests
 from rdflib import Graph
 from lxml import etree
-from io import BytesIO
+# from io import BytesIO
 from lxml.etree import XSLTError
 from os.path import expanduser
+from logging.config import IDENTIFIER
 
 class LODHandler(object):
 	''' OAI-PMH provider serves catalogue data on a URL, 
 	    e.g.: http://oaipmh.beeldengeluid.nl/resource/program/5296881?output=bg
+			# TODO: make this an OAI-PMH GetRecord request
+			# http://oaipmh.beeldengeluid.nl/oai?verb=GetRecord&metadataPrefix=bg&identifier=oai:program:3883163
 	    This class enables getting the XML from the URL, transform to RDF/XML using an XSLT,
 	    and loadData in a Graph. 
 	    Serialization in any format that RDFlib can handle.
@@ -15,11 +18,20 @@ class LODHandler(object):
 	def __init__(self, config):
 		self.config = config
 		
-		#TODO: remove hard coded paths...
+		#TODO: remove hard coded paths... move them to config?
 		home = expanduser("~")
-
-		# '/home/willem/eclipse-workspace/beng-lod-server/resource/nisv-bg-oai2lod-v01.xsl'
-		self._xsltfile = '/'.join([home, 'eclipse-workspace','beng-lod-server','resource','nisv-bg-oai2lod-v01.xsl'])
+		local = 'eclipse-workspace'
+		repo = 'beng-lod-server'
+		self._resource = 'resource'
+		xslt = 'nisv-bg-oai2lod-v01.xsl'
+		self.base_url = 'http://oaipmh.beeldengeluid.nl/resource/'
+		
+		# uncomment if local server is needed
+		protocol = 'file://'
+		self.local_base_url = '/'.join([protocol,home,local,repo,self._resource])
+		
+# 		self._xsltfile = '/'.join([home, 'eclipse-workspace','beng-lod-server','resource','nisv-bg-oai2lod-v01.xsl'])
+		self._xsltfile = '/'.join([home,local,repo,self._resource,xslt])
 		assert self._xsltfile
 
 		parser = etree.XMLParser(remove_comments=True,ns_clean=True,no_network=False)
@@ -34,6 +46,9 @@ class LODHandler(object):
 	
 	def prepareURI(self,level,identifier):
 		# TODO: make this an OAI-PMH GetRecord request
+		# http://oaipmh.beeldengeluid.nl/oai?verb=GetRecord&metadataPrefix=bg&identifier=oai:program:3883163
+		print '/'.join([self.local_base_url,level,identifier])
+		return '/'.join([self.local_base_url,level,identifier])
 		return 'http://oaipmh.beeldengeluid.nl/resource/%s/%s?output=bg' % (level, identifier)
 
 	def _OAI2LOD(self, url, returnFormat):

@@ -32,9 +32,10 @@ class LODAPI(Resource):
      
         resp, mimeType = LODHandler(current_app.config).getOAIRecord(level, identifier, returnFormat)
 
-#         print resp
+#         print type(resp),resp
+#         print type(resp[0]), resp[0]
 #         print mimeType
         
         if resp and mimeType:
-            return Response(resp, mimetype=mimeType)
+            return Response(resp[0], mimetype=mimeType)
         return 'dikke pech gozert'
