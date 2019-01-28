@@ -31,10 +31,6 @@ class LODAPI(Resource):
             returnFormat = 'application/ld+json'
      
         resp, mimeType = LODHandler(current_app.config).getOAIRecord(level, identifier, returnFormat)
-
-#         print type(resp),resp
-#         print type(resp[0]), resp[0]
-#         print mimeType
         
         if resp and mimeType:
             return Response(resp[0], mimetype=mimeType)

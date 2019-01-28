@@ -27,10 +27,9 @@ class LODHandler(object):
 		self.base_url = 'http://oaipmh.beeldengeluid.nl/resource/'
 		
 		# uncomment if local server is needed
-		protocol = 'file://'
-		self.local_base_url = '/'.join([protocol,home,local,repo,self._resource])
+# 		protocol = 'file://'
+# 		self.local_base_url = '/'.join([protocol,home,local,repo,self._resource])
 		
-# 		self._xsltfile = '/'.join([home, 'eclipse-workspace','beng-lod-server','resource','nisv-bg-oai2lod-v01.xsl'])
 		self._xsltfile = '/'.join([home,local,repo,self._resource,xslt])
 		assert self._xsltfile
 
@@ -47,8 +46,7 @@ class LODHandler(object):
 	def prepareURI(self,level,identifier):
 		# TODO: make this an OAI-PMH GetRecord request
 		# http://oaipmh.beeldengeluid.nl/oai?verb=GetRecord&metadataPrefix=bg&identifier=oai:program:3883163
-		print '/'.join([self.local_base_url,level,identifier])
-		return '/'.join([self.local_base_url,level,identifier])
+# 		return '/'.join([self.local_base_url,level,identifier])
 		return 'http://oaipmh.beeldengeluid.nl/resource/%s/%s?output=bg' % (level, identifier)
 
 	def _OAI2LOD(self, url, returnFormat):
