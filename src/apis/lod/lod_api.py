@@ -19,7 +19,6 @@ responseModel = api.model('Response', {
 @api.route('resource/<level>/<identifier>', endpoint='dereference')
 class LODAPI(Resource):
 
-    @api.response(200, 'Success', responseModel)
     @api.response(404, 'Resource does not exist error')
     def get(self, level, identifier):
         #http://oaipmh.beeldengeluid.nl/resource/program/5382355?output=bg
@@ -29,24 +28,23 @@ class LODAPI(Resource):
             returnFormat = 'application/rdf+xml'
         elif acceptType.find('ld+json') != -1:
             returnFormat = 'application/ld+json'
-     
+
         resp, mimeType = LODHandler(current_app.config).getOAIRecord(level, identifier, returnFormat)
-        
+
         if resp and mimeType:
             return Response(resp[0], mimetype=mimeType)
         return 'dikke pech gozert'
 
 """ --------------------------- SCHEMA ENDPOINT -------------------------- """
- 
+
 @api.route('schema', endpoint='schema')
-class LODSchemaHandler(Resource):
-  
-    @api.response(200, 'Success', responseModel)
+class LODSchemaAPI(Resource):
+
     @api.response(404, 'Schema does not exist error')
     def get(self):
         mimeType = 'text/turtle'
         resp, mimeType = LODSchemaHandler(current_app.config).getSchema(mimeType=mimeType)
-#         
+
         if resp and mimeType:
             return Response(resp, mimetype=mimeType)
         return 'ooeei, een hele dikke bug'
