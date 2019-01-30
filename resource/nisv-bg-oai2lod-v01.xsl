@@ -58,25 +58,25 @@
 			<xsl:choose>
 				<xsl:when test="$level = 'program'">
 					<xsl:element name="rdf:type">
-					 	<xsl:value-of select="schema:Program" />
+					    <xsl:attribute name="rdf:resource" select="schema:Program"/>
 					</xsl:element>
 				  	<xsl:apply-templates />
 				</xsl:when>
 				<xsl:when test="$level = 'season'">
 					<xsl:element name="rdf:type">
-					 	<xsl:value-of select="schema:Season" />
+					    <xsl:attribute name="rdf:resource" select="schema:Season"/>
 					</xsl:element>
 				  	<xsl:apply-templates />
 				</xsl:when>
 				<xsl:when test="$level = 'series'">
 					<xsl:element name="rdf:type">
-					 	<xsl:value-of select="schema:Series" />
+					    <xsl:attribute name="rdf:resource" select="schema:Series"/>
 					</xsl:element>
 				  	<xsl:apply-templates />
 				</xsl:when>
 				<xsl:when test="$level = 'segment'">
 					<xsl:element name="rdf:type">
-					 	<xsl:value-of select="schema:Segment" />
+					    <xsl:attribute name="rdf:resource" select="schema:Segment"/>
 					</xsl:element>
 				  	<xsl:apply-templates />
 				</xsl:when>
