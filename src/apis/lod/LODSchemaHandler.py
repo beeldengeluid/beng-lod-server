@@ -1,7 +1,7 @@
-import requests
-# from os.path import expanduser
+import os
 
-class LODSchemaHandler(object):
+class LODSchemaHandler():
+
 	def __init__(self, config):
 		self.config = config
 
@@ -15,11 +15,8 @@ class LODSchemaHandler(object):
 # 		self.base_url = u'/'.join([protocol,home,local,repo,path,filename])
 		# TODO make sure it also works for the webserver
 		protocol = u'http:/'
-		server = u':'.join([config['APP_HOST'],config['APP_PORT']])
-		self.base_url = u'/'.join([protocol,server,path,filename])
-		
-	def getSchema(self,mimeType='text/turtle'):
-		r = requests.get(self.base_url)
-		print r.url
-		return r.text, mimeType
-	
+
+	def getSchema(self, mimeType='text/turtle'):
+		f = open(os.path.join(self.config['RESOURCE_DIR'], 'bengSchema.ttl'), 'r')
+		s = f.read()
+		return s, mimeType
