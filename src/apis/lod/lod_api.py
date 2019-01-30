@@ -1,11 +1,11 @@
-import json
-
 from flask import current_app, request, Response
 from flask_restplus import Api, Namespace, fields, Resource
 
 from apis.lod.LODHandler import LODHandler
+from apis.lod.LODSchemaHandler import LODSchemaHandler
 
 api = Namespace('lod', description='LOD')
+api2 = Namespace('schema', description='Schema')
 
 #generic response model
 responseModel = api.model('Response', {
@@ -13,7 +13,7 @@ responseModel = api.model('Response', {
     'message': fields.String(description='Message from server', required=True),
 })
 
-""" --------------------------- GENERIC ANNOTATION ENDPOINTS -------------------------- """
+""" --------------------------- RESOURCE ENDPOINT -------------------------- """
 
 @api.doc(params={'programId': 'The program ID'}, required=False)
 @api.route('resource/<level>/<identifier>', endpoint='dereference')
@@ -35,3 +35,18 @@ class LODAPI(Resource):
         if resp and mimeType:
             return Response(resp[0], mimetype=mimeType)
         return 'dikke pech gozert'
+
+""" --------------------------- SCHEMA ENDPOINT -------------------------- """
+ 
+@api.route('schema', endpoint='schema')
+class LODSchemaHandler(Resource):
+  
+    @api.response(200, 'Success', responseModel)
+    @api.response(404, 'Schema does not exist error')
+    def get(self):
+        mimeType = 'text/turtle'
+        resp, mimeType = LODSchemaHandler(current_app.config).getSchema(mimeType=mimeType)
+#         
+        if resp and mimeType:
+            return Response(resp, mimetype=mimeType)
+        return 'ooeei, een hele dikke bug'

@@ -1,10 +1,8 @@
-import requests
 from rdflib import Graph
 from lxml import etree
-# from io import BytesIO
 from lxml.etree import XSLTError
 from os.path import expanduser
-from logging.config import IDENTIFIER
+from urllib import urlencode
 
 class LODHandler(object):
 	''' OAI-PMH provider serves catalogue data on a URL, 
@@ -22,15 +20,16 @@ class LODHandler(object):
 		home = expanduser("~")
 		local = 'eclipse-workspace'
 		repo = 'beng-lod-server'
-		self._resource = 'resource'
+		path = 'resource'
 		xslt = 'nisv-bg-oai2lod-v01.xsl'
-		self.base_url = 'http://oaipmh.beeldengeluid.nl/resource/'
-		
+		self._protocol = 'http://'
+		self.base_url = u''.join([self._protocol,'oaipmh.beeldengeluid.nl'])
+
 		# uncomment if local server is needed
-# 		protocol = 'file://'
-# 		self.local_base_url = '/'.join([protocol,home,local,repo,self._resource])
+# 		self._protocol = 'file:/'
+# 		self.base_url = u'/'.join([self._protocol,home,local,repo,self._path])
 		
-		self._xsltfile = '/'.join([home,local,repo,self._resource,xslt])
+		self._xsltfile = u'/'.join([home,local,repo,path,xslt])
 		assert self._xsltfile
 
 		parser = etree.XMLParser(remove_comments=True,ns_clean=True,no_network=False)
@@ -44,10 +43,15 @@ class LODHandler(object):
 		return self._OAI2LOD(url, returnFormat), returnFormat
 	
 	def prepareURI(self,level,identifier):
-		# TODO: make this an OAI-PMH GetRecord request
-		# http://oaipmh.beeldengeluid.nl/oai?verb=GetRecord&metadataPrefix=bg&identifier=oai:program:3883163
-# 		return '/'.join([self.local_base_url,level,identifier])
-		return 'http://oaipmh.beeldengeluid.nl/resource/%s/%s?output=bg' % (level, identifier)
+		# e.g. http://oaipmh.beeldengeluid.nl/oai?verb=GetRecord&metadataPrefix=bg&identifier=oai:program:3883163
+		params = {}
+		params['verb'] = 'GetRecord'
+		params['metadataPrefix'] = 'bg'
+		params['identifier'] = ':'.join(['oai', level, identifier])
+		path = 'oai'
+		base_url = '/'.join([self.base_url,path])
+		full_url = '?'.join([base_url,urlencode(params)])
+		return full_url
 
 	def _OAI2LOD(self, url, returnFormat):
 		parser = etree.XMLParser(remove_blank_text=True,compact=False,ns_clean=True,recover=True)

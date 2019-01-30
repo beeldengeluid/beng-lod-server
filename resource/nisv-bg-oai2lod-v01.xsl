@@ -10,7 +10,7 @@
 	xmlns:dcterms="http://purl.org/dc/terms/"
 	xmlns:bg= "http://oaipmh.beeldengeluid.nl/basic"
 	xmlns:schema= "http://data.rdlabs.beeldengeluid.nl/schema/"
-	xmlns:bgres= "http://data.rdlabs.beeldengeluid.nl/api/resource/"
+	xmlns:bgres= "http://data.rdlabs.beeldengeluid.nl/resource/"
 	exclude-result-prefixes="oaipmh oai_dc xsl xsi">
 
 	<xsl:output method="xml" indent="yes" encoding="utf-8"/>
@@ -20,18 +20,68 @@
 	  	<xsl:apply-templates />
 	</xsl:template>
 
+	<xsl:template match="oaipmh:OAI-PMH">
+		<rdf:RDF>	
+			<xsl:apply-templates />
+		</rdf:RDF>
+	</xsl:template>
+
+	<xsl:template match="oaipmh:ListRecords">
+  		<xsl:apply-templates />
+	</xsl:template>
+	
+	<xsl:template match="oaipmh:GetRecord">
+	  	<xsl:apply-templates />
+	</xsl:template>
+	
+	<xsl:template match="oaipmh:record">
+		<xsl:if test="not(oaipmh:header[@status='deleted'])">
+			<xsl:apply-templates select="oaipmh:metadata" />
+			<xsl:apply-templates select="oaipmh:header" />
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template match="oaipmh:header"/>
+
+	<xsl:template match="oaipmh:metadata">
+		<xsl:apply-templates />
+	</xsl:template>
+	
 	<xsl:template match="bg:bgelement">
 		<xsl:variable name="level" select="./@aggregationType"/>
 		<xsl:variable name="id" select="./@id"/>
 
-		<rdf:RDF>
-			<rdf:Description>
-				<xsl:attribute name="rdf:about">
-					<xsl:value-of select="concat('http://data.rdlabs.beeldengeluid.nl/resource/',$level,'/',$id)" />
-				</xsl:attribute>
-			  	<xsl:apply-templates />
-			</rdf:Description>
-		</rdf:RDF>
+		<rdf:Description>
+			<xsl:attribute name="rdf:about">
+				<xsl:value-of select="concat('http://data.rdlabs.beeldengeluid.nl/resource/',$level,'/',$id)" />
+			</xsl:attribute>
+			<xsl:choose>
+				<xsl:when test="$level = 'program'">
+					<xsl:element name="rdf:type">
+					 	<xsl:value-of select="schema:Program" />
+					</xsl:element>
+				  	<xsl:apply-templates />
+				</xsl:when>
+				<xsl:when test="$level = 'season'">
+					<xsl:element name="rdf:type">
+					 	<xsl:value-of select="schema:Season" />
+					</xsl:element>
+				  	<xsl:apply-templates />
+				</xsl:when>
+				<xsl:when test="$level = 'series'">
+					<xsl:element name="rdf:type">
+					 	<xsl:value-of select="schema:Series" />
+					</xsl:element>
+				  	<xsl:apply-templates />
+				</xsl:when>
+				<xsl:when test="$level = 'segment'">
+					<xsl:element name="rdf:type">
+					 	<xsl:value-of select="schema:Segment" />
+					</xsl:element>
+				  	<xsl:apply-templates />
+				</xsl:when>
+			</xsl:choose>
+		</rdf:Description>
 	</xsl:template>
 
 	<xsl:template match="dc:identifier">
@@ -95,7 +145,7 @@
 		For matching pattern see: Eg. https://stackoverflow.com/questions/1007018/xslt-expression-to-check-if-variable-belongs-to-set-of-elements
 	-->
 	<xsl:template match="bg:*">
-		<xsl:variable name="list" select="'recordings producers carriers languages creators roles publications genres'" />
+		<xsl:variable name="list" select="'recordings producers carriers languages creators roles publications genres networks'" />
 		<xsl:variable name="k" select="local-name()" />
 		<xsl:choose> 
 			<xsl:when test="contains( concat(' ', $list, ' '), concat(' ', $k, ' ') ) ">
