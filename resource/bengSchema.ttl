@@ -1,11 +1,10 @@
-@prefix : <http://www.beeldengeluid.nl/schema/> .
+@prefix : <http://data.rdlabs.beeldengeluid.nl/schema/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix schema: <http://www.beeldengeluid.nl/schema/> .
-@prefix uploaded: <http://172.19.53.20:3022/data/uploaded/> .
-@base <http://www.beeldengeluid.nl/schema/> .
+@prefix schema: <http://data.rdlabs.beeldengeluid.nl/schema/> .
+@base <http://data.rdlabs.beeldengeluid.nl/schema/> .
 
 
 ###  http://www.beeldengeluid.nl/schema/carrier
@@ -159,8 +158,8 @@ schema:sponsor rdf:type rdf:Property ;
 
 
 ###  http://www.beeldengeluid.nl/schema/annotation
-schema:annotation rdf:type rdf:Property ;
-                  rdfs:domain schema:AnnotatableEntity ;
+schema:hasAdditionalInformation rdf:type rdf:Property ;
+                  rdfs:domain schema:EntityWithAdditionalInformation ;
                   rdfs:range xsd:string ;
                   rdfs:label "annotation" .
 
@@ -946,20 +945,20 @@ schema:withaudience rdf:type rdf:Property ;
 #    Classes
 #################################################################
 
-###  http://www.beeldengeluid.nl/schema/AnnotatableEntity
-schema:AnnotatableEntity rdf:type rdfs:Class ;
+###  http://www.beeldengeluid.nl/schema/EntityWithAdditionalInformation
+schema:EntityWithAdditionalInformation rdf:type rdfs:Class ;
                          rdfs:label "Annotatable Entity" .
 
 
 ###  http://www.beeldengeluid.nl/schema/AudioVisualEntity
 schema:AudioVisualEntity rdf:type rdfs:Class ;
-                         rdfs:subClassOf schema:AnnotatableEntity ;
+                         rdfs:subClassOf schema:EntityWithAdditionalInformation ;
                          rdfs:label "Audiovisual Entity" .
 
 
 ###  http://www.beeldengeluid.nl/schema/Carrier
 schema:Carrier rdf:type rdfs:Class ;
-               rdfs:subClassOf schema:AnnotatableEntity ,
+               rdfs:subClassOf schema:EntityWithAdditionalInformation ,
                                schema:SequenceMember ;
                rdfs:label "Carrier" .
 
@@ -1089,7 +1088,7 @@ schema:Qualification rdf:type rdfs:Class ;
 
 ###  http://www.beeldengeluid.nl/schema/Recording
 schema:Recording rdf:type rdfs:Class ;
-                 rdfs:subClassOf schema:AnnotatableEntity ,
+                 rdfs:subClassOf schema:EntityWithAdditionalInformation ,
                                  schema:RecordingOrPublication ;
                  rdfs:label "Recording" .
 
