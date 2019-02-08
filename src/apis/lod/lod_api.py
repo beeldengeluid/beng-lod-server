@@ -26,7 +26,9 @@ class LODAPI(Resource):
         returnFormat = 'xml'
         if acceptType.find('rdf+xml') != -1:
             returnFormat = 'application/rdf+xml'
-        elif acceptType.find('ld+json') != -1:
+        elif acceptType.find('json+ld') != -1:
+            returnFormat = 'application/ld+json'
+        elif acceptType.find('json') != -1:
             returnFormat = 'application/ld+json'
 
         resp, mimeType = LODHandler(current_app.config).getOAIRecord(level, identifier, returnFormat)

@@ -37,9 +37,5 @@ REGULAR ROUTING (STATIC CONTENT)
 def home():
 	return render_template('index.html')
 
-@app.route('/test')
-def test():
-	return render_template('bengSchema.ttl')
-						
 if __name__ == '__main__':
 	app.run(host=app.config['APP_HOST'], port=app.config['APP_PORT'])
