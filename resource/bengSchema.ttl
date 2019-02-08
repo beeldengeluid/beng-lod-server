@@ -4,66 +4,65 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix schema: <http://data.rdlabs.beeldengeluid.nl/schema/> .
-@base <http://data.rdlabs.beeldengeluid.nl/schema/> .
+@base <http://data.rdlabs.beeldengeluid.nl/schema/>.
 
-
-###  http://www.beeldengeluid.nl/schema/carrier
+###  http://data.rdlabs.beeldengeluid.nl/schema/carrier
 schema:carrier rdf:type rdf:Property ;
                rdfs:domain schema:PlayableAudioVisualEntity ;
                rdfs:range schema:Carrier ;
                rdfs:label "carrier" .
 
 
-###  http://www.beeldengeluid.nl/schema/cast
+###  http://data.rdlabs.beeldengeluid.nl/schema/cast
 schema:cast rdf:type rdf:Property ;
             rdfs:domain schema:AudioVisualEntity ;
             rdfs:range schema:Cast ;
             rdfs:label "cast" .
 
 
-###  http://www.beeldengeluid.nl/schema/context
+###  http://data.rdlabs.beeldengeluid.nl/schema/context
 schema:context rdf:type rdf:Property ;
                rdfs:domain schema:AudioVisualEntity ;
                rdfs:range schema:Context ;
                rdfs:label "context" .
 
 
-###  http://www.beeldengeluid.nl/schema/contractor
+###  http://data.rdlabs.beeldengeluid.nl/schema/contractor
 schema:contractor rdf:type rdf:Property ;
                   rdfs:domain schema:AudioVisualEntity ;
                   rdfs:range schema:Contractor ;
                   rdfs:label "contractor" .
 
 
-###  http://www.beeldengeluid.nl/schema/creator
+###  http://data.rdlabs.beeldengeluid.nl/schema/creator
 schema:creator rdf:type rdf:Property ;
                rdfs:domain schema:AudioVisualEntity ;
                rdfs:range schema:Creator ;
                rdfs:label "creator" .
 
 
-###  http://www.beeldengeluid.nl/schema/executive
+###  http://data.rdlabs.beeldengeluid.nl/schema/executive
 schema:executive rdf:type rdf:Property ;
                  rdfs:domain schema:AudioVisualEntity ;
                  rdfs:range schema:Executive ;
                  rdfs:label "executive" .
 
 
-###  http://www.beeldengeluid.nl/schema/funder
+###  http://data.rdlabs.beeldengeluid.nl/schema/funder
 schema:funder rdf:type rdf:Property ;
               rdfs:domain schema:AudioVisualEntity ;
               rdfs:range schema:Funder ;
               rdfs:label "funder" .
 
 
-###  http://www.beeldengeluid.nl/schema/hasLanguage
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasLanguage
 schema:hasLanguage rdf:type rdf:Property ;
                    rdfs:domain schema:AudioVisualEntity ;
                    rdfs:range schema:Language ;
                    rdfs:comment "has Language" .
 
 
-###  http://www.beeldengeluid.nl/schema/isPartOfProgram
+###  http://data.rdlabs.beeldengeluid.nl/schema/isPartOfProgram
 schema:isPartOfProgram rdf:type rdf:Property ;
                        rdfs:domain schema:Segment ;
                        rdfs:range schema:Program ;
@@ -71,7 +70,7 @@ schema:isPartOfProgram rdf:type rdf:Property ;
                        rdfs:label "is part of Program" .
 
 
-###  http://www.beeldengeluid.nl/schema/isPartOfSeason
+###  http://data.rdlabs.beeldengeluid.nl/schema/isPartOfSeason
 schema:isPartOfSeason rdf:type rdf:Property ;
                       rdfs:domain schema:Program ;
                       rdfs:range schema:Season ;
@@ -79,7 +78,7 @@ schema:isPartOfSeason rdf:type rdf:Property ;
                       rdfs:label "is part of Season" .
 
 
-###  http://www.beeldengeluid.nl/schema/isPartOfSeries
+###  http://data.rdlabs.beeldengeluid.nl/schema/isPartOfSeries
 schema:isPartOfSeries rdf:type rdf:Property ;
                       rdfs:domain schema:AudioVisualEntity ;
                       rdfs:range schema:Series ;
@@ -87,231 +86,293 @@ schema:isPartOfSeries rdf:type rdf:Property ;
                       rdfs:label "is part of Series" .
 
 
-###  http://www.beeldengeluid.nl/schema/nationality
+###  http://data.rdlabs.beeldengeluid.nl/schema/nationality
 schema:nationality rdf:type rdf:Property ;
                    rdfs:domain schema:PlayableAudioVisualEntity ;
                    rdfs:range schema:Nationality ;
                    rdfs:label "nationality" .
 
 
-###  http://www.beeldengeluid.nl/schema/originalCreators
+###  http://data.rdlabs.beeldengeluid.nl/schema/originalCreators
 schema:originalCreators rdf:type rdf:Property ;
                         rdfs:domain schema:AudioVisualEntity ;
                         rdfs:range schema:Originalcreator ;
                         rdfs:label "originalCreators" .
 
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasMuseumKeyword
+schema:hasMuseumKeyword rdf:type rdf:Property;
+						rdfs:label "has museum keyword" ;
+                        rdfs:domain schema:AudioVisualEntity ;
+						rdfs:range xsd:String .
 
-###  http://www.beeldengeluid.nl/schema/producer
+###  http://data.rdlabs.beeldengeluid.nl/schema/producer
 schema:producer rdf:type rdf:Property ;
                 rdfs:domain schema:AudioVisualEntity ;
                 rdfs:range schema:Producer ;
                 rdfs:label "producer" .
 
 
-###  http://www.beeldengeluid.nl/schema/productioncountries
+###  http://data.rdlabs.beeldengeluid.nl/schema/productioncountries
 schema:productioncountries rdf:type rdf:Property ;
                            rdfs:domain schema:AudioVisualEntity ;
                            rdfs:range schema:Productioncountry ;
                            rdfs:label "productioncountries" .
 
 
-###  http://www.beeldengeluid.nl/schema/publication
+###  http://data.rdlabs.beeldengeluid.nl/schema/publication
 schema:publication rdf:type rdf:Property ;
                    rdfs:domain schema:Program ;
                    rdfs:range schema:Publication ;
                    rdfs:label "publication" .
 
 
-###  http://www.beeldengeluid.nl/schema/qualification
+###  http://data.rdlabs.beeldengeluid.nl/schema/qualification
 schema:qualification rdf:type rdf:Property ;
                      rdfs:domain schema:AudioVisualEntity ;
                      rdfs:range schema:Qualification ;
                      rdfs:label "qualification" .
 
 
-###  http://www.beeldengeluid.nl/schema/recording
-schema:recording rdf:type rdf:Property ;
-                 rdfs:domain schema:AudioVisualEntity ;
-                 rdfs:range schema:Recording ;
-                 rdfs:label "recording" .
-
-
-###  http://www.beeldengeluid.nl/schema/recordings
+###  http://data.rdlabs.beeldengeluid.nl/schema/recordings
 schema:recordings rdf:type rdf:Property ;
                   rdfs:domain schema:Segment ;
                   rdfs:range schema:Recording ;
                   rdfs:label "recordings" .
 
 
-###  http://www.beeldengeluid.nl/schema/speaker
+###  http://data.rdlabs.beeldengeluid.nl/schema/speaker
 schema:speaker rdf:type rdf:Property ;
                rdfs:domain schema:AudioVisualEntity ;
                rdfs:range schema:Speaker ;
                rdfs:label "speaker" .
 
 
-###  http://www.beeldengeluid.nl/schema/sponsor
+###  http://data.rdlabs.beeldengeluid.nl/schema/sponsor
 schema:sponsor rdf:type rdf:Property ;
                rdfs:domain schema:AudioVisualEntity ;
                rdfs:range schema:Sponsor ;
                rdfs:label "sponsor" .
 
 
-###  http://www.beeldengeluid.nl/schema/annotation
-schema:hasAdditionalInformation rdf:type rdf:Property ;
-                  rdfs:domain schema:EntityWithAdditionalInformation ;
-                  rdfs:range xsd:string ;
-                  rdfs:label "annotation" .
+###  http://www.beeldengeluid.nl/schema/hasPart
+<http://www.beeldengeluid.nl/schema/hasPart> rdf:type rdf:Property ;
+                                             rdfs:domain schema:Series ;
+                                             rdfs:range schema:AudioVisualEntity .
 
 
-###  http://www.beeldengeluid.nl/schema/archivestatus
+###  http://www.beeldengeluid.nl/schema/hasProgram
+<http://www.beeldengeluid.nl/schema/hasProgram> rdf:type rdf:Property ;
+                                                rdfs:domain schema:Program ;
+                                                rdfs:range schema:Season .
+
+
+###  http://www.beeldengeluid.nl/schema/hasSceneDescription
+<http://www.beeldengeluid.nl/schema/hasSceneDescription> rdf:type rdf:Property ;
+                                                         rdfs:domain schema:Segment ;
+                                                         rdfs:range schema:Program .
+
+
+###  http://www.beeldengeluid.nl/schema/isCastMemberOf
+<http://www.beeldengeluid.nl/schema/isCastMemberOf> rdf:type rdf:Property ;
+                                                    rdfs:domain schema:Cast ;
+                                                    rdfs:range schema:AudioVisualEntity .
+
+
+###  http://www.beeldengeluid.nl/schema/isContractorFor
+<http://www.beeldengeluid.nl/schema/isContractorFor> rdf:type rdf:Property ;
+                                                     rdfs:domain schema:Contractor ;
+                                                     rdfs:range schema:AudioVisualEntity .
+
+
+###  http://www.beeldengeluid.nl/schema/isCreatorOf
+<http://www.beeldengeluid.nl/schema/isCreatorOf> rdf:type rdf:Property ;
+                                                 rdfs:domain schema:Creator ;
+                                                 rdfs:range schema:AudioVisualEntity .
+
+
+###  http://www.beeldengeluid.nl/schema/isExecutiveFor
+<http://www.beeldengeluid.nl/schema/isExecutiveFor> rdf:type rdf:Property ;
+                                                    rdfs:domain schema:Executive ;
+                                                    rdfs:range schema:AudioVisualEntity .
+
+
+###  http://www.beeldengeluid.nl/schema/isFunderOf
+<http://www.beeldengeluid.nl/schema/isFunderOf> rdf:type rdf:Property ;
+                                                rdfs:domain schema:Funder ;
+                                                rdfs:range schema:AudioVisualEntity .
+
+
+###  http://www.beeldengeluid.nl/schema/isOriginalCreatorOf
+<http://www.beeldengeluid.nl/schema/isOriginalCreatorOf> rdf:type rdf:Property ;
+                                                         rdfs:domain schema:Creator ;
+                                                         rdfs:range schema:AudioVisualEntity .
+
+
+###  http://www.beeldengeluid.nl/schema/isProducerOf
+<http://www.beeldengeluid.nl/schema/isProducerOf> rdf:type rdf:Property ;
+                                                  rdfs:domain schema:Producer ;
+                                                  rdfs:range schema:AudioVisualEntity .
+
+
+###  http://www.beeldengeluid.nl/schema/isSpeakerIn
+<http://www.beeldengeluid.nl/schema/isSpeakerIn> rdf:type rdf:Property ;
+                                                 rdfs:domain schema:Speaker ;
+                                                 rdfs:range schema:AudioVisualEntity .
+
+
+###  http://www.beeldengeluid.nl/schema/isSponsorOf
+<http://www.beeldengeluid.nl/schema/isSponsorOf> rdf:type rdf:Property ;
+                                                 rdfs:domain schema:Sponsor ;
+                                                 rdfs:range schema:AudioVisualEntity .
+
+###  http://data.rdlabs.beeldengeluid.nl/schema/archivestatus
 schema:archivestatus rdf:type rdf:Property ;
                      rdfs:domain schema:Carrier ;
                      rdfs:range xsd:string ;
                      rdfs:label "archivestatus" .
 
 
-###  http://www.beeldengeluid.nl/schema/audiotype
+###  http://data.rdlabs.beeldengeluid.nl/schema/audiotype
 schema:audiotype rdf:type rdf:Property ;
                  rdfs:domain schema:Carrier ;
                  rdfs:range xsd:string ;
                  rdfs:label "audiotype" .
 
 
-###  http://www.beeldengeluid.nl/schema/awards
+###  http://data.rdlabs.beeldengeluid.nl/schema/awards
 schema:awards rdf:type rdf:Property ;
               rdfs:domain schema:Context ;
               rdfs:range xsd:string ;
               rdfs:label "awards" .
 
 
-###  http://www.beeldengeluid.nl/schema/block
+###  http://data.rdlabs.beeldengeluid.nl/schema/block
 schema:block rdf:type rdf:Property ;
              rdfs:domain schema:Qualification ;
              rdfs:range xsd:string ;
              rdfs:label "block" .
 
 
-###  http://www.beeldengeluid.nl/schema/broadcaster
+###  http://data.rdlabs.beeldengeluid.nl/schema/broadcaster
 schema:broadcaster rdf:type rdf:Property ;
                    rdfs:domain schema:Publication ;
                    rdfs:range xsd:string ;
                    rdfs:label "broadcaster" .
 
 
-###  http://www.beeldengeluid.nl/schema/broadcastnorm
+###  http://data.rdlabs.beeldengeluid.nl/schema/broadcastnorm
 schema:broadcastnorm rdf:type rdf:Property ;
                      rdfs:domain schema:Publication ;
                      rdfs:range xsd:string ;
                      rdfs:label "broadcastnorm" .
 
 
-###  http://www.beeldengeluid.nl/schema/carrier-annotation
+###  http://data.rdlabs.beeldengeluid.nl/schema/carrier-annotation
 schema:carrier-annotation rdf:type rdf:Property ;
                           rdfs:domain schema:Carrier ;
                           rdfs:range xsd:string ;
                           rdfs:label "carrier-annotation" .
 
 
-###  http://www.beeldengeluid.nl/schema/carrier-endposition
+###  http://data.rdlabs.beeldengeluid.nl/schema/carrier-endposition
 schema:carrier-endposition rdf:type rdf:Property ;
                            rdfs:domain schema:Carrier ;
                            rdfs:range xsd:string ;
                            rdfs:label "carrier endposition" .
 
 
-###  http://www.beeldengeluid.nl/schema/carrier-startposition
+###  http://data.rdlabs.beeldengeluid.nl/schema/carrier-startposition
 schema:carrier-startposition rdf:type rdf:Property ;
                              rdfs:domain schema:Carrier ;
                              rdfs:range xsd:string ;
                              rdfs:label "carrier-startposition" .
 
 
-###  http://www.beeldengeluid.nl/schema/carrierclass
+###  http://data.rdlabs.beeldengeluid.nl/schema/carrierclass
 schema:carrierclass rdf:type rdf:Property ;
                     rdfs:domain schema:Carrier ;
                     rdfs:range xsd:string ;
                     rdfs:label "carrierclass" .
 
 
-###  http://www.beeldengeluid.nl/schema/carrierreference
+###  http://data.rdlabs.beeldengeluid.nl/schema/carrierreference
 schema:carrierreference rdf:type rdf:Property ;
                         rdfs:domain schema:Carrier ;
                         rdfs:range xsd:string ;
                         rdfs:label "carrierreference" .
 
 
-###  http://www.beeldengeluid.nl/schema/carriertype
+###  http://data.rdlabs.beeldengeluid.nl/schema/carriertype
 schema:carriertype rdf:type rdf:Property ;
                    rdfs:domain schema:Carrier ;
                    rdfs:range xsd:string ;
                    rdfs:label "carriertype" .
 
 
-###  http://www.beeldengeluid.nl/schema/catalog
+###  http://data.rdlabs.beeldengeluid.nl/schema/catalog
 schema:catalog rdf:type rdf:Property ;
                rdfs:domain schema:AudioVisualEntity ;
                rdfs:range xsd:string ;
                rdfs:label "catalog" .
 
 
-###  http://www.beeldengeluid.nl/schema/character
+###  http://data.rdlabs.beeldengeluid.nl/schema/character
 schema:character rdf:type rdf:Property ;
                  rdfs:domain schema:Cast ;
                  rdfs:range xsd:string ;
                  rdfs:label "character" .
 
 
-###  http://www.beeldengeluid.nl/schema/clarification
+###  http://data.rdlabs.beeldengeluid.nl/schema/clarification
 schema:clarification rdf:type rdf:Property ;
                      rdfs:domain schema:InvolvedPersonWithClarification ;
                      rdfs:range xsd:string ;
                      rdfs:label "clarification" .
 
 
-###  http://www.beeldengeluid.nl/schema/clearingstatus
+###  http://data.rdlabs.beeldengeluid.nl/schema/clearingstatus
 schema:clearingstatus rdf:type rdf:Property ;
                       rdfs:domain schema:PlayableAudioVisualEntity ;
                       rdfs:range xsd:string ;
                       rdfs:label "clearingstatus" .
 
 
-###  http://www.beeldengeluid.nl/schema/collection
+###  http://data.rdlabs.beeldengeluid.nl/schema/collection
 schema:collection rdf:type rdf:Property ;
                   rdfs:domain schema:PlayableAudioVisualEntity ;
                   rdfs:range xsd:string ;
                   rdfs:label "hasAvailableCollection" .
 
 
-###  http://www.beeldengeluid.nl/schema/colour
+###  http://data.rdlabs.beeldengeluid.nl/schema/colour
 schema:colour rdf:type rdf:Property ;
               rdfs:domain schema:Context ;
               rdfs:range xsd:string ;
               rdfs:label "colour" .
 
 
-###  http://www.beeldengeluid.nl/schema/composition
+###  http://data.rdlabs.beeldengeluid.nl/schema/composition
 schema:composition rdf:type rdf:Property ;
                    rdfs:domain schema:Context ;
                    rdfs:range xsd:string ;
                    rdfs:label "composition" .
 
 
-###  http://www.beeldengeluid.nl/schema/country
+###  http://data.rdlabs.beeldengeluid.nl/schema/country
 schema:country rdf:type rdf:Property ;
                rdfs:domain schema:CountryInformation ;
                rdfs:range xsd:string ;
                rdfs:label "country" .
 
 
-###  http://www.beeldengeluid.nl/schema/creationdate
+###  http://data.rdlabs.beeldengeluid.nl/schema/creationdate
 schema:creationdate rdf:type rdf:Property ;
                     rdfs:domain schema:Carrier ;
                     rdfs:range xsd:dateTime ;
                     rdfs:label "creationdate" .
 
 
-###  http://www.beeldengeluid.nl/schema/dateprecision
+###  http://data.rdlabs.beeldengeluid.nl/schema/dateprecision
 schema:dateprecision rdf:type rdf:Property ;
                      rdfs:domain schema:Recording ,
                                  schema:RecordingOrPublication ;
@@ -319,198 +380,202 @@ schema:dateprecision rdf:type rdf:Property ;
                      rdfs:label "dateprecision" .
 
 
-###  http://www.beeldengeluid.nl/schema/datereceived
+###  http://data.rdlabs.beeldengeluid.nl/schema/datereceived
 schema:datereceived rdf:type rdf:Property ;
                     rdfs:domain schema:Publication ;
                     rdfs:range xsd:dateTime ;
                     rdfs:label "datereceived" .
 
 
-###  http://www.beeldengeluid.nl/schema/datestamp
+###  http://data.rdlabs.beeldengeluid.nl/schema/datestamp
 schema:datestamp rdf:type rdf:Property ;
                  rdfs:domain schema:AudioVisualEntity ;
                  rdfs:range xsd:dateTime ;
                  rdfs:label "datestamp" .
 
 
-###  http://www.beeldengeluid.nl/schema/depotstatus
+###  http://data.rdlabs.beeldengeluid.nl/schema/depotstatus
 schema:depotstatus rdf:type rdf:Property ;
                    rdfs:domain schema:Carrier ;
                    rdfs:range xsd:string ;
                    rdfs:label "depotstatus" .
 
 
-###  http://www.beeldengeluid.nl/schema/description
+###  http://data.rdlabs.beeldengeluid.nl/schema/description
 schema:description rdf:type rdf:Property ;
                    rdfs:domain schema:PlayableAudioVisualEntity ;
                    rdfs:range xsd:string ;
                    rdfs:label "description" .
 
 
-###  http://www.beeldengeluid.nl/schema/distributionchannel
+###  http://data.rdlabs.beeldengeluid.nl/schema/distributionchannel
 schema:distributionchannel rdf:type rdf:Property ;
                            rdfs:domain schema:DistributableEntity ;
                            rdfs:range xsd:string ;
                            rdfs:label "distributionchannel" .
 
 
-###  http://www.beeldengeluid.nl/schema/distributionformat
+###  http://data.rdlabs.beeldengeluid.nl/schema/distributionformat
 schema:distributionformat rdf:type rdf:Property ;
                           rdfs:domain schema:Publication ;
                           rdfs:range xsd:string ;
                           rdfs:label "distributionformat" .
 
 
-###  http://www.beeldengeluid.nl/schema/dmguid
+###  http://data.rdlabs.beeldengeluid.nl/schema/dmguid
 schema:dmguid rdf:type rdf:Property ;
               rdfs:domain schema:Carrier ;
               rdfs:range xsd:string ;
               rdfs:label "dmguid" .
 
 
-###  http://www.beeldengeluid.nl/schema/duration
+###  http://data.rdlabs.beeldengeluid.nl/schema/duration
 schema:duration rdf:type rdf:Property ;
                 rdfs:domain schema:EntityWithDuration ;
                 rdfs:range xsd:long ;
                 rdfs:label "duration" .
 
 
-###  http://www.beeldengeluid.nl/schema/duration-annotation
+###  http://data.rdlabs.beeldengeluid.nl/schema/duration-annotation
 schema:duration-annotation rdf:type rdf:Property ;
                            rdfs:range xsd:string ;
                            rdfs:label "duration-annotation" .
 
 
-###  http://www.beeldengeluid.nl/schema/enddate
+###  http://data.rdlabs.beeldengeluid.nl/schema/enddate
 schema:enddate rdf:type rdf:Property ;
                rdfs:domain schema:RecordingOrPublication ;
                rdfs:range xsd:dateTime ;
                rdfs:label "enddate" .
 
 
-###  http://www.beeldengeluid.nl/schema/endoncarrier
+###  http://data.rdlabs.beeldengeluid.nl/schema/endoncarrier
 schema:endoncarrier rdf:type rdf:Property ;
                     rdfs:domain schema:Carrier ;
                     rdfs:range xsd:long ;
                     rdfs:label "endoncarrier" .
 
 
-###  http://www.beeldengeluid.nl/schema/endtime
+###  http://data.rdlabs.beeldengeluid.nl/schema/endtime
 schema:endtime rdf:type rdf:Property ;
                rdfs:range xsd:string ;
                rdfs:label "endtime" .
 
 
-###  http://www.beeldengeluid.nl/schema/episodenumber
+###  http://data.rdlabs.beeldengeluid.nl/schema/episodenumber
 schema:episodenumber rdf:type rdf:Property ;
                      rdfs:domain schema:Program ;
                      rdfs:range xsd:long ;
                      rdfs:label "episodenumber" .
 
 
-###  http://www.beeldengeluid.nl/schema/external-id
+###  http://data.rdlabs.beeldengeluid.nl/schema/external-id
 schema:external-id rdf:type rdf:Property ;
                    rdfs:domain schema:PlayableAudioVisualEntity ;
                    rdfs:range xsd:string ;
                    rdfs:label "external-id" .
 
 
-###  http://www.beeldengeluid.nl/schema/externalreference
+###  http://data.rdlabs.beeldengeluid.nl/schema/externalreference
 schema:externalreference rdf:type rdf:Property ;
                          rdfs:domain schema:Carrier ;
                          rdfs:range xsd:string ;
                          rdfs:label "external reference" .
 
 
-###  http://www.beeldengeluid.nl/schema/format
+###  http://data.rdlabs.beeldengeluid.nl/schema/format
 schema:format rdf:type rdf:Property ;
               rdfs:domain schema:Carrier ;
               rdfs:range xsd:string ;
               rdfs:label "format" .
 
 
-###  http://www.beeldengeluid.nl/schema/frequency
+###  http://data.rdlabs.beeldengeluid.nl/schema/frequency
 schema:frequency rdf:type rdf:Property ;
                  rdfs:domain schema:Publication ;
                  rdfs:range xsd:string ;
                  rdfs:label "frequency" .
 
 
-###  http://www.beeldengeluid.nl/schema/genre
+###  http://data.rdlabs.beeldengeluid.nl/schema/genre
 schema:genre rdf:type rdf:Property ;
              rdfs:domain schema:AudioVisualEntity ;
              rdfs:range xsd:string ;
              rdfs:label "genre" .
 
 
-###  http://www.beeldengeluid.nl/schema/hasCarrierId
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasAdditionalInformation
+schema:hasAdditionalInformation rdf:type rdf:Property ;
+                                rdfs:domain schema:EntityWithAdditionalInformation ;
+                                rdfs:range xsd:string ;
+                                rdfs:label "annotation" .
+
+
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasCarrierId
 schema:hasCarrierId rdf:type rdf:Property ;
                     rdfs:domain schema:Carrier ;
                     rdfs:range xsd:long ;
                     rdfs:label "has carrier ID" .
 
 
-###  http://www.beeldengeluid.nl/schema/hasCarrierLocation
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasCarrierLocation
 schema:hasCarrierLocation rdf:type rdf:Property ;
                           rdfs:domain schema:Carrier ;
                           rdfs:range xsd:string ;
                           rdfs:label "has carrier location" .
 
 
-###  http://www.beeldengeluid.nl/schema/hasDeprecatedKeyword
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasDeprecatedKeyword
 schema:hasDeprecatedKeyword rdf:type rdf:Property ;
                             rdfs:domain schema:PlayableAudioVisualEntity ;
                             rdfs:range xsd:string ;
                             rdfs:label "has deprecated keyword" .
 
 
-###  http://www.beeldengeluid.nl/schema/hasMainTitle
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasMainTitle
 schema:hasMainTitle rdf:type rdf:Property ;
                     rdfs:domain schema:AudioVisualEntity ;
                     rdfs:range xsd:string ;
                     rdfs:label "has main title" .
 
 
-###  http://www.beeldengeluid.nl/schema/hasMuseumGenre
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasMuseumGenre
 schema:hasMuseumGenre rdf:type rdf:Property ;
                       rdfs:domain schema:AudioVisualEntity ;
                       rdfs:range xsd:string ;
                       rdfs:label "has museum genre" .
 
 
-###  http://www.beeldengeluid.nl/schema/hasMuseumKeyword
-schema:hasMuseumKeyword rdf:type rdf:Property ;
-                        rdfs:label "has museum keyword" .
-
-
-###  http://www.beeldengeluid.nl/schema/hasMuseumLocation
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasMuseumLocation
 schema:hasMuseumLocation rdf:type rdf:Property ;
                          rdfs:domain schema:PlayableAudioVisualEntity ;
                          rdfs:range xsd:string ;
                          rdfs:label "has museum location" .
 
 
-###  http://www.beeldengeluid.nl/schema/hasMuseumTheme
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasMuseumTheme
 schema:hasMuseumTheme rdf:type rdf:Property ;
                       rdfs:domain schema:Program ;
                       rdfs:range xsd:string ;
                       rdfs:label "has museum theme" .
 
 
-###  http://www.beeldengeluid.nl/schema/hasName
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasName
 schema:hasName rdf:type rdf:Property ;
                rdfs:domain schema:InvolvedPerson ;
                rdfs:range xsd:string ;
                rdfs:label "has name" .
-			   
-###  http://www.beeldengeluid.nl/schema/hasNisvId
-schema:hasNisvId rdf:type rdf:Property ;
-				 rdfs:comment "ID as it is in the NISV DAAN database" ;                
-                 rdfs:domain schema:AudioVisualEntity ;
-				 rdfs:range xsd:string;
-				 rdfs:label "has NISV ID" .
 
-###  http://www.beeldengeluid.nl/schema/hasPortalLink
+
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasNisvId
+schema:hasNisvId rdf:type rdf:Property ;
+                 rdfs:domain schema:AudioVisualEntity ;
+                 rdfs:range xsd:string ;
+                 rdfs:comment "ID as it is in the NISV DAAN database" ;
+                 rdfs:label "has NISV ID" .
+
+
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasPortalLink
 schema:hasPortalLink rdf:type rdf:Property ;
                      rdfs:domain schema:AudioVisualEntity ;
                      rdfs:range xsd:string ;
@@ -518,14 +583,14 @@ schema:hasPortalLink rdf:type rdf:Property ;
                      rdfs:label "has portal link" .
 
 
-###  http://www.beeldengeluid.nl/schema/hasRecordingLocation
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasRecordingLocation
 schema:hasRecordingLocation rdf:type rdf:Property ;
                             rdfs:domain schema:AudioVisualEntity ;
                             rdfs:range xsd:string ;
                             rdfs:label "has recording location" .
 
 
-###  http://www.beeldengeluid.nl/schema/hasSubTitle
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasSubTitle
 schema:hasSubTitle rdf:type rdf:Property ;
                    rdfs:domain schema:AudioVisualEntity ;
                    rdfs:range xsd:string ;
@@ -533,7 +598,7 @@ schema:hasSubTitle rdf:type rdf:Property ;
                    rdfs:label "has sub title" .
 
 
-###  http://www.beeldengeluid.nl/schema/involvesEntity
+###  http://data.rdlabs.beeldengeluid.nl/schema/involvesEntity
 schema:involvesEntity rdf:type rdf:Property ;
                       rdfs:domain schema:AudioVisualEntity ;
                       rdfs:range xsd:string ;
@@ -541,7 +606,7 @@ schema:involvesEntity rdf:type rdf:Property ;
                       rdfs:label "involves entity" .
 
 
-###  http://www.beeldengeluid.nl/schema/involvesMuseumEntity
+###  http://data.rdlabs.beeldengeluid.nl/schema/involvesMuseumEntity
 schema:involvesMuseumEntity rdf:type rdf:Property ;
                             rdfs:domain schema:Program ;
                             rdfs:range xsd:string ;
@@ -549,7 +614,7 @@ schema:involvesMuseumEntity rdf:type rdf:Property ;
                             rdfs:label "involves museum entity" .
 
 
-###  http://www.beeldengeluid.nl/schema/involvesMuseumPerson
+###  http://data.rdlabs.beeldengeluid.nl/schema/involvesMuseumPerson
 schema:involvesMuseumPerson rdf:type rdf:Property ;
                             rdfs:domain schema:Program ;
                             rdfs:range xsd:string ;
@@ -557,7 +622,7 @@ schema:involvesMuseumPerson rdf:type rdf:Property ;
                             rdfs:label "involves museum person" .
 
 
-###  http://www.beeldengeluid.nl/schema/involvesPerson
+###  http://data.rdlabs.beeldengeluid.nl/schema/involvesPerson
 schema:involvesPerson rdf:type rdf:Property ;
                       rdfs:domain schema:AudioVisualEntity ;
                       rdfs:range xsd:string ;
@@ -565,376 +630,376 @@ schema:involvesPerson rdf:type rdf:Property ;
                       rdfs:label "involves person" .
 
 
-###  http://www.beeldengeluid.nl/schema/keyword
+###  http://data.rdlabs.beeldengeluid.nl/schema/keyword
 schema:keyword rdf:type rdf:Property ;
                rdfs:domain schema:AudioVisualEntity ;
                rdfs:range xsd:string ;
                rdfs:label "keyword" .
 
 
-###  http://www.beeldengeluid.nl/schema/language
+###  http://data.rdlabs.beeldengeluid.nl/schema/language
 schema:language rdf:type rdf:Property ;
                 rdfs:domain schema:Language ;
                 rdfs:range xsd:string ;
                 rdfs:label "language" .
 
 
-###  http://www.beeldengeluid.nl/schema/languageid
+###  http://data.rdlabs.beeldengeluid.nl/schema/languageid
 schema:languageid rdf:type rdf:Property ;
                   rdfs:domain schema:AudioVisualEntity ;
                   rdfs:range xsd:long ;
                   rdfs:label "languageid" .
 
 
-###  http://www.beeldengeluid.nl/schema/license
+###  http://data.rdlabs.beeldengeluid.nl/schema/license
 schema:license rdf:type rdf:Property ;
                rdfs:domain schema:Qualification ;
                rdfs:range xsd:string ;
                rdfs:label "license" .
 
 
-###  http://www.beeldengeluid.nl/schema/link
+###  http://data.rdlabs.beeldengeluid.nl/schema/link
 schema:link rdf:type rdf:Property ;
             rdfs:domain schema:AudioVisualEntity ;
             rdfs:range xsd:string ;
             rdfs:label "link" .
 
 
-###  http://www.beeldengeluid.nl/schema/live
+###  http://data.rdlabs.beeldengeluid.nl/schema/live
 schema:live rdf:type rdf:Property ;
             rdfs:domain schema:Publication ;
             rdfs:range xsd:string ;
             rdfs:label "live" .
 
 
-###  http://www.beeldengeluid.nl/schema/location
+###  http://data.rdlabs.beeldengeluid.nl/schema/location
 schema:location rdf:type rdf:Property ;
                 rdfs:domain schema:AudioVisualEntity ;
                 rdfs:range xsd:string ;
                 rdfs:label "location" .
 
 
-###  http://www.beeldengeluid.nl/schema/metrage
+###  http://data.rdlabs.beeldengeluid.nl/schema/metrage
 schema:metrage rdf:type rdf:Property ;
                rdfs:domain schema:Carrier ;
                rdfs:range xsd:string ;
                rdfs:label "metrage" .
 
 
-###  http://www.beeldengeluid.nl/schema/montagedate
+###  http://data.rdlabs.beeldengeluid.nl/schema/montagedate
 schema:montagedate rdf:type rdf:Property ;
                    rdfs:domain schema:Recording ;
                    rdfs:range xsd:dateTime ;
                    rdfs:label "montagedate" .
 
 
-###  http://www.beeldengeluid.nl/schema/museum-annotation
+###  http://data.rdlabs.beeldengeluid.nl/schema/museum-annotation
 schema:museum-annotation rdf:type rdf:Property ;
                          rdfs:domain schema:PlayableAudioVisualEntity ;
                          rdfs:range xsd:string ;
                          rdfs:label "museum-annotation" .
 
 
-###  http://www.beeldengeluid.nl/schema/museum-description
+###  http://data.rdlabs.beeldengeluid.nl/schema/museum-description
 schema:museum-description rdf:type rdf:Property ;
                           rdfs:domain schema:AudioVisualEntity ;
                           rdfs:range xsd:string ;
                           rdfs:label "museum-description" .
 
 
-###  http://www.beeldengeluid.nl/schema/museum-languageid
+###  http://data.rdlabs.beeldengeluid.nl/schema/museum-languageid
 schema:museum-languageid rdf:type rdf:Property ;
                          rdfs:domain schema:AudioVisualEntity ;
                          rdfs:range xsd:long ;
                          rdfs:label "museum-languageid" .
 
 
-###  http://www.beeldengeluid.nl/schema/museum-summary
+###  http://data.rdlabs.beeldengeluid.nl/schema/museum-summary
 schema:museum-summary rdf:type rdf:Property ;
                       rdfs:domain schema:AudioVisualEntity ;
                       rdfs:range xsd:string ;
                       rdfs:label "museum-summary" .
 
 
-###  http://www.beeldengeluid.nl/schema/musicstyle
+###  http://data.rdlabs.beeldengeluid.nl/schema/musicstyle
 schema:musicstyle rdf:type rdf:Property ;
                   rdfs:domain schema:AudioVisualEntity ;
                   rdfs:range xsd:string ;
                   rdfs:label "musicstyle" .
 
 
-###  http://www.beeldengeluid.nl/schema/network
+###  http://data.rdlabs.beeldengeluid.nl/schema/network
 schema:network rdf:type rdf:Property ;
                rdfs:domain schema:Publication ;
                rdfs:range xsd:string ;
                rdfs:label "network" .
 
 
-###  http://www.beeldengeluid.nl/schema/numberofepisodes
+###  http://data.rdlabs.beeldengeluid.nl/schema/numberofepisodes
 schema:numberofepisodes rdf:type rdf:Property ;
                         rdfs:domain schema:Season ;
                         rdfs:range xsd:long ;
                         rdfs:label "numberofepisodes" .
 
 
-###  http://www.beeldengeluid.nl/schema/occasion
+###  http://data.rdlabs.beeldengeluid.nl/schema/occasion
 schema:occasion rdf:type rdf:Property ;
                 rdfs:domain schema:Context ;
                 rdfs:range xsd:string ;
                 rdfs:label "occasion" .
 
 
-###  http://www.beeldengeluid.nl/schema/origin
+###  http://data.rdlabs.beeldengeluid.nl/schema/origin
 schema:origin rdf:type rdf:Property ;
               rdfs:domain schema:Carrier ;
               rdfs:range xsd:string ;
               rdfs:label "origin" .
 
 
-###  http://www.beeldengeluid.nl/schema/parentcarrierid
+###  http://data.rdlabs.beeldengeluid.nl/schema/parentcarrierid
 schema:parentcarrierid rdf:type rdf:Property ;
                        rdfs:domain schema:Carrier ;
                        rdfs:range xsd:string ;
                        rdfs:label "parentcarrierid" .
 
 
-###  http://www.beeldengeluid.nl/schema/part
+###  http://data.rdlabs.beeldengeluid.nl/schema/part
 schema:part rdf:type rdf:Property ;
             rdfs:domain schema:Program ;
             rdfs:range xsd:string ;
             rdfs:label "part" .
 
 
-###  http://www.beeldengeluid.nl/schema/productid
+###  http://data.rdlabs.beeldengeluid.nl/schema/productid
 schema:productid rdf:type rdf:Property ;
                  rdfs:domain schema:Publication ;
                  rdfs:range xsd:string ;
                  rdfs:label "productid" .
 
 
-###  http://www.beeldengeluid.nl/schema/productionyear
+###  http://data.rdlabs.beeldengeluid.nl/schema/productionyear
 schema:productionyear rdf:type rdf:Property ;
                       rdfs:domain schema:Recording ;
                       rdfs:range xsd:dateTime ;
                       rdfs:label "productionyear" .
 
 
-###  http://www.beeldengeluid.nl/schema/publication-annotation
+###  http://data.rdlabs.beeldengeluid.nl/schema/publication-annotation
 schema:publication-annotation rdf:type rdf:Property ;
                               rdfs:domain schema:Publication ;
                               rdfs:range xsd:string ;
                               rdfs:label "publication-annotation" .
 
 
-###  http://www.beeldengeluid.nl/schema/publid
+###  http://data.rdlabs.beeldengeluid.nl/schema/publid
 schema:publid rdf:type rdf:Property ;
               rdfs:domain schema:Carrier ;
               rdfs:range xsd:long ;
               rdfs:label "publid" .
 
 
-###  http://www.beeldengeluid.nl/schema/rebroadcast
+###  http://data.rdlabs.beeldengeluid.nl/schema/rebroadcast
 schema:rebroadcast rdf:type rdf:Property ;
                    rdfs:domain schema:Publication ;
                    rdfs:range xsd:string ;
                    rdfs:label "rebroadcast" .
 
 
-###  http://www.beeldengeluid.nl/schema/repository
+###  http://data.rdlabs.beeldengeluid.nl/schema/repository
 schema:repository rdf:type rdf:Property ;
                   rdfs:domain schema:Carrier ;
                   rdfs:range xsd:string ;
                   rdfs:label "repository" .
 
 
-###  http://www.beeldengeluid.nl/schema/rights
+###  http://data.rdlabs.beeldengeluid.nl/schema/rights
 schema:rights rdf:type rdf:Property ;
               rdfs:domain schema:Qualification ;
               rdfs:range xsd:string ;
               rdfs:label "rights" .
 
 
-###  http://www.beeldengeluid.nl/schema/role
+###  http://data.rdlabs.beeldengeluid.nl/schema/role
 schema:role rdf:type rdf:Property ;
             rdfs:domain schema:EntityWithRole ;
             rdfs:range xsd:string ;
             rdfs:label "role" .
 
 
-###  http://www.beeldengeluid.nl/schema/sequencenumber
+###  http://data.rdlabs.beeldengeluid.nl/schema/sequencenumber
 schema:sequencenumber rdf:type rdf:Property ;
                       rdfs:domain schema:SequenceMember ;
                       rdfs:range xsd:long ;
                       rdfs:label "sequencenumber" .
 
 
-###  http://www.beeldengeluid.nl/schema/silent
+###  http://data.rdlabs.beeldengeluid.nl/schema/silent
 schema:silent rdf:type rdf:Property ;
               rdfs:domain schema:Context ;
               rdfs:range xsd:string ;
               rdfs:label "silent" .
 
 
-###  http://www.beeldengeluid.nl/schema/sortdate
+###  http://data.rdlabs.beeldengeluid.nl/schema/sortdate
 schema:sortdate rdf:type rdf:Property ;
                 rdfs:domain schema:Publication ;
                 rdfs:range xsd:string ;
                 rdfs:label "sortdate" .
 
 
-###  http://www.beeldengeluid.nl/schema/sorting
+###  http://data.rdlabs.beeldengeluid.nl/schema/sorting
 schema:sorting rdf:type rdf:Property ;
                rdfs:domain schema:Carrier ;
                rdfs:range xsd:string ;
                rdfs:label "sorting" .
 
 
-###  http://www.beeldengeluid.nl/schema/sorttype
+###  http://data.rdlabs.beeldengeluid.nl/schema/sorttype
 schema:sorttype rdf:type rdf:Property ;
                 rdfs:domain schema:Publication ;
                 rdfs:range xsd:long ;
                 rdfs:label "sorttype" .
 
 
-###  http://www.beeldengeluid.nl/schema/source
+###  http://data.rdlabs.beeldengeluid.nl/schema/source
 schema:source rdf:type rdf:Property ;
               rdfs:domain schema:Qualification ;
               rdfs:range xsd:string ;
               rdfs:label "source" .
 
 
-###  http://www.beeldengeluid.nl/schema/sourcecatalog
+###  http://data.rdlabs.beeldengeluid.nl/schema/sourcecatalog
 schema:sourcecatalog rdf:type rdf:Property ;
                      rdfs:domain schema:PlayableAudioVisualEntity ;
                      rdfs:range xsd:string ;
                      rdfs:label "sourcecatalog" .
 
 
-###  http://www.beeldengeluid.nl/schema/startdate
+###  http://data.rdlabs.beeldengeluid.nl/schema/startdate
 schema:startdate rdf:type rdf:Property ;
                  rdfs:domain schema:RecordingOrPublication ;
                  rdfs:range xsd:dateTime ;
                  rdfs:label "startdate" .
 
 
-###  http://www.beeldengeluid.nl/schema/startoffset
+###  http://data.rdlabs.beeldengeluid.nl/schema/startoffset
 schema:startoffset rdf:type rdf:Property ;
                    rdfs:domain schema:Carrier ;
                    rdfs:range xsd:long ;
                    rdfs:label "startoffset" .
 
 
-###  http://www.beeldengeluid.nl/schema/startoncarrier
+###  http://data.rdlabs.beeldengeluid.nl/schema/startoncarrier
 schema:startoncarrier rdf:type rdf:Property ;
                       rdfs:domain schema:Carrier ;
                       rdfs:range xsd:long ;
                       rdfs:label "startoncarrier" .
 
 
-###  http://www.beeldengeluid.nl/schema/starttime
+###  http://data.rdlabs.beeldengeluid.nl/schema/starttime
 schema:starttime rdf:type rdf:Property ;
                  rdfs:range xsd:long ;
                  rdfs:label "starttime" .
 
 
-###  http://www.beeldengeluid.nl/schema/starttimestamp
+###  http://data.rdlabs.beeldengeluid.nl/schema/starttimestamp
 schema:starttimestamp rdf:type rdf:Property ;
                       rdfs:domain schema:Publication ;
                       rdfs:range xsd:string ;
                       rdfs:label "start timestamp" .
 
 
-###  http://www.beeldengeluid.nl/schema/storageunit
+###  http://data.rdlabs.beeldengeluid.nl/schema/storageunit
 schema:storageunit rdf:type rdf:Property ;
                    rdfs:domain schema:Carrier ;
                    rdfs:range xsd:string ;
                    rdfs:label "storageunit" .
 
 
-###  http://www.beeldengeluid.nl/schema/summary
+###  http://data.rdlabs.beeldengeluid.nl/schema/summary
 schema:summary rdf:type rdf:Property ;
                rdfs:domain schema:AudioVisualEntity ;
                rdfs:range xsd:string ;
                rdfs:label "summary" .
 
 
-###  http://www.beeldengeluid.nl/schema/targetgroup
+###  http://data.rdlabs.beeldengeluid.nl/schema/targetgroup
 schema:targetgroup rdf:type rdf:Property ;
                    rdfs:domain schema:AudioVisualEntity ;
                    rdfs:range xsd:string ;
                    rdfs:label "targetgroup" .
 
 
-###  http://www.beeldengeluid.nl/schema/technical-annotation
+###  http://data.rdlabs.beeldengeluid.nl/schema/technical-annotation
 schema:technical-annotation rdf:type rdf:Property ;
                             rdfs:domain schema:Publication ;
                             rdfs:range xsd:string ;
                             rdfs:label "technical-annotation" .
 
 
-###  http://www.beeldengeluid.nl/schema/technicaldetails
+###  http://data.rdlabs.beeldengeluid.nl/schema/technicaldetails
 schema:technicaldetails rdf:type rdf:Property ;
                         rdfs:domain schema:Carrier ;
                         rdfs:range xsd:string ;
                         rdfs:label "technicaldetails" .
 
 
-###  http://www.beeldengeluid.nl/schema/theme
+###  http://data.rdlabs.beeldengeluid.nl/schema/theme
 schema:theme rdf:type rdf:Property ;
              rdfs:domain schema:PlayableAudioVisualEntity ;
              rdfs:range xsd:string ;
              rdfs:label "hasTheme" .
 
 
-###  http://www.beeldengeluid.nl/schema/timecodestandard
+###  http://data.rdlabs.beeldengeluid.nl/schema/timecodestandard
 schema:timecodestandard rdf:type rdf:Property ;
                         rdfs:domain schema:Publication ;
                         rdfs:range xsd:string ;
                         rdfs:label "timecode standard" .
 
 
-###  http://www.beeldengeluid.nl/schema/title
+###  http://data.rdlabs.beeldengeluid.nl/schema/title
 schema:title rdf:type rdf:Property ;
              rdfs:domain schema:Publication ;
              rdfs:range xsd:string ;
              rdfs:label "hasTitle" .
 
 
-###  http://www.beeldengeluid.nl/schema/type
+###  http://data.rdlabs.beeldengeluid.nl/schema/type
 schema:type rdf:type rdf:Property ;
             rdfs:range xsd:string ;
             rdfs:label "type" .
 
 
-###  http://www.beeldengeluid.nl/schema/ugstatus
+###  http://data.rdlabs.beeldengeluid.nl/schema/ugstatus
 schema:ugstatus rdf:type rdf:Property ;
                 rdfs:domain schema:Publication ;
                 rdfs:range xsd:string ;
                 rdfs:label "ugstatus" .
 
 
-###  http://www.beeldengeluid.nl/schema/use
+###  http://data.rdlabs.beeldengeluid.nl/schema/use
 schema:use rdf:type rdf:Property ;
            rdfs:domain schema:Language ;
            rdfs:range xsd:string ;
            rdfs:label "use" .
 
 
-###  http://www.beeldengeluid.nl/schema/used-archivematerial
+###  http://data.rdlabs.beeldengeluid.nl/schema/used-archivematerial
 schema:used-archivematerial rdf:type rdf:Property ;
                             rdfs:domain schema:Program ;
                             rdfs:range xsd:string ;
                             rdfs:label "used-archivematerial" .
 
 
-###  http://www.beeldengeluid.nl/schema/weeknumber
+###  http://data.rdlabs.beeldengeluid.nl/schema/weeknumber
 schema:weeknumber rdf:type rdf:Property ;
                   rdfs:domain schema:Publication ;
                   rdfs:range xsd:string ;
                   rdfs:label "weeknumber" .
 
 
-###  http://www.beeldengeluid.nl/schema/withaudience
+###  http://data.rdlabs.beeldengeluid.nl/schema/withaudience
 schema:withaudience rdf:type rdf:Property ;
                     rdfs:domain schema:Recording ;
                     rdfs:range xsd:string ;
@@ -945,135 +1010,135 @@ schema:withaudience rdf:type rdf:Property ;
 #    Classes
 #################################################################
 
-###  http://www.beeldengeluid.nl/schema/EntityWithAdditionalInformation
-schema:EntityWithAdditionalInformation rdf:type rdfs:Class ;
-                         rdfs:label "Annotatable Entity" .
-
-
-###  http://www.beeldengeluid.nl/schema/AudioVisualEntity
+###  http://data.rdlabs.beeldengeluid.nl/schema/AudioVisualEntity
 schema:AudioVisualEntity rdf:type rdfs:Class ;
                          rdfs:subClassOf schema:EntityWithAdditionalInformation ;
                          rdfs:label "Audiovisual Entity" .
 
 
-###  http://www.beeldengeluid.nl/schema/Carrier
+###  http://data.rdlabs.beeldengeluid.nl/schema/Carrier
 schema:Carrier rdf:type rdfs:Class ;
                rdfs:subClassOf schema:EntityWithAdditionalInformation ,
                                schema:SequenceMember ;
                rdfs:label "Carrier" .
 
 
-###  http://www.beeldengeluid.nl/schema/Cast
+###  http://data.rdlabs.beeldengeluid.nl/schema/Cast
 schema:Cast rdf:type rdfs:Class ;
             rdfs:subClassOf schema:InvolvedPersonWithClarification ;
             rdfs:label "Cast" .
 
 
-###  http://www.beeldengeluid.nl/schema/Context
+###  http://data.rdlabs.beeldengeluid.nl/schema/Context
 schema:Context rdf:type rdfs:Class ;
                rdfs:label "Context" .
 
 
-###  http://www.beeldengeluid.nl/schema/Contractor
+###  http://data.rdlabs.beeldengeluid.nl/schema/Contractor
 schema:Contractor rdf:type rdfs:Class ;
                   rdfs:subClassOf schema:InvolvedPerson ;
                   rdfs:label "Contractor" .
 
 
-###  http://www.beeldengeluid.nl/schema/CountryInformation
+###  http://data.rdlabs.beeldengeluid.nl/schema/CountryInformation
 schema:CountryInformation rdf:type rdfs:Class ;
                           rdfs:label "Country Information" .
 
 
-###  http://www.beeldengeluid.nl/schema/Creator
+###  http://data.rdlabs.beeldengeluid.nl/schema/Creator
 schema:Creator rdf:type rdfs:Class ;
                rdfs:subClassOf schema:EntityWithRole ,
                                schema:InvolvedPersonWithClarification ;
                rdfs:label "Creator" .
 
 
-###  http://www.beeldengeluid.nl/schema/DistributableEntity
+###  http://data.rdlabs.beeldengeluid.nl/schema/DistributableEntity
 schema:DistributableEntity rdf:type rdfs:Class ;
                            rdfs:label "Distributable Entity" .
 
 
-###  http://www.beeldengeluid.nl/schema/EntityWithDuration
+###  http://data.rdlabs.beeldengeluid.nl/schema/EntityWithAdditionalInformation
+schema:EntityWithAdditionalInformation rdf:type rdfs:Class ;
+                                       rdfs:label "Annotatable Entity" .
+
+
+###  http://data.rdlabs.beeldengeluid.nl/schema/EntityWithDuration
 schema:EntityWithDuration rdf:type rdfs:Class ;
                           rdfs:label "Entity with duration" .
 
 
-###  http://www.beeldengeluid.nl/schema/EntityWithRole
+###  http://data.rdlabs.beeldengeluid.nl/schema/EntityWithRole
 schema:EntityWithRole rdf:type rdfs:Class ;
                       rdfs:label "Entity with role" .
 
 
-###  http://www.beeldengeluid.nl/schema/Executive
+###  http://data.rdlabs.beeldengeluid.nl/schema/Executive
 schema:Executive rdf:type rdfs:Class ;
                  rdfs:subClassOf schema:EntityWithRole ,
                                  schema:InvolvedPersonWithClarification ;
                  rdfs:label "Executive" .
 
 
-###  http://www.beeldengeluid.nl/schema/Funder
+###  http://data.rdlabs.beeldengeluid.nl/schema/Funder
 schema:Funder rdf:type rdfs:Class ;
               rdfs:subClassOf schema:InvolvedPerson ;
               rdfs:label "Funder" .
 
 
-###  http://www.beeldengeluid.nl/schema/InvolvedPerson
+###  http://data.rdlabs.beeldengeluid.nl/schema/InvolvedPerson
 schema:InvolvedPerson rdf:type rdfs:Class ;
                       rdfs:label "Involved Person" .
 
 
-###  http://www.beeldengeluid.nl/schema/InvolvedPersonWithClarification
+###  http://data.rdlabs.beeldengeluid.nl/schema/InvolvedPersonWithClarification
 schema:InvolvedPersonWithClarification rdf:type rdfs:Class ;
                                        rdfs:subClassOf schema:InvolvedPerson ;
                                        rdfs:label "Involved Person with clarification" .
 
 
-###  http://www.beeldengeluid.nl/schema/Language
+###  http://data.rdlabs.beeldengeluid.nl/schema/Language
 schema:Language rdf:type rdfs:Class ;
                 rdfs:label "Language" .
 
 
-###  http://www.beeldengeluid.nl/schema/Nationality
+###  http://data.rdlabs.beeldengeluid.nl/schema/Nationality
 schema:Nationality rdf:type rdfs:Class ;
                    rdfs:subClassOf schema:CountryInformation ,
                                    schema:EntityWithRole ;
                    rdfs:label "Nationality" .
 
 
-###  http://www.beeldengeluid.nl/schema/Originalcreator
+###  http://data.rdlabs.beeldengeluid.nl/schema/Originalcreator
 schema:Originalcreator rdf:type rdfs:Class ;
                        rdfs:subClassOf schema:InvolvedPerson ;
                        rdfs:label "Originalcreator" .
 
 
-###  http://www.beeldengeluid.nl/schema/PlayableAudioVisualEntity
+###  http://data.rdlabs.beeldengeluid.nl/schema/PlayableAudioVisualEntity
 schema:PlayableAudioVisualEntity rdf:type rdfs:Class ;
                                  rdfs:subClassOf schema:AudioVisualEntity .
 
 
-###  http://www.beeldengeluid.nl/schema/Producer
+###  http://data.rdlabs.beeldengeluid.nl/schema/Producer
 schema:Producer rdf:type rdfs:Class ;
                 rdfs:subClassOf schema:InvolvedPerson ;
                 rdfs:label "Producer" .
 
 
-###  http://www.beeldengeluid.nl/schema/Productioncountry
+###  http://data.rdlabs.beeldengeluid.nl/schema/Productioncountry
 schema:Productioncountry rdf:type rdfs:Class ;
                          rdfs:subClassOf schema:CountryInformation ;
                          rdfs:label "Productioncountry" .
 
 
-###  http://www.beeldengeluid.nl/schema/Program
+###  http://data.rdlabs.beeldengeluid.nl/schema/Program
 schema:Program rdf:type rdfs:Class ;
                rdfs:subClassOf schema:EntityWithDuration ,
                                schema:PlayableAudioVisualEntity ;
                rdfs:label "Program" .
 
 
-###  http://www.beeldengeluid.nl/schema/Publication
+###  http://data.rdlabs.beeldengeluid.nl/schema/Publication
 schema:Publication rdf:type rdfs:Class ;
                    rdfs:subClassOf schema:DistributableEntity ,
                                    schema:EntityWithDuration ,
@@ -1081,30 +1146,30 @@ schema:Publication rdf:type rdfs:Class ;
                    rdfs:label "Publication" .
 
 
-###  http://www.beeldengeluid.nl/schema/Qualification
+###  http://data.rdlabs.beeldengeluid.nl/schema/Qualification
 schema:Qualification rdf:type rdfs:Class ;
                      rdfs:label "Qualification" .
 
 
-###  http://www.beeldengeluid.nl/schema/Recording
+###  http://data.rdlabs.beeldengeluid.nl/schema/Recording
 schema:Recording rdf:type rdfs:Class ;
                  rdfs:subClassOf schema:EntityWithAdditionalInformation ,
                                  schema:RecordingOrPublication ;
                  rdfs:label "Recording" .
 
 
-###  http://www.beeldengeluid.nl/schema/RecordingOrPublication
+###  http://data.rdlabs.beeldengeluid.nl/schema/RecordingOrPublication
 schema:RecordingOrPublication rdf:type rdfs:Class ;
                               rdfs:label "Recording or Publication" .
 
 
-###  http://www.beeldengeluid.nl/schema/Season
+###  http://data.rdlabs.beeldengeluid.nl/schema/Season
 schema:Season rdf:type rdfs:Class ;
               rdfs:subClassOf schema:AudioVisualEntity ;
               rdfs:label "Season" .
 
 
-###  http://www.beeldengeluid.nl/schema/Segment
+###  http://data.rdlabs.beeldengeluid.nl/schema/Segment
 schema:Segment rdf:type rdfs:Class ;
                rdfs:subClassOf schema:EntityWithDuration ,
                                schema:PlayableAudioVisualEntity ,
@@ -1112,28 +1177,30 @@ schema:Segment rdf:type rdfs:Class ;
                rdfs:label "Segment" .
 
 
-###  http://www.beeldengeluid.nl/schema/SequenceMember
+###  http://data.rdlabs.beeldengeluid.nl/schema/SequenceMember
 schema:SequenceMember rdf:type rdfs:Class ;
                       rdfs:label "Sequence Member" .
 
 
-###  http://www.beeldengeluid.nl/schema/Series
+###  http://data.rdlabs.beeldengeluid.nl/schema/Series
 schema:Series rdf:type rdfs:Class ;
               rdfs:subClassOf schema:AudioVisualEntity ,
                               schema:DistributableEntity ;
               rdfs:label "Series" .
 
 
-###  http://www.beeldengeluid.nl/schema/Speaker
+###  http://data.rdlabs.beeldengeluid.nl/schema/Speaker
 schema:Speaker rdf:type rdfs:Class ;
                rdfs:subClassOf schema:EntityWithRole ,
                                schema:InvolvedPerson ;
                rdfs:label "Speaker" .
 
 
-###  http://www.beeldengeluid.nl/schema/Sponsor
+###  http://data.rdlabs.beeldengeluid.nl/schema/Sponsor
 schema:Sponsor rdf:type rdfs:Class ;
                rdfs:subClassOf schema:InvolvedPerson ;
                rdfs:label "Sponsor" .
+
+
 
 
