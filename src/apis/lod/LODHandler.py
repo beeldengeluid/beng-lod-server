@@ -15,21 +15,21 @@ class LODHandler(object):
 	'''
 	def __init__(self, config):
 		self.config = config
-		
-		#TODO: remove hard coded paths... move them to config?
-		home = expanduser("~")
-		local = 'eclipse-workspace'
-		repo = 'beng-lod-server'
-		path = 'resource'
+
+		path = '../resource'
 		xslt = 'nisv-bg-oai2lod-v01.xsl'
 		self._protocol = 'http://'
 		self.base_url = u''.join([self._protocol,'oaipmh.beeldengeluid.nl'])
 
 		# uncomment if local server is needed
+# 		home = expanduser("~")
+# 		local = 'eclipse-workspace'
+# 		repo = 'beng-lod-server'
 # 		self._protocol = 'file:/'
 # 		self.base_url = u'/'.join([self._protocol,home,local,repo,self._path])
 		
-		self._xsltfile = u'/'.join([home,local,repo,path,xslt])
+		self._xsltfile = u'/'.join([path,xslt])
+		
 		assert self._xsltfile
 
 		parser = etree.XMLParser(remove_comments=True,ns_clean=True,no_network=False)
