@@ -314,6 +314,14 @@ schema:hasCreationDate rdf:type rdf:Property ;
                        rdfs:domain schema:Carrier ;
                        rdfs:range xsd:dateTime ;
                        rdfs:label "has creation date" .
+					   
+					  
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasContextReference
+schema:hasContextReference rdf:type rdf:Property ;
+                  rdfs:domain schema:AudioVisualEntity ;
+                  rdfs:range schema:Context ;
+                  rdfs:label "has context reference" ;
+				  rdfs:comment "contains a reference to the context, this can be a URL, an ID, or..." .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasDatePrecision
