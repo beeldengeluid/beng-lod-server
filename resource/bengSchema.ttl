@@ -148,97 +148,8 @@ schema:isPartOfSeries rdf:type rdf:Property ;
                       rdfs:label "is part of Series" .
 
 
-###  http://www.beeldengeluid.nl/schema/hasProgram
-<http://www.beeldengeluid.nl/schema/hasProgram> rdf:type rdf:Property ;
-                                                rdfs:domain schema:Program ;
-                                                rdfs:range schema:Season ;
-                                                rdfs:label "has program" .
-
-
-###  http://www.beeldengeluid.nl/schema/hasSceneDescription
-<http://www.beeldengeluid.nl/schema/hasSceneDescription> rdf:type rdf:Property ;
-                                                         rdfs:domain schema:SceneDescription ;
-                                                         rdfs:range schema:Program ;
-                                                         rdfs:label "has scene description" .
-
-
-###  http://www.beeldengeluid.nl/schema/hasSeriesPart
-<http://www.beeldengeluid.nl/schema/hasSeriesPart> rdf:type rdf:Property ;
-                                                   rdfs:domain schema:Series ;
-                                                   rdfs:range schema:AudioVisualEntity ;
-                                                   rdfs:comment "this links the series to the parts of the series, usually Programs or Seasons." ;
-                                                   rdfs:label "has series part" .
-
-
-###  http://www.beeldengeluid.nl/schema/isCastMemberOf
-<http://www.beeldengeluid.nl/schema/isCastMemberOf> rdf:type rdf:Property ;
-                                                    rdfs:domain schema:Cast ;
-                                                    rdfs:range schema:AudioVisualEntity ;
-                                                    rdfs:label "is cast member of" .
-
-
-###  http://www.beeldengeluid.nl/schema/isContractorFor
-<http://www.beeldengeluid.nl/schema/isContractorFor> rdf:type rdf:Property ;
-                                                     rdfs:domain schema:Contractor ;
-                                                     rdfs:range schema:AudioVisualEntity ;
-                                                     rdfs:label "is contractor for" .
-
-
-###  http://www.beeldengeluid.nl/schema/isCreatorOf
-<http://www.beeldengeluid.nl/schema/isCreatorOf> rdf:type rdf:Property ;
-                                                 rdfs:domain schema:Creator ;
-                                                 rdfs:range schema:AudioVisualEntity ;
-                                                 rdfs:label "is creator of" .
-
-
-###  http://www.beeldengeluid.nl/schema/isExecutiveFor
-<http://www.beeldengeluid.nl/schema/isExecutiveFor> rdf:type rdf:Property ;
-                                                    rdfs:domain schema:Executive ;
-                                                    rdfs:range schema:AudioVisualEntity ;
-                                                    rdfs:label "is executive of" .
-
-
-###  http://www.beeldengeluid.nl/schema/isFunderOf
-<http://www.beeldengeluid.nl/schema/isFunderOf> rdf:type rdf:Property ;
-                                                rdfs:domain schema:Funder ;
-                                                rdfs:range schema:AudioVisualEntity ;
-                                                rdfs:label "is funder of" .
-
-
-###  http://www.beeldengeluid.nl/schema/isOriginalCreatorOf
-<http://www.beeldengeluid.nl/schema/isOriginalCreatorOf> rdf:type rdf:Property ;
-                                                         rdfs:domain schema:Creator ;
-                                                         rdfs:range schema:AudioVisualEntity ;
-                                                         rdfs:label "is original creator of" .
-
-
-###  http://www.beeldengeluid.nl/schema/isProducerOf
-<http://www.beeldengeluid.nl/schema/isProducerOf> rdf:type rdf:Property ;
-                                                  rdfs:domain schema:Producer ;
-                                                  rdfs:range schema:AudioVisualEntity ;
-                                                  rdfs:label "is producer of" .
-
-
-###  http://www.beeldengeluid.nl/schema/isSpeakerIn
-<http://www.beeldengeluid.nl/schema/isSpeakerIn> rdf:type rdf:Property ;
-                                                 rdfs:domain schema:Speaker ;
-                                                 rdfs:range schema:AudioVisualEntity ;
-                                                 rdfs:label "is speaker in" .
-
-
-###  http://www.beeldengeluid.nl/schema/isSponsorOf
-<http://www.beeldengeluid.nl/schema/isSponsorOf> rdf:type rdf:Property ;
-                                                 rdfs:domain schema:Sponsor ;
-                                                 rdfs:range schema:AudioVisualEntity ;
-                                                 rdfs:label "is sponsor of" .
-
-
-#################################################################
-#    Data properties
-#################################################################
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/collection
-schema:collection rdf:type rdf:Property ;
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasAvailableCollection
+schema:hasAvailableCollection rdf:type rdf:Property ;
                   rdfs:domain schema:PlayableAudioVisualEntity ;
                   rdfs:range xsd:string ;
                   rdfs:label "has available collection" .
@@ -1001,15 +912,15 @@ schema:recordedWithAudiencePresent rdf:type rdf:Property ;
                                    rdfs:label "recorded with audience present" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/theme
-schema:theme rdf:type rdf:Property ;
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasTheme
+schema:hasTheme rdf:type rdf:Property ;
              rdfs:domain schema:PlayableAudioVisualEntity ;
              rdfs:range xsd:string ;
              rdfs:label "has theme" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/title
-schema:title rdf:type rdf:Property ;
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasTitle
+schema:hasTitle rdf:type rdf:Property ;
              rdfs:domain schema:Publication ;
              rdfs:range xsd:string ;
              rdfs:label "has title" .
@@ -1150,10 +1061,10 @@ schema:Producer rdf:type rdfs:Class ;
                 rdfs:label "Producer" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/Productioncountry
-schema:Productioncountry rdf:type rdfs:Class ;
+###  http://data.rdlabs.beeldengeluid.nl/schema/ProductionCountry
+schema:ProductionCountry rdf:type rdfs:Class ;
                          rdfs:subClassOf schema:CountryInformation ;
-                         rdfs:label "Productioncountry" .
+                         rdfs:label "ProductionCountry" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Program
