@@ -16,10 +16,9 @@ class LODHandler(object):
 	def __init__(self, config):
 		self.config = config
 
-		path = '../resource'
-		xslt = 'nisv-bg-oai2lod-v01.xsl'
-		self._protocol = 'http://'
-		self.base_url = u''.join([self._protocol,'oaipmh.beeldengeluid.nl'])
+		path = self.config['RESOURCE_DIR'] 
+		xslt = self.config['XSLT_FILENAME']
+		self.base_url = self.config['OAI_BASE_URL']
 
 		# uncomment if local server is needed
 # 		home = expanduser("~")
