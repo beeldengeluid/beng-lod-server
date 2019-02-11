@@ -14,27 +14,39 @@ responseModel = api.model('Response', {
 })
 
 """ --------------------------- RESOURCE ENDPOINT -------------------------- """
-
-@api.doc(params={'programId': 'The program ID'}, required=False)
 @api.route('resource/<level>/<identifier>', endpoint='dereference')
 class LODAPI(Resource):
 
     @api.response(404, 'Resource does not exist error')
+#     @api.representation('application/rdf+xml','application/ld+json','text/turtle','text/n3')
     def get(self, level, identifier):
-        #http://oaipmh.beeldengeluid.nl/resource/program/5382355?output=bg
         acceptType = request.headers.get('Accept')
-        returnFormat = 'xml'
+
+        # mapping from mimetype to rdflib formats
+        serializeMimetype = {}     
+        serializeMimetype['application/rdf+xml']    = 'xml'
+        serializeMimetype['application/ld+json']    = 'json-ld'
+        serializeMimetype['text/turtle']            = 'ttl'
+        serializeMimetype['text/n3']                = 'n3'
+        
+        mimetype = 'application/rdf+xml'
         if acceptType.find('rdf+xml') != -1:
-            returnFormat = 'application/rdf+xml'
+            mimetype = 'application/rdf+xml'
         elif acceptType.find('json+ld') != -1:
-            returnFormat = 'application/ld+json'
+            mimetype = 'application/ld+json'
         elif acceptType.find('json') != -1:
-            returnFormat = 'application/ld+json'
+            mimetype = 'application/ld+json'
+        elif acceptType.find('turtle') != -1:
+            mimetype = 'text/turtle'
+        elif acceptType.find('json') != -1:
+            mimetype = 'text/n3'
 
-        resp, mimeType = LODHandler(current_app.config).getOAIRecord(level, identifier, returnFormat)
-
-        if resp and mimeType:
-            return Response(resp[0], mimetype=mimeType)
+        returnFormat = serializeMimetype[mimetype]
+        
+        resp = LODHandler(current_app.config).getOAIRecord(level, identifier, returnFormat)
+        
+        if resp and mimetype:
+            return Response(resp[0], mimetype=mimetype)
         return 'dikke pech gozert'
 
 """ --------------------------- SCHEMA ENDPOINT -------------------------- """

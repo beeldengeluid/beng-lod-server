@@ -1,7 +1,7 @@
 from rdflib import Graph
 from lxml import etree
 from lxml.etree import XSLTError
-from os.path import expanduser
+# from os.path import expanduser
 from urllib import urlencode
 
 class LODHandler(object):
@@ -65,10 +65,8 @@ class LODHandler(object):
 			result = self._transform(root)
 			graph = Graph()
 			graph.parse(data=etree.tostring(result, xml_declaration=True))
-# 			print graph.serialize(	context=result.getroot().nsmap, 
-# 											format=returnFormat)
 			return graph.serialize(	context=result.getroot().nsmap, 
-											format=returnFormat), returnFormat
+											format=returnFormat)
 
 		except XSLTError, e:
 			for error in self._transform.error_log:
