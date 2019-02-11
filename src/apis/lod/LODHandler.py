@@ -15,11 +15,16 @@ class LODHandler(object):
 	'''
 	def __init__(self, config):
 		self.config = config
-
+		
+		#TODO: adapt puppet script, so that the settings are right...
+		self.config['RESOURCE_DIR']  = '../resource'
+		self.config['XSLT_FILENAME'] = 'nisv-bg-oai2lod-v01.xsl'
+		self.config['OAI_BASE_URL'] = 'http://oaipmh.beeldengeluid.nl'
+		
 		path = self.config['RESOURCE_DIR'] 
 		xslt = self.config['XSLT_FILENAME']
 		self.base_url = self.config['OAI_BASE_URL']
-
+	
 		# uncomment if local server is needed
 # 		home = expanduser("~")
 # 		local = 'eclipse-workspace'
