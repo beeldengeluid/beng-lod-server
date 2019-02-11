@@ -221,7 +221,7 @@
 		For matching pattern see: Eg. https://stackoverflow.com/questions/1007018/xslt-expression-to-check-if-variable-belongs-to-set-of-elements
 	-->
 	<xsl:template match="bg:*">
-		<xsl:variable name="list" select="'recordings producers carriers languages creators roles publications genres networks'" />
+		<xsl:variable name="list" select="'recordings producers carriers languages creators roles publications genres networks broadcasters'" />
 		<xsl:variable name="k" select="local-name()" />
 		<xsl:choose> 
 			<xsl:when test="contains( concat(' ', $list, ' '), concat(' ', $k, ' ') ) ">
