@@ -4,7 +4,7 @@ from lxml.etree import XSLTError
 # from os.path import expanduser
 from urllib import urlencode
 
-class LODHandlerGTAA(object):
+class LODHandler(object):
 	''' OAI-PMH provider serves catalogue data on a URL, 
 	    e.g.: http://oaipmh.beeldengeluid.nl/resource/program/5296881?output=bg
 			# TODO: make this an OAI-PMH GetRecord request
@@ -18,7 +18,7 @@ class LODHandlerGTAA(object):
 		
 		#TODO: adapt puppet script, so that the settings are right...
 		self.config['RESOURCE_DIR']  = '../resource'
-		self.config['XSLT_FILENAME'] = 'nisv-bg-oai2lod-v02.xsl'
+		self.config['XSLT_FILENAME'] = 'nisv-bg-oai2lod-v01.xsl'
 		self.config['OAI_BASE_URL'] = 'http://oaipmh.beeldengeluid.nl'
 		
 		path = self.config['RESOURCE_DIR'] 
