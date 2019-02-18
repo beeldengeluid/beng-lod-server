@@ -230,6 +230,12 @@ schema:hasCarrierId rdf:type rdf:Property ;
                     rdfs:domain schema:Carrier ;
                     rdfs:range xsd:long ;
                     rdfs:label "has carrier ID" .
+					
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasId
+schema:hasId rdf:type rdf:Property ;
+                    rdfs:domain schema:Carrier ;
+                    rdfs:range xsd:long ;
+                    rdfs:label "has ID" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasCarrierLocation
