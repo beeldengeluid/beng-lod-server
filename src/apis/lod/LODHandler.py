@@ -4,7 +4,7 @@ from lxml.etree import XSLTError
 # from os.path import expanduser
 from urllib import urlencode
 
-class LODHandlerGTAA(object):
+class LODHandler(object):
 	''' OAI-PMH provider serves catalogue data on a URL, 
 	    e.g.: http://oaipmh.beeldengeluid.nl/resource/program/5296881?output=bg
 			# TODO: make this an OAI-PMH GetRecord request
