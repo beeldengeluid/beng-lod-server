@@ -7,5 +7,5 @@ class Config(object):
 	DEBUG = True
 
 	RESOURCE_DIR = '../resource'
-	XSLT_FILENAME = 'nisv-bg-oai2lod-v02.xsl'
+	XSLT_FILENAME = 'nisv-bg-oai2lod-v01.xsl'
 	OAI_BASE_URL = 'http://oaipmh.beeldengeluid.nl'
