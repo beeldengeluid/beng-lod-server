@@ -18,7 +18,7 @@ class LODHandler(object):
 		
 		#TODO: adapt puppet script, so that the settings are right...
 		self.config['RESOURCE_DIR']  = '../resource'
-		self.config['XSLT_FILENAME'] = 'nisv-bg-oai2lod-v01.xsl'
+		self.config['XSLT_FILENAME'] = 'nisv-bg-oai2lod-v02.xsl'
 		self.config['OAI_BASE_URL'] = 'http://oaipmh.beeldengeluid.nl'
 		
 		path = self.config['RESOURCE_DIR'] 

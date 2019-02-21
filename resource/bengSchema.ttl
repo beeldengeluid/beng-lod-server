@@ -22,8 +22,8 @@ schema:cast rdf:type rdf:Property ;
             rdfs:label "cast" .
 
 
-###  http://www.beeldengeluid.nl/schema/context
-schema:context rdf:type rdf:Property ;
+###  http://www.beeldengeluid.nl/schema/hasContext
+schema:hasContext rdf:type rdf:Property ;
                rdfs:domain schema:AudioVisualEntity ;
                rdfs:range schema:Context ;
                rdfs:label "context" .
@@ -205,6 +205,11 @@ schema:awards rdf:type rdf:Property ;
               rdfs:range xsd:string ;
               rdfs:label "awards" .
 
+###  http://www.beeldengeluid.nl/schema/context
+schema:context rdf:type rdf:Property ;
+              rdfs:domain schema:Context ;
+              rdfs:range xsd:string ;
+              rdfs:label "context" .
 
 ###  http://www.beeldengeluid.nl/schema/block
 schema:block rdf:type rdf:Property ;
@@ -495,7 +500,7 @@ schema:hasDeprecatedKeyword rdf:type rdf:Property ;
 ###  http://www.beeldengeluid.nl/schema/hasMainTitle
 schema:hasMainTitle rdf:type rdf:Property ;
                     rdfs:domain schema:AudioVisualEntity ;
-                    rdfs:range xsd:string ;
+                    rdfs:range schema:Title ;
                     rdfs:label "has main title" .
 
 
@@ -551,7 +556,7 @@ schema:hasRecordingLocation rdf:type rdf:Property ;
 ###  http://www.beeldengeluid.nl/schema/hasSubTitle
 schema:hasSubTitle rdf:type rdf:Property ;
                    rdfs:domain schema:AudioVisualEntity ;
-                   rdfs:range xsd:string ;
+                   rdfs:range schema:Title ;
                    rdfs:comment "This is a secondary title. Should not be confused with subtitling" ;
                    rdfs:label "has sub title" .
 
@@ -1054,10 +1059,37 @@ schema:words rdf:type rdf:Property ;
                                                 rdfs:range xsd:string ;
                                                 rdfs:label "starttime (transcript)" .
 
+###  http://www.beeldengeluid.nl/schema/titleLanguage
+<http://www.beeldengeluid.nl/schema/@language> rdf:type rdf:Property ;
+                                                rdfs:domain schema:Title ;
+                                                rdfs:range xsd:string ;
+                                                rdfs:label "language of title" .
+
+###  http://www.beeldengeluid.nl/schema/titleSource
+<http://www.beeldengeluid.nl/schema/@source> rdf:type rdf:Property ;
+                                                rdfs:domain schema:Title ;
+                                                rdfs:range xsd:string ;
+                                                rdfs:label "source of title" .
+
+###  http://www.beeldengeluid.nl/schema/titleType
+<http://www.beeldengeluid.nl/schema/@type> rdf:type rdf:Property ;
+                                                rdfs:domain schema:Title ;
+                                                rdfs:range xsd:string ;
+                                                rdfs:label "type of title" .
+
+###  http://www.beeldengeluid.nl/schema/titleValue
+<http://www.beeldengeluid.nl/schema/@type> rdf:type rdf:Property ;
+                                                rdfs:domain schema:Title ;
+                                                rdfs:range xsd:string ;
+                                                rdfs:label "string value of title" .
 
 #################################################################
 #    Classes
 #################################################################
+
+###  http://www.beeldengeluid.nl/schema/Title
+schema:Title rdf:type rdf:Class ;
+             rdfs:label "title" .
 
 ###  http://www.beeldengeluid.nl/schema/AnnotatableEntity
 schema:AnnotatableEntity rdf:type rdfs:Class ;

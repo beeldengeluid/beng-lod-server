@@ -135,16 +135,8 @@
 			  	<xsl:apply-templates />
 			</xsl:element>
 		</xsl:element>
-	</xsl:template>		
-
-	<xsl:template match="bg:context">
-		<xsl:element name="schema:{local-name()}">
-			<xsl:element name="schema:Context">
-			  	<xsl:apply-templates />
-			</xsl:element>
-		</xsl:element>
-	</xsl:template>
-	
+	</xsl:template>	
+ 
 	<!-- Elements that are RDF Properties -->
 	<xsl:template match="dc:identifier">
 		<xsl:copy-of select="."/>
@@ -196,9 +188,40 @@
 	</xsl:template>
 
 	<xsl:template match="bg:maintitles">
-	  	<xsl:apply-templates />
+		<xsl:element name="schema:hasMainTitle">
+		  	<xsl:apply-templates />
+		</xsl:element>
 	</xsl:template>
-
+	
+	<xsl:template match="bg:subtitles">
+		<xsl:element name="schema:hasSubTitle">
+		  	<xsl:apply-templates />
+		</xsl:element>
+	</xsl:template>
+	
+	<xsl:template match="bg:title">
+		<xsl:element name="schema:Title">
+			<xsl:element name="schema:titleValue">
+				<xsl:value-of select="."/>
+			</xsl:element>
+			<xsl:if test="@language" >
+				<xsl:element name="schema:titleLanguage">
+					<xsl:value-of select="@language"/>
+				</xsl:element>
+			</xsl:if>
+			<xsl:if test="@source" >
+				<xsl:element name="schema:titleSource">
+					<xsl:value-of select="@source"/>
+				</xsl:element>
+			</xsl:if>
+			<xsl:if test="@type" >
+				<xsl:element name="schema:titleType">
+					<xsl:value-of select="@type"/>
+				</xsl:element>
+			</xsl:if>
+		</xsl:element>
+	</xsl:template>
+		
 	<xsl:template match="bg:productioncountries">
 		<xsl:element name="schema:productioncountries">
 		  	<xsl:apply-templates />
@@ -209,29 +232,57 @@
 		<xsl:choose >
 			<!-- Test for a sub element named bg:language -->
 			<xsl:when test="bg:language">
-			  	<xsl:apply-templates />
+				<xsl:element name="schema:hasLanguage">
+					<xsl:element name="schema:Language">
+					  	<xsl:apply-templates />
+					</xsl:element>
+				</xsl:element>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:element name="schema:language">
+				<xsl:element name="schema:{local-name()}">
 					<xsl:value-of select="."/>
 				</xsl:element>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-
+	
 	<xsl:template match="bg:context">
-		<xsl:choose >
-			<!-- Test for a sub element named bg:context -->
-			<xsl:when test="bg:context">
-			  	<xsl:apply-templates />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:element name="schema:context">
-		  			<xsl:apply-templates />
-				</xsl:element>
-			</xsl:otherwise>
-		</xsl:choose>
+		<xsl:element name="schema:hasContext">
+			<xsl:element name="schema:Context">
+				<xsl:for-each select="./*">
+					<xsl:element name="schema:{local-name()}">
+						<xsl:value-of select="."/>
+					</xsl:element>
+				</xsl:for-each>
+			</xsl:element>
+		</xsl:element>
 	</xsl:template>
+
+	<xsl:template match="bg:producer">
+		<xsl:element name="schema:producer">
+			<xsl:element name="schema:Producer">
+				<xsl:for-each select="bg:name">
+					<xsl:element name="schema:hasName">
+						<xsl:value-of select="."/>
+					</xsl:element>
+				</xsl:for-each>
+			</xsl:element>
+		</xsl:element>
+	</xsl:template>
+	
+	<xsl:template match="bg:productioncountries">
+		<xsl:element name="schema:productioncountries">
+			<xsl:element name="schema:Productioncountry">
+				<xsl:for-each select="bg:country">
+					<xsl:element name="schema:country">
+						<xsl:value-of select="."/>
+					</xsl:element>
+				</xsl:for-each>
+			</xsl:element>
+		</xsl:element>
+	</xsl:template>
+	
+	<xsl:template match="bg:transcripts"/>
 	
 	<!-- A generic template to remove all elements that are only there to support sequences in XML. 
 		For matching pattern see: Eg. https://stackoverflow.com/questions/1007018/xslt-expression-to-check-if-variable-belongs-to-set-of-elements
