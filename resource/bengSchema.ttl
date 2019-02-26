@@ -71,7 +71,7 @@ schema:hasNationality rdf:type rdf:Property ;
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasOriginalCreator
 schema:hasOriginalCreator rdf:type rdf:Property ;
                           rdfs:domain schema:AudioVisualEntity ;
-                          rdfs:range schema:Originalcreator ;
+                          rdfs:range schema:OriginalCreator ;
                           rdfs:label "has original creator" .
 
 
@@ -85,7 +85,7 @@ schema:hasProducer rdf:type rdf:Property ;
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasProductionCountry
 schema:hasProductionCountry rdf:type rdf:Property ;
                             rdfs:domain schema:AudioVisualEntity ;
-                            rdfs:range schema:Productioncountry ;
+                            rdfs:range schema:ProductionCountry ;
                             rdfs:label "has production country" .
 
 
@@ -1056,8 +1056,8 @@ schema:Nationality rdf:type rdfs:Class ;
                    rdfs:label "Nationality" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/Originalcreator
-schema:Originalcreator rdf:type rdfs:Class ;
+###  http://data.rdlabs.beeldengeluid.nl/schema/OriginalCreator
+schema:OriginalCreator rdf:type rdfs:Class ;
                        rdfs:subClassOf schema:InvolvedPerson ;
                        rdfs:label "Original Creator" .
 
