@@ -6,6 +6,11 @@
 @prefix schema: <http://data.rdlabs.beeldengeluid.nl/schema/> .
 @base <http://data.rdlabs.beeldengeluid.nl/schema/> .
 
+
+#################################################################
+#    Properties
+#################################################################
+
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasCarrier
 schema:hasCarrier rdf:type rdf:Property ;
                   rdfs:domain schema:PlayableAudioVisualEntity ;
@@ -25,6 +30,14 @@ schema:hasContext rdf:type rdf:Property ;
                   rdfs:domain schema:AudioVisualEntity ;
                   rdfs:range schema:Context ;
                   rdfs:label "has context" .
+
+
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasContextReference
+schema:hasContextReference rdf:type rdf:Property ;
+                           rdfs:domain schema:AudioVisualEntity ;
+                           rdfs:range schema:Context ;
+                           rdfs:comment "contains a reference to the context, this can be a URL, an ID, or..." ;
+                           rdfs:label "has context reference" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasContractor
@@ -55,10 +68,10 @@ schema:hasFunder rdf:type rdf:Property ;
                  rdfs:label "has funder" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasLanguage
-schema:hasLanguage rdf:type rdf:Property ;
-                   rdfs:domain schema:AudioVisualEntity ;
-                   rdfs:range schema:Language .
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasLanguageUsage
+schema:hasLanguageUsage rdf:type rdf:Property ;
+                   rdfs:domain schema:AudioVisualEntity;
+                   rdfs:range schema:LanguageUsage .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasNationality
@@ -148,13 +161,6 @@ schema:isPartOfSeries rdf:type rdf:Property ;
                       rdfs:label "is part of Series" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasAvailableCollection
-schema:hasAvailableCollection rdf:type rdf:Property ;
-                  rdfs:domain schema:PlayableAudioVisualEntity ;
-                  rdfs:range xsd:string ;
-                  rdfs:label "has available collection" .
-
-
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasAdditionalInformation
 schema:hasAdditionalInformation rdf:type rdf:Property ;
                                 rdfs:domain schema:EntityWithAdditionalInformation ;
@@ -174,6 +180,13 @@ schema:hasAudioType rdf:type rdf:Property ;
                     rdfs:domain schema:Carrier ;
                     rdfs:range xsd:string ;
                     rdfs:label "has audio type" .
+
+
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasAvailableCollection
+schema:hasAvailableCollection rdf:type rdf:Property ;
+                              rdfs:domain schema:PlayableAudioVisualEntity ;
+                              rdfs:range xsd:string ;
+                              rdfs:label "has available collection" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasAward
@@ -230,12 +243,6 @@ schema:hasCarrierId rdf:type rdf:Property ;
                     rdfs:domain schema:Carrier ;
                     rdfs:range xsd:long ;
                     rdfs:label "has carrier ID" .
-					
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasId
-schema:hasId rdf:type rdf:Property ;
-                    rdfs:domain schema:Carrier ;
-                    rdfs:range xsd:long ;
-                    rdfs:label "has ID" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasCarrierLocation
@@ -320,14 +327,6 @@ schema:hasCreationDate rdf:type rdf:Property ;
                        rdfs:domain schema:Carrier ;
                        rdfs:range xsd:dateTime ;
                        rdfs:label "has creation date" .
-					   
-					  
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasContextReference
-schema:hasContextReference rdf:type rdf:Property ;
-                  rdfs:domain schema:AudioVisualEntity ;
-                  rdfs:range schema:Context ;
-                  rdfs:label "has context reference" ;
-				  rdfs:comment "contains a reference to the context, this can be a URL, an ID, or..." .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasDatePrecision
@@ -469,6 +468,13 @@ schema:hasGenre rdf:type rdf:Property ;
                 rdfs:label "has genre" .
 
 
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasId
+schema:hasId rdf:type rdf:Property ;
+             rdfs:domain schema:Carrier ;
+             rdfs:range xsd:long ;
+             rdfs:label "has ID" .
+
+
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasKeyword
 schema:hasKeyword rdf:type rdf:Property ;
                   rdfs:domain schema:AudioVisualEntity ;
@@ -478,8 +484,9 @@ schema:hasKeyword rdf:type rdf:Property ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasLanguage
 schema:hasLanguage rdf:type rdf:Property ;
-                   rdfs:domain schema:Language ;
-                   rdfs:range xsd:string .
+                  rdfs:domain schema:LanguageUsage ;
+                   rdfs:range xsd:string ;
+				   rdfs:label "has language" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasLanguageId
@@ -550,6 +557,13 @@ schema:hasMuseumGenre rdf:type rdf:Property ;
                       rdfs:domain schema:AudioVisualEntity ;
                       rdfs:range xsd:string ;
                       rdfs:label "has museum genre" .
+
+
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasMuseumKeyword
+schema:hasMuseumKeyword rdf:type rdf:Property ;
+                        rdfs:domain schema:AudioVisualEntity ;
+                        rdfs:range xsd:string ;
+                        rdfs:label "has museum keyword" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasMuseumLanguageId
@@ -714,18 +728,6 @@ schema:hasRole rdf:type rdf:Property ;
                rdfs:range xsd:string ;
                rdfs:label "has role" .
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasLanguage		   
-schema:hasLanguage rdf:type rdf:Property ;
-				   rdfs:label "has language"; 
-				   rdfs:domain schema:AudioVisualEntity ;
-				   rdfs:range xsd:string .
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasMuseumKeyword	
-schema:hasMuseumKeyword rdf:type rdf:Property ;
-				   rdfs:label "has museum keyword"; 
-				   rdfs:domain schema:AudioVisualEntity ;
-				   rdfs:range xsd:string .
-
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasSequenceNumber
 schema:hasSequenceNumber rdf:type rdf:Property ;
@@ -846,11 +848,25 @@ schema:hasTechnicalDetails rdf:type rdf:Property ;
                            rdfs:label "has technical details" .
 
 
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasTheme
+schema:hasTheme rdf:type rdf:Property ;
+                rdfs:domain schema:PlayableAudioVisualEntity ;
+                rdfs:range xsd:string ;
+                rdfs:label "has theme" .
+
+
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasTimecodeStandard
 schema:hasTimecodeStandard rdf:type rdf:Property ;
                            rdfs:domain schema:Publication ;
                            rdfs:range xsd:string ;
                            rdfs:label "has timecode standard" .
+
+
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasTitle
+schema:hasTitle rdf:type rdf:Property ;
+                rdfs:domain schema:Publication ;
+                rdfs:range xsd:string ;
+                rdfs:label "has title" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasType
@@ -868,7 +884,7 @@ schema:hasUgStatus rdf:type rdf:Property ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasUse
 schema:hasUse rdf:type rdf:Property ;
-              rdfs:domain schema:Language ;
+              rdfs:domain schema:LanguageUsage ;
               rdfs:range xsd:string ;
               rdfs:label "has use" .
 
@@ -926,20 +942,6 @@ schema:recordedWithAudiencePresent rdf:type rdf:Property ;
                                    rdfs:label "recorded with audience present" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasTheme
-schema:hasTheme rdf:type rdf:Property ;
-             rdfs:domain schema:PlayableAudioVisualEntity ;
-             rdfs:range xsd:string ;
-             rdfs:label "has theme" .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasTitle
-schema:hasTitle rdf:type rdf:Property ;
-             rdfs:domain schema:Publication ;
-             rdfs:range xsd:string ;
-             rdfs:label "has title" .
-
-
 ###  http://data.rdlabs.beeldengeluid.nl/schema/usedArchiveMaterial
 schema:usedArchiveMaterial rdf:type rdf:Property ;
                            rdfs:domain schema:Program ;
@@ -961,131 +963,196 @@ schema:wasLive rdf:type rdf:Property ;
 ###  http://data.rdlabs.beeldengeluid.nl/schema/AudioVisualEntity
 schema:AudioVisualEntity rdf:type rdfs:Class ;
                          rdfs:subClassOf schema:EntityWithAdditionalInformation ;
-                         rdfs:label "Audiovisual Entity" .
+                         rdfs:comment "Audiovisual entity, such as a film, piece of music or radio broadcast"@en ,
+                                      "Audiovisuele entiteit, zoals een film, muziekstuk of radio-uitzending"@nl ;
+                         rdfs:label "Audiovisual Entity"@en ,
+                                    "Audiovisuele entiteit"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Carrier
 schema:Carrier rdf:type rdfs:Class ;
                rdfs:subClassOf schema:EntityWithAdditionalInformation ,
                                schema:SequenceMember ;
-               rdfs:label "Carrier" .
+               rdfs:comment "Fysieke drager waar afspeelbare audiovisuele entiteit op staat"@nl ,
+                            "Physical carrier on which the playable audiovisual entity is stored"@en ;
+               rdfs:label "Carrier"@en ,
+                          "Drager"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Cast
 schema:Cast rdf:type rdfs:Class ;
             rdfs:subClassOf schema:InvolvedPersonWithClarification ;
-            rdfs:label "Cast" .
+            rdfs:comment "Acteur en de karakter die de acteur speelt in een programma"@nl ,
+                         "Actor and the character that the actor plays in the programme"@en ;
+            rdfs:label "Cast"@en ,
+                       "Cast"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Context
 schema:Context rdf:type rdfs:Class ;
-               rdfs:label "Context" .
+               rdfs:comment "Additional contextual information about an audiovisual entity, such as awards and the occasion"@en ,
+                            "Additionele contextuele informatie over een audiovisuele entiteit, zoals onderscheidingen en aanleiding"@nl ;
+               rdfs:label "Context"@en ,
+                          "Context"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Contractor
 schema:Contractor rdf:type rdfs:Class ;
                   rdfs:subClassOf schema:InvolvedPerson ;
-                  rdfs:label "Contractor" .
+                  rdfs:comment "Commissioner for the production of an individual audiovisual entity"@en ,
+                               "Opdrachtgever voor productie van een enkel audiovisuele entiteit"@nl ;
+                  rdfs:label "Opdrachtgever"@nl ,
+                             "Production commissioner"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/CountryInformation
 schema:CountryInformation rdf:type rdfs:Class ;
-                          rdfs:label "Country Information" .
+                          rdfs:comment "Informatie over een land"@nl ,
+                                       "Information about a country"@en ;
+                          rdfs:label "Country Information"@en ,
+                                     "Landinformatie"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Creator
 schema:Creator rdf:type rdfs:Class ;
                rdfs:subClassOf schema:EntityWithRole ,
                                schema:InvolvedPersonWithClarification ;
-               rdfs:label "Creator" .
+               rdfs:comment "Creator of an individual audiovisual entity"@en ,
+                            "Maker van een enkel audiovisuele entiteit"@nl ;
+               rdfs:label "Creator"@en ,
+                          "Maker"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/DistributableEntity
 schema:DistributableEntity rdf:type rdfs:Class ;
-                           rdfs:label "Distributable Entity" .
+                           rdfs:comment "Entiteit dat via een of meerdere media wordt gedistribueerd"@nl ,
+                                        "Entity that is distributed via one or more media"@en ;
+                           rdfs:label "Distributable Entity"@en ,
+                                      "Entiteit dat gedistribueerd kan worden"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/EntityWithAdditionalInformation
 schema:EntityWithAdditionalInformation rdf:type rdfs:Class ;
-                                       rdfs:label "Entity with additional information" .
+                                       rdfs:comment "Entiteit waarvoor additionele informatie is ingevuld"@nl ,
+                                                    "Entity for which additional information has been filled in"@en ;
+                                       rdfs:label "Entiteit met additionele informatie"@nl ,
+                                                  "Entity with additional information"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/EntityWithDuration
 schema:EntityWithDuration rdf:type rdfs:Class ;
-                          rdfs:label "Entity with duration" .
+                          rdfs:comment "Entiteit met een tijdsduur"@nl ,
+                                       "Entity with a time duration"@en ;
+                          rdfs:label "Entiteit met een tijdsduur"@nl ,
+                                     "Entity with duration"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/EntityWithRole
 schema:EntityWithRole rdf:type rdfs:Class ;
-                      rdfs:label "Entity with role" .
+                      rdfs:comment "Entiteit met een rol/functie"@nl ,
+                                   "Entity with a role/function"@en ;
+                      rdfs:label "Entiteit met een rol"@en ,
+                                 "Entity with role"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Executive
 schema:Executive rdf:type rdfs:Class ;
                  rdfs:subClassOf schema:EntityWithRole ,
                                  schema:InvolvedPersonWithClarification ;
-                 rdfs:label "Executive" .
+                 rdfs:comment "Person/group performing in an individual audiovisual entity"@en ,
+                              "Persoon / groep die in een enkel audiovisuele entiteit optreedt"@nl ;
+                 rdfs:label "Performer"@en ,
+                            "Uitvoerende"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Funder
 schema:Funder rdf:type rdfs:Class ;
               rdfs:subClassOf schema:InvolvedPerson ;
-              rdfs:label "Funder" .
+              rdfs:comment "Funder of the production of an individual audiovisual entity"@en ,
+                           "Subsidiegever voor productie enkele audiovisuele entiteit"@nl ;
+              rdfs:label "Funder"@en ,
+                         "Subsidiegever"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/InvolvedPerson
 schema:InvolvedPerson rdf:type rdfs:Class ;
-                      rdfs:label "Involved Person" .
+                      rdfs:comment "Person involved in an audiovisual entity"@en ,
+                                   "Persoon betrokken bij een audiovisuele entiteit"@nl ;
+                      rdfs:label "Betrokken persoon"@nl ,
+                                 "Involved Person"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/InvolvedPersonWithClarification
 schema:InvolvedPersonWithClarification rdf:type rdfs:Class ;
                                        rdfs:subClassOf schema:InvolvedPerson ;
-                                       rdfs:label "Involved Person with clarification" .
+                                       rdfs:comment "Person involved in an audiovisual entity for whom additional information about their involvement has been filled in"@en ,
+                                                    "Persoon betrokken bij een audiovisuele entiteit waar additionele informatie is ingevuld over hun betrokkenheid"@nl ;
+                                       rdfs:label "Betrokken persoon met additionele informatie"@nl ,
+                                                  "Involved person with additional information"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Language
-schema:Language rdf:type rdfs:Class ;
-                rdfs:label "Language" .
+schema:LanguageUsage rdf:type rdfs:Class ;
+                rdfs:comment "Language occurring in an audiovisual entity and how it is used (only entered when deviating from the norm)"@en ,
+                             "Taal voorkomend in een audiovisuele entiteit, en hoe het wordt gebruikt(enkel ingevuld wanneer normafwijkend)"@nl ;
+                rdfs:label "Language usage"@en ,
+                           "Taalgebruik"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Nationality
 schema:Nationality rdf:type rdfs:Class ;
                    rdfs:subClassOf schema:CountryInformation ,
                                    schema:EntityWithRole ;
-                   rdfs:label "Nationality" .
+                   rdfs:comment "Nationaliteit die voorkomt in een audiovisuele entiteit en de functie van de persoon die tot die nationaliteit behoord"@nl ,
+                                "Nationality occurring in an audiovisual entity and the role of the person of that nationality"@en ;
+                   rdfs:label "Nationaliteit"@nl ,
+                              "Nationality"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/OriginalCreator
 schema:OriginalCreator rdf:type rdfs:Class ;
                        rdfs:subClassOf schema:InvolvedPerson ;
-                       rdfs:label "Original Creator" .
+                       rdfs:comment "Oorspronkelijke artiest (van muziek) in een audiovisuele entiteit"@nl ,
+                                    "Original artist (musical artist) of an audiovisual entity"@en ;
+                       rdfs:label "Oorspronkelijke artistieke maker"@nl ,
+                                  "Original Artist"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/PlayableAudioVisualEntity
 schema:PlayableAudioVisualEntity rdf:type rdfs:Class ;
                                  rdfs:subClassOf schema:AudioVisualEntity ;
-                                 rdfs:comment "Programs and Scene descriptions are examples of this, they can have a carrier linked to them containing actual audiovisual content" ;
-                                 rdfs:label "Playable Audiovisual Entity" .
+                                 rdfs:comment "Audiovisual entity with a link to a physical carrier from which it can be played. Programmes and Programme sections are examples of this, they can have a carrier linked to them containing actual audiovisual content"@en ,
+                                              "Audiovisuele entiteit dat een link heeft naar een fysieke drager waarop het afgespeeld kan worden. Programma's en Programma-onderdelen zijn hier voorbeelden van, ze hebben een drager aan hen gelinkt die het eigenlijke audiovisuele inhoud bevat."@nl ;
+                                 rdfs:label "Afspeelbare audiovisuele entiteit"@nl ,
+                                            "Playable Audiovisual Entity"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Producer
 schema:Producer rdf:type rdfs:Class ;
                 rdfs:subClassOf schema:InvolvedPerson ;
-                rdfs:label "Producer" .
+                rdfs:comment "Producent van enkel audiovisuele entiteit"@nl ,
+                             "Producer of an individual audiovisual entity"@en ;
+                rdfs:label "Producent"@nl ,
+                           "Producer"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/ProductionCountry
 schema:ProductionCountry rdf:type rdfs:Class ;
                          rdfs:subClassOf schema:CountryInformation ;
-                         rdfs:label "ProductionCountry" .
+                         rdfs:comment "Land in which a particular audiovisual entity is produced"@en ,
+                                      "Land waar een specifiek audiovisuele entiteit is geproduceerd"@nl ;
+                         rdfs:label "Land van productie"@nl ,
+                                    "Production country"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Program
 schema:Program rdf:type rdfs:Class ;
                rdfs:subClassOf schema:EntityWithDuration ,
                                schema:PlayableAudioVisualEntity ;
-               rdfs:label "Program" .
+               rdfs:comment "Programma, foto, document of fysiek object"@nl ,
+                            "Programme, photo, document or physical object"@en ;
+               rdfs:label "Programma"@nl ,
+                          "Programme"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Publication
@@ -1093,24 +1160,36 @@ schema:Publication rdf:type rdfs:Class ;
                    rdfs:subClassOf schema:DistributableEntity ,
                                    schema:EntityWithDuration ,
                                    schema:RecordingOrPublication ;
-                   rdfs:label "Publication" .
+                   rdfs:comment "Publicatie/uitzending van een audiovisuele entiteit"@nl ,
+                                "Publication/broadcast of an audiovisual entity"@en ;
+                   rdfs:label "Publicatie"@nl ,
+                              "Publication"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Qualification
 schema:Qualification rdf:type rdfs:Class ;
-                     rdfs:label "Qualification" .
+                     rdfs:comment "Rechten- en herkomstinformatie"@nl ,
+                                  "Rights and provenance information"@en ;
+                     rdfs:label "Rechten"@nl ,
+                                "Rights"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Recording
 schema:Recording rdf:type rdfs:Class ;
                  rdfs:subClassOf schema:EntityWithAdditionalInformation ,
                                  schema:RecordingOrPublication ;
-                 rdfs:label "Recording" .
+                 rdfs:comment "Informatie over de omstandigheden van de opname van de audiovisuele entiteit"@nl ,
+                              "Information about the circumstances of the recording of the audiovisual entity"@en ;
+                 rdfs:label "Opname"@nl ,
+                            "Recording"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/RecordingOrPublication
 schema:RecordingOrPublication rdf:type rdfs:Class ;
-                              rdfs:label "Recording or Publication" .
+                              rdfs:comment "Opname of publicatie"@nl ,
+                                           "Recording or publication"@en ;
+                              rdfs:label "Opname of publicatie"@nl ,
+                                         "Recording or Publication"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/SceneDescription
@@ -1118,37 +1197,54 @@ schema:SceneDescription rdf:type rdfs:Class ;
                         rdfs:subClassOf schema:EntityWithDuration ,
                                         schema:PlayableAudioVisualEntity ,
                                         schema:SequenceMember ;
-                        rdfs:label "Scene Description" .
+                        rdfs:comment "Onderdeel van een audiovisuele entiteit, zoals een stuk over verkiezingen binnen een nieuws-programma"@nl ,
+                                     "Section of an audiovisual entity, such as a section about an election within a news programme"@en ;
+                        rdfs:label "Programma-onderdeel"@nl ,
+                                   "Programme section"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Season
 schema:Season rdf:type rdfs:Class ;
               rdfs:subClassOf schema:AudioVisualEntity ;
-              rdfs:label "Season" .
+              rdfs:comment "Season"@en ,
+                           "Seizoen"@nl ;
+              rdfs:label "Season"@en ,
+                         "Seizoen"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/SequenceMember
 schema:SequenceMember rdf:type rdfs:Class ;
-                      rdfs:label "Sequence Member" .
+                      rdfs:comment "Lid van volgorde"@nl ,
+                                   "Sequence member"@en ;
+                      rdfs:label "Lid van volgorde"@nl ,
+                                 "Sequence Member"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Series
 schema:Series rdf:type rdfs:Class ;
               rdfs:subClassOf schema:AudioVisualEntity ,
                               schema:DistributableEntity ;
-              rdfs:label "Series" .
+              rdfs:comment "Reeks"@nl ,
+                           "Series"@en ;
+              rdfs:label "Reeks"@nl ,
+                         "Series"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Speaker
 schema:Speaker rdf:type rdfs:Class ;
                rdfs:subClassOf schema:EntityWithRole ,
                                schema:InvolvedPerson ;
-               rdfs:label "Speaker" .
+               rdfs:comment "Gastspreker in een programma"@nl ,
+                            "Guest in a programme"@en ;
+               rdfs:label "Guest"@en ,
+                          "Spreker"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Sponsor
 schema:Sponsor rdf:type rdfs:Class ;
                rdfs:subClassOf schema:InvolvedPerson ;
-               rdfs:label "Sponsor" .
-
+               rdfs:comment "Production sponsor"@en ,
+                            "Sponsor van een productie"@nl ;
+               rdfs:label "Sponsor"@en ,
+                          "Sponsor"@nl .
 
