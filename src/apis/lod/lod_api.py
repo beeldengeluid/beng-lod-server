@@ -5,7 +5,6 @@ from apis.lod.LODHandler import LODHandler
 from apis.lod.LODSchemaHandler import LODSchemaHandler
 
 api = Namespace('lod', description='LOD')
-api2 = Namespace('schema', description='Schema')
 
 #generic response model
 responseModel = api.model('Response', {
@@ -45,14 +44,14 @@ class LODAPI(Resource):
     def get(self, level, identifier):
         acceptType = request.headers.get('Accept')
         userFormat = request.args.get('format', None)
-        mimetype, returnFormat = self._extractDesiredFormats(acceptType)
+        mimetype, ldFormat = self._extractDesiredFormats(acceptType)
 
         #override the accept format if the user specifies a format
         if userFormat and userFormat in self.LD_TO_MIME_TYPE:
-            returnFormat = userFormat
+            ldFormat = userFormat
             mimetype = self.LD_TO_MIME_TYPE[userFormat]
 
-        resp, status_code, headers = LODHandler(current_app.config).getOAIRecord(level, identifier, returnFormat)
+        resp, status_code, headers = LODHandler(current_app.config).getOAIRecord(level, identifier, ldFormat)
 
         #make sure to apply the correct mimetype for valid responses
         if status_code == 200:
@@ -68,9 +67,7 @@ class LODSchemaAPI(Resource):
 
     @api.response(404, 'Schema does not exist error')
     def get(self):
-        mimeType = 'text/turtle'
-        resp, mimeType = LODSchemaHandler(current_app.config).getSchema(mimeType=mimeType)
-
-        if resp and mimeType:
-            return Response(resp, mimetype=mimeType), 200
-        return 'ooeei, een hele dikke bug'
+        resp, status_code, headers = LODSchemaHandler(current_app.config).getSchema()
+        if status_code == 200:
+            return Response(resp, mimetype='text/turtle')
+        return resp, status_code, headers

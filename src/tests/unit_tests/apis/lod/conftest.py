@@ -1,5 +1,9 @@
 import pytest
 
-# @pytest.fixture(scope="module")
-# def i_get_doc(load_json_file):
-# 	return load_json_file(__file__, 'input_get_doc.json')
+@pytest.fixture()
+def o_get_record(open_file):
+	return open_file(__file__, 'output_get_record.xml')
+
+@pytest.fixture()
+def o_get_schema(open_file):
+	return open_file(__file__, 'output_get_schema.ttl')

@@ -1,4 +1,6 @@
-from datetime import datetime
+from lxml import etree
+from lxml.etree import XMLSyntaxError
+import json
 
 ERROR_RESPONSES = {
 	'access_denied' : {
@@ -74,15 +76,17 @@ class APIUtil:
 		return {'success' : msg, 'data' : data}
 
 	@staticmethod
-	def addProvenance(collectionId, response, query, config):
-		response['query'] = query
-		response['timestamp'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
-		response['service'] = {
-			"name": "Beeld en Geluid search API",
-			"version": config['APP_VERSION'],
-			"collection": collectionId,
-			"dependencies": [
-				"ElasticSearch 5",
-				"CKAN"
-			]
-		}
+	def isValidJSON(data):
+		try:
+			json.loads(data)
+		except ValueError as e:
+			return False
+		return True
+
+	@staticmethod
+	def isValidXML(data):
+		try:
+			etree.fromstring(data)
+		except XMLSyntaxError as e:
+			return False
+		return True

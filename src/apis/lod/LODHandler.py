@@ -39,12 +39,13 @@ class LODHandler(object):
 		params['identifier'] = ':'.join(['oai', level, identifier])
 		path = 'oai'
 		base_url = '/'.join([self.config['OAI_BASE_URL'], path])
-		full_url = '?'.join([base_url,urlencode(params)])
-		return full_url
+		return '?'.join([base_url, urlencode(params)])
 
 	def _OAI2LOD(self, url, returnFormat):
-		parser = etree.XMLParser(remove_blank_text=True, compact=False, ns_clean=True, recover=True)
-		root = etree.parse(url, parser=parser).getroot()
+		root = etree.parse(
+			url,
+			parser=etree.XMLParser(remove_blank_text=True, compact=False, ns_clean=True, recover=True)
+		).getroot()
 
 		try:
 			result = self._transform(root)

@@ -36,6 +36,19 @@ def load_json_file():
 		return None
 	return loadJSONFile
 
+@pytest.fixture(scope="module")
+def open_file():
+	def openFile(test_path, fn):
+		path = test_path
+		tmp = test_path.split('/')
+		if len(tmp) > 1:
+			path = '/'.join(test_path.split('/')[:-1])
+		full_path = os.path.join(path, fn)
+		if os.path.exists(full_path):
+			return open(full_path)
+		return None
+	return openFile
+
 
 """------------------------ APPLICATION SETTINGS (VALID) ----------------------"""
 
