@@ -7,7 +7,7 @@ from util.APIUtil import APIUtil
 """ ------------------------ fetchDocument -----------------------"""
 
 INVALID_SCHEMA_PATH = './dummy/dummy.ttl'
-INVALID_SCHEMA_EXT = './dummy/dummy.xxx'
+INVALID_SCHEMA_EXT = '../resource/bengSchema.xml'
 
 def test_getSchema_200(application_settings, o_get_schema):
 	try:

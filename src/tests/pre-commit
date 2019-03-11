@@ -1,6 +1,5 @@
 #!/bin/sh
 
 #copy this script to .git/hooks/pre-commit
-#Note: pytest MUST be run from the src directory because of the src/config.ini that is required for the grlc library...
 cd src
 pytest tests/unit_tests
