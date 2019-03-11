@@ -6,8 +6,8 @@ class LODSchemaHandler():
 		self.config = config
 
 	def getSchema(self, mimeType='text/turtle'):
-		f = open(os.path.join(self.config['RESOURCE_DIR'], 'bengSchema.ttl'), 'r')
+		f = open(self.config['SCHEMA_FILE'], 'r')
 		s = f.read()
 		return s, mimeType
-	
-	#TODO: How to server the Class paths? E.g. like /schema/format
+
+	#TODO: How to serve the Class paths? E.g. like /schema/format

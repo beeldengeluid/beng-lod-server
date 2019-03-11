@@ -5,3 +5,4 @@ venv
 __pycache__
 *.xml
 *.iml
+.pytest_cache

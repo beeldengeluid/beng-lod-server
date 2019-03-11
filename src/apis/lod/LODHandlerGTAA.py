@@ -1,51 +1,33 @@
 from rdflib import Graph
 from lxml import etree
 from lxml.etree import XSLTError
-# from os.path import expanduser
 from urllib import urlencode
 
+#TODO this class is now just a copy of the LODHandler, implement it
 class LODHandlerGTAA(object):
-	''' OAI-PMH provider serves catalogue data on a URL, 
+	''' OAI-PMH provider serves catalogue data on a URL,
 	    e.g.: http://oaipmh.beeldengeluid.nl/resource/program/5296881?output=bg
 			# TODO: make this an OAI-PMH GetRecord request
 			# http://oaipmh.beeldengeluid.nl/oai?verb=GetRecord&metadataPrefix=bg&identifier=oai:program:3883163
 	    This class enables getting the XML from the URL, transform to RDF/XML using an XSLT,
-	    and loadData in a Graph. 
+	    and loadData in a Graph.
 	    Serialization in any format that RDFlib can handle.
 	'''
 	def __init__(self, config):
 		self.config = config
-		
-		#TODO: adapt puppet script, so that the settings are right...
-		self.config['RESOURCE_DIR']  = '../resource'
-		self.config['XSLT_FILENAME'] = 'nisv-bg-oai2lod-v01.xsl'
-		self.config['OAI_BASE_URL'] = 'http://oaipmh.beeldengeluid.nl'
-		
-		path = self.config['RESOURCE_DIR'] 
-		xslt = self.config['XSLT_FILENAME']
-		self.base_url = self.config['OAI_BASE_URL']
-	
-		# uncomment if local server is needed
-# 		home = expanduser("~")
-# 		local = 'eclipse-workspace'
-# 		repo = 'beng-lod-server'
-# 		self._protocol = 'file:/'
-# 		self.base_url = u'/'.join([self._protocol,home,local,repo,self._path])
-		
-		self._xsltfile = u'/'.join([path,xslt])
-		
-		assert self._xsltfile
-
-		parser = etree.XMLParser(remove_comments=True,ns_clean=True,no_network=False)
-		xslTree = etree.parse(self._xsltfile, parser=parser)
+		xslTree = etree.parse(
+			self.config['XSLT_FILE'],
+			parser=etree.XMLParser(remove_comments=True,ns_clean=True,no_network=False)
+		)
 		self._transform = etree.XSLT(xslTree)
+
 		assert self._transform, '%s error: transformation is not loaded' % self.__class__.__name__
 
 	def getOAIRecord(self, level, identifier, returnFormat):
 		url = self.prepareURI(level, identifier)
 		print url
 		return self._OAI2LOD(url, returnFormat), returnFormat
-	
+
 	def prepareURI(self,level,identifier):
 		# e.g. http://oaipmh.beeldengeluid.nl/oai?verb=GetRecord&metadataPrefix=bg&identifier=oai:program:3883163
 		params = {}
@@ -53,7 +35,7 @@ class LODHandlerGTAA(object):
 		params['metadataPrefix'] = 'bg'
 		params['identifier'] = ':'.join(['oai', level, identifier])
 		path = 'oai'
-		base_url = '/'.join([self.base_url,path])
+		base_url = '/'.join([self.config['OAI_BASE_URL'], path])
 		full_url = '?'.join([base_url,urlencode(params)])
 		return full_url
 
@@ -65,7 +47,7 @@ class LODHandlerGTAA(object):
 			result = self._transform(root)
 			graph = Graph()
 			graph.parse(data=etree.tostring(result, xml_declaration=True))
-			return graph.serialize(	context=result.getroot().nsmap, 
+			return graph.serialize(	context=result.getroot().nsmap,
 											format=returnFormat)
 
 		except XSLTError, e:
