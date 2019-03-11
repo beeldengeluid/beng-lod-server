@@ -31,7 +31,7 @@ def test_getOAIRecord_200(application_settings, o_get_record, return_type):
 	finally:
 		unstub()
 
-def test_getOAIRecord_500(application_settings, o_get_record):
+def test_getOAIRecord_400(application_settings, o_get_record):
 	try:
 		lodHandler = LODHandler(application_settings)
 		when(LODHandler)._prepareURI(DUMMY_LEVEL, DUMMY_ID).thenReturn(o_get_record)
