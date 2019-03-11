@@ -26,6 +26,8 @@ def test_getSchema_500(o_get_schema, invalid_appplication_settings):
 		schemaHandler = LODSchemaHandler(invalid_appplication_settings)
 		resp, status_code, headers = schemaHandler.getSchema()
 		assert status_code == 500
+		assert 'error' in resp
+		assert APIUtil.matchesErrorId(resp['error'], 'internal_server_error')
 
 	finally:
 		unstub()
