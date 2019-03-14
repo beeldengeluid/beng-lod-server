@@ -11,6 +11,12 @@
 #    Properties
 #################################################################
 
+###  http://data.rdlabs.beeldengeluid.nl/schema/involvesPerson
+schema:involvesPerson rdf:type rdf:Property ;
+                  rdfs:domain schema:AudioVisualEntity ;
+                  rdfs:range schema:InvolvedPerson ;
+                  rdfs:label "involves person" .
+				  
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasCarrier
 schema:hasCarrier rdf:type rdf:Property ;
                   rdfs:domain schema:PlayableAudioVisualEntity ;
@@ -20,6 +26,7 @@ schema:hasCarrier rdf:type rdf:Property ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasCast
 schema:hasCast rdf:type rdf:Property ;
+			   rdfs:subPropertyOf schema:involvesPerson;
                rdfs:domain schema:AudioVisualEntity ;
                rdfs:range schema:Cast ;
                rdfs:label "has cast" .
@@ -42,6 +49,7 @@ schema:hasContextReference rdf:type rdf:Property ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasContractor
 schema:hasContractor rdf:type rdf:Property ;
+					 rdfs:subPropertyOf schema:involvesPerson;
                      rdfs:domain schema:AudioVisualEntity ;
                      rdfs:range schema:Contractor ;
                      rdfs:label "has contractor" .
@@ -49,6 +57,7 @@ schema:hasContractor rdf:type rdf:Property ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasCreator
 schema:hasCreator rdf:type rdf:Property ;
+				  rdfs:subPropertyOf schema:involvesPerson;
                   rdfs:domain schema:AudioVisualEntity ;
                   rdfs:range schema:Creator ;
                   rdfs:label "has creator" .
@@ -56,6 +65,7 @@ schema:hasCreator rdf:type rdf:Property ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasExecutive
 schema:hasExecutive rdf:type rdf:Property ;
+					rdfs:subPropertyOf schema:involvesPerson;
                     rdfs:domain schema:AudioVisualEntity ;
                     rdfs:range schema:Executive ;
                     rdfs:label "has executive" .
@@ -63,6 +73,7 @@ schema:hasExecutive rdf:type rdf:Property ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasFunder
 schema:hasFunder rdf:type rdf:Property ;
+			     rdfs:subPropertyOf schema:involvesPerson;
                  rdfs:domain schema:AudioVisualEntity ;
                  rdfs:range schema:Funder ;
                  rdfs:label "has funder" .
@@ -83,6 +94,7 @@ schema:hasNationality rdf:type rdf:Property ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasOriginalCreator
 schema:hasOriginalCreator rdf:type rdf:Property ;
+			              rdfs:subPropertyOf schema:involvesPerson;
                           rdfs:domain schema:AudioVisualEntity ;
                           rdfs:range schema:OriginalCreator ;
                           rdfs:label "has original creator" .
@@ -90,6 +102,7 @@ schema:hasOriginalCreator rdf:type rdf:Property ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasProducer
 schema:hasProducer rdf:type rdf:Property ;
+			       rdfs:subPropertyOf schema:involvesPerson;
                    rdfs:domain schema:AudioVisualEntity ;
                    rdfs:range schema:Producer ;
                    rdfs:label "has producer" .
@@ -125,6 +138,7 @@ schema:hasRecording rdf:type rdf:Property ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasSpeaker
 schema:hasSpeaker rdf:type rdf:Property ;
+				  rdfs:subPropertyOf schema:involvesPerson;
                   rdfs:domain schema:AudioVisualEntity ;
                   rdfs:range schema:Speaker ;
                   rdfs:label "has speaker" .
@@ -132,6 +146,7 @@ schema:hasSpeaker rdf:type rdf:Property ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasSponsor
 schema:hasSponsor rdf:type rdf:Property ;
+				  rdfs:subPropertyOf schema:involvesPerson;
                   rdfs:domain schema:AudioVisualEntity ;
                   rdfs:range schema:Sponsor ;
                   rdfs:label "has sponsor" .
@@ -920,12 +935,13 @@ schema:involvesMuseumPerson rdf:type rdf:Property ;
                             rdfs:label "involves museum person" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/involvesPerson
-schema:involvesPerson rdf:type rdf:Property ;
+###  http://data.rdlabs.beeldengeluid.nl/schema/hasRelatedPerson
+schema:hasRelatedPerson rdf:type rdf:Property ;
+					  rdfs:subPropertyOf schema:involvesPerson;
                       rdfs:domain schema:AudioVisualEntity ;
                       rdfs:range xsd:string ;
                       rdfs:comment "This is the personnames.name property." ;
-                      rdfs:label "involves person" .
+                      rdfs:label "has related person" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/isSilent
