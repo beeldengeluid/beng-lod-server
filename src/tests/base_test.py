@@ -16,4 +16,4 @@ def test_settings_valid(application_settings):
 
 	assert 'OAI_BASE_URL' in application_settings and type(application_settings['OAI_BASE_URL']) == str
 	assert 'XSLT_FILE' in application_settings and type(application_settings['XSLT_FILENAME']) == str
-	assert 'SCHEMA_FILE' in application_settings and type(application_settings['XSLT_FILENAME']) == str
+	assert 'SCHEMA_FILE' in application_settings and type(application_settings['SCHEMA_FILE']) == str

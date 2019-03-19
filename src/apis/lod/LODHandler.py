@@ -1,3 +1,4 @@
+import os
 from rdflib import Graph
 from rdflib.plugin import PluginException
 from lxml import etree
@@ -16,13 +17,21 @@ class LODHandler(object):
 	'''
 	def __init__(self, config):
 		self.config = config
+
+		if not os.path.exists(self.config['XSLT_FILE']):
+			raise APIUtil.raiseDescriptiveValueError('internal_server_error', 'XLST_FILE could not be found on the file system')
+
+		self.transformer = self._getXSLTTransformer(self.config['XSLT_FILE'])
+
+		if not self.transformer:
+			raise APIUtil.raiseDescriptiveValueError('internal_server_error', 'Error while parsing the XLST')
+
+	def _getXSLTTransformer(self, xsltFile):
 		xslTree = etree.parse(
-			self.config['XSLT_FILE'],
+			xsltFile,
 			parser=etree.XMLParser(remove_comments=True, ns_clean=True, no_network=False)
 		)
-		self._transform = etree.XSLT(xslTree)
-
-		assert self._transform, '%s error: transformation is not loaded' % self.__class__.__name__
+		return etree.XSLT(xslTree)
 
 	def getOAIRecord(self, level, identifier, returnFormat):
 		url = self._prepareURI(level, identifier)
@@ -48,12 +57,12 @@ class LODHandler(object):
 		).getroot()
 
 		try:
-			result = self._transform(root)
+			result = self.transformer(root)
 			graph = Graph()
 			graph.parse(data=etree.tostring(result, xml_declaration=True))
 			return graph.serialize(context=result.getroot().nsmap, format=returnFormat)
 		except XSLTError as e:
-			for error in self._transform.error_log:
+			for error in self.transformer.error_log:
 				print(error.message, error.line)
 		except PluginException as e:
 			print(e)

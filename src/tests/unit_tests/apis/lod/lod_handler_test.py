@@ -8,6 +8,28 @@ from util.APIUtil import APIUtil
 
 DUMMY_ID = 'dummy_id'
 DUMMY_LEVEL = 'program'
+DUMMY_XSLT_FILE = 'dummy_file_that_does_not_exist'
+
+def test_LODHandler_xslt_not_found():
+	try:
+		lodHandler = None
+		lodHandler = LODHandler({'XSLT_FILE' : DUMMY_XSLT_FILE})
+	except ValueError as e:
+		assert APIUtil.valueErrorContainsErrorId(e, 'internal_server_error')
+		assert lodHandler == None
+	finally:
+		unstub()
+
+def test_LODHandler_corrupt_xslt(application_settings):
+	try:
+		lodHandler = None
+		lodHandler = LODHandler(application_settings)
+		when(LODHandler)._getXSLTTransformer(DUMMY_XSLT_FILE).thenReturn(None)
+	except ValueError as e:
+		assert APIUtil.valueErrorContainsErrorId(e, 'internal_server_error')
+		assert lodHandler == None
+	finally:
+		unstub()
 
 @pytest.mark.parametrize('return_type', [('json-ld'), ('xml'), ('n3'), ('ttl')])
 def test_getOAIRecord_200(application_settings, o_get_record, return_type):

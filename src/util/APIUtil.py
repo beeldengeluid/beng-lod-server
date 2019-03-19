@@ -29,6 +29,13 @@ class APIUtil:
 		return errorMessage == APIUtil.toErrorMessage(errorId)
 
 	@staticmethod
+	def valueErrorContainsErrorId(valueError, errorId):
+		if not type(valueError) == ValueError:
+			return False
+		errorMessage, explanation = APIUtil.parseErrorMessage(str(valueError))
+		return errorMessage == errorId
+
+	@staticmethod
 	def raiseDescriptiveValueError(errorId, explanation):
 		raise ValueError('%s: %s' % (errorId, explanation))
 
