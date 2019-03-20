@@ -9,9 +9,10 @@
 	xmlns:oaipmh="http://www.openarchives.org/OAI/2.0/" 
 	xmlns:dcterms="http://purl.org/dc/terms/"
 	xmlns:bg= "http://oaipmh.beeldengeluid.nl/basic"
+	xmlns:bga= "http://oaipmh.beeldengeluid.nl/aggregated"
 	xmlns:schema= "http://data.rdlabs.beeldengeluid.nl/schema/"
 	xmlns:resource= "http://data.rdlabs.beeldengeluid.nl/resource/"
-	exclude-result-prefixes="oaipmh oai_dc xsl xsi bg">
+	exclude-result-prefixes="oaipmh oai_dc xsl xsi bg bga">
 
 	<xsl:output method="xml" indent="yes" encoding="utf-8"/>
 	<xsl:strip-space elements="*"/>
