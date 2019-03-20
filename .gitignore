@@ -3,6 +3,8 @@
 settings.py
 venv
 __pycache__
-resource/*.xml
+resource/*/*.xml
 *.iml
 .pytest_cache
+.project
+.pydevproject
