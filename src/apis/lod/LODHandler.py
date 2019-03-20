@@ -42,10 +42,14 @@ class LODHandler(object):
 
 	#Returns valid OAI-PMH url, e.g. http://oaipmh.beeldengeluid.nl/oai?verb=GetRecord&metadataPrefix=bg&identifier=oai:program:3883163
 	def _prepareURI(self, level, identifier):
-		params = {}
-		params['verb'] = 'GetRecord'
-		params['metadataPrefix'] = 'bg'
-		params['identifier'] = ':'.join(['oai', level, identifier])
+		params = {
+			'verb':				'GetRecord',
+			'metadataPrefix':	'bg',
+			'identifier':		':'.join(['oai', level, identifier])
+		}
+# 		params['verb'] = 'GetRecord'
+# 		params['metadataPrefix'] = 'bg'
+# 		params['identifier'] = ':'.join(['oai', level, identifier])
 		path = 'oai'
 		base_url = '/'.join([self.config['OAI_BASE_URL'], path])
 		return '?'.join([base_url, urlencode(params)])
