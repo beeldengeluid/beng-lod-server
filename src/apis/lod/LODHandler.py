@@ -47,9 +47,6 @@ class LODHandler(object):
 			'metadataPrefix':	'bg',
 			'identifier':		':'.join(['oai', level, identifier])
 		}
-# 		params['verb'] = 'GetRecord'
-# 		params['metadataPrefix'] = 'bg'
-# 		params['identifier'] = ':'.join(['oai', level, identifier])
 		path = 'oai'
 		base_url = '/'.join([self.config['OAI_BASE_URL'], path])
 		return '?'.join([base_url, urlencode(params)])
