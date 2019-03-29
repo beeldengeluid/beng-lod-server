@@ -155,17 +155,16 @@
 		<xsl:variable name="resourceID" select="." />
 		<xsl:variable name="levelID" select="substring-before(substring-after($resourceID,'resource/'),'?')"/>
 		<xsl:variable name="uri" select="concat($varResource,$levelID)"/>
-		
-		<xsl:variable name="level" select="//bg:bgelement/@aggregationType"/>
+		<xsl:variable name="level" select="substring-before($levelID, '/')"/>
 		<xsl:choose>
-			<xsl:when test="$level = 'program'">
+			<xsl:when test="$level = 'season'">
 				<xsl:element name="schema:isPartOfSeason">
 					<xsl:attribute name="rdf:resource">
 						 <xsl:value-of select="$uri" />
 					</xsl:attribute>
 				</xsl:element>
 			</xsl:when>
-			<xsl:when test="$level = 'segment'">
+			<xsl:when test="$level = 'program'">
 				<xsl:element name="schema:isPartOfProgram">
 					<xsl:attribute name="rdf:resource">
 						 <xsl:value-of select="$uri" />
