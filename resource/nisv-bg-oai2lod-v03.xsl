@@ -191,7 +191,26 @@
 	<xsl:template match="bg:maintitles">
 		<xsl:for-each select="bg:title">
 			<xsl:element name="schema:hasMainTitle">
-			  	<xsl:apply-templates />
+				<xsl:element name="schema:Title">
+					<xsl:element name="schema:titleValue">
+						<xsl:value-of select="."/>
+					</xsl:element>
+					<xsl:if test="@language" >
+						<xsl:element name="schema:titleLanguage">
+							<xsl:value-of select="@language"/>
+						</xsl:element>
+					</xsl:if>
+					<xsl:if test="@source" >
+						<xsl:element name="schema:titleSource">
+							<xsl:value-of select="@source"/>
+						</xsl:element>
+					</xsl:if>
+					<xsl:if test="@type" >
+						<xsl:element name="schema:titleType">
+							<xsl:value-of select="@type"/>
+						</xsl:element>
+					</xsl:if>
+				</xsl:element>
 			</xsl:element>
 		</xsl:for-each>
 	</xsl:template>
@@ -199,34 +218,30 @@
 	<xsl:template match="bg:subtitles">
 		<xsl:for-each select="bg:title">
 			<xsl:element name="schema:hasSubTitle">
-		  		<xsl:apply-templates />
+				<xsl:element name="schema:Title">
+					<xsl:element name="schema:titleValue">
+						<xsl:value-of select="."/>
+					</xsl:element>
+					<xsl:if test="@language" >
+						<xsl:element name="schema:titleLanguage">
+							<xsl:value-of select="@language"/>
+						</xsl:element>
+					</xsl:if>
+					<xsl:if test="@source" >
+						<xsl:element name="schema:titleSource">
+							<xsl:value-of select="@source"/>
+						</xsl:element>
+					</xsl:if>
+					<xsl:if test="@type" >
+						<xsl:element name="schema:titleType">
+							<xsl:value-of select="@type"/>
+						</xsl:element>
+					</xsl:if>
+				</xsl:element>
 			</xsl:element>
 		</xsl:for-each>
 	</xsl:template>
 	
-	<xsl:template match="bg:title">
-		<xsl:element name="schema:Title">
-			<xsl:element name="schema:titleValue">
-				<xsl:value-of select="."/>
-			</xsl:element>
-			<xsl:if test="@language" >
-				<xsl:element name="schema:titleLanguage">
-					<xsl:value-of select="@language"/>
-				</xsl:element>
-			</xsl:if>
-			<xsl:if test="@source" >
-				<xsl:element name="schema:titleSource">
-					<xsl:value-of select="@source"/>
-				</xsl:element>
-			</xsl:if>
-			<xsl:if test="@type" >
-				<xsl:element name="schema:titleType">
-					<xsl:value-of select="@type"/>
-				</xsl:element>
-			</xsl:if>
-		</xsl:element>
-	</xsl:template>
-		
 	<xsl:template match="bg:productioncountries">
 		<xsl:element name="schema:productioncountries">
 		  	<xsl:apply-templates />
