@@ -1060,25 +1060,25 @@ schema:words rdf:type rdf:Property ;
                                                 rdfs:label "starttime (transcript)" .
 
 ###  http://www.beeldengeluid.nl/schema/titleLanguage
-<http://www.beeldengeluid.nl/schema/@language> rdf:type rdf:Property ;
+<http://www.beeldengeluid.nl/schema/titleLanguage> rdf:type rdf:Property ;
                                                 rdfs:domain schema:Title ;
                                                 rdfs:range xsd:string ;
                                                 rdfs:label "language of title" .
 
 ###  http://www.beeldengeluid.nl/schema/titleSource
-<http://www.beeldengeluid.nl/schema/@source> rdf:type rdf:Property ;
+<http://www.beeldengeluid.nl/schema/titleSource> rdf:type rdf:Property ;
                                                 rdfs:domain schema:Title ;
                                                 rdfs:range xsd:string ;
                                                 rdfs:label "source of title" .
 
 ###  http://www.beeldengeluid.nl/schema/titleType
-<http://www.beeldengeluid.nl/schema/@type> rdf:type rdf:Property ;
+<http://www.beeldengeluid.nl/schema/titleType> rdf:type rdf:Property ;
                                                 rdfs:domain schema:Title ;
                                                 rdfs:range xsd:string ;
                                                 rdfs:label "type of title" .
 
 ###  http://www.beeldengeluid.nl/schema/titleValue
-<http://www.beeldengeluid.nl/schema/@type> rdf:type rdf:Property ;
+<http://www.beeldengeluid.nl/schema/titleValue> rdf:type rdf:Property ;
                                                 rdfs:domain schema:Title ;
                                                 rdfs:range xsd:string ;
                                                 rdfs:label "string value of title" .

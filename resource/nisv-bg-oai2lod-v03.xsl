@@ -189,9 +189,11 @@
 	</xsl:template>
 
 	<xsl:template match="bg:maintitles">
-		<xsl:element name="schema:hasMainTitle">
-		  	<xsl:apply-templates />
-		</xsl:element>
+		<xsl:for-each select="bg:title">
+			<xsl:element name="schema:hasMainTitle">
+			  	<xsl:apply-templates />
+			</xsl:element>
+		</xsl:for-each>
 	</xsl:template>
 	
 	<xsl:template match="bg:subtitles">
