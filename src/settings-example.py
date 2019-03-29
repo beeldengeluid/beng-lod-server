@@ -7,5 +7,5 @@ class Config(object):
 	DEBUG = True
 
 	OAI_BASE_URL = 'http://oaipmh.beeldengeluid.nl'
-	XSLT_FILE = '../resource/nisv-bg-oai2lod-v02.xsl'
+	XSLT_FILE = '../resource/nisv-bg-oai2lod-v03.xsl'
 	SCHEMA_FILE = '../resource/bengSchema.ttl'
