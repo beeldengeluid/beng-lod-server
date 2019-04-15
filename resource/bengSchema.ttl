@@ -3,6 +3,7 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms: <http://dublincore.org/documents/2010/10/11/dcmi-terms#> . 
 @prefix schema: <http://data.rdlabs.beeldengeluid.nl/schema/> .
 @base <http://data.rdlabs.beeldengeluid.nl/schema/> .
 
@@ -154,6 +155,7 @@ schema:hasSponsor rdf:type rdf:Property ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/isPartOfProgram
 schema:isPartOfProgram rdf:type rdf:Property ;
+					   rdfs:subPropertyOf dcterms:isPartOf;
                        rdfs:domain schema:SceneDescription ;
                        rdfs:range schema:Program ;
                        rdfs:comment "Links a segment to a programme. This is modelled by dc:isPartOf in the ES cluster" ;
@@ -162,6 +164,7 @@ schema:isPartOfProgram rdf:type rdf:Property ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/isPartOfSeason
 schema:isPartOfSeason rdf:type rdf:Property ;
+					  rdfs:subPropertyOf dcterms:isPartOf;
                       rdfs:domain schema:Program ;
                       rdfs:range schema:Season ;
                       rdfs:comment "Links a programme to a season. This is modelled by dc:isPartOf in the ES cluster" ;
@@ -170,6 +173,7 @@ schema:isPartOfSeason rdf:type rdf:Property ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/isPartOfSeries
 schema:isPartOfSeries rdf:type rdf:Property ;
+					  rdfs:subPropertyOf dcterms:isPartOf;
                       rdfs:domain schema:AudioVisualEntity ;
                       rdfs:range schema:Series ;
                       rdfs:comment "Links an audiovisual entity to a series. This is modelled by dc:isPartOf in the ES cluster" ;
