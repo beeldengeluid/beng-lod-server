@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><bg:bgelement xmlns:bg="http://dummy.uri.nl/basic" xmlns:bga="http://dummy.uri.nl/aggregated" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" aggregationType="program" id="5354463">
+    <dc:identifier>23456@program</dc:identifier>
+    <dc:relation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="dcterms:URI">http://dummy.uri/12345</dc:relation>
+    <dcterms:isPartOf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="dcterms:URI">http://dummy.uri/23456</dcterms:isPartOf>
+    <bg:external-id>DUMMY ID</bg:external-id>
+    <bg:maintitles>
+        <bg:title>DUMMY TITLE</bg:title>
+    </bg:maintitles>
+    <bg:creators>
+        <bg:creator>
+            <bg:name>DUMMY CREATOR</bg:name>
+            <bg:roles>
+                <bg:role>DUMMY ROLE</bg:role>
+            </bg:roles>
+        </bg:creator>
+    </bg:creators>
+    <bg:producers>
+        <bg:producer>
+            <bg:name>DUMMY OMROEP</bg:name>
+        </bg:producer>
+    </bg:producers>
+    <bg:productioncountries>
+        <bg:country>DUMMY COUNTRY</bg:country>
+    </bg:productioncountries>
+    <bg:languages>
+        <bg:language>
+            <bg:language>DUMMY LANGUAGE</bg:language>
+            <bg:use>DUMMY USE</bg:use>
+        </bg:language>
+    </bg:languages>
+    <bg:context>
+        <bg:colour>DUMMY COLOR</bg:colour>
+    </bg:context>
+    <bg:recordings>
+        <bg:recording>
+            <bg:productionyear>DUMMY PRODUCTION YEAR</bg:productionyear>
+        </bg:recording>
+    </bg:recordings>
+    <bg:qualification/>
+    <bg:sourcecatalog>DUMMY CATALOG</bg:sourcecatalog>
+    <bg:duration>10000</bg:duration>
+    <bg:episodenumber>1</bg:episodenumber>
+    <bg:carriers>
+        <bg:carrier>
+            <bg:startoncarrier>120000</bg:startoncarrier>
+            <bg:endoncarrier>734960</bg:endoncarrier>
+            <bg:carrierreference>DUMMY REFERENCE</bg:carrierreference>
+            <bg:carriertype>DUMMY CARRIER TYPE</bg:carriertype>
+            <bg:repository>DUMMY REPO</bg:repository>
+            <bg:carrierclass>DUMMY CLASS</bg:carrierclass>
+            <bg:carrierid>19057378</bg:carrierid>
+            <bg:dmguid>DUMMY ID</bg:dmguid>
+            <bg:startoffset>115000</bg:startoffset>
+            <bg:publid>5820171</bg:publid>
+            <bg:format>DUMMY FORMAT</bg:format>
+            <bg:id>110583888</bg:id>
+            <bg:creationdate>2019-01-30T11:39:14Z</bg:creationdate>
+        </bg:carrier>
+    </bg:carriers>
+    <bg:summary>DUMMY SUMMY</bg:summary>
+    <bg:availablecollections>
+        <bg:collection>DUMMY COLLECTION</bg:collection>
+    </bg:availablecollections>
+    <bg:taskid>34534</bg:taskid>
+    <bg:languageid>1</bg:languageid>
+    <bg:publications>
+        <bg:publication id="5820171">
+            <bg:type>DUMMY TYPE</bg:type>
+            <bg:startdate>30-01-2019</bg:startdate>
+            <bg:starttime>40091000</bg:starttime>
+            <bg:endtime>40808000</bg:endtime>
+            <bg:duration>614960</bg:duration>
+            <bg:publication-annotation>DUMMY ANNOTATION</bg:publication-annotation>
+            <bg:distributionchannel>DUMMY CHANNEL</bg:distributionchannel>
+            <bg:distributionformat>DUMMY FORMAT</bg:distributionformat>
+            <bg:rebroadcast>0</bg:rebroadcast>
+            <bg:networks>
+                <bg:network>DUMMY NETWORK</bg:network>
+            </bg:networks>
+            <bg:broadcasters>
+                <bg:broadcaster>DUMMY OMROEP</bg:broadcaster>
+            </bg:broadcasters>
+            <bg:sortdate>30-01-2019</bg:sortdate>
+            <bg:sorttype>1</bg:sorttype>
+            <bg:broadcastnorm>HD</bg:broadcastnorm>
+            <bg:productid>DUMMY PRODUCT ID</bg:productid>
+            <bg:ugstatus>DUMMY UG STATUS</bg:ugstatus>
+        </bg:publication>
+    </bg:publications>
+</bg:bgelement>

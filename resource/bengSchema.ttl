@@ -21,9 +21,11 @@ schema:isPartOfSeason rdf:type rdf:Property ;
                       rdfs:subPropertyOf dcterms:isPartOf .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/isPartOfSeries
-schema:isPartOfSeries rdf:type rdf:Property ;
-                      rdfs:subPropertyOf dcterms:isPartOf .
+###  http://www.beeldengeluid.nl/schema/hasContext
+schema:hasContext rdf:type rdf:Property ;
+               rdfs:domain schema:AudioVisualEntity ;
+               rdfs:range schema:Context ;
+               rdfs:label "context" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasCarrier
@@ -195,7 +197,8 @@ schema:isPartOfSeason rdf:type rdf:Property ;
 ###  http://data.rdlabs.beeldengeluid.nl/schema/isPartOfSeries
 schema:isPartOfSeries rdf:type rdf:Property ;
                       rdfs:domain schema:AudioVisualEntity ;
-                      rdfs:range schema:Series .
+                      rdfs:range schema:Series ;
+                      rdfs:subPropertyOf dcterms:isPartOf .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasBroadcastStation
@@ -221,6 +224,11 @@ schema:hasCountry rdf:type rdf:Property ;
                                                 rdfs:label "has country"@en ,
                                                            "heeft land"@nl .
 
+###  http://www.beeldengeluid.nl/schema/context
+schema:context rdf:type rdf:Property ;
+              rdfs:domain schema:Context ;
+              rdfs:range xsd:string ;
+              rdfs:label "context" .
 
 ###  http://www.beeldengeluid.nl/schema/hasGenre
 schema:hasGenre rdf:type rdf:Property ;
@@ -483,6 +491,12 @@ schema:hasDescription rdf:type rdf:Property ;
                       rdfs:range xsd:string ;
                       rdfs:label "has description" .
 
+###  http://www.beeldengeluid.nl/schema/hasMainTitle
+schema:hasMainTitle rdf:type rdf:Property ;
+                    rdfs:domain schema:AudioVisualEntity ;
+                    rdfs:range schema:Title ;
+                    rdfs:label "has main title" .
+
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasDistributionChannel
 schema:hasDistributionChannel rdf:type rdf:Property ;
@@ -531,11 +545,17 @@ schema:hasEndOnCarrier rdf:type rdf:Property ;
                        rdfs:range xsd:long ;
                        rdfs:label "has end on carrier" .
 
-
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasEndTime
 schema:hasEndTime rdf:type rdf:Property ;
                   rdfs:range xsd:string ;
                   rdfs:label "has end time" .
+
+###  http://www.beeldengeluid.nl/schema/hasSubTitle
+schema:hasSubTitle rdf:type rdf:Property ;
+                   rdfs:domain schema:AudioVisualEntity ;
+                   rdfs:range schema:Title ;
+                   rdfs:comment "This is a secondary title. Should not be confused with subtitling" ;
+                   rdfs:label "has sub title" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasEpisodeNumber
@@ -599,13 +619,6 @@ schema:hasLink rdf:type rdf:Property ;
                rdfs:domain schema:AudioVisualEntity ;
                rdfs:range xsd:string ;
                rdfs:label "has link" .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasMainTitle
-schema:hasMainTitle rdf:type rdf:Property ;
-                    rdfs:domain schema:AudioVisualEntity ;
-                    rdfs:range xsd:string ;
-                    rdfs:label "has main title" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasMetrage
@@ -882,13 +895,6 @@ schema:hasStorageUnit rdf:type rdf:Property ;
                       rdfs:label "has storage unit" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasSubTitle
-schema:hasSubTitle rdf:type rdf:Property ;
-                   rdfs:domain schema:AudioVisualEntity ;
-                   rdfs:range xsd:string ;
-                   rdfs:comment "This is a secondary title. Should not be confused with subtitling" ;
-                   rdfs:label "has sub title" .
-
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasSummary
 schema:hasSummary rdf:type rdf:Property ;
@@ -1011,12 +1017,44 @@ schema:hasContextReference rdf:type rdf:Property ;
                                                          rdfs:label "has context reference"@en ,
                                                                     "heeft context referentie"@nl .
 
+###  http://www.beeldengeluid.nl/schema/titleLanguage
+<http://www.beeldengeluid.nl/schema/titleLanguage> rdf:type rdf:Property ;
+                                                rdfs:domain schema:Title ;
+                                                rdfs:range xsd:string ;
+                                                rdfs:label "language of title" .
+
+###  http://www.beeldengeluid.nl/schema/titleSource
+<http://www.beeldengeluid.nl/schema/titleSource> rdf:type rdf:Property ;
+                                                rdfs:domain schema:Title ;
+                                                rdfs:range xsd:string ;
+                                                rdfs:label "source of title" .
+
+###  http://www.beeldengeluid.nl/schema/titleType
+<http://www.beeldengeluid.nl/schema/titleType> rdf:type rdf:Property ;
+                                                rdfs:domain schema:Title ;
+                                                rdfs:range xsd:string ;
+                                                rdfs:label "type of title" .
+
+###  http://www.beeldengeluid.nl/schema/titleValue
+<http://www.beeldengeluid.nl/schema/titleValue> rdf:type rdf:Property ;
+                                                rdfs:domain schema:Title ;
+                                                rdfs:range xsd:string ;
+                                                rdfs:label "string value of title" .
 
 #################################################################
 #    Classes
 #################################################################
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/AudioVisualEntity
+###  http://www.beeldengeluid.nl/schema/Title
+schema:Title rdf:type rdf:Class ;
+             rdfs:label "title" .
+
+###  http://www.beeldengeluid.nl/schema/AnnotatableEntity
+schema:AnnotatableEntity rdf:type rdfs:Class ;
+                         rdfs:label "Annotatable Entity" .
+
+
+###  http://www.beeldengeluid.nl/schema/AudioVisualEntity
 schema:AudioVisualEntity rdf:type rdfs:Class ;
                          rdfs:subClassOf schema:EntityWithAdditionalInformation ;
                          rdfs:comment "Audiovisual entity, such as a film, piece of music or radio broadcast"@en ,

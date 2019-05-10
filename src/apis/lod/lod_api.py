@@ -1,9 +1,8 @@
-import json
-
 from flask import current_app, request, Response
 from flask_restplus import Api, Namespace, fields, Resource
 
 from apis.lod.LODHandler import LODHandler
+from apis.lod.LODSchemaHandler import LODSchemaHandler
 
 api = Namespace('lod', description='LOD')
 
@@ -13,28 +12,62 @@ responseModel = api.model('Response', {
     'message': fields.String(description='Message from server', required=True),
 })
 
-""" --------------------------- GENERIC ANNOTATION ENDPOINTS -------------------------- """
-
-@api.doc(params={'programId': 'The program ID'}, required=False)
+""" --------------------------- RESOURCE ENDPOINT -------------------------- """
 @api.route('resource/<level>/<identifier>', endpoint='dereference')
 class LODAPI(Resource):
 
-    @api.response(200, 'Success', responseModel)
-    @api.response(404, 'Resource does not exist error')
-    def get(self, level, identifier):
-        #http://oaipmh.beeldengeluid.nl/resource/program/5382355?output=bg
-        acceptType = request.headers.get('Accept')
-        returnFormat = 'xml'
-        if acceptType.find('rdf+xml') != -1:
-            returnFormat = 'application/rdf+xml'
-        elif acceptType.find('ld+json') != -1:
-            returnFormat = 'application/ld+json'
-     
-        resp, mimeType = LODHandler(current_app.config).getOAIRecord(level, identifier, returnFormat)
+    MIME_TYPE_TO_LD = {
+        'application/rdf+xml' : 'xml',
+        'application/ld+json' : 'json-ld',
+        'text/turtle' : 'ttl',
+        'text/n3' : 'n3'
+    }
 
-#         print resp
-#         print mimeType
-        
-        if resp and mimeType:
-            return Response(resp, mimetype=mimeType)
-        return 'dikke pech gozert'
+    LD_TO_MIME_TYPE = {v: k for k, v in MIME_TYPE_TO_LD.iteritems()}
+
+    def _extractDesiredFormats(self, acceptType):
+        mimetype = 'application/rdf+xml'
+        if acceptType.find('rdf+xml') != -1:
+            mimetype = 'application/rdf+xml'
+        elif acceptType.find('json+ld') != -1:
+            mimetype = 'application/ld+json'
+        elif acceptType.find('json') != -1:
+            mimetype = 'application/ld+json'
+        elif acceptType.find('turtle') != -1:
+            mimetype = 'text/turtle'
+        elif acceptType.find('json') != -1:
+            mimetype = 'text/n3'
+        return mimetype, self.MIME_TYPE_TO_LD[mimetype]
+
+    @api.response(404, 'Resource does not exist error')
+#     @api.representation('application/rdf+xml','application/ld+json','text/turtle','text/n3')
+    def get(self, level, identifier):
+        acceptType = request.headers.get('Accept')
+        userFormat = request.args.get('format', None)
+        mimetype, ldFormat = self._extractDesiredFormats(acceptType)
+
+        #override the accept format if the user specifies a format
+        if userFormat and userFormat in self.LD_TO_MIME_TYPE:
+            ldFormat = userFormat
+            mimetype = self.LD_TO_MIME_TYPE[userFormat]
+
+        resp, status_code, headers = LODHandler(current_app.config).getOAIRecord(level, identifier, ldFormat)
+
+        #make sure to apply the correct mimetype for valid responses
+        if status_code == 200:
+            return Response(resp, mimetype=mimetype, headers=headers)
+
+        #otherwise resp SHOULD be a json error message and thus the response can be returned like this
+        return resp, status_code, headers
+
+""" --------------------------- SCHEMA ENDPOINT -------------------------- """
+
+@api.route('schema', endpoint='schema')
+class LODSchemaAPI(Resource):
+
+    @api.response(404, 'Schema does not exist error')
+    def get(self):
+        resp, status_code, headers = LODSchemaHandler(current_app.config).getSchema()
+        if status_code == 200:
+            return Response(resp, mimetype='text/turtle')
+        return resp, status_code, headers

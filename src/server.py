@@ -37,6 +37,5 @@ REGULAR ROUTING (STATIC CONTENT)
 def home():
 	return render_template('index.html')
 
-
 if __name__ == '__main__':
 	app.run(host=app.config['APP_HOST'], port=app.config['APP_PORT'])
