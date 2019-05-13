@@ -1117,7 +1117,6 @@ schema:AudioVisualEntity rdf:type rdfs:Class ;
 ###  http://data.rdlabs.beeldengeluid.nl/schema/BroadcastStation
 schema:BroadcastStation rdf:type skos:Concept ;
 												         skos:inScheme non-gtaa:Zender;
-                                                              rdfs:subClassOf schema:ArchiveEntity ;
                                                               rdfs:comment "A broadcast channel/station. Comes from the GTAA Zender scheme"@en ;
                                                               rdfs:label "Broadcast station"@en ,
                                                                          "Zender"@nl .
@@ -1126,7 +1125,6 @@ schema:BroadcastStation rdf:type skos:Concept ;
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Broadcaster
 schema:Broadcaster rdf:type skos:Concept ;
 												         skos:inScheme non-gtaa:Zendgemachtigde;
-                                                         rdfs:subClassOf schema:ArchiveEntity ;
                                                          rdfs:comment "A broadcaster. Comes from the NISV internal non-GTAA Zendgemachtigde scheme"@en ;
                                                          rdfs:label "Broadcaster"@en ,
                                                                     "Zendgemachtigde"@nl .
@@ -1216,7 +1214,6 @@ schema:Funder rdf:type rdfs:Class ;
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Genre
 schema:Genre rdf:type skos:Concept ;
 												   skos:inScheme gtaa:Genre;
-                                                   rdfs:subClassOf schema:ArchiveEntity ;
                                                    rdfs:comment "A genre. Comes from the GTAA Genre scheme"@en ;
                                                    rdfs:label "Genre"@en ,
                                                               "Genre"@nl .
@@ -1225,7 +1222,6 @@ schema:Genre rdf:type skos:Concept ;
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Language
 schema:Language rdf:type skos:Concept ;
 												      skos:inScheme non-gtaa:Taal;
-                                                      rdfs:subClassOf schema:ArchiveEntity ;
                                                       rdfs:comment "A language. Comes from the internal NISV non-GTAA Taal scheme"@en ;
                                                       rdfs:label "Language"@en ,
                                                                  "Taal"@nl .
@@ -1243,7 +1239,6 @@ schema:LanguageUsage rdf:type rdfs:Class ;
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Location
 schema:Location rdf:type skos:Concept ;
 												      skos:inScheme gtaa:GeografischeNamen;
-                                                      rdfs:subClassOf schema:ArchiveEntity ;
                                                       rdfs:comment "A geographical location. Comes from the GTAA Geografische Namen scheme"@en ;
                                                       rdfs:label "Locatie"@nl ,
                                                                  "Location"@en .
@@ -1252,7 +1247,6 @@ schema:Location rdf:type skos:Concept ;
 ###  http://data.rdlabs.beeldengeluid.nl/schema/MusicStyle
 schema:MusicStyle rdf:type skos:Concept ;
 												        skos:inScheme non-gtaa:Muziekstijl;
-                                                        rdfs:subClassOf schema:ArchiveEntity ;
                                                         rdfs:comment "The style of a piece of music. Comes from the GTAA Muziekstijl scheme"@en ;
                                                         rdfs:label "Music style"@en ,
                                                                    "Muziekstijl"@nl .
@@ -1419,7 +1413,6 @@ schema:Sponsor rdf:type rdfs:Class ;
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Subject
 schema:Subject rdf:type skos:Concept ;
 												     skos:inScheme gtaa:Onderwerpen;
-                                                     rdfs:subClassOf schema:ArchiveEntity ;
                                                      rdfs:comment "A subject. Comes from the GTAA Onderwerpen scheme"@en ;
                                                      rdfs:label "Onderwerp"@nl ,
                                                                 "Subject"@en .
@@ -1428,7 +1421,6 @@ schema:Subject rdf:type skos:Concept ;
 ###  http://data.rdlabs.beeldengeluid.nl/schema/TargetGroup
 schema:TargetGroup rdf:type skos:Concept ;
 												         skos:inScheme non-gtaa:Doelgroep;
-                                                         rdfs:subClassOf schema:ArchiveEntity ;
                                                          rdfs:comment "Target group. Comes from the internal NISV non-GTAA Doelgroep scheme"@en ;
                                                          rdfs:label "Doelgroep"@nl ,
                                                                     "Target group"@en .
