@@ -2,4 +2,4 @@
 #+ endpoint: http://zorin.beeldengeluid.nl:3020/sparql/
 
 PREFIX schema: <http://data.rdlabs.beeldengeluid.nl/schema/>
-SELECT ?s WHERE {?s a schema:Program} LIMIT 10
+SELECT ?s WHERE {?s a ?_o2_iri} LIMIT 10
