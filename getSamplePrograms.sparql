@@ -1,7 +1,7 @@
-#+ summary: Test query, gets the given number of programs (default 10)
+#+ summary: Test query, gets 10 items with the given type
 #+ endpoint: http://zorin.beeldengeluid.nl:3020/sparql/
 #+ defaults:
 #+  - lim: 10
 
 PREFIX schema: <http://data.rdlabs.beeldengeluid.nl/schema/>
-SELECT ?s WHERE {?s a ?_o2_iri} LIMIT ?_lim_integer
+SELECT ?s WHERE {?s a ?_o1} LIMIT 10
