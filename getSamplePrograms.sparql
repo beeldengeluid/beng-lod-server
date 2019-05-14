@@ -3,4 +3,4 @@
 #+ defaults:
 #+   - o1: http://data.rdlabs.beeldengeluid.nl/schema/Program
 
-SELECT ?s WHERE {?s a ?__o1_iri} LIMIT 10
+SELECT ?s WHERE {?s a ?_o1_iri} LIMIT 10
