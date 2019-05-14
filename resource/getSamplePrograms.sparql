@@ -1,0 +1,5 @@
+#+ summary: Test query, gets 10 programs
+#+ endpoint: http://zorin.beeldengeluid.nl:3020/sparql/
+
+PREFIX schema: <http://data.rdlabs.beeldengeluid.nl/schema/>
+SELECT ?s WHERE {?s a ?x} LIMIT 10
