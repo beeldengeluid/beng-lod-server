@@ -1,6 +1,4 @@
 #+ summary: Test query, gets 10 items with the given type
 #+ endpoint: http://zorin.beeldengeluid.nl:3020/sparql/
-#+ defaults:
-#+   - o1: http://data.rdlabs.beeldengeluid.nl/schema/Program
 
 SELECT ?s WHERE {?s a ?_o1_iri} LIMIT 10
