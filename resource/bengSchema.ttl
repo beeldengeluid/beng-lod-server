@@ -2,12 +2,10 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix gtaa: <http://data.beeldengeluid.nl/gtaa/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix schema: <http://www.beeldengeluid.nl/schema/> .
 @prefix dcterms: <http://dublincore.org/documents/2010/10/11/dcmi-terms#> .
-@prefix non-gtaa: <http://data.beeldengeluid.nl/nongtaa/> .
 
 
 #################################################################
@@ -172,13 +170,6 @@ schema:hasNationality rdf:type rdf:Property ;
                                  "heeft nationaliteit"@nl .
 
 
-###  http://www.beeldengeluid.nl/schema/hasNonProductionOrganisation
-schema:hasNonProductionOrganisation rdf:type rdf:Property ;
-                                    rdfs:subPropertyOf schema:hasOrganisation ;
-                                    rdfs:label "has non-production organisation"@en ,
-                                               "heeft niet-productie organisatie"@nl .
-
-
 ###  http://www.beeldengeluid.nl/schema/hasOrganisation
 schema:hasOrganisation rdf:type rdf:Property ;
                        rdfs:subPropertyOf schema:hasEntity ;
@@ -219,13 +210,6 @@ schema:hasProductionCountry rdf:type rdf:Property ;
                             rdfs:range schema:Location ;
                             rdfs:label "has production country" ,
                                        "heeft productieland"@nl .
-
-
-###  http://www.beeldengeluid.nl/schema/hasProductionOrganisation
-schema:hasProductionOrganisation rdf:type rdf:Property ;
-                                 rdfs:subPropertyOf schema:hasOrganisation ;
-                                 rdfs:label "has production organisation"@en ,
-                                            "heeft productie-organisatie"@nl .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasPublication
@@ -1077,16 +1061,14 @@ schema:AudioVisualObject rdf:type rdfs:Class ;
 schema:BroadcastStation rdf:type rdfs:Class ;
                         rdfs:comment "A broadcast channel/station. Comes from the GTAA Zender scheme"@en ;
                         rdfs:label "Broadcast station"@en ,
-                                   "Zender"@nl ;
-                        skos:inScheme non-gtaa:Zender .
+                                   "Zender"@nl  .
 
 
 ###  http://www.beeldengeluid.nl/schema/Broadcaster
 schema:Broadcaster rdf:type rdfs:Class ;
                    rdfs:comment "A broadcaster. Comes from the NISV internal non-GTAA Zendgemachtigde scheme"@en ;
                    rdfs:label "Broadcaster"@en ,
-                              "Zendgemachtigde"@nl ;
-                   skos:inScheme non-gtaa:Zendgemachtigde .
+                              "Zendgemachtigde"@nl .
 
 
 ###  http://www.beeldengeluid.nl/schema/Carrier
@@ -1169,16 +1151,14 @@ schema:Funder rdf:type rdfs:Class ;
 schema:Genre rdf:type rdfs:Class ;
              rdfs:comment "A genre. Comes from the GTAA Genre scheme"@en ;
              rdfs:label "Genre"@en ,
-                        "Genre"@nl ;
-             skos:inScheme gtaa:Genre .
+                        "Genre"@nl .
 
 
 ###  http://www.beeldengeluid.nl/schema/Language
 schema:Language rdf:type rdfs:Class ;
                 rdfs:comment "A language. Comes from the internal NISV non-GTAA Taal scheme"@en ;
                 rdfs:label "Language"@en ,
-                           "Taal"@nl ;
-                skos:inScheme non-gtaa:Taal .
+                           "Taal"@nl  .
 
 
 ###  http://www.beeldengeluid.nl/schema/LanguageUsage
@@ -1193,16 +1173,14 @@ schema:LanguageUsage rdf:type rdfs:Class ;
 schema:Location rdf:type rdfs:Class ;
                 rdfs:comment "A geographical location. Comes from the GTAA Geografische Namen scheme"@en ;
                 rdfs:label "Locatie"@nl ,
-                           "Location"@en ;
-                skos:inScheme gtaa:GeografischeNamen .
+                           "Location"@en  .
 
 
 ###  http://www.beeldengeluid.nl/schema/MusicStyle
 schema:MusicStyle rdf:type rdfs:Class ;
                   rdfs:comment "The style of a piece of music. Comes from the GTAA Muziekstijl scheme"@en ;
                   rdfs:label "Music style"@en ,
-                             "Muziekstijl"@nl ;
-                  skos:inScheme non-gtaa:Muziekstijl .
+                             "Muziekstijl"@nl .
 
 
 ###  http://www.beeldengeluid.nl/schema/Nationality
@@ -1234,8 +1212,7 @@ schema:Person rdf:type rdfs:Class ;
               rdfs:subClassOf schema:ActingEntity ;
               rdfs:comment "A person. Comes from the GTAA Persoonsnamen scheme"@en ;
               rdfs:label "Person"@en ,
-                         "Persoon"@nl ;
-              skos:inScheme gtaa:Persoonsnamen .
+                         "Persoon"@nl .
 
 
 ###  http://www.beeldengeluid.nl/schema/PlayableAudioVisualObject
@@ -1362,16 +1339,14 @@ schema:Sponsor rdf:type rdfs:Class ;
 schema:Subject rdf:type rdfs:Class ;
                rdfs:comment "A subject. Comes from the GTAA Onderwerpen scheme"@en ;
                rdfs:label "Onderwerp"@nl ,
-                          "Subject"@en ;
-               skos:inScheme gtaa:Onderwerpen .
+                          "Subject"@en .
 
 
 ###  http://www.beeldengeluid.nl/schema/TargetGroup
 schema:TargetGroup rdf:type rdfs:Class ;
                    rdfs:comment "Target group. Comes from the internal NISV non-GTAA Doelgroep scheme"@en ;
                    rdfs:label "Doelgroep"@nl ,
-                              "Target group"@en ;
-                   skos:inScheme non-gtaa:Doelgroep .
+                              "Target group"@en .
 
 
 ###  http://www.beeldengeluid.nl/schema/Title
