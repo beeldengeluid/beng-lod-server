@@ -1,5 +1,5 @@
 #+ summary: Query to get max 10 items from the KB on a given subject
 #+ endpoint: http://data.bibliotheken.nl/sparql
 
-SELECT DISTINCT ?Concept where 
-{?Concept <http://schema.org/about> ?x . ?x skos:prefLabel ?s filter regex(str(?s), ?_text, "i")} LIMIT 10 
+SELECT DISTINCT ?conceptId ?conceptLabel where 
+{?conceptId <http://schema.org/about> ?x . OPTIONAL{?conceptId rdfs:label ?conceptLabel} ?x skos:prefLabel ?s filter regex(str(?s), ?_text, "i")} LIMIT 10 

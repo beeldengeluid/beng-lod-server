@@ -1,5 +1,5 @@
 #+ summary: Query to get 10 subjects from the KB that match some text (with a regex)
 #+ endpoint: http://data.bibliotheken.nl/sparql
 
-SELECT DISTINCT ?subject where 
-{?Concept <http://schema.org/about> ?x . ?x skos:prefLabel ?subject filter regex(str(?subject), ?_text, "i")} LIMIT 10 
+SELECT DISTINCT ?subjectId ?subjectName where 
+{?Concept <http://schema.org/about> ?subjectId . ?subjectId skos:prefLabel ?subjectName filter regex(str(?subjectName), ?_text, "i")} LIMIT 10 
