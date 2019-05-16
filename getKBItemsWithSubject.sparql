@@ -4,4 +4,4 @@
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 SELECT DISTINCT ?conceptId ?conceptLabel where 
-{?conceptId <http://schema.org/about> ?subjectId . OPTIONAL{?conceptId rdfs:label ?conceptLabel} } LIMIT 10 
+{?conceptId <http://schema.org/about> ?_subjectId . OPTIONAL{?conceptId rdfs:label ?conceptLabel} } LIMIT 10 
