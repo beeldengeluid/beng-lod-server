@@ -3,6 +3,6 @@
 
 SELECT DISTINCT ?keyword
 WHERE {
-?s schema:involvesPerson ?personId . ?personId schema:name ?_personName . ?s schema:keyword ?keyword
+?s schema:creator ?personId . ?personId schema:name ?_personName . ?s schema:keyword ?keyword
 }
 
