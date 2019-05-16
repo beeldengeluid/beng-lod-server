@@ -5,5 +5,5 @@ PREFIX schema: <http://data.rdlabs.beeldengeluid.nl/schema/>
 
 SELECT DISTINCT ?programId ?title
 WHERE {
-?programId a schema:Program . ?programId schema:hasMainTitle ?titleObject . ?titleObject schema:titleValue ?title . ?programId schema:creator ?personId . ?personId schema:name ?_personName
+?programId a schema:Program . OPTIONAL {?programId schema:hasMainTitle ?titleObject . ?titleObject schema:titleValue ?title .} ?programId schema:creator ?personId . ?personId schema:name ?_personName
 }
