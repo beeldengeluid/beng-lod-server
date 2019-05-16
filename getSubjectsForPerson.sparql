@@ -1,0 +1,8 @@
+#+ summary: Query to get all subjects associated with a person (at present only via creator relationship with the program of that subject)
+#+ endpoint: http://zorin.beeldengeluid.nl:3020/sparql/
+
+SELECT DISTINCT ?keyword
+WHERE {
+?s schema:involvesPerson ?personId . ?personId schema:name ?_person?Name . ?s schema:keyword ?keyword
+}
+
