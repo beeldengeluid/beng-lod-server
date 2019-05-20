@@ -10,7 +10,7 @@
 	xmlns:dcterms="http://purl.org/dc/terms/"
 	xmlns:bg= "http://oaipmh.beeldengeluid.nl/basic"
 	xmlns:bga= "http://oaipmh.beeldengeluid.nl/aggregated"
-	xmlns:schema= "http://data.rdlabs.beeldengeluid.nl/schema/"
+	xmlns:nisv= "http://data.rdlabs.beeldengeluid.nl/schema/"
 	xmlns:resource= "http://data.rdlabs.beeldengeluid.nl/resource/"
 	exclude-result-prefixes="oaipmh oai_dc xsl xsi bg bga">
 
@@ -99,8 +99,8 @@
 	
 	<!-- Templates for elements that become properties with as range a Class. -->
 	<xsl:template match="bg:carrier">
-		<xsl:element name="schema:{local-name()}">
-			<xsl:element name="schema:Carrier">
+		<xsl:element name="nisv:{local-name()}">
+			<xsl:element name="nisv:Carrier">
 			  	<xsl:apply-templates />
 			</xsl:element>
 		</xsl:element>
@@ -108,9 +108,9 @@
 	
 	<xsl:template match="bg:publication">
 		<xsl:variable name="publicationID" select="./@id"/>
-		<xsl:element name="schema:{local-name()}">
-			<xsl:element name="schema:Publication">
-				<xsl:element name="schema:id">
+		<xsl:element name="nisv:{local-name()}">
+			<xsl:element name="nisv:Publication">
+				<xsl:element name="nisv:id">
 					<xsl:value-of select="$publicationID" />
 				</xsl:element>
 			  	<xsl:apply-templates />
@@ -119,21 +119,32 @@
 	</xsl:template>
 	
 	<xsl:template match="bg:recording">
-		<xsl:element name="schema:{local-name()}">
-			<xsl:element name="schema:Recording">
+		<xsl:element name="nisv:{local-name()}">
+			<xsl:element name="nisv:Recording">
 			  	<xsl:apply-templates />
 			</xsl:element>
 		</xsl:element>
 	</xsl:template>
 
 	<xsl:template match="bg:creator">
-		<xsl:element name="schema:{local-name()}">
-			<xsl:element name="schema:Creator">
+		<xsl:element name="nisv:{local-name()}">
+			<xsl:element name="nisv:Creator">
 				<!--  TODO: find the skos concept URI. -->
 			  	<xsl:apply-templates />
 			</xsl:element>
 		</xsl:element>
 	</xsl:template>	
+ 
+ <!-- TODO: Creators names need to be hasName properties, like in Producer, but creators can also have
+ 		additional properties like 'role'etc. 
+ 			<xsl:element name="nisv:Producer">
+				<xsl:for-each select="bg:name">
+					<xsl:element name="nisv:hasName">
+						<xsl:value-of select="."/>
+					</xsl:element>
+				</xsl:for-each>
+			</xsl:element> 
+  -->
  
 	<!-- Elements that are RDF Properties -->
 	<xsl:template match="dc:identifier">
@@ -157,21 +168,21 @@
 		<xsl:variable name="level" select="substring-before($levelID, '/')"/>
 		<xsl:choose>
 			<xsl:when test="$level = 'season'">
-				<xsl:element name="schema:isPartOfSeason">
+				<xsl:element name="nisv:isPartOfSeason">
 					<xsl:attribute name="rdf:resource">
 						 <xsl:value-of select="$uri" />
 					</xsl:attribute>
 				</xsl:element>
 			</xsl:when>
 			<xsl:when test="$level = 'program'">
-				<xsl:element name="schema:isPartOfProgram">
+				<xsl:element name="nisv:isPartOfProgram">
 					<xsl:attribute name="rdf:resource">
 						 <xsl:value-of select="$uri" />
 					</xsl:attribute>
 				</xsl:element>
 			</xsl:when>
 			<xsl:when test="$level = 'series'">
-				<xsl:element name="schema:isPartOfSeries">
+				<xsl:element name="nisv:isPartOfSeries">
 					<xsl:attribute name="rdf:resource">
 						 <xsl:value-of select="$uri" />
 					</xsl:attribute>
@@ -181,30 +192,30 @@
 	</xsl:template>
 
 	<xsl:template match="bg:external-id">
-		<xsl:element name="schema:external-id">
+		<xsl:element name="nisv:external-id">
 			<xsl:value-of select="."/>
 		</xsl:element>
 	</xsl:template>
 
 	<xsl:template match="bg:maintitles">
 		<xsl:for-each select="bg:title">
-			<xsl:element name="schema:hasMainTitle">
-				<xsl:element name="schema:Title">
-					<xsl:element name="schema:titleValue">
+			<xsl:element name="nisv:hasMainTitle">
+				<xsl:element name="nisv:Title">
+					<xsl:element name="nisv:titleValue">
 						<xsl:value-of select="."/>
 					</xsl:element>
 					<xsl:if test="@language" >
-						<xsl:element name="schema:titleLanguage">
+						<xsl:element name="nisv:titleLanguage">
 							<xsl:value-of select="@language"/>
 						</xsl:element>
 					</xsl:if>
 					<xsl:if test="@source" >
-						<xsl:element name="schema:titleSource">
+						<xsl:element name="nisv:titleSource">
 							<xsl:value-of select="@source"/>
 						</xsl:element>
 					</xsl:if>
 					<xsl:if test="@type" >
-						<xsl:element name="schema:titleType">
+						<xsl:element name="nisv:titleType">
 							<xsl:value-of select="@type"/>
 						</xsl:element>
 					</xsl:if>
@@ -215,23 +226,23 @@
 	
 	<xsl:template match="bg:subtitles">
 		<xsl:for-each select="bg:title">
-			<xsl:element name="schema:hasSubTitle">
-				<xsl:element name="schema:Title">
-					<xsl:element name="schema:titleValue">
+			<xsl:element name="nisv:hasSubTitle">
+				<xsl:element name="nisv:Title">
+					<xsl:element name="nisv:titleValue">
 						<xsl:value-of select="."/>
 					</xsl:element>
 					<xsl:if test="@language" >
-						<xsl:element name="schema:titleLanguage">
+						<xsl:element name="nisv:titleLanguage">
 							<xsl:value-of select="@language"/>
 						</xsl:element>
 					</xsl:if>
 					<xsl:if test="@source" >
-						<xsl:element name="schema:titleSource">
+						<xsl:element name="nisv:titleSource">
 							<xsl:value-of select="@source"/>
 						</xsl:element>
 					</xsl:if>
 					<xsl:if test="@type" >
-						<xsl:element name="schema:titleType">
+						<xsl:element name="nisv:titleType">
 							<xsl:value-of select="@type"/>
 						</xsl:element>
 					</xsl:if>
@@ -241,7 +252,7 @@
 	</xsl:template>
 	
 	<xsl:template match="bg:productioncountries">
-		<xsl:element name="schema:productioncountries">
+		<xsl:element name="nisv:productioncountries">
 		  	<xsl:apply-templates />
 		</xsl:element>
 	</xsl:template>
@@ -250,14 +261,14 @@
 		<xsl:choose >
 			<!-- Test for a sub element named bg:language -->
 			<xsl:when test="bg:language">
-				<xsl:element name="schema:hasLanguage">
-					<xsl:element name="schema:Language">
+				<xsl:element name="nisv:hasLanguage">
+					<xsl:element name="nisv:Language">
 					  	<xsl:apply-templates />
 					</xsl:element>
 				</xsl:element>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:element name="schema:{local-name()}">
+				<xsl:element name="nisv:{local-name()}">
 					<xsl:value-of select="."/>
 				</xsl:element>
 			</xsl:otherwise>
@@ -265,10 +276,10 @@
 	</xsl:template>
 	
 	<xsl:template match="bg:context">
-		<xsl:element name="schema:hasContext">
-			<xsl:element name="schema:Context">
+		<xsl:element name="nisv:hasContext">
+			<xsl:element name="nisv:Context">
 				<xsl:for-each select="./*">
-					<xsl:element name="schema:{local-name()}">
+					<xsl:element name="nisv:{local-name()}">
 						<xsl:value-of select="."/>
 					</xsl:element>
 				</xsl:for-each>
@@ -277,10 +288,10 @@
 	</xsl:template>
 
 	<xsl:template match="bg:producer">
-		<xsl:element name="schema:producer">
-			<xsl:element name="schema:Producer">
+		<xsl:element name="nisv:producer">
+			<xsl:element name="nisv:Producer">
 				<xsl:for-each select="bg:name">
-					<xsl:element name="schema:hasName">
+					<xsl:element name="nisv:hasName">
 						<xsl:value-of select="."/>
 					</xsl:element>
 				</xsl:for-each>
@@ -289,10 +300,10 @@
 	</xsl:template>
 	
 	<xsl:template match="bg:productioncountries">
-		<xsl:element name="schema:productioncountries">
-			<xsl:element name="schema:Productioncountry">
+		<xsl:element name="nisv:productioncountries">
+			<xsl:element name="nisv:Productioncountry">
 				<xsl:for-each select="bg:country">
-					<xsl:element name="schema:country">
+					<xsl:element name="nisv:country">
 						<xsl:value-of select="."/>
 					</xsl:element>
 				</xsl:for-each>
@@ -318,7 +329,7 @@
 					  <xsl:apply-templates />
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:element name="schema:{local-name()}">
+						<xsl:element name="nisv:{local-name()}">
 							<xsl:value-of select="."/>
 						</xsl:element>
 					</xsl:otherwise>
