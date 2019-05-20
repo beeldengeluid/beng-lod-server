@@ -1310,9 +1310,9 @@ schema:Season rdf:type owl:Class ;
 
 ###  http://www.beeldengeluid.nl/schema/SequenceMember
 schema:SequenceMember rdf:type owl:Class ;
-                      rdfs:comment "Lid van volgorde"@nl ,
+                      rdfs:comment "Onderdeel van sequentie"@nl ,
                                    "Sequence member"@en ;
-                      rdfs:label "Lid van volgorde"@nl ,
+                      rdfs:label "Onderdeel van sequentie"@nl ,
                                  "Sequence Member"@en .
 
 
