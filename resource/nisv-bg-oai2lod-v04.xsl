@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:transform version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema#"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" 
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -98,7 +98,8 @@
 		</rdf:Description>
 	</xsl:template>
 	
-	<!-- TODO: CHANGE DESCRIPTION HERE Templates for elements that become properties with as range a Class. -->
+	<!-- Properties of the AudioVisualObject that a Class as range. 
+	-->
 	<xsl:template match="bg:carrier">
 		<xsl:element name="nisv:{local-name()}">
 			<xsl:element name="nisv:Carrier">
@@ -564,29 +565,73 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
+
 	<xsl:template name="leaveElement">
 		<!-- Date/time elements are handled a little bit different. 
 			Dates are encoded as '2018-01-30T11:39:14Z'
-			TODO: Years, duration, startoncarrier, etc.
-		-->
 		<xsl:variable name="dateElements" select="'startdate enddate montagedate creationdate datereceived sortdate'" />
 		<xsl:variable name="timeElements" select="'starttime endtime starttimestamp'" />
 		<xsl:variable name="elem" select="local-name()" />
-		
+			TODO: Years, duration, startoncarrier, etc.
+		-->
 		<xsl:choose> 
-			<xsl:when test="contains( concat(' ', $dateElements, ' '), concat(' ', $elem, ' ') ) ">
-				<xsl:element name="nisv:{local-name()}" type="xsd:dateTime">
+			<!--  DATE TYPE ELEMENTS -->
+			<xsl:when test="local-name() = 'creationdate'">
+				<xsl:element name="nisv:hasCreationDate">
+					<xsl:value-of select="."/>
+				</xsl:element>			
+			</xsl:when>
+
+			<xsl:when test="local-name() = 'startdate'">
+				<xsl:element name="nisv:hasStartDate">
+					<xsl:value-of select="."/>
+				</xsl:element>			
+			</xsl:when>
+
+			<xsl:when test="local-name() = 'enddate'">
+				<xsl:element name="nisv:hasEndDate">
+					<xsl:value-of select="."/>
+				</xsl:element>
+			</xsl:when>
+
+			<xsl:when test="local-name() = 'montagedate'">
+				<xsl:element name="nisv:hasMontageDate">
+					<xsl:value-of select="."/>
+				</xsl:element>
+			</xsl:when>
+
+			<xsl:when test="local-name() = 'datereceived'">
+				<xsl:element name="nisv:hasDateReceived">
 					<xsl:value-of select="."/>
 				</xsl:element>
 			</xsl:when>
 			
-			<xsl:when test="contains( concat(' ', $timeElements, ' '), concat(' ', $elem, ' ') ) ">
-				<xsl:element name="nisv:{local-name()}" type="xsd:time">
+			<xsl:when test="local-name() = 'sortdate'">
+				<xsl:element name="nisv:hasSortDate">
 					<xsl:value-of select="."/>
 				</xsl:element>
 			</xsl:when>
 			
+			<!--  TIME TYPE ELEMENTS -->
+			<xsl:when test="local-name() = 'starttime'">
+				<xsl:element name="nisv:hasStartTime">
+					<xsl:value-of select="."/>
+				</xsl:element>
+			</xsl:when>
+
+			<xsl:when test="local-name() = 'endtime'">
+				<xsl:element name="nisv:hasEndTime">
+					<xsl:value-of select="."/>
+				</xsl:element>
+			</xsl:when>
+						
+			<xsl:when test="local-name() = 'starttimestamp'">
+				<xsl:element name="nisv:hasStartTimestamp">
+					<xsl:value-of select="."/>
+				</xsl:element>
+			</xsl:when>
+			
+			<!-- OTHER TYPE LEAVE NODES -->
 			<xsl:otherwise>
 				<xsl:element name="nisv:{local-name()}">
 					<xsl:value-of select="."/>
