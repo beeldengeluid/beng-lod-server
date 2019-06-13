@@ -98,7 +98,7 @@
 		</rdf:Description>
 	</xsl:template>
 	
-	<!-- Properties of the AudioVisualObject that a Class as range. 
+	<!-- Properties of the AudioVisualObject with a Class as range. 
 	-->
 	<xsl:template match="bg:carrier">
 		<xsl:element name="nisv:{local-name()}">
@@ -169,22 +169,41 @@
 				name
 	-->
 
-	<!-- NAMES -->
-	<xsl:template match="bg:names/bg:name">
-		<xsl:element name="nisv:hasOrganisation">
-			<xsl:call-template name="SKOSConcept">
-				<xsl:with-param name="prefLabel" select="bg:name"/>
-			</xsl:call-template>
-		</xsl:element>
+	<!-- NAMES 
+		<xsl:template match="bg:names/bg:name">
+	
+	-->
+	<xsl:template match="bg:names">
+		<xsl:for-each select="bg:name">
+			<nisv:hasEntityInRole>
+				<nisv:EntityInRole>
+					<nisv:hasOrganisation>
+						<nisv:Organisation>
+							<skos:prefLabel>
+							 	<xsl:value-of select="."/>
+							</skos:prefLabel>
+						</nisv:Organisation>
+					</nisv:hasOrganisation>
+				</nisv:EntityInRole>
+			</nisv:hasEntityInRole>
+		</xsl:for-each>
 	</xsl:template>	
 
 	<!-- PERSONNAMES -->
-	<xsl:template match="bg:personnames/bg:personname">
-		<xsl:element name="nisv:hasPerson">
-			<xsl:call-template name="SKOSConcept">
-				<xsl:with-param name="prefLabel" select="bg:personname"/>
-			</xsl:call-template>
-		</xsl:element>
+	<xsl:template match="bg:personnames">
+		<xsl:for-each select="bg:personname">
+			<nisv:hasEntityInRole>
+				<nisv:EntityInRole>
+					<nisv:hasPerson>
+						<nisv:Person>
+							<skos:prefLabel>
+							 	<xsl:value-of select="."/>
+							</skos:prefLabel>
+						</nisv:Person>
+					</nisv:hasPerson>
+				</nisv:EntityInRole>
+			</nisv:hasEntityInRole>
+		</xsl:for-each>
 	</xsl:template>	
 		
 	<!-- CAST -->
@@ -372,14 +391,14 @@
 	</xsl:template>	
 
 	<!--  Call templates -->
-	<xsl:template name="SKOSConcept">
-		<xsl:param name="prefLabel"/>
-		<skos:Concept>
-			<skos:prefLabel>
-				<xsl:value-of select="$prefLabel"/>
-			</skos:prefLabel>
-		</skos:Concept>
-	</xsl:template>
+		<xsl:template name="SKOSConcept">
+			<xsl:param name="prefLabel"/>
+			<skos:Concept>
+				<skos:prefLabel>
+					<xsl:value-of select="$prefLabel"/>
+				</skos:prefLabel>
+			</skos:Concept>
+		</xsl:template>
 	
  	<!-- END CREATOR -->
  	
@@ -490,12 +509,6 @@
 		</xsl:for-each>
 	</xsl:template>
 	
-	<xsl:template match="bg:productioncountries">
-		<xsl:element name="nisv:productioncountries">
-		  	<xsl:apply-templates />
-		</xsl:element>
-	</xsl:template>
-
 	<xsl:template match="bg:language">
 		<xsl:choose >
 			<!-- Test for a sub element named bg:language -->
@@ -526,18 +539,84 @@
 		</xsl:element>
 	</xsl:template>
 	
+	<!-- GEOGRAPHICAL CONCEPTS -->
 	<xsl:template match="bg:productioncountries">
-		<xsl:element name="nisv:productioncountries">
-			<xsl:element name="nisv:Productioncountry">
-				<xsl:for-each select="bg:country">
-					<xsl:element name="nisv:country">
-						<xsl:value-of select="."/>
-					</xsl:element>
-				</xsl:for-each>
+		<xsl:for-each select="bg:country">
+			<xsl:element name="nisv:hasProductionCountry">
+				<xsl:element name="nisv:Location">
+					<xsl:call-template name="SKOSConcept">
+						<xsl:with-param name="prefLabel" select="."/>
+					</xsl:call-template>
+				</xsl:element>
 			</xsl:element>
-		</xsl:element>
+		</xsl:for-each>
+	</xsl:template>
+
+	<xsl:template match="bg:locations">
+		<xsl:for-each select="bg:location">
+			<xsl:element name="nisv:hasLocation">
+				<xsl:element name="nisv:Location">
+					<xsl:call-template name="SKOSConcept">
+						<xsl:with-param name="prefLabel" select="."/>
+					</xsl:call-template>
+				</xsl:element>
+			</xsl:element>
+		</xsl:for-each>
 	</xsl:template>
 	
+	<!-- Geographical, but not a SKOS concept -->
+	<xsl:template match="bg:recordinglocations">
+		<xsl:for-each select="bg:location">
+			<xsl:element name="nisv:hasRecordingLocation">
+				<xsl:value-of select="."/>
+			</xsl:element>
+		</xsl:for-each>
+	</xsl:template>
+	
+	<!-- OTHER SKOS CONCEPTS -->
+	<xsl:template match="bg:genres">
+		<xsl:for-each select="bg:genre">
+			<xsl:element name="nisv:hasGenre">
+				<xsl:element name="nisv:Genre">
+					<xsl:call-template name="SKOSConcept">
+						<xsl:with-param name="prefLabel" select="."/>
+					</xsl:call-template>
+				</xsl:element>
+			</xsl:element>
+		</xsl:for-each>
+	</xsl:template>
+	
+	<!-- 
+	    <bg:keywords>
+        <bg:keyword sequencenumber="3">ICT</bg:keyword>
+        <bg:keyword sequencenumber="2">computers</bg:keyword>
+        <bg:keyword sequencenumber="1">overlijden</bg:keyword>
+        <bg:keyword sequencenumber="4">toespraken</bg:keyword>
+    </bg:keywords>
+	 -->
+	 
+	<xsl:template match="bg:keywords">
+		<xsl:for-each select="bg:keyword">
+			<xsl:element name="nisv:hasSubject">
+				<nisv:Subject>
+					<skos:prefLabel>
+						<xsl:value-of select="."/>
+					</skos:prefLabel>
+				</nisv:Subject>
+			</xsl:element>
+		</xsl:for-each>
+	</xsl:template>
+	 
+	<!--  EXPIRED CONCEPT SCHEME. NOT A SKOS CONCEPT-->
+	<xsl:template match="bg:deprecatedkeyword">
+		<xsl:for-each select="bg:keyword">
+			<xsl:element name="nisv:hasDeprecatedKeyword">
+				<xsl:value-of select="."/>
+			</xsl:element>
+		</xsl:for-each>
+	</xsl:template>
+
+	 
 	<!--  For now, do not include transcripts.  -->
 	<xsl:template match="bg:transcripts"/>
 	
@@ -567,13 +646,6 @@
 	</xsl:template>
 
 	<xsl:template name="leaveElement">
-		<!-- Date/time elements are handled a little bit different. 
-			Dates are encoded as '2018-01-30T11:39:14Z'
-		<xsl:variable name="dateElements" select="'startdate enddate montagedate creationdate datereceived sortdate'" />
-		<xsl:variable name="timeElements" select="'starttime endtime starttimestamp'" />
-		<xsl:variable name="elem" select="local-name()" />
-			TODO: Years, duration, startoncarrier, etc.
-		-->
 		<xsl:choose> 
 			<!--  DATE TYPE ELEMENTS -->
 			<xsl:when test="local-name() = 'creationdate'">
@@ -627,6 +699,56 @@
 						
 			<xsl:when test="local-name() = 'starttimestamp'">
 				<xsl:element name="nisv:hasStartTimestamp">
+					<xsl:value-of select="."/>
+				</xsl:element>
+			</xsl:when>
+			
+			<!-- CARRIER TYPE ELEMENTS -->	
+			<xsl:when test="local-name() = 'location'">
+				<xsl:element name="nisv:hasCarrierLocation">
+					<xsl:value-of select="."/>
+				</xsl:element>
+			</xsl:when>
+			
+			<xsl:when test="local-name() = 'carrierreference'">
+				<xsl:element name="nisv:hasCarrierReference">
+					<xsl:value-of select="."/>
+				</xsl:element>
+			</xsl:when>
+			
+			<xsl:when test="local-name() = 'carriertype'">
+				<xsl:element name="nisv:hasCarrierType">
+					<xsl:value-of select="."/>
+				</xsl:element>
+			</xsl:when>
+			
+			<xsl:when test="local-name() = 'carrierclass'">
+				<xsl:element name="nisv:hasCarrierClass">
+					<xsl:value-of select="."/>
+				</xsl:element>
+			</xsl:when>
+			
+			<xsl:when test="local-name() = 'startoncarrier'">
+				<xsl:element name="nisv:hasCarrierStartPosition">
+					<xsl:value-of select="."/>
+				</xsl:element>
+			</xsl:when>
+			
+			<xsl:when test="local-name() = 'endoncarrier'">
+				<xsl:element name="nisv:hasCarrierEndPosition">
+					<xsl:value-of select="."/>
+				</xsl:element>
+			</xsl:when>
+			
+			<xsl:when test="local-name() = 'carrierid'">
+				<xsl:element name="nisv:hasCarrierId">
+					<xsl:value-of select="."/>
+				</xsl:element>
+			</xsl:when>
+			
+			<!-- LOCATION TYPE ELEMENTS -->	
+			<xsl:when test="local-name() = 'location'">
+				<xsl:element name="nisv:hasCarrierLocation">
 					<xsl:value-of select="."/>
 				</xsl:element>
 			</xsl:when>
