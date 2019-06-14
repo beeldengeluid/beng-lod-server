@@ -1,0 +1,651 @@
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix nisv: <http://www.beeldengeluid.nl/schema/> .
+@prefix dcterms: <http://dublincore.org/documents/2010/10/11/dcmi-terms#> .
+@prefix schema: <https://schema.org/> .
+
+#################################################################
+#    Properties
+#################################################################
+
+###  http://www.beeldengeluid.nl/schema/hasBroadcastStation
+nisv:hasBroadcastStation rdfs:subPropertyOf schema:publishedOn .
+
+
+###  http://www.beeldengeluid.nl/schema/hasBroadcaster
+nisv:hasBroadcaster rdfs:subPropertyOf schema:publishedBy .
+
+
+###  http://www.beeldengeluid.nl/schema/hasCarrier
+nisv:hasCarrier rdfs:subPropertyOf schema:associatedMedia .
+
+
+###  http://www.beeldengeluid.nl/schema/hasCast
+nisv:hasCast rdfs:subPropertyOf schema:actor . 
+
+
+###  http://www.beeldengeluid.nl/schema/hasContext
+
+
+###  http://www.beeldengeluid.nl/schema/hasContractor
+nisv:hasContractor rdfs:subPropertyOf schema:sourceOrganisation .
+
+
+###  http://www.beeldengeluid.nl/schema/hasCountry
+
+
+###  http://www.beeldengeluid.nl/schema/hasCreator
+nisv:hasCreator rdfs:subPropertyOf schema:creator .
+
+
+###  http://www.beeldengeluid.nl/schema/hasEntity
+
+
+###  http://www.beeldengeluid.nl/schema/hasEntityInRole
+nisv:hasEntityInRole rdfs:subPropertyOf schema:mentions .
+
+
+###  http://www.beeldengeluid.nl/schema/hasExecutive
+nisv:hasExecutive rdfs:subPropertyOf schema:byArtist .
+
+
+###  http://www.beeldengeluid.nl/schema/hasFunder
+nisv:hasFunder rdfs:subPropertyOf schema:funder .
+
+
+###  http://www.beeldengeluid.nl/schema/hasGenre
+nisv:hasGenre rdfs:subPropertyOf schema:genre .
+
+
+###  http://www.beeldengeluid.nl/schema/hasLanguage
+
+
+###  http://www.beeldengeluid.nl/schema/hasLanguageUsage
+
+
+###  http://www.beeldengeluid.nl/schema/hasLocation
+nisv:hasLocation rdfs:subPropertyOf schema:contentLocation .
+
+
+###  http://www.beeldengeluid.nl/schema/hasMainTitle
+nisv:hasMainTitle rdfs:subPropertyOf schema:name . 
+
+
+###  http://www.beeldengeluid.nl/schema/hasMusicStyle
+nisv:hasMusicStyle rdfs:subPropertyOf schema:genre .
+
+
+###  http://www.beeldengeluid.nl/schema/hasNationality
+
+
+###  http://www.beeldengeluid.nl/schema/hasOrganisation
+# This is a strange one, because due to the Roles in schema, hasOrganisation needs to match the
+# roles. E.g where we have <x> nisv:hasFunder <y> . <y> nisv:hasOrganisation <z>, schema.org
+# has <x> schema:funder <y> . <y> schema:funder <z>. 
+# This gets even more complicated given that 'executive' in NISV maps to 'byArtist' in schema
+# but in NISV it can be either a person or an organisation, so we need to relate byArtist to hasOrganisation too
+# The schema.org properties are also more specific in this case, so we turn the rdfs:subPropertyOf property around
+schema:funder rdfs:subPropertyOf nisv:hasOrganisation .
+schema:sponsor rdfs:subPropertyOf nisv:hasOrganisation .
+schema:byArtist rdfs:subPropertyOf nisv:hasOrganisation . # for executive
+schema:mentions rdfs:subPropertyOf nisv:hasOrganisation . # for names
+schema:productionCompany rdfs:subPropertyOf nisv:hasOrganisation . # for producer
+
+
+###  http://www.beeldengeluid.nl/schema/hasOriginalCreator
+nisv:hasOriginalCreator rdfs:subPropertyOf schema:creator .
+
+
+###  http://www.beeldengeluid.nl/schema/hasPerson
+# This is a strange one, because due to the Roles in schema, hasPerson needs to match the
+# roles. E.g where we have <x> nisv:hasSpeaker <y> . <y> nisv:hasPerson <z>, schema.org
+# has <x> schema:contributor <y> . <y> schema:contributor<z>. 
+# The schema.org properties are also more specific in this case, so we turn the rdfs:subPropertyOf property around
+
+schema:byArtist rdfs:subPropertyOf nisv:hasPerson . # for executive
+schema:mentions rdfs:subPropertyOf nisv:hasPerson . # for personnames
+schema:actor rdfs:subPropertyOf nisv:hasPerson .  # for cast
+schema:creator rdfs:subPropertyOf nisv:hasPerson . # for creator and original creator
+schema:contributor rdfs:subPropertyOf nisv:hasPerson . # for speaker
+
+
+###  http://www.beeldengeluid.nl/schema/hasProducer
+nisv:hasProducer rdfs:subPropertyOf schema:producer
+
+
+###  http://www.beeldengeluid.nl/schema/hasProductionCountry
+nisv:hasProductionCountry rdfs:subPropertyOf schema:countryOfOrigin
+
+
+###  http://www.beeldengeluid.nl/schema/hasPublication
+nisv:hasPublication rdfs:subPropertyOf schema:publication
+
+
+###  http://www.beeldengeluid.nl/schema/hasQualification
+
+
+###  http://www.beeldengeluid.nl/schema/hasRecording
+
+
+###  http://www.beeldengeluid.nl/schema/hasSpeaker
+nisv:hasSpeaker rdfs:subPropertyOf schema:contributor
+
+
+###  http://www.beeldengeluid.nl/schema/hasSponsor
+nisv:hasSponsor rdfs:subPropertyOf schema:sponsor
+
+
+###  http://www.beeldengeluid.nl/schema/hasSubTitle
+nisv:hasSubTitle rdfs:subPropertyOf schema:alternativeHeadline
+
+###  http://www.beeldengeluid.nl/schema/hasSubject
+nisv:hasSubject rdfs:subPropertyOf schema:about
+
+
+###  http://www.beeldengeluid.nl/schema/hasTargetGroup
+nisv:hasTargetGroup rdfs:subPropertyOf schema:audience
+
+
+###  http://www.beeldengeluid.nl/schema/isPartOfProgram
+nisv:isPartOfProgram rdfs:subPropertyOf schema:partOfEpisode
+
+
+###  http://www.beeldengeluid.nl/schema/isPartOfSeason
+nisv:isPartOfSeason rdfs:subPropertyOf schema:partOfSeason
+
+
+###  http://www.beeldengeluid.nl/schema/isPartOfSeries
+nisv:isPartOfSeries rdfs:subPropertyOf schema:partOfSeries
+
+###  http://www.beeldengeluid.nl/schema/hasAdditionalInformation
+nisv:hasAdditionalInformation rdfs:subPropertyOf schema:comment
+
+
+###  http://www.beeldengeluid.nl/schema/hasArchiveStatus
+
+
+###  http://www.beeldengeluid.nl/schema/hasAudioType
+
+
+###  http://www.beeldengeluid.nl/schema/hasAvailableCollection
+
+
+###  http://www.beeldengeluid.nl/schema/hasAward
+nisv:hasAward rdfs:subPropertyOf schema:award
+
+
+###  http://www.beeldengeluid.nl/schema/hasBlock
+
+
+###  http://www.beeldengeluid.nl/schema/hasBroadcastNorm
+
+
+###  http://www.beeldengeluid.nl/schema/hasCarrierAnnotation
+
+
+###  http://www.beeldengeluid.nl/schema/hasCarrierClass
+
+
+###  http://www.beeldengeluid.nl/schema/hasCarrierEndPosition
+
+
+###  http://www.beeldengeluid.nl/schema/hasCarrierId
+
+
+###  http://www.beeldengeluid.nl/schema/hasCarrierLocation
+
+
+###  http://www.beeldengeluid.nl/schema/hasCarrierReference
+
+
+###  http://www.beeldengeluid.nl/schema/hasCarrierStartPosition
+
+
+###  http://www.beeldengeluid.nl/schema/hasCarrierType
+nisv:hasCarrierType rdf:subPropertyOf schema:encodingFormat
+
+
+###  http://www.beeldengeluid.nl/schema/hasCatalog
+nisv:hasCatalog rdfs:subPropertyOf schema:isPartOf
+
+
+###  http://www.beeldengeluid.nl/schema/hasCharacter
+nisv:hasCharacter rdfs:subPropertyOf schema:characterName
+
+
+###  http://www.beeldengeluid.nl/schema/hasClarification
+nisv:hasClarification rdfs:subPropertyOf schema:comments
+
+###  http://www.beeldengeluid.nl/schema/hasClearingStatus
+
+
+###  http://www.beeldengeluid.nl/schema/hasColour
+
+
+###  http://www.beeldengeluid.nl/schema/hasComposition
+
+
+###  http://www.beeldengeluid.nl/schema/hasContextReference
+
+
+###  http://www.beeldengeluid.nl/schema/hasCreationDate
+nisv:hasCreationDate rdfs:subPropertyOf schema:dateCreated
+
+
+###  http://www.beeldengeluid.nl/schema/hasDatePrecision
+
+
+###  http://www.beeldengeluid.nl/schema/hasDateReceived
+
+
+###  http://www.beeldengeluid.nl/schema/hasDatestamp
+
+
+###  http://www.beeldengeluid.nl/schema/hasDepotStatus
+
+
+###  http://www.beeldengeluid.nl/schema/hasDeprecatedKeyword
+
+
+###  http://www.beeldengeluid.nl/schema/hasDescription
+nisv:hasDescription rdfs:subPropertyOf schema:description
+
+
+###  http://www.beeldengeluid.nl/schema/hasDistributionChannel
+
+
+###  http://www.beeldengeluid.nl/schema/hasDistributionFormat
+
+
+###  http://www.beeldengeluid.nl/schema/hasDmGuid
+
+
+###  http://www.beeldengeluid.nl/schema/hasDuration
+nisv:hasDuration rdfs:subPropertyOf schema:duration
+
+
+###  http://www.beeldengeluid.nl/schema/hasDurationAnnotation
+
+
+###  http://www.beeldengeluid.nl/schema/hasEndDate
+nisv:hasEndDate rdfs:subPropertyOf schema:endDate
+
+
+###  http://www.beeldengeluid.nl/schema/hasEndOnCarrier
+
+
+###  http://www.beeldengeluid.nl/schema/hasEndTime
+nisv:hasEndTime rdfs:subPropertyOf schema:endTime
+
+
+###  http://www.beeldengeluid.nl/schema/hasEpisodeNumber
+nisv:hasEpisodeNumber rdfs:subPropertyOf schema:episodeNumber
+
+
+###  http://www.beeldengeluid.nl/schema/hasExternalId
+
+
+###  http://www.beeldengeluid.nl/schema/hasExternalReference
+nisv:hasExternalReference rdfs:subPropertyOf schema:contentUrl
+
+
+###  http://www.beeldengeluid.nl/schema/hasFormat
+
+
+###  http://www.beeldengeluid.nl/schema/hasFrequency
+
+
+###  http://www.beeldengeluid.nl/schema/hasId
+
+
+###  http://www.beeldengeluid.nl/schema/hasLanguageId
+
+
+###  http://www.beeldengeluid.nl/schema/hasLicense
+nisv:hasLicense rdfs:subPropertyOf schema:license
+
+
+###  http://www.beeldengeluid.nl/schema/hasLink
+nisv:hasLink rdfs:subPropertyOf schema:url
+
+
+###  http://www.beeldengeluid.nl/schema/hasMetrage
+
+
+###  http://www.beeldengeluid.nl/schema/hasMontageDate
+
+
+###  http://www.beeldengeluid.nl/schema/hasMuseumAnnotation
+nisv:hasMuseumAnnotation rdfs:subPropertyOf schema:comment
+
+
+###  http://www.beeldengeluid.nl/schema/hasMuseumDescription
+nisv:hasMuseumDescription rdfs:subPropertyOf schema:description
+
+
+###  http://www.beeldengeluid.nl/schema/hasMuseumGenre
+nisv:hasMuseumGenre rdfs:subPropertyOf schema:genre
+
+
+###  http://www.beeldengeluid.nl/schema/hasMuseumKeyword
+nisv:hasMuseumKeyword rdfs:subPropertyOf schema:keywords
+
+
+###  http://www.beeldengeluid.nl/schema/hasMuseumLanguageId
+
+
+###  http://www.beeldengeluid.nl/schema/hasMuseumLocation
+
+
+###  http://www.beeldengeluid.nl/schema/hasMuseumSummary
+nisv:hasMuseumSummary rdfs:subPropertyOf schema:description
+
+
+###  http://www.beeldengeluid.nl/schema/hasMuseumTheme
+
+
+###  http://www.beeldengeluid.nl/schema/hasName
+nisv:hasName rdfs:subPropertyOf schema:name
+
+
+###  http://www.beeldengeluid.nl/schema/hasNisvId
+
+
+###  http://www.beeldengeluid.nl/schema/hasNumberOfEpisodes
+
+
+###  http://www.beeldengeluid.nl/schema/hasOccasion
+
+
+###  http://www.beeldengeluid.nl/schema/hasOrigin
+
+
+###  http://www.beeldengeluid.nl/schema/hasParentCarrierId
+
+
+###  http://www.beeldengeluid.nl/schema/hasPart
+
+
+###  http://www.beeldengeluid.nl/schema/hasPortalLink
+nisv:hasPortalLink rdfs:subPropertyOf schema:url
+
+
+###  http://www.beeldengeluid.nl/schema/hasProductId
+
+
+###  http://www.beeldengeluid.nl/schema/hasProductYear
+
+
+###  http://www.beeldengeluid.nl/schema/hasPublId
+
+
+###  http://www.beeldengeluid.nl/schema/hasPublicationAnnotation
+
+
+###  http://www.beeldengeluid.nl/schema/hasRebroadcast
+
+
+###  http://www.beeldengeluid.nl/schema/hasRecordingLocation
+nisv:hasRecordingLocation rdfs:subPropertyOf schema:locationCreated
+
+
+###  http://www.beeldengeluid.nl/schema/hasRepository
+
+
+###  http://www.beeldengeluid.nl/schema/hasRights
+
+
+###  http://www.beeldengeluid.nl/schema/hasRole
+nisv:hasRole rdfs:subPropertyOf schema:roleName
+
+
+###  http://www.beeldengeluid.nl/schema/hasSequenceNumber
+
+
+###  http://www.beeldengeluid.nl/schema/hasSortDate
+nisv:hasSortDate rdfs:subPropertyOf schema:hasStartDate # for publications
+nisv:hasSortDate rdfs:subPropertyOf schema:datePublished # for program as a whole
+
+
+###  http://www.beeldengeluid.nl/schema/hasSortType
+
+
+###  http://www.beeldengeluid.nl/schema/hasSorting
+
+
+###  http://www.beeldengeluid.nl/schema/hasSource
+
+
+###  http://www.beeldengeluid.nl/schema/hasSourceCatalog
+nisv:hasSourceCatalog rdfs:subPropertyOf schema:isPartOf
+
+
+###  http://www.beeldengeluid.nl/schema/hasStartDate
+nisv:hasStartDate rdfs:subPropertyOf schema:startDate
+
+
+###  http://www.beeldengeluid.nl/schema/hasStartOffset
+
+
+###  http://www.beeldengeluid.nl/schema/hasStartOnCarrier
+
+
+###  http://www.beeldengeluid.nl/schema/hasStartTime
+nisv:hasStartTime rdfs:subPropertyOf schema:startTime
+
+
+###  http://www.beeldengeluid.nl/schema/hasStartTimestamp
+
+
+###  http://www.beeldengeluid.nl/schema/hasStorageUnit
+
+
+###  http://www.beeldengeluid.nl/schema/hasSummary
+nisv:hasSummary  rdfs:subPropertyOf schema:description
+
+
+###  http://www.beeldengeluid.nl/schema/hasTechnicalAnnotation
+nisv:hasTechnicalAnnotation rdfs:subPropertyOf schema:comment
+
+
+###  http://www.beeldengeluid.nl/schema/hasTechnicalDetails
+
+
+###  http://www.beeldengeluid.nl/schema/hasTheme
+
+
+###  http://www.beeldengeluid.nl/schema/hasTimecodeStandard
+
+
+###  http://www.beeldengeluid.nl/schema/hasTitle
+nisv:hasTitle rdfs:subPropertyOf schema:headline
+
+
+###  http://www.beeldengeluid.nl/schema/hasType
+
+
+###  http://www.beeldengeluid.nl/schema/hasUgStatus
+
+
+###  http://www.beeldengeluid.nl/schema/hasUse
+
+
+###  http://www.beeldengeluid.nl/schema/hasWeekNumber
+
+
+###  http://www.beeldengeluid.nl/schema/involvesMuseumEntity
+nisv:involvesMuseumEntity rdfs:subPropertyOf schema:mentions
+
+
+###  http://www.beeldengeluid.nl/schema/involvesMuseumPerson
+nisv:involvesMuseumPerson rdfs:subPropertyOf schema:mentions
+
+
+###  http://www.beeldengeluid.nl/schema/isSilent
+
+
+###  http://www.beeldengeluid.nl/schema/recordedWithAudiencePresent
+
+
+###  http://www.beeldengeluid.nl/schema/titleLanguage
+
+
+###  http://www.beeldengeluid.nl/schema/titleSource
+
+
+###  http://www.beeldengeluid.nl/schema/titleType
+
+
+###  http://www.beeldengeluid.nl/schema/titleValue
+
+
+###  http://www.beeldengeluid.nl/schema/usedArchiveMaterial
+nisv:usedArchiveMaterial rdfs:subPropertyOf schema:hasPart
+
+
+###  http://www.beeldengeluid.nl/schema/wasLive
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.beeldengeluid.nl/schema/ActingEntity
+
+
+###  http://www.beeldengeluid.nl/schema/AudioVisualObject
+nisv:AudioVisualObject rdfs:subClassOf schema:CreativeWork
+
+
+###  http://www.beeldengeluid.nl/schema/BroadcastStation
+nisv:BroadcastStation rdfs:subClassOf schema:BroadcastService # little doubtful about this
+
+
+###  http://www.beeldengeluid.nl/schema/Broadcaster
+nisv:Broadcaster rdfs:subClassOf schema:Organization
+
+
+###  http://www.beeldengeluid.nl/schema/Carrier
+nisv:Carrier rdfs:subClassOf schema:MediaObject
+
+
+###  http://www.beeldengeluid.nl/schema/Cast
+nisv:Cast rdfs:subClassOf schema:PerformanceRole
+
+
+###  http://www.beeldengeluid.nl/schema/Context
+
+
+###  http://www.beeldengeluid.nl/schema/Contractor
+nisv:Contractor rdfs:subClassOf schema:Role
+
+
+###  http://www.beeldengeluid.nl/schema/Creator
+nisv:Creator rdfs:subClassOf schema:Person
+
+
+###  http://www.beeldengeluid.nl/schema/DistributableEntity
+
+
+###  http://www.beeldengeluid.nl/schema/EntityInRole
+nisv:EntityInRole rdfs:subClassOf schema:Role
+
+
+###  http://www.beeldengeluid.nl/schema/EntityWithDuration
+
+
+###  http://www.beeldengeluid.nl/schema/Funder
+nisv:Funder rdfs:subClassOf schema:Role
+
+
+###  http://www.beeldengeluid.nl/schema/Genre
+
+
+###  http://www.beeldengeluid.nl/schema/Language
+nisv:Language rdfs:subClassOf schema:Language
+
+
+###  http://www.beeldengeluid.nl/schema/LanguageUsage
+
+
+###  http://www.beeldengeluid.nl/schema/Location
+nisv:Location rdfs:subClassOf schema:Place
+
+
+###  http://www.beeldengeluid.nl/schema/MusicStyle
+
+
+###  http://www.beeldengeluid.nl/schema/Nationality
+nisv:Nationality rdfs:subClassOf schema:Country
+
+
+###  http://www.beeldengeluid.nl/schema/Organisation
+nisv:Organisation rdfs:subClassOf schema:Organization
+
+
+###  http://www.beeldengeluid.nl/schema/OriginalCreator
+nisv:OriginalCreator rdfs:subClassOf schema:Person
+
+
+###  http://www.beeldengeluid.nl/schema/Person
+nisv:Person rdfs:subClassOf schema:Person
+
+
+###  http://www.beeldengeluid.nl/schema/PlayableAudioVisualObject
+
+
+###  http://www.beeldengeluid.nl/schema/Producer
+nisv:Producer rdfs:subClassOf schema:Role
+
+
+###  http://www.beeldengeluid.nl/schema/Program
+nisv:Program rdfs:subClassOf schema:Episode
+
+
+###  http://www.beeldengeluid.nl/schema/Publication
+nisv:Publication rdfs:subClassOf schema:PublicationEvent
+
+
+###  http://www.beeldengeluid.nl/schema/Qualification
+
+
+###  http://www.beeldengeluid.nl/schema/Recording
+
+
+###  http://www.beeldengeluid.nl/schema/RecordingOrPublication
+
+
+###  http://www.beeldengeluid.nl/schema/SceneDescription
+nisv:SceneDescription rdfs:subClassOf schema:Clip
+
+
+###  http://www.beeldengeluid.nl/schema/Season
+nisv:Season rdfs:subClassOf schema:CreativeWorkSeason
+
+
+###  http://www.beeldengeluid.nl/schema/SequenceMember
+
+
+###  http://www.beeldengeluid.nl/schema/Series
+nisv:Series rdfs:subClassOf schema:CreativeWorkSeries
+
+
+###  http://www.beeldengeluid.nl/schema/Speaker
+nisv:Speaker rdfs:subClassOf schema:Role
+
+
+###  http://www.beeldengeluid.nl/schema/Sponsor 
+nisv:Sponsor rdfs:subClassOf schema:Role
+
+
+###  http://www.beeldengeluid.nl/schema/Subject
+
+
+###  http://www.beeldengeluid.nl/schema/TargetGroup
+nisv:TargetGroup rdfs:subClassOf schema:Audience
+
+
+###  http://www.beeldengeluid.nl/schema/Title
