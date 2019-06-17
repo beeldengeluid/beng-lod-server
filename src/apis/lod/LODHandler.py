@@ -12,8 +12,6 @@ class LODHandler(object):
 			# TODO: make this an OAI-PMH GetRecord request
 			# http://oaipmh.beeldengeluid.nl/oai?verb=GetRecord&metadataPrefix=bg&identifier=oai:program:3883163
 		This class enables getting the XML from the URL, transform to RDF/XML using an XSLT,
-		and loadData in a Graph.
-		Serialization in any format that RDFlib can handle.
 	'''
 	def __init__(self, config):
 		self.config = config

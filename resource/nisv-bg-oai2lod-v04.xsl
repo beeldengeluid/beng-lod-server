@@ -169,9 +169,7 @@
 				name
 	-->
 
-	<!-- NAMES 
-		<xsl:template match="bg:names/bg:name">
-	
+	<!-- NAMES
 	-->
 	<xsl:template match="bg:names">
 		<xsl:for-each select="bg:name">
@@ -208,105 +206,103 @@
 		
 	<!-- CAST -->
 	<xsl:template match="bg:cast">
-		<xsl:element name="nisv:hasCast">
-			<xsl:element name="nisv:Cast">
-				<xsl:element name="nisv:hasPerson">
-					<xsl:call-template name="SKOSConcept">
-						<xsl:with-param name="prefLabel" select="bg:name"/>
-					</xsl:call-template>
-				</xsl:element>
-				<xsl:if test="bg:character">
-					<xsl:element name="nisv:hasCharacter">
-						<xsl:value-of select="bg:character"/>
-					</xsl:element>
-				</xsl:if>
-				<xsl:if test="bg:clarification">
-					<xsl:element name="nisv:hasClarification">
-						<xsl:value-of select="bg:clarification"/>
-					</xsl:element>
-				</xsl:if>
-			</xsl:element>
-		</xsl:element>
-	</xsl:template>	
+			<nisv:hasCast>
+				<nisv:Cast>
+					<nisv:hasPerson>
+						<nisv:Person>
+							<skos:prefLabel>
+							 	<xsl:value-of select="bg:name"/>
+							</skos:prefLabel>
+						</nisv:Person>
+					</nisv:hasPerson>
+					<xsl:if test="bg:character">
+						<nisv:hasCharacter>
+							<xsl:value-of select="bg:character"/>
+						</nisv:hasCharacter>
+					</xsl:if>
+					<xsl:if test="bg:clarification">
+						<nisv:hasClarification>
+							<xsl:value-of select="bg:clarification"/>
+						</nisv:hasClarification>
+					</xsl:if>
+				</nisv:Cast>
+			</nisv:hasCast>
+	</xsl:template>
 
 	<!-- SPEAKER -->
 	<xsl:template match="bg:speaker">
-		<xsl:element name="nisv:hasSpeaker">
-			<xsl:element name="nisv:Speaker">
-				<xsl:element name="nisv:hasPerson">
-					<xsl:call-template name="SKOSConcept">
-						<xsl:with-param name="prefLabel" select="bg:name"/>
-					</xsl:call-template>
-				</xsl:element>
-				<xsl:if test="bg:role">
-					<xsl:element name="nisv:hasRole">
-						<xsl:value-of select="bg:role"/>
-					</xsl:element>
-				</xsl:if>
-			</xsl:element>
-		</xsl:element>
-	</xsl:template>	
-		
+			<nisv:hasSpeaker>
+				<nisv:Speaker>
+					<nisv:hasPerson>
+						<nisv:Person>
+							<skos:prefLabel>
+							 	<xsl:value-of select="bg:name"/>
+							</skos:prefLabel>
+						</nisv:Person>
+					</nisv:hasPerson>
+					<xsl:if test="bg:role">
+						<nisv:hasRole>
+							<xsl:value-of select="bg:role"/>
+						</nisv:hasRole>
+					</xsl:if>
+				</nisv:Speaker>
+			</nisv:hasSpeaker>
+	</xsl:template>
+
 	<!-- PRODUCER -->
 	<xsl:template match="bg:producer">
-		<xsl:element name="nisv:hasProducer">
-			<xsl:element name="nisv:Producer">
-				<xsl:element name="nisv:hasOrganisation">
-					<xsl:call-template name="SKOSConcept">
-						<xsl:with-param name="prefLabel" select="bg:name"/>
-					</xsl:call-template>
-				</xsl:element>
-			</xsl:element>
-		</xsl:element>
+		<nisv:hasProducer>
+			<nisv:Producer>
+				<skos:prefLabel>
+				 	<xsl:value-of select="bg:name"/>
+				</skos:prefLabel>
+			</nisv:Producer>
+		</nisv:hasProducer>
 	</xsl:template>	
 
 	<!-- SPONSOR -->
 	<xsl:template match="bg:sponsor">
-		<xsl:element name="nisv:hasSponsor">
-			<xsl:element name="nisv:Sponsor">
-				<xsl:element name="nisv:hasOrganisation">
-					<xsl:call-template name="SKOSConcept">
-						<xsl:with-param name="prefLabel" select="bg:name"/>
-					</xsl:call-template>
-				</xsl:element>
-			</xsl:element>
-		</xsl:element>
-	</xsl:template>	
+		<nisv:hasSponsor>
+			<nisv:Sponsor>
+				<skos:prefLabel>
+				 	<xsl:value-of select="bg:name"/>
+				</skos:prefLabel>
+			</nisv:Sponsor>
+		</nisv:hasSponsor>
+	</xsl:template>
 	
 	<!-- CONTRACTOR -->
 	<xsl:template match="bg:contractor">
-		<xsl:element name="nisv:hasContractor">
-			<xsl:element name="nisv:Contractor">
-				<xsl:element name="nisv:hasOrganisation">
-					<xsl:call-template name="SKOSConcept">
-						<xsl:with-param name="prefLabel" select="bg:name"/>
-					</xsl:call-template>
-				</xsl:element>
-			</xsl:element>
-		</xsl:element>
-	</xsl:template>		
+		<nisv:hasContractor>
+			<nisv:Contractor>
+				<skos:prefLabel>
+				 	<xsl:value-of select="bg:name"/>
+				</skos:prefLabel>
+			</nisv:Contractor>
+		</nisv:hasContractor>
+	</xsl:template>
 	
 	<!--  EXECUTIVES -->
 	<xsl:template match="bg:executive">
-		<xsl:element name="nisv:hasExecutive">
-			<xsl:element name="nisv:EntityInRole">
-				<xsl:element name="nisv:hasEntity">
-					<xsl:call-template name="SKOSConcept">
-						<xsl:with-param name="prefLabel" select="bg:name"/>
-					</xsl:call-template>
-				</xsl:element>
+		<nisv:hasExecutive>
+			<nisv:EntityInRole>
+				<nisv:hasEntity>
+					<skos:prefLabel>
+				 		<xsl:value-of select="bg:name"/>
+					</skos:prefLabel>
+				</nisv:hasEntity>
 				<xsl:if test="bg:role">
-					<xsl:element name="nisv:hasRole">
+					<nisv:hasRole>
 						<xsl:value-of select="bg:role"/>
-					</xsl:element>
+					</nisv:hasRole>
 				</xsl:if>
 				<xsl:if test="bg:clarification">
-					<xsl:element name="nisv:hasClarification">
+					<nisv:hasClarification>
 						<xsl:value-of select="bg:clarification"/>
-					</xsl:element>
+					</nisv:hasClarification>
 				</xsl:if>
-			</xsl:element>
-		</xsl:element>
+			</nisv:EntityInRole>
+		</nisv:hasExecutive>
 	</xsl:template>	
 	
 	<!-- CREATOR AND ORIGINALCREATOR 
@@ -323,70 +319,62 @@
 	 		<!-- For each roles/role a different Creator (same name)-->
 			<xsl:when test="count(bg:roles/bg:role)">
 				<xsl:for-each select="bg:roles/bg:role">
-					<xsl:element name="nisv:hasCreator">
+					<nisv:hasCreator>
 						<xsl:element name="nisv:{$creatorClass}">
-							<xsl:element name="nisv:hasPerson">
-								<xsl:call-template name="SKOSConcept">
-									<xsl:with-param name="prefLabel" select="$creatorName"/>
-								</xsl:call-template>
-							</xsl:element>	
+							<nisv:hasPerson>
+								<nisv:Person>
+									<skos:prefLabel>
+						 				<xsl:value-of select="$creatorName"/>
+									</skos:prefLabel>
+								</nisv:Person>
+							</nisv:hasPerson>
 							<xsl:if test="self::node()[text()] != ''">
-								<xsl:element name="nisv:hasRole">
+								<nisv:hasRole>
 									<xsl:value-of select="."/>
-								</xsl:element>
+								</nisv:hasRole>
 							</xsl:if>
 						</xsl:element>
-					</xsl:element>
+					</nisv:hasCreator>
 				</xsl:for-each>
 			</xsl:when>
 
 			<!-- For each role a different Creator (same name) -->
 			<xsl:when test="count(bg:role)">
 				<xsl:for-each select="bg:role">
-					<xsl:element name="nisv:hasCreator">
+					<nisv:hasCreator>
 						<xsl:element name="nisv:{$creatorClass}">
-							<xsl:element name="nisv:hasPerson">
-								<xsl:call-template name="SKOSConcept">
-									<xsl:with-param name="prefLabel" select="$creatorName"/>
-								</xsl:call-template>
-							</xsl:element>	
+							<nisv:hasPerson>
+								<nisv:Person>
+									<skos:prefLabel>
+						 				<xsl:value-of select="$creatorName"/>
+									</skos:prefLabel>
+								</nisv:Person>
+							</nisv:hasPerson>
 							<xsl:if test="self::node()[text()] != ''">
-								<xsl:element name="nisv:hasRole">
+								<nisv:hasRole>
 									<xsl:value-of select="."/>
-								</xsl:element>
+								</nisv:hasRole>
 							</xsl:if>
 						</xsl:element>
-					</xsl:element>
+					</nisv:hasCreator>
 				</xsl:for-each>
 			</xsl:when>
 			
 			<!-- No role, so only a creator with name -->
 			<xsl:when test="(count(bg:role) + count(bg:roles/bg:role)) = 0">
-				<xsl:element name="nisv:hasCreator">
+				<nisv:hasCreator>
 					<xsl:element name="nisv:{$creatorClass}">
-						<xsl:element name="nisv:hasPerson">
-							<xsl:call-template name="SKOSConcept">
-								<xsl:with-param name="prefLabel" select="$creatorName"/>
-							</xsl:call-template>
-						</xsl:element>	
+						<nisv:hasPerson>
+							<nisv:Person>
+								<skos:prefLabel>
+									<xsl:value-of select="$creatorName"/>
+								</skos:prefLabel>
+							</nisv:Person>
+						</nisv:hasPerson>
 					</xsl:element>
-				</xsl:element>
+				</nisv:hasCreator>
 			</xsl:when>
 
-			<!-- Just one Creator with a name, no roles -->
-			<!-- 
-			<xsl:otherwise>
-				<xsl:element name="nisv:hasCreator">
-					<xsl:element name="nisv:{$creatorClass}">
-						<xsl:element name="nisv:hasPerson">
-							<xsl:call-template name="SKOSConcept">
-								<xsl:with-param name="prefLabel" select="$creatorName"/>
-							</xsl:call-template>
-						</xsl:element>	
-				</xsl:element>
-			</xsl:otherwise>
-			 -->
-			 
 		</xsl:choose>
 	</xsl:template>	
 
@@ -513,11 +501,11 @@
 		<xsl:choose >
 			<!-- Test for a sub element named bg:language -->
 			<xsl:when test="bg:language">
-				<xsl:element name="nisv:hasLanguage">
-					<xsl:element name="nisv:Language">
+				<nisv:hasLanguage>
+					<nisv:Language>
 					  	<xsl:apply-templates />
-					</xsl:element>
-				</xsl:element>
+					</nisv:Language>
+				</nisv:hasLanguage>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:element name="nisv:{local-name()}">
@@ -528,91 +516,82 @@
 	</xsl:template>
 	
 	<xsl:template match="bg:context">
-		<xsl:element name="nisv:hasContext">
-			<xsl:element name="nisv:Context">
+		<nisv:hasContext>
+			<nisv:Context>
 				<xsl:for-each select="./*">
 					<xsl:element name="nisv:{local-name()}">
 						<xsl:value-of select="."/>
 					</xsl:element>
 				</xsl:for-each>
-			</xsl:element>
-		</xsl:element>
+			</nisv:Context>
+		</nisv:hasContext>
 	</xsl:template>
 	
 	<!-- GEOGRAPHICAL CONCEPTS -->
 	<xsl:template match="bg:productioncountries">
 		<xsl:for-each select="bg:country">
-			<xsl:element name="nisv:hasProductionCountry">
-				<xsl:element name="nisv:Location">
-					<xsl:call-template name="SKOSConcept">
-						<xsl:with-param name="prefLabel" select="."/>
-					</xsl:call-template>
-				</xsl:element>
-			</xsl:element>
+			<nisv:hasProductionCountry>
+				<nisv:Location>
+					<skos:prefLabel>
+						<xsl:value-of select="."/>
+					</skos:prefLabel>
+				</nisv:Location>
+			</nisv:hasProductionCountry>
 		</xsl:for-each>
 	</xsl:template>
 
 	<xsl:template match="bg:locations">
 		<xsl:for-each select="bg:location">
-			<xsl:element name="nisv:hasLocation">
-				<xsl:element name="nisv:Location">
-					<xsl:call-template name="SKOSConcept">
-						<xsl:with-param name="prefLabel" select="."/>
-					</xsl:call-template>
-				</xsl:element>
-			</xsl:element>
+			<nisv:hasLocation>
+				<nisv:Location>
+					<skos:prefLabel>
+						<xsl:value-of select="."/>
+					</skos:prefLabel>
+				</nisv:Location>
+			</nisv:hasLocation>
 		</xsl:for-each>
 	</xsl:template>
 	
 	<!-- Geographical, but not a SKOS concept -->
 	<xsl:template match="bg:recordinglocations">
 		<xsl:for-each select="bg:location">
-			<xsl:element name="nisv:hasRecordingLocation">
+			<nisv:hasRecordingLocation>
 				<xsl:value-of select="."/>
-			</xsl:element>
+			</nisv:hasRecordingLocation>
 		</xsl:for-each>
 	</xsl:template>
 	
 	<!-- OTHER SKOS CONCEPTS -->
 	<xsl:template match="bg:genres">
 		<xsl:for-each select="bg:genre">
-			<xsl:element name="nisv:hasGenre">
-				<xsl:element name="nisv:Genre">
-					<xsl:call-template name="SKOSConcept">
-						<xsl:with-param name="prefLabel" select="."/>
-					</xsl:call-template>
-				</xsl:element>
-			</xsl:element>
+			<nisv:hasGenre>
+				<nisv:Genre>
+					<skos:prefLabel>
+						<xsl:value-of select="."/>
+					</skos:prefLabel>
+				</nisv:Genre>
+			</nisv:hasGenre>
 		</xsl:for-each>
 	</xsl:template>
 	
-	<!-- 
-	    <bg:keywords>
-        <bg:keyword sequencenumber="3">ICT</bg:keyword>
-        <bg:keyword sequencenumber="2">computers</bg:keyword>
-        <bg:keyword sequencenumber="1">overlijden</bg:keyword>
-        <bg:keyword sequencenumber="4">toespraken</bg:keyword>
-    </bg:keywords>
-	 -->
-	 
 	<xsl:template match="bg:keywords">
 		<xsl:for-each select="bg:keyword">
-			<xsl:element name="nisv:hasSubject">
+			<nisv:hasSubject>
 				<nisv:Subject>
 					<skos:prefLabel>
 						<xsl:value-of select="."/>
 					</skos:prefLabel>
 				</nisv:Subject>
-			</xsl:element>
+			</nisv:hasSubject>
 		</xsl:for-each>
 	</xsl:template>
 	 
 	<!--  EXPIRED CONCEPT SCHEME. NOT A SKOS CONCEPT-->
 	<xsl:template match="bg:deprecatedkeyword">
 		<xsl:for-each select="bg:keyword">
-			<xsl:element name="nisv:hasDeprecatedKeyword">
+			<nisv:hasDeprecatedKeyword>
 				<xsl:value-of select="."/>
-			</xsl:element>
+			</nisv:hasDeprecatedKeyword>
 		</xsl:for-each>
 	</xsl:template>
 

@@ -1068,6 +1068,7 @@ nisv:AudioVisualObject rdf:type owl:Class ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/BroadcastStation
 nisv:BroadcastStation rdf:type owl:Class ;
+                      rdfs:subClassOf skos:Concept ;
                       rdfs:comment "A broadcast channel/station. Comes from the GTAA Zender scheme"@en ;
                       rdfs:label "Broadcast station"@en ,
                                  "Zender"@nl .
@@ -1075,6 +1076,7 @@ nisv:BroadcastStation rdf:type owl:Class ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Broadcaster
 nisv:Broadcaster rdf:type owl:Class ;
+                 rdfs:subClassOf skos:Concept ;
                  rdfs:comment "A broadcaster. Comes from the NISV internal non-GTAA Zendgemachtigde scheme"@en ;
                  rdfs:label "Broadcaster"@en ,
                             "Zendgemachtigde"@nl .
@@ -1158,6 +1160,7 @@ nisv:Funder rdf:type owl:Class ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Genre
 nisv:Genre rdf:type owl:Class ;
+           rdfs:subClassOf skos:Concept ;
            rdfs:comment "A genre. Comes from the GTAA Genre scheme"@en ;
            rdfs:label "Genre"@en ,
                       "Genre"@nl .
@@ -1165,6 +1168,7 @@ nisv:Genre rdf:type owl:Class ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Language
 nisv:Language rdf:type owl:Class ;
+              rdfs:subClassOf skos:Concept ;
               rdfs:comment "A language. Comes from the internal NISV non-GTAA Taal scheme"@en ;
               rdfs:label "Language"@en ,
                          "Taal"@nl .
@@ -1180,6 +1184,7 @@ nisv:LanguageUsage rdf:type owl:Class ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Location
 nisv:Location rdf:type owl:Class ;
+              rdfs:subClassOf skos:Concept;
               rdfs:comment "A geographical location. Comes from the GTAA Geografische Namen scheme"@en ;
               rdfs:label "Locatie"@nl ,
                          "Location"@en .
@@ -1187,6 +1192,7 @@ nisv:Location rdf:type owl:Class ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/MusicStyle
 nisv:MusicStyle rdf:type owl:Class ;
+                rdfs:subClassOf skos:Concept ;
                 rdfs:comment "The style of a piece of music. Comes from the GTAA Muziekstijl scheme"@en ;
                 rdfs:label "Music style"@en ,
                            "Muziekstijl"@nl .
