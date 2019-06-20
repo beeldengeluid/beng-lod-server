@@ -1,0 +1,66 @@
+nisv:4143220 a schema:Episode;
+			 schema:identifier 4143220@program;
+			 schema:url "http://in.beeldengeluid.nl/collectie/details/expressie/4143220/false/true";
+			 schema:comment "Digitaal Bestand (WAVE) aanwezig";
+			 schema:associatedMedia "@id": _:carrier ;
+			 schema:isPartOf _:available_collection ;
+			 schema:contributor _:role_with_nationality ;
+			 schema:identifier "8621453";
+			 schema:partOfSeason "http://data.rdlabs.beeldengeluid.nl/resource/season/380883"
+			 schema:contentLocation _:location ;
+			 schema:genre [
+							"Lichte muziek",
+							"pop",
+							"solo zanger(es) met begeleiding"
+							];
+			 schema:byArtist _:executive ;
+			 schema:publication _:publication ;
+			 schema:isPartOf _:source_catalog ;
+			 schema:identifier "4847652" ;
+			 schema:name "Programma Pinkpop 1987" ; # need to skip the MainTitle level in between
+			 
+_:icarrier a schema:MediaObject ;
+		schema:category "Ruw materiaal" ;
+		schema:identifier "11943944" ;
+		schema:identifier "PINKPOP_1987_-AEN566702YW.mp3" ;
+		schema:encodingFormat "MP3" ;
+		schema:dateCreated "2014-02-12T18:40:04Z" ;
+		schema:identifier "95255070" ;
+		schema:identifier "4539739" ;
+		
+_:available_collection  a schema:Collection ;
+		schema:name "iMMix M" .
+		
+_:location a schema:Place ;
+		schema:name "Baarlo, Sportpark De Berckt" .
+		
+_:role_with_nationality a schema:Role ;
+		schema:roleName "uitvoerende" ;
+		schema:contributor _:id_person_of_nationality .
+		
+_:id_person_of_nationality a schema:Person ;
+		schema:nationality _:id_united_states .
+		
+_:id_united_states a schema:Country ;
+					 schema:name "Verenigde Staten van Amerika" .
+		
+_:executive a schema:Role;
+		schema:roleName "zang / gitaar" ;
+		schema:byArtist _:lou_reed .
+		
+_:lou_reed a schema:Person;
+		schema:name "Reed, Lou" .
+		
+_:publication a schema:PublicationEvent ;
+		schema:publishedBy _:vara ;
+		schema:comment "Niet het volledige concert (maar twee nummers), één band / bestand, tijdsduur 27.07 (einde van band klassiek concert)" ;
+		schema:startDate "08-06-1987" ;
+		schema:category "4" ;
+		schema:category "concertregistratie" .
+		
+_:vara a schema:Organization ;
+		schema:name "VARA" .
+		
+_:source_catalog a schema:Collection ; # this is repeated as this collection is linked via 2 different relations in the source data
+		schema:name "iMMix M"
+		
