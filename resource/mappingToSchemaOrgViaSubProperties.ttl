@@ -332,7 +332,7 @@ nisv:hasMuseumGenre rdfs:subPropertyOf schema:genre
 
 
 ###  http://www.beeldengeluid.nl/schema/hasMuseumKeyword
-nisv:hasMuseumKeyword rdfs:subPropertyOf schema:keywords
+nisv:hasMuseumKeyword rdfs:subPropertyOf schema:about
 
 
 ###  http://www.beeldengeluid.nl/schema/hasMuseumLanguageId

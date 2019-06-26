@@ -1,0 +1,66 @@
+nisv:5124400 a schema:Episode;
+			schema:countryOfOrigin _:netherlands; # strictly speaking have to define as a TVEpisode or RadioEpisode to get this property
+			schema:isPartOf _:source_catalog ;
+			schema:description "Als Europese machthebbers niet snel gaan luisteren naar hun burgers, dan is het volgens econoom Yanis Varoufakis snel gedaan met de Europese Unie. De voormalige Griekse minister van Financiën is daarom een politieke grassroots-beweging gestart, waarmee hij de strijd aanbindt tegen degenen die de economie beheersen en de politiek kannibaliseren. Hoe ziet een nieuw, echt democratisch bestuurd Europa eruit?" ;
+			schema:url "tegenlicht.vpro.nl" ;
+			schema:mentions _:varoufakis_personname ;
+			schema:productionCompany _:production_company_in_role ;
+			schema:about _:bestuurlijke_hervormingen ; 
+			schema:about _:democratie ;
+			schema:name "Volk, macht en Varoufakis" ; # need to skip the maintitle in between
+			schema:identifier "5124400@program" ;
+			schema:url "http://in.beeldengeluid.nl/collectie/details/expressie/5124400/false/true";
+			schema:comment "Twitter hash: #tegenlicht Twitter account: @vprotegenlicht" ;
+			schema:publication _:publication_event ;
+			schema:duration PT47M3S ; # had to be converted to ISO 8601, milliseconds missing
+			schema:isPartOf _:available_collection ; 
+			schema:creator _:creator_1 ; 
+			schema:creator _:creator_2 ; 
+			schema:creator _:creator_3 ; 
+			schema:creator _:creator_4 ; 
+			schema:creator _:creator_5 ; 
+			schema:creator _:creator_6 ; 
+			schema:creator _:creator_7 ; 
+			schema:creator _:creator_8 ;
+			
+_:netherlands a Country;
+			schema:name "Nederland" .
+_:source_catalog a schema:Collection;
+				schema:name "POMS" .
+_:varoufakis_personname a schema:Role ;
+						schema:mentions _:yanis_varoufakis .
+_:yanis_varoufakis a schema:Person ;
+					schema:name "Varoufakis, Yanis" .
+_:production_company_in_role a schema:Role ; 
+							schema:productionCompany _:production_company .
+_:production_company a schema:Organization ;
+					schema:name "VPRO" .
+_:bestuurlijke_hervormingen a schema:Thing ;
+							schema:name "bestuurlijke_hervormingen" .
+_:democratie a schema:Thing ;
+							schema:name "democratie" .
+_:publication_event a schema:PublicationEvent ;
+					schema:category "1" ; # from sorttype
+					schema:startDate "2016-04-24" # from sortdate, had to be converted to ISO 8601
+					schema:publishedBy _:vpro ;
+					schema:startTime "76070000" ;
+					schema:startDate "2016-04-24" # from startdate, had to be converted to ISO 8601
+					schema:endTime "78900000" ; 
+					schema:category "uitzending" ; # from type
+					schema:identifier "VPWON_1257579" ; # from productid
+					schema:publishedOn _:npo2 ; 
+					schema:comment "Stereo; TT888 gepland: ja" ; # from publication-annotation
+					schema:duration PT47M3S ; # had to be converted to ISO 8601, milliseconds missing
+					
+_:vpro a schema:Organization;
+		schema:name "VPRO" .
+_:npo2 a schema:BroadcastService ;
+		schema:name "NPO 2" . 
+_:available_collection a schema:Collection ;
+						schema:name "POMS" .
+_:creator_1 a schema:Role ;
+			schema:roleName "productie" ;
+			schema:creator _:jolanda_segers .
+_:jolanda_segers a schema:Person ; 
+				schema:name "Segers, Jolanda" .
+		

@@ -1,0 +1,150 @@
+nisv:207485 a schema:Episode;
+			schema:identifier "207485@program";
+			schema:byArtist _:executive_1 ;
+			schema:byArtist _:executive_2 ;
+			schema:byArtist _:executive_3 ;
+			schema:byArtist _:executive_4 ;
+			schema:byArtist _:executive_5 ;
+			schema:byArtist _:executive_6 ;
+			schema:byArtist _:executive_7 ;
+			schema:byArtist _:executive_8 ;
+			schema:byArtist _:executive_9 ;
+			schema:byArtist _:executive_10 ;
+			schema:byArtist _:executive_11 ;
+			schema:byArtist _:executive_12 ;
+			schema:byArtist _:executive_13 ;
+			schema:byArtist _:executive_14 ;
+			schema:byArtist _:executive_15 ;
+			schema:byArtist _:executive_16 ;
+			schema:byArtist _:executive_17 ;
+			schema:byArtist _:executive_18 ;
+			schema:byArtist _:executive_19 ;
+			schema:byArtist _:executive_20 ;
+			schema:byArtist _:executive_21 ;
+			schema:byArtist _:executive_22 ;
+			schema:byArtist _:executive_23 ;
+			schema:isPartOf _:source_catalog ;
+			schema:description "Negendelige dramaserie, gespeeld door acteurs van theatergroep Mug met de Gouden Tand, over de slecht bekeken commerciële televisiezender TV7 die, om het hoofd boven water te kunnen houden, omgevormd moet worden tot kwaliteitszender. In deze eerste aflevering heeft general manager Bert Lion (Ton Kas) problemen met Peter Jan Rens' alcoholverslaving, Mireille Bekooijs presentatie waarop Unilever aanmerkingen heeft en reporter Pim van Soests (Finn Poncin) onorthodoxe handelwijze bij een item over orgaanhandel. Ook schrapt hij het dierenprogramma 'Ik zoek een baasje' en vervangt het door 'Ik zoek een mama' dat gepresenteerd zal worden door Hans van der Togt. Tijdens een aandeelhoudersvergadering blijken de sponsors ontevreden over het niveau van de zender. Om de boel te redden haalt Lion Koenraad Wessels (Marcel Musters) als nieuwe programmadirecteur in huis. Nieuwsredactrice Laetitia du Pré (Lineke Rijxman) is verbolgen over het feit dat haar collega Pim van Soest de nieuwe nieuwslezer is geworden. Overige werknemers: Fleur Lion, echtgenote van Bert en soapactrice (Tara Elders); Joy Freud (Jacqueline Blom); Rebecca Hillarius (Joan Nederlof); Isidora van Oplandt Goetzee (Carla Mulder); Cynthia Perla (Hendrien Adams); Trude Hurk (Maureen Teeuwen). Overige acteurs zie muziek-uitvoerendenveld muv Willem de Wolf, Nel Corstanje, Kees van Gangelen, Misja Alblas, Rosa Reuten, Johan Verhey, Jorrit Ruys, Kim van Zeben, Karen Claes en Jeroen Verstegen."
+			schema:genre "televisiedrama";
+			schema:productionCompany _:productionCompany_inrole1 ;
+			schema:productionCompany _:productionCompany_inrole2 ;
+			schema:productionCompany _:productionCompany_inrole3 ;
+			schema:name "TV7 (1)" ; # need to skip the MainTitle level in between
+			schema:url "http://in.beeldengeluid.nl/collectie/details/expressie/207485/false/true" ;
+			schema:publication _:publication_event
+			schema:duration "P24M28S"  ; # has to be converted to ISO 8601
+			schema:isPartOf _:available_collection ;
+			schema:creator _:creator_1 ;
+			schema:creator _:creator_2 ;
+			schema:creator _:creator_3 ;
+			schema:creator _:creator_4 ;
+			schema:creator _:creator_5 ;
+			schema:creator _:creator_6 ;
+			schema:funder _:funder ;
+			schema:identifier "301564" ; # from task-id
+			schema:identifier "161790" ; # from external-id
+			schema:associatedMedia _:carrier_1 ;
+			schema:associatedMedia _:carrier_2 ;
+			schema:associatedMedia _:carrier_3 ;
+			schema:associatedMedia _:carrier_4 ;
+			schema:associatedMedia _:carrier_5 ;
+			schema:partOfSeason nisv:35443 ; # is there a risk of confusion between season/series/episodes/segments here?
+			
+			
+_:executive_1 a schema:Role;
+			schema:byArtist _:jennifer_evenhuis .
+_:executive_2 a schema:Role;
+			schema:byArtist _:niek_barendsen_acteur . # ideally we would detect '{acteur}', remove it from the name, and enter it as the role
+_:executive_2 a schema:Role;
+			schema:byArtist _:mireille_bekooij_actrice . # ideally we would detect '{actrice}', remove it from the name, and enter it as the role
+...			
+			
+_:jennifer_evenhuis a schema:Person ;
+					schema:name "Evenhuis, Jennifer" .
+_:niek_barendsen_acteur a schema:Person ;
+					schema:name "Barendsen, Niek {acteur}" .
+_:mireille_bekooij_actrice a schema:Person ;
+					schema:name "Bekooij, Mireille {actrice}" .
+...
+_source_catalog a schema:Collection;
+				schema:name "Televisie Programma" .
+
+_:productionCompany_inrole1  a schema:Role ;
+							schema:productionCompany _:productionCompany_1 .
+_:productionCompany_1 a schema:Organization;
+					schema:name "All Yours Productions" .
+_:productionCompany_inrole2  a schema:Role ;
+							schema:productionCompany _:productionCompany_2 .
+_:productionCompany_2 a schema:Organization;
+					schema:name "Mugmetdegoudentand" .
+_:productionCompany_inrole3  a schema:Role ;
+							schema:productionCompany _:productionCompany_3 .
+_:productionCompany_3 a schema:Organization;
+					schema:name "VPRO" .
+					
+ _:publication_event a schema:PublicationEvent ;
+					schema:publishedBy _:vpro ;
+					schema:category "1" ; # sorttype
+					schema:startDate "2002-02-27" ; # from sort date, had to be converted to ISO 8601
+					schema:publishedOn _:nederland3 ;
+					schema:startDate "2002-02-27" ;# from start date, had to be converted to ISO 8601
+					schema:endTime "78818000" ;
+					schema:category "uitzending" ; # from type
+					schema:comment "Materiaal: Kleur AANVULLING: Breedbeeld-uitzending (letterbox)" ; # from technical-annotation
+					schema:comment "Avail: 24'28"" ; # from duration-annotation
+					schema:startTime "77350000" ; 
+					schema:duration "P24M28S"  ; # has to be converted to ISO 8601
+					
+					
+					
+_:vpro a schema:Organization;
+		schema:name "VPRO" .
+_:nederland3 a schema:BroadcastService ; # I have my doubts about this mapping
+			schema:name "Nederland 3" .
+			
+_:available_collection a schema:Collection ; 
+						schema:name "Televisie Programma " .
+_:creator_1 a schema:Role ;
+			schema:roleName "camera" ;
+			schema:creator _:philip_hering .
+_:philip_hering a schema:Person ;
+				schema:name "Hering, Philip" . 
+_:creator_2 a schema:Role ;
+			schema:roleName "regie" ;
+			schema:creator _:jonathan_herman .
+_:jonathan_herman a schema:Person ;
+				schema:name "Herman, Jonathan" . 
+_:creator_3 a schema:Role ;
+			schema:roleName "scenario" ;
+			schema:creator _:frank_houtappels .
+_:frank_houtappels a schema:Person ;
+				schema:name "Houtappels, Frank" . 
+_:creator_4 a schema:Role ;
+			schema:roleName "productie" ;
+			schema:creator _:rolf_koot .
+_:rolf_koot a schema:Person ;
+				schema:name "Koot, Rolf" .  
+_:creator_5 a schema:Role ;
+			schema:roleName "scenario" ;
+			schema:creator _:joan_nederlof .
+_:joan_nederlof a schema:Person ;
+				schema:name "Nederlof, Joan" . 
+_:creator_6 a schema:Role ;
+			schema:roleName "eindredactie" ;
+			schema:creator _:joost_de_wolf .
+_:joost_de_wolf a schema:Person ;
+				schema:name "Wolf, Joost de" . 
+_:funder a schema:Organization ;
+		schema:name "Stimuleringsfonds Nederlandse Culturele Omroepproducties." .
+		
+_:carrier_1 a schema:MediaObject ; 
+			schema:identifier "1841603" ; # from carrierid
+			schema:identifier "207971" ; # from publid
+			schema:category "Titelkopie" ; # from carrierclass
+			schema:identifier "2739972" ; # from id
+			schema:identifier "TV71_________-HRE0000CA52" ; # from carrierreference
+			schema:dateCreated "2008-04-11T23:30:09Z" ; # is already in ISO 8601
+			schema:identifier "2008021114132080800790450740014C2607C530000005168B00000D0F006424" ; # from dmguid
+			schema:encodingFormat "media archive" .
+...
+			

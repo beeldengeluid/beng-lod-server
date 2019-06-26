@@ -6,13 +6,13 @@ nisv:4143220 a schema:Episode;
 			 schema:isPartOf _:available_collection ;
 			 schema:contributor _:role_with_nationality ;
 			 schema:identifier "8621453";
-			 schema:partOfSeason "http://data.rdlabs.beeldengeluid.nl/resource/season/380883"
+			 schema:partOfSeason nisv:380883 ; # is there a risk of confusion between season/series/episodes/segments here?
 			 schema:contentLocation _:location ;
-			 schema:genre [
+			 schema:genre [ 
 							"Lichte muziek",
 							"pop",
 							"solo zanger(es) met begeleiding"
-							];
+							]; # schema:genre can also point to URLs so can easily replace with GTAA concepts
 			 schema:byArtist _:executive ;
 			 schema:publication _:publication ;
 			 schema:isPartOf _:source_catalog ;
@@ -24,7 +24,7 @@ _:icarrier a schema:MediaObject ;
 		schema:identifier "11943944" ;
 		schema:identifier "PINKPOP_1987_-AEN566702YW.mp3" ;
 		schema:encodingFormat "MP3" ;
-		schema:dateCreated "2014-02-12T18:40:04Z" ;
+		schema:dateCreated "2014-02-12T18:40:04Z" ; # is already in ISO 8601
 		schema:identifier "95255070" ;
 		schema:identifier "4539739" ;
 		
@@ -54,7 +54,7 @@ _:lou_reed a schema:Person;
 _:publication a schema:PublicationEvent ;
 		schema:publishedBy _:vara ;
 		schema:comment "Niet het volledige concert (maar twee nummers), één band / bestand, tijdsduur 27.07 (einde van band klassiek concert)" ;
-		schema:startDate "08-06-1987" ;
+		schema:startDate "1987-06-08" ; # had to be converted to ISO 8601
 		schema:category "4" ;
 		schema:category "concertregistratie" .
 		
