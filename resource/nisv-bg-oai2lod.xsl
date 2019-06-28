@@ -55,7 +55,6 @@
 	</xsl:template>
 	
 	<!-- Templates for element that are converted to RDF Classes -->
-	
 	<xsl:template match="bg:bgelement">
 		<xsl:variable name="level" select="./@aggregationType"/>
 		<xsl:variable name="id" select="./@id"/>
@@ -98,56 +97,55 @@
 		</rdf:Description>
 	</xsl:template>
 	
-	<!-- Properties of the AudioVisualObject with a Class as range. 
-	-->
+	<!-- Properties of the AudioVisualObject with a Class as range.	-->
 	<xsl:template match="bg:carrier">
-		<xsl:element name="nisv:{local-name()}">
-			<xsl:element name="nisv:Carrier">
+		<nisv:hasCarrier>
+			<nisv:Carrier>
 			  	<xsl:apply-templates />
-			</xsl:element>
-		</xsl:element>
+			</nisv:Carrier>
+		</nisv:hasCarrier>
 	</xsl:template>
 	
 	<xsl:template match="bg:publication">
 		<xsl:variable name="publicationID" select="./@id"/>
-		<xsl:element name="nisv:{local-name()}">
-			<xsl:element name="nisv:Publication">
+		<nisv:hasPublication>
+			<nisv:Publication>
 				<xsl:element name="nisv:id">
 					<xsl:value-of select="$publicationID" />
 				</xsl:element>
 			  	<xsl:apply-templates />
-			</xsl:element>
-		</xsl:element>
+			</nisv:Publication>
+		</nisv:hasPublication>
 	</xsl:template>
 	
 	<xsl:template match="bg:recording">
-		<xsl:element name="nisv:{local-name()}">
-			<xsl:element name="nisv:Recording">
+		<nisv:hasRecording>
+			<nisv:Recording>
 			  	<xsl:apply-templates />
-			</xsl:element>
-		</xsl:element>
+			</nisv:Recording>
+		</nisv:hasRecording>
 	</xsl:template>
 	
 	<!--  TODO template for bg:museum-genre and bg:museum-summary -->
 
 	<!-- SUBCLASSES OF ENTITYINROLE (8)
+			TODO:
 			In de brondata
 				multiple properties
 				++
-				casts/cast	-> persoon (name, character, clarification)
-				speakers/speaker, -> person (name,role)
-				executives	->	 bedrijf/persoon (name, role, clarification)
-				creators/creator	-> persoon (name, role, clarification, roles) 
+
+
+
 
 				only 'name' property
 				++
-				sponsors, -> bedrijf	(name)				
-				funders -> bedrijf (name)
-				producers/producer	-> bedrijf (name)
-				contractors/contractor, -> bedrijf	(name)
+
+
+
+
 				
-				personnames/personname -> Persoonsnamen (personname)
-				names/name -> Namen (name)
+
+
 
 				no template
 				++
@@ -168,8 +166,7 @@
 				name
 	-->
 
-	<!-- NAMES
-	-->
+	<!-- NAMES	-> GTAA/Namen (name) 	-->
 	<xsl:template match="bg:names">
 		<xsl:for-each select="bg:name">
 			<nisv:hasEntityInRole>
@@ -186,7 +183,7 @@
 		</xsl:for-each>
 	</xsl:template>	
 
-	<!-- PERSONNAMES -->
+	<!-- PERSONNAMES	 -> GTAA/Persoonsnamen (personname) -->
 	<xsl:template match="bg:personnames">
 		<xsl:for-each select="bg:personname">
 			<nisv:hasEntityInRole>
@@ -203,7 +200,7 @@
 		</xsl:for-each>
 	</xsl:template>	
 		
-	<!-- CAST -->
+	<!-- CAST 	-> persoon (name, character, clarification) -->
 	<xsl:template match="bg:cast">
 			<nisv:hasCast>
 				<nisv:Cast>
@@ -228,7 +225,7 @@
 			</nisv:hasCast>
 	</xsl:template>
 
-	<!-- SPEAKER -->
+	<!-- SPEAKER 	-> person (name,role) -->
 	<xsl:template match="bg:speaker">
 			<nisv:hasSpeaker>
 				<nisv:Speaker>
@@ -248,29 +245,52 @@
 			</nisv:hasSpeaker>
 	</xsl:template>
 
-	<!-- PRODUCER -->
+	<!-- PRODUCER	-> bedrijf (name)-->
 	<xsl:template match="bg:producer">
 		<nisv:hasProducer>
 			<nisv:Producer>
-				<skos:prefLabel>
-				 	<xsl:value-of select="bg:name"/>
-				</skos:prefLabel>
+				<nisv:hasOrganisation>
+					<nisv:Organisation>
+						<skos:prefLabel>
+						 	<xsl:value-of select="bg:name"/>
+						</skos:prefLabel>
+					</nisv:Organisation>
+				</nisv:hasOrganisation>
 			</nisv:Producer>
 		</nisv:hasProducer>
 	</xsl:template>	
 
-	<!-- SPONSOR -->
+	<!-- SPONSOR 	 -> bedrijf	(name)	-->
 	<xsl:template match="bg:sponsor">
 		<nisv:hasSponsor>
 			<nisv:Sponsor>
-				<skos:prefLabel>
-				 	<xsl:value-of select="bg:name"/>
-				</skos:prefLabel>
+				<nisv:hasOrganisation>
+					<nisv:Organisation>
+						<skos:prefLabel>
+						 	<xsl:value-of select="bg:name"/>
+						</skos:prefLabel>
+					</nisv:Organisation>
+				</nisv:hasOrganisation>
 			</nisv:Sponsor>
 		</nisv:hasSponsor>
 	</xsl:template>
 	
-	<!-- CONTRACTOR -->
+	<!-- FUNDER		-> bedrijf (name)-->
+	<xsl:template match="bg:funder">
+		<nisv:hasFunder>
+			<nisv:Funder>
+				<nisv:hasOrganisation>
+					<nisv:Organisation>
+						<skos:prefLabel>
+						 	<xsl:value-of select="bg:name"/>
+						</skos:prefLabel>
+					</nisv:Organisation>
+				</nisv:hasOrganisation>
+			</nisv:Funder>
+		</nisv:hasFunder>
+	</xsl:template>
+
+	<!-- CONTRACTOR -> bedrijf	(name)-->
 	<xsl:template match="bg:contractor">
 		<nisv:hasContractor>
 			<nisv:Contractor>
@@ -281,14 +301,17 @@
 		</nisv:hasContractor>
 	</xsl:template>
 	
-	<!--  EXECUTIVES -->
+	<!--  EXECUTIVES	->	 bedrijf/persoon (name, role, clarification)
+	-->
 	<xsl:template match="bg:executive">
 		<nisv:hasExecutive>
 			<nisv:EntityInRole>
 				<nisv:hasEntity>
-					<skos:prefLabel>
-				 		<xsl:value-of select="bg:name"/>
-					</skos:prefLabel>
+					<nisv:ActingEntity>
+						<skos:prefLabel>
+					 		<xsl:value-of select="bg:name"/>
+						</skos:prefLabel>
+					</nisv:ActingEntity>
 				</nisv:hasEntity>
 				<xsl:if test="bg:role">
 					<nisv:hasRole>
@@ -304,22 +327,18 @@
 		</nisv:hasExecutive>
 	</xsl:template>	
 	
-	<!-- CREATOR AND ORIGINALCREATOR 
+	<!-- CREATOR AND ORIGINALCREATOR	-> persoon (name, role, clarification, roles)
 	-->
- 	<xsl:template match="bg:creator | bg:originalCreator">
+ 	<xsl:template match="bg:creator">
  		<xsl:variable name="creatorName" select="bg:name"/>		
-		<xsl:variable name="creatorClass" select="'Creator'"/>
-		<xsl:if test="local-name() = 'originalCreator'">
-			<xsl:variable name="creatorClass" select="'OriginalCreator'"/>
-		</xsl:if>
- 		
+
 		<xsl:choose>
 		
 	 		<!-- For each roles/role a different Creator (same name)-->
 			<xsl:when test="count(bg:roles/bg:role)">
 				<xsl:for-each select="bg:roles/bg:role">
 					<nisv:hasCreator>
-						<xsl:element name="nisv:{$creatorClass}">
+						<nisv:Creator>
 							<nisv:hasPerson>
 								<nisv:Person>
 									<skos:prefLabel>
@@ -332,7 +351,7 @@
 									<xsl:value-of select="."/>
 								</nisv:hasRole>
 							</xsl:if>
-						</xsl:element>
+						</nisv:Creator>
 					</nisv:hasCreator>
 				</xsl:for-each>
 			</xsl:when>
@@ -341,7 +360,7 @@
 			<xsl:when test="count(bg:role)">
 				<xsl:for-each select="bg:role">
 					<nisv:hasCreator>
-						<xsl:element name="nisv:{$creatorClass}">
+						<nisv:Creator>
 							<nisv:hasPerson>
 								<nisv:Person>
 									<skos:prefLabel>
@@ -354,7 +373,7 @@
 									<xsl:value-of select="."/>
 								</nisv:hasRole>
 							</xsl:if>
-						</xsl:element>
+						</nisv:Creator>
 					</nisv:hasCreator>
 				</xsl:for-each>
 			</xsl:when>
@@ -362,7 +381,7 @@
 			<!-- No role, so only a creator with name -->
 			<xsl:when test="(count(bg:role) + count(bg:roles/bg:role)) = 0">
 				<nisv:hasCreator>
-					<xsl:element name="nisv:{$creatorClass}">
+					<nisv:Creator>
 						<nisv:hasPerson>
 							<nisv:Person>
 								<skos:prefLabel>
@@ -370,25 +389,82 @@
 								</skos:prefLabel>
 							</nisv:Person>
 						</nisv:hasPerson>
-					</xsl:element>
+					</nisv:Creator>
 				</nisv:hasCreator>
 			</xsl:when>
 
 		</xsl:choose>
 	</xsl:template>	
 
-	<!--  Call templates -->
-		<xsl:template name="SKOSConcept">
-			<xsl:param name="prefLabel"/>
-			<skos:Concept>
-				<skos:prefLabel>
-					<xsl:value-of select="$prefLabel"/>
-				</skos:prefLabel>
-			</skos:Concept>
-		</xsl:template>
-	
- 	<!-- END CREATOR -->
- 	
+ 	<xsl:template match="bg:originalCreator">
+ 		<xsl:variable name="creatorName" select="bg:name"/>
+
+		<xsl:choose>
+
+	 		<!-- For each roles/role a different Creator (same name)-->
+			<xsl:when test="count(bg:roles/bg:role)">
+				<xsl:for-each select="bg:roles/bg:role">
+					<nisv:hasOriginalCreator>
+						<nisv:OriginalCreator>
+							<nisv:hasPerson>
+								<nisv:Person>
+									<skos:prefLabel>
+						 				<xsl:value-of select="$creatorName"/>
+									</skos:prefLabel>
+								</nisv:Person>
+							</nisv:hasPerson>
+							<xsl:if test="self::node()[text()] != ''">
+								<nisv:hasRole>
+									<xsl:value-of select="."/>
+								</nisv:hasRole>
+							</xsl:if>
+						</nisv:OriginalCreator>
+					</nisv:hasOriginalCreator>
+				</xsl:for-each>
+			</xsl:when>
+
+			<!-- For each role a different Creator (same name) -->
+			<xsl:when test="count(bg:role)">
+				<xsl:for-each select="bg:role">
+					<nisv:hasOriginalCreator>
+						<nisv:OriginalCreator>
+							<nisv:hasPerson>
+								<nisv:Person>
+									<skos:prefLabel>
+						 				<xsl:value-of select="$creatorName"/>
+									</skos:prefLabel>
+								</nisv:Person>
+							</nisv:hasPerson>
+							<xsl:if test="self::node()[text()] != ''">
+								<nisv:hasRole>
+									<xsl:value-of select="."/>
+								</nisv:hasRole>
+							</xsl:if>
+						</nisv:OriginalCreator>
+					</nisv:hasOriginalCreator>
+				</xsl:for-each>
+			</xsl:when>
+
+			<!-- No role, so only a creator with name -->
+			<xsl:when test="(count(bg:role) + count(bg:roles/bg:role)) = 0">
+				<nisv:hasOriginalCreator>
+					<nisv:OriginalCreator>
+						<nisv:hasPerson>
+							<nisv:Person>
+								<skos:prefLabel>
+									<xsl:value-of select="$creatorName"/>
+								</skos:prefLabel>
+							</nisv:Person>
+						</nisv:hasPerson>
+					</nisv:OriginalCreator>
+				</nisv:hasOriginalCreator>
+			</xsl:when>
+
+		</xsl:choose>
+	</xsl:template>
+
+	<!-- END ORIGINALCREATOR -->
+
 	<!--  END SUBCLASSES OF ENTITYINROLE -->
 
 	<!-- Elements that are RDF Properties -->
@@ -601,6 +677,7 @@
 	<!-- A generic template to remove all elements that are only there to support sequences in XML. 
 		For matching pattern see: Eg. https://stackoverflow.com/questions/1007018/xslt-expression-to-check-if-variable-belongs-to-set-of-elements
 		
+		TODO: roles can be out of the list?
 	-->
 	<xsl:template match="bg:*">
 		<xsl:variable name="list" select="'recordings producers funders sponsors contractors carriers languages creators roles publications genres networks broadcasters'" />
