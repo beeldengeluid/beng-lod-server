@@ -8,11 +8,7 @@ nisv:4143220 a schema:Episode;
 			 schema:identifier "8621453";
 			 schema:partOfSeason nisv:380883 ; # is there a risk of confusion between season/series/episodes/segments here?
 			 schema:contentLocation _:location ;
-			 schema:genre [ 
-							"Lichte muziek",
-							"pop",
-							"solo zanger(es) met begeleiding"
-							]; # schema:genre can also point to URLs so can easily replace with GTAA concepts
+			 schema:genre "Lichte muziek, pop,solo zanger(es) met begeleiding" ; # genre must be text or a URL, schema:Thing is not an option
 			 schema:byArtist _:executive ;
 			 schema:publication _:publication ;
 			 schema:isPartOf _:source_catalog ;

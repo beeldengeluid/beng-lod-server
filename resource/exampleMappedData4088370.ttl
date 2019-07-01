@@ -71,7 +71,7 @@ nisv:381759 a CreativeWorkSeason ;
 			schema:creator _:creator ;
 			schema:identifier "4693031" ; # from bg:taskid
 			schema:numberOfEpisodes 0 ; # have to convert from string to integer
-			schema:partOfSeries nisv:323025 . # in the index, this is done via the dc:identifier. How is it in the OAI? 
+			schema:partOfSeries nisv:323025 . # in the index, this is done via the dc:identifier. But in the OAI, it is direct, so I assume this mapping should work well
 			
 			
 _:creator a schema:Role ;
@@ -89,7 +89,7 @@ nisv:93207467 a schema:Clip ;
 				schema:associatedMedia _:seg_carrier_3 ;
 				schema:clipNumber "5" ; # text or number is ok here
 				schema:url "http://in.beeldengeluid.nl/collectie/details/expressie/4088370/false/true" ;
-				schema:partOfEpisode nisv:4088370 ; # in the index, this is done via the dc:identifier. How is it in the OAI?
+				schema:partOfEpisode nisv:4088370 ; # in the index, this is done via the dc:identifier. But in the OAI, it is direct, so I assume this mapping should work well
 				schema:category "Item" ; # from bg:type
 				schema:duration PT50S ; # have to convert to ISO 8601 - what do we do with the milliseconds?
 				
