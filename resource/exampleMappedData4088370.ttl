@@ -1,0 +1,107 @@
+#in this example, include the series, season and one segment objects
+nisv:4088370 a schema:Program
+			schema:partOfSeries nisv:323025 ; # note, this is not explicitly indicated in our aggregated index
+			schema:identifier "4088370@program" ; # from dc:identifier
+			schema:associatedMedia _:carrier_1 ;
+			schema:associatedMedia _:carrier_2 ;
+			schema:associatedMedia _:carrier_3 ;
+			schema:description "In deze aflevering:" ; # from bg:summary
+			schema:url "http://in.beeldengeluid.nl/collectie/details/expressie/4088370/false/true" ;
+			schema:identifier "4791092" ; # from bg:taskid
+			schema:partOfSeason nisv:381759 ; # in the index, this is done via the dc:identifier. How is it in the OAI?
+			schema:identifier "POW_00493466" ; # from bg:external-id
+			schema:publication _:publication_event ;
+			schema:duration PT17M32S . # had to be converted to ISO 8601 - what do we do with milliseconds?
+
+_:carrier_1 a schema:MediaObject ;
+			schema:identifier "10426977" ; # from bg:carrierid
+			schema:identifier "4483679" ; # from bg:publid
+			schema:category "Programma" ; # from bg:carrierclass
+			schema:identifier "92427335" ; # from bg:id
+			schema:identifier "POWNEWS______-WON01012566" ; # from carrierreference
+			schema:identifier "20130413163427608007904507980C16E66DA380000006536B00000D0F010708" ; # from dmguid
+			schema:encodingFormat "media archive" ; 
+			schema:dateCreated "2013-04-13T16:37:38Z" .
+...	
+_:publication_event a schema:PublicationEvent ;
+					schema:category "1" ; # from bg:sorttype
+					schema:startDate "2013-04-12"; # from bg:sortdate, had to convert to ISO 8601
+					schema:publishedBy _:powned 
+					schema:startTime "81973000" ; # this is not the correct format, not sure what that should be for an offset
+					schema:startDate "2013-04-12"; # format has to be ISO 8601
+					schema:endTime "83025160" ; # this is not the correct format, not sure what that should be for an offset
+					schema:category "uitzending" ; # from bg:type
+					schema:identifier "POW_00493466" ; # from bg:productid
+					schema:publishedOn _:nederland_3 ;
+					schema:comment "Stereo ; # from bg:publication-annotation
+					schema:duration PT17M32S . # had to be converted to ISO 8601 - what do we do with milliseconds?
+_:powned a schema:Organization ;
+			schema:name "POWNED" .
+_:nederland_3 a schema:BroadcastService ;
+				schema:name "Nederland 3" .
+					
+			
+# the series
+nisv:323025 a schema:CreativeWorkSeries;
+			schema:name "POWNEWS"; # need to skip the maintitle in between
+			schema contentLocation _:Nederland;
+			schema:countryOfOrigin _:Nederland; # but technically this property can only be used on a TVEpisode or RadioEpisode
+			schema:description "Het actualiteitenprogramma 'PowNews' komt in september 2010 voor het eerst op de buis. Het is het eerste televisieprogramma van PowNed, de Publieke Omroep Weldenkend Nederland En Dergelijke. De omroep is een initiatief van de internetsite Geenstijl.nl en naar eigen zeggen stijlloos, met dezelfde rauwe en provocerende toonzetting. Internet Het programma richt zich vooral op de internetgeneratie, met een nieuwsaanbod en vorm die sterk afwijken van de traditionele media. In de uitzendingen is naast korte reportages veel aandacht voor curieuze fragmenten die zijn overgenomen van het internet. Onder in beeld loopt een ticker mee, waarop kijkers rechtstreeks commentaar op de uitzending kunnen gegeven via Twitter. Aangifte Verslaggever Rutger Castricum heeft naam gemaakt met zijn filmpjes voor Geenstijl.nl. Voor 'PowNews' verzorgt hij verschillende bijdragen. Die vallen niet altijd in goede aarde. In 2010 heeft hij een eerste aangifte wegens smaad te pakken. Daarnaast heeft ook de SGP kritiek op de omroep." ; # from museum-description
+			schema:identifier "323025@series" ; # from dc:identifier
+			schema:description "Doordeweeks actualiteitenprogramma volgens de formule van de internetsite 'GeenStijl.nl' in een rauwe en provocerende toonzetting. Het programma richt zich met name op de internetgeneratie door nieuwsaanbod en vorm die sterk afwijkt van de traditionele media. Pownews is het eerste televisieprogramma van de omroep POWNED." # from bg:summary
+			schema:genre "actualiteiten"; # from bg:museum-genres
+			schema:identifier "4485100" ; # from bg:museum-taskid
+			schema:genre "Actualiteiten" ; # from bg:genres
+			schema:genre "Nieuws" ; # from bg:genres
+			schema:isPartOf _:catalog ; # from bg:catalog
+			schema:identifier "4451501" ; # from bg:taskid
+			schema:productionCompany _:productionCompanyInRole .
+			
+_:Nederland a schema:Place;
+			schema:name "Nederland" .
+_:catalog a schema:Collection ; 
+			schema:name "Bewegend beeld/TV/Publieke omroep/Actualiteiten" .
+_:productionCompanyInRole a schema:Role ; # this is over the top as no role information or clarification. However, if we model this differently, then we can't retrieve all named entities in the same way
+							schema:name "PowNed" .
+							
+# the season
+nisv:381759 a CreativeWorkSeason ;
+			schema:name "Pownews (2012 - 2013)" ; # need to skip the maintitle in between
+			schema:identifier "381759@season" ; # from dc:identifier
+			schema:creator _:creator ;
+			schema:identifier "4693031" ; # from bg:taskid
+			schema:numberOfEpisodes 0 ; # have to convert from string to integer
+			schema:partOfSeries nisv:323025 . # in the index, this is done via the dc:identifier. How is it in the OAI? 
+			
+			
+_:creator a schema:Role ;
+			schema:roleName "presentatie" ;
+			schema:creator _:dominique_weesie ;
+_:dominque_weesie a schema:Person ;
+			schema:name "Weesie, Dominique" .
+			
+# one example segment
+nisv:93207467 a schema:Clip ;
+				schema:name "Weekoverzicht"; # need to skip the maintitle in between
+				schema:identifier "93207467@segment" ; # from dc:identifier
+				schema:associatedMedia _:seg_carrier_1 ;
+				schema:associatedMedia _:seg_carrier_2 ;
+				schema:associatedMedia _:seg_carrier_3 ;
+				schema:clipNumber "5" ; # text or number is ok here
+				schema:url "http://in.beeldengeluid.nl/collectie/details/expressie/4088370/false/true" ;
+				schema:partOfEpisode nisv:4088370 ; # in the index, this is done via the dc:identifier. How is it in the OAI?
+				schema:category "Item" ; # from bg:type
+				schema:duration PT50S ; # have to convert to ISO 8601 - what do we do with the milliseconds?
+				
+_:seg_carrier_1 a schema:MediaObject ;
+				schema:identifier "10426977" ; # from bg:carrierid
+				schema:identifier "-1" ; # from bg:publid
+				schema:category "Programma" ; # from bg:carrierclass
+				schema:identifier "92471538" ; # from bg:id
+				schema:identifier "POWNEWS______-WON01012566" ; # from bg:carrierreference
+				schema:identifier "20130413163427608007904507980C16E66DA380000006536B00000D0F010708" ; # from dmguid
+				schema:encodingFormat "media archive" ; 
+				schema:dateCreated "2013-04-13T16:37:38Z" ;
+...
+				
+				

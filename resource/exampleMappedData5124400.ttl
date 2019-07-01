@@ -22,6 +22,21 @@ nisv:5124400 a schema:Episode;
 			schema:creator _:creator_6 ; 
 			schema:creator _:creator_7 ; 
 			schema:creator _:creator_8 ;
+			schema:mentions _:eu_personname ;
+			schema:identifier "5907636" ; # from taskid
+			schema:episodeNumber "17" ;
+			schema:identifier "VPWON_1257579" ; # external-identifier
+			schema:associatedMedia _:carrier_1 ;
+			schema:associatedMedia _:carrier_2 ;
+			schema:associatedMedia _:carrier_3 ;
+			schema:associatedMedia _:carrier_4 ;
+			schema:associatedMedia _:carrier_5 ;
+			schema:hasPart _:used_archive_material_1 ;
+			schema:hasPart _:used_archive_material_2 ;
+			...			
+			schema:hasPart _:used_archive_material_15 ;
+			schema:contributor _:speaker ;
+			schema:isPartOf nisv:10961 ; 
 			
 _:netherlands a Country;
 			schema:name "Nederland" .
@@ -63,4 +78,42 @@ _:creator_1 a schema:Role ;
 			schema:creator _:jolanda_segers .
 _:jolanda_segers a schema:Person ; 
 				schema:name "Segers, Jolanda" .
-		
+_:creator_2 a schema:Role ;
+			schema:roleName "regie" ;
+			schema:creator _:jos_de_putter .
+_:jos_de_putter a schema:Person ; 
+				schema:name "Putter, Jos de" .
+...
+_:creator_6 a schema:Role ;
+			schema:roleName "research" ;
+			schema:description "beeldresearch" ; 
+			schema:creator _:marga_smit.
+_:marga_smit a schema:Person ; 
+				schema:name "Smit, Marga" .
+...
+_:eu_personname a schema:Role ;
+				schema:mentions _:eu .
+_:eu a schema:Organization ;
+	schema:name "EU" .
+_:carrier_1 a schema:MediaObject
+			schema:identifier "18291550" ; # from carrierid
+			schema:category "Programma" ; # from carrierclass
+			schema:identifier "106703403" ; # from id
+			schema:identifier "VPRO_TEGENLIC-VPR00046217.890" ; # from carrierreference
+			schema:identifier "5581285" ; # from publid
+			schema:encodingFormat "890" ; 
+			schema:dateCreated "2016-04-24T22:37:11Z" .
+...
+_:carrier_5 a schema:MediaObject
+			schema:identifier "18291563" ; # from carrierid
+			schema:category "Programma" ; # from carrierclass
+			schema:identifier 106703432" ; # from id
+			schema:dateCreated "2016-04-24T23:17:56Z" ;
+			schema:isPartOf _:carrier_4 ;
+			schema:identifier "2016-04-24-21,06-2_2016-04-24-21,06-2_VPWON_1257579.stl" ; # from carrierreference
+			schema:identifier "5581285" ; # from publid
+			schema:encodingFormat "stl"; 
+_:used_archive_material_1 a schema:CreativeWork ;
+							schema:description "Type: Film; Duration: 00:00:03; Title: Eurogroep geïrriteerd over houding Griekenland bij top Riga; Grieken vrezen Europese maatregelen; PublicationTitle: Journaal; ProductionCountry: Nederland; ProductionYear: 2015; ProductionCompany: NOS" .
+_:speaker a schema:Role ;
+			schema:contributor _:yanis_varoufakis . # I am assuming we would use GTAA here, so that we can reuse the person we created above

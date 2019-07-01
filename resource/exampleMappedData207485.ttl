@@ -32,7 +32,7 @@ nisv:207485 a schema:Episode;
 			schema:name "TV7 (1)" ; # need to skip the MainTitle level in between
 			schema:url "http://in.beeldengeluid.nl/collectie/details/expressie/207485/false/true" ;
 			schema:publication _:publication_event
-			schema:duration "P24M28S"  ; # has to be converted to ISO 8601
+			schema:duration "PT24M28S"  ; # has to be converted to ISO 8601
 			schema:isPartOf _:available_collection ;
 			schema:creator _:creator_1 ;
 			schema:creator _:creator_2 ;
@@ -93,7 +93,7 @@ _:productionCompany_3 a schema:Organization;
 					schema:comment "Materiaal: Kleur AANVULLING: Breedbeeld-uitzending (letterbox)" ; # from technical-annotation
 					schema:comment "Avail: 24'28"" ; # from duration-annotation
 					schema:startTime "77350000" ; 
-					schema:duration "P24M28S"  ; # has to be converted to ISO 8601
+					schema:duration "PT24M28S"  ; # has to be converted to ISO 8601
 					
 					
 					

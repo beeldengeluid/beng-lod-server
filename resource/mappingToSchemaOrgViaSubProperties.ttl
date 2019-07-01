@@ -113,15 +113,15 @@ schema:contributor rdfs:subPropertyOf nisv:hasPerson . # for speaker
 
 
 ###  http://www.beeldengeluid.nl/schema/hasProducer
-nisv:hasProducer rdfs:subPropertyOf schema:producer
+nisv:hasProducer rdfs:subPropertyOf schema:producer .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasProductionCountry
-nisv:hasProductionCountry rdfs:subPropertyOf schema:countryOfOrigin
+nisv:hasProductionCountry rdfs:subPropertyOf schema:countryOfOrigin .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasPublication
-nisv:hasPublication rdfs:subPropertyOf schema:publication
+nisv:hasPublication rdfs:subPropertyOf schema:publication .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasQualification
@@ -131,37 +131,37 @@ nisv:hasPublication rdfs:subPropertyOf schema:publication
 
 
 ###  http://www.beeldengeluid.nl/schema/hasSpeaker
-nisv:hasSpeaker rdfs:subPropertyOf schema:contributor
+nisv:hasSpeaker rdfs:subPropertyOf schema:contributor .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasSponsor
-nisv:hasSponsor rdfs:subPropertyOf schema:sponsor
+nisv:hasSponsor rdfs:subPropertyOf schema:sponsor .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasSubTitle
-nisv:hasSubTitle rdfs:subPropertyOf schema:alternativeHeadline
+nisv:hasSubTitle rdfs:subPropertyOf schema:alternativeHeadline .
 
 ###  http://www.beeldengeluid.nl/schema/hasSubject
-nisv:hasSubject rdfs:subPropertyOf schema:about
+nisv:hasSubject rdfs:subPropertyOf schema:about .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasTargetGroup
-nisv:hasTargetGroup rdfs:subPropertyOf schema:audience
+nisv:hasTargetGroup rdfs:subPropertyOf schema:audience .
 
 
 ###  http://www.beeldengeluid.nl/schema/isPartOfProgram
-nisv:isPartOfProgram rdfs:subPropertyOf schema:partOfEpisode
+nisv:isPartOfProgram rdfs:subPropertyOf schema:partOfEpisode .
 
 
 ###  http://www.beeldengeluid.nl/schema/isPartOfSeason
-nisv:isPartOfSeason rdfs:subPropertyOf schema:partOfSeason
+nisv:isPartOfSeason rdfs:subPropertyOf schema:partOfSeason .
 
 
 ###  http://www.beeldengeluid.nl/schema/isPartOfSeries
-nisv:isPartOfSeries rdfs:subPropertyOf schema:partOfSeries
+nisv:isPartOfSeries rdfs:subPropertyOf schema:partOfSeries .
 
 ###  http://www.beeldengeluid.nl/schema/hasAdditionalInformation
-nisv:hasAdditionalInformation rdfs:subPropertyOf schema:comment
+nisv:hasAdditionalInformation rdfs:subPropertyOf schema:comment .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasArchiveStatus
@@ -171,10 +171,10 @@ nisv:hasAdditionalInformation rdfs:subPropertyOf schema:comment
 
 
 ###  http://www.beeldengeluid.nl/schema/hasAvailableCollection
-nisv:hasAvailableCollection rdfs:subPropertyOf schema:isPartOf
+nisv:hasAvailableCollection rdfs:subPropertyOf schema:isPartOf .
 
 ###  http://www.beeldengeluid.nl/schema/hasAward
-nisv:hasAward rdfs:subPropertyOf schema:award
+nisv:hasAward rdfs:subPropertyOf schema:award .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasBlock
@@ -184,40 +184,40 @@ nisv:hasAward rdfs:subPropertyOf schema:award
 
 
 ###  http://www.beeldengeluid.nl/schema/hasCarrierAnnotation
-nisv:hasCarrierAnnotation rdfs:subPropertyOf schema:comment
+nisv:hasCarrierAnnotation rdfs:subPropertyOf schema:comment .
 
 ###  http://www.beeldengeluid.nl/schema/hasCarrierClass
-nisv:hasCarrierClass rdfs:subPropertyOf schema:category
+nisv:hasCarrierClass rdfs:subPropertyOf schema:category .
 
 ###  http://www.beeldengeluid.nl/schema/hasCarrierEndPosition
 
 
 ###  http://www.beeldengeluid.nl/schema/hasCarrierId
-nisv:hasCarrierId rdfs:subPropertyOf schema:identifier
+nisv:hasCarrierId rdfs:subPropertyOf schema:identifier .
 
 ###  http://www.beeldengeluid.nl/schema/hasCarrierLocation
 
 
 ###  http://www.beeldengeluid.nl/schema/hasCarrierReference
-nisv:hasCarrierReference rdfs:subPropertyOf schema:identifier
+nisv:hasCarrierReference rdfs:subPropertyOf schema:identifier .
 
 ###  http://www.beeldengeluid.nl/schema/hasCarrierStartPosition
 
 
 ###  http://www.beeldengeluid.nl/schema/hasCarrierType
-nisv:hasCarrierType rdf:subPropertyOf schema:encodingFormat
+nisv:hasCarrierType rdf:subPropertyOf schema:encodingFormat .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasCatalog
-nisv:hasCatalog rdfs:subPropertyOf schema:isPartOf
+nisv:hasCatalog rdfs:subPropertyOf schema:isPartOf .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasCharacter
-nisv:hasCharacter rdfs:subPropertyOf schema:characterName
+nisv:hasCharacter rdfs:subPropertyOf schema:characterName .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasClarification
-nisv:hasClarification rdfs:subPropertyOf schema:comments
+nisv:hasClarification rdfs:subPropertyOf schema:comments .
 
 ###  http://www.beeldengeluid.nl/schema/hasClearingStatus
 
@@ -229,11 +229,11 @@ nisv:hasClarification rdfs:subPropertyOf schema:comments
 
 
 ###  http://www.beeldengeluid.nl/schema/hasContextReference
-nisv:hasContextReference rdfs:subPropertyOf schema:identifier
+nisv:hasContextReference rdfs:subPropertyOf schema:identifier .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasCreationDate
-nisv:hasCreationDate rdfs:subPropertyOf schema:dateCreated
+nisv:hasCreationDate rdfs:subPropertyOf schema:dateCreated .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasDatePrecision
@@ -252,7 +252,7 @@ nisv:hasCreationDate rdfs:subPropertyOf schema:dateCreated
 
 
 ###  http://www.beeldengeluid.nl/schema/hasDescription
-nisv:hasDescription rdfs:subPropertyOf schema:description
+nisv:hasDescription rdfs:subPropertyOf schema:description .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasDistributionChannel
@@ -262,35 +262,35 @@ nisv:hasDescription rdfs:subPropertyOf schema:description
 
 
 ###  http://www.beeldengeluid.nl/schema/hasDmGuid
-nisv:hasDmGuid rdfs:subPropertyOf schema:identifier
+nisv:hasDmGuid rdfs:subPropertyOf schema:identifier .
 
 ###  http://www.beeldengeluid.nl/schema/hasDuration
-nisv:hasDuration rdfs:subPropertyOf schema:duration
+nisv:hasDuration rdfs:subPropertyOf schema:duration .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasDurationAnnotation
-nisv:hasDurationAnnotation rdfs:subPropertyOf schema:dcomment
+nisv:hasDurationAnnotation rdfs:subPropertyOf schema:dcomment .
 
 ###  http://www.beeldengeluid.nl/schema/hasEndDate
-nisv:hasEndDate rdfs:subPropertyOf schema:endDate
+nisv:hasEndDate rdfs:subPropertyOf schema:endDate .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasEndOnCarrier
 
 
 ###  http://www.beeldengeluid.nl/schema/hasEndTime
-nisv:hasEndTime rdfs:subPropertyOf schema:endTime
+nisv:hasEndTime rdfs:subPropertyOf schema:endTime .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasEpisodeNumber
-nisv:hasEpisodeNumber rdfs:subPropertyOf schema:episodeNumber
+nisv:hasEpisodeNumber rdfs:subPropertyOf schema:episodeNumber .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasExternalId
-nisv:hasExternalId rdfs:subPropertyOf schema:identifier
+nisv:hasExternalId rdfs:subPropertyOf schema:identifier .
 
 ###  http://www.beeldengeluid.nl/schema/hasExternalReference
-nisv:hasExternalReference rdfs:subPropertyOf schema:contentUrl
+nisv:hasExternalReference rdfs:subPropertyOf schema:contentUrl .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasFormat
@@ -300,17 +300,17 @@ nisv:hasExternalReference rdfs:subPropertyOf schema:contentUrl
 
 
 ###  http://www.beeldengeluid.nl/schema/hasId
-nisv:hasIdrdfs:subPropertyOf schema:identifier
+nisv:hasIdrdfs:subPropertyOf schema:identifier .
 
 ###  http://www.beeldengeluid.nl/schema/hasLanguageId
 
 
 ###  http://www.beeldengeluid.nl/schema/hasLicense
-nisv:hasLicense rdfs:subPropertyOf schema:license
+nisv:hasLicense rdfs:subPropertyOf schema:license .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasLink
-nisv:hasLink rdfs:subPropertyOf schema:url
+nisv:hasLink rdfs:subPropertyOf schema:url .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasMetrage
@@ -320,19 +320,19 @@ nisv:hasLink rdfs:subPropertyOf schema:url
 
 
 ###  http://www.beeldengeluid.nl/schema/hasMuseumAnnotation
-nisv:hasMuseumAnnotation rdfs:subPropertyOf schema:comment
+nisv:hasMuseumAnnotation rdfs:subPropertyOf schema:comment .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasMuseumDescription
-nisv:hasMuseumDescription rdfs:subPropertyOf schema:description
+nisv:hasMuseumDescription rdfs:subPropertyOf schema:description .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasMuseumGenre
-nisv:hasMuseumGenre rdfs:subPropertyOf schema:genre
+nisv:hasMuseumGenre rdfs:subPropertyOf schema:genre .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasMuseumKeyword
-nisv:hasMuseumKeyword rdfs:subPropertyOf schema:about
+nisv:hasMuseumKeyword rdfs:subPropertyOf schema:about .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasMuseumLanguageId
@@ -342,21 +342,22 @@ nisv:hasMuseumKeyword rdfs:subPropertyOf schema:about
 
 
 ###  http://www.beeldengeluid.nl/schema/hasMuseumSummary
-nisv:hasMuseumSummary rdfs:subPropertyOf schema:description
+nisv:hasMuseumSummary rdfs:subPropertyOf schema:description .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasMuseumTheme
 
 
 ###  http://www.beeldengeluid.nl/schema/hasName
-nisv:hasName rdfs:subPropertyOf schema:name
+nisv:hasName rdfs:subPropertyOf schema:name .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasNisvId
-nisv:hasNisvId rdfs:subPropertyOf schema:identifier
+nisv:hasNisvId rdfs:subPropertyOf schema:identifier .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasNumberOfEpisodes
+nisv:hasNumberOfEpisodes rdfs:subPropertyOf schema:numberOfEpisodes  .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasOccasion
@@ -366,32 +367,32 @@ nisv:hasNisvId rdfs:subPropertyOf schema:identifier
 
 
 ###  http://www.beeldengeluid.nl/schema/hasParentCarrierId
-nisv:hasParentCarrierId rdfs:subPropertyOf schema:isPartOf
+nisv:hasParentCarrierId rdfs:subPropertyOf schema:isPartOf .
 
 ###  http://www.beeldengeluid.nl/schema/hasPart
 
 
 ###  http://www.beeldengeluid.nl/schema/hasPortalLink
-nisv:hasPortalLink rdfs:subPropertyOf schema:url
+nisv:hasPortalLink rdfs:subPropertyOf schema:url .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasProductId
-nisv:hasProductId rdfs:subPropertyOf schema:identifier
+nisv:hasProductId rdfs:subPropertyOf schema:identifier .
 
 ###  http://www.beeldengeluid.nl/schema/hasProductYear
 
 
 ###  http://www.beeldengeluid.nl/schema/hasPublId
-nisv:hasPublId rdfs:subPropertyOf schema:identifier
+nisv:hasPublId rdfs:subPropertyOf schema:identifier .
 
 ###  http://www.beeldengeluid.nl/schema/hasPublicationAnnotation
-nisv:hasPublicationAnnotation rdfs:subPropertyOf schema:comment
+nisv:hasPublicationAnnotation rdfs:subPropertyOf schema:comment .
 
 ###  http://www.beeldengeluid.nl/schema/hasRebroadcast
 
 
 ###  http://www.beeldengeluid.nl/schema/hasRecordingLocation
-nisv:hasRecordingLocation rdfs:subPropertyOf schema:locationCreated
+nisv:hasRecordingLocation rdfs:subPropertyOf schema:locationCreated .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasRepository
@@ -401,19 +402,19 @@ nisv:hasRecordingLocation rdfs:subPropertyOf schema:locationCreated
 
 
 ###  http://www.beeldengeluid.nl/schema/hasRole
-nisv:hasRole rdfs:subPropertyOf schema:roleName
+nisv:hasRole rdfs:subPropertyOf schema:roleName .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasSequenceNumber
 
 
 ###  http://www.beeldengeluid.nl/schema/hasSortDate
-nisv:hasSortDate rdfs:subPropertyOf schema:hasStartDate # for publications
-nisv:hasSortDate rdfs:subPropertyOf schema:datePublished # for program as a whole
+nisv:hasSortDate rdfs:subPropertyOf schema:hasStartDate  .# for publications
+nisv:hasSortDate rdfs:subPropertyOf schema:datePublished . # for program as a whole
 
 
 ###  http://www.beeldengeluid.nl/schema/hasSortType
-nisv:hasSortType rdfs:subPropertyOf schema:category
+nisv:hasSortType rdfs:subPropertyOf schema:category .
 
 ###  http://www.beeldengeluid.nl/schema/hasSorting
 
@@ -422,11 +423,11 @@ nisv:hasSortType rdfs:subPropertyOf schema:category
 
 
 ###  http://www.beeldengeluid.nl/schema/hasSourceCatalog
-nisv:hasSourceCatalog rdfs:subPropertyOf schema:isPartOf
+nisv:hasSourceCatalog rdfs:subPropertyOf schema:isPartOf .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasStartDate
-nisv:hasStartDate rdfs:subPropertyOf schema:startDate
+nisv:hasStartDate rdfs:subPropertyOf schema:startDate .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasStartOffset
@@ -436,7 +437,7 @@ nisv:hasStartDate rdfs:subPropertyOf schema:startDate
 
 
 ###  http://www.beeldengeluid.nl/schema/hasStartTime
-nisv:hasStartTime rdfs:subPropertyOf schema:startTime
+nisv:hasStartTime rdfs:subPropertyOf schema:startTime .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasStartTimestamp
@@ -446,15 +447,15 @@ nisv:hasStartTime rdfs:subPropertyOf schema:startTime
 
 
 ###  http://www.beeldengeluid.nl/schema/hasSummary
-nisv:hasSummary  rdfs:subPropertyOf schema:description
+nisv:hasSummary  rdfs:subPropertyOf schema:description .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasTechnicalAnnotation
-nisv:hasTechnicalAnnotation rdfs:subPropertyOf schema:comment
+nisv:hasTechnicalAnnotation rdfs:subPropertyOf schema:comment .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasTechnicalDetails
-nisv:hasTechnicalDetails rdfs:subPropertyOf schema:comment
+nisv:hasTechnicalDetails rdfs:subPropertyOf schema:comment .
 
 ###  http://www.beeldengeluid.nl/schema/hasTheme
 
@@ -463,11 +464,11 @@ nisv:hasTechnicalDetails rdfs:subPropertyOf schema:comment
 
 
 ###  http://www.beeldengeluid.nl/schema/hasTitle
-nisv:hasTitle rdfs:subPropertyOf schema:headline
+nisv:hasTitle rdfs:subPropertyOf schema:headline .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasType
-nisv:hasType rdfs:subPropertyOf schema:category
+nisv:hasType rdfs:subPropertyOf schema:category .
 
 ###  http://www.beeldengeluid.nl/schema/hasUgStatus
 
@@ -479,11 +480,11 @@ nisv:hasType rdfs:subPropertyOf schema:category
 
 
 ###  http://www.beeldengeluid.nl/schema/involvesMuseumEntity
-nisv:involvesMuseumEntity rdfs:subPropertyOf schema:mentions
+nisv:involvesMuseumEntity rdfs:subPropertyOf schema:mentions .
 
 
 ###  http://www.beeldengeluid.nl/schema/involvesMuseumPerson
-nisv:involvesMuseumPerson rdfs:subPropertyOf schema:mentions
+nisv:involvesMuseumPerson rdfs:subPropertyOf schema:mentions .
 
 
 ###  http://www.beeldengeluid.nl/schema/isSilent
@@ -505,7 +506,7 @@ nisv:involvesMuseumPerson rdfs:subPropertyOf schema:mentions
 
 
 ###  http://www.beeldengeluid.nl/schema/usedArchiveMaterial
-nisv:usedArchiveMaterial rdfs:subPropertyOf schema:hasPart
+nisv:usedArchiveMaterial rdfs:subPropertyOf schema:hasPart .
 
 
 ###  http://www.beeldengeluid.nl/schema/wasLive
@@ -519,96 +520,96 @@ nisv:usedArchiveMaterial rdfs:subPropertyOf schema:hasPart
 
 
 ###  http://www.beeldengeluid.nl/schema/AudioVisualObject
-nisv:AudioVisualObject rdfs:subClassOf schema:CreativeWork
+nisv:AudioVisualObject rdfs:subClassOf schema:CreativeWork .
 
 
 ###  http://www.beeldengeluid.nl/schema/BroadcastStation
-nisv:BroadcastStation rdfs:subClassOf schema:BroadcastService # little doubtful about this
+nisv:BroadcastStation rdfs:subClassOf schema:BroadcastService . # little doubtful about this
 
 
 ###  http://www.beeldengeluid.nl/schema/Broadcaster
-nisv:Broadcaster rdfs:subClassOf schema:Organization
+nisv:Broadcaster rdfs:subClassOf schema:Organization .
 
 
 ###  http://www.beeldengeluid.nl/schema/Carrier
-nisv:Carrier rdfs:subClassOf schema:MediaObject
+nisv:Carrier rdfs:subClassOf schema:MediaObject .
 
 
 ###  http://www.beeldengeluid.nl/schema/Cast
-nisv:Cast rdfs:subClassOf schema:PerformanceRole
+nisv:Cast rdfs:subClassOf schema:PerformanceRole .
 
 
 ###  http://www.beeldengeluid.nl/schema/Context
 
 
 ###  http://www.beeldengeluid.nl/schema/Contractor
-nisv:Contractor rdfs:subClassOf schema:Role
+nisv:Contractor rdfs:subClassOf schema:Role .
 
 
 ###  http://www.beeldengeluid.nl/schema/Creator
-nisv:Creator rdfs:subClassOf schema:Person
+nisv:Creator rdfs:subClassOf schema:Person .
 
 
 ###  http://www.beeldengeluid.nl/schema/DistributableEntity
 
 
 ###  http://www.beeldengeluid.nl/schema/EntityInRole
-nisv:EntityInRole rdfs:subClassOf schema:Role
+nisv:EntityInRole rdfs:subClassOf schema:Role .
 
 
 ###  http://www.beeldengeluid.nl/schema/EntityWithDuration
 
 
 ###  http://www.beeldengeluid.nl/schema/Funder
-nisv:Funder rdfs:subClassOf schema:Role
+nisv:Funder rdfs:subClassOf schema:Role .
 
 
 ###  http://www.beeldengeluid.nl/schema/Genre
 
 
 ###  http://www.beeldengeluid.nl/schema/Language
-nisv:Language rdfs:subClassOf schema:Language
+nisv:Language rdfs:subClassOf schema:Language .
 
 
 ###  http://www.beeldengeluid.nl/schema/LanguageUsage
 
 
 ###  http://www.beeldengeluid.nl/schema/Location
-nisv:Location rdfs:subClassOf schema:Place
+nisv:Location rdfs:subClassOf schema:Place .
 
 
 ###  http://www.beeldengeluid.nl/schema/MusicStyle
 
 
 ###  http://www.beeldengeluid.nl/schema/Nationality
-nisv:Nationality rdfs:subClassOf schema:Country
+nisv:Nationality rdfs:subClassOf schema:Country .
 
 
 ###  http://www.beeldengeluid.nl/schema/Organisation
-nisv:Organisation rdfs:subClassOf schema:Organization
+nisv:Organisation rdfs:subClassOf schema:Organization .
 
 
 ###  http://www.beeldengeluid.nl/schema/OriginalCreator
-nisv:OriginalCreator rdfs:subClassOf schema:Person
+nisv:OriginalCreator rdfs:subClassOf schema:Person .
 
 
 ###  http://www.beeldengeluid.nl/schema/Person
-nisv:Person rdfs:subClassOf schema:Person
+nisv:Person rdfs:subClassOf schema:Person .
 
 
 ###  http://www.beeldengeluid.nl/schema/PlayableAudioVisualObject
 
 
 ###  http://www.beeldengeluid.nl/schema/Producer
-nisv:Producer rdfs:subClassOf schema:Role
+nisv:Producer rdfs:subClassOf schema:Role .
 
 
 ###  http://www.beeldengeluid.nl/schema/Program
-nisv:Program rdfs:subClassOf schema:Episode
+nisv:Program rdfs:subClassOf schema:Episode .
 
 
 ###  http://www.beeldengeluid.nl/schema/Publication
-nisv:Publication rdfs:subClassOf schema:PublicationEvent
+nisv:Publication rdfs:subClassOf schema:PublicationEvent .
 
 
 ###  http://www.beeldengeluid.nl/schema/Qualification
@@ -621,33 +622,33 @@ nisv:Publication rdfs:subClassOf schema:PublicationEvent
 
 
 ###  http://www.beeldengeluid.nl/schema/SceneDescription
-nisv:SceneDescription rdfs:subClassOf schema:Clip
+nisv:SceneDescription rdfs:subClassOf schema:Clip .
 
 
 ###  http://www.beeldengeluid.nl/schema/Season
-nisv:Season rdfs:subClassOf schema:CreativeWorkSeason
+nisv:Season rdfs:subClassOf schema:CreativeWorkSeason .
 
 
 ###  http://www.beeldengeluid.nl/schema/SequenceMember
 
 
 ###  http://www.beeldengeluid.nl/schema/Series
-nisv:Series rdfs:subClassOf schema:CreativeWorkSeries
+nisv:Series rdfs:subClassOf schema:CreativeWorkSeries .
 
 
 ###  http://www.beeldengeluid.nl/schema/Speaker
-nisv:Speaker rdfs:subClassOf schema:Role
+nisv:Speaker rdfs:subClassOf schema:Role .
 
 
 ###  http://www.beeldengeluid.nl/schema/Sponsor 
-nisv:Sponsor rdfs:subClassOf schema:Role
+nisv:Sponsor rdfs:subClassOf schema:Role .
 
 
 ###  http://www.beeldengeluid.nl/schema/Subject
 
 
 ###  http://www.beeldengeluid.nl/schema/TargetGroup
-nisv:TargetGroup rdfs:subClassOf schema:Audience
+nisv:TargetGroup rdfs:subClassOf schema:Audience .
 
 
 ###  http://www.beeldengeluid.nl/schema/Title
