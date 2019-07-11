@@ -5,7 +5,7 @@ import os
 import pytest
 
 """
-Basic fixtures that are usefull for most of the test modules
+Basic fixtures that are useful for most of the test modules
 """
 
 """------------------------ APPLICATION BASE PATH/URL ----------------------"""

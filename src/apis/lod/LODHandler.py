@@ -3,14 +3,12 @@ from rdflib import Graph
 from rdflib.plugin import PluginException
 from lxml import etree
 from lxml.etree import XSLTError
-from urllib import urlencode
+from urllib.parse import urlencode
 from util.APIUtil import APIUtil
 
 class LODHandler(object):
 	''' OAI-PMH provider serves catalogue data on a URL,
-		e.g.: http://oaipmh.beeldengeluid.nl/resource/program/5296881?output=bg
-			# TODO: make this an OAI-PMH GetRecord request
-			# http://oaipmh.beeldengeluid.nl/oai?verb=GetRecord&metadataPrefix=bg&identifier=oai:program:3883163
+		# http://oaipmh.beeldengeluid.nl/oai?verb=GetRecord&metadataPrefix=bg&identifier=oai:program:3883163
 		This class enables getting the XML from the URL, transform to RDF/XML using an XSLT,
 	'''
 	def __init__(self, config):
@@ -38,7 +36,8 @@ class LODHandler(object):
 			return APIUtil.toSuccessResponse(data)
 		return APIUtil.toErrorResponse('bad_request', 'That return format is not supported')
 
-	#Returns valid OAI-PMH url, e.g. http://oaipmh.beeldengeluid.nl/oai?verb=GetRecord&metadataPrefix=bg&identifier=oai:program:3883163
+	# Returns valid OAI-PMH url,
+	# e.g. http://oaipmh.beeldengeluid.nl/oai?verb=GetRecord&metadataPrefix=bg&identifier=oai:program:3883163
 	def _prepareURI(self, level, identifier):
 		params = {
 			'verb':				'GetRecord',

@@ -1,5 +1,5 @@
 from flask import current_app, request, Response
-from flask_restplus import Api, Namespace, fields, Resource
+from flask_restplus import Namespace, fields, Resource
 
 from apis.lod.LODHandler import LODHandler
 from apis.lod.LODHandlerConcept import LODHandlerConcept
@@ -24,7 +24,7 @@ class LODAPI(Resource):
         'text/n3' : 'n3'
     }
 
-    LD_TO_MIME_TYPE = {v: k for k, v in MIME_TYPE_TO_LD.iteritems()}
+    LD_TO_MIME_TYPE = {v: k for k, v in MIME_TYPE_TO_LD.items()}
 
     def _extractDesiredFormats(self, acceptType):
         mimetype = 'application/rdf+xml'
@@ -84,7 +84,7 @@ class LODConceptAPI(Resource):
         'text/n3' : 'n3'
     }
 
-    LD_TO_MIME_TYPE = {v: k for k, v in MIME_TYPE_TO_LD.iteritems()}
+    LD_TO_MIME_TYPE = {v: k for k, v in MIME_TYPE_TO_LD.items()}
 
     def _extractDesiredFormats(self, acceptType):
         mimetype = 'application/rdf+xml'
