@@ -10,6 +10,8 @@ DUMMY_ID = 'dummy_id'
 DUMMY_LEVEL = 'program'
 DUMMY_XSLT_FILE = 'dummy_file_that_does_not_exist'
 
+# REMARK: What's the use of a test like this? The code itself checks for existing
+# XSLT file. Otherwise it will not continue creation of the LodHandler class.
 def test_LODHandler_xslt_not_found():
 	lodHandler = None
 	try:
@@ -20,6 +22,8 @@ def test_LODHandler_xslt_not_found():
 	finally:
 		unstub()
 
+# REMARK: what's the use of this test? The code tests for a valid parseable XSLT itself
+# during initialization. If it is not correct it will throw the error as well.
 def test_LODHandler_corrupt_xslt(application_settings):
 	lodHandler = None
 	try:
