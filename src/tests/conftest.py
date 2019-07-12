@@ -24,11 +24,11 @@ def base_url(application_settings, base_path):
 def base_file_path():
 	""" Returns the base path for a file, excluding the filename (and extension)."""
 	parts = os.path.realpath(__file__).split('/')
-	return '/'.join(parts[0:len(parts) -2])
+	return '/'.join(parts[0:len(parts) - 2])
 
 @pytest.fixture(scope="module")
 def load_json_file():
-	""" """
+	""" Returns the contents of a JSON file that is in the test directory."""
 	def loadJSONFile(test_path, fn):
 		full_path = os.path.join(os.path.dirname(test_path), fn)
 		if os.path.exists(full_path):
@@ -38,6 +38,7 @@ def load_json_file():
 
 @pytest.fixture(scope="module")
 def open_file():
+	""" Returns the contents of a file that is in the test directory."""
 	def openFile(test_path, fn):
 		full_path = os.path.join(os.path.dirname(test_path), fn)
 		if os.path.exists(full_path):

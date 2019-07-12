@@ -2,7 +2,7 @@ from rdflib import Graph
 from util.APIUtil import APIUtil
 
 class LODHandlerConcept(object):
-	''' OpenSKOS platform provides RDF data for each SKOS concept. As far as I know the 
+	""" OpenSKOS platform provides RDF data for each SKOS concept. As far as I know the
 		sub domain data.beeldengeluid.nl is forwarded to OpenSKOS platform on DNS level. 
 		
 		Paths after the domain name are forwarded to OpenSKOS:
@@ -12,7 +12,7 @@ class LODHandlerConcept(object):
 		... and by adding an '.rdf' extension the RDF/XML is also available:
 			http://data.beeldengeluid.nl/gtaa/58027.rdf
 			
-		Note: this is not really a proper LOD practice. To fix that this class makes the concept 
+		Note: this is not really a proper LOD practice. To fix that this class makes the concept
 		dereferenceable on the data.rdlabs.beeldengeluid.nl sub domain with <set> and <notation>
 		paths:
 			http://data.rdlabs.beeldengeluid.nl/gtaa/58027
@@ -21,14 +21,14 @@ class LODHandlerConcept(object):
 		The LOD server enables content negotiation, making it possible to get the data serialization 
 		in any format that RDFlib can handle, e.g. RDF/XML, Turtle, N3, JSON-LD. 
 		HTML is not yet supported.
-	'''
+	"""
 	def __init__(self, config):
 		self.config = config
 	
-	def getConceptRDF(self,set,notation,returnFormat):
+	def getConceptRDF(self, set, notation, returnFormat):
 		graph = Graph()
-		uri = u'http://data.beeldengeluid.nl/%s/%s.rdf'%(set,notation)
-		graph.load( uri)
+		uri = u'http://data.beeldengeluid.nl/%s/%s.rdf' % (set, notation)
+		graph.load(uri)
 		data = graph.serialize(format=returnFormat)
 		if data:
 			return APIUtil.toSuccessResponse(data)
