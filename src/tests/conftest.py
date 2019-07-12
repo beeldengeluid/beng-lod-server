@@ -12,24 +12,30 @@ Basic fixtures that are useful for most of the test modules
 
 @pytest.fixture(scope="session")
 def base_path():
+	""" Return the base path for the application."""
 	return '/'
 
 @pytest.fixture(scope="session")
 def base_url(application_settings, base_path):
+	""" Returns the service URL."""
 	return 'http://localhost:%s%s' % (application_settings['APP_PORT'], base_path)
 
 @pytest.fixture(scope="session")
 def base_file_path():
-	parts =  os.path.realpath(__file__).split('/')
+	""" Returns the base path for a file, excluding the filename (and extension)."""
+	parts = os.path.realpath(__file__).split('/')
 	return '/'.join(parts[0:len(parts) -2])
 
 @pytest.fixture(scope="module")
 def load_json_file():
+	""" """
 	def loadJSONFile(test_path, fn):
 		path = test_path
+		# TODO: can be replaced with os.path.dirname
 		tmp = test_path.split('/')
 		if len(tmp) > 1:
 			path = '/'.join(test_path.split('/')[:-1])
+		# =====
 		full_path = os.path.join(path, fn)
 		if os.path.exists(full_path):
 			return json.load(open(full_path))
@@ -40,10 +46,13 @@ def load_json_file():
 def open_file():
 	def openFile(test_path, fn):
 		path = test_path
-		tmp = test_path.split('/')
-		if len(tmp) > 1:
-			path = '/'.join(test_path.split('/')[:-1])
-		full_path = os.path.join(path, fn)
+		# TODO: can be replaced with os.path.dirname
+		# tmp = test_path.split('/')
+		# if len(tmp) > 1:
+		# 	path = '/'.join(test_path.split('/')[:-1])
+		#====
+		full_path = os.path.join(os.path.dirname(path), fn)
+		# full_path = os.path.join(path, fn)
 		if os.path.exists(full_path):
 			return open(full_path)
 		return None
@@ -54,6 +63,7 @@ def open_file():
 
 @pytest.fixture(scope="session")
 def application_settings():
+	""" Returns the application settings."""
 	app = Flask(__name__)
 	app.config.from_object('settings.Config')
 	return app.config
@@ -62,28 +72,30 @@ def application_settings():
 
 @pytest.fixture(scope="session")
 def application_client():
-	#this id and token should be available in the application_settings
+	""" Returns the token and id that should be available in the application settings."""
 	return {
-		'id' : 'unit_test',
-		'token' : 'hahahahahahWAT_EEN_TEST'
+		'id': 'unit_test',
+		'token': 'hahahahahahWAT_EEN_TEST'
 	}
 
 @pytest.fixture(scope="session")
 def invalid_application_client():
 	return {
-		'id' : 'FAKE',
-		'token' : 'FAKE'
+		'id': 'FAKE',
+		'token': 'FAKE'
 	}
 
 """------------------------ API CLIENTS FOR ON & OFFLINE TESTING ----------------------"""
 
 @pytest.fixture(scope="session")
 def flask_test_client():
+	""" Returns a basic Flask test client."""
 	from server import app
 	return app.test_client()
 
 @pytest.fixture(scope="session")
 def http_test_client(application_settings):
+	""" Returns an HTTP client that can send requests to local server."""
 	import requests
 	class HTTPClient():
 		def post(self, path, data=None):
@@ -99,6 +111,11 @@ def http_test_client(application_settings):
 
 @pytest.fixture(scope="session")
 def generic_client(http_test_client, flask_test_client):
+	""" Returns a GenericClient instance that either:
+		returns the response from an HTTP client that sends requests to a Flask server,
+		or, when offline, returns the response from a Flask test client that sends
+		requests to a local Flask server.
+	"""
 	class Response(object):
 		def __init__(self, text, status_code, headers):
 			self.text = text
