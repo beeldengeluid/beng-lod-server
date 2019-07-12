@@ -30,13 +30,7 @@ def base_file_path():
 def load_json_file():
 	""" """
 	def loadJSONFile(test_path, fn):
-		path = test_path
-		# TODO: can be replaced with os.path.dirname
-		tmp = test_path.split('/')
-		if len(tmp) > 1:
-			path = '/'.join(test_path.split('/')[:-1])
-		# =====
-		full_path = os.path.join(path, fn)
+		full_path = os.path.join(os.path.dirname(test_path), fn)
 		if os.path.exists(full_path):
 			return json.load(open(full_path))
 		return None
@@ -45,14 +39,7 @@ def load_json_file():
 @pytest.fixture(scope="module")
 def open_file():
 	def openFile(test_path, fn):
-		path = test_path
-		# TODO: can be replaced with os.path.dirname
-		# tmp = test_path.split('/')
-		# if len(tmp) > 1:
-		# 	path = '/'.join(test_path.split('/')[:-1])
-		#====
-		full_path = os.path.join(os.path.dirname(path), fn)
-		# full_path = os.path.join(path, fn)
+		full_path = os.path.join(os.path.dirname(test_path), fn)
 		if os.path.exists(full_path):
 			return open(full_path)
 		return None
