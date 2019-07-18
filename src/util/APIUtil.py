@@ -1,6 +1,9 @@
 from lxml import etree
 from lxml.etree import XMLSyntaxError
 import json
+from rdflib import Graph
+from rdflib.plugin import PluginException
+
 
 ERROR_RESPONSES = {
 	'access_denied': {
@@ -99,3 +102,13 @@ class APIUtil:
 		except XMLSyntaxError as e:
 			return False
 		return True
+
+	@staticmethod
+	def isValidRDF(data):
+		try:
+			graph = Graph()
+			graph.parse(data=data)
+		except PluginException as exc:
+			return False
+		except Exception as e:
+			print(e)
