@@ -45,7 +45,7 @@ def test_get_concept_rdf_succes(application_settings, return_format, o_get_conce
         elif return_format == 'xml':
             assert APIUtil.isValidXML(resp)
 
-        assert APIUtil.isValidRDF(resp)
+        assert APIUtil.isValidRDF(resp) is True
 
     except PluginException as e:
         print(e)
