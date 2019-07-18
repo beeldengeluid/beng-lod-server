@@ -25,11 +25,9 @@ class LODHandlerConcept(object):
 	def __init__(self, config):
 		self.config = config
 
-
 	def getConceptUri(self, set, notation):
 		uri = u'http://data.beeldengeluid.nl/%s/%s.rdf' % (set, notation)
 		return uri
-
 
 	def getConceptRDF(self, set, notation, returnFormat):
 		graph = Graph()
