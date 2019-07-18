@@ -1,5 +1,3 @@
-# TODO: create a fixture for a skos concept
-
 import pytest
 from mockito import when, unstub
 from apis.lod.LODHandlerConcept import LODHandlerConcept
@@ -12,7 +10,7 @@ DUMMY_SET = "blabla"
 DUMMY_NOTATION = "123456"
 RETURN_TYPE = "JSON"
 DUMMY_URI = "http://dummy.data/blabla/123456.rdf"
-DUMMY_DATA = "absolute totally unusable rubbish data without any structure whatsoever"
+# DUMMY_DATA = "absolute totally unusable rubbish data without any structure whatsoever"
 
 @pytest.mark.xfail
 @pytest.mark.parametrize('return_format',  ['xml', 'json-ld', 'ttl', 'n3'])
@@ -41,9 +39,9 @@ def test_get_concept_rdf_succes(application_settings, return_format, o_get_conce
 
         # make sure the returned data is of the intended format
         if return_format == 'json-ld':
-            assert APIUtil.isValidJSON(resp)
+            assert APIUtil.isValidJSON(resp) is True
         elif return_format == 'xml':
-            assert APIUtil.isValidXML(resp)
+            assert APIUtil.isValidXML(resp) is True
 
         assert APIUtil.isValidRDF(resp) is True
 
