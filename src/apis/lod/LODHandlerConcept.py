@@ -29,11 +29,15 @@ class LODHandlerConcept(object):
 		uri = u'http://data.beeldengeluid.nl/%s/%s.rdf' % (set, notation)
 		return uri
 
-	def getConceptRDF(self, set, notation, returnFormat):
+	def getConceptData(self, uri, return_format):
 		graph = Graph()
-		uri = self.getConceptUri(set, notation)
 		graph.load(uri)
-		data = graph.serialize(format=returnFormat)
+		data = graph.serialize(format=return_format)
+		return data
+
+	def getConceptRDF(self, set, notation, return_format):
+		uri = self.getConceptUri(set, notation)
+		data = self.getConceptData(uri, return_format)
 		if data:
 			return APIUtil.toSuccessResponse(data)
 		return APIUtil.toErrorResponse('bad_request', 'That return format is not supported')

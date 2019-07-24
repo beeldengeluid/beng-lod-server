@@ -3,6 +3,7 @@ from flask import Flask
 import json
 import os
 import pytest
+from lxml import etree
 
 """
 Basic fixtures that are useful for most of the test modules
@@ -46,8 +47,18 @@ def open_file():
 		return None
 	return openFile
 
+@pytest.fixture(scope="module")
+def etree_parse_doc():
+	""" Returns the ElementTree resulting form parsing the XML document."""
+	def parse(test_path, fn):
+		full_path = os.path.join(os.path.dirname(test_path), fn)
+		if os.path.exists(full_path):
+			return etree.parse(full_path)
+		return None
+	return parse
 
 """------------------------ APPLICATION SETTINGS (VALID) ----------------------"""
+
 
 @pytest.fixture(scope="session")
 def application_settings():

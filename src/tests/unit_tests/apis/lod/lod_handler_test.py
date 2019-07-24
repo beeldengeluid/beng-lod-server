@@ -8,7 +8,7 @@ from util.APIUtil import APIUtil
 DUMMY_ID = 'dummy_id'
 DUMMY_LEVEL = 'program'
 DUMMY_XSLT_FILE = 'dummy_file_that_does_not_exist'
-
+DUMMY_URI = "http://dummy.test/blabla/123456.rdf"
 
 def test_LODHandler_xslt_not_found():
 	lodHandler = None
@@ -34,23 +34,29 @@ def test_LODHandler_corrupt_xslt(application_settings):
 
 
 @pytest.mark.parametrize('return_type', ['json-ld', 'xml', 'n3', 'ttl'])
-def test_getOAIRecord_200(application_settings, o_get_record, return_type):
+def test_getOAIRecord_200(application_settings, o_get_elementree_from_url, return_type):
 	try:
 		lodHandler = LODHandler(application_settings)
-		when(LODHandler)._prepareURI(DUMMY_LEVEL, DUMMY_ID).thenReturn(o_get_record)
-		resp, status_code, headers = lodHandler.getOAIRecord(DUMMY_LEVEL, DUMMY_ID, return_type)
+		when(LODHandler)._prepareURI(DUMMY_LEVEL, DUMMY_ID).thenReturn(DUMMY_URI)
+		when(LODHandler).getElementTreeFromXMLDoc(DUMMY_URI).thenReturn(o_get_elementree_from_url)
+		data, status_code, headers = lodHandler.getOAIRecord(DUMMY_LEVEL, DUMMY_ID, return_type)
 
 		assert status_code == 200
 
+		# if isinstance(data, bytes):
+		# 	print(data)
+		# 	data = data.decode('UTF-8')
+		#
+		# assert isinstance(data, str)
+
 		# make sure the returned data is of the intended format
 		if return_type == 'json-ld':
-			assert APIUtil.isValidJSON(resp)
+			assert APIUtil.isValidJSON(data) is True
 		elif return_type == 'xml':
-			assert APIUtil.isValidXML(resp)
-		elif return_type in ['n3', 'ttl']:
-			# TODO: check if data can be loaded in a Graph
-			assert not APIUtil.isValidXML(resp)
-			assert not APIUtil.isValidJSON(resp)
+			assert APIUtil.isValidXML(data) is True
+
+		# make sure the RDF can be parsed
+		assert APIUtil.isValidRDF(data=data, format=return_type) is True
 
 		verify(LODHandler, times=1)._prepareURI(DUMMY_LEVEL, DUMMY_ID)
 	finally:

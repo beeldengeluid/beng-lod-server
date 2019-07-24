@@ -2,7 +2,7 @@ from lxml import etree
 from lxml.etree import XMLSyntaxError
 import json
 from rdflib import Graph
-from rdflib.plugin import PluginException
+from rdflib.exceptions import ParserError
 
 
 ERROR_RESPONSES = {
@@ -97,18 +97,23 @@ class APIUtil:
 
 	@staticmethod
 	def isValidXML(data):
+		""" Assumes data is a string."""
 		try:
+			# assert isinstance(data, str)
+			print(data)
 			etree.fromstring(data)
 		except XMLSyntaxError as e:
 			return False
 		return True
 
 	@staticmethod
-	def isValidRDF(data):
+	def isValidRDF(data, format=None):
+		""" Assumes data is a string."""
 		try:
+			# assert isinstance(data, str)
 			graph = Graph()
-			graph.parse(data=data)
-		except PluginException as exc:
+			graph.parse(data=data, format=format)
+		except ParserError as exc:
+			print(exc)
 			return False
-		except Exception as e:
-			print(e)
+		return True
