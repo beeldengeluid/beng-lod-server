@@ -32,8 +32,7 @@ class LODHandlerConcept(object):
 	def getConceptData(self, uri, return_format):
 		graph = Graph()
 		graph.load(uri)
-		data = graph.serialize(format=return_format)
-		return data
+		return graph.serialize(format=return_format)
 
 	def getConceptRDF(self, set, notation, return_format):
 		uri = self.getConceptUri(set, notation)
