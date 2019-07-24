@@ -97,10 +97,7 @@ class APIUtil:
 
 	@staticmethod
 	def isValidXML(data):
-		""" Assumes data is a string."""
 		try:
-			# assert isinstance(data, str)
-			print(data)
 			etree.fromstring(data)
 		except XMLSyntaxError as e:
 			return False
@@ -108,9 +105,7 @@ class APIUtil:
 
 	@staticmethod
 	def isValidRDF(data, format=None):
-		""" Assumes data is a string."""
 		try:
-			# assert isinstance(data, str)
 			graph = Graph()
 			graph.parse(data=data, format=format)
 		except ParserError as exc:

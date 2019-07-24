@@ -43,12 +43,6 @@ def test_getOAIRecord_200(application_settings, o_get_elementree_from_url, retur
 
 		assert status_code == 200
 
-		# if isinstance(data, bytes):
-		# 	print(data)
-		# 	data = data.decode('UTF-8')
-		#
-		# assert isinstance(data, str)
-
 		# make sure the returned data is of the intended format
 		if return_type == 'json-ld':
 			assert APIUtil.isValidJSON(data) is True
