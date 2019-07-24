@@ -35,17 +35,17 @@ def test_get_concept_rdf_succes(application_settings, format, o_get_concept_rdf)
         handler_concept = LODHandlerConcept(application_settings)
         when(LODHandlerConcept).getConceptUri(DUMMY_SET, DUMMY_NOTATION).thenReturn(DUMMY_URI)
         when(LODHandlerConcept).getConceptData(DUMMY_URI).thenReturn(o_get_concept_rdf)
-        resp, status_code, headers = handler_concept.getConceptRDF(DUMMY_SET, DUMMY_NOTATION, return_format=format)
+        data, status_code, headers = handler_concept.getConceptRDF(DUMMY_SET, DUMMY_NOTATION, return_format=format)
         assert status_code == 200
 
         # make sure the returned data is of the intended format
         if format == 'json-ld':
-            assert APIUtil.isValidJSON(resp) is True
+            assert APIUtil.isValidJSON(data) is True
         elif format == 'xml':
-            assert APIUtil.isValidXML(resp) is True
+            assert APIUtil.isValidXML(data) is True
 
         # make sure the RDF can be parsed
-        assert APIUtil.isValidRDF(resp) is True
+        assert APIUtil.isValidRDF(data=data, format=format) is True
 
     except PluginException as e:
         print(e)
