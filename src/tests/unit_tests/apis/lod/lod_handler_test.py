@@ -34,11 +34,12 @@ def test_LODHandler_corrupt_xslt(application_settings):
 
 
 @pytest.mark.parametrize('return_type', ['json-ld', 'xml', 'n3', 'ttl'])
-def test_getOAIRecord_200(application_settings, o_get_elementree_from_url, return_type):
+def test_getOAIRecord_200(application_settings, get_record_xml_local_uri, return_type):
 	try:
 		lodHandler = LODHandler(application_settings)
 		when(LODHandler)._prepareURI(DUMMY_LEVEL, DUMMY_ID).thenReturn(DUMMY_URI)
-		when(LODHandler).getElementTreeFromXMLDoc(DUMMY_URI).thenReturn(o_get_elementree_from_url)
+		when(LODHandler)._prepareURI(DUMMY_LEVEL, DUMMY_ID).thenReturn(get_record_xml_local_uri)
+		# when(LODHandler).getElementTreeFromXMLDoc(DUMMY_URI).thenReturn(o_get_elementree_from_url)
 		data, status_code, headers = lodHandler.getOAIRecord(DUMMY_LEVEL, DUMMY_ID, return_type)
 
 		assert status_code == 200
