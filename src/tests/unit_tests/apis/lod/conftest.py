@@ -11,10 +11,10 @@ def o_get_schema(open_file):
 	""" Returns an example version of the schema."""
 	return open_file(__file__, 'output_get_schema.ttl')
 
-@pytest.fixture()
-def o_get_concept_rdf(open_file):
-	""" Return example data for an example SKOS concept. """
-	return open_file(__file__, 'output_get_concept_rdf.xml')
+# @pytest.fixture()
+# def o_get_concept_rdf(open_file):
+# 	""" Return example data for an example SKOS concept. """
+# 	return open_file(__file__, 'output_get_concept_rdf.xml')
 
 @pytest.fixture()
 def get_concept_rdf_url():
@@ -24,7 +24,6 @@ def get_concept_rdf_url():
 		if os.path.exists(local_path):
 			return ''.join(['file://',  local_path])
 	return prepare_uri(__file__, 'output_get_concept_rdf.xml')
-	# return 'tests/unit_tests/apis/lod/output_concept_rdf.xml'
 
 @pytest.fixture()
 def o_get_elementree_from_url(etree_parse_doc):

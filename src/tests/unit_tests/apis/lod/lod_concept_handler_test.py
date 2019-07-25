@@ -31,11 +31,10 @@ def test_get_concept_rdf_error(application_settings, format, get_concept_rdf_url
 
 
 @pytest.mark.parametrize('format',  ['xml', 'json-ld', 'ttl', 'n3'])
-def test_get_concept_rdf_succes(application_settings, format, o_get_concept_rdf):
+def test_get_concept_rdf_succes(application_settings, format, get_concept_rdf_url):
     try:
         handler_concept = LODHandlerConcept(application_settings)
-        when(LODHandlerConcept).getConceptUri(DUMMY_SET, DUMMY_NOTATION).thenReturn(DUMMY_URI)
-        when(LODHandlerConcept).getConceptData(DUMMY_URI).thenReturn(o_get_concept_rdf)
+        when(LODHandlerConcept).getConceptUri(DUMMY_SET, DUMMY_NOTATION).thenReturn(get_concept_rdf_url)
         data, status_code, headers = handler_concept.getConceptRDF(DUMMY_SET, DUMMY_NOTATION, return_format=format)
         assert status_code == 200
 
