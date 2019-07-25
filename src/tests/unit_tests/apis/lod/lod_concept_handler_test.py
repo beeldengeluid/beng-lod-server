@@ -9,17 +9,18 @@ from rdflib.plugin import PluginException
 DUMMY_SET = "blabla"
 DUMMY_NOTATION = "123456"
 RETURN_TYPE = "JSON"
-DUMMY_URI = "http://dummy.test/blabla/123456.rdf"
+# DUMMY_URI = "http://dummy.test/blabla/123456.rdf"
+DUMMY_URI = "file://output_get_concept_rdf.xml"
 # DUMMY_DATA = "absolute totally unusable rubbish data without any structure whatsoever"
 
-@pytest.mark.xfail
+# @pytest.mark.xfail
 @pytest.mark.parametrize('format',  ['xml', 'json-ld', 'ttl', 'n3'])
-def test_get_concept_rdf_error(application_settings, format):
+def test_get_concept_rdf_error(application_settings, format, get_concept_rdf_url):
     handler_concept = None
     try:
         handler_concept = LODHandlerConcept(application_settings)
-        when(LODHandlerConcept).getConceptUri(DUMMY_SET, DUMMY_NOTATION).thenReturn(DUMMY_URI)
-        resp, status_code, headers = handler_concept.getConceptRDF(DUMMY_SET, DUMMY_NOTATION, return_format=format)
+        when(LODHandlerConcept).getConceptUri(DUMMY_SET, DUMMY_NOTATION).thenReturn(get_concept_rdf_url)
+        data, status_code, headers = handler_concept.getConceptRDF(DUMMY_SET, DUMMY_NOTATION, return_format=format)
         assert status_code == 200
 
     except ValueError as e:

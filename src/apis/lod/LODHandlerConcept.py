@@ -29,7 +29,7 @@ class LODHandlerConcept(object):
 		uri = u'http://data.beeldengeluid.nl/%s/%s.rdf' % (set, notation)
 		return uri
 
-	def getConceptData(self, uri, return_format):
+	def getConceptData(self, uri, return_format=None):
 		graph = Graph()
 		graph.load(uri)
 		return graph.serialize(format=return_format)
