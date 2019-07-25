@@ -8,6 +8,7 @@ from util.APIUtil import APIUtil
 DUMMY_ID = 'dummy_id'
 DUMMY_LEVEL = 'program'
 DUMMY_XSLT_FILE = 'dummy_file_that_does_not_exist'
+DUMMY_URI_ERROR = 'this_is_really_not_an_existing_uri'
 
 def test_LODHandler_xslt_not_found():
 	lodHandler = None
@@ -58,7 +59,7 @@ def test_getOAIRecord_200(application_settings, get_record_xml_local_uri, return
 def test_getOAIRecord_400(application_settings, o_get_record):
 	try:
 		lodHandler = LODHandler(application_settings)
-		when(LODHandler)._prepareURI(DUMMY_LEVEL, DUMMY_ID).thenReturn(o_get_record)
+		when(LODHandler)._prepareURI(DUMMY_LEVEL, DUMMY_ID).thenReturn(DUMMY_URI_ERROR)
 		resp, status_code, headers = lodHandler.getOAIRecord(DUMMY_LEVEL, DUMMY_ID, 'FAKE')
 
 		assert status_code == 400
