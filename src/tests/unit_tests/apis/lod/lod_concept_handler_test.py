@@ -9,9 +9,6 @@ from rdflib.plugin import PluginException
 DUMMY_SET = "blabla"
 DUMMY_NOTATION = "123456"
 RETURN_TYPE = "JSON"
-# DUMMY_URI = "http://dummy.test/blabla/123456.rdf"
-DUMMY_URI = "file://output_get_concept_rdf.xml"
-# DUMMY_DATA = "absolute totally unusable rubbish data without any structure whatsoever"
 
 # @pytest.mark.xfail
 @pytest.mark.parametrize('format',  ['xml', 'json-ld', 'ttl', 'n3'])
