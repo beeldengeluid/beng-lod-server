@@ -1,7 +1,7 @@
 # beng-lod-server
 
 
-Works with Python and >= 3.6
+Works with Python >= 3.6
 
 # prerequisites
 Get yourself the lovely [pipenv](https://docs.pipenv.org/en/latest/)
