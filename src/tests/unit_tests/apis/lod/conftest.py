@@ -31,7 +31,7 @@ def get_record_xml_local_uri():
 		return None
 	return prepare_uri(__file__, 'output_get_record.xml')
 
-@pytest.fixture()
-def o_get_elementree_from_url(etree_parse_doc):
-	""" Returns an example of XML data that can be expected."""
-	return etree_parse_doc(__file__, 'output_get_record.xml')
+# @pytest.fixture()
+# def o_get_elementree_from_url(etree_parse_doc):
+# 	""" Returns an example of XML data that can be expected."""
+# 	return etree_parse_doc(__file__, 'output_get_record.xml')

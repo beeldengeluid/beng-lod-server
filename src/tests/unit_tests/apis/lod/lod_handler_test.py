@@ -8,7 +8,6 @@ from util.APIUtil import APIUtil
 DUMMY_ID = 'dummy_id'
 DUMMY_LEVEL = 'program'
 DUMMY_XSLT_FILE = 'dummy_file_that_does_not_exist'
-DUMMY_URI = "http://dummy.test/blabla/123456.rdf"
 
 def test_LODHandler_xslt_not_found():
 	lodHandler = None
@@ -37,9 +36,7 @@ def test_LODHandler_corrupt_xslt(application_settings):
 def test_getOAIRecord_200(application_settings, get_record_xml_local_uri, return_type):
 	try:
 		lodHandler = LODHandler(application_settings)
-		when(LODHandler)._prepareURI(DUMMY_LEVEL, DUMMY_ID).thenReturn(DUMMY_URI)
 		when(LODHandler)._prepareURI(DUMMY_LEVEL, DUMMY_ID).thenReturn(get_record_xml_local_uri)
-		# when(LODHandler).getElementTreeFromXMLDoc(DUMMY_URI).thenReturn(o_get_elementree_from_url)
 		data, status_code, headers = lodHandler.getOAIRecord(DUMMY_LEVEL, DUMMY_ID, return_type)
 
 		assert status_code == 200
@@ -56,6 +53,7 @@ def test_getOAIRecord_200(application_settings, get_record_xml_local_uri, return
 		verify(LODHandler, times=1)._prepareURI(DUMMY_LEVEL, DUMMY_ID)
 	finally:
 		unstub()
+
 
 def test_getOAIRecord_400(application_settings, o_get_record):
 	try:
