@@ -37,5 +37,15 @@ REGULAR ROUTING (STATIC CONTENT)
 def home():
 	return render_template('index.html')
 
+"""------------------------------------------------------------------------------
+HTML ROUTING (HTML VIEW)
+------------------------------------------------------------------------------"""
+@app.route('/resource', methods=['GET'])
+@app.route('/resource/<string:level>/<int:identifier>')
+def resource(level=None, identifier=None):
+    return render_template('resource.html', level=level, identifier=identifier)
+
 if __name__ == '__main__':
 	app.run(host=app.config['APP_HOST'], port=app.config['APP_PORT'])
+
+
