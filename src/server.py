@@ -2,9 +2,9 @@ from flask import Flask
 from flask import render_template
 from flask import request, Response
 from flask_cors import CORS
+import requests
 
 from apis import api
-
 app = Flask(__name__)
 
 #init the config
@@ -40,12 +40,30 @@ def home():
 """------------------------------------------------------------------------------
 HTML ROUTING (HTML VIEW)
 ------------------------------------------------------------------------------"""
-@app.route('/resource', methods=['GET'])
-@app.route('/resource/<string:level>/<int:identifier>')
+@app.route('/resource-html', methods=['GET'])
+@app.route('/resource-html/<string:level>/<int:identifier>')
 def resource(level=None, identifier=None):
-    return render_template('resource.html', level=level, identifier=identifier)
+    requestUrl = f"http://0.0.0.0:5309/resource/{level}/{identifier}"
+    req = requests.get(requestUrl, headers={'Accept': 'application/ld+json'})
+    jsonObj = req.json()
+    keys = ["schema:carrierclass","schema:collection", "dc:identifier", "schema:titleValue",
+    "schema:creationdate", "schema:summary", "schema:repository", "schema:genre", "schema:theme",
+    "schema:broadcaster", "schema:rights", "schema:source", "schema:type", "schema:location",
+    "schema:language", "schema:keyword","schema:distributionchannel", "@type"]
+    resourceElems = {}
+    resourceElems['creators'] = []
+    resourceElems['carriers'] = []
+    for i in keys:
+        for item in jsonObj['@graph']:
+            if i in item:
+                if i == "@type" and item[i] == 'schema:Creator':
+                    resourceElems['creators'].append(item)
+                elif i == "@type" and item[i] == 'schema:Carrier':
+                    resourceElems['carriers'].append(item)
+                elif i != "@type":
+                    resourceElems[i] = item[i]
+
+    return render_template('resource.html', level=level, identifier=identifier, resourceElems=resourceElems, headers=jsonObj['@context'], bodyContent=jsonObj['@graph'])
 
 if __name__ == '__main__':
 	app.run(host=app.config['APP_HOST'], port=app.config['APP_PORT'])
-
-

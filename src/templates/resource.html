@@ -1,12 +1,200 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" version="HTML+RDFa 1.1" lang="en"
+      prefix="dc=http://purl.org/dc/elements/1.1/"
+      prefix="schema=http://data.rdlabs.beeldengeluid.nl/schema">
+
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta property="dc:identifier" content="{{ identifier }}">
+    <title>Resource:{{ level }} - ID:{{ identifier }}</title>
     <link rel="stylesheet" href="/static/css/resource.css">
 </head>
 <body>
 
-<h1>Hello user!</h1>
-<p>You are looking for a <b>{{ level }}</b> with identifier <b>{{ identifier }}</b>
-</p>
+<div>
+    <table class="table-container" width="100%" role="table">
+        <thead>
+            <caption>Details for {{ level }}  id#{{ identifier }}</caption>
+        </thead>
+        <tbody>
+        {% if resourceElems['schema:titleValue'] %}
+        <tr>
+            <td class="flex-row left-col">Title</td>
+            <td property="schema:titleValue" class="flex-row">{{ resourceElems['schema:titleValue'] }} </td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td class="flex-row left-col">ID </td>
+            <td property="dc:identifier" class="flex-row">{{ resourceElems['dc:identifier'] }} </td>
+        </tr>
+        <tr>
+            <td class="flex-row left-col">Date</td>
+            <td property="schema:creationdate" class="flex-row">{{ resourceElems['schema:creationdate'] }}</td>
+        </tr>
+        {% if resourceElems['schema:summary'] %}
+        <tr>
+            <td class="flex-row left-col">Summary</td>
+            <td property="schema:summary" class="flex-row">{{ resourceElems['schema:summary'] }}</td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td class="flex-row left-col">Level</td>
+            <td property="schema:carrierclass" class="flex-row">{{ resourceElems['schema:carrierclass'] }}</td>
+        </tr>
+        {% if resourceElems['schema:collection'] %}
+        <tr>
+            <td class="flex-row left-col">Collection</td>
+            <td property="schema:collection" class="flex-row">{{ resourceElems['schema:collection'] }}</td>
+        </tr>
+        {% endif %}
+<!--        {% if resourceElems['schema:repository'] %}-->
+<!--        <tr class="flex-table">-->
+<!--            <td class="flex-row " role="cell">Repository</td>-->
+<!--            <td property="schema:repository" class="flex-row">{{ resourceElems['schema:repository'] }}</td>-->
+<!--        </tr>-->
+<!--        {% endif %}-->
+
+        {% if resourceElems['schema:genre'] %}
+        <tr>
+            <td class="flex-row left-col">Genre</td>
+            <td property="schema:genre" class="flex-row">{{ resourceElems['schema:genre'] }}</td>
+        </tr>
+        {% endif %}
+
+        {% if resourceElems['schema:theme'] %}
+        <tr>
+            <td class="flex-row left-col">Theme</td>
+            <td property="schema:theme" class="flex-row">{{ resourceElems['schema:theme'] }}</td>
+        </tr>
+        {% endif %}
+        {% if resourceElems['schema:broadcaster'] %}
+        <tr>
+            <td class="flex-row left-col">Broadcaster</td>
+            <td property="schema:broadcaster" class="flex-row">{{ resourceElems['schema:broadcaster'] }}</td>
+        </tr>
+        {% endif %}
+
+        {% if resourceElems["schema:rights"] %}
+        <tr>
+            <td class="flex-row left-col">Rights</td>
+            <td property="schema:rights" class="flex-row">{{ resourceElems["schema:rights"] }}</td>
+        </tr>
+        {% endif %}
+        {% if resourceElems["schema:source"] %}
+        <tr>
+            <td class="flex-row left-col" role="cell">Source</td>
+            <td property="schema:source" class="flex-row">{{ resourceElems["schema:source"] }}</td>
+        </tr>
+        {% endif %}
+
+        {% if resourceElems["schema:type"] %}
+        <tr>
+            <td class="flex-row left-col">Type</td>
+            <td property="schema:type" class="flex-row">{{ resourceElems["schema:type"] }}</td>
+        </tr>
+        {% endif %}
+
+        {% if resourceElems["schema:location"] %}
+        <tr>
+            <td class="flex-row left-col">Location(s)</td>
+            <td property="schema:location" class="flex-row">
+                {% if resourceElems["schema:location"] is iterable and resourceElems["schema:location"] is not string %}
+                    {% for item in resourceElems["schema:location"] %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                {% else %}
+                    {{ resourceElems["schema:location"] }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endif %}
+
+        {% if resourceElems["schema:language"] %}
+        <tr>
+            <td class="flex-row left-col">Language</td>
+            <td property="schema:language" class="flex-row">{{ resourceElems["schema:language"] }}</td>
+        </tr>
+        {% endif %}
+        {% if resourceElems["schema:annotation"] %}
+        <tr>
+            <td class="flex-row left-col">Note</td>
+            <td property="schema:annotation" class="flex-row">{{ resourceElems["schema:annotation"] }}</td>
+        </tr>
+        {% endif %}
+
+        {% if resourceElems["schema:keyword"] %}
+        <tr>
+            <td class="flex-row left-col">Keyword(s)</td>
+            <td property="schema:keyword" class="flex-row" role="cell">
+                {% if resourceElems["schema:keyword"] is iterable and resourceElems["schema:keyword"] is not string %}
+                    {% for item in resourceElems["schema:keyword"] %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                {% else %}
+                    {{ item }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endif %}
+
+        {% if resourceElems["schema:distributionchannel"] %}
+        <tr>
+            <td class="flex-row left-col">Distribution channel</td>
+            <td property="schema:distributionchannel" class="flex-row">{{ resourceElems["schema:distributionchannel"] }}</td>
+        </tr>
+        {% endif %}
+
+
+        {% if resourceElems["creators"] %}
+        <tr>
+            <td class="flex-row left-col">Creator(s)</td>
+            <td property="schema:creators" class="flex-row">
+                {% if resourceElems["creators"] is iterable and resourceElems["creators"] is not string %}
+                    {% for creator in resourceElems["creators"] %}
+                        <div>
+                            <p><u>Role:</u>  {{ creator['schema:role'] }}</p>
+                            <p><u>Name:</u>  {{ creator['schema:name'] }}</p>
+                        </div>
+                        <hr>
+                    {% endfor %}
+                {% endif %}
+            </td>
+        </tr>
+        {% endif %}
+
+        {% if resourceElems["carriers"] %}
+        <tr>
+            <td class="flex-row left-col">Carriers(s)</td>
+            <td property="schema:creators" class="flex-row">
+                {% if resourceElems["carriers"] is iterable and resourceElems["carriers"] is not string %}
+                    {% for carrier in resourceElems["carriers"] %}
+                    <div>
+                        {% if carrier['schema:carriertype'] %}<p><u>Carrier type:</u>  {{ carrier['schema:carriertype'] }}</p>{% endif %}
+                        {% if carrier['schema:annotation'] and carrier['schema:annotation'] != 'False'  %}<p><u>Has annotation:</u>  {{ carrier['schema:annotation'] }}</p>{% endif %}
+                        {% if carrier['schema:repository'] %}<p><u>Repository:</u>  {{ carrier['schema:repository'] }}</p>{% endif %}
+                        {% if carrier['schema:depotstatus'] %}<p><u>Status:</u>  {{ carrier['schema:depotstatus'] }}</p>{% endif %}
+                        {% if carrier['schema:archivestatus'] %}<p><u>Archive status:</u>  {{ carrier['schema:archivestatus'] }}</p>{% endif %}
+                        {% if carrier['schema:audiotype'] %}<p><u>Audio type:</u>  {{ carrier['schema:audiotype'] }}</p>{% endif %}
+                        {% if carrier['schema:creationdate'] %}<p><u>Creation date:</u>  {{ carrier['schema:creationdate'] }}</p>{% endif %}
+                        {% if carrier['schema:carrierreference'] %} <p><u>Reference:</u>  {{ carrier['schema:carrierreference'] }}</p> {% endif %}
+                        {% if carrier['schema:carrierlocation'] %} <p><u>Location:</u>  {{ carrier['schema:carrierlocation'] }}</p> {% endif %}
+                        {% if carrier['schema:technicaldetails'] %}<p><u>Technical details:</u>  {{ carrier['schema:technicaldetails'] }}</p>{% endif %}
+                        {% if carrier['schema:externalreference'] %}<p><u>External reference:</u>  {{ carrier['schema:externalreference'] }}</p>{% endif %}
+                        {% if carrier['schema:format'] %}<p><u>Format:</u>  {{ carrier['schema:format'] }}</p>{% endif %}
+                        {% if carrier['schema:origin'] %}<p><u>Origin:</u>  {{ carrier['schema:origin'] }}</p>{% endif %}
+                        {% if carrier['schema:location'] %}<p><u>Location:</u>  {{ carrier['schema:location'] }}</p>{% endif %}
+                        {% if carrier['schema:storageunit'] %}<p><u>Storage unit:</u>  {{ carrier['schema:storageunit'] }}</p>{% endif %}
+                    </div>
+                    <hr>
+                    {% endfor %}
+                {% endif %}
+            </td>
+        </tr>
+        {% endif %}
+
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
