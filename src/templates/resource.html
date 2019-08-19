@@ -149,7 +149,7 @@
         {% if resourceElems["creators"] %}
         <tr>
             <td class="flex-row left-col">Creator(s)</td>
-            <td property="schema:creators" class="flex-row">
+            <td class="flex-row">
                 {% if resourceElems["creators"] is iterable and resourceElems["creators"] is not string %}
                     {% for creator in resourceElems["creators"] %}
                         <div>
@@ -166,25 +166,25 @@
         {% if resourceElems["carriers"] %}
         <tr>
             <td class="flex-row left-col">Carriers(s)</td>
-            <td property="schema:creators" class="flex-row">
+            <td class="flex-row">
                 {% if resourceElems["carriers"] is iterable and resourceElems["carriers"] is not string %}
                     {% for carrier in resourceElems["carriers"] %}
                     <div>
-                        {% if carrier['schema:carriertype'] %}<p><u>Carrier type:</u>  {{ carrier['schema:carriertype'] }}</p>{% endif %}
-                        {% if carrier['schema:annotation'] and carrier['schema:annotation'] != 'False'  %}<p><u>Has annotation:</u>  {{ carrier['schema:annotation'] }}</p>{% endif %}
-                        {% if carrier['schema:repository'] %}<p><u>Repository:</u>  {{ carrier['schema:repository'] }}</p>{% endif %}
-                        {% if carrier['schema:depotstatus'] %}<p><u>Status:</u>  {{ carrier['schema:depotstatus'] }}</p>{% endif %}
-                        {% if carrier['schema:archivestatus'] %}<p><u>Archive status:</u>  {{ carrier['schema:archivestatus'] }}</p>{% endif %}
-                        {% if carrier['schema:audiotype'] %}<p><u>Audio type:</u>  {{ carrier['schema:audiotype'] }}</p>{% endif %}
-                        {% if carrier['schema:creationdate'] %}<p><u>Creation date:</u>  {{ carrier['schema:creationdate'] }}</p>{% endif %}
-                        {% if carrier['schema:carrierreference'] %} <p><u>Reference:</u>  {{ carrier['schema:carrierreference'] }}</p> {% endif %}
-                        {% if carrier['schema:carrierlocation'] %} <p><u>Location:</u>  {{ carrier['schema:carrierlocation'] }}</p> {% endif %}
-                        {% if carrier['schema:technicaldetails'] %}<p><u>Technical details:</u>  {{ carrier['schema:technicaldetails'] }}</p>{% endif %}
-                        {% if carrier['schema:externalreference'] %}<p><u>External reference:</u>  {{ carrier['schema:externalreference'] }}</p>{% endif %}
-                        {% if carrier['schema:format'] %}<p><u>Format:</u>  {{ carrier['schema:format'] }}</p>{% endif %}
-                        {% if carrier['schema:origin'] %}<p><u>Origin:</u>  {{ carrier['schema:origin'] }}</p>{% endif %}
-                        {% if carrier['schema:location'] %}<p><u>Location:</u>  {{ carrier['schema:location'] }}</p>{% endif %}
-                        {% if carrier['schema:storageunit'] %}<p><u>Storage unit:</u>  {{ carrier['schema:storageunit'] }}</p>{% endif %}
+                        {% if carrier['schema:carriertype'] %}<p property="schema:carriertype"><u>Carrier type:</u>  {{ carrier['schema:carriertype'] }}</p>{% endif %}
+                        {% if carrier['schema:annotation'] and carrier['schema:annotation'] != 'False'  %}<p property="schema:annotation"><u>Has annotation:</u>  {{ carrier['schema:annotation'] }}</p>{% endif %}
+                        {% if carrier['schema:repository'] %}<p property="schema:repository"><u>Repository:</u>  {{ carrier['schema:repository'] }}</p>{% endif %}
+                        {% if carrier['schema:depotstatus'] %}<p property="schema:depotstatus"><u>Status:</u>  {{ carrier['schema:depotstatus'] }}</p>{% endif %}
+                        {% if carrier['schema:archivestatus'] %}<p property="schema:archivestatus"><u>Archive status:</u>  {{ carrier['schema:archivestatus'] }}</p>{% endif %}
+                        {% if carrier['schema:audiotype'] %}<p property="schema:audiotype"><u>Audio type:</u>  {{ carrier['schema:audiotype'] }}</p>{% endif %}
+                        {% if carrier['schema:creationdate'] %}<p property="schema:creationdate"><u>Creation date:</u>  {{ carrier['schema:creationdate'] }}</p>{% endif %}
+                        {% if carrier['schema:carrierreference'] %} <p property="schema:carrierreference"><u>Reference:</u>  {{ carrier['schema:carrierreference'] }}</p> {% endif %}
+                        {% if carrier['schema:carrierlocation'] %} <p property="schema:carrierlocation"><u>Location:</u>  {{ carrier['schema:carrierlocation'] }}</p> {% endif %}
+                        {% if carrier['schema:technicaldetails'] %}<p property="schema:technicaldetails"><u>Technical details:</u>  {{ carrier['schema:technicaldetails'] }}</p>{% endif %}
+                        {% if carrier['schema:externalreference'] %}<p property="schema:externalreference"><u>External reference:</u>  {{ carrier['schema:externalreference'] }}</p>{% endif %}
+                        {% if carrier['schema:format'] %}<p property="schema:format"><u>Format:</u>  {{ carrier['schema:format'] }}</p>{% endif %}
+                        {% if carrier['schema:origin'] %}<p property="schema:origin"><u>Origin:</u>  {{ carrier['schema:origin'] }}</p>{% endif %}
+                        {% if carrier['schema:location'] %}<p property="schema:location"><u>Location:</u>  {{ carrier['schema:location'] }}</p>{% endif %}
+                        {% if carrier['schema:storageunit'] %}<p property="schema:storageunit"><u>Storage unit:</u>  {{ carrier['schema:storageunit'] }}</p>{% endif %}
                     </div>
                     <hr>
                     {% endfor %}
