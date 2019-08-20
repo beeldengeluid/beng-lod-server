@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template
 from flask import request, Response
 from flask_cors import CORS
+from datetime import datetime
 import requests
 
 from apis import api
@@ -20,6 +21,11 @@ api.init_app(
 	app,
 	title='Beeld en Geluid LOD API',
     description='LOD API mostly for e.g. dereferencing B&G resources')
+
+# Formats dates to be used in templates
+@app.template_filter()
+def datetimeformat(value, format='%d, %b %Y'):
+    return datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ").strftime(format)
 
 """------------------------------------------------------------------------------
 PING / HEARTBEAT ENDPOINT

@@ -176,7 +176,7 @@
                         {% if carrier['schema:depotstatus'] %}<p property="schema:depotstatus"><u>Status:</u>  {{ carrier['schema:depotstatus'] }}</p>{% endif %}
                         {% if carrier['schema:archivestatus'] %}<p property="schema:archivestatus"><u>Archive status:</u>  {{ carrier['schema:archivestatus'] }}</p>{% endif %}
                         {% if carrier['schema:audiotype'] %}<p property="schema:audiotype"><u>Audio type:</u>  {{ carrier['schema:audiotype'] }}</p>{% endif %}
-                        {% if carrier['schema:creationdate'] %}<p property="schema:creationdate"><u>Creation date:</u>  {{ carrier['schema:creationdate'] }}</p>{% endif %}
+                        {% if carrier['schema:creationdate'] %}<p property="schema:creationdate"><u>Creation date:</u>  {{ carrier['schema:creationdate']|datetimeformat }}</p>{% endif %}
                         {% if carrier['schema:carrierreference'] %} <p property="schema:carrierreference"><u>Reference:</u>  {{ carrier['schema:carrierreference'] }}</p> {% endif %}
                         {% if carrier['schema:carrierlocation'] %} <p property="schema:carrierlocation"><u>Location:</u>  {{ carrier['schema:carrierlocation'] }}</p> {% endif %}
                         {% if carrier['schema:technicaldetails'] %}<p property="schema:technicaldetails"><u>Technical details:</u>  {{ carrier['schema:technicaldetails'] }}</p>{% endif %}
