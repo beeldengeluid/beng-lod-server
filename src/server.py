@@ -65,6 +65,7 @@ def htmlSchema(language=None, className=None):
     CLASS_ROOT = "http://data.rdlabs.beeldengeluid.nl/schema"
     DOMAIN = "http://www.w3.org/2000/01/rdf-schema#domain"
     RANGE = "http://www.w3.org/2000/01/rdf-schema#range"
+    SUBCLASS = "http://www.w3.org/2000/01/rdf-schema#subClassOf"
     bengClasses = []
     bengProps = []
 
@@ -80,7 +81,23 @@ def htmlSchema(language=None, className=None):
                 if k and k == '@type' and d[k][0].endswith('Property') and DOMAIN in d:
                    if d[DOMAIN][0]['@id'] == CLASS_ROOT + "/" + className:
                        classProps.append(d)
-        return render_template('schema.html', language=language, className=className, classProps=classProps)
+        # Class with no properties on its own (Abstract Class)
+        if len(classProps) > 0:
+            return render_template('schema.html', language=language, className=className, classProps=classProps)
+        else:
+            implementedByClass = []
+            rangeOfProperty = []
+            for node in obj:
+                if SUBCLASS in node:
+                    for subClassItem in node[SUBCLASS]:
+                        if CLASS_ROOT + "/" + className == subClassItem['@id']:
+                            implementedByClass.append(node)
+                elif RANGE in node:
+                    for rangeItem in node[RANGE]:
+                        if CLASS_ROOT + "/" + className == rangeItem['@id']:
+                            rangeOfProperty.append(node)
+            return render_template('schema.html', language=language, className=className, rangeOfProperty=rangeOfProperty, implementedByClass=implementedByClass)
+
     for d in obj:
         # parsing Schema (in json format)
         for k, v in d.items():

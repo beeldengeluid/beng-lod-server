@@ -9,13 +9,16 @@
 
 <h1>BENG SCHEMA</h1>
 {% if className != 'NONE' and classProps is defined and classProps|length > 0 %}
-{% include './partials/breadcrumb.html' %}
-{% include './partials/propsTable.html' %}
+    {% include './partials/breadcrumb.html' %}
+    {% include './partials/propsTable.html' %}
 {% elif className is defined and className != 'NONE' and classProps|length == 0  %}
 
 {% include './partials/breadcrumb.html' %}
 
 <h1>No own props for class {{ className }} </h1>
+
+{% include './partials/abstractClassElems.html' %}
+
 {% endif %}
 
 {% if bengClasses %}
