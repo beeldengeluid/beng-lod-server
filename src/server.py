@@ -29,11 +29,19 @@ CUSTOM TEMPLATE FUNCTIONS
 @app.template_filter()
 def datetimeformat(value, format='%d, %b %Y'):
     return datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ").strftime(format)
+
 @app.template_filter()
 def getLastStringAfter(value):
     lastIndex = value.rindex("/")
     return value[lastIndex+1:len(value)]
 
+@app.template_filter()
+def externalResource(url):
+    BENGSCHEMA = "http://data.rdlabs.beeldengeluid.nl"
+    if url.find(BENGSCHEMA) == -1:
+        return True
+    else:
+        return False
 """------------------------------------------------------------------------------
 PING / HEARTBEAT ENDPOINT
 ------------------------------------------------------------------------------"""
@@ -70,12 +78,8 @@ def htmlSchema(language=None, className=None):
         for d in obj:
             for k, v in d.items():
                 if k and k == '@type' and d[k][0].endswith('Property') and DOMAIN in d:
-                   dom = d[DOMAIN][0]['@id'] == CLASS_ROOT + "/" + className
                    if d[DOMAIN][0]['@id'] == CLASS_ROOT + "/" + className:
                        classProps.append(d)
-        print(len(classProps))
-        if len(classProps) == 0:
-            print("no own props!")
         return render_template('schema.html', language=language, className=className, classProps=classProps)
     for d in obj:
         # parsing Schema (in json format)

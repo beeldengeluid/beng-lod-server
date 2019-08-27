@@ -17,7 +17,14 @@
         </td>
         <td>
             {% for subClass in row['http://www.w3.org/2000/01/rdf-schema#subClassOf'] %}
-                    <a title="{{ subClass['@id']}}" href="{{ subClass['@id']|getLastStringAfter }}">
+                    <a {% if subClass['@id']|externalResource %} target="_blank" {% endif %}
+                            title="{{ subClass['@id']}}"
+                            href="{% if subClass['@id']|externalResource %}
+                                    {{ subClass['@id'] }}
+                                {% else %}
+                                    {{ subClass['@id']|getLastStringAfter }}
+                            {% endif %}"
+                    >
                         {% if subClass['@id'] is defined %}
                             {{ subClass['@id']|getLastStringAfter }}
                         {% endif %}

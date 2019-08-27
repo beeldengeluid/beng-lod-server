@@ -13,9 +13,9 @@
         <td>
             {% if prop["http://www.w3.org/2000/01/rdf-schema#range"] is defined %}
                 {% for range in prop["http://www.w3.org/2000/01/rdf-schema#range"] %}
-                    <a
+                    <a {% if range['@id']|externalResource %} target="_blank" {% endif %}
                             title="{{range['@id']}}"
-                            href="{{range['@id']|getLastStringAfter}}"
+                            href="{% if range['@id']|externalResource %} {{ range['@id'] }} {% else %} {{ range['@id']|getLastStringAfter }} {% endif %}"
                     >
                         {{ range['@id']|getLastStringAfter }}
                     </a>
