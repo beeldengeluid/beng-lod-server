@@ -1,0 +1,36 @@
+<table>
+    <tr>
+        <th>Class</th>
+        <th>Sub Class</th>
+        <th>Description</th>
+    </tr>
+    {% for row in bengClasses %}
+    <tr>
+        <td>
+            <a href="{{ row['@id']|getLastStringAfter }}">
+                {% for label in row['http://www.w3.org/2000/01/rdf-schema#label'] %}
+                    {% if label['@language'] == language %}
+                        {{ label['@value'].capitalize() }}
+                    {% endif %}
+                {% endfor %}
+            </a>
+        </td>
+        <td>
+            {% for subClass in row['http://www.w3.org/2000/01/rdf-schema#subClassOf'] %}
+                    <a title="{{ subClass['@id']}}" href="{{ subClass['@id']|getLastStringAfter }}">
+                        {% if subClass['@id'] is defined %}
+                            {{ subClass['@id']|getLastStringAfter }}
+                        {% endif %}
+                    </a>
+            {% endfor %}
+        </td>
+        <td>
+            {% for description in row['http://www.w3.org/2000/01/rdf-schema#comment'] %}
+                {% if description['@language'] == language %}
+                    {{ description['@value'] }}
+                {% endif %}
+            {% endfor %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
