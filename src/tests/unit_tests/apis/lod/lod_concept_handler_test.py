@@ -13,7 +13,6 @@ DUMMY_NOTATION = "dummy-notation"
 @pytest.mark.parametrize('concept_uri',  ['http://vanhetneppadjeaf.com', 'file://bestaatnietman', 'geeneens een url', 'fake://hahahaha'])
 def test_get_concept_rdf__invalid_concept_uri(application_settings, concept_uri):
     try:
-
         handler_concept = LODHandlerConcept(application_settings)
         when(LODHandlerConcept).getConceptUri(DUMMY_SET, DUMMY_NOTATION).thenReturn(concept_uri)
         data, status_code, headers = handler_concept.getConceptRDF(DUMMY_SET, DUMMY_NOTATION, return_format=format)
@@ -24,7 +23,6 @@ def test_get_concept_rdf__invalid_concept_uri(application_settings, concept_uri)
 
 def test_get_concept_rdf__invalid_return_format(application_settings, get_concept_rdf_url):
     try:
-
         handler_concept = LODHandlerConcept(application_settings)
         when(LODHandlerConcept).getConceptUri(DUMMY_SET, DUMMY_NOTATION).thenReturn(get_concept_rdf_url)
         data, status_code, headers = handler_concept.getConceptRDF(DUMMY_SET, DUMMY_NOTATION, return_format='DIKKENEPZOOI')
@@ -40,20 +38,6 @@ def test_get_concept_rdf__succes(application_settings, format, get_concept_rdf_u
         when(LODHandlerConcept).getConceptUri(DUMMY_SET, DUMMY_NOTATION).thenReturn(get_concept_rdf_url)
         data, status_code, headers = handler_concept.getConceptRDF(DUMMY_SET, DUMMY_NOTATION, return_format=format)
         assert status_code == 200
-
-        # make sure the returned data is of the intended format
-        if format == 'json-ld':
-            assert APIUtil.isValidJSON(data) is True
-        elif format == 'xml':
-            assert APIUtil.isValidXML(data) is True
-
-        # make sure the RDF can be parsed
-        assert APIUtil.isValidRDF(data=data, format=format) is True
-
-    except PluginException as e:
-        print(e)
-    except Exception as e:
-        print(e)
 
     finally:
         unstub()
