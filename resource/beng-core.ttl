@@ -6,6 +6,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dcterms: <http://dublincore.org/documents/2010/10/11/dcmi-terms#> .
 
+
 #################################################################
 #    Datatypes
 #################################################################
@@ -731,14 +732,6 @@ nisv:Genre rdf:type rdfs:Class ;
            rdfs:comment "A genre. Comes from the GTAA Genre scheme"@en ;
            rdfs:label "Genre"@en ,
                       "Genre"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/Language
-nisv:Language rdf:type rdfs:Class ;
-              rdfs:subClassOf skos:Concept ;
-              rdfs:comment "A language. Comes from the internal NISV non-GTAA Taal scheme"@en ;
-              rdfs:label "Language"@en ,
-                         "Taal"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Location
