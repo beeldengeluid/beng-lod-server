@@ -56,15 +56,6 @@ nisv:hasCast rdf:type owl:ObjectProperty ;
                         "heeft cast"@nl .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasContext
-nisv:hasContext rdf:type owl:ObjectProperty ;
-                rdfs:domain nisv:ArchiveMetadataObject ;
-                rdfs:range nisv:Context ;
-                rdfs:label "context" ,
-                           "has context" ,
-                           "heeft context"@nl .
-
-
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasContractor
 nisv:hasContractor rdf:type owl:ObjectProperty ;
                    rdfs:subPropertyOf nisv:hasEntityInRole ;
@@ -132,22 +123,6 @@ nisv:hasGenre rdf:type owl:ObjectProperty ;
               rdfs:range nisv:Genre ;
               rdfs:label "has genre"@en ,
                          "heeft genre"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasLanguage
-nisv:hasLanguage rdf:type owl:ObjectProperty ;
-                 rdfs:domain nisv:LanguageUsage ;
-                 rdfs:range nisv:Language ;
-                 rdfs:label "has language"@en ,
-                            "heeft taal"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasLanguageUsage
-nisv:hasLanguageUsage rdf:type owl:ObjectProperty ;
-                      rdfs:domain nisv:ArchiveMetadataObject ;
-                      rdfs:range nisv:LanguageUsage ;
-                      rdfs:label "has language usage"@en ,
-                                 "heeft taalgebruik"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasLocation
@@ -274,14 +249,6 @@ nisv:hasSubject rdf:type owl:ObjectProperty ;
                            "heeft onderwerp"@nl .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasTargetGroup
-nisv:hasTargetGroup rdf:type owl:ObjectProperty ;
-                    rdfs:domain nisv:ArchiveMetadataObject ;
-                    rdfs:range nisv:TargetGroup ;
-                    rdfs:label "has target group"@nl ,
-                               "heeft doelgroep"@nl .
-
-
 ###  http://data.rdlabs.beeldengeluid.nl/schema/isPartOfProgram
 nisv:isPartOfProgram rdf:type owl:ObjectProperty ;
                      rdfs:domain nisv:SceneDescription ;
@@ -306,16 +273,6 @@ nisv:isPartOfSeries rdf:type owl:ObjectProperty ;
                                "is part of series"@en .
 
 
-###  http://www.beeldengeluid.nl/schema/hasClassification
-<http://www.beeldengeluid.nl/schema/hasClassification> rdf:type owl:ObjectProperty ;
-                                                       rdfs:domain nisv:Program ;
-                                                       rdfs:range nisv:Classification ;
-                                                       rdfs:comment "geeft aan wat de leeftijds classificaties zijn voor dit programma"@nl ,
-                                                                    "indicates the age classifications for the program"@en ;
-                                                       rdfs:label "has classification"@en ,
-                                                                  "heeft classificatie"@nl .
-
-
 ###  http://www.beeldengeluid.nl/schema/hasCurrentBroadcaster
 <http://www.beeldengeluid.nl/schema/hasCurrentBroadcaster> rdf:type owl:ObjectProperty ;
                                                            rdfs:domain nisv:Program ;
@@ -324,16 +281,6 @@ nisv:isPartOfSeries rdf:type owl:ObjectProperty ;
                                                                         "what is the difference between this and the 'original' broadcaster?"@en ;
                                                            rdfs:label "has current broadcaster"@en ,
                                                                       "heeft huidige zendgemachtigde"@nl .
-
-
-###  http://www.beeldengeluid.nl/schema/hasOriginalBroadcaster
-<http://www.beeldengeluid.nl/schema/hasOriginalBroadcaster> rdf:type owl:ObjectProperty ;
-                                                            rdfs:domain nisv:PublicationEvent ;
-                                                            rdfs:range nisv:Broadcaster ;
-                                                            rdfs:comment "??"@en ,
-                                                                         "??"@nl ;
-                                                            rdfs:label "has original broadcaster"@en ,
-                                                                       "heeft originele zendgemachtigde"@nl .
 
 
 #################################################################
@@ -345,75 +292,6 @@ nisv:hasAdditionalInformation rdf:type owl:DatatypeProperty ;
                               rdfs:range xsd:string ;
                               rdfs:label "has additional information"@en ,
                                          "heeft toelichting"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasAge
-nisv:hasAge rdf:type owl:DatatypeProperty ;
-            rdfs:domain nisv:Classification ;
-            rdfs:range xsd:string ;
-            rdfs:comment "geeft aan voor welke leeftijdsgroep het programma is geclassificeerd"@nl ,
-                         "indicates for which age group the programme is classified"@en ;
-            rdfs:label "has age"@en ,
-                       "heeft leeftijd"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasAspectRatio
-nisv:hasAspectRatio rdf:type owl:DatatypeProperty ;
-                    rdfs:range xsd:string ;
-                    rdfs:comment "de aspect ratio van een video bijv. 16:9"@nl ,
-                                 "the aspect ratio of a video e.g. 16:9"@en ;
-                    rdfs:label "has aspect ratio"@en ,
-                               "heeft aspect ratio"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasAudioType
-nisv:hasAudioType rdf:type owl:DatatypeProperty ;
-                  rdfs:domain nisv:Carrier ;
-                  rdfs:range xsd:string ;
-                  rdfs:comment "type audio, bijv. 2 kanalen"@nl ,
-                               "type of audio, e.g. '2-kanalen' (2 channels)"@en ;
-                  rdfs:label "has audio type"@en ,
-                             "heeft audiotype"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasAward
-nisv:hasAward rdf:type owl:DatatypeProperty ;
-              rdfs:domain nisv:Context ;
-              rdfs:range xsd:string ;
-              rdfs:comment "Award won by this archive object"@en ,
-                           "Prijs gewonnen door dit archief object"@nl ;
-              rdfs:label "has award"@en ,
-                         "heeft prijs"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasBitDepth
-nisv:hasBitDepth rdf:type owl:DatatypeProperty ;
-                 rdfs:domain nisv:Carrier ;
-                 rdfs:range xsd:string ;
-                 rdfs:comment "de hoeveelheid bits die wordt gebruikt om elk pixel van het digitale (video)beeld te representeren"@nl ,
-                              "the number of bits used to represent each pixel of the digital (video) image"@en ;
-                 rdfs:label "has bit depth"@en ,
-                            "heeft bit depth"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasBitRate
-nisv:hasBitRate rdf:type owl:DatatypeProperty ;
-                rdfs:domain nisv:Carrier ;
-                rdfs:range xsd:string ;
-                rdfs:comment "de bitrate van een digitale drager"@nl ,
-                             "the bitrate of a digital carrier"@en ;
-                rdfs:label "has bitrate"@en ,
-                           "heeft bitrate"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasBroadcastStandard
-nisv:hasBroadcastStandard rdf:type owl:DatatypeProperty ;
-                          rdfs:domain nisv:PublicationEvent ;
-                          rdfs:range xsd:string ;
-                          rdfs:comment "de uitzendsnorm voor de publicatie van het programma, bijv. HD"@nl ,
-                                       "the standard used to broadcast the published programme, e.g. HD"@en ;
-                          rdfs:label "has broadcast standard"@en ,
-                                     "heeft uitzendsnorm"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasCarrierNumber
@@ -433,6 +311,7 @@ nisv:hasCarrierType rdf:type owl:DatatypeProperty ;
                     rdfs:label "has carrier type"@en ,
                                "heeft dragertype"@nl .
 
+
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasCategory
 nisv:hasCategory rdf:type owl:DatatypeProperty ;
                  rdfs:domain nisv:Program ;
@@ -442,6 +321,7 @@ nisv:hasCategory rdf:type owl:DatatypeProperty ;
                  rdfs:label "has category"@en ,
                             "heeft categorie"@nl .
 
+
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasCharacter
 nisv:hasCharacter rdf:type owl:DatatypeProperty ;
                   rdfs:domain nisv:Cast ;
@@ -450,16 +330,6 @@ nisv:hasCharacter rdf:type owl:DatatypeProperty ;
                                "the character played by this actor in this archive object"@en ;
                   rdfs:label "has character"@en ,
                              "heeft karakter"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasClassificationSubject
-nisv:hasClassificationSubject rdf:type owl:DatatypeProperty ;
-                              rdfs:domain nisv:Classification ;
-                              rdfs:range xsd:string ;
-                              rdfs:comment "Onderwerp waarvoor de leeftijdsclassificatie geldt"@nl ,
-                                           "Subject for which the programme has been classified - e.g. violence"@en ;
-                              rdfs:label "has classification subject"@en ,
-                                         "heeft classificatie onderwerp"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasCollectionTitle
@@ -481,36 +351,6 @@ nisv:hasColour rdf:type owl:DatatypeProperty ;
                           "heeft kleur"@nl .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasColourspace
-nisv:hasColourspace rdf:type owl:DatatypeProperty ;
-                    rdfs:domain nisv:Carrier ;
-                    rdfs:range xsd:string ;
-                    rdfs:comment "de kleurruimte gebruikt om kleur te representeren"@nl ,
-                                 "the colourspace used to represent colours"@en ;
-                    rdfs:label "has colour space"@en ,
-                               "heeft kleurruimte"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasCompositionMotivation
-nisv:hasCompositionMotivation rdf:type owl:DatatypeProperty ;
-                              rdfs:domain nisv:Context ;
-                              rdfs:range xsd:string ;
-                              rdfs:comment "de reden voor het componeren van dit stuk, bijv. 'filmmuziek'"@nl ,
-                                           "the reason for composing this piece of music, e.g. 'filmmuziek '(film music)"@en ;
-                              rdfs:label "has motivation for composition"@en ,
-                                         "heeft motivatie voor compositie"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasCompressionMethod
-nisv:hasCompressionMethod rdf:type owl:DatatypeProperty ;
-                          rdfs:domain nisv:Carrier ;
-                          rdfs:range xsd:string ;
-                          rdfs:comment "de methode of algoritme gebruikt om de informatie op een digitale drager te comprimeren"@nl ,
-                                       "the method or algorithm used to compress information on a digital carrier"@en ;
-                          rdfs:label "has compression method"@en ,
-                                     "heeft compressiemethode"@nl .
-
-
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasCreationDate
 nisv:hasCreationDate rdf:type owl:DatatypeProperty ;
                      rdfs:domain nisv:Carrier ;
@@ -521,16 +361,6 @@ nisv:hasCreationDate rdf:type owl:DatatypeProperty ;
                                 "heeft creatiedatum"@nl .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasCulturalHeritageCategory
-nisv:hasCulturalHeritageCategory rdf:type owl:DatatypeProperty ;
-                                 rdfs:domain nisv:ArchiveMetadataObject ;
-                                 rdfs:range xsd:string ;
-                                 rdfs:comment "Geeft aan onder welke cuturele erfgoed categorie - A, B, C enz. deze item valt"@nl ,
-                                              "indicates the cultural heritage category - A, B, C etc into which this item falls"@en ;
-                                 rdfs:label "has cultural heritage category"@en ,
-                                            "heeft cultureel erfgoed categorie"@nl .
-
-
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasDatePrecision
 nisv:hasDatePrecision rdf:type owl:DatatypeProperty ;
                       rdfs:domain nisv:Activity ;
@@ -539,36 +369,6 @@ nisv:hasDatePrecision rdf:type owl:DatatypeProperty ;
                                    "the precision with which the date is known"@en ;
                       rdfs:label "has date precision"@en ,
                                  "heeft datum precisie"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasDateReceived
-nisv:hasDateReceived rdf:type owl:DatatypeProperty ;
-                     rdfs:domain nisv:PublicationEvent ;
-                     rdfs:range xsd:dateTime ;
-                     rdfs:comment "het datum waarop de publicatie is ontvangen"@nl ,
-                                  "the date on which the publication was received"@en ;
-                     rdfs:label "has date received"@en ,
-                                "heeft ontvangstdatum"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasDepotStatus
-nisv:hasDepotStatus rdf:type owl:DatatypeProperty ;
-                    rdfs:domain nisv:Carrier ;
-                    rdfs:range xsd:string ;
-                    rdfs:comment "de status van de drager, bijv. 'in depot' of 'niet beschikbaar'"@nl ,
-                                 "the status of the carrier, e.g. 'in depot' or 'niet beschikbaar' (not available)"@en ;
-                    rdfs:label "has depot status"@en ,
-                               "heeft depotstatus"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasDeprecatedKeyword
-nisv:hasDeprecatedKeyword rdf:type owl:DatatypeProperty ;
-                          rdfs:domain nisv:ArchiveMetadataObject ;
-                          rdfs:range xsd:string ;
-                          rdfs:comment "a keyword that has since been deprecated"@en ,
-                                       "een trefwoord dat verouderd is"@nl ;
-                          rdfs:label "has deprecated keyword"@en ,
-                                     "heeft verouderd trefwoord"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasDescription
@@ -609,16 +409,6 @@ nisv:hasDurationAnnotation rdf:type owl:DatatypeProperty ;
                                       "heeft tijdslengte annotatie"@nl .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasEditDate
-nisv:hasEditDate rdf:type owl:DatatypeProperty ;
-                 rdfs:domain nisv:RecordingEvent ;
-                 rdfs:range xsd:dateTime ;
-                 rdfs:comment "date on which the recording was edited"@en ,
-                              "datum waarop de opname werd gemonteerd"@nl ;
-                 rdfs:label "has edit date"@en ,
-                            "heeft montagedatum"@nl .
-
-
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasEndDate
 nisv:hasEndDate rdf:type owl:DatatypeProperty ;
                 rdfs:domain nisv:Activity ;
@@ -647,36 +437,6 @@ nisv:hasEpisodeNumber rdf:type owl:DatatypeProperty ;
                                    "the episode number of this programme"@en ;
                       rdfs:label "has episode number"@en ,
                                  "heeft afleveringsnummer"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasExtractedSubtitles
-nisv:hasExtractedSubtitles rdf:type owl:DatatypeProperty ;
-                           rdfs:domain nisv:Carrier ;
-                           rdfs:range xsd:string ;
-                           rdfs:comment "have subtitles been extracted"@en ,
-                                        "zijn ondertitels geextraheerd"@nl ;
-                           rdfs:label "has extracted subtitles"@en ,
-                                      "heeft geextraheerde ondertitels"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasFileSize
-nisv:hasFileSize rdf:type owl:DatatypeProperty ;
-                 rdfs:domain nisv:Carrier ;
-                 rdfs:range xsd:string ;
-                 rdfs:comment "de grootte van de digitale bestand"@nl ,
-                              "the size of the digital file"@en ;
-                 rdfs:label "has file size"@en ,
-                            "heeft bestandsgrootte"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasFormat
-nisv:hasFormat rdf:type owl:DatatypeProperty ;
-               rdfs:domain nisv:Carrier ;
-               rdfs:range xsd:string ;
-               rdfs:comment "het formaat van deze drager, bijv. 1980 x 1980"@nl ,
-                            "the format of this carrier, e.g. 1980 x 1980"@en ;
-               rdfs:label "has format"@en ,
-                          "heeft formaat"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasLink
@@ -708,36 +468,6 @@ nisv:hasMetadataStatus rdf:type owl:DatatypeProperty ;
                                   "heeft metadata status"@nl .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasMetrage
-nisv:hasMetrage rdf:type owl:DatatypeProperty ;
-                rdfs:domain nisv:Carrier ;
-                rdfs:range xsd:string ;
-                rdfs:comment "de fysieke lengte van (een stuk van) een film"@nl ,
-                             "the physical length of a (section of) film"@en ;
-                rdfs:label "has metrage"@en ,
-                           "heeft metrage"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasMuseumGenre
-nisv:hasMuseumGenre rdf:type owl:DatatypeProperty ;
-                    rdfs:domain nisv:ArchiveMetadataObject ;
-                    rdfs:range xsd:string ;
-                    rdfs:comment "het museum genre van het archief metadata object"@nl ,
-                                 "the museum genre of the archive object"@en ;
-                    rdfs:label "has museum genre"@en ,
-                               "heeft museum genre"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasMuseumSummary
-nisv:hasMuseumSummary rdf:type owl:DatatypeProperty ;
-                      rdfs:domain nisv:ArchiveMetadataObject ;
-                      rdfs:range xsd:string ;
-                      rdfs:comment "de samenvatting van het archief object dat voor het Beeld en Geluid museum is gemaakt"@nl ,
-                                   "the summary of the archive object that is made for the Sound and Vision archive"@en ;
-                      rdfs:label "has museum summary"@en ,
-                                 "heeft museum samenvatting"@nl .
-
-
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasNumberOfEpisodes
 nisv:hasNumberOfEpisodes rdf:type owl:DatatypeProperty ;
                          rdfs:domain nisv:ArchiveMetadataObject ;
@@ -746,46 +476,6 @@ nisv:hasNumberOfEpisodes rdf:type owl:DatatypeProperty ;
                                       "the number of episodes in this series/season"@en ;
                          rdfs:label "has number of episodes"@en ,
                                     "heeft aantal afleveringen"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasOccasion
-nisv:hasOccasion rdf:type owl:DatatypeProperty ;
-                 rdfs:domain nisv:Context ;
-                 rdfs:range xsd:string ;
-                 rdfs:comment "de gelegenheid waarvoor dit archiefobject is gemaakt"@nl ,
-                              "the occasion for which this archive object is created"@en ;
-                 rdfs:label "has occasion"@en ,
-                            "heeft gelegenheid"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasPhysicalDimensions
-nisv:hasPhysicalDimensions rdf:type owl:DatatypeProperty ;
-                           rdfs:domain nisv:Carrier ;
-                           rdfs:range xsd:string ;
-                           rdfs:comment "de dimensies van de fysieke drager zelf, bijv. de grootte van de cassetteband"@nl ,
-                                        "the dimensions of the actual physical carrier - e.g. the size of the video tape"@en ;
-                           rdfs:label "has physical dimensions"@en ,
-                                      "heeft fysieke dimensies"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasPlayingTime
-nisv:hasPlayingTime rdf:type owl:DatatypeProperty ;
-                    rdfs:domain nisv:Carrier ;
-                    rdfs:range xsd:string ;
-                    rdfs:comment "de afspeeltijd van een drager"@nl ,
-                                 "the playing time of a carrier"@en ;
-                    rdfs:label "has playing time"@en ,
-                               "heeft afspeeltijd"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasPreservationState
-nisv:hasPreservationState rdf:type owl:DatatypeProperty ;
-                          rdfs:domain nisv:Carrier ;
-                          rdfs:range xsd:string ;
-                          rdfs:comment "de preserveringsstaat van een drager"@nl ,
-                                       "the state of preservation that a carrier is in"@en ;
-                          rdfs:label "has preservation state"@en ,
-                                     "heeft preserveringsstaat"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasProductYear
@@ -798,16 +488,6 @@ nisv:hasProductYear rdf:type owl:DatatypeProperty ;
                                "heeft productiejaar"@nl .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasPublicationType
-nisv:hasPublicationType rdf:type owl:DatatypeProperty ;
-                        rdfs:domain nisv:PublicationEvent ;
-                        rdfs:range xsd:string ;
-                        rdfs:comment "de type publicatie, bijv. 'uitzending'"@nl ,
-                                     "the type of the publication, e.g. 'uitzending' (broadcast)"@en ;
-                        rdfs:label "has publication type"@en ,
-                                   "heeft publicatietype"@nl .
-
-
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasRecordingLocation
 nisv:hasRecordingLocation rdf:type owl:DatatypeProperty ;
                           rdfs:domain nisv:ArchiveMetadataObject ;
@@ -818,16 +498,6 @@ nisv:hasRecordingLocation rdf:type owl:DatatypeProperty ;
                                      "heeft opnamelocatie"@nl .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasResolution
-nisv:hasResolution rdf:type owl:DatatypeProperty ;
-                   rdfs:domain nisv:Carrier ;
-                   rdfs:range xsd:string ;
-                   rdfs:comment "de resolutie van een drager, bijv. HD 1080i"@nl ,
-                                "the resolution of a carrier, e.g. HD 1080i"@en ;
-                   rdfs:label "has resolution"@en ,
-                              "heeft resolutie"@nl .
-
-
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasRole
 nisv:hasRole rdf:type owl:DatatypeProperty ;
              rdfs:domain nisv:EntityInRole ;
@@ -836,16 +506,6 @@ nisv:hasRole rdf:type owl:DatatypeProperty ;
                           "the role in which this entity has contributed to the archive object, e.g. 'schrijver' (writer)"@en ;
              rdfs:label "has role"@en ,
                         "heeft rol"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasSampleRate
-nisv:hasSampleRate rdf:type owl:DatatypeProperty ;
-                   rdfs:domain nisv:Carrier ;
-                   rdfs:range xsd:string ;
-                   rdfs:comment "de frequentie waarmee het signaal is bemonsterd voor de digitale drager"@nl ,
-                                "the sample rate of a digital carrier"@en ;
-                   rdfs:label "has sample rate"@en ,
-                              "heeft bemonsteringsfrequentie"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasSeasonNumber
@@ -863,46 +523,6 @@ nisv:hasSortDate rdf:type owl:DatatypeProperty ;
                               "the date by which this archive object should be sorted. The choice of date differs per type of archive object. E.g. for a TV programme, it is the date the programme is first broadcast."@en ;
                  rdfs:label "has sort date"@en ,
                             "heeft sorteerdatum"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasSoundReproduction
-nisv:hasSoundReproduction rdf:type owl:DatatypeProperty ;
-                          rdfs:domain nisv:Carrier ;
-                          rdfs:range xsd:string ;
-                          rdfs:comment "de type geluidsreproductie bijv mono, stereo"@nl ,
-                                       "the type of sound reproduction e.g. mono, stereo"@en ;
-                          rdfs:label "has sound reproduction"@en ,
-                                     "heeft geluidsreproductie"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasSoundTrackType
-nisv:hasSoundTrackType rdf:type owl:DatatypeProperty ;
-                       rdfs:domain nisv:Carrier ;
-                       rdfs:range xsd:string ;
-                       rdfs:comment "de type geluid dat op de drager staat bijv. eindmix, muziek, commentaar"@nl ,
-                                    "the type of soundtrack stored on the carrier e.g. final mix, music, commentary"@en ;
-                       rdfs:label "has sound track type"@en ,
-                                  "heeft type geluid"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasSourceCatalogue
-nisv:hasSourceCatalogue rdf:type owl:DatatypeProperty ;
-                        rdfs:domain nisv:ArchiveMetadataObject ;
-                        rdfs:range xsd:string ;
-                        rdfs:comment "The source catalogue of an archive object"@en ,
-                                     "de catalogus waar een archief object uit komt"@nl ;
-                        rdfs:label "has source catalogue"@en ,
-                                   "komt uit broncatalogus"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasSpeed
-nisv:hasSpeed rdf:type owl:DatatypeProperty ;
-              rdfs:domain nisv:Carrier ;
-              rdfs:range xsd:string ;
-              rdfs:comment "de dragersnelheid bijv. 25fps"@nl ,
-                           "the carrier speed e.g. 25fps"@en ;
-              rdfs:label "has speed"@en ,
-                         "heeft snelheid"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasStartDate
@@ -925,16 +545,6 @@ nisv:hasStartTime rdf:type owl:DatatypeProperty ;
                              "heeft begintijd"@nl .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasSubtitlingPlanned
-nisv:hasSubtitlingPlanned rdf:type owl:DatatypeProperty ;
-                          rdfs:domain nisv:PublicationEvent ;
-                          rdfs:range xsd:string ;
-                          rdfs:comment "if subtitling is planned for this publication"@en ,
-                                       "of ondertitels gepland zijn voor deze publicatie"@nl ;
-                          rdfs:label "has subtitling planned"@en ,
-                                     "heeft ondertitels gepland"@nl .
-
-
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasSummary
 nisv:hasSummary rdf:type owl:DatatypeProperty ;
                 rdfs:domain nisv:ArchiveMetadataObject ;
@@ -953,13 +563,6 @@ nisv:hasTag rdf:type owl:DatatypeProperty ;
                          "een niet-thesaurus tag"@nl ;
             rdfs:label "has tag"@en ,
                        "heeft tag"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasTechnicalAnnotation
-nisv:hasTechnicalAnnotation rdf:type owl:DatatypeProperty ;
-                            rdfs:range xsd:string ;
-                            rdfs:label "has technical annotation"@en ,
-                                       "heeft technische toelichting"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasTheme
@@ -992,26 +595,6 @@ nisv:hasTitleType rdf:type owl:DatatypeProperty ;
                              "heeft type titel"@nl .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasUse
-nisv:hasUse rdf:type owl:DatatypeProperty ;
-            rdfs:domain nisv:LanguageUsage ;
-            rdfs:range xsd:string ;
-            rdfs:comment "de manier waarop de aangegeven taal wordt gebruikt in het archiefobject"@nl ,
-                         "the way in which the given language is used in the archive object"@en ;
-            rdfs:label "has use"@en ,
-                       "heeft gebruik"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasWeekNumber
-nisv:hasWeekNumber rdf:type owl:DatatypeProperty ;
-                   rdfs:domain nisv:PublicationEvent ;
-                   rdfs:range xsd:string ;
-                   rdfs:comment "het weeknummer van een Polygoonjournaal"@nl ,
-                                "the week number of a Polygoon newsreel"@en ;
-                   rdfs:label "has week number"@en ,
-                              "heeft weeknummer"@nl .
-
-
 ###  http://data.rdlabs.beeldengeluid.nl/schema/inCollectionsGroup
 nisv:inCollectionsGroup rdf:type owl:DatatypeProperty ;
                         rdfs:domain nisv:Program ;
@@ -1020,26 +603,6 @@ nisv:inCollectionsGroup rdf:type owl:DatatypeProperty ;
                                      "the collection group for this programme, e.g. 'public service',  'commercial broadcasters'"@en ;
                         rdfs:label "is in collectiegroep"@nl ,
                                    "is in collections group"@en .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/isDigitalBorn
-nisv:isDigitalBorn rdf:type owl:DatatypeProperty ;
-                   rdfs:domain nisv:Carrier ;
-                   rdfs:range xsd:boolean ;
-                   rdfs:comment "was de informatie op de drager al in een digitaal format gecreeerd"@nl ,
-                                "was the information on the carrier created in a digital format from the beginning"@en ;
-                   rdfs:label "is digital born"@en ,
-                              "is digital born"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/isMadeFrom
-nisv:isMadeFrom rdf:type owl:DatatypeProperty ;
-                rdfs:domain nisv:Carrier ;
-                rdfs:range xsd:string ;
-                rdfs:comment "het fysieke materiaal waaruit een object is gemaakt, bijv. papier, hout"@nl ,
-                             "the physical substance from  which an object is made, e.g. wood, paper"@en ;
-                rdfs:label "is gemaakt uit"@nl ,
-                           "is made from"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/isPartOfCatalogue
@@ -1052,16 +615,6 @@ nisv:isPartOfCatalogue rdf:type owl:DatatypeProperty ;
                                   "is part of catalogue"@en .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/isRepeat
-nisv:isRepeat rdf:type owl:DatatypeProperty ;
-              rdfs:domain nisv:PublicationEvent ;
-              rdfs:range xsd:string ;
-              rdfs:comment "geeft aan of deze publicatie een herhaling is"@nl ,
-                           "indicates if this publication is a repeat"@en ;
-              rdfs:label "is a repeat"@en ,
-                         "is een herhaling"@nl .
-
-
 ###  http://data.rdlabs.beeldengeluid.nl/schema/isSilent
 nisv:isSilent rdf:type owl:DatatypeProperty ;
               rdfs:domain nisv:ArchiveMetadataObject ;
@@ -1070,36 +623,6 @@ nisv:isSilent rdf:type owl:DatatypeProperty ;
                            "indicates that the audiovisual object has no sound"@en ;
               rdfs:label "is silent"@en ,
                          "is stil"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/recordedWithAudiencePresent
-nisv:recordedWithAudiencePresent rdf:type owl:DatatypeProperty ;
-                                 rdfs:domain nisv:RecordingEvent ;
-                                 rdfs:range xsd:string ;
-                                 rdfs:comment "geeft aan dat de opname is gemaakt met publiek aanwezig"@nl ,
-                                              "indicates that the recording was made with an audience present"@en ;
-                                 rdfs:label "opgenomen met publiek aanwezig"@nl ,
-                                            "recorded with audience present"@en .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/usedArchiveMaterial
-nisv:usedArchiveMaterial rdf:type owl:DatatypeProperty ;
-                         rdfs:domain nisv:ArchiveMetadataObject ;
-                         rdfs:range xsd:string ;
-                         rdfs:comment "bestaande archiefmateriaal dat hergebruikt wordt door dit archiefobject"@nl ,
-                                      "existing archive material that was reused by this archive object"@en ;
-                         rdfs:label "gebruikte archiefmateriaal"@nl ,
-                                    "used archive material"@en .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/wasLive
-nisv:wasLive rdf:type owl:DatatypeProperty ;
-             rdfs:domain nisv:PublicationEvent ;
-             rdfs:range xsd:string ;
-             rdfs:comment "geeft aan of de publicatie een live uitzending was"@nl ,
-                          "indicates if the publication was a live broadcast"@en ;
-             rdfs:label "was live"@en ,
-                        "was live"@nl .
 
 
 ###  http://www.beeldengeluid.nl/schema/hasPublishedTitle
@@ -1173,22 +696,6 @@ nisv:Cast rdf:type owl:Class ;
                      "Cast"@nl .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/Classification
-nisv:Classification rdf:type owl:Class ;
-                    rdfs:comment "Models the age classification for a programme"@en ,
-                                 "modelleert de leeftijdsclassificatie voor een programma"@nl ;
-                    rdfs:label "Classificatie"@nl ,
-                               "Classification"@en .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/Context
-nisv:Context rdf:type owl:Class ;
-             rdfs:comment "Additional contextual information about an audiovisual object, such as awards and the occasion"@en ,
-                          "Additionele contextuele informatie over een audiovisuele entiteit, zoals onderscheidingen en aanleiding"@nl ;
-             rdfs:label "Context"@en ,
-                        "Context"@nl .
-
-
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Contractor
 nisv:Contractor rdf:type owl:Class ;
                 rdfs:subClassOf nisv:EntityInRole ;
@@ -1237,14 +744,6 @@ nisv:Language rdf:type owl:Class ;
               rdfs:comment "A language. Comes from the internal NISV non-GTAA Taal scheme"@en ;
               rdfs:label "Language"@en ,
                          "Taal"@nl .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/LanguageUsage
-nisv:LanguageUsage rdf:type owl:Class ;
-                   rdfs:comment "Language occurring in an audiovisual object and how it is used (only entered when deviating from the norm)"@en ,
-                                "Taal voorkomend in een audiovisuele entiteit, en hoe het wordt gebruikt(enkel ingevuld wanneer normafwijkend)"@nl ;
-                   rdfs:label "Language usage"@en ,
-                              "Taalgebruik"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Location
@@ -1394,13 +893,6 @@ nisv:Subject rdf:type owl:Class ;
              rdfs:comment "A subject. Comes from the GTAA Onderwerpen scheme"@en ;
              rdfs:label "Onderwerp"@nl ,
                         "Subject"@en .
-
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/TargetGroup
-nisv:TargetGroup rdf:type owl:Class ;
-                 rdfs:comment "Target group. Comes from the internal NISV non-GTAA Doelgroep scheme"@en ;
-                 rdfs:label "Doelgroep"@nl ,
-                            "Target group"@en .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Title
