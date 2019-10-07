@@ -106,6 +106,7 @@ nisv:hasGenre rdf:type rdf:Property ;
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasLanguage
 nisv:hasLanguage rdf:type rdf:Property ;
                  rdfs:domain nisv:LanguageUsage ;
+                 rdfs:range nisv:Language ;
                  rdfs:label "has language"@en ,
                             "heeft taal"@nl .
 
@@ -1004,10 +1005,10 @@ nisv:isMadeFrom rdf:type rdf:Property ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/isPartOfCatalogue
 nisv:isPartOfCatalogue rdf:type rdf:Property ;
-                       rdfs:domain nisv:Program ;
+                       rdfs:domain nisv:ArchiveMetadataObject  ;
                        rdfs:range xsd:string ;
-                       rdfs:comment "de Beeld en Geluid catalogus waar dit programma/foto/object onderdeel van is"@nl ,
-                                    "the Sound and Vision catalogue that this programme/photo/object belongs to"@en ;
+                       rdfs:comment "de Beeld en Geluid catalogus waar dit archief object onderdeel van is"@nl ,
+                                    "the Sound and Vision catalogue that this archive object belongs to"@en ;
                        rdfs:label "is onderdeel van catalogus"@nl ,
                                   "is part of catalogue"@en .
 
@@ -1103,7 +1104,7 @@ nisv:ArchiveMetadataObject rdf:type rdfs:Class ;
 ###  http://data.rdlabs.beeldengeluid.nl/schema/BroadcastStation
 nisv:BroadcastStation rdf:type rdfs:Class ;
                       rdfs:subClassOf skos:Concept ;
-                      rdfs:comment "A broadcast channel/station. Comes from the GTAA Zender scheme"@en ;
+                      rdfs:comment "A broadcast channel/station. Comes from the non-GTAA Zender scheme"@en ;
                       rdfs:label "Broadcast station"@en ,
                                  "Zender"@nl .
 
@@ -1187,6 +1188,14 @@ nisv:MusicStyle rdf:type rdfs:Class ;
                 rdfs:comment "The style of a piece of music. Comes from the GTAA Muziekstijl scheme"@en ;
                 rdfs:label "Music style"@en ,
                            "Muziekstijl"@nl .
+
+
+###  http://data.rdlabs.beeldengeluid.nl/schema/Language
+nisv:Language rdf:type rdfs:Class ;
+                rdfs:subClassOf skos:Concept ;
+                rdfs:comment "The language used in a program. Comes from the non-GTAA Language scheme"@en ;
+                rdfs:label "Language"@en ,
+                           "Taal"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Nationality
