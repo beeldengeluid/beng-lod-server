@@ -131,4 +131,4 @@ def create_xslt_from_schema():
     print(etree.tostring(transform, pretty_print=True, encoding="UTF-8"))
 
     tree = etree.ElementTree(transform)
-    tree.write('test.xsl', encoding='UTF-8', xml_declaration=True)
+    tree.write('test.xsl', encoding='UTF-8', xml_declaration=True, pretty_print=True)
