@@ -1233,7 +1233,6 @@ nisv:Person rdf:type rdfs:Class ;
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/PlayableAudioVisualObject
 nisv:PlayableAudioVisualObject rdf:type rdfs:Class ;
-                               rdfs:subClassOf skos:Concept ;
                                rdfs:comment "Audiovisueel object dat een fysieke drager is of een link heeft naar een fysieke drager waarop het afgespeeld kan worden. Programma's en Programma-onderdelen zijn hier voorbeelden van, ze hebben een drager aan hen gelinkt die het eigenlijke audiovisuele inhoud bevat."@nl ,
                                             "audiovisual object that is a physical carrier or has a link to a physical carrier from which it can be played. Programmes and Programme sections are examples of this, they can have a carrier linked to them containing actual audiovisual content"@en ;
                                rdfs:label "Afspeelbare audiovisuele object"@nl ,
