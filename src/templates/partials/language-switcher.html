@@ -12,11 +12,11 @@
         >Nl</a></li>
     {% elif bengClasses is defined %}
 
-    <li><a href="{{ url_for(request.endpoint) }}/en"
+    <li><a href="{{ url_for(request.endpoint) }}en"
            {% if language is defined and language == 'en' %}
         class="is-active"
         {% endif %}> En </a></li>
-    <li><a href="{{ url_for(request.endpoint) }}/nl"
+    <li><a href="{{ url_for(request.endpoint) }}nl"
            {% if language is defined and language == 'nl' %}
         class="is-active"
         {% endif %}

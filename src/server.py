@@ -1,6 +1,4 @@
-from flask import Flask
-from flask import render_template
-from flask import request, Response
+from flask import Flask, render_template, request, Response, url_for
 from flask_cors import CORS
 import json
 
@@ -59,9 +57,10 @@ def home():
 	return render_template('index.html')
 
 @app.route('/html-schema', methods=['GET'])
+@app.route('/html-schema/', methods=['GET'])
 @app.route('/html-schema/<string:language>/', defaults={'className': 'NONE'})
 @app.route('/html-schema/<string:language>/<string:className>')
-def htmlSchema(language=None, className=None):
+def htmlSchema(language='NONE', className='NONE'):
     CLASS_ROOT = "http://data.rdlabs.beeldengeluid.nl/schema"
     DOMAIN = "http://www.w3.org/2000/01/rdf-schema#domain"
     RANGE = "http://www.w3.org/2000/01/rdf-schema#range"
@@ -73,7 +72,10 @@ def htmlSchema(language=None, className=None):
         data = bengSchema.read()
     obj = json.loads(data)
 
-    # parse class properties to feed table
+    # setting default language if none provided.
+    if language == 'NONE':
+        language = 'nl'
+
     if className != 'NONE':
         classProps = []
         for d in obj:
