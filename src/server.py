@@ -58,7 +58,7 @@ def home():
 
 @app.route('/html-schema', methods=['GET'])
 @app.route('/html-schema/', methods=['GET'])
-@app.route('/html-schema/<string:language>/', defaults={'className': 'NONE'})
+@app.route('/html-schema/<string:language>/')
 @app.route('/html-schema/<string:language>/<string:className>')
 def htmlSchema(language='NONE', className='NONE'):
     CLASS_ROOT = "http://data.rdlabs.beeldengeluid.nl/schema"
@@ -98,7 +98,8 @@ def htmlSchema(language='NONE', className='NONE'):
                     for rangeItem in node[RANGE]:
                         if CLASS_ROOT + "/" + className == rangeItem['@id']:
                             rangeOfProperty.append(node)
-            return render_template('schema.html', language=language, className=className, rangeOfProperty=rangeOfProperty, implementedByClass=implementedByClass)
+            return render_template('schema.html', language=language, className=className,
+                                   rangeOfProperty=rangeOfProperty, implementedByClass=implementedByClass)
 
     for d in obj:
         # parsing Schema (in json format)
