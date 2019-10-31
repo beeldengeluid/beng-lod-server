@@ -7,18 +7,18 @@ import xmltodict
 import json
 
 
-def test_import_schema():
-    classes = schema.importSchema()
+def test_import_schema(application_settings):
+    classes = schema.importSchema(application_settings["SCHEMA_FILE"], application_settings["MAPPING_FILE"])
     print(classes)
 
 
-def test_payload_to_rdf(i_program, i_season, i_series, i_carrier, i_clip):
+def test_payload_to_rdf(application_settings, i_program, i_season, i_series, i_carrier, i_clip):
     nisvNamespace = Namespace(schema.NISV_NAMESPACE)
     namespaceManager = NamespaceManager(Graph())
     namespaceManager.bind(schema.NISV_PREFIX, nisvNamespace)
     namespaceManager.bind("skos", SKOS)
 
-    classes = schema.importSchema()
+    classes = schema.importSchema(application_settings["SCHEMA_FILE"], application_settings["MAPPING_FILE"])
 
     ## PROGRAM
     graph = Graph()

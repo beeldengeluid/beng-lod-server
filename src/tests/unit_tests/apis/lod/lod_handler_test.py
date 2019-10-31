@@ -1,19 +1,41 @@
 import pytest
-from mockito import when, unstub, verify
+from mockito import when, unstub, verify, ANY
 from apis.lod.LODHandler import LODHandler
 from util.APIUtil import APIUtil
+import models.import_schema as schema
 
 """ ------------------------ fetchDocument -----------------------"""
 
 DUMMY_ID = 'dummy_id'
 DUMMY_LEVEL = 'program'
-DUMMY_XSLT_FILE = 'dummy_file_that_does_not_exist'
+DUMMY_SCHEMA_FILE = 'dummy_file_that_does_not_exist'
+DUMMY_MAPPING_FILE = 'dummy_file_that_does_not_exist'
 DUMMY_URI_ERROR = 'this_is_really_not_an_existing_uri'
 
-def test_LODHandler_xslt_not_found():
+def test_LODHandler_bad_config():
 	lodHandler = None
 	try:
-		lodHandler = LODHandler({'XSLT_FILE': DUMMY_XSLT_FILE})
+		lodHandler = LODHandler({})
+	except ValueError as e:
+		assert APIUtil.valueErrorContainsErrorId(e, 'internal_server_error')
+		assert lodHandler is None
+	finally:
+		unstub()
+
+def test_LODHandler_schema_not_found():
+	lodHandler = None
+	try:
+		lodHandler = LODHandler({'SCHEMA_FILE': DUMMY_SCHEMA_FILE})
+	except ValueError as e:
+		assert APIUtil.valueErrorContainsErrorId(e, 'internal_server_error')
+		assert lodHandler is None
+	finally:
+		unstub()
+
+def test_LODHandler_mapping_not_found():
+	lodHandler = None
+	try:
+		lodHandler = LODHandler({'MAPPING_FILE': DUMMY_SCHEMA_FILE})
 	except ValueError as e:
 		assert APIUtil.valueErrorContainsErrorId(e, 'internal_server_error')
 		assert lodHandler is None
@@ -21,11 +43,11 @@ def test_LODHandler_xslt_not_found():
 		unstub()
 
 
-def test_LODHandler_corrupt_xslt(application_settings):
+def test_LODHandler_corrupt_schema(application_settings):
 	lodHandler = None
 	try:
+		when(schema).importSchema(ANY, ANY).thenReturn(None)
 		lodHandler = LODHandler(application_settings)
-		when(LODHandler)._getXSLTTransformer(DUMMY_XSLT_FILE).thenReturn(None)
 	except ValueError as e:
 		assert APIUtil.valueErrorContainsErrorId(e, 'internal_server_error')
 		assert lodHandler is None
@@ -34,10 +56,10 @@ def test_LODHandler_corrupt_xslt(application_settings):
 
 
 @pytest.mark.parametrize('return_type', ['json-ld', 'xml', 'n3', 'ttl'])
-def test_getOAIRecord_200(application_settings, get_record_xml_local_uri, return_type):
+def test_getOAIRecord_200(application_settings, i_program, return_type):
 	try:
 		lodHandler = LODHandler(application_settings)
-		when(LODHandler)._prepareURI(DUMMY_LEVEL, DUMMY_ID).thenReturn(get_record_xml_local_uri)
+		when(LODHandler)._getXMLFromOAI(ANY).thenReturn(i_program)
 		data, status_code, headers = lodHandler.getOAIRecord(DUMMY_LEVEL, DUMMY_ID, return_type)
 
 		assert status_code == 200
@@ -51,7 +73,7 @@ def test_getOAIRecord_200(application_settings, get_record_xml_local_uri, return
 		# make sure the RDF can be parsed
 		assert APIUtil.isValidRDF(data=data, format=return_type) is True
 
-		verify(LODHandler, times=1)._prepareURI(DUMMY_LEVEL, DUMMY_ID)
+		verify(LODHandler, times=1)._getXMLFromOAI(ANY)
 	finally:
 		unstub()
 
@@ -67,5 +89,21 @@ def test_getOAIRecord_400(application_settings, o_get_record):
 		assert APIUtil.matchesErrorId(resp['error'], 'bad_request')
 
 		verify(LODHandler, times=1)._prepareURI(DUMMY_LEVEL, DUMMY_ID)
+	finally:
+		unstub()
+
+
+def test_getOAIRecord_wrong_logtracktype_400(application_settings, i_other_logtrack_item):
+	try:
+		lodHandler = LODHandler(application_settings)
+		when(LODHandler)._getXMLFromOAI(ANY).thenReturn(i_other_logtrack_item)
+		resp, status_code, headers = lodHandler.getOAIRecord(DUMMY_LEVEL, DUMMY_ID, 'json-ld')
+
+		assert status_code == 400
+		assert 'error' in resp
+		assert APIUtil.matchesErrorId(resp['error'], 'bad_request')
+
+		verify(LODHandler, times=1)._getXMLFromOAI(ANY)
+
 	finally:
 		unstub()

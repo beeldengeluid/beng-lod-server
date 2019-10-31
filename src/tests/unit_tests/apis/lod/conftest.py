@@ -65,6 +65,13 @@ def i_clip(open_file):
 	return data
 
 @pytest.fixture()
+def i_other_logtrack_item(open_file):
+	""" Returns an example of XML data that can be expected."""
+	with open_file(__file__, 'input_other_logtrackitem.xml') as file:
+		data = file.read()
+	return data
+
+@pytest.fixture()
 def i_carrier(open_file):
 	""" Returns an example of XML data that can be expected."""
 	with open_file(__file__, 'input_carrier.xml') as file:

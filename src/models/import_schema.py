@@ -1,6 +1,5 @@
 from rdflib import Graph
 from rdflib.namespace import XSD
-import os
 
 NISV_NAMESPACE = 'http://data.rdlabs.beeldengeluid.nl/schema/'
 NISV_PREFIX = "nisv"
@@ -24,14 +23,14 @@ NON_GTAA_NAMESPACE = "http://data.beeldengeluid.nl/nongtaa/"
 
 XSD_TYPES = [str(XSD.string), str(XSD.int), str(XSD.float), str(XSD.boolean), str(XSD.long), str(XSD.dateTime), str(XSD.date)]
 
-def importSchema():
+CLASS_URIS_FOR_DAAN_LEVELS = {"SERIES": SERIES, "SEASON": SEASON, "PROGRAM" : PROGRAM, "LOGTRACKITEM": CLIP, "ITEM": CARRIER}
+
+def importSchema(schemaFile, mappingFile):
     '''Imports the classes, properties and the paths to the relevant DAAN variables from the RDF schema'''
-    parts = os.path.realpath(__file__).split(os.sep)
-    basePath = os.sep.join(parts[0:len(parts) - 3])
 
     graph = Graph()
-    graph.parse(os.sep.join([basePath, "resource", "bengSchema.ttl"]), format="turtle")
-    graph.parse(os.sep.join([basePath, "resource", "daan-mapping.ttl"]), format="turtle")
+    graph.parse(schemaFile, format="turtle")
+    graph.parse(mappingFile, format="turtle")
 
     # get properties without a domain, these apply (potentially) to all classes
     propertiesWithoutDomain = {}
