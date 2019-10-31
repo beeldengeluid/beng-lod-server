@@ -31,7 +31,11 @@ class LODHandler(object):
 
 	def getOAIRecord(self, level, identifier, returnFormat):
 		url = self._prepareURI(level, identifier)
-		data = self._OAI2LOD(url, returnFormat)
+		try:
+			data = self._OAI2LOD(url, returnFormat)
+		except ValueError as e:
+			return APIUtil.toErrorResponse('internal_server_error', e)
+
 		if data:
 			return APIUtil.toSuccessResponse(data)
 		return APIUtil.toErrorResponse('bad_request', 'That return format is not supported')
@@ -64,39 +68,47 @@ class LODHandler(object):
 	def _OAI2LOD(self, url, returnFormat):
 		""" Returns the data from a URL transformed to RDF/XML, loaded
 			in a Graph and serialized to target format."""
-		try:
-			xmlString = self._getXMLFromOAI(url)
-			result = self._transformXMLToRDF(xmlString)
-			data = self.serializeGraph(result, returnFormat)
-			return data
-		except Exception as e:
-			print(e)
+
+		xmlString = self._getXMLFromOAI(url)
+		result = self._transformXMLToRDF(xmlString)
+		data = self.serializeGraph(result, returnFormat)
+		return data
 
 	def _transformXMLToRDF(self, xmlString):
 		graph = Graph()
 		graph.namespace_manager = self.namespaceManager
 		xmlString = xmlString.replace("fe:", "")
 		json = xmltodict.parse(xmlString)
-		itemNode = URIRef(json["GetRecord"]["record"]["metadata"]["entry"]["id"])
 
-		setSpec = json["GetRecord"]["record"]["header"]["setSpec"]
+		if "OAI-PMH" in json: # work-around as the test XML files are not accepted by PyCharm as valid XML with the OAI-PMH header in
+			if "error" in json["OAI-PMH"]:
+				raise ValueError("Retrieving concept from OAI-PMH failed %s"%json["OAI-PMH"]["error"])
 
-		if setSpec == model.ObjectType.LOGTRACKITEM.name:
-			logtrackType = json["GetRecord"]["record"]["metadata"]["entry"]["logtrack_type"]
-			if logtrackType != model.LogTrackType.SCENE_DESC:
-				return APIUtil.toErrorResponse('bad_request', "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc"%logtrackType)
+			record = json["OAI-PMH"]["GetRecord"]["record"]
+		else: # this is the case for the test XML files
+			record = json["GetRecord"]["record"]
+
+		itemNode = URIRef(record["metadata"]["entry"]["id"])
+
+		setSpec = record["header"]["setSpec"]
+
+		if setSpec == model.ObjectType.LOGTRACKITEM.value:
+			logtrackType = record["metadata"]["entry"]["logtrack_type"]
+			if logtrackType != model.LogTrackType.SCENE_DESC.value:
+				raise ValueError("Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc"%logtrackType)
 
 		classUri = schema.CLASS_URIS_FOR_DAAN_LEVELS[setSpec]
 
-		model.payloadToRdf(json["GetRecord"]["record"]["metadata"]["entry"]["payload"], itemNode, classUri,self.classes, graph)
-		model.parentToRdf(json["GetRecord"]["record"]["metadata"]["entry"], itemNode, classUri, graph)
+		model.payloadToRdf(record["metadata"]["entry"]["payload"], itemNode, classUri,self.classes, graph)
+		model.parentToRdf(record["metadata"]["entry"], itemNode, classUri, graph)
 
 		return graph
 
 	def _getXMLFromOAI(self, url):
-		file = urllib.urlopen(
+		response = urllib.request.urlopen(
 			url)
-		data = file.read()
-		file.close()
+		data = ""
+		for line in response:
+			data += line.decode('utf-8')
 
 		return data
