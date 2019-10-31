@@ -1,134 +1,88 @@
-from lxml import etree
+from rdflib import Graph
+from rdflib.namespace import XSD
+import os
 
-xsl = "http://www.w3.org/1999/XSL/Transform"
-nisv = "http://data.rdlabs.beeldengeluid.nl/schema/"
-xs = "http://www.w3.org/2001/XMLSchema#"
-xsi = "http://www.w3.org/2001/XMLSchema-instance"
-oai_dc = "http://www.openarchives.org/OAI/2.0/oai_dc/"
-dc = "http://purl.org/dc/elements/1.1/"
-rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-oaipmh = "http://www.openarchives.org/OAI/2.0/"
-dcterms = "http://purl.org/dc/terms/"
-resource = "http://data.rdlabs.beeldengeluid.nl/resource/"
-skos = "http://www.w3.org/2004/02/skos/core#"
+NISV_NAMESPACE = 'http://data.rdlabs.beeldengeluid.nl/schema/'
+NISV_PREFIX = "nisv"
 
-ns = {"xsl": xsl,
-      "nisv": nisv,
-      "xs": xs,
-      "xsi": xsi,
-      "oai_dc": oai_dc,
-      "dc": dc,
-      "rdf": rdf,
-      "oaipmh": oaipmh,
-      "dcterms": dcterms,
-      "resource": resource,
-      "skos": skos
-      }
+PROGRAM = NISV_NAMESPACE + "Program"
+SEASON = NISV_NAMESPACE + "Season"
+SERIES = NISV_NAMESPACE + "Series"
+CARRIER = NISV_NAMESPACE + "Carrier"
+CLIP = NISV_NAMESPACE + "SceneDescription"
+ACTING_ENTITY = NISV_NAMESPACE + "ActingEntity"
+HAS_DAAN_PATH = NISV_NAMESPACE + "hasDaanPath"
+HAS_CARRIER = NISV_NAMESPACE + "hasCarrier"
+IS_PART_OF_SERIES = NISV_NAMESPACE + "isPartOfSeries"
+IS_PART_OF_SEASON = NISV_NAMESPACE + "isPartOfSeason"
+IS_PART_OF_PROGRAM = NISV_NAMESPACE + "isPartOfProgram"
 
-def set_transform_attributes(transform):
-    transform.set("version", "1.0")
-    transform.set("exclude-result-prefixes", "oaipmh oai_dc xsl xsi")
+NON_GTAA_TYPES = [NISV_NAMESPACE + "TargetGroup", NISV_NAMESPACE + "Broadcaster", NISV_NAMESPACE + "BroadcastStation", NISV_NAMESPACE + "Language"]
 
+GTAA_NAMESPACE = "http://data.beeldengeluid.nl/gtaa/"
+NON_GTAA_NAMESPACE = "http://data.beeldengeluid.nl/nongtaa/"
 
-def set_output_attributes(output):
-    output.set("method", "xml")
-    output.set("indent", "yes")
-    output.set("encoding", "utf-8")
+XSD_TYPES = [str(XSD.string), str(XSD.int), str(XSD.float), str(XSD.boolean), str(XSD.long), str(XSD.dateTime), str(XSD.date)]
 
+def importSchema():
+    '''Imports the classes, properties and the paths to the relevant DAAN variables from the RDF schema'''
+    parts = os.path.realpath(__file__).split(os.sep)
+    basePath = os.sep.join(parts[0:len(parts) - 3])
 
-def add_variable_node(parent, name, select):
-    variable_node = etree.SubElement(parent, "{%s}variable"%xsl, nsmap=ns)
-    variable_node.set("name", name)
-    variable_node.set("select", select)
+    graph = Graph()
+    graph.parse(os.sep.join([basePath, "resource", "bengSchema.ttl"]), format="turtle")
+    graph.parse(os.sep.join([basePath, "resource", "daan-mapping.ttl"]), format="turtle")
 
+    # get properties without a domain, these apply (potentially) to all classes
+    propertiesWithoutDomain = {}
+    propertiesWithoutDomainResult = graph.query("""SELECT DISTINCT ?property ?path ?range ?rangeSuperClass WHERE{  ?property rdfs:range ?range . ?property <%s> ?path MINUS {?property rdfs:domain ?s}}"""%HAS_DAAN_PATH)
 
-def add_template(parent, match, namespacePrefix=None):
-    template_node = etree.SubElement(parent, "{%s}template"%xsl, nsmap=ns)
-    if namespacePrefix:
-        template_node.set("match", "%s:%s"%(namespacePrefix, match))
+    for row in propertiesWithoutDomainResult:
+        processProperty(row, propertiesWithoutDomain)
+
+    classResult = graph.query("""SELECT DISTINCT ?class ?path WHERE{?class a rdfs:Class . ?class <%s> ?path}"""%HAS_DAAN_PATH)
+
+    classes = {}
+    for row in classResult:
+        classes[str(row[0])] = (processClass(str(row[0]), graph, propertiesWithoutDomain))
+
+    return classes
+
+def processProperty(row, properties):
+    propertyUri = str(row[0])
+
+    if propertyUri in properties:
+        # just add an extra path
+        properties[propertyUri]["paths"].append(str(row[1]))
     else:
-        template_node.set("match", match)
+        # add the property
+        property = {}
+        property["paths"] = [str(row[1])]
+        property["range"] = str(row[2])
+        property["rangeSuperClass"] = str(row[3])
+        properties[propertyUri] = property
 
-    return template_node
+    return
 
+def processClass(classUri, graph, propertiesWithoutDomain):
+    classInfo = {}
+    classInfo["uri"] = str(classUri)
 
-def add_apply_templates(parent, select=None, namespacePrefix=None):
-    apply_template_node = etree.SubElement(parent, "{%s}apply-templates"%xsl, nsmap=ns)
-    if select:
-        apply_template_node.set("select", "%s:%s"%(namespacePrefix, select), )
+    # get properties that have class as domain
+    properties = {}
+    propertyResult = graph.query("""SELECT DISTINCT ?property ?path ?range ?rangeSuperClass WHERE{?property rdfs:domain <%s> . ?property rdfs:range ?range . ?property <%s> ?path . OPTIONAL{?range rdfs:subClassOf ?rangeSuperClass}}"""%(classUri, HAS_DAAN_PATH))
 
+    for row in propertyResult:
+        processProperty(row, properties)
 
-def add_test(parent, test):
-    test_node = etree.SubElement(parent, "{%s}if"%xsl)
-    test_node.set("test", test)
-    return test_node
+    # get properties that have superclasses of the class as domain
+    propertyResult = graph.query("""SELECT DISTINCT ?property ?path ?range ?rangeSuperClass WHERE{?property rdfs:domain ?s . <%s> rdfs:subClassOf ?s. ?property rdfs:range ?range . ?property <%s> ?path .OPTIONAL{ ?range rdfs:subClassOf ?rangeSuperClass}}"""%(classUri, HAS_DAAN_PATH))
 
+    for row in propertyResult:
+        processProperty(row, properties)
 
-def create_level_option(choose_node, level, levelUri):
-    when_node = etree.SubElement(choose_node, "{%s}when"%xsl)
-    when_node.set("test", "$level = '%s'"%level)
-    element_node = etree.SubElement(when_node, "{%s}element"%xsl)
-    element_node.set("name", "rdf:type")
-    attribute_node = etree.SubElement(element_node, "{%s}attribute"%xsl)
-    attribute_node.set("name", "rdf:resource")
-    value_of_node = etree.SubElement(attribute_node, "{%s}value-of"%xsl)
-    value_of_node.set("select", levelUri)
+    # add in the properties with no domain
+    properties.update(propertiesWithoutDomain)
 
-
-def create_resource(parent):
-    template_node = etree.SubElement(parent, "{%s}template"%xsl)
-    add_variable_node(template_node, "level", "./@aggregationType")
-    add_variable_node(template_node, "id", "./@id")
-
-    description_node = etree.SubElement(template_node, "{%s}Description"%rdf)
-    about_node = etree.SubElement(description_node, "{%s}attribute"%xsl)
-    about_node.set("name", "rdf:about")
-    value_of_node = etree.SubElement(about_node, "{%s}value-of"%xsl)
-    value_of_node.set("select", "concat($varResource,$level,'/',$id)")
-    choose_node = etree.SubElement(description_node, "{%s}choose"%xsl)
-    create_level_option(choose_node, "program", "concat($varSchema,'Program')")
-    create_level_option(choose_node, "series", "concat($varSchema,'Series')")
-    create_level_option(choose_node, "season", "concat($varSchema,'Season')")
-    create_level_option(choose_node, "segment", "concat($varSchema,'Segment')")
-
-def create_xslt_from_schema():
-
-    transform = etree.Element("{%s}transform"%xsl, nsmap=ns)
-    set_transform_attributes(transform)
-
-    output = etree.SubElement(transform, "{%s}output"%xsl, nsmap=ns)
-    set_output_attributes(output)
-
-    strip_space = etree.SubElement(transform, "{%s}strip-space"%xsl, nsmap=ns)
-    strip_space.set("elements", "*")
-
-    add_variable_node(transform, "varSchema", "\'%s\'"%nisv)
-    add_variable_node(transform, "varResource", "\'%s\'"%resource)
-
-    main_node = add_template(transform, "/")
-    add_apply_templates(main_node)
-
-    # Templates for OAI-PMH (container) elements. TODO: Do we really need these?
-    oaipmh_node = add_template(transform, "OAI-PMH", "oaipmh")
-    add_apply_templates(oaipmh_node)
-
-    list_records_node = add_template(transform, "ListRecords", "oaipmh")
-    add_apply_templates(list_records_node)
-
-    get_record_node = add_template(transform, "GetRecord", "oaipmh")
-    add_apply_templates(get_record_node)
-
-    # process header and metadata
-    record_node = add_template(transform, "record", "oaipmh")
-    record_test_node = add_test(record_node, "not(oaipmh:header[@status='deleted'])")
-    add_apply_templates(record_test_node, "metadata", "oaipmh")
-    add_apply_templates(record_test_node, "header", "oaipmh")
-    add_template(transform, "header", "oaipmh")
-    metadata_node = add_template(transform, "metadata", "oaipmh")
-    add_apply_templates(metadata_node)
-
-    create_resource(transform)
-    print(etree.tostring(transform, pretty_print=True, encoding="UTF-8"))
-
-    tree = etree.ElementTree(transform)
-    tree.write('test.xsl', encoding='UTF-8', xml_declaration=True, pretty_print=True)
+    classInfo['properties'] = properties
+    return classInfo

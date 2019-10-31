@@ -1,5 +1,3 @@
-<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/">
-<responseDate>2019-10-30T11:28:20Z</responseDate>
 <GetRecord>
 <record>
 <header>
@@ -609,4 +607,3 @@ http://acc-app-bng-01.beeldengeluid.nl:8101/model/api/metadata/form/nisv-tv-radi
 </metadata>
 </record>
 </GetRecord>
-</OAI-PMH>

@@ -36,4 +36,37 @@ def get_record_xml_local_uri():
 		return None
 	return prepare_uri(__file__, 'output_get_record.xml')
 
+@pytest.fixture()
+def i_series(open_file):
+	""" Returns an example of XML data that can be expected."""
+	with open_file(__file__, 'input_series.xml') as file:
+		data = file.read()
+	return data
 
+@pytest.fixture()
+def i_season(open_file):
+	""" Returns an example of XML data that can be expected."""
+	with open_file(__file__, 'input_season.xml') as file:
+		data = file.read()
+	return data
+
+@pytest.fixture()
+def i_program(open_file):
+	""" Returns an example of XML data that can be expected."""
+	with open_file(__file__, 'input_program.xml') as file:
+		data = file.read()
+	return data
+
+@pytest.fixture()
+def i_clip(open_file):
+	""" Returns an example of XML data that can be expected."""
+	with open_file(__file__, 'input_clip.xml') as file:
+		data = file.read()
+	return data
+
+@pytest.fixture()
+def i_carrier(open_file):
+	""" Returns an example of XML data that can be expected."""
+	with open_file(__file__, 'input_carrier.xml') as file:
+		data = file.read()
+	return data
