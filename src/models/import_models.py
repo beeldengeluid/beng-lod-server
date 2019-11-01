@@ -74,6 +74,9 @@ DAAN_PAYLOAD = "payload"
 
 """ -------------- MODEL HELPER FUNCTION --------------- """
 
+def isSceneDescription(logtrackType):
+	return logtrackType == LogTrackType.SCENE_DESC.value or logtrackType == LogTrackType.SCENE_DESC2.value or logtrackType == LogTrackType.SCENE_DESC3.value or logtrackType == LogTrackType.SCENE_DESC4.value
+
 def getMetadataValue(metadata, metadataField):
 	"""Gets the value of the metadata field from the JSON metadata for a search result.
 	Returns either a single value, or a list of multiple values"""

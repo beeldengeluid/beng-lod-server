@@ -6,23 +6,14 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <2101909080260953331> nisv:hasCreator [ a nisv:Creator ;
-            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/243695> ;
-            nisv:hasRole "productie"^^xsd:string ],
+            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/252421> ;
+            nisv:hasRole "geluid"^^xsd:string ],
         [ a nisv:Creator ;
             nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/113684> ;
             nisv:hasRole "eindredactie"^^xsd:string ],
         [ a nisv:Creator ;
-            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/240548> ;
-            nisv:hasRole "regie"^^xsd:string ],
-        [ a nisv:Creator ;
-            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/240548> ;
-            nisv:hasRole "research"^^xsd:string ],
-        [ a nisv:Creator ;
-            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/251833> ;
-            nisv:hasRole "research"^^xsd:string ],
-        [ a nisv:Creator ;
-            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/252421> ;
-            nisv:hasRole "geluid"^^xsd:string ],
+            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/244047> ;
+            nisv:hasRole "camera"^^xsd:string ],
         [ a nisv:Creator ;
             nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/245640> ;
             nisv:hasRole "camera"^^xsd:string ],
@@ -30,14 +21,23 @@
             nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/250145> ;
             nisv:hasRole "productie"^^xsd:string ],
         [ a nisv:Creator ;
-            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/244047> ;
-            nisv:hasRole "camera"^^xsd:string ],
+            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/240548> ;
+            nisv:hasRole "research"^^xsd:string ],
+        [ a nisv:Creator ;
+            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/251833> ;
+            nisv:hasRole "research"^^xsd:string ],
         [ a nisv:Creator ;
             nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/244580> ;
             nisv:hasRole "montage"^^xsd:string ],
         [ a nisv:Creator ;
             nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/240482> ;
             nisv:hasRole "geluid"^^xsd:string ],
+        [ a nisv:Creator ;
+            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/243695> ;
+            nisv:hasRole "productie"^^xsd:string ],
+        [ a nisv:Creator ;
+            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/240548> ;
+            nisv:hasRole "regie"^^xsd:string ],
         [ a nisv:Creator ;
             nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/111171> ;
             nisv:hasRole "eindredactie"^^xsd:string ] ;

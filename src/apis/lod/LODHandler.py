@@ -94,7 +94,7 @@ class LODHandler(object):
 
 		if setSpec == model.ObjectType.LOGTRACKITEM.value:
 			logtrackType = record["metadata"]["entry"]["logtrack_type"]
-			if logtrackType != model.LogTrackType.SCENE_DESC.value:
+			if not model.isSceneDescription(logtrackType):
 				raise ValueError("Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc"%logtrackType)
 
 		classUri = schema.CLASS_URIS_FOR_DAAN_LEVELS[setSpec]

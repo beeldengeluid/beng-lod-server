@@ -22,6 +22,8 @@
             nisv:hasRole "producent"^^xsd:string ] ;
     nisv:hasProductionCountry <http://data.beeldengeluid.nl/gtaa/39742> ;
     nisv:hasPublication [ a nisv:PublicationEvent ;
+            nisv:hasStartDate "2019-03-26"^^xsd:date ],
+        [ a nisv:PublicationEvent ;
             nisv:hasAdditionalInformation "Stereo"^^xsd:string ;
             nisv:hasAspectRatio "HD1080i"^^xsd:string ;
             nisv:hasBroadcastStandard "HD"^^xsd:string ;
@@ -36,9 +38,7 @@
             nisv:hasStartTime "51636000"^^xsd:long ;
             nisv:hasSubtitlingPlanned "true"^^xsd:string ;
             nisv:isRepeat "true"^^xsd:string ;
-            nisv:wasLive "false"^^xsd:string ],
-        [ a nisv:PublicationEvent ;
-            nisv:hasStartDate "2019-03-26"^^xsd:date ] ;
+            nisv:wasLive "false"^^xsd:string ] ;
     nisv:hasRecording [ a nisv:RecordingEvent ;
             nisv:hasProductionYear "2019"^^xsd:dateTime ] ;
     nisv:hasSortDate "2019-03-26"^^xsd:date ;
