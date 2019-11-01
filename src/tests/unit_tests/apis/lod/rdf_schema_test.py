@@ -4,7 +4,6 @@ import models.import_models as model
 from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import Namespace, NamespaceManager, SKOS, RDF, XSD
 import xmltodict
-import json
 
 
 def test_import_schema(application_settings):
@@ -32,7 +31,7 @@ def test_payload_to_rdf(application_settings, i_program, i_season, i_series, i_c
 
     # do some checks
     programTriples = list(graph.triples((programNode, None, None)))
-    assert len(programTriples) == 19
+    assert len(programTriples) == 26
     assert (programNode, URIRef(schema.IS_PART_OF_SEASON), URIRef(schema.NISV_NAMESPACE + "2101902260253604731")) in programTriples
     assert (programNode, URIRef(schema.NISV_NAMESPACE + "hasSortDate"), Literal("2019-03-26", datatype=XSD.date)) in programTriples
     creators = list(graph.subjects(RDF.type, URIRef(schema.NISV_NAMESPACE + "Creator")))
