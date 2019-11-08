@@ -6,6 +6,6 @@ class Config(object):
 
 	DEBUG = True
 
-	OAI_BASE_URL = 'http://oaipmh.beeldengeluid.nl'
-	XSLT_FILE = '../resource/nisv-bg-oai2lod-v03.xsl'
+	OAI_BASE_URL = 'http://xeniaonatopp:8091'
+	XSLT_FILE = '../resource/nisv-bg-oai2lod.xsl'
 	SCHEMA_FILE = '../resource/bengSchema.ttl'
