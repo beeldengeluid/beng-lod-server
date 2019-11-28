@@ -1,7 +1,7 @@
 
 import models.DAANRdfModel as schema
 from models.DAANJsonModel import DAAN_PROGRAM_ID, DAAN_PARENT, DAAN_PARENT_ID, DAAN_PARENT_TYPE, ObjectType
-from rdflib.namespace import RDF, SKOS, Namespace, NamespaceManager
+from rdflib.namespace import RDF, RDFS, SKOS, Namespace, NamespaceManager
 from rdflib import Graph, URIRef, Literal, BNode
 from rdflib.plugin import PluginException
 
@@ -13,16 +13,18 @@ class NISVRdfConcept:
 
 	def __init__(self, metadata, conceptType, classes):
 		self.classes = classes
-		self.graph = Graph()
 
 		# set up namespace manager for RDF graph
-		nisvNamespace = Namespace(schema.NISV_NAMESPACE)
 		self.namespaceManager = NamespaceManager(Graph())
-		self.namespaceManager.bind(schema.NISV_PREFIX, nisvNamespace)
+		nisvSchemaNamespace = Namespace(schema.NISV_SCHEMA_NAMESPACE)
+		nisvDataNamespace = Namespace(schema.NISV_DATA_NAMESPACE)
+		self.namespaceManager.bind(schema.NISV_SCHEMA_PREFIX, nisvSchemaNamespace)
+		self.namespaceManager.bind(schema.NISV_DATA_PREFIX, nisvDataNamespace)
 		self.namespaceManager.bind("skos", SKOS)
+		self.graph = Graph(namespace_manager=self.namespaceManager)
 
 		# create a node for the record
-		self.itemNode = URIRef(metadata["entry"]["id"])
+		self.itemNode = URIRef(schema.NISV_DATA_NAMESPACE + metadata["entry"]["id"])
 
 		# get the RDF class URI for this type
 		self.classUri = schema.CLASS_URIS_FOR_DAAN_LEVELS[conceptType]
@@ -123,16 +125,21 @@ class NISVRdfConcept:
 										conceptNode = URIRef(schema.NON_GTAA_NAMESPACE + concept["value"])
 									else:
 										conceptNode = URIRef(schema.GTAA_NAMESPACE + concept["value"])
-
+								skosConcept = True
 						if not conceptNode:
 							# we only have a label, so we create a blank node
 							conceptNode = BNode()
+							skosConcept = False
 
 						self.graph.add((conceptNode, RDF.type, URIRef(rdfProperty["range"])))
 						self.graph.add((parentNode, URIRef(uri), conceptNode))  # link it to the parent
 
-						# and set the pref label of the concept node to be the DAAN payload item
-						self.graph.add((conceptNode, SKOS.prefLabel, Literal(newPayloadItem, lang="nl")))
+						if skosConcept:
+							# set the pref label of the concept node to be the DAAN payload item
+							self.graph.add((conceptNode, SKOS.prefLabel, Literal(newPayloadItem, lang="nl")))
+						else:
+							# set the rdfs label of the concept node to be the DAAN payload item
+							self.graph.add((conceptNode, RDFS.label, Literal(newPayloadItem, lang="nl")))
 					else:
 						# we have a class as range
 						# create a blank node for the class ID, and a triple to set the type of the class
@@ -149,7 +156,7 @@ class NISVRdfConcept:
 		parents from the metadata, link the child to the parents, and return the new instances and
 		properties in the graph"""
 		if self.classUri == schema.CLIP:  # for a clip, use the program reference
-			self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_PROGRAM), URIRef(schema.NISV_NAMESPACE + metadata[DAAN_PROGRAM_ID])))
+			self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_PROGRAM), URIRef(schema.NISV_DATA_NAMESPACE + metadata[DAAN_PROGRAM_ID])))
 		elif DAAN_PARENT in metadata and metadata[DAAN_PARENT] and DAAN_PARENT in metadata[DAAN_PARENT]:
 			# for other
 			if type(metadata[DAAN_PARENT][DAAN_PARENT]) is list:
@@ -160,13 +167,13 @@ class NISVRdfConcept:
 			for parent in parents:
 				# for each parent, link it with the correct relationship given the types
 				if self.classUri == schema.CARRIER:  # link carriers as children
-					self.graph.add((URIRef(schema.NISV_NAMESPACE + parent[DAAN_PARENT_ID]), URIRef(schema.HAS_CARRIER), self.itemNode))
+					self.graph.add((self.itemNode, URIRef(schema.IS_CARRIER_OF), URIRef(schema.NISV_DATA_NAMESPACE + parent[DAAN_PARENT_ID])))
 				elif parent[DAAN_PARENT_TYPE] == ObjectType.SERIES.name:
-					self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_SERIES), URIRef(schema.NISV_NAMESPACE + parent[DAAN_PARENT_ID])))
+					self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_SERIES), URIRef(schema.NISV_DATA_NAMESPACE + parent[DAAN_PARENT_ID])))
 				elif parent[DAAN_PARENT_TYPE] == ObjectType.SEASON.name:
-					self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_SEASON), URIRef(schema.NISV_NAMESPACE + parent[DAAN_PARENT_ID])))
+					self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_SEASON), URIRef(schema.NISV_DATA_NAMESPACE + parent[DAAN_PARENT_ID])))
 				elif parent[DAAN_PARENT_TYPE] == ObjectType.PROGRAM.name:
-					self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_PROGRAM), URIRef(schema.NISV_NAMESPACE + parent[DAAN_PARENT_ID])))
+					self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_PROGRAM), URIRef(schema.NISV_DATA_NAMESPACE + parent[DAAN_PARENT_ID])))
 
 		return
 

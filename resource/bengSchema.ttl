@@ -35,13 +35,6 @@ nisv:hasBroadcaster rdf:type rdf:Property ;
                                "heeft zendgemachtigde"@nl .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasCarrier
-nisv:hasCarrier rdf:type rdf:Property ;
-                rdfs:domain nisv:PlayableAudioVisualObject ;
-                rdfs:range nisv:Carrier ;
-                rdfs:label "has carrier" ,
-                           "heeft drager"@nl .
-
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasCast
 nisv:hasCast rdf:type rdf:Property ;
@@ -239,8 +232,19 @@ nisv:hasSubject rdf:type rdf:Property ;
 nisv:hasTargetGroup rdf:type rdf:Property ;
                     rdfs:domain nisv:ArchiveMetadataObject ;
                     rdfs:range nisv:TargetGroup ;
-                    rdfs:label "has target group"@nl ,
+                    rdfs:label "has target group"@en ,
                                "heeft doelgroep"@nl .
+
+
+
+###  http://data.rdlabs.beeldengeluid.nl/schema/isCarrierOf
+nisv:isCarrierOf rdf:type rdf:Property ;
+                rdfs:domain nisv:Carrier ;
+                rdfs:range nisv:PlayableAudioVisualObject ;
+                rdfs:label "is carrier of"@en ,
+                           "is drager van"@nl ;
+                rdfs:comment "the program or clip that is stored on this carrier"@en,
+                             "het programma of clip dat is bewaard op deze drager"@nl .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/isPartOfProgram
@@ -593,7 +597,7 @@ nisv:hasEndDate rdf:type rdf:Property ;
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasEndTime
 nisv:hasEndTime rdf:type rdf:Property ;
                 rdfs:domain nisv:PublicationEvent ;
-                rdfs:range xsd:string ;
+                rdfs:range xsd:long ;
                 rdfs:comment "de eindtijd van deze publicatie"@nl ;
                 rdfs:label "has end time"@en ,
                            "heeft eindtijd"@nl ,
@@ -603,7 +607,7 @@ nisv:hasEndTime rdf:type rdf:Property ;
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasEpisodeNumber
 nisv:hasEpisodeNumber rdf:type rdf:Property ;
                       rdfs:domain nisv:Program ;
-                      rdfs:range xsd:long ;
+                      rdfs:range xsd:int ;
                       rdfs:comment "het afleveringsnummer van dit programma"@nl ,
                                    "the episode number of this programme"@en ;
                       rdfs:label "has episode number"@en ,
@@ -702,7 +706,7 @@ nisv:hasMuseumSummary rdf:type rdf:Property ;
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasNumberOfEpisodes
 nisv:hasNumberOfEpisodes rdf:type rdf:Property ;
                          rdfs:domain nisv:ArchiveMetadataObject ;
-                         rdfs:range xsd:long ;
+                         rdfs:range xsd:int ;
                          rdfs:comment "het aantal afleveringen in dit series/seizoen"@nl ,
                                       "the number of episodes in this series/season"@en ;
                          rdfs:label "has number of episodes"@en ,

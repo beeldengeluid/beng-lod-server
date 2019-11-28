@@ -3,7 +3,7 @@ import models.DAANRdfModel as schema
 from models.NISVRdfConcept import NISVRdfConcept
 from apis.lod.DAANSchemaImporter import DAANSchemaImporter
 
-from rdflib import Graph, URIRef, Literal
+from rdflib import URIRef, Literal
 from rdflib.namespace import RDF, XSD
 import xmltodict
 
@@ -29,19 +29,19 @@ def test_payload_to_rdf(application_settings, i_program, i_season, i_series, i_c
     # do some checks
     programTriples = list(graph.triples((rdfConcept.itemNode, None, None)))
     assert len(programTriples) == 26
-    assert (rdfConcept.itemNode, URIRef(schema.IS_PART_OF_SEASON), URIRef(schema.NISV_NAMESPACE + "2101902260253604731")) in programTriples
-    assert (rdfConcept.itemNode, URIRef(schema.NISV_NAMESPACE + "hasSortDate"), Literal("2019-03-26", datatype=XSD.date)) in programTriples
-    creators = list(graph.subjects(RDF.type, URIRef(schema.NISV_NAMESPACE + "Creator")))
+    assert (rdfConcept.itemNode, URIRef(schema.IS_PART_OF_SEASON), URIRef(schema.NISV_DATA_NAMESPACE + "2101902260253604731")) in programTriples
+    assert (rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasSortDate"), Literal("2019-03-26", datatype=XSD.date)) in programTriples
+    creators = list(graph.subjects(RDF.type, URIRef(schema.NISV_SCHEMA_NAMESPACE + "Creator")))
     assert len(creators) == 1
     for creator in creators:
-        personURIs = list(graph.objects(creator, URIRef(schema.NISV_NAMESPACE + "hasPerson")))
+        personURIs = list(graph.objects(creator, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasPerson")))
         assert len(personURIs) == 1
         creatorName = graph.preferredLabel(personURIs[0])[0][1]
         assert str(creatorName) == "Elsen, Jetske van den"
-    publications = list(graph.subjects(RDF.type, URIRef(schema.NISV_NAMESPACE + "PublicationEvent")))
+    publications = list(graph.subjects(RDF.type, URIRef(schema.NISV_SCHEMA_NAMESPACE + "PublicationEvent")))
     assert len(publications) == 2
     for publication in publications:
-        broadcastStations = list(graph.objects(publication, URIRef(schema.NISV_NAMESPACE + "hasBroadcastStation")))
+        broadcastStations = list(graph.objects(publication, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasBroadcastStation")))
         assert len(broadcastStations) == 0 or len(broadcastStations)==1
         if broadcastStations:
             stationName = graph.preferredLabel(broadcastStations[0])[0][1]
@@ -59,16 +59,16 @@ def test_payload_to_rdf(application_settings, i_program, i_season, i_series, i_c
     # do some checks
     seasonTriples = list(graph.triples((rdfConcept.itemNode, None, None)))
     assert len(seasonTriples) == 19
-    assert (rdfConcept.itemNode, URIRef(schema.IS_PART_OF_SERIES), URIRef(schema.NISV_NAMESPACE + "2101909080260953431")) in seasonTriples
-    producers = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_NAMESPACE + "hasProducer")))
+    assert (rdfConcept.itemNode, URIRef(schema.IS_PART_OF_SERIES), URIRef(schema.NISV_DATA_NAMESPACE + "2101909080260953431")) in seasonTriples
+    producers = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasProducer")))
     assert len(producers) == 1
-    assert (producers[0], URIRef(schema.NISV_NAMESPACE + "hasRole"), Literal("producent", datatype=XSD.string)) in list(graph.triples((producers[0], None, None)))
-    productionOrganisations = list(graph.objects(producers[0], URIRef(schema.NISV_NAMESPACE + "hasOrganisation")))
+    assert (producers[0], URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasRole"), Literal("producent", datatype=XSD.string)) in list(graph.triples((producers[0], None, None)))
+    productionOrganisations = list(graph.objects(producers[0], URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasOrganisation")))
     assert len(productionOrganisations) == 1
-    assert (productionOrganisations[0], RDF.type, URIRef(schema.NISV_NAMESPACE + "Organisation")) in list(graph.triples((productionOrganisations[0], None, None)))
+    assert (productionOrganisations[0], RDF.type, URIRef(schema.NISV_SCHEMA_NAMESPACE + "Organisation")) in list(graph.triples((productionOrganisations[0], None, None)))
     productionName = graph.preferredLabel(productionOrganisations[0])[0][1]
     assert str(productionName) == "NTR"
-    creators = list(graph.subjects(RDF.type, URIRef(schema.NISV_NAMESPACE + "Creator")))
+    creators = list(graph.subjects(RDF.type, URIRef(schema.NISV_SCHEMA_NAMESPACE + "Creator")))
     assert len(creators) == 12
 
     graph.serialize(destination='output_season.txt', format='turtle')
@@ -83,23 +83,23 @@ def test_payload_to_rdf(application_settings, i_program, i_season, i_series, i_c
     # do some checks
     seriesTriples = list(graph.triples((rdfConcept.itemNode, None, None)))
     assert len(seriesTriples) == 8
-    mainTitles = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_NAMESPACE + "hasMainTitle")))
+    mainTitles = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasMainTitle")))
     assert len(mainTitles) == 1
-    titleTexts = list(graph.objects(mainTitles[0], URIRef(schema.NISV_NAMESPACE + "hasTitleText")))
+    titleTexts = list(graph.objects(mainTitles[0], URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasTitleText")))
     assert len(titleTexts) == 1
     assert str(titleTexts[0]) == "Dilemma's rond leven en dood"
-    subjects = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_NAMESPACE + "hasSubject")))
+    subjects = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasSubject")))
     expectedSubjects = ["hindoes", "donors", "euthanasie"]
     for subject in subjects:
         subjectTriples = list(graph.triples((subject, None, None)))
-        assert (subject, RDF.type, URIRef(schema.NISV_NAMESPACE + "Subject")) in subjectTriples
+        assert (subject, RDF.type, URIRef(schema.NISV_SCHEMA_NAMESPACE + "Subject")) in subjectTriples
         subjectLabel = graph.preferredLabel(subject)[0][1]
         assert str(subjectLabel) in expectedSubjects
-    genres = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_NAMESPACE + "hasGenre")))
+    genres = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasGenre")))
     assert len(genres) == 1
     for genre in genres:
         genreTriples = list(graph.triples((genre, None, None)))
-        assert (genre, RDF.type, URIRef(schema.NISV_NAMESPACE + "Genre")) in genreTriples
+        assert (genre, RDF.type, URIRef(schema.NISV_SCHEMA_NAMESPACE + "Genre")) in genreTriples
         genreLabel = graph.preferredLabel(genre)[0][1]
         assert str(genreLabel) == "reportage"
 
@@ -114,15 +114,15 @@ def test_payload_to_rdf(application_settings, i_program, i_season, i_series, i_c
 
     # do some checks
     carrierTriples = list(graph.triples((rdfConcept.itemNode, None, None)))
-    assert len(carrierTriples) == 4
-    creationDates = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_NAMESPACE + "hasCreationDate")))
+    assert len(carrierTriples) == 6
+    creationDates = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasCreationDate")))
     assert len(creationDates) == 1
     assert str(creationDates[0]) == "2008-04-11T21:30:09+00:00"
-    programmes = list(graph.subjects(URIRef(schema.NISV_NAMESPACE + "hasCarrier"), rdfConcept.itemNode))
+    programmes = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "isCarrierOf")))
     assert len(programmes) == 2
     for programme in programmes:
-        assert str(programme) == schema.NISV_NAMESPACE + "2101608050034197431" or str(programme) == schema.NISV_NAMESPACE + "2101608080068352931"
-    carrierTypes = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_NAMESPACE + "hasCarrierType")))
+        assert str(programme) == schema.NISV_DATA_NAMESPACE+ "2101608050034197431" or str(programme) == schema.NISV_DATA_NAMESPACE + "2101608080068352931"
+    carrierTypes = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasCarrierType")))
     assert len(carrierTypes) == 1
     assert str(carrierTypes[0]) == "DAT cassette"
 
@@ -136,10 +136,10 @@ def test_payload_to_rdf(application_settings, i_program, i_season, i_series, i_c
     # do some checks
     clipTriples = list(graph.triples((rdfConcept.itemNode, None, None)))
     assert len(clipTriples) == 3
-    assert (rdfConcept.itemNode, URIRef(schema.IS_PART_OF_PROGRAM), URIRef(schema.NISV_NAMESPACE + "2101909160261187331")) in clipTriples
-    mainTitles = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_NAMESPACE + "hasMainTitle")))
+    assert (rdfConcept.itemNode, URIRef(schema.IS_PART_OF_PROGRAM), URIRef(schema.NISV_DATA_NAMESPACE + "2101909160261187331")) in clipTriples
+    mainTitles = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasMainTitle")))
     assert len(mainTitles) == 1
-    titleTexts = list(graph.objects(mainTitles[0], URIRef(schema.NISV_NAMESPACE + "hasTitleText")))
+    titleTexts = list(graph.objects(mainTitles[0], URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasTitleText")))
     assert len(titleTexts) == 1
     assert str(titleTexts[0]) == "Henk Poort over succes bij Beste Zangers"
 

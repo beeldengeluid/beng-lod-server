@@ -84,7 +84,7 @@ class LODHandler(object):
             record = json["GetRecord"]["record"]
 
         # get the type - series, season etc.
-        setSpec = record["header"]["setSpec"]
+        setSpec = record["header"]["setSpec"].upper()
 
         # if the type is a logtrackitem, check it is a scene description, as we can't yet handle other types
         if setSpec == model.ObjectType.LOGTRACKITEM.value:
