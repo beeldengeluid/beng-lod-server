@@ -18,10 +18,26 @@ class NISVRdfConcept:
 		self.namespaceManager = NamespaceManager(Graph())
 		nisvSchemaNamespace = Namespace(schema.NISV_SCHEMA_NAMESPACE)
 		nisvDataNamespace = Namespace(schema.NISV_DATA_NAMESPACE)
+		gtaaNamespace = Namespace(schema.GTAA_NAMESPACE)
+		nonGtaaNamespace = Namespace(schema.NON_GTAA_NAMESPACE)
+
+		# set the namespaces in the manager
 		self.namespaceManager.bind(schema.NISV_SCHEMA_PREFIX, nisvSchemaNamespace)
 		self.namespaceManager.bind(schema.NISV_DATA_PREFIX, nisvDataNamespace)
 		self.namespaceManager.bind("skos", SKOS)
+		self.namespaceManager.bind("gtaa", gtaaNamespace)
+		self.namespaceManager.bind("non-gtaa", nonGtaaNamespace)
+		self.namespaceManager.bind("non-gtaa", nonGtaaNamespace)
+
 		self.graph = Graph(namespace_manager=self.namespaceManager)
+
+		# need a dict as well as the manager otherwise the json-ld doesn't properly produce compact IRIs
+		self.namespacesDict = {}
+		self.namespacesDict[schema.NISV_SCHEMA_PREFIX] = nisvSchemaNamespace
+		self.namespacesDict[schema.NISV_DATA_PREFIX] = nisvDataNamespace
+		self.namespacesDict["skos"] = SKOS
+		self.namespacesDict["gtaa"] = gtaaNamespace
+		self.namespacesDict["non-gtaa"] = nonGtaaNamespace
 
 		# create a node for the record
 		self.itemNode = URIRef(schema.NISV_DATA_NAMESPACE + metadata["entry"]["id"])
@@ -180,7 +196,7 @@ class NISVRdfConcept:
 	def serialize(self, returnFormat):
 		""" Serialize graph data to requested format."""
 		try:
-			return self.graph.serialize(format=returnFormat)
+			return self.graph.serialize(format=returnFormat, context=self.namespacesDict)
 
 		except PluginException as e:
 			print(e)
