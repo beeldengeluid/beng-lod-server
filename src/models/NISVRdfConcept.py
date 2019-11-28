@@ -1,0 +1,182 @@
+
+import models.DAANRdfModel as schema
+from models.DAANJsonModel import DAAN_PROGRAM_ID, DAAN_PARENT, DAAN_PARENT_ID, DAAN_PARENT_TYPE, ObjectType
+from rdflib.namespace import RDF, SKOS, Namespace, NamespaceManager
+from rdflib import Graph, URIRef, Literal, BNode
+from rdflib.plugin import PluginException
+
+
+"""Class to represent an NISV concept in RDF, with functions to create the RDF in a graph from the JSON payload"""
+
+
+class NISVRdfConcept:
+
+	def __init__(self, metadata, conceptType, classes):
+		self.classes = classes
+		self.graph = Graph()
+
+		# set up namespace manager for RDF graph
+		nisvNamespace = Namespace(schema.NISV_NAMESPACE)
+		self.namespaceManager = NamespaceManager(Graph())
+		self.namespaceManager.bind(schema.NISV_PREFIX, nisvNamespace)
+		self.namespaceManager.bind("skos", SKOS)
+
+		# create a node for the record
+		self.itemNode = URIRef(metadata["entry"]["id"])
+
+		# get the RDF class URI for this type
+		self.classUri = schema.CLASS_URIS_FOR_DAAN_LEVELS[conceptType]
+
+		# convert the record payload to RDF
+		self.__payloadToRdf(metadata["entry"]["payload"], self.itemNode, self.classUri)
+
+		# create RDF relations with the parents of the record
+		self.__parentToRdf(metadata["entry"])
+
+	def __getMetadataValue(self, metadata, metadataField):
+		"""Gets the value of the metadata field from the JSON metadata.
+		Returns either a single value, or a list of multiple values"""
+
+		if "," in metadataField:
+			fieldParts = metadataField.split(",")
+
+			if type(metadata) is not list:
+				valueList = [metadata]  # create a list as the metadata field could contain a list at some point
+			else:
+				valueList = metadata
+
+			for part in fieldParts:
+				part = part.strip()  # remove any whitespace
+				newValueList = []
+				found = False
+				for value in valueList:
+					if value:
+						if part in value:
+							found = True
+							if type(value[part]) is list:
+								newValueList.extend(value[part])
+							else:
+								newValueList.append(value[part])
+				if not found:
+					return ""  # no value for the metadata field
+				valueList = newValueList
+
+			return valueList
+		else:
+			if metadataField in metadata:
+				return metadata[metadataField]
+			else:
+				return ""
+
+	def __payloadToRdf(self, payload, parentNode, classUri):
+		"""Converts the metadata described in payload (json) to RDF, and attaches it to the parentNode
+		(e.g. the parentNode can be the identifier node for a program, and the payload the metadata describing
+		that program.). Calls itself recursively to handle any classes in the metadata, e.g. the publication
+		belonging to a program.
+		Uses the classUri of the parent node to select the right information from  classes for the conversion.
+		Returns the result in graph"""
+
+		# Select the relevant properties for this type of parent using the classUri
+		properties = self.classes[classUri]["properties"]
+
+		# retrieve metadata for each relevant property
+		for uri, rdfProperty in properties.items():
+
+			# try each possible path for the property until find some metadata
+			for path in rdfProperty["paths"]:
+				newPayload = self.__getMetadataValue(payload, path)
+				usedPath = path
+				if newPayload:
+					break
+
+			# if we found metadata for this property
+			if newPayload:
+				if type(newPayload) is not list:
+					newPayload = [newPayload]  # we can have a list of metadata, so make sure it is always
+					# a list for consistent handling
+
+				# for each item in the metadata list
+				for newPayloadItem in newPayload:
+					# if range of property is simple data type, just link it to the parent using the property
+					if rdfProperty["range"] in schema.XSD_TYPES:
+						self.graph.add((parentNode, URIRef(uri), Literal(newPayloadItem, datatype=rdfProperty["range"])))  # add the new payload as the value
+					elif rdfProperty["rangeSuperClass"] == schema.ACTING_ENTITY or rdfProperty["rangeSuperClass"] == str(SKOS.Concept):
+						# In these cases, we have a class as range, but only a simple value in DAAN, as we want to model a label
+						#  from DAAN with a skos:Concept in the RDF
+						# create a node for the skos concept
+
+						# look one step higher to be able to get to the ID of a thesaurus item
+						if "," in usedPath:
+							classPath = ",".join(usedPath.split(",")[:-1])
+							conceptMetadata = self.__getMetadataValue(payload, classPath)
+
+							# the value could be a list, so make sure it always is so can treat everything the same way
+							if type(conceptMetadata) is not list:
+								conceptMetadata = [conceptMetadata]
+
+						conceptNode = None
+						for concept in conceptMetadata:
+							if "origin" in concept and "value" in concept and "resolved_value" in concept:
+								if concept["resolved_value"] == newPayloadItem:
+									# we have a thesaurus concept and can use the value to generate the URI
+									if rdfProperty["range"] in schema.NON_GTAA_TYPES:
+										conceptNode = URIRef(schema.NON_GTAA_NAMESPACE + concept["value"])
+									else:
+										conceptNode = URIRef(schema.GTAA_NAMESPACE + concept["value"])
+
+						if not conceptNode:
+							# we only have a label, so we create a blank node
+							conceptNode = BNode()
+
+						self.graph.add((conceptNode, RDF.type, URIRef(rdfProperty["range"])))
+						self.graph.add((parentNode, URIRef(uri), conceptNode))  # link it to the parent
+
+						# and set the pref label of the concept node to be the DAAN payload item
+						self.graph.add((conceptNode, SKOS.prefLabel, Literal(newPayloadItem, lang="nl")))
+					else:
+						# we have a class as range
+						# create a blank node for the class ID, and a triple to set the type of the class
+						blankNode = BNode()
+						self.graph.add((blankNode, RDF.type, URIRef(rdfProperty["range"])))
+						self.graph.add((parentNode, URIRef(uri), blankNode))  # link it to the parent
+						# and call the function again to handle the properties for the class
+						self.__payloadToRdf(newPayloadItem, blankNode, rdfProperty["range"])
+
+		return
+
+	def __parentToRdf(self, metadata):
+		"""Depending on the type of the child (e.g. program) retrieve the information about its
+		parents from the metadata, link the child to the parents, and return the new instances and
+		properties in the graph"""
+		if self.classUri == schema.CLIP:  # for a clip, use the program reference
+			self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_PROGRAM), URIRef(schema.NISV_NAMESPACE + metadata[DAAN_PROGRAM_ID])))
+		elif DAAN_PARENT in metadata and metadata[DAAN_PARENT] and DAAN_PARENT in metadata[DAAN_PARENT]:
+			# for other
+			if type(metadata[DAAN_PARENT][DAAN_PARENT]) is list:
+				parents = metadata[DAAN_PARENT][DAAN_PARENT]
+			else:  # convert it to a list for consistent handling
+				parents = [metadata[DAAN_PARENT][DAAN_PARENT]]
+
+			for parent in parents:
+				# for each parent, link it with the correct relationship given the types
+				if self.classUri == schema.CARRIER:  # link carriers as children
+					self.graph.add((URIRef(schema.NISV_NAMESPACE + parent[DAAN_PARENT_ID]), URIRef(schema.HAS_CARRIER), self.itemNode))
+				elif parent[DAAN_PARENT_TYPE] == ObjectType.SERIES.name:
+					self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_SERIES), URIRef(schema.NISV_NAMESPACE + parent[DAAN_PARENT_ID])))
+				elif parent[DAAN_PARENT_TYPE] == ObjectType.SEASON.name:
+					self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_SEASON), URIRef(schema.NISV_NAMESPACE + parent[DAAN_PARENT_ID])))
+				elif parent[DAAN_PARENT_TYPE] == ObjectType.PROGRAM.name:
+					self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_PROGRAM), URIRef(schema.NISV_NAMESPACE + parent[DAAN_PARENT_ID])))
+
+		return
+
+	def serialize(self, returnFormat):
+		""" Serialize graph data to requested format."""
+		try:
+			return self.graph.serialize(format=returnFormat)
+
+		except PluginException as e:
+			print(e)
+		except Exception as e:
+			print('serializeGraph => ')
+			print(e)

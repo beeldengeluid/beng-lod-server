@@ -1,13 +1,10 @@
 from rdflib import Graph
+from models.DAANRdfModel import HAS_DAAN_PATH
 
 """Imports schema information as a list of classes, their properties, and the paths needed
 to retrieve these from the DAAN OAI-PMH"""
 
-NISV_NAMESPACE = 'http://data.rdlabs.beeldengeluid.nl/schema/'
-NISV_PREFIX = "nisv"
 
-# URIs for concepts in the schema
-HAS_DAAN_PATH = NISV_NAMESPACE + "hasDaanPath"
 
 class DAANSchemaImporter:
     """
@@ -28,6 +25,33 @@ class DAANSchemaImporter:
     def getClasses(self):
         return self._classes
 
+    def _loadPropertiesFromQuery(self, query):
+        """Returns the properties found by the given query"""
+
+        propertiesResult = self._graph.query(query)
+
+        properties = {}
+
+        for propertyData in propertiesResult:
+            """ Parses the information about the property from propertyData, and either adds it
+                to the list of properties, or updates the information for that property.
+            """
+            propertyUri = str(propertyData[0])
+
+            if propertyUri in properties:
+                # if property has already been described, just add the new path
+                properties[propertyUri]["paths"].append(str(propertyData[1]))
+            else:
+                # add the property, complete with its path, range and range superclass
+                rdfProperty = {
+                    "paths": [str(propertyData[1])],
+                    "range": str(propertyData[2]),
+                    "rangeSuperClass": str(propertyData[3])
+                }
+                properties[propertyUri] = rdfProperty
+
+        return properties
+
     def _loadPropertiesWithoutDomain(self):
         """
             get properties without a domain, these apply (potentially) to all classes
@@ -35,25 +59,8 @@ class DAANSchemaImporter:
         query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass WHERE{  ?property rdfs:range ?range . \
         ?property <%s> ?path MINUS {?property rdfs:domain ?s}}""" % HAS_DAAN_PATH
 
-        propertiesWithoutDomainResult = self._graph.query(query)
+        self._propertiesWithoutDomain = self._loadPropertiesFromQuery(query)
 
-        for propertyData in propertiesWithoutDomainResult:
-            """ Parses the information about the property from propertyData, and either adds it
-                to the list of properties, or updates the information for that property.
-            """
-            propertyUri = str(propertyData[0])
-
-            if propertyUri in self._propertiesWithoutDomain:
-                # if property has already been described, just add the new path
-                self._propertiesWithoutDomain[propertyUri]["paths"].append(str(propertyData[1]))
-            else:
-                # add the property, complete with its path, range and range superclass
-                rdfproperty = {
-                    "paths": [str(propertyData[1])],
-                    "range": str(propertyData[2]),
-                    "rangeSuperClass": str(propertyData[3])
-                }
-                self._propertiesWithoutDomain[propertyUri] = rdfproperty
 
     def _loadClasses(self):
         """
@@ -65,33 +72,25 @@ class DAANSchemaImporter:
         # process each class to get its property and path information
         self._classes = {}  # reset the classes member variable
         for row in classResult:
-            classuri = str(row[0])
-            self._classes[classuri] = self.getClassInfo(classuri)
+            classUri = str(row[0])
+            self._classes[classUri] = self.getClassInfo(classUri)
 
-    def getPropertiesForClass(self, classuri):
-        """ get properties belonging to this class (that have this class as their domain)
+    def getPropertiesForClass(self, classUri):
+        """ get properties belonging to this class (that have this class, or a superclass of this class, as their domain)
         """
         properties = {}
+
+        # first the properties belonging directly to this class
         query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass WHERE{?property rdfs:domain <%s> . 
         ?property rdfs:range ?range . ?property <%s> ?path . OPTIONAL{?range rdfs:subClassOf ?rangeSuperClass}}""" % (
-            classuri, HAS_DAAN_PATH)
+            classUri, HAS_DAAN_PATH)
 
-        property_result = self._graph.query(query)
+        properties.update(self._loadPropertiesFromQuery(query))
 
-        for propertyData in property_result:
-            propertyUri = str(propertyData[0])
+        # now, the properties belonging to superclasses of this class (which are inherited)
+        query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass WHERE{?property rdfs:domain ?s . <%s> rdfs:subClassOf ?s. ?property rdfs:range ?range . ?property <%s> ?path .OPTIONAL{ ?range rdfs:subClassOf ?rangeSuperClass}}"""%(classUri, HAS_DAAN_PATH)
 
-            if propertyUri in properties:
-                # if property has already been described, just add the new path
-                properties[propertyUri]["paths"].append(str(propertyData[1]))
-            else:
-                # add the property, complete with its path, range and range superclass
-                rdfproperty = {
-                    "paths": [str(propertyData[1])],
-                    "range": str(propertyData[2]),
-                    "rangeSuperClass": str(propertyData[3])
-                }
-                properties[propertyUri] = rdfproperty
+        properties.update(self._loadPropertiesFromQuery(query))
 
         # add in the properties with no domain, as these potentially apply to any class (e.g. hasAdditionalInformation)
         properties.update(self._propertiesWithoutDomain)

@@ -1,8 +1,8 @@
 import pytest
 from mockito import when, unstub, verify, ANY
-from apis.lod.LODHandler import LODHandler
+from apis.lod.DAANLODHandler import LODHandler
 from util.APIUtil import APIUtil
-import models.import_schema as schema
+from apis.lod.DAANSchemaImporter import DAANSchemaImporter
 
 """ ------------------------ fetchDocument -----------------------"""
 
@@ -46,7 +46,7 @@ def test_LODHandler_mapping_not_found():
 def test_LODHandler_corrupt_schema(application_settings):
 	lodHandler = None
 	try:
-		when(schema).importSchema(ANY, ANY).thenReturn(None)
+		when(DAANSchemaImporter).getClasses().thenReturn(None)
 		lodHandler = LODHandler(application_settings)
 	except ValueError as e:
 		assert APIUtil.valueErrorContainsErrorId(e, 'internal_server_error')
