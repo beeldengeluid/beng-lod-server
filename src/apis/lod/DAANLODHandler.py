@@ -7,7 +7,7 @@ import models.DAANJsonModel as model
 import xmltodict
 
 
-class LODHandler(object):
+class DAANLODHandler(object):
     """ OAI-PMH provider serves catalogue data on a URL,
     # http://oaipmh.beeldengeluid.nl/oai?verb=GetRecord&metadataPrefix=bg&identifier=oai:program:3883163
     This class gets the XML from the URL, converts it to json, then uses the mapping

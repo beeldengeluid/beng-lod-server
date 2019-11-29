@@ -1,7 +1,7 @@
 from flask import current_app, request, Response
 from flask_restplus import Namespace, fields, Resource
 
-from apis.lod.DAANLODHandler import LODHandler
+from apis.lod.DAANLODHandler import DAANLODHandler
 from apis.lod.LODHandlerConcept import LODHandlerConcept
 from apis.lod.LODSchemaHandler import LODSchemaHandler
 
@@ -16,6 +16,10 @@ responseModel = api.model('Response', {
 """ --------------------------- RESOURCE ENDPOINT -------------------------- """
 @api.route('resource/<level>/<identifier>', endpoint='dereference')
 class LODAPI(Resource):
+
+    def __init__(self):
+        super(Resource, self).__init__()
+        self._lod_handler = DAANLODHandler(current_app.config)
 
     MIME_TYPE_TO_LD = {
         'application/rdf+xml' : 'xml',
@@ -52,7 +56,7 @@ class LODAPI(Resource):
             ldFormat = userFormat
             mimetype = self.LD_TO_MIME_TYPE[userFormat]
 
-        resp, status_code, headers = LODHandler(current_app.config).getOAIRecord(level, identifier, ldFormat)
+        resp, status_code, headers = self._lod_handler.getOAIRecord(level, identifier, ldFormat)
 
         #make sure to apply the correct mimetype for valid responses
         if status_code == 200:
