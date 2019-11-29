@@ -1,10 +1,9 @@
 
 from urllib.parse import urlencode
 from util.APIUtil import APIUtil
+from models.NISVRdfConcept import NISVRdfConcept
 import urllib.request
 import models.DAANJsonModel as model
-from models.NISVRdfConcept import NISVRdfConcept
-from apis.lod.DAANSchemaImporter import DAANSchemaImporter
 import xmltodict
 
 
@@ -19,15 +18,6 @@ class LODHandler(object):
 
         # check config
         self.config = config
-        if "SCHEMA_FILE" not in self.config or "MAPPING_FILE" not in self.config:
-            raise APIUtil.raiseDescriptiveValueError('internal_server_error', 'Schema or mapping file not specified')
-
-        # load classes and their mappings to DAAN from RDF schema
-        self._schema = DAANSchemaImporter(self.config["SCHEMA_FILE"], self.config["MAPPING_FILE"])
-        self._classes = self._schema.getClasses()
-
-        assert self._classes is not None, APIUtil.raiseDescriptiveValueError('internal_server_error',
-                                                                             'Error while loading the schema classes and properties')
 
     def getOAIRecord(self, level, identifier, returnFormat):
         """Constructs a URI from the level and identifier, retrieves the record data from the URI,
@@ -93,7 +83,7 @@ class LODHandler(object):
                 raise ValueError(
                     "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrackType)
 
-        rdfConcept = NISVRdfConcept(record["metadata"], setSpec, self._classes)
+        rdfConcept = NISVRdfConcept(record["metadata"]["entry"], setSpec, self.config)
 
         return rdfConcept
 

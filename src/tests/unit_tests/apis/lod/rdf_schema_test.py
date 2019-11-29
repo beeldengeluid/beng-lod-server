@@ -21,14 +21,14 @@ def test_payload_to_rdf(application_settings, i_program, i_season, i_series, i_c
     i_program = i_program.replace("fe:", "")
     program_json = xmltodict.parse(i_program)
 
-    rdfConcept = NISVRdfConcept(program_json["GetRecord"]["record"]["metadata"], "PROGRAM", classes)
+    rdfConcept = NISVRdfConcept(program_json["GetRecord"]["record"]["metadata"]["entry"], "PROGRAM", application_settings)
     graph = rdfConcept.graph
 
     graph.serialize(destination='output_program.txt', format='turtle')
 
     # do some checks
     programTriples = list(graph.triples((rdfConcept.itemNode, None, None)))
-    assert len(programTriples) == 26
+    assert len(programTriples) == 27
     assert (rdfConcept.itemNode, URIRef(schema.IS_PART_OF_SEASON), URIRef(schema.NISV_DATA_NAMESPACE + "2101902260253604731")) in programTriples
     assert (rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasSortDate"), Literal("2019-03-26", datatype=XSD.date)) in programTriples
     creators = list(graph.subjects(RDF.type, URIRef(schema.NISV_SCHEMA_NAMESPACE + "Creator")))
@@ -53,12 +53,12 @@ def test_payload_to_rdf(application_settings, i_program, i_season, i_series, i_c
     i_season = i_season.replace("fe:", "")
     season_json = xmltodict.parse(i_season)
 
-    rdfConcept = NISVRdfConcept(season_json["GetRecord"]["record"]["metadata"], "SEASON", classes)
+    rdfConcept = NISVRdfConcept(season_json["GetRecord"]["record"]["metadata"]["entry"], "SEASON", application_settings)
     graph = rdfConcept.graph
 
     # do some checks
     seasonTriples = list(graph.triples((rdfConcept.itemNode, None, None)))
-    assert len(seasonTriples) == 19
+    assert len(seasonTriples) == 20
     assert (rdfConcept.itemNode, URIRef(schema.IS_PART_OF_SERIES), URIRef(schema.NISV_DATA_NAMESPACE + "2101909080260953431")) in seasonTriples
     producers = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasProducer")))
     assert len(producers) == 1
@@ -77,12 +77,12 @@ def test_payload_to_rdf(application_settings, i_program, i_season, i_series, i_c
 
     i_series = i_series.replace("fe:", "")
     series_json = xmltodict.parse(i_series)
-    rdfConcept = NISVRdfConcept(series_json["GetRecord"]["record"]["metadata"], "SERIES", classes)
+    rdfConcept = NISVRdfConcept(series_json["GetRecord"]["record"]["metadata"]["entry"], "SERIES", application_settings)
     graph = rdfConcept.graph
 
     # do some checks
     seriesTriples = list(graph.triples((rdfConcept.itemNode, None, None)))
-    assert len(seriesTriples) == 8
+    assert len(seriesTriples) == 9
     mainTitles = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasMainTitle")))
     assert len(mainTitles) == 1
     titleTexts = list(graph.objects(mainTitles[0], URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasTitleText")))
@@ -109,12 +109,12 @@ def test_payload_to_rdf(application_settings, i_program, i_season, i_series, i_c
 
     i_carrier = i_carrier.replace("fe:", "")
     carrier_json = xmltodict.parse(i_carrier)
-    rdfConcept = NISVRdfConcept(carrier_json["GetRecord"]["record"]["metadata"], "ITEM", classes)
+    rdfConcept = NISVRdfConcept(carrier_json["GetRecord"]["record"]["metadata"]["entry"], "ITEM", application_settings)
     graph = rdfConcept.graph
 
     # do some checks
     carrierTriples = list(graph.triples((rdfConcept.itemNode, None, None)))
-    assert len(carrierTriples) == 6
+    assert len(carrierTriples) == 7
     creationDates = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasCreationDate")))
     assert len(creationDates) == 1
     assert str(creationDates[0]) == "2008-04-11T21:30:09+00:00"
@@ -130,12 +130,12 @@ def test_payload_to_rdf(application_settings, i_program, i_season, i_series, i_c
 
     i_clip = i_clip.replace("fe:", "")
     clip_json = xmltodict.parse(i_clip)
-    rdfConcept = NISVRdfConcept(clip_json["GetRecord"]["record"]["metadata"], "LOGTRACKITEM", classes)
+    rdfConcept = NISVRdfConcept(clip_json["GetRecord"]["record"]["metadata"]["entry"], "LOGTRACKITEM", application_settings)
     graph = rdfConcept.graph
 
     # do some checks
     clipTriples = list(graph.triples((rdfConcept.itemNode, None, None)))
-    assert len(clipTriples) == 3
+    assert len(clipTriples) == 4
     assert (rdfConcept.itemNode, URIRef(schema.IS_PART_OF_PROGRAM), URIRef(schema.NISV_DATA_NAMESPACE + "2101909160261187331")) in clipTriples
     mainTitles = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasMainTitle")))
     assert len(mainTitles) == 1

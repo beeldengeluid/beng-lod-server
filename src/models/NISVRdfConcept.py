@@ -1,19 +1,30 @@
 
 import models.DAANRdfModel as schema
-from models.DAANJsonModel import DAAN_PROGRAM_ID, DAAN_PARENT, DAAN_PARENT_ID, DAAN_PARENT_TYPE, ObjectType
+from models.DAANJsonModel import DAAN_PROGRAM_ID, DAAN_PARENT, DAAN_PARENT_ID, DAAN_PARENT_TYPE, DAAN_PAYLOAD, ObjectType
 from rdflib.namespace import RDF, RDFS, SKOS, Namespace, NamespaceManager
 from rdflib import Graph, URIRef, Literal, BNode
 from rdflib.plugin import PluginException
-
+from util.APIUtil import APIUtil
+from apis.lod.DAANSchemaImporter import DAANSchemaImporter
 
 """Class to represent an NISV concept in RDF, with functions to create the RDF in a graph from the JSON payload"""
 
 
 class NISVRdfConcept:
 
-	def __init__(self, metadata, conceptType, classes):
-		self.classes = classes
+	def __init__(self, metadata, conceptType, config):
 
+		# check config
+		self.config = config
+		if "SCHEMA_FILE" not in self.config or "MAPPING_FILE" not in self.config:
+			raise APIUtil.raiseDescriptiveValueError('internal_server_error', 'Schema or mapping file not specified')
+
+		# load classes and their mappings to DAAN from RDF schema
+		self._schema = DAANSchemaImporter(self.config["SCHEMA_FILE"], self.config["MAPPING_FILE"])
+		self._classes = self._schema.getClasses()
+
+		assert self._classes is not None, APIUtil.raiseDescriptiveValueError('internal_server_error',
+																			 'Error while loading the schema classes and properties')
 		# set up namespace manager for RDF graph
 		self.namespaceManager = NamespaceManager(Graph())
 		nisvSchemaNamespace = Namespace(schema.NISV_SCHEMA_NAMESPACE)
@@ -40,16 +51,19 @@ class NISVRdfConcept:
 		self.namespacesDict["non-gtaa"] = nonGtaaNamespace
 
 		# create a node for the record
-		self.itemNode = URIRef(schema.NISV_DATA_NAMESPACE + metadata["entry"]["id"])
+		self.itemNode = URIRef(schema.NISV_DATA_NAMESPACE + metadata["id"])
 
 		# get the RDF class URI for this type
 		self.classUri = schema.CLASS_URIS_FOR_DAAN_LEVELS[conceptType]
 
+		# add the type
+		self.graph.add((self.itemNode, RDF.type, URIRef(self.classUri)))
+
 		# convert the record payload to RDF
-		self.__payloadToRdf(metadata["entry"]["payload"], self.itemNode, self.classUri)
+		self.__payloadToRdf(metadata["payload"], self.itemNode, self.classUri)
 
 		# create RDF relations with the parents of the record
-		self.__parentToRdf(metadata["entry"])
+		self.__parentToRdf(metadata)
 
 	def __getMetadataValue(self, metadata, metadataField):
 		"""Gets the value of the metadata field from the JSON metadata.
@@ -95,7 +109,7 @@ class NISVRdfConcept:
 		Returns the result in graph"""
 
 		# Select the relevant properties for this type of parent using the classUri
-		properties = self.classes[classUri]["properties"]
+		properties = self._classes[classUri]["properties"]
 
 		# retrieve metadata for each relevant property
 		for uri, rdfProperty in properties.items():
@@ -172,7 +186,10 @@ class NISVRdfConcept:
 		parents from the metadata, link the child to the parents, and return the new instances and
 		properties in the graph"""
 		if self.classUri == schema.CLIP:  # for a clip, use the program reference
-			self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_PROGRAM), URIRef(schema.NISV_DATA_NAMESPACE + metadata[DAAN_PROGRAM_ID])))
+			if DAAN_PROGRAM_ID in metadata:
+				self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_PROGRAM), URIRef(schema.NISV_DATA_NAMESPACE + metadata[DAAN_PROGRAM_ID])))
+			elif DAAN_PAYLOAD in metadata and DAAN_PROGRAM_ID in metadata[DAAN_PAYLOAD]: # this is the case in the backbone json
+				self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_PROGRAM), URIRef(schema.NISV_DATA_NAMESPACE + metadata[DAAN_PAYLOAD][DAAN_PROGRAM_ID])))
 		elif DAAN_PARENT in metadata and metadata[DAAN_PARENT] and DAAN_PARENT in metadata[DAAN_PARENT]:
 			# for other
 			if type(metadata[DAAN_PARENT][DAAN_PARENT]) is list:
@@ -181,6 +198,18 @@ class NISVRdfConcept:
 				parents = [metadata[DAAN_PARENT][DAAN_PARENT]]
 
 			for parent in parents:
+				# for each parent, link it with the correct relationship given the types
+				if self.classUri == schema.CARRIER:  # link carriers as children
+					self.graph.add((self.itemNode, URIRef(schema.IS_CARRIER_OF),
+									URIRef(schema.NISV_DATA_NAMESPACE + parent[DAAN_PARENT_ID])))
+				elif parent[DAAN_PARENT_TYPE] == ObjectType.SERIES.name:
+					self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_SERIES), URIRef(schema.NISV_DATA_NAMESPACE + parent[DAAN_PARENT_ID])))
+				elif parent[DAAN_PARENT_TYPE] == ObjectType.SEASON.name:
+					self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_SEASON), URIRef(schema.NISV_DATA_NAMESPACE + parent[DAAN_PARENT_ID])))
+				elif parent[DAAN_PARENT_TYPE] == ObjectType.PROGRAM.name:
+					self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_PROGRAM), URIRef(schema.NISV_DATA_NAMESPACE + parent[DAAN_PARENT_ID])))
+		elif type(metadata[DAAN_PARENT]) is list:  # this is the case for the backbone json
+			for parent in metadata[DAAN_PARENT]:
 				# for each parent, link it with the correct relationship given the types
 				if self.classUri == schema.CARRIER:  # link carriers as children
 					self.graph.add((self.itemNode, URIRef(schema.IS_CARRIER_OF), URIRef(schema.NISV_DATA_NAMESPACE + parent[DAAN_PARENT_ID])))
