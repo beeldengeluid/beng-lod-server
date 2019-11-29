@@ -29,10 +29,11 @@ def get_record_xml_local_uri():
 	""" Returns a URI for a local file containing XML with catalogue data."""
 	def prepare_uri(path, fn):
 		local_path = os.path.join(os.path.dirname(path), fn)
-		if os.sep == "/":
-			return ''.join(['file://', local_path])
-		else:
-			return local_path
+		if os.path.exists(local_path):
+			if os.sep == "/":
+				return ''.join(['file://', local_path])
+			else:
+				return local_path
 		return None
 	return prepare_uri(__file__, 'output_get_record.xml')
 

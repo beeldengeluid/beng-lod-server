@@ -65,6 +65,7 @@ class DAANLODHandler(object):
         xmlString = xmlString.replace("fe:", "")  # remove the namespace prefix, we don't need it
         json = xmltodict.parse(xmlString)  # convert the XML to json
 
+        # NOTE (wm): I think the XML header is missing in the test file output_get_record.xml and therefor it isn't valid XML.
         if "OAI-PMH" in json:  # work-around as the test XML files are not accepted by PyCharm as valid XML with the OAI-PMH header in
             if "error" in json["OAI-PMH"]:
                 raise ValueError("Retrieving concept from OAI-PMH failed %s" % json["OAI-PMH"]["error"])
