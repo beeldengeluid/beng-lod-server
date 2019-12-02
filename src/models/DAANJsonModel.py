@@ -53,6 +53,7 @@ DAAN_PARENT_ID = "parent_id"
 DAAN_PARENT_TYPE = "parent_type"
 DAAN_PROGRAM_ID = "program_ref_id"
 DAAN_PAYLOAD = "payload"
+DAAN_TYPE = "viz_type"
 
 def isSceneDescription(logtrackType):
 	"""Checks if the logtrack type indicates it is a Scene Description"""
