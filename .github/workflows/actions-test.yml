@@ -17,3 +17,7 @@ jobs:
         echo test, and deploy your project.
     - name: create a file as root
       run: sudo touch ~/mytestfile
+    - name: install with puppet
+      run: |
+        cd /etc/puppetlabs/code/modules/rd_infra_service/
+        sudo puppet apply examples/test-cluster/beng_lod_server.pp
