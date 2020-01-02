@@ -17,3 +17,5 @@ jobs:
         echo test, and deploy your project.
     - name: create a file
       run: touch ~/mytestfile
+    - name: create a file as root
+      run: sudo touch ~/mytestfile
