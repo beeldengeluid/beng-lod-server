@@ -1,9 +1,10 @@
 #+ summary: Query to get the title and ID of all programs associated with a person (at present only via creator relations)
 #+ endpoint: http://zorin.beeldengeluid.nl:3020/sparql/
-
-PREFIX schema: <http://data.rdlabs.beeldengeluid.nl/schema/>
+PREFIX nisv: <http://data.rdlabs.beeldengeluid.nl/schema/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 SELECT DISTINCT ?programId ?title
 WHERE {
-?programId a schema:Program . OPTIONAL {?programId schema:hasMainTitle ?titleObject . ?titleObject schema:titleValue ?title .} ?programId schema:creator ?personId . ?personId schema:name ?_personName
+?programId a nisv:Program . OPTIONAL {?programId nisv:hasMainTitle ?titleObject . ?titleObject nisv:titleValue ?title .} ?programId nisv:hasCreator ?creatorId . ?creatorId nisv:hasPerson ?personId . ?personId skos:prefLabel ?_personName
 }
+

@@ -1,9 +1,9 @@
 #+ summary: Query to get all subjects associated with a program
 #+ endpoint: http://zorin.beeldengeluid.nl:3020/sparql/
 
-PREFIX schema: <http://data.rdlabs.beeldengeluid.nl/schema/> 
+PREFIX nisv: <http://data.rdlabs.beeldengeluid.nl/schema/> 
 SELECT DISTINCT ?keyword WHERE
 {
-?_o1_iri schema:keyword ?keyword
+?_o1_iri nisv:hasKeyword ?keyword
 }
 ORDER BY ?keyword

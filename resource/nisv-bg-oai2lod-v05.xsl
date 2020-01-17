@@ -680,10 +680,7 @@
 	 
 	<!--  For now, do not include transcripts.  -->
 	<xsl:template match="bg:transcripts"/>
-
-	<!-- This will do the trick to remove the carrier information from the linked data -->
-	<xsl:template match="bg:carriers"/>
-
+	
 	<!-- A generic template to remove all elements that are only there to support sequences in XML. 
 		For matching pattern see: Eg. https://stackoverflow.com/questions/1007018/xslt-expression-to-check-if-variable-belongs-to-set-of-elements
 	-->
