@@ -1,13 +1,12 @@
-import json
 import pytest
-from mockito import when, KWARGS, unstub, verify, ARGS
+from mockito import unstub
 from apis.lod.LODSchemaHandler import LODSchemaHandler
 from util.APIUtil import APIUtil
 
 """ ------------------------ fetchDocument -----------------------"""
 
 INVALID_SCHEMA_PATH = './dummy/dummy.ttl'
-INVALID_SCHEMA_EXT = '../resource/bengSchema.xml'
+
 
 def test_getSchema_200(application_settings, o_get_schema):
 	try:
@@ -18,8 +17,9 @@ def test_getSchema_200(application_settings, o_get_schema):
 	finally:
 		unstub()
 
+
 @pytest.mark.parametrize('invalid_appplication_settings', [
-	{'SCHEMA_FILE' : INVALID_SCHEMA_PATH, 'SCHEMA_FILE' : INVALID_SCHEMA_EXT}
+	{'SCHEMA_FILE': INVALID_SCHEMA_PATH}
 ])
 def test_getSchema_500(o_get_schema, invalid_appplication_settings):
 	try:

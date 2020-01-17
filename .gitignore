@@ -2,6 +2,7 @@
 .DS_Store
 settings.py
 venv
+venv3
 __pycache__
 resource/*/*.xml
 *.iml

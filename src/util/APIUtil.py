@@ -1,23 +1,26 @@
 from lxml import etree
 from lxml.etree import XMLSyntaxError
 import json
+from rdflib import Graph
+from rdflib.exceptions import ParserError
+
 
 ERROR_RESPONSES = {
-	'access_denied' : {
-		'msg' : 'Access denied',
-		'code' : 403
+	'access_denied': {
+		'msg': 'Access denied',
+		'code': 403
 	},
-	'bad_request' : {
-		'msg' : 'Bad request, please provide the correct parameters',
-		'code' : 400
+	'bad_request': {
+		'msg': 'Bad request, please provide the correct parameters',
+		'code': 400
 	},
-	'not_found' : {
-		'msg' : 'Resource not found',
-		'code' : 404
+	'not_found': {
+		'msg': 'Resource not found',
+		'code': 404
 	},
-	'internal_server_error' : {
-		'msg' : 'Internal server error',
-		'code' : 500
+	'internal_server_error': {
+		'msg': 'Internal server error',
+		'code': 500
 	}
 }
 
@@ -47,7 +50,7 @@ class APIUtil:
 
 	@staticmethod
 	def parseErrorMessage(msg):
-		if msg == None:
+		if msg is None:
 			return '', None
 		tmp = msg.split(': ')
 		if len(tmp) == 1:
@@ -71,16 +74,18 @@ class APIUtil:
 		return APIUtil.getErrorMessage(msg), code, None
 
 	@staticmethod
-	def toSuccessResponse(data, headers={'Access-Control-Allow-Credentials' : 'true'}):
+	def toSuccessResponse(data, headers=None):
+		if headers is None:
+			headers = {'Access-Control-Allow-Credentials': 'true'}
 		return data, 200, headers
 
 	@staticmethod
 	def getErrorMessage(msg):
-		return {'error' : msg}
+		return {'error': msg}
 
 	@staticmethod
 	def getSuccessMessage(msg, data):
-		return {'success' : msg, 'data' : data}
+		return {'success': msg, 'data': data}
 
 	@staticmethod
 	def isValidJSON(data):
@@ -95,5 +100,15 @@ class APIUtil:
 		try:
 			etree.fromstring(data)
 		except XMLSyntaxError as e:
+			return False
+		return True
+
+	@staticmethod
+	def isValidRDF(data, format=None):
+		try:
+			graph = Graph()
+			graph.parse(data=data, format=format)
+		except ParserError as exc:
+			print(exc)
 			return False
 		return True

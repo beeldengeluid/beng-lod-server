@@ -1,5 +1,4 @@
 #!/bin/sh
 
 #copy this script to .git/hooks/pre-commit
-cd src
-pytest tests/unit_tests
+pipenv run pytest src/tests/unit_tests

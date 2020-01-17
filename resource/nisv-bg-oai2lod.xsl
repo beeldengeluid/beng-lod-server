@@ -129,30 +129,18 @@
 	<!--  TODO template for bg:museum-genre and bg:museum-summary -->
 
 	<!-- SUBCLASSES OF ENTITYINROLE (8)
-			TODO:
 			In de brondata
 				multiple properties
 				++
 
-
-
-
 				only 'name' property
 				++
-
-
-
-
-				
-
-
 
 				no template
 				++
 				museum-names	-> will disappear
 				museum-personnames	-> will disappear								
-				
-				
+
 				properties:
 				++
 				roles/role
@@ -174,6 +162,7 @@
 					<nisv:hasOrganisation>
 						<nisv:Organisation>
 							<skos:prefLabel>
+								<xsl:attribute name="xml:lang">nl</xsl:attribute>
 							 	<xsl:value-of select="."/>
 							</skos:prefLabel>
 						</nisv:Organisation>
@@ -191,6 +180,7 @@
 					<nisv:hasPerson>
 						<nisv:Person>
 							<skos:prefLabel>
+								<xsl:attribute name="xml:lang">nl</xsl:attribute>
 							 	<xsl:value-of select="."/>
 							</skos:prefLabel>
 						</nisv:Person>
@@ -207,7 +197,8 @@
 					<nisv:hasPerson>
 						<nisv:Person>
 							<skos:prefLabel>
-							 	<xsl:value-of select="bg:name"/>
+								<xsl:attribute name="xml:lang">nl</xsl:attribute>
+								<xsl:value-of select="bg:name"/>
 							</skos:prefLabel>
 						</nisv:Person>
 					</nisv:hasPerson>
@@ -232,6 +223,7 @@
 					<nisv:hasPerson>
 						<nisv:Person>
 							<skos:prefLabel>
+								<xsl:attribute name="xml:lang">nl</xsl:attribute>
 							 	<xsl:value-of select="bg:name"/>
 							</skos:prefLabel>
 						</nisv:Person>
@@ -252,6 +244,7 @@
 				<nisv:hasOrganisation>
 					<nisv:Organisation>
 						<skos:prefLabel>
+							<xsl:attribute name="xml:lang">nl</xsl:attribute>
 						 	<xsl:value-of select="bg:name"/>
 						</skos:prefLabel>
 					</nisv:Organisation>
@@ -267,6 +260,7 @@
 				<nisv:hasOrganisation>
 					<nisv:Organisation>
 						<skos:prefLabel>
+							<xsl:attribute name="xml:lang">nl</xsl:attribute>
 						 	<xsl:value-of select="bg:name"/>
 						</skos:prefLabel>
 					</nisv:Organisation>
@@ -282,6 +276,7 @@
 				<nisv:hasOrganisation>
 					<nisv:Organisation>
 						<skos:prefLabel>
+							<xsl:attribute name="xml:lang">nl</xsl:attribute>
 						 	<xsl:value-of select="bg:name"/>
 						</skos:prefLabel>
 					</nisv:Organisation>
@@ -295,6 +290,7 @@
 		<nisv:hasContractor>
 			<nisv:Contractor>
 				<skos:prefLabel>
+					<xsl:attribute name="xml:lang">nl</xsl:attribute>
 				 	<xsl:value-of select="bg:name"/>
 				</skos:prefLabel>
 			</nisv:Contractor>
@@ -309,6 +305,7 @@
 				<nisv:hasEntity>
 					<nisv:ActingEntity>
 						<skos:prefLabel>
+							<xsl:attribute name="xml:lang">nl</xsl:attribute>
 					 		<xsl:value-of select="bg:name"/>
 						</skos:prefLabel>
 					</nisv:ActingEntity>
@@ -342,6 +339,7 @@
 							<nisv:hasPerson>
 								<nisv:Person>
 									<skos:prefLabel>
+										<xsl:attribute name="xml:lang">nl</xsl:attribute>
 						 				<xsl:value-of select="$creatorName"/>
 									</skos:prefLabel>
 								</nisv:Person>
@@ -364,6 +362,7 @@
 							<nisv:hasPerson>
 								<nisv:Person>
 									<skos:prefLabel>
+										<xsl:attribute name="xml:lang">nl</xsl:attribute>
 						 				<xsl:value-of select="$creatorName"/>
 									</skos:prefLabel>
 								</nisv:Person>
@@ -385,6 +384,7 @@
 						<nisv:hasPerson>
 							<nisv:Person>
 								<skos:prefLabel>
+									<xsl:attribute name="xml:lang">nl</xsl:attribute>
 									<xsl:value-of select="$creatorName"/>
 								</skos:prefLabel>
 							</nisv:Person>
@@ -409,6 +409,7 @@
 							<nisv:hasPerson>
 								<nisv:Person>
 									<skos:prefLabel>
+										<xsl:attribute name="xml:lang">nl</xsl:attribute>
 						 				<xsl:value-of select="$creatorName"/>
 									</skos:prefLabel>
 								</nisv:Person>
@@ -431,6 +432,7 @@
 							<nisv:hasPerson>
 								<nisv:Person>
 									<skos:prefLabel>
+										<xsl:attribute name="xml:lang">nl</xsl:attribute>
 						 				<xsl:value-of select="$creatorName"/>
 									</skos:prefLabel>
 								</nisv:Person>
@@ -452,6 +454,7 @@
 						<nisv:hasPerson>
 							<nisv:Person>
 								<skos:prefLabel>
+									<xsl:attribute name="xml:lang">nl</xsl:attribute>
 									<xsl:value-of select="$creatorName"/>
 								</skos:prefLabel>
 							</nisv:Person>
@@ -608,6 +611,7 @@
 			<nisv:hasProductionCountry>
 				<nisv:Location>
 					<skos:prefLabel>
+						<xsl:attribute name="xml:lang">nl</xsl:attribute>
 						<xsl:value-of select="."/>
 					</skos:prefLabel>
 				</nisv:Location>
@@ -620,6 +624,7 @@
 			<nisv:hasLocation>
 				<nisv:Location>
 					<skos:prefLabel>
+						<xsl:attribute name="xml:lang">nl</xsl:attribute>
 						<xsl:value-of select="."/>
 					</skos:prefLabel>
 				</nisv:Location>
@@ -642,6 +647,7 @@
 			<nisv:hasGenre>
 				<nisv:Genre>
 					<skos:prefLabel>
+						<xsl:attribute name="xml:lang">nl</xsl:attribute>
 						<xsl:value-of select="."/>
 					</skos:prefLabel>
 				</nisv:Genre>
@@ -654,6 +660,7 @@
 			<nisv:hasSubject>
 				<nisv:Subject>
 					<skos:prefLabel>
+						<xsl:attribute name="xml:lang">nl</xsl:attribute>
 						<xsl:value-of select="."/>
 					</skos:prefLabel>
 				</nisv:Subject>
@@ -673,7 +680,10 @@
 	 
 	<!--  For now, do not include transcripts.  -->
 	<xsl:template match="bg:transcripts"/>
-	
+
+	<!-- This will do the trick to remove the carrier information from the linked data -->
+	<xsl:template match="bg:carriers"/>
+
 	<!-- A generic template to remove all elements that are only there to support sequences in XML. 
 		For matching pattern see: Eg. https://stackoverflow.com/questions/1007018/xslt-expression-to-check-if-variable-belongs-to-set-of-elements
 	-->

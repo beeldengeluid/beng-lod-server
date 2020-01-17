@@ -1,0 +1,13 @@
+#+ summary: Query to get 10 news programs (with descriptions) based on a creator role
+#+ endpoint: http://beng-actualiteiten/sparql
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX bg: <http://data.rdlabs.beeldengeluid.nl/schema/>
+
+SELECT ?program ?desc FROM <http://data.rdlabs.beeldengeluid.nl/Bewegend_beeld/Polygoon/Hollands_nieuws> WHERE {
+  ?program bg:hasCreator ?creator .
+  ?creator bg:hasRole ?_creator_role .
+  ?program bg:description ?desc
+}
+LIMIT 10

@@ -1,4 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><bg:bgelement xmlns:bg="http://dummy.uri.nl/basic" xmlns:bga="http://dummy.uri.nl/aggregated" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" aggregationType="program" id="5354463">
+<?xml version="1.0" encoding="UTF-8"?>
+<bg:bgelement xmlns:bg="http://dummy.uri.nl/basic"
+              xmlns:dc="http://purl.org/dc/elements/1.1/"
+              xmlns:dcterms="http://purl.org/dc/terms/" aggregationType="program" id="5354463">
     <dc:identifier>23456@program</dc:identifier>
     <dc:relation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="dcterms:URI">http://dummy.uri/12345</dc:relation>
     <dcterms:isPartOf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="dcterms:URI">http://dummy.uri/23456</dcterms:isPartOf>
