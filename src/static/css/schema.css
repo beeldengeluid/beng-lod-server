@@ -1,0 +1,91 @@
+body {
+    padding: 3rem;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #ededed;
+    text-align: left;
+    padding: 8px;
+    vertical-align: top;
+}
+th {
+    color: white;
+    background-color: #2396ff;
+    font-size: 1.2rem;
+    height: 2.4rem;
+    vertical-align: middle;
+}
+td {
+    line-height: 2.2rem;
+}
+tr:nth-child(even) {
+    background-color: #ededed;
+}
+caption {
+    font-size: 2.4rem;
+    padding: 2rem;
+}
+h1{
+    font-size: 3rem;
+    text-align: center;
+    color:#2396ff;
+}
+.lod_breadcrumb {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+.lod_breadcrumb a {
+    text-decoration: none;
+}
+
+/* lang-swicher */
+.lang-switcher {
+    display: inline-block;
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+.lang-switcher li {
+    display: inline-block;
+    border-right: 1px solid #2396ff;
+    float: left;
+}
+.lang-switcher li:last-child {
+    border-right: none;
+}
+.lang-switcher li a {
+    padding: 3px 5px;
+    color: #2396ff;
+    transition: all 0.5s ease;
+    text-decoration: none;
+    display: inline-block;
+    height: 100%;
+    min-width: 40px;
+    text-align: center;
+}
+.lang-switcher li a:hover {
+    text-decoration: none;
+}
+.lang-switcher li a.is-active {
+    color: #000000;
+    cursor: default;
+}
+
+/* modifiers */
+.lang-switcher.lang-switcher--pill {
+    border: 1px solid #2396ff;
+}
+.lang-switcher.lang-switcher--pill a:hover {
+    background: #2396ff;
+    color: #ffffff;
+}
+.lang-switcher.lang-switcher--pill a.is-active {
+    background-color: #2396ff;
+    color: #ffffff;
+}

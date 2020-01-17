@@ -1,0 +1,9 @@
+#+ summary: Query to get all locations associated with a program
+#+ endpoint: http://zorin.beeldengeluid.nl:3020/sparql/
+PREFIX nisv: <http://data.rdlabs.beeldengeluid.nl/schema/> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?location ?locationName WHERE
+{
+?_o1_iri nisv:hasLocation ?location . ?location skos:prefLabel ?locationName
+}
+ ORDER BY ?location 

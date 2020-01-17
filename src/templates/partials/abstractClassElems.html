@@ -1,0 +1,32 @@
+<table>
+    {%if  implementedByClass|length > 0 %}
+    <tr>
+        <td>Extended by</td>
+        <td>
+
+            <ul>
+
+                {% for classNode in implementedByClass %}
+                <li>
+                    <a href="{{ classNode['@id']|getLastStringAfter }}">{{ classNode['@id']|getLastStringAfter }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </td>
+    </tr>
+    {% endif %}
+    {%if  rangeOfProperty|length > 0 %}
+    <tr>
+        <td>Range of Property</td>
+        <td>
+            <ul>
+                {% for rangeNode in rangeOfProperty %}
+                <li>
+                    {{ rangeNode['@id']|getLastStringAfter }}
+                </li>
+                {% endfor %}
+            </ul>
+        </td>
+    </tr>
+    {% endif %}
+</table>

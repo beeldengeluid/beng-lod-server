@@ -1,0 +1,10 @@
+#+ summary: Query to get all persons associated with a person (at present only via creator relations)
+#+ endpoint: http://zorin.beeldengeluid.nl:3020/sparql/
+PREFIX nisv: <http://data.rdlabs.beeldengeluid.nl/schema/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT DISTINCT ?personName 
+WHERE {
+?s a nisv:Program . ?s nisv:hasCreator ?creatorId . ?creatorId nisv:hasPerson ?personId . ?personId skos:prefLabel ?_name . ?s nisv:hasCreator ?colleagueId . ?colleagueId nisv:hasPerson ?person2Id . ?person2Id skos:prefLabel ?personName FILTER(?personName != ?_name)
+}
+

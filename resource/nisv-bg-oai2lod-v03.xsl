@@ -70,7 +70,6 @@
 					    	<xsl:value-of select="concat($varSchema,'Program')" />
 					    </xsl:attribute>
 					</xsl:element>
-				  	<xsl:apply-templates />
 				</xsl:when>
 				<xsl:when test="$level = 'season'">
 					<xsl:element name="rdf:type">
@@ -78,7 +77,6 @@
 					    	<xsl:value-of select="concat($varSchema,'Season')" />
 						</xsl:attribute>
 					</xsl:element>
-				  	<xsl:apply-templates />
 				</xsl:when>
 				<xsl:when test="$level = 'series'">
 					<xsl:element name="rdf:type">
@@ -86,7 +84,6 @@
 					    	<xsl:value-of select="concat($varSchema,'Series')" />
   					    </xsl:attribute>
 					</xsl:element>
-				  	<xsl:apply-templates />
 				</xsl:when>
 				<xsl:when test="$level = 'segment'">
 					<xsl:element name="rdf:type">
@@ -94,9 +91,9 @@
 					    	<xsl:value-of select="concat($varSchema,'Segment')" />
   					    </xsl:attribute>
 					</xsl:element>
-				  	<xsl:apply-templates />
 				</xsl:when>
 			</xsl:choose>
+		  	<xsl:apply-templates />
 		</rdf:Description>
 	</xsl:template>
 	
@@ -110,11 +107,11 @@
 	</xsl:template>
 	
 	<xsl:template match="bg:publication">
-		<xsl:variable name="id" select="./@id"/>
+		<xsl:variable name="publicationID" select="./@id"/>
 		<xsl:element name="schema:{local-name()}">
 			<xsl:element name="schema:Publication">
 				<xsl:element name="schema:id">
-					<xsl:value-of select="$id" />
+					<xsl:value-of select="$publicationID" />
 				</xsl:element>
 			  	<xsl:apply-templates />
 			</xsl:element>
@@ -140,7 +137,9 @@
  
 	<!-- Elements that are RDF Properties -->
 	<xsl:template match="dc:identifier">
-		<xsl:copy-of select="."/>
+		<dc:identifier>
+			<xsl:value-of select="."/>
+		</dc:identifier>
 	</xsl:template>
 
 	<xsl:template match="dc:relation">

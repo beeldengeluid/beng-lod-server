@@ -1,0 +1,91 @@
+@prefix : <http://data.rdlabs.beeldengeluid.nl/schema/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://data.rdlabs.beeldengeluid.nl/schema/> .
+@base <http://data.rdlabs.beeldengeluid.nl/schema/> .
+
+###  http://www.beeldengeluid.nl/schema/hasProgram
+<http://www.beeldengeluid.nl/schema/hasProgram> rdf:type rdf:Property ;
+                                                rdfs:domain schema:Program ;
+                                                rdfs:range schema:Season ;
+                                                rdfs:label "has program" .
+
+
+###  http://www.beeldengeluid.nl/schema/hasSceneDescription
+<http://www.beeldengeluid.nl/schema/hasSceneDescription> rdf:type rdf:Property ;
+                                                         rdfs:domain schema:SceneDescription ;
+                                                         rdfs:range schema:Program ;
+                                                         rdfs:label "has scene description" .
+
+
+###  http://www.beeldengeluid.nl/schema/hasSeriesPart
+<http://www.beeldengeluid.nl/schema/hasSeriesPart> rdf:type rdf:Property ;
+                                                   rdfs:domain schema:Series ;
+                                                   rdfs:range schema:AudioVisualEntity ;
+                                                   rdfs:comment "this links the series to the parts of the series, usually Programs or Seasons." ;
+                                                   rdfs:label "has series part" .
+
+
+###  http://www.beeldengeluid.nl/schema/isCastMemberOf
+<http://www.beeldengeluid.nl/schema/isCastMemberOf> rdf:type rdf:Property ;
+                                                    rdfs:domain schema:Cast ;
+                                                    rdfs:range schema:AudioVisualEntity ;
+                                                    rdfs:label "is cast member of" .
+
+
+###  http://www.beeldengeluid.nl/schema/isContractorFor
+<http://www.beeldengeluid.nl/schema/isContractorFor> rdf:type rdf:Property ;
+                                                     rdfs:domain schema:Contractor ;
+                                                     rdfs:range schema:AudioVisualEntity ;
+                                                     rdfs:label "is contractor for" .
+
+
+###  http://www.beeldengeluid.nl/schema/isCreatorOf
+<http://www.beeldengeluid.nl/schema/isCreatorOf> rdf:type rdf:Property ;
+                                                 rdfs:domain schema:Creator ;
+                                                 rdfs:range schema:AudioVisualEntity ;
+                                                 rdfs:label "is creator of" .
+
+
+###  http://www.beeldengeluid.nl/schema/isExecutiveFor
+<http://www.beeldengeluid.nl/schema/isExecutiveFor> rdf:type rdf:Property ;
+                                                    rdfs:domain schema:Executive ;
+                                                    rdfs:range schema:AudioVisualEntity ;
+                                                    rdfs:label "is executive of" .
+
+
+###  http://www.beeldengeluid.nl/schema/isFunderOf
+<http://www.beeldengeluid.nl/schema/isFunderOf> rdf:type rdf:Property ;
+                                                rdfs:domain schema:Funder ;
+                                                rdfs:range schema:AudioVisualEntity ;
+                                                rdfs:label "is funder of" .
+
+
+###  http://www.beeldengeluid.nl/schema/isOriginalCreatorOf
+<http://www.beeldengeluid.nl/schema/isOriginalCreatorOf> rdf:type rdf:Property ;
+                                                         rdfs:domain schema:Creator ;
+                                                         rdfs:range schema:AudioVisualEntity ;
+                                                         rdfs:label "is original creator of" .
+
+
+###  http://www.beeldengeluid.nl/schema/isProducerOf
+<http://www.beeldengeluid.nl/schema/isProducerOf> rdf:type rdf:Property ;
+                                                  rdfs:domain schema:Producer ;
+                                                  rdfs:range schema:AudioVisualEntity ;
+                                                  rdfs:label "is producer of" .
+
+
+###  http://www.beeldengeluid.nl/schema/isSpeakerIn
+<http://www.beeldengeluid.nl/schema/isSpeakerIn> rdf:type rdf:Property ;
+                                                 rdfs:domain schema:Speaker ;
+                                                 rdfs:range schema:AudioVisualEntity ;
+                                                 rdfs:label "is speaker in" .
+
+
+###  http://www.beeldengeluid.nl/schema/isSponsorOf
+<http://www.beeldengeluid.nl/schema/isSponsorOf> rdf:type rdf:Property ;
+                                                 rdfs:domain schema:Sponsor ;
+                                                 rdfs:range schema:AudioVisualEntity ;
+                                                 rdfs:label "is sponsor of" .

@@ -1,37 +1,29 @@
 # beng-lod-server
 
 
-Works with Python 2.7 and 3.x
+Works with Python >= 3.6
 
 # prerequisites
-Install pip and then use it to install virtualenv:
-```
-pip install virtualenv
-```
+Get yourself the lovely [pipenv](https://docs.pipenv.org/en/latest/)
 
-# virtual env
-Install virtualenv (preferabbly with the name venv, so it's properly ignored by .gitignore; don't commit your virtualenv)
+From your command line run this from the repository root:
 ```
-. venv/bin/activate
-```
-
-Then just use pip to install all the requirements: 
-
-```
-pip install -r requirements.txt
+pipenv install
 ```
 # create a settings file
 
-copy the settings-example.py to settings.py
+Copy the settings-example.py to settings.py:
 
 ```
 cp settings-example.py settings.py
 ```
 
-Then change the settings to your liking
+Then change the settings to your liking...
 
 # run the server
+Using pipenv you can start the virtual environment and the server from the command line like this:
 ```
 cd src
-python server.py
+pipenv run python server.py
 ```
+
