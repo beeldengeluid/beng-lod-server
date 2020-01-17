@@ -1,0 +1,15 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: install with puppet
+      run: |
+        cd /etc/puppetlabs/code/modules/rd_infra_service/
+        sudo puppet apply examples/test-cluster/beng_lod_server.pp

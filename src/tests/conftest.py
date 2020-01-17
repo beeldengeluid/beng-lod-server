@@ -64,7 +64,7 @@ def etree_parse_doc():
 def application_settings():
 	""" Returns the application settings."""
 	app = Flask(__name__)
-	app.config.from_object('settings.Config')
+	app.config.from_object('settings-example.Config')
 	return app.config
 
 """------------------------ APPLICATION CLIENT (VALID & INVALID) ----------------------"""
