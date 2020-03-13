@@ -12,4 +12,4 @@ class LODSchemaHandler():
 			schema = f.read()
 			f.close()
 			return APIUtil.toSuccessResponse(schema)
-		return APIUtil.toErrorResponse('internal_server_error', 'The schema file could not be found')
+		return APIUtil.toErrorResponse('internal_server_error', 'The schema file %s could not be found'%self.config['SCHEMA_FILE'])

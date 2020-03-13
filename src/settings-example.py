@@ -1,4 +1,5 @@
 import os
+import pathlib
 class Config(object):
 
 	APP_HOST = '0.0.0.0'
@@ -8,10 +9,9 @@ class Config(object):
 	DEBUG = True
 
 
-	pathElements = os.getcwd().split(os.sep)
-	reversePathElements = os.getcwd().split(os.sep)[::-1]
+	pathElements = __file__.split(os.sep)
+	reversePathElements = __file__.split(os.sep)[::-1]
 	basePath = os.sep.join(pathElements[:-reversePathElements.index("beng-lod-server")])
-	print(basePath)
 
 	OAI_BASE_URL = 'http://dummy.oai.com'
 	XSLT_FILE = basePath + os.sep + 'resource' + os.sep + 'nisv-bg-oai2lod-v04.xsl'
