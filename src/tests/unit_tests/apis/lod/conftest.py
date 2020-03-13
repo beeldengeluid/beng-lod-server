@@ -59,6 +59,12 @@ def i_program(open_file):
 	return data
 
 @pytest.fixture()
+def i_program_storage(load_json_file):
+	""" Returns an example of json data that can be expected."""
+	return load_json_file(__file__, 'input_program_storage.json')
+
+
+@pytest.fixture()
 def i_clip(open_file):
 	""" Returns an example of XML data that can be expected."""
 	with open_file(__file__, 'input_clip.xml') as file:

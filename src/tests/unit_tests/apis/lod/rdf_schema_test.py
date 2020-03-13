@@ -1,4 +1,6 @@
 import pytest
+import os
+import copy
 import models.DAANRdfModel as schema
 from models.NISVRdfConcept import NISVRdfConcept
 from apis.lod.DAANSchemaImporter import DAANSchemaImporter
@@ -13,15 +15,22 @@ def test_import_schema(application_settings):
     print(schema.getClasses())
 
 
-def test_payload_to_rdf(application_settings, i_program, i_season, i_series, i_carrier, i_clip):
+def test_oai_payload_to_rdf(application_settings, i_program, i_season, i_series, i_carrier, i_clip):
+    # ugly hack - as the storage and OAI versions have different formats, need to select
+    # a specific mapping file
+    pathElements = os.getcwd().split(os.sep)
+    basePath = os.sep.join(pathElements[:pathElements.index("beng-lod-server") + 1])
+    mappingFile = basePath + os.sep + 'resource' + os.sep + 'daan-mapping.ttl'
+    testSettings = copy.deepcopy(application_settings)
+    testSettings["MAPPING_FILE"] = mappingFile
 
-    classes = DAANSchemaImporter(application_settings["SCHEMA_FILE"], application_settings["MAPPING_FILE"]).getClasses()
+    classes = DAANSchemaImporter(testSettings["SCHEMA_FILE"], testSettings["MAPPING_FILE"]).getClasses()
 
     ## PROGRAM
     i_program = i_program.replace("fe:", "")
     program_json = xmltodict.parse(i_program)
 
-    rdfConcept = NISVRdfConcept(program_json["GetRecord"]["record"]["metadata"]["entry"], "PROGRAM", application_settings)
+    rdfConcept = NISVRdfConcept(program_json["GetRecord"]["record"]["metadata"]["entry"], "PROGRAM", testSettings)
     graph = rdfConcept.graph
 
     graph.serialize(destination='output_program.txt', format='turtle')
@@ -53,7 +62,7 @@ def test_payload_to_rdf(application_settings, i_program, i_season, i_series, i_c
     i_season = i_season.replace("fe:", "")
     season_json = xmltodict.parse(i_season)
 
-    rdfConcept = NISVRdfConcept(season_json["GetRecord"]["record"]["metadata"]["entry"], "SEASON", application_settings)
+    rdfConcept = NISVRdfConcept(season_json["GetRecord"]["record"]["metadata"]["entry"], "SEASON", testSettings)
     graph = rdfConcept.graph
 
     # do some checks
@@ -77,7 +86,7 @@ def test_payload_to_rdf(application_settings, i_program, i_season, i_series, i_c
 
     i_series = i_series.replace("fe:", "")
     series_json = xmltodict.parse(i_series)
-    rdfConcept = NISVRdfConcept(series_json["GetRecord"]["record"]["metadata"]["entry"], "SERIES", application_settings)
+    rdfConcept = NISVRdfConcept(series_json["GetRecord"]["record"]["metadata"]["entry"], "SERIES", testSettings)
     graph = rdfConcept.graph
 
     # do some checks
@@ -109,7 +118,7 @@ def test_payload_to_rdf(application_settings, i_program, i_season, i_series, i_c
 
     i_carrier = i_carrier.replace("fe:", "")
     carrier_json = xmltodict.parse(i_carrier)
-    rdfConcept = NISVRdfConcept(carrier_json["GetRecord"]["record"]["metadata"]["entry"], "ITEM", application_settings)
+    rdfConcept = NISVRdfConcept(carrier_json["GetRecord"]["record"]["metadata"]["entry"], "ITEM", testSettings)
     graph = rdfConcept.graph
 
     # do some checks
@@ -130,7 +139,7 @@ def test_payload_to_rdf(application_settings, i_program, i_season, i_series, i_c
 
     i_clip = i_clip.replace("fe:", "")
     clip_json = xmltodict.parse(i_clip)
-    rdfConcept = NISVRdfConcept(clip_json["GetRecord"]["record"]["metadata"]["entry"], "LOGTRACKITEM", application_settings)
+    rdfConcept = NISVRdfConcept(clip_json["GetRecord"]["record"]["metadata"]["entry"], "LOGTRACKITEM", testSettings)
     graph = rdfConcept.graph
 
     # do some checks
@@ -144,4 +153,43 @@ def test_payload_to_rdf(application_settings, i_program, i_season, i_series, i_c
     assert str(titleTexts[0]) == "Henk Poort over succes bij Beste Zangers"
 
     graph.serialize(destination='output_clip.txt', format='turtle')
+
+def test_storage_api_payload_to_rdf(application_settings, i_program_storage, i_season, i_series, i_carrier, i_clip):
+    # ugly hack - as the storage and OAI versions have different formats, need to select
+    # a specific mapping file
+    pathElements = os.getcwd().split(os.sep)
+    basePath = os.sep.join(pathElements[:pathElements.index("beng-lod-server") + 1])
+    mappingFile = basePath + os.sep + 'resource' + os.sep + 'daan-mapping-storage.ttl'
+    testSettings = copy.deepcopy(application_settings)
+    testSettings["MAPPING_FILE"] = mappingFile
+
+    classes = DAANSchemaImporter(testSettings["SCHEMA_FILE"], testSettings["MAPPING_FILE"]).getClasses()
+
+    ## PROGRAM
+
+    rdfConcept = NISVRdfConcept(i_program_storage, "PROGRAM", testSettings)
+    graph = rdfConcept.graph
+
+    graph.serialize(destination='output_program_storage.txt', format='turtle')
+
+    # do some checks
+    programTriples = list(graph.triples((rdfConcept.itemNode, None, None)))
+    assert len(programTriples) == 27
+    assert (rdfConcept.itemNode, URIRef(schema.IS_PART_OF_SEASON), URIRef(schema.NISV_DATA_NAMESPACE + "2101902260253604731")) in programTriples
+    assert (rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasSortDate"), Literal("2019-03-26", datatype=XSD.date)) in programTriples
+    creators = list(graph.subjects(RDF.type, URIRef(schema.NISV_SCHEMA_NAMESPACE + "Creator")))
+    assert len(creators) == 1
+    for creator in creators:
+        personURIs = list(graph.objects(creator, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasPerson")))
+        assert len(personURIs) == 1
+        creatorName = graph.preferredLabel(personURIs[0])[0][1]
+        assert str(creatorName) == "Elsen, Jetske van den"
+    publications = list(graph.subjects(RDF.type, URIRef(schema.NISV_SCHEMA_NAMESPACE + "PublicationEvent")))
+    assert len(publications) == 2
+    for publication in publications:
+        broadcastStations = list(graph.objects(publication, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasBroadcastStation")))
+        assert len(broadcastStations) == 0 or len(broadcastStations)==1
+        if broadcastStations:
+            stationName = graph.preferredLabel(broadcastStations[0])[0][1]
+            assert str(stationName) == "NPO 2"
 

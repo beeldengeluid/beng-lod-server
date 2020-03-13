@@ -29,11 +29,14 @@ def base_file_path():
 
 @pytest.fixture(scope="module")
 def load_json_file():
-	""" Returns the contents of a JSON file that is in the test directory."""
 	def loadJSONFile(test_path, fn):
-		full_path = os.path.join(os.path.dirname(test_path), fn)
+		path = test_path
+		tmp = test_path.split(os.sep)
+		if len(tmp) > 1:
+			path = os.sep.join(test_path.split(os.sep)[:-1])
+		full_path = os.path.join(path, fn)
 		if os.path.exists(full_path):
-			return json.load(open(full_path))
+			return json.load(open(full_path, encoding='utf-8'))
 		return None
 	return loadJSONFile
 

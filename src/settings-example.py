@@ -1,3 +1,4 @@
+import os
 class Config(object):
 
 	APP_HOST = '0.0.0.0'
@@ -6,6 +7,13 @@ class Config(object):
 
 	DEBUG = True
 
+
+	pathElements = os.getcwd().split(os.sep)
+	basePath = os.sep.join(pathElements[:pathElements.index("beng-lod-server")+1])
 	OAI_BASE_URL = 'http://dummy.oai.com'
-	XSLT_FILE = './resource/nisv-bg-oai2lod-v04.xsl'
-	SCHEMA_FILE = './resource/bengSchema-v04.ttl'
+	XSLT_FILE = basePath + os.sep + 'resource' + os.sep + 'nisv-bg-oai2lod-v04.xsl'
+	SCHEMA_FILE = basePath + os.sep + 'resource' + os.sep + 'bengSchema.ttl'
+	# use version below when using OAI
+	#MAPPING_FILE = basePath + os.sep + 'resource' + os.sep + 'daan-mapping.ttl'
+	# use version below when using storage API
+	MAPPING_FILE = basePath + os.sep + 'resource' + os.sep + 'daan-mapping-storage.ttl'
