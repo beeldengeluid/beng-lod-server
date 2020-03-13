@@ -21,6 +21,8 @@ jobs:
     - name: Install dependencies
       run: |
         pipenv install --dev --three
+        ls
+        ls *
     - name: Test with pytest
       run: |
         pipenv install pytest pytest-cov --dev
