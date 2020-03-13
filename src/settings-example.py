@@ -8,7 +8,6 @@ class Config(object):
 
 	DEBUG = True
 
-
 	pathElements = __file__.split(os.sep)
 	reversePathElements = __file__.split(os.sep)[::-1]
 	basePath = os.sep.join(pathElements[:-reversePathElements.index("beng-lod-server")])
