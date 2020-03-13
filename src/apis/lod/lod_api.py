@@ -1,5 +1,5 @@
 from flask import current_app, request, Response
-from flask_restplus import Namespace, fields, Resource
+from flask_restx import Namespace, fields, Resource
 
 from apis.lod.DAANLODHandler import DAANLODHandler
 from apis.lod.DAANStorageLODHandler import DAANStorageLODHandler
