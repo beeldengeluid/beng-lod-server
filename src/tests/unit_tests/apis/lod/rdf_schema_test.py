@@ -4,6 +4,7 @@ import copy
 import models.DAANRdfModel as schema
 from models.NISVRdfConcept import NISVRdfConcept
 from apis.lod.DAANSchemaImporter import DAANSchemaImporter
+from util import SettingsUtil
 
 from rdflib import URIRef, Literal
 from rdflib.namespace import RDF, XSD
@@ -17,9 +18,8 @@ def test_import_schema(application_settings):
 
 def test_oai_payload_to_rdf(application_settings, i_program, i_season, i_series, i_carrier, i_clip):
     # ugly hack - as the storage and OAI versions have different formats, need to select
-    # a specific mapping file
-    pathElements = os.getcwd().split(os.sep)
-    basePath = os.sep.join(pathElements[:pathElements.index("beng-lod-server") + 1])
+    # a specific mapping file\
+    basePath = SettingsUtil.getBasePath()
     mappingFile = basePath + os.sep + 'resource' + os.sep + 'daan-mapping.ttl'
     testSettings = copy.deepcopy(application_settings)
     testSettings["MAPPING_FILE"] = mappingFile
@@ -157,8 +157,7 @@ def test_oai_payload_to_rdf(application_settings, i_program, i_season, i_series,
 def test_storage_api_payload_to_rdf(application_settings, i_program_storage, i_season, i_series, i_carrier, i_clip):
     # ugly hack - as the storage and OAI versions have different formats, need to select
     # a specific mapping file
-    pathElements = os.getcwd().split(os.sep)
-    basePath = os.sep.join(pathElements[:pathElements.index("beng-lod-server") + 1])
+    basePath = SettingsUtil.getBasePath()
     mappingFile = basePath + os.sep + 'resource' + os.sep + 'daan-mapping-storage.ttl'
     testSettings = copy.deepcopy(application_settings)
     testSettings["MAPPING_FILE"] = mappingFile
