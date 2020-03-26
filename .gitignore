@@ -10,3 +10,4 @@ resource/*/*.xml
 .project
 .pydevproject
 *.ttl
+.idea/
