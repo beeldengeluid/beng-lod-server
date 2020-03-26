@@ -18,3 +18,4 @@ class Config(object):
 	#MAPPING_FILE = basePath + os.sep + 'resource' + os.sep + 'daan-mapping.ttl'
 	# use version below when using storage API
 	MAPPING_FILE = basePath + os.sep + 'resource' + os.sep + 'daan-mapping-storage.ttl'
+	STORAGE_BASE_URL = 'http://acc-app-bng-01.beeldengeluid.nl:8101'

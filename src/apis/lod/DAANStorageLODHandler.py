@@ -25,6 +25,8 @@ class DAANStorageLODHandler(object):
             data = self._storage2LOD(url, returnFormat)
         except ValueError as e:
             return APIUtil.toErrorResponse('bad_request', e)
+        except urllib.error.HTTPError as e:
+            return APIUtil.toErrorResponse('not_found', e)
 
         if data:
             return APIUtil.toSuccessResponse(data)
