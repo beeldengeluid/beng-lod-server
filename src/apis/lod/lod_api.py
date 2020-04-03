@@ -63,7 +63,8 @@ class LODAPI(Resource):
 
 """ --------------------------- SCHEMA ENDPOINT -------------------------- """
 
-@api.route('schema', endpoint='schema')
+# @api.route('schema', endpoint='schema')
+@api.route('schema/<class_or_property>', endpoint='schema')
 class LODSchemaAPI(Resource):
 
     @api.response(404, 'Schema does not exist error')
@@ -72,6 +73,7 @@ class LODSchemaAPI(Resource):
         if status_code == 200:
             return Response(resp, mimetype='text/turtle')
         return resp, status_code, headers
+
 
 """ --------------------------- GTAA ENDPOINT -------------------------- """
 @api.route('concept/<set>/<notation>', endpoint='concept')
@@ -111,7 +113,7 @@ class LODConceptAPI(Resource):
             ldFormat = userFormat
             mimetype = self.LD_TO_MIME_TYPE[userFormat]
 
-        resp, status_code, headers = LODHandlerConcept(current_app.config).getConceptRDF(set,notation,ldFormat)
+        resp, status_code, headers = LODHandlerConcept(current_app.config).getConceptRDF(set, notation, ldFormat)
 
         #make sure to apply the correct mimetype for valid responses
         if status_code == 200:
