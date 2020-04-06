@@ -9,3 +9,5 @@ resource/*/*.xml
 .pytest_cache
 .project
 .pydevproject
+.idea/
+*.ttl

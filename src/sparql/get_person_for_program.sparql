@@ -1,0 +1,20 @@
+#+ summary: Query to get person names related to a program
+#+ endpoint: http://zorin.beeldengeluid.nl:3020/sparql/
+#+ note: program URI needs to be bound to variable
+
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX nisv: <http://data.rdlabs.beeldengeluid.nl/schema/>
+PREFIX program: <http://data.rdlabs.beeldengeluid.nl/resource/program/>
+
+SELECT DISTINCT ?concept ?preflabel
+WHERE {
+  GRAPH <http://data.rdlabs.beeldengeluid.nl/schema> {
+    ?pred rdfs:subPropertyOf nisv:hasEntityInRole
+  }
+  GRAPH <http://data.rdlabs.beeldengeluid.nl/cat/> {
+    program:4283785 ?pred ?entityInRole .
+    ?entityInRole nisv:hasPerson ?concept .
+  }
+  ?concept skos:prefLabel ?preflabel .
+}
+ORDER BY ?prefLabel
