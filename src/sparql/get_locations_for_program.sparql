@@ -8,10 +8,13 @@ PREFIX program: <http://data.rdlabs.beeldengeluid.nl/resource/program/>
 
 SELECT DISTINCT ?concept ?preflabel
 WHERE {
+  GRAPH <http://data.rdlabs.beeldengeluid.nl/schema> {
+	?pred rdfs:range nisv:Location
+  }
   GRAPH <http://data.rdlabs.beeldengeluid.nl/cat/> {
-	program:346427 nisv:hasLocation ?concept .
-	?program nisv:hasLocation ?concept .
+	program:346427 ?pred ?concept .
   }
   ?concept skos:prefLabel ?preflabel .
 }
 ORDER BY ?preflabel
+
