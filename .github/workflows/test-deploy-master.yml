@@ -1,9 +1,12 @@
-name: Python application
+name: Test, lint and deploy Master branch
 
-on: [push]
+on:
+  push:
+    branches:
+      - "master"
 
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
@@ -29,3 +32,13 @@ jobs:
         pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         pipenv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+  deploy:
+
+    runs-on: self-hosted
+    needs: test
+    steps:
+    - uses: actions/checkout@v1
+    - name: install with puppet
+      run: |
+        cd /etc/puppetlabs/code/modules/rd_infra_service/
+        sudo puppet apply examples/test-cluster/beng_lod_server.pp

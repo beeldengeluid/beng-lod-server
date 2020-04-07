@@ -1,4 +1,4 @@
-from flask_restplus import Api
+from flask_restx import Api
 from .lod.lod_api import api as lodAPI
 
 apiVersion = 'v0.1'

@@ -1,5 +1,5 @@
 from flask import current_app, request, Response
-from flask_restplus import Namespace, fields, Resource
+from flask_restx import Namespace, fields, Resource
 
 from apis.lod.LODHandler import LODHandler
 from apis.lod.LODHandlerConcept import LODHandlerConcept
