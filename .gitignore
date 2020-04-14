@@ -11,3 +11,4 @@ resource/*/*.xml
 .pydevproject
 *.ttl
 .idea/
+docs/
