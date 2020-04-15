@@ -18,7 +18,7 @@ app.debug = app.config['DEBUG']
 CORS(app)
 
 # Code added to generate the ontology documentation
-# ontodoc(ontology_file=app.config['SCHEMA_FILE'])
+ontodoc(ontology_file=app.config['SCHEMA_FILE'])
 
 api.init_app(
     app,
