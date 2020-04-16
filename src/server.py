@@ -3,6 +3,7 @@ from flask_cors import CORS
 import json
 import datetime
 import os
+from pathlib import Path
 from apis import api
 from ontodoc import ontodoc
 
@@ -18,7 +19,13 @@ app.debug = app.config['DEBUG']
 CORS(app)
 
 # Code added to generate the ontology documentation
-# ontodoc(ontology_file=app.config['SCHEMA_FILE'])
+
+@app.before_first_request
+def server_init():
+    #ontodoc(ontology_file=app.config['SCHEMA_FILE'])
+    print('Willem: deze wordt bij de eerste request naar de server gedraaid: check dan ook even of de dir all bestaat, zodat niet onnodig die docs worden gegenereerd')
+
+print(Path(app.static_folder).parent)
 
 api.init_app(
     app,
@@ -159,7 +166,7 @@ def htmlSchema(language='NONE', className='NONE'):
 
 @app.route('/docs/')
 def docs():
-    return send_from_directory('docs', 'index.html')
+    return send_from_directory(os.path.join(Path(app.static_folder).parent, 'docs'), 'index.html')
     # return redirect(url_for('docs'))
 
 
@@ -170,7 +177,7 @@ def docs():
 
 @app.route('/docs/<path:path>')
 def docs_path(path):
-    return send_from_directory('docs', path)
+    return send_from_directory(os.path.join(Path(app.static_folder).parent, 'docs'), path)
 
 #
 # @app.route('/docs/entities-az.html/<path:path>')
