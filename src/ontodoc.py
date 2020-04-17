@@ -13,11 +13,11 @@ class ontodoc:
 
     """
 
-    def __init__(self, ontology_file=None):
+    def __init__(self, ontology_file=None, output_path=None):
         self.graph_file = ontology_file
         self.model = ontospy.Ontospy(self.graph_file, verbose=True)
-        # self.gendocs()
-        self.complete_docs()
+        # self.gendocs(output_folder=output_path)
+        self.complete_docs(output_folder=output_path)
 
         # self.test()
 
@@ -29,15 +29,19 @@ class ontodoc:
 
         self.model.printClassTree()
 
-    def gendocs(self):
+    def gendocs(self, output_folder=None):
         """
         Given the model generate the visualisations.
+        :param: output_folder: the location on the file system where the static ontology website can be stored.
         """
-        v = HTMLVisualizer(self.model)  # => instantiate the visualization object
-        v.build(output_path='templates/ontospy-viz')  # => render visualization.
+        if output_folder is not None:
+            v = HTMLVisualizer(self.model)  # => instantiate the visualization object
+            # v.build(output_path='templates/ontospy-viz')  # => render visualization.
+            v.build(output_path=output_folder)  # => render visualization.
 
-    def complete_docs(self):
+    def complete_docs(self, output_folder=None):
         """
+        :param: output_folder: the location on the file system where the static ontology website can be stored.
         Generate the full documentation for the given model.
         :return:
         # """
@@ -52,11 +56,13 @@ class ontodoc:
         #                           theme='yeti')  # => instantiate the visualization object
         # v.build(output_path='templates/docs')  # => render visualization.
 
-        v = KompleteVizMultiModel(self.model,
-                                  title='Ontology for NISV Catalogue',
-                                  # output_path_static='/home/wmelder/PycharmProjects/beng-lod-server/src/static',
-                                  # static_url='static/',
-                                  theme='yeti')  # => instantiate the visualization object
-        # attempt to put the files into the webserver directory
-        # v.build(output_path='/var/www/docs')  # => render visualization.
-        v.build(output_path='docs')  # => render visualization.
+        if output_folder is not None:
+            v = KompleteVizMultiModel(self.model,
+                                      title='Ontology for NISV Catalogue',
+                                      # output_path_static='/home/wmelder/PycharmProjects/beng-lod-server/src/static',
+                                      # static_url='static/',
+                                      theme='yeti')  # => instantiate the visualization object
+            # attempt to put the files into the webserver directory
+            # v.build(output_path='/var/www/docs')  # => render visualization.
+            # v.build(output_path='docs')  # => render visualization.
+            v.build(output_path=output_folder)  # => render visualization.
