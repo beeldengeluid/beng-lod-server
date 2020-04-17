@@ -1,13 +1,15 @@
-from flask import Flask, render_template, request, Response, url_for
+from flask import Flask, render_template, request, Response, url_for, send_from_directory, redirect
 from flask_cors import CORS
 import json
 import datetime
-
+import os
+from pathlib import Path
 from apis import api
+from ontodoc import ontodoc
 
 app = Flask(__name__)
 
-#init the config
+# init the config
 app.config.from_object('settings.Config')
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['RESTPLUS_VALIDATE'] = False
@@ -16,23 +18,38 @@ app.debug = app.config['DEBUG']
 
 CORS(app)
 
+
+# Code added to generate the ontology documentation
+@app.before_first_request
+def server_init():
+    output_path = 'docs'
+    if not os.path.exists(os.path.join(Path(app.static_folder).parent, output_path)):
+        ontodoc(ontology_file=app.config['SCHEMA_FILE'], output_path=output_path)
+
+
+# print(Path(app.static_folder).parent)
+
 api.init_app(
-	app,
-	title='Beeld en Geluid LOD API',
+    app,
+    title='Beeld en Geluid LOD API',
     description='LOD API mostly for e.g. dereferencing B&G resources')
 
 """------------------------------------------------------------------------------
 CUSTOM TEMPLATE FUNCTIONS
 ------------------------------------------------------------------------------"""
+
+
 # Formats dates to be used in templates
 @app.template_filter()
 def datetimeformat(value, format='%d, %b %Y'):
     return datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ").strftime(format)
 
+
 @app.template_filter()
 def getLastStringAfter(value):
     lastIndex = value.rindex("/")
-    return value[lastIndex+1:len(value)]
+    return value[lastIndex + 1:len(value)]
+
 
 @app.template_filter()
 def externalResource(url):
@@ -41,21 +58,27 @@ def externalResource(url):
         return True
     else:
         return False
+
+
 """------------------------------------------------------------------------------
 PING / HEARTBEAT ENDPOINT
 ------------------------------------------------------------------------------"""
 
+
 @app.route('/ping')
 def ping():
-	return Response('pong', mimetype='text/plain')
+    return Response('pong', mimetype='text/plain')
+
 
 """------------------------------------------------------------------------------
 REGULAR ROUTING (STATIC CONTENT)
 ------------------------------------------------------------------------------"""
 
+
 @app.route('/')
 def home():
-	return render_template('index.html')
+    return render_template('index.html')
+
 
 @app.route('/html-schema', methods=['GET'])
 @app.route('/html-schema/', methods=['GET'])
@@ -82,8 +105,8 @@ def htmlSchema(language='NONE', className='NONE'):
         for d in obj:
             for k, v in d.items():
                 if k and k == '@type' and d[k][0].endswith('Property') and DOMAIN in d:
-                   if d[DOMAIN][0]['@id'] == CLASS_ROOT + "/" + className:
-                       classProps.append(d)
+                    if d[DOMAIN][0]['@id'] == CLASS_ROOT + "/" + className:
+                        classProps.append(d)
         # Class with no properties on its own (Abstract Class)
         if len(classProps) > 0:
             return render_template('schema.html', language=language, className=className, classProps=classProps)
@@ -111,5 +134,24 @@ def htmlSchema(language='NONE', className='NONE'):
                 bengProps.append(d)
     return render_template('schema.html', language=language, bengClasses=bengClasses, bengProps=bengProps)
 
+
+@app.route('/docs/')
+def docs():
+    return send_from_directory(os.path.join(Path(app.static_folder).parent, 'docs'), 'index.html')
+
+
+@app.route('/docs/<path:path>')
+def docs_path(path):
+    rp = request.path
+    if rp != '/' and rp.endswith('/'):
+        return redirect(rp[:-1])
+    return send_from_directory(os.path.join(Path(app.static_folder).parent, 'docs'), path)
+
+
+@app.route('/docs/static/libs/bootswatch3_2/yeti/fonts/<path:path>')
+def docs_fonts_path(path):
+    return send_from_directory('docs/static/libs/bootstrap-3_3_7-dist/fonts', path)
+
+
 if __name__ == '__main__':
-	app.run(host=app.config['APP_HOST'], port=app.config['APP_PORT'])
+    app.run(host=app.config['APP_HOST'], port=app.config['APP_PORT'])

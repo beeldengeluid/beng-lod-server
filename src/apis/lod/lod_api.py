@@ -1,4 +1,4 @@
-from flask import current_app, request, Response
+from flask import current_app, request, Response, render_template
 from flask_restx import Namespace, fields, Resource
 
 from apis.lod.LODHandler import LODHandler
@@ -61,10 +61,15 @@ class LODAPI(Resource):
         #otherwise resp SHOULD be a json error message and thus the response can be returned like this
         return resp, status_code, headers
 
+
 """ --------------------------- SCHEMA ENDPOINT -------------------------- """
 
-# @api.route('schema', endpoint='schema')
-@api.route('schema/<class_or_property>', endpoint='schema')
+
+# # @api.route('schema', endpoint='schema')
+# @api.route('schema/<class_or_property>', endpoint='schema')
+
+@api.route('schema')
+@api.route('schema/', endpoint='schema')
 class LODSchemaAPI(Resource):
 
     @api.response(404, 'Schema does not exist error')
