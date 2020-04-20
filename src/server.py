@@ -170,11 +170,9 @@ def dereference_class_or_prop(class_or_prop):
         print(request.path)
         if os.path.exists(os.path.join(Path(app.static_folder).parent, 'docs/%s' % doc_title)):
             return redirect(os.path.join('/docs', doc_title))
-            # return send_from_directory(os.path.join(Path(app.static_folder).parent, 'docs'), doc_title)
         else:
             doc_title = 'prop-nisv%s.html' % class_or_prop.lower()
             return redirect(os.path.join('/docs', doc_title))
-            # return send_from_directory(os.path.join(Path(app.static_folder).parent, 'docs'), doc_title)
 
 
 if __name__ == '__main__':
