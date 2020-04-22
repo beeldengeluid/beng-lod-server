@@ -45,20 +45,9 @@ class ontodoc:
         Generate the full documentation for the given model.
         :return:
         # """
-        # v = KompleteViz(self.model,
-        #                 title='Ontology for NISV Catalogue')  # => instantiate the visualization object
-        # v.build(output_path='templates/docs')  # => render visualization.
-
-        # v = KompleteVizMultiModel(self.model,
-        #                           title='Ontology for NISV Catalogue',
-        #                           output_path_static='/home/wmelder/PycharmProjects/beng-lod-server/src/static',
-        #                           static_url='static/',
-        #                           theme='yeti')  # => instantiate the visualization object
-        # v.build(output_path='templates/docs')  # => render visualization.
-
         if output_folder is not None:
             v = KompleteVizMultiModel(self.model,
-                                      title='Ontology for NISV Catalogue',
+                                      title='Schema NISV Catalogue',
                                       # output_path_static='/home/wmelder/PycharmProjects/beng-lod-server/src/static',
                                       # static_url='static/',
                                       theme='yeti')  # => instantiate the visualization object

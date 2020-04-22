@@ -12,3 +12,4 @@ resource/*/*.xml
 *.ttl
 .idea/
 docs/
+schema/
