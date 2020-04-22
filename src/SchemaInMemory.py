@@ -27,7 +27,7 @@ class SchemaInMemory:
 
     def get_resource_name(self, entity_name=None, resource_type=None):
         object_type = RDFS.Class
-        if resource_type is 'prop':
+        if resource_type == 'prop':
             object_type = RDF.Property
         for s in self.graph.subjects(RDF.type, object_type):
             if s.toPython().lower().endswith(entity_name):
