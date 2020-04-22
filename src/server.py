@@ -7,6 +7,7 @@ from pathlib import Path
 from apis import api
 from ontodoc import ontodoc
 from SchemaInMemory import SchemaInMemory
+from util.APIUtil import APIUtil
 
 app = Flask(__name__)
 
@@ -142,6 +143,14 @@ def htmlSchema(language='NONE', className='NONE'):
 
 @app.route('/schema/')
 def schema():
+    if 'text/turtle' in request.headers.get('Accept'):
+        # a text page with the RDF in turtle format is returned.
+        if os.path.exists(app.config['SCHEMA_FILE']):
+            f = open(app.config['SCHEMA_FILE'], 'r')
+            schema_ttl = f.read()
+            f.close()
+            return APIUtil.toSuccessResponse(schema_ttl)
+        return APIUtil.toErrorResponse('internal_server_error', 'The schema file could not be found')
     return send_from_directory(os.path.join(Path(app.static_folder).parent, 'schema'), 'index.html')
 
 
