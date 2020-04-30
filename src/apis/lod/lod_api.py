@@ -14,14 +14,16 @@ responseModel = api.model('Response', {
 })
 
 """ --------------------------- RESOURCE ENDPOINT -------------------------- """
+
+
 @api.route('resource/<level>/<identifier>', endpoint='dereference')
 class LODAPI(Resource):
 
     MIME_TYPE_TO_LD = {
-        'application/rdf+xml' : 'xml',
-        'application/ld+json' : 'json-ld',
-        'text/turtle' : 'ttl',
-        'text/n3' : 'n3'
+        'application/rdf+xml': 'xml',
+        'application/ld+json': 'json-ld',
+        'text/turtle': 'ttl',
+        'text/n3': 'n3'
     }
 
     LD_TO_MIME_TYPE = {v: k for k, v in MIME_TYPE_TO_LD.items()}
@@ -62,21 +64,27 @@ class LODAPI(Resource):
         return resp, status_code, headers
 
 
-""" --------------------------- SCHEMA ENDPOINT -------------------------- """
+# """ --------------------------- SCHEMA ENDPOINT -------------------------- """
+#
+#
+# # # @api.route('schema', endpoint='schema')
+# # @api.route('schema/<class_or_property>', endpoint='schema')
+#
+# @api.route('schema')
+# @api.route('schema/', endpoint='schema')
+# class LODSchemaAPI(Resource):
+#
+#     @api.response(404, 'Schema does not exist error')
+#     def get(self):
+#         resp, status_code, headers = LODSchemaHandler(current_app.config).getSchema()
+#         if status_code == 200:
+#             return Response(resp, mimetype='text/turtle')
+#         return resp, status_code, headers
 
-
-@api.route('schema')
-@api.route('schema/', endpoint='schema')
-class LODSchemaAPI(Resource):
-
-    @api.response(404, 'Schema does not exist error')
-    def get(self):
-        resp, status_code, headers = LODSchemaHandler(current_app.config).getSchema()
-        if status_code == 200:
-            return Response(resp, mimetype='text/turtle')
-        return resp, status_code, headers
 
 """ --------------------------- GTAA ENDPOINT -------------------------- """
+
+
 @api.route('concept/<set>/<notation>', endpoint='concept')
 class LODConceptAPI(Resource):
 
@@ -114,7 +122,7 @@ class LODConceptAPI(Resource):
             ldFormat = userFormat
             mimetype = self.LD_TO_MIME_TYPE[userFormat]
 
-        resp, status_code, headers = LODHandlerConcept(current_app.config).getConceptRDF(set,notation,ldFormat)
+        resp, status_code, headers = LODHandlerConcept(current_app.config).getConceptRDF(set, notation, ldFormat)
 
         #make sure to apply the correct mimetype for valid responses
         if status_code == 200:

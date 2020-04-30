@@ -6,6 +6,7 @@ from lxml.etree import XSLTError
 from urllib.parse import urlencode
 from util.APIUtil import APIUtil
 
+
 class LODHandler(object):
 	''' OAI-PMH provider serves catalogue data on a URL,
 		# http://oaipmh.beeldengeluid.nl/oai?verb=GetRecord&metadataPrefix=bg&identifier=oai:program:3883163
