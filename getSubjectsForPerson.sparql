@@ -1,6 +1,7 @@
 #+ summary: Query to get all subjects associated with a person (at present only via creator relationship with the program of that subject)
 #+ endpoint: http://zorin.beeldengeluid.nl:3020/sparql/
 PREFIX nisv: <http://data.rdlabs.beeldengeluid.nl/schema/> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 SELECT DISTINCT ?keyword
 WHERE {
 ?s nisv:hasCreator ?creatorId . ?creatorId nisv:hasPerson ?personId .?personId skos:prefLabel ?_personName . ?s nisv:hasKeyword ?keyword
