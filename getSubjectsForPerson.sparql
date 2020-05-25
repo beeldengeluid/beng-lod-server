@@ -4,6 +4,6 @@ PREFIX nisv: <http://data.rdlabs.beeldengeluid.nl/schema/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 SELECT DISTINCT ?keyword
 WHERE {
-?s nisv:hasCreator ?creatorId . ?creatorId nisv:hasPerson ?personId .?personId skos:prefLabel ?_personName_nl . ?s nisv:hasKeyword ?keyword
+?s nisv:hasCreator ?creatorId . ?creatorId nisv:hasPerson ?personId .?personId skos:prefLabel ?_personName_nl . ?s nisv:hasSubject ?subjectIri . ?subjectIri skos:prefLabel ?keyword
 }
 
