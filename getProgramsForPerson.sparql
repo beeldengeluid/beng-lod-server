@@ -5,6 +5,6 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 SELECT DISTINCT ?programId ?title
 WHERE {
-?programId a nisv:Program . OPTIONAL {?programId nisv:hasMainTitle ?titleObject . ?titleObject nisv:titleValue ?title .} ?programId nisv:hasCreator ?creatorId . ?creatorId nisv:hasPerson ?personId . ?personId skos:prefLabel ?_personName
+?programId a nisv:Program . OPTIONAL {?programId nisv:hasMainTitle ?titleObject . ?titleObject nisv:titleValue ?title .} ?programId nisv:hasCreator ?creatorId . ?creatorId nisv:hasPerson ?personId . ?personId skos:prefLabel ?_personName_nl
 }
 
