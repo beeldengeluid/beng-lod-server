@@ -1,9 +1,11 @@
-#+ summary: Query to get all persons associated with a program (at present only creators)
+#+ summary: Query to get all persons associated with a program
 #+ endpoint: http://zorin.beeldengeluid.nl:3020/sparql/
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX nisv: <http://data.rdlabs.beeldengeluid.nl/schema/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
 SELECT DISTINCT ?person ?personName WHERE
 {
-?_o1_iri nisv:hasCreator ?creator . ?creator nisv:hasPerson ?person . ?person skos:prefLabel ?personName
+<http://data.rdlabs.beeldengeluid.nl/resource/program/4252580> ?personRelation ?personInRole . ?personRelation rdfs:subPropertyOf nisv:hasEntityInRole . ?personInRole nisv:hasPerson ?person . ?person skos:prefLabel ?personName
 }
 ORDER BY ?personName
