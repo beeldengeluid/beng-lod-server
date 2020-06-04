@@ -6,6 +6,6 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 SELECT DISTINCT ?person ?personName WHERE
 {
-<http://data.rdlabs.beeldengeluid.nl/resource/program/4252580> ?personRelation ?personInRole . ?personRelation rdfs:subPropertyOf nisv:hasEntityInRole . ?personInRole nisv:hasPerson ?person . ?person skos:prefLabel ?personName
+?_o1_iri ?personRelation ?personInRole . ?personRelation rdfs:subPropertyOf nisv:hasEntityInRole . ?personInRole nisv:hasPerson ?person . ?person skos:prefLabel ?personName
 }
 ORDER BY ?personName
