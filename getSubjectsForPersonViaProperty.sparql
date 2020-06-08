@@ -1,0 +1,12 @@
+#+ summary: Query to get all subjects associated with a person (subject associated with a program linked to the person by the given property)
+#+ endpoint: http://zorin.beeldengeluid.nl:3020/sparql/
+PREFIX nisv: <http://data.rdlabs.beeldengeluid.nl/schema/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?keyword
+WHERE {
+?s a nisv:Program . ?s ?_personProperty_iri ?personInRoleId . ?personInRoleId nisv:hasPerson ?personId .
+  ?personId skos:prefLabel ?_personName_nl . ?s nisv:hasSubject ?subjectIri . 
+  ?subjectIri skos:prefLabel ?keyword . 
+}
