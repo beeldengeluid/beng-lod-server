@@ -9,5 +9,5 @@ WHERE {
 ?programId a nisv:Program . 
 OPTIONAL {?programId nisv:hasMainTitle ?titleObject . ?titleObject nisv:titleValue ?title .} 
 ?programId ?_personProperty_iri ?personInRoleId . ?personInRoleId nisv:hasPerson ?personId . 
-?personId skos:prefLabel ?_name_nl 
+?personId skos:prefLabel ?_personName_nl 
 }
