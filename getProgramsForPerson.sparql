@@ -6,6 +6,6 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT DISTINCT ?programId ?title
 WHERE {
-?programId a nisv:Program . OPTIONAL {?programId nisv:hasMainTitle ?titleObject . ?titleObject nisv:titleValue ?title .} ?programId ?personProperty ?personInRoleId . ?personInRoleId ?personProperty ?personId . ?personId skos:prefLabel "Verhoeven, Paul"@nl . ?personProperty rdfs:subPropertyOf nisv:hasEntityInRole
+?programId a nisv:Program . OPTIONAL {?programId nisv:hasMainTitle ?titleObject . ?titleObject nisv:titleValue ?title .} ?programId ?personProperty ?personInRoleId . ?personInRoleId nisv:hasPerson ?personId . ?personId skos:prefLabel "Verhoeven, Paul"@nl . ?personProperty rdfs:subPropertyOf nisv:hasEntityInRole
 }
 
