@@ -2,9 +2,10 @@
 #+ endpoint: http://zorin.beeldengeluid.nl:3020/sparql/
 PREFIX nisv: <http://data.rdlabs.beeldengeluid.nl/schema/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT DISTINCT ?programId ?title
 WHERE {
-?programId a nisv:Program . OPTIONAL {?programId nisv:hasMainTitle ?titleObject . ?titleObject nisv:titleValue ?title .} ?programId nisv:hasCreator ?creatorId . ?creatorId nisv:hasPerson ?personId . ?personId skos:prefLabel ?_personName_nl
+?programId a nisv:Program . OPTIONAL {?programId nisv:hasMainTitle ?titleObject . ?titleObject nisv:titleValue ?title .} ?programId ?personProperty ?personInRoleId . ?personInRoleId ?personProperty ?personId . ?personId skos:prefLabel "Verhoeven, Paul"@nl . ?personProperty rdfs:subPropertyOf nisv:hasEntityInRole
 }
 
