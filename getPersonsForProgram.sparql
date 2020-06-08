@@ -4,8 +4,8 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX nisv: <http://data.rdlabs.beeldengeluid.nl/schema/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
-SELECT DISTINCT ?person ?personName WHERE
+SELECT DISTINCT ?person ?personName ?role WHERE
 {
-?_o1_iri ?personRelation ?personInRole . ?personRelation rdfs:subPropertyOf nisv:hasEntityInRole . ?personInRole nisv:hasPerson ?person . ?person skos:prefLabel ?personName
+?_o1_iri ?personProperty ?personInRole . ?personProperty rdfs:subPropertyOf nisv:hasEntityInRole . ?personInRole nisv:hasPerson ?person . ?person skos:prefLabel ?personName . ?personProperty skos:prefLabel ?role
 }
 ORDER BY ?personName
