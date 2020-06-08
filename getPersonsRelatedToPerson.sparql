@@ -6,7 +6,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT DISTINCT ?personName 
 WHERE {
-?s a nisv:Program . ?s ?personProperty ?personInRoleId . ?personInRoleId nisv:hasPerson ?personId  . ?s ?personProperty ?colleagueId . ?colleagueId nisv:hasPerson ?person2Id . ?person2Id skos:prefLabel ?personName FILTER(?personName != ?personId ?_name_nl). ?personId ?_name_nl . ?personProperty rdfs:subPropertyOf nisv:hasEntityInRole
+?s a nisv:Program . ?s ?personProperty ?personInRoleId . ?personInRoleId nisv:hasPerson ?personId  . ?s ?personProperty ?colleagueId . ?colleagueId nisv:hasPerson ?person2Id . ?person2Id skos:prefLabel ?personName FILTER(?personName != ?personId ?_personName_nl). ?personId ?_personName_nl . ?personProperty rdfs:subPropertyOf nisv:hasEntityInRole
 
 }
 
