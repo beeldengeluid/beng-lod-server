@@ -4,10 +4,10 @@ PREFIX nisv: <http://data.rdlabs.beeldengeluid.nl/schema/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT DISTINCT ?keyword
+SELECT DISTINCT ?keyword ?role
 WHERE {
 ?s ?personProperty ?personInRoleId . ?personInRoleId nisv:hasPerson ?personId .
   ?personId skos:prefLabel ?_personName_nl . ?s nisv:hasSubject ?subjectIri . 
-  ?subjectIri skos:prefLabel ?keyword . ?personProperty rdfs:subPropertyOf nisv:hasEntityInRole
+  ?subjectIri skos:prefLabel ?keyword . ?personProperty rdfs:subPropertyOf nisv:hasEntityInRole . ?personProperty rdfs:label ?role
 }
 
