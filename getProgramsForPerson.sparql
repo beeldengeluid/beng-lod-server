@@ -4,8 +4,8 @@ PREFIX nisv: <http://data.rdlabs.beeldengeluid.nl/schema/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT DISTINCT ?programId ?title
+SELECT DISTINCT ?programId ?title ?role
 WHERE {
-?programId a nisv:Program . OPTIONAL {?programId nisv:hasMainTitle ?titleObject . ?titleObject nisv:titleValue ?title .} ?programId ?personProperty ?personInRoleId . ?personInRoleId nisv:hasPerson ?personId . ?personId skos:prefLabel ?_personName_nl . ?personProperty rdfs:subPropertyOf nisv:hasEntityInRole
+?programId a nisv:Program . OPTIONAL {?programId nisv:hasMainTitle ?titleObject . ?titleObject nisv:titleValue ?title .} ?programId ?personProperty ?personInRoleId . ?personInRoleId nisv:hasPerson ?personId . ?personId skos:prefLabel ?_personName_nl . ?personProperty rdfs:subPropertyOf nisv:hasEntityInRole. ?personProperty rdfs:label ?role
 }
 
