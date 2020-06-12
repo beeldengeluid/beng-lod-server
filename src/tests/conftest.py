@@ -24,8 +24,8 @@ def base_url(application_settings, base_path):
 @pytest.fixture(scope="session")
 def base_file_path():
 	""" Returns the base path for a file, excluding the filename (and extension)."""
-	parts = os.path.realpath(__file__).split('/')
-	return '/'.join(parts[0:len(parts) - 2])
+	parts = os.path.realpath(__file__).split(os.sep)
+	return os.sep.join(parts[0:len(parts) - 2])
 
 @pytest.fixture(scope="module")
 def load_json_file():

@@ -1,7 +1,0 @@
-#+ summary: Query to get the properties that link a person to a program
-#+ endpoint: http://zorin.beeldengeluid.nl:3020/sparql/
-PREFIX nisv: <http://data.rdlabs.beeldengeluid.nl/schema/>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
-SELECT DISTINCT ?personProperty
-WHERE { ?personProperty rdfs:subPropertyOf nisv:hasEntityInRole }

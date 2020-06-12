@@ -1,5 +1,6 @@
 import pytest
 import os
+import pathlib
 
 @pytest.fixture()
 def o_get_record(open_file):
@@ -17,7 +18,7 @@ def get_concept_rdf_url():
 	def prepare_uri(path, fn):
 		local_path = os.path.join(os.path.dirname(path), fn)
 		if os.path.exists(local_path):
-			return ''.join(['file://',  local_path])
+			return pathlib.Path(local_path).as_uri()
 		return None
 	return prepare_uri(__file__, 'output_get_concept_rdf.xml')
 
@@ -27,7 +28,7 @@ def get_record_xml_local_uri():
 	def prepare_uri(path, fn):
 		local_path = os.path.join(os.path.dirname(path), fn)
 		if os.path.exists(local_path):
-			return ''.join(['file://',  local_path])
+			return pathlib.Path(local_path).as_uri()
 		return None
 	return prepare_uri(__file__, 'output_get_record.xml')
 
