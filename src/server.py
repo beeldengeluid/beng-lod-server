@@ -36,8 +36,8 @@ sim = SchemaInMemory(schema_file=app.config['SCHEMA_FILE'])
 
 api.init_app(
     app,
-    title='Beeld en Geluid LOD API',
-    description='LOD API mostly for e.g. dereferencing B&G resources')
+    title='Open Data Lab - Beeld en Geluid',
+    description='Open Data available at the Netherlands Institute for Sound and Vision.')
 
 """------------------------------------------------------------------------------
 CUSTOM TEMPLATE FUNCTIONS

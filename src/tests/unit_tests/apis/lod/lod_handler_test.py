@@ -50,7 +50,7 @@ def test_getOAIRecord_200(application_settings, get_record_xml_local_uri, return
             assert APIUtil.isValidXML(data) is True
 
         # make sure the RDF can be parsed
-        assert APIUtil.isValidRDF(data=data, format=return_type) is True
+        assert APIUtil.isValidRDF(data=data, return_format=return_type) is True
 
         verify(LODHandler, times=1)._prepareURI(DUMMY_LEVEL, DUMMY_ID)
     finally:

@@ -3,11 +3,12 @@ from flask_restx import Namespace, fields, Resource
 
 from apis.lod.LODHandler import LODHandler
 from apis.lod.LODHandlerConcept import LODHandlerConcept
-from apis.lod.LODSchemaHandler import LODSchemaHandler
+# from apis.lod.LODSchemaHandler import LODSchemaHandler
+from apis.lod.OpenDataLabHandler import OpenDataLabHandler
 
-api = Namespace('lod', description='LOD')
+api = Namespace('ODL', description='Linked Open Data at NISV')
 
-#generic response model
+# generic response model
 responseModel = api.model('Response', {
     'status': fields.String(description='Status', required=True, enum=['success', 'error']),
     'message': fields.String(description='Message from server', required=True),
@@ -89,10 +90,10 @@ class LODAPI(Resource):
 class LODConceptAPI(Resource):
 
     MIME_TYPE_TO_LD = {
-        'application/rdf+xml' : 'xml',
-        'application/ld+json' : 'json-ld',
-        'text/turtle' : 'ttl',
-        'text/n3' : 'n3'
+        'application/rdf+xml': 'xml',
+        'application/ld+json': 'json-ld',
+        'text/turtle': 'ttl',
+        'text/n3': 'n3'
     }
 
     LD_TO_MIME_TYPE = {v: k for k, v in MIME_TYPE_TO_LD.items()}
@@ -129,4 +130,59 @@ class LODConceptAPI(Resource):
             return Response(resp, mimetype=mimetype, headers=headers)
 
         #otherwise resp SHOULD be a json error message and thus the response can be returned like this
+        return resp, status_code, headers
+
+
+""" --------------------------- OPENDATALAB ENDPOINT -------------------------- """
+
+MIMETYPE_XML = 'application/rdf+xml'
+MIMETYPE_JSON_LD = 'application/ld+json'
+MIMETYPE_TTL = 'text/turtle'
+
+
+@api.route('media/<identifier>', endpoint='daan')
+@api.doc(params={'identifier': 'An ID for a DAAN item. For example: "2101608170160873531"'})
+class OpenDataLab(Resource):
+
+    MIME_TYPE_TO_LD = {
+        'application/rdf+xml': 'xml',
+        'application/ld+json': 'json-ld',
+        'text/turtle': 'ttl',
+    }
+
+    LD_TO_MIME_TYPE = {v: k for k, v in MIME_TYPE_TO_LD.items()}
+
+    def get_requested_format(self, accept_type):
+        mimetype = MIMETYPE_JSON_LD
+        if accept_type.find('rdf+xml') != -1:
+            mimetype = MIMETYPE_XML
+        elif accept_type.find('json+ld') != -1:
+            mimetype = MIMETYPE_JSON_LD
+        elif accept_type.find('json') != -1:
+            mimetype = MIMETYPE_JSON_LD
+        elif accept_type.find('turtle') != -1:
+            mimetype = MIMETYPE_TTL
+        return mimetype, self.MIME_TYPE_TO_LD[mimetype]
+
+    @api.response(404, 'Resource does not exist error')
+    @api.doc('Get Media resources from NISV catalogue DAAN')
+    def get(self, identifier):
+        # TODO: fix the Accept type in the OpenAPI UI
+        accept_type = request.headers.get('Accept')
+
+        # "you can pass either a mime-type or the name (a list of available parsers is available)"
+        mimetype, ld_format = self.get_requested_format(accept_type)
+        resp, status_code, headers = OpenDataLabHandler(current_app.config).get_media_item_nisv(uri=identifier,
+                                                                                                ld_format=ld_format)
+
+        # make sure to apply the correct mimetype for valid responses
+        if headers is None:
+            headers = {'Content-Type': mimetype}
+        else:
+            headers['Content-Type'] = mimetype
+        if status_code == 200:
+            return Response(resp, mimetype=mimetype, headers=headers)
+            # return Response(resp, mimetype=mimetype, headers=request.headers)
+
+        # otherwise resp SHOULD be a json error message and thus the response can be returned like this
         return resp, status_code, headers

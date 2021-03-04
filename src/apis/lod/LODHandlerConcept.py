@@ -3,6 +3,7 @@ from rdflib.plugin import PluginException
 from util.APIUtil import APIUtil
 from urllib.error import URLError
 
+
 class LODHandlerConcept(object):
 	""" OpenSKOS platform provides RDF data for each SKOS concept. As far as I know the
 		sub domain data.beeldengeluid.nl is forwarded to OpenSKOS platform on DNS level.

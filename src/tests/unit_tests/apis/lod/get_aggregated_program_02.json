@@ -1,0 +1,3901 @@
+{
+  "_index": "daan-aggregated-prod-2020",
+  "_type": "aggregated-program",
+  "_id": "2101608170160873531",
+  "_version": 1,
+  "found": true,
+  "_source": {
+    "series_id": "2101608030026064731",
+    "season_id": "2101608040029114731",
+    "program_id": "2101608170160873531",
+    "series": {
+      "title": [
+        "HANDELSPLATEN"
+      ],
+      "partofcatalogue": [
+        "Geluidsregistraties - Handelsplaten"
+      ],
+      "metadatastatushidden": [
+        "Approved"
+      ],
+      "genre": [
+        "muziekuitvoering"
+      ],
+      "id": "2101608030026064731",
+      "date_created": 1384945318000,
+      "date_last_updated": 1550753630842,
+      "site_id": "SRS356944"
+    },
+    "season": {
+      "metadatastatus": [
+        "Approved"
+      ],
+      "title": [
+        "Handelsplaten Reeks 1"
+      ],
+      "titletype": [
+        "gegeven titel"
+      ],
+      "seasonnumber": [
+        "1"
+      ],
+      "id": "2101608040029114731",
+      "date_created": 1470264770877,
+      "date_last_updated": 1541154781196,
+      "site_id": "SSN435276"
+    },
+    "program": {
+      "alttitle": [
+        {
+          "name": [
+            "Titania Palast Berlin 06.02.1951 "
+          ],
+          "type": [
+            "alternatieve titel"
+          ]
+        }
+      ],
+      "category": [
+        "commercial records"
+      ],
+      "collectionsgroup": [
+        {
+          "dir": [
+            "Handelsplaten"
+          ]
+        }
+      ],
+      "currentbroadcaster": [
+        "NADER TE BEPALEN"
+      ],
+      "materialtype": [
+        "audio"
+      ],
+      "metadatastatus": [
+        "Approved"
+      ],
+      "metadatastatushidden": [
+        "Approved"
+      ],
+      "musicgenre": [
+        "klassieke muziek"
+      ],
+      "performer": [
+        {
+          "name": [
+            "Musial, Martha"
+          ],
+          "role": [
+            "zang sopraan"
+          ]
+        },
+        {
+          "name": [
+            "Anders, Peter"
+          ],
+          "role": [
+            "zang tenor"
+          ]
+        },
+        {
+          "name": [
+            "Diverse uitvoerenden"
+          ]
+        },
+        {
+          "name": [
+            "RIAS Sy.Orkest"
+          ]
+        },
+        {
+          "name": [
+            "Fricsay, Ferenc"
+          ],
+          "role": [
+            "dirigent"
+          ]
+        }
+      ],
+      "publication": [
+        {
+          "annotation": [
+            "Label en labelnummer: Gebhardt JGCD 00592\nLeverancier: Lavial\nInkoopdatum: 2005-10"
+          ],
+          "datereceived": [
+            "2005-10-27"
+          ],
+          "distributionchannel": [
+            "handel"
+          ],
+          "type": [
+            "handelsplaat"
+          ]
+        }
+      ],
+      "rightslicense": [
+        "License check"
+      ],
+      "sortdate": [
+        "2005-10-27"
+      ],
+      "sourcecatalogue": [
+        "iMMix M"
+      ],
+      "sourceid": [
+        "CE0000050797"
+      ],
+      "suitableformuseum": [
+        "false"
+      ],
+      "tenant": [
+        "Beeld En Geluid"
+      ],
+      "title": [
+        "Johann Strauss Konzert "
+      ],
+      "id": "2101608170160873531",
+      "date_created": 1448899803000,
+      "date_last_updated": 1543527702549,
+      "site_id": "PGM4541713"
+    },
+    "assetItems": [
+      {
+        "category": [
+          "Analogue"
+        ],
+        "carriernumber": [
+          "CD159244"
+        ],
+        "carriertypeid": [
+          "CD"
+        ],
+        "materialType": [
+          "audio"
+        ],
+        "createdby": [
+          "GMI"
+        ],
+        "dragerid": [
+          "16699980"
+        ],
+        "date": [
+          "2015-11-30T16:10:04Z"
+        ],
+        "depotstateid": [
+          "in depot"
+        ],
+        "collectionid": {
+          "siteid": [
+            "COL4371"
+          ],
+          "collectiondepositor": [
+            "Handelsplaten iMMix-M"
+          ],
+          "collectionnumber": [
+            "2400-1-1"
+          ],
+          "collectiontitle": [
+            "audio: Handelsplaten iMMix-M"
+          ]
+        },
+        "sortdate": [
+          "2005-10-27"
+        ],
+        "id": "2101610060491906521",
+        "date_created": 1448899804000,
+        "date_last_updated": 1527652188995,
+        "site_id": "ITM16699980"
+      },
+      {
+        "category": [
+          "Digital"
+        ],
+        "materialType": [
+          "onbekend"
+        ],
+        "sortdate": [
+          "2005-10-27"
+        ],
+        "id": "2101608250020972621",
+        "date_created": 1472080473731,
+        "date_last_updated": 1543527731899,
+        "site_id": "FKI4541713"
+      }
+    ],
+    "logTrackItems": {
+      "ltTechnical": [
+        {
+          "dragersoort": [
+            "Raw material"
+          ],
+          "id": "2101703110592140824",
+          "date_created": 1489245750179,
+          "date_last_updated": 1489245750258,
+          "site_id": "POS103746269",
+          "logtrack_type": "Technical",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101610060491906521"
+        },
+        {
+          "dragersoort": [
+            "Program"
+          ],
+          "id": "2101712090289639524",
+          "date_created": 1512850521252,
+          "date_last_updated": 1512850521300,
+          "site_id": "FKL4541713",
+          "logtrack_type": "Technical",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        }
+      ],
+      "ltSceneDesc": [
+        {
+          "selectievolgnummer": [
+            "1"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Ouverture"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Der Zigeunerbaron"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:07:43"
+          ],
+          "summary": [
+            "*"
+          ],
+          "recordinglocation": [
+            {
+              "name": [
+                "Berlyn Titania Palast"
+              ]
+            }
+          ],
+          "performer": [
+            {
+              "name": [
+                "RIAS Sy.Orkest"
+              ]
+            },
+            {
+              "name": [
+                "Fricsay, Ferenc"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Strauss, Johann (jr.)"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "instrumentaal - orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1951-02-06"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ],
+              "audience": [
+                "true"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050804"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1885\nMet publiek\nDecennium uitvoering: 88"
+          ],
+          "id": "2101702280800517924",
+          "date_created": 1488291781458,
+          "date_last_updated": 1488291781532,
+          "site_id": "LTI95526560_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "2"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Rosen aus dem Sueden op.388"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "strlength": [
+            "0:09:09"
+          ],
+          "summary": [
+            "*"
+          ],
+          "recordinglocation": [
+            {
+              "name": [
+                "Berlyn Titania Palast"
+              ]
+            }
+          ],
+          "performer": [
+            {
+              "name": [
+                "RIAS Sy.Orkest"
+              ]
+            },
+            {
+              "name": [
+                "Fricsay, Ferenc"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Strauss, Johann (jr.)"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "klassieke muziek",
+            "instrumentaal - orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1951-02-06"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ],
+              "audience": [
+                "true"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050807"
+          ],
+          "annotation": [
+            "Datering Compositie: 1880\nDecennium Compositie: 88\nMet publiek"
+          ],
+          "id": "2101702280800518224",
+          "date_created": 1488291781628,
+          "date_last_updated": 1488291781695,
+          "site_id": "LTI95526561_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "3"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Annen Polka op.117"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "strlength": [
+            "0:03:52"
+          ],
+          "summary": [
+            "*"
+          ],
+          "recordinglocation": [
+            {
+              "name": [
+                "Berlyn Titania Palast"
+              ]
+            }
+          ],
+          "performer": [
+            {
+              "name": [
+                "RIAS Sy.Orkest"
+              ]
+            },
+            {
+              "name": [
+                "Fricsay, Ferenc"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Strauss, Johann (jr.)"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "klassieke muziek",
+            "instrumentaal - orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1951-02-06"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ],
+              "audience": [
+                "true"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050810"
+          ],
+          "annotation": [
+            "Datering Compositie: 1852\nDecennium Compositie: 85\nMet publiek"
+          ],
+          "id": "2101702280800518824",
+          "date_created": 1488291781786,
+          "date_last_updated": 1488291781860,
+          "site_id": "LTI95526562_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "4"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Als flotter Geist"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Fragmenten"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            },
+            {
+              "name": [
+                "Der Zigeunerbaron"
+              ],
+              "type": [
+                "overkoepelende titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:03:15"
+          ],
+          "summary": [
+            "*"
+          ],
+          "recordinglocation": [
+            {
+              "name": [
+                "Berlyn Titania Palast"
+              ]
+            }
+          ],
+          "performer": [
+            {
+              "name": [
+                "Musial, Martha"
+              ],
+              "role": [
+                "zang sopraan"
+              ]
+            },
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "RIAS Sy.Orkest"
+              ]
+            },
+            {
+              "name": [
+                "Fricsay, Ferenc"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Strauss, Johann (jr.)"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - twee of meer zangstemmen met orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1951-02-06"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ],
+              "audience": [
+                "true"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050816"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1885\nMet publiek\nDecennium uitvoering: 88"
+          ],
+          "id": "2101702280800519124",
+          "date_created": 1488291781946,
+          "date_last_updated": 1488291782018,
+          "site_id": "LTI95526563_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "5"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Wer uns getraut"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Fragmenten"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            },
+            {
+              "name": [
+                "Der Zigeunerbaron"
+              ],
+              "type": [
+                "overkoepelende titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:04:58"
+          ],
+          "summary": [
+            "*"
+          ],
+          "recordinglocation": [
+            {
+              "name": [
+                "Berlyn Titania Palast"
+              ]
+            }
+          ],
+          "performer": [
+            {
+              "name": [
+                "Musial, Martha"
+              ],
+              "role": [
+                "zang sopraan"
+              ]
+            },
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "RIAS Sy.Orkest"
+              ]
+            },
+            {
+              "name": [
+                "Fricsay, Ferenc"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Strauss, Johann (jr.)"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - twee of meer zangstemmen met orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1951-02-06"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ],
+              "audience": [
+                "true"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050817"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1885\nMet publiek\nDecennium uitvoering: 88"
+          ],
+          "id": "2101702280800519324",
+          "date_created": 1488291782117,
+          "date_last_updated": 1488291782194,
+          "site_id": "LTI95526564_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "6"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Geschichten aus dem Wienerwald op.325"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "strlength": [
+            "0:13:05"
+          ],
+          "summary": [
+            "*"
+          ],
+          "recordinglocation": [
+            {
+              "name": [
+                "Berlyn Titania Palast"
+              ]
+            }
+          ],
+          "performer": [
+            {
+              "name": [
+                "RIAS Sy.Orkest"
+              ]
+            },
+            {
+              "name": [
+                "Fricsay, Ferenc"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Strauss, Johann (jr.)"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "klassieke muziek",
+            "instrumentaal - orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1951-02-06"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ],
+              "audience": [
+                "true"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050820"
+          ],
+          "annotation": [
+            "Datering Compositie: 1868\nDecennium Compositie: 86\nMet publiek"
+          ],
+          "id": "2101702280800519524",
+          "date_created": 1488291782279,
+          "date_last_updated": 1488291782351,
+          "site_id": "LTI95526565_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "7"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Ouverture"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Die Fledermaus"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:08:57"
+          ],
+          "summary": [
+            "*"
+          ],
+          "recordinglocation": [
+            {
+              "name": [
+                "Berlyn Titania Palast"
+              ]
+            }
+          ],
+          "performer": [
+            {
+              "name": [
+                "RIAS Sy.Orkest"
+              ]
+            },
+            {
+              "name": [
+                "Fricsay, Ferenc"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Strauss, Johann (jr.)"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "instrumentaal - orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1951-02-06"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ],
+              "audience": [
+                "true"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050823"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1874\nMet publiek\nDecennium uitvoering: 87"
+          ],
+          "id": "2101702280800519824",
+          "date_created": 1488291782432,
+          "date_last_updated": 1488291782502,
+          "site_id": "LTI95526566_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "8"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Komm' in die Gondel"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Eine Nacht in Venedig"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:06:18"
+          ],
+          "summary": [
+            "*"
+          ],
+          "recordinglocation": [
+            {
+              "name": [
+                "Berlyn Titania Palast"
+              ]
+            }
+          ],
+          "performer": [
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "RIAS Sy.Orkest"
+              ]
+            },
+            {
+              "name": [
+                "Fricsay, Ferenc"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Strauss, Johann (jr.)"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - solo zangstem met begeleiding"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1951-02-06"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ],
+              "audience": [
+                "true"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050826"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1883\nMet publiek\nDecennium uitvoering: 88"
+          ],
+          "id": "2101702280800521124",
+          "date_created": 1488291783485,
+          "date_last_updated": 1488291783556,
+          "site_id": "LTI95526567_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "9"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Pizzicato Polka"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "strlength": [
+            "0:02:38"
+          ],
+          "summary": [
+            "*"
+          ],
+          "recordinglocation": [
+            {
+              "name": [
+                "Berlyn Titania Palast"
+              ]
+            }
+          ],
+          "performer": [
+            {
+              "name": [
+                "RIAS Sy.Orkest"
+              ]
+            },
+            {
+              "name": [
+                "Fricsay, Ferenc"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Strauss, Johann (jr.)"
+              ],
+              "role": [
+                "componist"
+              ]
+            },
+            {
+              "serialnumber": [
+                "2"
+              ],
+              "name": [
+                "Strauss, Josef"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "klassieke muziek",
+            "instrumentaal - strijkensembles"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1951-02-06"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ],
+              "audience": [
+                "true"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050829"
+          ],
+          "annotation": [
+            "Datering Compositie: 1870\nDecennium Compositie: 87\nMet publiek"
+          ],
+          "id": "2101702280800521224",
+          "date_created": 1488291783644,
+          "date_last_updated": 1488291783715,
+          "site_id": "LTI95526568_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "10"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Wiener Blut op.354"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "strlength": [
+            "0:09:45"
+          ],
+          "summary": [
+            "*"
+          ],
+          "recordinglocation": [
+            {
+              "name": [
+                "Berlyn Titania Palast"
+              ]
+            }
+          ],
+          "performer": [
+            {
+              "name": [
+                "RIAS Sy.Orkest"
+              ]
+            },
+            {
+              "name": [
+                "Fricsay, Ferenc"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Strauss, Johann (jr.)"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "klassieke muziek",
+            "instrumentaal - orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1951-02-06"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ],
+              "audience": [
+                "true"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050832"
+          ],
+          "annotation": [
+            "Datering Compositie: 1873\nDecennium Compositie: 87\nMet publiek"
+          ],
+          "id": "2101702280800521324",
+          "date_created": 1488291783794,
+          "date_last_updated": 1488291783848,
+          "site_id": "LTI95526569_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "11"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "So elend und treu"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Der Zigeunerbaron"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:05:25"
+          ],
+          "summary": [
+            "*"
+          ],
+          "recordinglocation": [
+            {
+              "name": [
+                "Berlyn Titania Palast"
+              ]
+            }
+          ],
+          "performer": [
+            {
+              "name": [
+                "Musial, Martha"
+              ],
+              "role": [
+                "zang sopraan"
+              ]
+            },
+            {
+              "name": [
+                "RIAS Sy.Orkest"
+              ]
+            },
+            {
+              "name": [
+                "Fricsay, Ferenc"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Strauss, Johann (jr.)"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - solo zangstem met begeleiding"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1951-02-06"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ],
+              "audience": [
+                "true"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050835"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1885\nMet publiek\nDecennium uitvoering: 88"
+          ],
+          "id": "2101702280800521424",
+          "date_created": 1488291783930,
+          "date_last_updated": 1488291783982,
+          "site_id": "LTI95526570_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "12"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Tritsch tratsch Polka op.214"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "strlength": [
+            "0:02:34"
+          ],
+          "summary": [
+            "*"
+          ],
+          "recordinglocation": [
+            {
+              "name": [
+                "Berlyn Titania Palast"
+              ]
+            }
+          ],
+          "performer": [
+            {
+              "name": [
+                "RIAS Sy.Orkest"
+              ]
+            },
+            {
+              "name": [
+                "Fricsay, Ferenc"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Strauss, Johann (jr.)"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "klassieke muziek",
+            "instrumentaal - orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1951-02-06"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ],
+              "audience": [
+                "true"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050838"
+          ],
+          "annotation": [
+            "Datering Compositie: 1858\nDecennium Compositie: 85\nMet publiek"
+          ],
+          "id": "2101702280800521524",
+          "date_created": 1488291784046,
+          "date_last_updated": 1488291784103,
+          "site_id": "LTI95526571_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "13"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Wein Weib und Gesang op.333"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "strlength": [
+            "0:11:09"
+          ],
+          "summary": [
+            "*"
+          ],
+          "recordinglocation": [
+            {
+              "name": [
+                "Berlyn Titania Palast"
+              ]
+            }
+          ],
+          "performer": [
+            {
+              "name": [
+                "RIAS Kamerkoor"
+              ],
+              "role": [
+                "mannenkoor"
+              ]
+            },
+            {
+              "name": [
+                "RIAS Sy.Orkest"
+              ]
+            },
+            {
+              "name": [
+                "Fricsay, Ferenc"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Strauss, Johann (jr.)"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "klassieke muziek",
+            "vocaal - koor met begeleiding"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1951-02-06"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ],
+              "audience": [
+                "true"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050841"
+          ],
+          "annotation": [
+            "Datering Compositie: 1869\nDecennium Compositie: 86\nMet publiek"
+          ],
+          "id": "2101702280800521624",
+          "date_created": 1488291784168,
+          "date_last_updated": 1488291784219,
+          "site_id": "LTI95526572_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "14"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Treu sein das liegt mir nicht"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Eine Nacht in Venedig"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:01:55"
+          ],
+          "summary": [
+            "*"
+          ],
+          "performer": [
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "West-duits Radio Sy.orkest Keulen"
+              ]
+            },
+            {
+              "name": [
+                "Marszalek, Franz"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Strauss, Johann (jr.)"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - solo zangstem met begeleiding"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1950-12-22"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050844"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1883\nDecennium uitvoering: 88"
+          ],
+          "id": "2101702280800521724",
+          "date_created": 1488291784285,
+          "date_last_updated": 1488291784345,
+          "site_id": "LTI95526573_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "15"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Schoenes Italien jetzt gedenk' ich dein"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Fragmenten"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            },
+            {
+              "name": [
+                "Paganini"
+              ],
+              "type": [
+                "overkoepelende titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:02:17"
+          ],
+          "summary": [
+            "*"
+          ],
+          "performer": [
+            {
+              "name": [
+                "Schlemm, Anny"
+              ],
+              "role": [
+                "zang sopraan"
+              ]
+            },
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "West-duits Radio Sy.orkest Keulen"
+              ]
+            },
+            {
+              "name": [
+                "Marszalek, Franz"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Leh\u00e1r, Franz"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - twee of meer zangstemmen met orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1952-01-20"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050852"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1925\nDecennium uitvoering: 92"
+          ],
+          "id": "2101702280800521824",
+          "date_created": 1488291784418,
+          "date_last_updated": 1488291784477,
+          "site_id": "LTI95526574_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "28"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Bruederlein, Schwesterlein"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Fragmenten"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            },
+            {
+              "name": [
+                "Graefin Mariza"
+              ],
+              "type": [
+                "overkoepelende titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:05:07"
+          ],
+          "summary": [
+            "*"
+          ],
+          "performer": [
+            {
+              "name": [
+                "Schlemm, Anny"
+              ],
+              "role": [
+                "zang sopraan"
+              ]
+            },
+            {
+              "name": [
+                "Mira, Brigitte"
+              ],
+              "role": [
+                "zang sopraan"
+              ]
+            },
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "Schoenberger Saengerknaben"
+              ],
+              "role": [
+                "jongenskoor"
+              ]
+            },
+            {
+              "name": [
+                "RIAS Unterhaltungsorchester"
+              ]
+            },
+            {
+              "name": [
+                "Carste, Hans"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "K\u00e1lm\u00e1n, Emmerich"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Hongarije"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - solo of soli met koor en orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1950-03-01"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050892"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1924\nDecennium uitvoering: 92"
+          ],
+          "id": "2101702280800521924",
+          "date_created": 1488291784475,
+          "date_last_updated": 1488291784549,
+          "site_id": "LTI95526587_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "16"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Gern hab' ich die Frau'n gekuesst"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Fragmenten"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            },
+            {
+              "name": [
+                "Paganini"
+              ],
+              "type": [
+                "overkoepelende titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:03:09"
+          ],
+          "summary": [
+            "*"
+          ],
+          "performer": [
+            {
+              "name": [
+                "Schlemm, Anny"
+              ],
+              "role": [
+                "zang sopraan"
+              ]
+            },
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "West-duits Radio Sy.orkest Keulen"
+              ]
+            },
+            {
+              "name": [
+                "Marszalek, Franz"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Leh\u00e1r, Franz"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - twee of meer zangstemmen met orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1952-01-20"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050853"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1925\nDecennium uitvoering: 92"
+          ],
+          "id": "2101702280800522024",
+          "date_created": 1488291784549,
+          "date_last_updated": 1488291784605,
+          "site_id": "LTI95526575_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "29"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Juliska, Rosika"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Fragmenten"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            },
+            {
+              "name": [
+                "Graefin Mariza"
+              ],
+              "type": [
+                "overkoepelende titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:05:06"
+          ],
+          "summary": [
+            "*"
+          ],
+          "performer": [
+            {
+              "name": [
+                "Schlemm, Anny"
+              ],
+              "role": [
+                "zang sopraan"
+              ]
+            },
+            {
+              "name": [
+                "Mira, Brigitte"
+              ],
+              "role": [
+                "zang sopraan"
+              ]
+            },
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "Schoenberger Saengerknaben"
+              ],
+              "role": [
+                "jongenskoor"
+              ]
+            },
+            {
+              "name": [
+                "RIAS Unterhaltungsorchester"
+              ]
+            },
+            {
+              "name": [
+                "Carste, Hans"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "K\u00e1lm\u00e1n, Emmerich"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Hongarije"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - solo of soli met koor en orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1950-03-01"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050893"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1924\nDecennium uitvoering: 92"
+          ],
+          "id": "2101702280800522124",
+          "date_created": 1488291784650,
+          "date_last_updated": 1488291784720,
+          "site_id": "LTI95526588_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "17"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Niemand liebt dich so wie ich"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Fragmenten"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            },
+            {
+              "name": [
+                "Paganini"
+              ],
+              "type": [
+                "overkoepelende titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:04:22"
+          ],
+          "summary": [
+            "*"
+          ],
+          "performer": [
+            {
+              "name": [
+                "Schlemm, Anny"
+              ],
+              "role": [
+                "zang sopraan"
+              ]
+            },
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "West-duits Radio Sy.orkest Keulen"
+              ]
+            },
+            {
+              "name": [
+                "Marszalek, Franz"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Leh\u00e1r, Franz"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - twee of meer zangstemmen met orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1952-01-20"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050854"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1925\nDecennium uitvoering: 92"
+          ],
+          "id": "2101702280800522224",
+          "date_created": 1488291784677,
+          "date_last_updated": 1488291784737,
+          "site_id": "LTI95526576_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "18"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "O dass ich doch ein Raeuber waer'"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Fragmenten"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            },
+            {
+              "name": [
+                "Gasparone"
+              ],
+              "type": [
+                "overkoepelende titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:02:17"
+          ],
+          "summary": [
+            "*"
+          ],
+          "performer": [
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "Schiebener, Karl"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "West-duits Radio Sy.orkest Keulen"
+              ]
+            },
+            {
+              "name": [
+                "Marszalek, Franz"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Mill\u00f6cker, Carl"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - twee of meer zangstemmen met orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1949-12-20"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050862"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1884\nDecennium uitvoering: 88"
+          ],
+          "id": "2101702280800522324",
+          "date_created": 1488291784710,
+          "date_last_updated": 1488291784786,
+          "site_id": "LTI95526577_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "30"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Peter Anders WDR interview 1952"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Interview"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:01:28"
+          ],
+          "summary": [
+            "*"
+          ],
+          "performer": [
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "gespr.tekst"
+              ]
+            },
+            {
+              "name": [
+                "niet bekend"
+              ],
+              "role": [
+                "gespr.tekst"
+              ]
+            },
+            {
+              "name": [
+                "niet bekend"
+              ],
+              "role": [
+                "gespr.tekst (2)"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Duitsland"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "gesproken tekst"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1952-01-01"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050896"
+          ],
+          "annotation": [
+            "Decennium uitvoering: 95"
+          ],
+          "id": "2101702280800522424",
+          "date_created": 1488291784816,
+          "date_last_updated": 1488291784892,
+          "site_id": "LTI95526589_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "19"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Denk' ich an dich schwarze Ninetta"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Fragmenten"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            },
+            {
+              "name": [
+                "Gasparone"
+              ],
+              "type": [
+                "overkoepelende titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:01:52"
+          ],
+          "summary": [
+            "*"
+          ],
+          "performer": [
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "Schiebener, Karl"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "West-duits Radio Sy.orkest Keulen"
+              ]
+            },
+            {
+              "name": [
+                "Marszalek, Franz"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Mill\u00f6cker, Carl"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - twee of meer zangstemmen met orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1949-12-20"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050863"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1884\nDecennium uitvoering: 88"
+          ],
+          "id": "2101702280800522524",
+          "date_created": 1488291784871,
+          "date_last_updated": 1488291784940,
+          "site_id": "LTI95526578_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "20"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Nur Gold will ich haben"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Fragmenten"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            },
+            {
+              "name": [
+                "Gasparone"
+              ],
+              "type": [
+                "overkoepelende titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:01:28"
+          ],
+          "summary": [
+            "*"
+          ],
+          "performer": [
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "Schiebener, Karl"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "West-duits Radio Sy.orkest Keulen"
+              ]
+            },
+            {
+              "name": [
+                "Marszalek, Franz"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Mill\u00f6cker, Carl"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - twee of meer zangstemmen met orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1949-12-20"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050864"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1884\nDecennium uitvoering: 88"
+          ],
+          "id": "2101702280800522624",
+          "date_created": 1488291785029,
+          "date_last_updated": 1488291785097,
+          "site_id": "LTI95526579_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "21"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Mein Prinzesschen"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Fragmenten"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            },
+            {
+              "name": [
+                "Madame Pompadour"
+              ],
+              "type": [
+                "overkoepelende titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:03:52"
+          ],
+          "summary": [
+            "*"
+          ],
+          "performer": [
+            {
+              "name": [
+                "Losch, Liselotte"
+              ],
+              "role": [
+                "zang sopraan"
+              ]
+            },
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "West-duits Radio Sy.orkest Keulen"
+              ]
+            },
+            {
+              "name": [
+                "Marszalek, Franz"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Fall, Leo"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - twee of meer zangstemmen met orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1949-12-20"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050870"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1922\nDecennium uitvoering: 92"
+          ],
+          "id": "2101702280800522824",
+          "date_created": 1488291785181,
+          "date_last_updated": 1488291785254,
+          "site_id": "LTI95526580_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "22"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Stillgestanden"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Fragmenten"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            },
+            {
+              "name": [
+                "Madame Pompadour"
+              ],
+              "type": [
+                "overkoepelende titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:05:21"
+          ],
+          "summary": [
+            "*"
+          ],
+          "performer": [
+            {
+              "name": [
+                "Losch, Liselotte"
+              ],
+              "role": [
+                "zang sopraan"
+              ]
+            },
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "West-duits Radio Sy.orkest Keulen"
+              ]
+            },
+            {
+              "name": [
+                "Marszalek, Franz"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "Fall, Leo"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Oostenrijk"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - twee of meer zangstemmen met orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1949-12-20"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050871"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1922\nDecennium uitvoering: 92"
+          ],
+          "id": "2101702280800523024",
+          "date_created": 1488291785338,
+          "date_last_updated": 1488291785409,
+          "site_id": "LTI95526581_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "23"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Zwei Maerchenaugen"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Die Zirkusprinzessin"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:03:50"
+          ],
+          "summary": [
+            "*"
+          ],
+          "performer": [
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "Zuidwest-duits Radio Sy.orkest Baden Baden"
+              ]
+            },
+            {
+              "name": [
+                "Burkhard, Paul"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "K\u00e1lm\u00e1n, Emmerich"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Hongarije"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - solo zangstem met begeleiding"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1952-01-24"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050874"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1926\nDecennium uitvoering: 92"
+          ],
+          "id": "2101702280800523224",
+          "date_created": 1488291785493,
+          "date_last_updated": 1488291785567,
+          "site_id": "LTI95526582_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "24"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Gruess' mir mein Wien"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Graefin Mariza"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:05:26"
+          ],
+          "summary": [
+            "*"
+          ],
+          "performer": [
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "Zuidwest-duits Radio Sy.orkest Baden Baden"
+              ]
+            },
+            {
+              "name": [
+                "Burkhard, Paul"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "K\u00e1lm\u00e1n, Emmerich"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Hongarije"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - solo zangstem met begeleiding"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1951-07-09"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050877"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1924\nDecennium uitvoering: 92"
+          ],
+          "id": "2101702280800523424",
+          "date_created": 1488291785654,
+          "date_last_updated": 1488291785735,
+          "site_id": "LTI95526583_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "25"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Einmal moecht' ich wieder tanzen"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Fragmenten"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            },
+            {
+              "name": [
+                "Graefin Mariza"
+              ],
+              "type": [
+                "overkoepelende titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:03:13"
+          ],
+          "summary": [
+            "*"
+          ],
+          "performer": [
+            {
+              "name": [
+                "Schlemm, Anny"
+              ],
+              "role": [
+                "zang sopraan"
+              ]
+            },
+            {
+              "name": [
+                "Mira, Brigitte"
+              ],
+              "role": [
+                "zang sopraan"
+              ]
+            },
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "Schoenberger Saengerknaben"
+              ],
+              "role": [
+                "jongenskoor"
+              ]
+            },
+            {
+              "name": [
+                "RIAS Unterhaltungsorchester"
+              ]
+            },
+            {
+              "name": [
+                "Carste, Hans"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "K\u00e1lm\u00e1n, Emmerich"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Hongarije"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - solo of soli met koor en orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1950-03-01"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050889"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1924\nDecennium uitvoering: 92"
+          ],
+          "id": "2101702280800523624",
+          "date_created": 1488291785819,
+          "date_last_updated": 1488291785904,
+          "site_id": "LTI95526584_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "26"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Sag' ja mein Lieb"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Fragmenten"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            },
+            {
+              "name": [
+                "Graefin Mariza"
+              ],
+              "type": [
+                "overkoepelende titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:04:25"
+          ],
+          "summary": [
+            "*"
+          ],
+          "performer": [
+            {
+              "name": [
+                "Schlemm, Anny"
+              ],
+              "role": [
+                "zang sopraan"
+              ]
+            },
+            {
+              "name": [
+                "Mira, Brigitte"
+              ],
+              "role": [
+                "zang sopraan"
+              ]
+            },
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "Schoenberger Saengerknaben"
+              ],
+              "role": [
+                "jongenskoor"
+              ]
+            },
+            {
+              "name": [
+                "RIAS Unterhaltungsorchester"
+              ]
+            },
+            {
+              "name": [
+                "Carste, Hans"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "K\u00e1lm\u00e1n, Emmerich"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Hongarije"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - solo of soli met koor en orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1950-03-01"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050890"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1924\nDecennium uitvoering: 92"
+          ],
+          "id": "2101702280800523824",
+          "date_created": 1488291785994,
+          "date_last_updated": 1488291786062,
+          "site_id": "LTI95526585_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        },
+        {
+          "selectievolgnummer": [
+            "27"
+          ],
+          "segmenttype": [
+            "nummer"
+          ],
+          "title": [
+            "Komm' Zigan"
+          ],
+          "titletype": [
+            "titel"
+          ],
+          "alttitle": [
+            {
+              "name": [
+                "Fragmenten"
+              ],
+              "type": [
+                "alternatieve titel"
+              ]
+            },
+            {
+              "name": [
+                "Graefin Mariza"
+              ],
+              "type": [
+                "overkoepelende titel"
+              ]
+            }
+          ],
+          "strlength": [
+            "0:05:23"
+          ],
+          "summary": [
+            "*"
+          ],
+          "performer": [
+            {
+              "name": [
+                "Schlemm, Anny"
+              ],
+              "role": [
+                "zang sopraan"
+              ]
+            },
+            {
+              "name": [
+                "Mira, Brigitte"
+              ],
+              "role": [
+                "zang sopraan"
+              ]
+            },
+            {
+              "name": [
+                "Anders, Peter"
+              ],
+              "role": [
+                "zang tenor"
+              ]
+            },
+            {
+              "name": [
+                "Schoenberger Saengerknaben"
+              ],
+              "role": [
+                "jongenskoor"
+              ]
+            },
+            {
+              "name": [
+                "RIAS Unterhaltungsorchester"
+              ]
+            },
+            {
+              "name": [
+                "Carste, Hans"
+              ],
+              "role": [
+                "dirigent"
+              ]
+            }
+          ],
+          "creator": [
+            {
+              "serialnumber": [
+                "1"
+              ],
+              "name": [
+                "K\u00e1lm\u00e1n, Emmerich"
+              ],
+              "role": [
+                "componist"
+              ]
+            }
+          ],
+          "country": [
+            {
+              "name": [
+                "Hongarije"
+              ],
+              "role": [
+                "uitvoerende"
+              ]
+            }
+          ],
+          "musicgenre": [
+            "theatermuziek",
+            "vocaal - solo of soli met koor en orkest"
+          ],
+          "rightslicense": [
+            "License check"
+          ],
+          "recordinginformation": [
+            {
+              "date": [
+                "1950-03-01"
+              ],
+              "dateprecision": [
+                "exacte datum onbekend"
+              ]
+            }
+          ],
+          "sourcecatalogue": [
+            "iMMix M"
+          ],
+          "sourceid": [
+            "CE0000050891"
+          ],
+          "annotation": [
+            "Bestemming: Theater\nDatering Compositie: 1924\nDecennium uitvoering: 92"
+          ],
+          "id": "2101702280800524324",
+          "date_created": 1488291786158,
+          "date_last_updated": 1488291786225,
+          "site_id": "LTI95526586_FKI4541713",
+          "logtrack_type": "scenedesc",
+          "media_start": 0.0,
+          "media_duration": 0.0,
+          "item_id": "2101608250020972621"
+        }
+      ]
+    },
+    "playableContent": [
+      {
+        "assetId": "CD159244",
+        "mimeType": "audio/mp3",
+        "contentId": "553:62ED",
+        "segments": [
+          {
+            "start": 0,
+            "end": 0,
+            "title": "Program segments:",
+            "programSegment": true
+          }
+        ],
+        "resourceStart": -1,
+        "resourceEnd": -1,
+        "isRawContent": false
+      }
+    ],
+    "playable": true,
+    "curatedDate": [
+      "2005-10-27"
+    ],
+    "mediaType": [
+      [
+        "audio"
+      ]
+    ]
+  }
+}

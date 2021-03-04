@@ -24,6 +24,7 @@ ERROR_RESPONSES = {
 	}
 }
 
+
 class APIUtil:
 
 	@staticmethod
@@ -96,6 +97,14 @@ class APIUtil:
 		return True
 
 	@staticmethod
+	def is_valid_json_dict(data):
+		try:
+			json.dumps(data, skipkeys=True)
+		except ValueError as e:
+			return False
+		return True
+
+	@staticmethod
 	def isValidXML(data):
 		try:
 			etree.fromstring(data)
@@ -104,10 +113,10 @@ class APIUtil:
 		return True
 
 	@staticmethod
-	def isValidRDF(data, format=None):
+	def isValidRDF(data, return_format=None):
 		try:
 			graph = Graph()
-			graph.parse(data=data, format=format)
+			graph.parse(data=data, format=return_format)
 		except ParserError as exc:
 			print(exc)
 			return False
