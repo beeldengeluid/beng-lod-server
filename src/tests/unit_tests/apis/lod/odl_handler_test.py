@@ -18,6 +18,8 @@ DUMMY_URI = 'http://blab.la/kwaak'
 def test_get_dummy_id(application_settings):
     try:
         odl_handler = OpenDataLabHandler(application_settings)
+        # TODO: fix the initialisation to the ES server in mock
+
         doc_id = odl_handler.get_doc_id_from_uri(uri=DUMMY_URI)
         assert doc_id is not None
 
@@ -69,3 +71,26 @@ def test_get_media_item_nisv_200(application_settings, get_json_doc_program_aggr
 
     finally:
         unstub()
+
+
+# def test_search_200(application_settings, application_client, i_search, o_search):
+#     try:
+#         bsHandler = BasicSearchHandler(application_settings)
+#         #mock the call to Elasticsearch
+#         when(ElasticSearchHandler).search(i_search, 'dummy-collection', None).thenReturn(o_search)
+#         resp, status_code, headers = bsHandler.search(
+#             application_client['id'],
+#             application_client['token'],
+#             i_search,
+#             DUMMY_COLLECTION #TODO dynamically load this?
+#         )
+#         assert status_code == 200
+#         assert 'error' not in resp
+#         assert all(x in ['hits', 'service', 'timestamp', 'query'] for x in resp)
+#         assert all(type(resp[x]) == dict for x in ['hits', 'service', 'query'])
+#         assert type(datetime.strptime(resp['timestamp'], '%Y-%m-%dT%H:%M:%SZ')) == datetime
+#         assert 'hits' in resp['hits']
+#         assert type(resp['hits']['hits']) == list
+#         verify(ElasticSearchHandler, times=1).search(i_search, DUMMY_COLLECTION, None)
+#     finally:
+#         unstub()

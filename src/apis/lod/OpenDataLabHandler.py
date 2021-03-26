@@ -38,11 +38,15 @@ class OpenDataLabHandler(object):
 	def __init__(self, config):
 		self.config = config
 
+		# try:
 		self._es = Elasticsearch(
 			host=self.config.get('ES_HOST'),
 			port=self.config.get('ES_PORT')
 		)
-		print(self._es.info())
+		# print(self._es.info())
+		# except Exception as exc:
+		# 	logging.error(str(exc))
+
 		self.index = self.config.get('ES_INDEX')
 
 	def get_doc_id_from_uri(self, uri=None):

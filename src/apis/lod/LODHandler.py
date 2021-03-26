@@ -8,10 +8,10 @@ from util.APIUtil import APIUtil
 
 
 class LODHandler(object):
-	''' OAI-PMH provider serves catalogue data on a URL,
+	""" OAI-PMH provider serves catalogue data on a URL,
 		# http://oaipmh.beeldengeluid.nl/oai?verb=GetRecord&metadataPrefix=bg&identifier=oai:program:3883163
 		This class enables getting the XML from the URL, transform to RDF/XML using an XSLT,
-	'''
+	"""
 	def __init__(self, config):
 		self.config = config
 
