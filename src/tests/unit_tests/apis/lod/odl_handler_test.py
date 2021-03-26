@@ -18,7 +18,6 @@ DUMMY_URI = 'http://blab.la/kwaak'
 def test_get_dummy_id(application_settings):
     try:
         odl_handler = OpenDataLabHandler(application_settings)
-        # when(OpenDataLabHandler).get_doc_id_from_uri(uri=DUMMY_URI).thenReturn(DUMMY_ID)
         doc_id = odl_handler.get_doc_id_from_uri(uri=DUMMY_URI)
         assert doc_id is not None
 

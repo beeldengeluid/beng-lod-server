@@ -110,6 +110,7 @@ class OpenDataLabHandler(object):
 		SDO = Namespace('http://schema.org/')
 		g.namespace_manager.bind('schema', SDO)
 		NISV = Namespace('http://data.rdlabs.beeldengeluid.nl/schema/')
+		g.namespace_manager.bind('nisv', NISV)
 
 		source = json_dict.get('_source')
 		program_id = source.get('program_id')
