@@ -6,7 +6,7 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-lxml = "==4.6.2"
+lxml = "==4.6.3"
 rdflib = "==4.2.2"
 rdflib-jsonld = "==0.4.0"
 requests = "==2.21.0"
