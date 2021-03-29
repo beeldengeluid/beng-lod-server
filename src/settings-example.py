@@ -7,8 +7,9 @@ class Config(object):
 	DEBUG = True
 
 	OAI_BASE_URL = 'http://dummy.oai.com'
-	XSLT_FILE = './resource/nisv-bg-oai2lod-v04.xsl'
-	SCHEMA_FILE = './resource/bengSchema-v04.ttl'
+	XSLT_FILE = '../resource/nisv-bg-oai2lod.xsl'
+	SCHEMA_FILE = '../resource/bengSchema.ttl'
+	MAPPING_FILE = '../resource/daan-mapping.ttl'
 
 	ES_INDEX = "daan-aggregated-prod-2020"
 	ES_HOST = "deves2001.beeldengeluid.nl"
