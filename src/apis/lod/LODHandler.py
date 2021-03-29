@@ -49,8 +49,8 @@ class LODHandler(object):
 
     def _prepareURI(self, level, identifier):
         """ Returns valid OAI-PMH url.
-				e.g. http://oaipmh.beeldengeluid.nl/oai?verb=GetRecord&metadataPrefix=bg&identifier=oai:program:3883163
-		"""
+                e.g. http://oaipmh.beeldengeluid.nl/oai?verb=GetRecord&metadataPrefix=bg&identifier=oai:program:3883163
+        """
         params = {
             'verb': 'GetRecord',
             'metadataPrefix': 'bg',
@@ -73,8 +73,8 @@ class LODHandler(object):
 
     def transformFromDocTree(self, docTree):
         """ doc is an ElementTree from an XML document.
-			After transformation with XSLT, the resulting tree as RDF/XML is returned.
-		"""
+            After transformation with XSLT, the resulting tree as RDF/XML is returned.
+        """
         try:
             root = docTree.getroot()
             return self.transformer(root)
@@ -100,7 +100,7 @@ class LODHandler(object):
 
     def _OAI2LOD(self, url, returnFormat):
         """ Returns the data from a URL transformed to RDF/XML, loaded
-			in a Graph and serialized to target format."""
+            in a Graph and serialized to target format."""
         try:
             doctree = self.getElementTreeFromXMLDoc(url)
             result = self.transformFromDocTree(doctree)
