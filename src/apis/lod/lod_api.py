@@ -5,6 +5,7 @@ from apis.lod.LODHandler import LODHandler
 from apis.lod.LODHandlerConcept import LODHandlerConcept
 # from apis.lod.LODSchemaHandler import LODSchemaHandler
 from apis.lod.OpenDataLabHandler import OpenDataLabHandler
+from apis.lod.OpenDataLabHandler import OpenDataLabHandlerFlex
 
 api = Namespace('ODL', description='Linked Open Data at NISV')
 
@@ -112,6 +113,7 @@ class LODConceptAPI(Resource):
             mimetype = 'text/n3'
         return mimetype, self.MIME_TYPE_TO_LD[mimetype]
 
+    # @api.response(200, 'The requested concept in the right format.')
     @api.response(404, 'Resource does not exist error')
     def get(self, set, notation):
         acceptType = request.headers.get('Accept')
@@ -141,8 +143,9 @@ MIMETYPE_TTL = 'text/turtle'
 
 
 @api.route('media/<identifier>', endpoint='daan')
-@api.doc(params={'identifier': 'An ID for a DAAN item. For example: "2101608170160873531"'})
+@api.doc(params={'identifier': 'An ID for a DAAN item. For example: "2101606230008608731"'})
 class OpenDataLab(Resource):
+    # TODO @api.route('media/<type>/<identifier>', endpoint='daan')
 
     MIME_TYPE_TO_LD = {
         'application/rdf+xml': 'xml',
@@ -164,16 +167,18 @@ class OpenDataLab(Resource):
             mimetype = MIMETYPE_TTL
         return mimetype, self.MIME_TYPE_TO_LD[mimetype]
 
+    @api.response(200, 'The requested media resource in the right format.')
     @api.response(404, 'Resource does not exist error')
     @api.doc('Get Media resources from NISV catalogue DAAN')
     def get(self, identifier):
+        # TODO def get(self, type, identifier):
         # TODO: fix the Accept type in the OpenAPI UI
         accept_type = request.headers.get('Accept')
 
         # "you can pass either a mime-type or the name (a list of available parsers is available)"
         mimetype, ld_format = self.get_requested_format(accept_type)
-        resp, status_code, headers = OpenDataLabHandler(current_app.config).get_media_item_nisv(uri=identifier,
-                                                                                                ld_format=ld_format)
+        resp, status_code, headers = OpenDataLabHandlerFlex(current_app.config).get_media_item_nisv(uri=identifier,
+                                                                                                    ld_format=ld_format)
 
         # make sure to apply the correct mimetype for valid responses
         if headers is None:
