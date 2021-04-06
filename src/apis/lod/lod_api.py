@@ -1,11 +1,10 @@
-from flask import current_app, request, Response, render_template
+from flask import current_app, request, Response
 from flask_restx import Namespace, fields, Resource
 
 from apis.lod.LODHandler import LODHandler
 from apis.lod.LODHandlerConcept import LODHandlerConcept
 # from apis.lod.LODSchemaHandler import LODSchemaHandler
 from apis.lod.OpenDataLabHandler import OpenDataLabHandler
-# from apis.lod.OpenDataLabHandler import OpenDataLabHandlerFlex
 
 api = Namespace('ODL', description='Linked Open Data at NISV')
 
@@ -144,7 +143,6 @@ MIMETYPE_TTL = 'text/turtle'
 @api.route('media/<identifier>', endpoint='daan')
 @api.doc(params={'identifier': 'An ID for a DAAN item. For example: "2101606230008608731"'})
 class OpenDataLab(Resource):
-    # TODO @api.route('media/<type>/<identifier>', endpoint='daan')
 
     MIME_TYPE_TO_LD = {
         'application/rdf+xml': 'xml',
@@ -169,13 +167,6 @@ class OpenDataLab(Resource):
     @api.response(200, 'The requested media resource in the right format.')
     @api.response(404, 'Resource does not exist.')
     # TODO: define the resource not allowed for tenant items
-    @api.doc(body='Get Media resources from NISV catalogue DAAN.')
-    # @api.header('Accept', 'application/rdf+xml')
-    # @api.header('Accept', 'application/ld+json')
-    # @api.header('Accept', 'text/turtle')
-    # @api.header('Accept', 'text/html')
-    # NOTE: the header decorator can only be set once. The other values are discarded by openapi.
-    # It also doesn effect the content-type dropdown in the swagger UI.
     def get(self, identifier):
 
         # TODO: fix the Content type in the OpenAPI UI
