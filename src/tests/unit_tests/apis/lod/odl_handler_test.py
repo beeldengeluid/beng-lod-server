@@ -1,6 +1,6 @@
 import pytest
 from mockito import when, unstub, verify
-from apis.lod.OpenDataLabHandler import OpenDataLabHandler, OpenDataLabHandlerFlex
+from apis.lod.OpenDataLabHandler import OpenDataLabHandler
 from util.APIUtil import APIUtil
 
 """ ------------------------ fetchDocument -----------------------"""
@@ -70,15 +70,16 @@ def test_get_media_item_nisv_200(application_settings, get_json_doc_program_aggr
     finally:
         unstub()
 
+# TODO: write unittest for the 404 exception case when a document is not found
 
-def test_get_program_flex_200(application_settings, get_json_doc_program_flex):
-    try:
-        odl_handler_flex = OpenDataLabHandlerFlex(application_settings)
-        when(OpenDataLabHandlerFlex).get(document_type=DUMMY_DOC_TYPE, doc_id=DUMMY_ID).thenReturn(
-            get_json_doc_program_flex)
-        doc = odl_handler_flex.get(document_type=DUMMY_DOC_TYPE, doc_id=DUMMY_ID)
-        assert APIUtil.is_valid_json_dict(doc)
-
-    finally:
-        unstub()
-
+# # TODO: @pytest.mark.parametrize('index_type', ['PROGRAM', 'SERIES', 'SEASON', 'LOGTRACKITEM'])
+# def test_get_program_flex_200(application_settings, get_json_doc_program_flex):
+#     try:
+#         odl_handler_flex = OpenDataLabHandlerFlex(application_settings)
+#         when(OpenDataLabHandlerFlex).get(document_type=DUMMY_DOC_TYPE, doc_id=DUMMY_ID).thenReturn(
+#             get_json_doc_program_flex)
+#         doc = odl_handler_flex.get(document_type=DUMMY_DOC_TYPE, doc_id=DUMMY_ID)
+#         assert APIUtil.is_valid_json_dict(doc)
+#
+#     finally:
+#         unstub()

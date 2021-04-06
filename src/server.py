@@ -7,6 +7,7 @@ from apis import api
 from ontodoc import ontodoc
 from SchemaInMemory import SchemaInMemory
 from util.APIUtil import APIUtil
+from flask import json
 
 app = Flask(__name__)
 
@@ -31,13 +32,13 @@ def server_init():
 # schema in memory
 sim = SchemaInMemory(schema_file=app.config['SCHEMA_FILE'])
 
-
 # print(Path(app.static_folder).parent)
 
 api.init_app(
     app,
     title='Open Data Lab - Beeld en Geluid',
     description='Open Data available at the Netherlands Institute for Sound and Vision.')
+
 
 """------------------------------------------------------------------------------
 CUSTOM TEMPLATE FUNCTIONS

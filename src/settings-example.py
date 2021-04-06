@@ -15,20 +15,21 @@ class Config(object):
     ES_HOST = "deves2001.beeldengeluid.nl"
     ES_PORT = 9200
 
-    # For head plugin: http://dev-es-bng-01.beeldengeluid.nl/head
-    ES_FLEX_HOST = "dev-es-bng-01.beeldengeluid.nl"
-    # ES_FLEX_PORT =
-
-    # test cluster
-    ES_FLEX_PROGRAM_ALIAS = "flexdatastore-program"
-    ES_FLEX_PROGRAM_INDEX = "flexdatastore-program_1.0.3-snapshot"
-    ES_FLEX_SERIES_ALIAS = "flexdatastore-series"
-    ES_FLEX_SERIES_INDEX = "flexdatastore-series_1.0.3-snapshot"
-    ES_FLEX_SEASON_ALIAS = "flexdatastore-season"
-    ES_FLEX_SEASON_INDEX = "flexdatastore-season_1.0.3-snapshot"
-    ES_FLEX_ITEM_ALIAS = "flexdatastore-item"
-    ES_FLEX_ITEM_INDEX = "flexdatastore-item_1.0.3-snapshot"
-    ES_FLEX_LOGTRACKITEM_ALIAS = "flexdatastore-logtrackitem"
-    ES_FLEX_LOGTRACKITEM_INDEX = "flexdatastore-logtrackitem_1.0.3-snapshot"
+    # # Cannot use these
+    # # For head plugin: http://dev-es-bng-01.beeldengeluid.nl/head
+    # ES_FLEX_HOST = "dev-es-bng-01.beeldengeluid.nl"
+    # # ES_FLEX_PORT =
+    #
+    # # test cluster
+    # ES_FLEX_PROGRAM_ALIAS = "flexdatastore-program"
+    # ES_FLEX_PROGRAM_INDEX = "flexdatastore-program_1.0.3-snapshot"
+    # ES_FLEX_SERIES_ALIAS = "flexdatastore-series"
+    # ES_FLEX_SERIES_INDEX = "flexdatastore-series_1.0.3-snapshot"
+    # ES_FLEX_SEASON_ALIAS = "flexdatastore-season"
+    # ES_FLEX_SEASON_INDEX = "flexdatastore-season_1.0.3-snapshot"
+    # ES_FLEX_ITEM_ALIAS = "flexdatastore-item"
+    # ES_FLEX_ITEM_INDEX = "flexdatastore-item_1.0.3-snapshot"
+    # ES_FLEX_LOGTRACKITEM_ALIAS = "flexdatastore-logtrackitem"
+    # ES_FLEX_LOGTRACKITEM_INDEX = "flexdatastore-logtrackitem_1.0.3-snapshot"
 
     ODL_BASE_DOMAIN = "data.rdlabs.beeldengeluid.nl"
