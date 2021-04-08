@@ -16,3 +16,5 @@ resource/*/*.xml
 .idea/workspace.xml
 src/*.txt
 src/schema/*
+.idea/
+*.txt
