@@ -20,6 +20,7 @@ def test_get_concept_rdf__invalid_concept_uri(application_settings, concept_uri)
     finally:
         unstub()
 
+
 def test_get_concept_rdf__invalid_return_format(application_settings, get_concept_rdf_url):
     try:
         handler_concept = LODHandlerConcept(application_settings)
@@ -29,6 +30,7 @@ def test_get_concept_rdf__invalid_return_format(application_settings, get_concep
         assert APIUtil.matchesErrorId(data['error'], 'bad_request')
     finally:
         unstub()
+
 
 @pytest.mark.parametrize('format',  ['xml', 'json-ld', 'ttl', 'n3'])
 def test_get_concept_rdf__succes(application_settings, format, get_concept_rdf_url):

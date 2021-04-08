@@ -6,8 +6,7 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-flask-restplus = "==0.12.1"
-lxml = "==4.3.0"
+lxml = "==4.6.3"
 rdflib = "==4.2.2"
 rdflib-jsonld = "==0.4.0"
 requests = "==2.21.0"
@@ -17,3 +16,6 @@ Flask = "==1.0.2"
 Flask-Cors = "==3.0.6"
 xmltodict = "*"
 flask-restx = "*"
+ontospy = "*"
+django = "*"
+pygments = "*"
