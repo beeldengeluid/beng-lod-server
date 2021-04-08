@@ -1,9 +1,9 @@
-
 from util.APIUtil import APIUtil
 from models.NISVRdfConcept import NISVRdfConcept
 import urllib.request
 from models.DAANJsonModel import DAAN_TYPE, ObjectType, isSceneDescription
 import json
+from urllib.error import HTTPError
 
 
 class DAANStorageLODHandler(object):
@@ -36,8 +36,7 @@ class DAANStorageLODHandler(object):
         """ Constructs valid Storage url from the config settings, the level (type) and the identifier.
             <storage URL>/storage/<TYPE>/<id>
         """
-        return "%s/storage/%s/%s"%(self.config['STORAGE_BASE_URL'], level, identifier)
-
+        return "%s/storage/%s/%s" % (self.config['STORAGE_BASE_URL'], level, identifier)
 
     def _storage2LOD(self, url, returnFormat):
         """ Returns the record data from a URL, transformed to RDF, loaded
@@ -73,7 +72,7 @@ class DAANStorageLODHandler(object):
     def _getJsonFromStorage(self, url):
         """Retrieves a JSON object from the given Storage url"""
         with urllib.request.urlopen(
-            url) as storageUrl:
+                url) as storageUrl:
             data = json.loads(storageUrl.read().decode())
 
         return data

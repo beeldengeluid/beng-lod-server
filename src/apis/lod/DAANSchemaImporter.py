@@ -66,7 +66,7 @@ class DAANSchemaImporter:
         """
         get all classes that have a DAAN path specified (the others are not interesting for LOD)
         """
-        query = """SELECT DISTINCT ?class ?path WHERE{?class a rdfs:Class . ?class <%s> ?path}"""%HAS_DAAN_PATH
+        query = """SELECT DISTINCT ?class ?path WHERE{?class a rdfs:Class . ?class <%s> ?path}""" % HAS_DAAN_PATH
         classResult = self._graph.query(query)
 
         # process each class to get its property and path information

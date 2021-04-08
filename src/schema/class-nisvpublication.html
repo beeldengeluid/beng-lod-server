@@ -1,0 +1,2049 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="static/libs/img/favicon.ico">
+
+	
+		<title>Ontospy > Schema NISV Catalogue</title>
+	
+
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="static/libs/bootstrap-3_3_7-dist/css/bootstrap.min.css" rel="stylesheet">  -->
+    <!-- Bootswatch:  -->
+    <!-- cerulean  | cyborg |  flatly |  lumen |  sandstone |   spacelab  |  yeti | cosmo |  darkly |  paper | simplex | superhero |  journal | readable  |   slate |  united -->
+    <link href="static/libs/bootswatch3_2/yeti/bootstrap.min.css" rel="stylesheet">
+    <link href="static/custom/css/simple-sidebar.css" rel="stylesheet">
+    <link href="static/custom/css/familytree.css" rel="stylesheet">
+    <link href="static/custom/css/tabletree.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="static/libs/bootstrap-3_3_7-dist/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="static/custom/css/sticky-footer-navbar.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+<style type="text/css">
+
+  .lead-plus {font-size: 26.5px;}
+  .label-xs {font-size: 10px;}
+  .label-dark {background: #2c3e50; color: white; padding: 1px;}
+  .margin50 {margin-top: 50px; margin-bottom: 50px;}
+
+  .namespaces {background: #ced2d6; width: 100%;}
+
+
+  /*so that the d3plus tooltip panel doesnt cover the top banner*/
+  .navbar {z-index: 3000;}
+
+
+  .panel-body dt {margin-top: 5px;}
+  .page-header  {margin-top: 30px;}
+  #wrapper {margin-top: 50px;}
+
+  .implementation-panel {
+    overflow: auto;
+    /*max-height: 500px;*/
+  }
+
+  tr.table-classproperties {
+      /*background: #f5f5f5;*/
+  }
+  tr.table-classproperties th {
+      font-size: 80%;
+      font-weight: normal;
+  }
+
+
+  tr.table-inheritanceinfo {
+      /*background: #f5f5f5;*/
+      text-align: left;
+  }
+
+  tr.table-inheritanceinfo th {
+      font-size: 90%;
+      font-weight: normal;
+  }
+
+
+  .breadcrumb {
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
+
+  .breadcrumb a {
+      text-transform: capitalize;
+  }
+  .breadcrumb li {
+      text-transform: none;
+      /*so to catch the uri @todo improve*/
+  }
+
+
+  .fromclass_link {
+    /*color: white;
+    text-decoration: underline;*/
+    /*background: #1c1e52;*/
+    color: inherit;
+    /*padding: 1px;*/
+  }
+
+		.mythumbnail {
+			display: block;
+			padding: 13px;
+			margin-bottom: 30px;
+			line-height: 13.428571;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: 30px;
+		}
+
+		.mythumbnail:hover {
+			background: lightyellow;
+			text-decoration: none;
+		}
+
+
+		.img-container{
+		    height:100%;
+			overflow: hidden;
+		    max-height:200px;
+			padding: 10px;
+/*			margin: 20px 0px 20px 0px;*/
+			border: 1em #EAE5E5 solid;
+		}
+
+		.img-container:hover {
+			border: 1px grey solid;
+		}
+
+		img{
+/*		    height:100% !important;*/
+		}
+
+
+		.icon-xxs {
+			font-size: 15px;
+		}
+
+
+    /* dropdown open on hover */
+
+    @media (min-width: 979px) {
+      ul.nav li.dropdown:hover > ul.dropdown-menu {
+        display: block;
+      }
+    }
+
+
+
+/*pygments css*/
+.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #666666 } /* Literal.Number.Bin */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sa { color: #BA2121 } /* Literal.String.Affix */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #0000FF } /* Name.Function.Magic */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .vm { color: #19177C } /* Name.Variable.Magic */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
+
+/*overloading this class from pygments*/
+.highlight {
+  overflow: auto;
+}
+
+
+
+
+
+
+
+
+</style>
+
+
+
+
+
+  </head>
+
+  <body>
+
+
+
+    
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+      <a class="navbar-brand" id="menu-toggle" title="Toggle sidebar">
+        
+        <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+      </a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li ><a href="index.html"><code style="font-size: 115%;">Schema NISV Catalogue</code></a></li>
+        
+
+       
+
+
+        <li  ><a href="entities-az.html">Entities A-Z</a></li>
+        
+        <li ><a href="entities-tree-classes.html">Classes</a></li>
+        
+        
+        <li ><a href="entities-tree-properties.html">Properties</a></li>
+        
+        
+        
+        <li  ><a href="statistics.html">Statistics</a></li>
+
+
+
+
+
+      </ul>
+      
+    </div><!--/.nav-collapse -->
+
+  </div>
+</nav>
+
+
+
+
+
+
+
+
+
+
+<div id="wrapper" class="toggled">
+
+
+    
+
+    
+        
+<!-- Sidebar -->
+<div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+
+
+        <li>
+          <input style="margin-top: 30px;  margin-bottom: 20px;" type="text" id="search-input-sidebar" name="" value="" placeholder="Type to search">
+        </li>
+
+        
+          <li class="-second-level" id="sd_classes"><a href="entities-tree-classes.html">Classes (39)</a>
+          </li>
+
+            
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_1"><a  href="class-nisvactingentity.html">nisv:ActingEntity</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_2"><a  href="class-nisvaudiovisualobject.html">nisv:AudioVisualObject</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_3"><a  href="class-nisvbroadcaststation.html">nisv:BroadcastStation</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_4"><a  href="class-nisvbroadcaster.html">nisv:Broadcaster</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_5"><a  href="class-nisvcarrier.html">nisv:Carrier</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_6"><a  href="class-nisvcast.html">nisv:Cast</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_7"><a  href="class-nisvcontext.html">nisv:Context</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_8"><a  href="class-nisvcontractor.html">nisv:Contractor</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_9"><a  href="class-nisvcreator.html">nisv:Creator</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_10"><a  href="class-nisvdistributableentity.html">nisv:DistributableEntity</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_11"><a  href="class-nisventityinrole.html">nisv:EntityInRole</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_12"><a  href="class-nisventitywithduration.html">nisv:EntityWithDuration</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_13"><a  href="class-nisvfunder.html">nisv:Funder</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_14"><a  href="class-nisvgenre.html">nisv:Genre</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_15"><a  href="class-nisvlanguage.html">nisv:Language</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_16"><a  href="class-nisvlanguageusage.html">nisv:LanguageUsage</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_17"><a  href="class-nisvlocation.html">nisv:Location</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_18"><a  href="class-nisvmusicstyle.html">nisv:MusicStyle</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_19"><a  href="class-nisvnationality.html">nisv:Nationality</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_20"><a  href="class-nisvorganisation.html">nisv:Organisation</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_21"><a  href="class-nisvoriginalcreator.html">nisv:OriginalCreator</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_22"><a  href="class-nisvperson.html">nisv:Person</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_23"><a  href="class-nisvplayableaudiovisualobject.html">nisv:PlayableAudioVisualObject</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_24"><a  href="class-nisvproducer.html">nisv:Producer</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_25"><a  href="class-nisvprogram.html">nisv:Program</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_26"><a class="active" href="class-nisvpublication.html">nisv:Publication</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_27"><a  href="class-nisvqualification.html">nisv:Qualification</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_28"><a  href="class-nisvrecording.html">nisv:Recording</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_29"><a  href="class-nisvrecordingorpublication.html">nisv:RecordingOrPublication</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_30"><a  href="class-nisvscenedescription.html">nisv:SceneDescription</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_31"><a  href="class-nisvseason.html">nisv:Season</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_32"><a  href="class-nisvsequencemember.html">nisv:SequenceMember</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_33"><a  href="class-nisvseries.html">nisv:Series</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_34"><a  href="class-nisvspeaker.html">nisv:Speaker</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_35"><a  href="class-nisvsponsor.html">nisv:Sponsor</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_36"><a  href="class-nisvsubject.html">nisv:Subject</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_37"><a  href="class-nisvtargetgroup.html">nisv:TargetGroup</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_38"><a  href="class-nisvtitle.html">nisv:Title</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_39"><a  href="class-skosconcept.html">skos:Concept</a></li>
+          
+        
+
+        
+            <li class="-second-level" id="sd_properties"><a  href="entities-tree-properties.html">Properties (140)</a>
+            </li>
+
+            
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_40"><a   href="prop-nisvhasadditionalinformation.html">nisv:hasAdditionalInformation</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_41"><a   href="prop-nisvhasarchivestatus.html">nisv:hasArchiveStatus</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_42"><a   href="prop-nisvhasaudiotype.html">nisv:hasAudioType</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_43"><a   href="prop-nisvhasavailablecollection.html">nisv:hasAvailableCollection</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_44"><a   href="prop-nisvhasaward.html">nisv:hasAward</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_45"><a   href="prop-nisvhasblock.html">nisv:hasBlock</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_46"><a   href="prop-nisvhasbroadcastnorm.html">nisv:hasBroadcastNorm</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_47"><a   href="prop-nisvhasbroadcaststation.html">nisv:hasBroadcastStation</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_48"><a   href="prop-nisvhasbroadcaster.html">nisv:hasBroadcaster</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_49"><a   href="prop-nisvhascarrier.html">nisv:hasCarrier</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_50"><a   href="prop-nisvhascarrierannotation.html">nisv:hasCarrierAnnotation</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_51"><a   href="prop-nisvhascarrierclass.html">nisv:hasCarrierClass</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_52"><a   href="prop-nisvhascarrierendposition.html">nisv:hasCarrierEndPosition</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_53"><a   href="prop-nisvhascarrierid.html">nisv:hasCarrierId</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_54"><a   href="prop-nisvhascarrierlocation.html">nisv:hasCarrierLocation</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_55"><a   href="prop-nisvhascarrierreference.html">nisv:hasCarrierReference</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_56"><a   href="prop-nisvhascarrierstartposition.html">nisv:hasCarrierStartPosition</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_57"><a   href="prop-nisvhascarriertype.html">nisv:hasCarrierType</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_58"><a   href="prop-nisvhascast.html">nisv:hasCast</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_59"><a   href="prop-nisvhascatalog.html">nisv:hasCatalog</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_60"><a   href="prop-nisvhascharacter.html">nisv:hasCharacter</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_61"><a   href="prop-nisvhasclarification.html">nisv:hasClarification</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_62"><a   href="prop-nisvhasclearingstatus.html">nisv:hasClearingStatus</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_63"><a   href="prop-nisvhascolour.html">nisv:hasColour</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_64"><a   href="prop-nisvhascomposition.html">nisv:hasComposition</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_65"><a   href="prop-nisvhascontext.html">nisv:hasContext</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_66"><a   href="prop-nisvhascontextreference.html">nisv:hasContextReference</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_67"><a   href="prop-nisvhascontractor.html">nisv:hasContractor</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_68"><a   href="prop-nisvhascountry.html">nisv:hasCountry</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_69"><a   href="prop-nisvhascreationdate.html">nisv:hasCreationDate</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_70"><a   href="prop-nisvhascreator.html">nisv:hasCreator</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_71"><a   href="prop-nisvhasdateprecision.html">nisv:hasDatePrecision</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_72"><a   href="prop-nisvhasdatereceived.html">nisv:hasDateReceived</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_73"><a   href="prop-nisvhasdatestamp.html">nisv:hasDatestamp</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_74"><a   href="prop-nisvhasdepotstatus.html">nisv:hasDepotStatus</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_75"><a   href="prop-nisvhasdeprecatedkeyword.html">nisv:hasDeprecatedKeyword</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_76"><a   href="prop-nisvhasdescription.html">nisv:hasDescription</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_77"><a   href="prop-nisvhasdistributionchannel.html">nisv:hasDistributionChannel</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_78"><a   href="prop-nisvhasdistributionformat.html">nisv:hasDistributionFormat</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_79"><a   href="prop-nisvhasdmguid.html">nisv:hasDmGuid</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_80"><a   href="prop-nisvhasduration.html">nisv:hasDuration</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_81"><a   href="prop-nisvhasdurationannotation.html">nisv:hasDurationAnnotation</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_82"><a   href="prop-nisvhasenddate.html">nisv:hasEndDate</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_83"><a   href="prop-nisvhasendoncarrier.html">nisv:hasEndOnCarrier</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_84"><a   href="prop-nisvhasendtime.html">nisv:hasEndTime</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_85"><a   href="prop-nisvhasentity.html">nisv:hasEntity</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_86"><a   href="prop-nisvhasentityinrole.html">nisv:hasEntityInRole</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_87"><a   href="prop-nisvhasepisodenumber.html">nisv:hasEpisodeNumber</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_88"><a   href="prop-nisvhasexecutive.html">nisv:hasExecutive</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_89"><a   href="prop-nisvhasexternalid.html">nisv:hasExternalId</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_90"><a   href="prop-nisvhasexternalreference.html">nisv:hasExternalReference</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_91"><a   href="prop-nisvhasformat.html">nisv:hasFormat</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_92"><a   href="prop-nisvhasfrequency.html">nisv:hasFrequency</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_93"><a   href="prop-nisvhasfunder.html">nisv:hasFunder</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_94"><a   href="prop-nisvhasgenre.html">nisv:hasGenre</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_95"><a   href="prop-nisvhasid.html">nisv:hasId</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_96"><a   href="prop-nisvhaslanguage.html">nisv:hasLanguage</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_97"><a   href="prop-nisvhaslanguageid.html">nisv:hasLanguageId</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_98"><a   href="prop-nisvhaslanguageusage.html">nisv:hasLanguageUsage</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_99"><a   href="prop-nisvhaslicense.html">nisv:hasLicense</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_100"><a   href="prop-nisvhaslink.html">nisv:hasLink</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_101"><a   href="prop-nisvhaslocation.html">nisv:hasLocation</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_102"><a   href="prop-nisvhasmaintitle.html">nisv:hasMainTitle</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_103"><a   href="prop-nisvhasmetrage.html">nisv:hasMetrage</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_104"><a   href="prop-nisvhasmontagedate.html">nisv:hasMontageDate</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_105"><a   href="prop-nisvhasmuseumannotation.html">nisv:hasMuseumAnnotation</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_106"><a   href="prop-nisvhasmuseumdescription.html">nisv:hasMuseumDescription</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_107"><a   href="prop-nisvhasmuseumgenre.html">nisv:hasMuseumGenre</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_108"><a   href="prop-nisvhasmuseumkeyword.html">nisv:hasMuseumKeyword</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_109"><a   href="prop-nisvhasmuseumlanguageid.html">nisv:hasMuseumLanguageId</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_110"><a   href="prop-nisvhasmuseumlocation.html">nisv:hasMuseumLocation</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_111"><a   href="prop-nisvhasmuseumsummary.html">nisv:hasMuseumSummary</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_112"><a   href="prop-nisvhasmuseumtheme.html">nisv:hasMuseumTheme</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_113"><a   href="prop-nisvhasmusicstyle.html">nisv:hasMusicStyle</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_114"><a   href="prop-nisvhasname.html">nisv:hasName</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_115"><a   href="prop-nisvhasnationality.html">nisv:hasNationality</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_116"><a   href="prop-nisvhasnisvid.html">nisv:hasNisvId</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_117"><a   href="prop-nisvhasnumberofepisodes.html">nisv:hasNumberOfEpisodes</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_118"><a   href="prop-nisvhasoccasion.html">nisv:hasOccasion</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_119"><a   href="prop-nisvhasorganisation.html">nisv:hasOrganisation</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_120"><a   href="prop-nisvhasorigin.html">nisv:hasOrigin</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_121"><a   href="prop-nisvhasoriginalcreator.html">nisv:hasOriginalCreator</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_122"><a   href="prop-nisvhasparentcarrierid.html">nisv:hasParentCarrierId</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_123"><a   href="prop-nisvhaspart.html">nisv:hasPart</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_124"><a   href="prop-nisvhasperson.html">nisv:hasPerson</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_125"><a   href="prop-nisvhasportallink.html">nisv:hasPortalLink</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_126"><a   href="prop-nisvhasproducer.html">nisv:hasProducer</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_127"><a   href="prop-nisvhasproductid.html">nisv:hasProductId</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_128"><a   href="prop-nisvhasproductyear.html">nisv:hasProductYear</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_129"><a   href="prop-nisvhasproductioncountry.html">nisv:hasProductionCountry</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_130"><a   href="prop-nisvhaspublid.html">nisv:hasPublId</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_131"><a   href="prop-nisvhaspublication.html">nisv:hasPublication</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_132"><a   href="prop-nisvhaspublicationannotation.html">nisv:hasPublicationAnnotation</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_133"><a   href="prop-nisvhasqualification.html">nisv:hasQualification</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_134"><a   href="prop-nisvhasrebroadcast.html">nisv:hasRebroadcast</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_135"><a   href="prop-nisvhasrecording.html">nisv:hasRecording</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_136"><a   href="prop-nisvhasrecordinglocation.html">nisv:hasRecordingLocation</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_137"><a   href="prop-nisvhasrepository.html">nisv:hasRepository</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_138"><a   href="prop-nisvhasrights.html">nisv:hasRights</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_139"><a   href="prop-nisvhasrole.html">nisv:hasRole</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_140"><a   href="prop-nisvhassequencenumber.html">nisv:hasSequenceNumber</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_141"><a   href="prop-nisvhassortdate.html">nisv:hasSortDate</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_142"><a   href="prop-nisvhassorttype.html">nisv:hasSortType</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_143"><a   href="prop-nisvhassorting.html">nisv:hasSorting</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_144"><a   href="prop-nisvhassource.html">nisv:hasSource</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_145"><a   href="prop-nisvhassourcecatalog.html">nisv:hasSourceCatalog</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_146"><a   href="prop-nisvhasspeaker.html">nisv:hasSpeaker</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_147"><a   href="prop-nisvhassponsor.html">nisv:hasSponsor</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_148"><a   href="prop-nisvhasstartdate.html">nisv:hasStartDate</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_149"><a   href="prop-nisvhasstartoffset.html">nisv:hasStartOffset</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_150"><a   href="prop-nisvhasstartoncarrier.html">nisv:hasStartOnCarrier</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_151"><a   href="prop-nisvhasstarttime.html">nisv:hasStartTime</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_152"><a   href="prop-nisvhasstarttimestamp.html">nisv:hasStartTimestamp</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_153"><a   href="prop-nisvhasstorageunit.html">nisv:hasStorageUnit</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_154"><a   href="prop-nisvhassubtitle.html">nisv:hasSubTitle</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_155"><a   href="prop-nisvhassubject.html">nisv:hasSubject</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_156"><a   href="prop-nisvhassummary.html">nisv:hasSummary</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_157"><a   href="prop-nisvhastargetgroup.html">nisv:hasTargetGroup</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_158"><a   href="prop-nisvhastechnicalannotation.html">nisv:hasTechnicalAnnotation</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_159"><a   href="prop-nisvhastechnicaldetails.html">nisv:hasTechnicalDetails</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_160"><a   href="prop-nisvhastheme.html">nisv:hasTheme</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_161"><a   href="prop-nisvhastimecodestandard.html">nisv:hasTimecodeStandard</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_162"><a   href="prop-nisvhastitle.html">nisv:hasTitle</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_163"><a   href="prop-nisvhastype.html">nisv:hasType</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_164"><a   href="prop-nisvhasugstatus.html">nisv:hasUgStatus</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_165"><a   href="prop-nisvhasuse.html">nisv:hasUse</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_166"><a   href="prop-nisvhasweeknumber.html">nisv:hasWeekNumber</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_167"><a   href="prop-nisvinvolvesmuseumentity.html">nisv:involvesMuseumEntity</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_168"><a   href="prop-nisvinvolvesmuseumperson.html">nisv:involvesMuseumPerson</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_169"><a   href="prop-nisvispartofprogram.html">nisv:isPartOfProgram</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_170"><a   href="prop-nisvispartofseason.html">nisv:isPartOfSeason</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_171"><a   href="prop-nisvispartofseries.html">nisv:isPartOfSeries</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_172"><a   href="prop-nisvissilent.html">nisv:isSilent</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_173"><a   href="prop-nisvrecordedwithaudiencepresent.html">nisv:recordedWithAudiencePresent</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_174"><a   href="prop-nisvtitlelanguage.html">nisv:titleLanguage</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_175"><a   href="prop-nisvtitlesource.html">nisv:titleSource</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_176"><a   href="prop-nisvtitletype.html">nisv:titleType</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_177"><a   href="prop-nisvtitlevalue.html">nisv:titleValue</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_178"><a   href="prop-nisvusedarchivematerial.html">nisv:usedArchiveMaterial</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_179"><a   href="prop-nisvwaslive.html">nisv:wasLive</a></li>
+          
+
+        
+
+        
+
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
+    </ul>
+
+</div>
+
+
+<!-- /#sidebar-wrapper -->
+
+    
+
+
+
+
+    <!-- Begin page content -->
+    <div class="container" id="page-content-wrapper">
+
+      
+
+	
+
+
+
+
+
+
+        
+
+
+
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <ol class="breadcrumb">
+    <li>
+      <a href="index.html">Home</a>
+    </li>
+    <li>
+          <a href="entities-az.html">Entities</a>
+    </li>
+    <li>
+          <a href="entities-tree-classes.html">Classes</a>
+    </li>
+      <li class="active">
+            http://data.rdlabs.beeldengeluid.nl/schema/Publication
+        </li>
+  </ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+            <h1>
+
+                nisv:Publication
+                
+                    <small class="label label-info label-xs">leaf node</small>
+                  
+
+            </h1>
+            <hr>
+
+
+
+            <div class="tree-container">
+            <div class="tree">
+                <ul>
+                    
+
+                        
+
+                        <li>
+
+                          <a href="class-nisvdistributableentity.html" title="'Distributable Entity' - Entity that is distributed via one or more media">nisv:DistributableEntity</a>
+
+                          <ul>
+
+                            <li><a style="font-weight: bold;" title="'Publication' - Publication/broadcast of an audiovisual object">nisv:Publication</a>
+                            
+                              </li>
+
+                          </ul>
+
+                          </li>
+                        
+
+                        <li>
+
+                          <a href="class-nisventitywithduration.html" title="'Entity with duration' - Entity with a time duration">nisv:EntityWithDuration</a>
+
+                          <ul>
+
+                            <li><a style="font-weight: bold;" title="'Publication' - Publication/broadcast of an audiovisual object">nisv:Publication</a>
+                            
+                              </li>
+
+                          </ul>
+
+                          </li>
+                        
+
+                        <li>
+
+                          <a href="class-nisvrecordingorpublication.html" title="'Recording or Publication' - Recording or publication">nisv:RecordingOrPublication</a>
+
+                          <ul>
+
+                            <li><a style="font-weight: bold;" title="'Publication' - Publication/broadcast of an audiovisual object">nisv:Publication</a>
+                            
+                              </li>
+
+                          </ul>
+
+                          </li>
+                        
+
+                    
+
+                </ul>
+            </div>
+            </div>
+
+
+
+
+           <div class="row"><div class="col-md-12">
+              <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">URI</h3>
+            </div>
+            <div class="panel-body">
+
+                <code>http://data.rdlabs.beeldengeluid.nl/schema/Publication</code>
+            </div>
+          </div>
+           </div></div>
+
+           
+            <div class="row"><div class="col-md-12">
+              <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Label</h3>
+            </div>
+            <div class="panel-body">
+
+                Publication
+            </div>
+          </div>
+           </div></div>
+           
+
+
+
+           
+            <div class="row"><div class="col-md-12">
+              <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Description</h3>
+            </div>
+            <div class="panel-body">
+
+                Publication/broadcast of an audiovisual object
+            </div>
+          </div>
+           </div></div>
+           
+
+
+
+
+           
+            <div class="row"><div class="col-md-12">
+              <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Superclasses (3)</h3>
+            </div>
+            <div class="panel-body">
+
+            
+                    <li><a href="class-nisvdistributableentity.html" title="http://data.rdlabs.beeldengeluid.nl/schema/DistributableEntity">nisv:DistributableEntity</a></li><li><a href="class-nisventitywithduration.html" title="http://data.rdlabs.beeldengeluid.nl/schema/EntityWithDuration">nisv:EntityWithDuration</a></li><li><a href="class-nisvrecordingorpublication.html" title="http://data.rdlabs.beeldengeluid.nl/schema/RecordingOrPublication">nisv:RecordingOrPublication</a></li>
+            
+
+            </div>
+          </div>
+           </div></div>
+           
+
+
+
+          
+
+
+
+         
+           <div class="row"><div class="col-md-12">
+              <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Usage</h3>
+            </div>
+            <div class="panel-body" style="overflow: auto;">
+
+                <p>Instances of nisv:Publication can have the following properties:</p>
+            </div>
+             <table class="table table-bordered" style="overflow: auto;">
+
+                <tr class="table-classproperties">
+                    <th>PROPERTY</th><th>TYPE</th><th>DESCRIPTION</th><th>RANGE</th>
+                </tr>
+
+                
+
+                    
+
+                    
+
+                        <tr class="table-inheritanceinfo">
+                            <th colspan="4" class="treeinfo"><span class="label label-default">From class <a title="nisv:Publication" href="class-nisvpublication.html" class="fromclass_link">nisv:Publication</a></span>
+                            </th>
+                        </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasBroadcastNorm" href="prop-nisvhasbroadcastnorm.html">nisv:hasBroadcastNorm</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasBroadcastStation" href="prop-nisvhasbroadcaststation.html">nisv:hasBroadcastStation</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <a title="nisv:BroadcastStation" href="class-nisvbroadcaststation.html" class="rdfclass">nisv:BroadcastStation</a>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasBroadcaster" href="prop-nisvhasbroadcaster.html">nisv:hasBroadcaster</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <a title="nisv:Broadcaster" href="class-nisvbroadcaster.html" class="rdfclass">nisv:Broadcaster</a>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasDateReceived" href="prop-nisvhasdatereceived.html">nisv:hasDateReceived</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:dateTime</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasDistributionFormat" href="prop-nisvhasdistributionformat.html">nisv:hasDistributionFormat</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasFrequency" href="prop-nisvhasfrequency.html">nisv:hasFrequency</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasProductId" href="prop-nisvhasproductid.html">nisv:hasProductId</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasPublicationAnnotation" href="prop-nisvhaspublicationannotation.html">nisv:hasPublicationAnnotation</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasRebroadcast" href="prop-nisvhasrebroadcast.html">nisv:hasRebroadcast</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasSortDate" href="prop-nisvhassortdate.html">nisv:hasSortDate</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:date</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasSortType" href="prop-nisvhassorttype.html">nisv:hasSortType</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:long</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasStartTimestamp" href="prop-nisvhasstarttimestamp.html">nisv:hasStartTimestamp</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasTechnicalAnnotation" href="prop-nisvhastechnicalannotation.html">nisv:hasTechnicalAnnotation</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasTimecodeStandard" href="prop-nisvhastimecodestandard.html">nisv:hasTimecodeStandard</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasTitle" href="prop-nisvhastitle.html">nisv:hasTitle</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasUgStatus" href="prop-nisvhasugstatus.html">nisv:hasUgStatus</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasWeekNumber" href="prop-nisvhasweeknumber.html">nisv:hasWeekNumber</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:wasLive" href="prop-nisvwaslive.html">nisv:wasLive</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+
+                    
+
+                    
+
+                
+
+                    
+
+                    
+
+                        <tr class="table-inheritanceinfo">
+                            <th colspan="4" class="treeinfo"><span class="label label-default">From class <a title="nisv:DistributableEntity" href="class-nisvdistributableentity.html" class="fromclass_link">nisv:DistributableEntity</a></span>
+                            </th>
+                        </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasDistributionChannel" href="prop-nisvhasdistributionchannel.html">nisv:hasDistributionChannel</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+
+                    
+
+                    
+
+                
+
+                    
+
+                    
+
+                        <tr class="table-inheritanceinfo">
+                            <th colspan="4" class="treeinfo"><span class="label label-default">From class <a title="nisv:EntityWithDuration" href="class-nisventitywithduration.html" class="fromclass_link">nisv:EntityWithDuration</a></span>
+                            </th>
+                        </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasDuration" href="prop-nisvhasduration.html">nisv:hasDuration</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:long</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+
+                    
+
+                    
+
+                
+
+                    
+
+                    
+
+                        <tr class="table-inheritanceinfo">
+                            <th colspan="4" class="treeinfo"><span class="label label-default">From class <a title="nisv:RecordingOrPublication" href="class-nisvrecordingorpublication.html" class="fromclass_link">nisv:RecordingOrPublication</a></span>
+                            </th>
+                        </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasDatePrecision" href="prop-nisvhasdateprecision.html">nisv:hasDatePrecision</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasEndDate" href="prop-nisvhasenddate.html">nisv:hasEndDate</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:dateTime</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasStartDate" href="prop-nisvhasstartdate.html">nisv:hasStartDate</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:date</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+
+                    
+
+                    
+
+                
+
+                    
+
+                    
+
+                        <tr class="table-inheritanceinfo">
+                            <th colspan="4" class="treeinfo"><span class="label label-default">From class <a title="owl:Thing" href="class-owlthing.html" class="fromclass_link">owl:Thing</a></span>
+                            </th>
+                        </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasAdditionalInformation" href="prop-nisvhasadditionalinformation.html">nisv:hasAdditionalInformation</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasClarification" href="prop-nisvhasclarification.html">nisv:hasClarification</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasCountry" href="prop-nisvhascountry.html">nisv:hasCountry</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <a title="nisv:Location" href="class-nisvlocation.html" class="rdfclass">nisv:Location</a>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasDurationAnnotation" href="prop-nisvhasdurationannotation.html">nisv:hasDurationAnnotation</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasEndTime" href="prop-nisvhasendtime.html">nisv:hasEndTime</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasName" href="prop-nisvhasname.html">nisv:hasName</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasOrganisation" href="prop-nisvhasorganisation.html">nisv:hasOrganisation</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <a title="nisv:Organisation" href="class-nisvorganisation.html" class="rdfclass">nisv:Organisation</a>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasPerson" href="prop-nisvhasperson.html">nisv:hasPerson</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <a title="nisv:Person" href="class-nisvperson.html" class="rdfclass">nisv:Person</a>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasStartTime" href="prop-nisvhasstarttime.html">nisv:hasStartTime</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:long</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+                            <tr>
+                                <td class="firsttd">
+                                    <a class="propcolor" title="nisv:hasType" href="prop-nisvhastype.html">nisv:hasType</a>
+                                </td>
+                                <td class="secondtd">
+                                    <i>rdf:Property<i>
+                                </td>
+                                <td class="thirdtd">
+                                    <span>--</span>
+                                </td>
+                                <td class="fourthtd">
+                                    
+                                    
+
+                                        
+                                          <i>xsd:string</i>
+                                        
+
+
+                                    
+                                    
+                                </td>
+                            </tr>
+
+                            
+
+                    
+
+                    
+
+                
+
+            </table>
+
+
+          </div>
+           </div></div>
+
+        
+
+
+
+
+
+
+           <div class="row"><div class="col-md-12">
+              <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Implementation</h3>
+            </div>
+            <div class="panel-body implementation-panel">
+
+                
+
+                    <div class="highlight"><pre><span></span><span class="k">@prefix</span><span class="w"> </span><span class="nn">dc:</span><span class="w"> </span><span class="nv">&lt;http://purl.org/dc/elements/1.1/&gt;</span><span class="w"> </span><span class="p">.</span><span class="w"></span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">dcterms:</span><span class="w"> </span><span class="nv">&lt;http://dublincore.org/documents/2010/10/11/dcmi-terms#&gt;</span><span class="w"> </span><span class="p">.</span><span class="w"></span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">nisv:</span><span class="w"> </span><span class="nv">&lt;http://data.rdlabs.beeldengeluid.nl/schema/&gt;</span><span class="w"> </span><span class="p">.</span><span class="w"></span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">owl:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2002/07/owl#&gt;</span><span class="w"> </span><span class="p">.</span><span class="w"></span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdf:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;</span><span class="w"> </span><span class="p">.</span><span class="w"></span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdfs:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span><span class="w"> </span><span class="p">.</span><span class="w"></span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">sh:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/ns/shacl#&gt;</span><span class="w"> </span><span class="p">.</span><span class="w"></span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">skos:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2004/02/skos/core#&gt;</span><span class="w"> </span><span class="p">.</span><span class="w"></span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">vann:</span><span class="w"> </span><span class="nv">&lt;http://purl.org/vocab/vann/&gt;</span><span class="w"> </span><span class="p">.</span><span class="w"></span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">void:</span><span class="w"> </span><span class="nv">&lt;http://rdfs.org/ns/void#&gt;</span><span class="w"> </span><span class="p">.</span><span class="w"></span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">xml:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/XML/1998/namespace&gt;</span><span class="w"> </span><span class="p">.</span><span class="w"></span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">xsd:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2001/XMLSchema#&gt;</span><span class="w"> </span><span class="p">.</span><span class="w"></span>
+
+<span class="nn">nisv:</span><span class="nt">Publication</span><span class="w"> </span><span class="kt">a</span><span class="w"> </span><span class="nn">rdfs:</span><span class="nt">Class</span><span class="w"> </span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nn">rdfs:</span><span class="nt">label</span><span class="w"> </span><span class="s">&quot;Publication&quot;</span><span class="o">@</span><span class="ge">en</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="s">&quot;Publicatie&quot;</span><span class="o">@</span><span class="ge">nl</span><span class="w"> </span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nn">rdfs:</span><span class="nt">comment</span><span class="w"> </span><span class="s">&quot;Publication/broadcast of an audiovisual object&quot;</span><span class="o">@</span><span class="ge">en</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="s">&quot;Publicatie/uitzending van een audiovisueel object&quot;</span><span class="o">@</span><span class="ge">nl</span><span class="w"> </span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="nn">rdfs:</span><span class="nt">subClassOf</span><span class="w"> </span><span class="nn">nisv:</span><span class="nt">DistributableEntity</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nn">nisv:</span><span class="nt">EntityWithDuration</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nn">nisv:</span><span class="nt">RecordingOrPublication</span><span class="w"> </span><span class="p">.</span><span class="w"></span>
+</pre></div>
+
+
+                
+            </div>
+          </div>
+           </div></div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+	</div><!-- /#page-content-wrapper -->
+
+
+  
+
+
+
+  
+
+
+
+
+  <footer class="footer">
+    <div class="container">
+    
+      <p class="text-muted">Documentation automatically generated on 22nd April 2020 with <a href="http://lambdamusic.github.io/Ontospy/">Ontospy</a> (v1.9.8.3)</p>
+
+    
+    </div>
+  </footer>
+
+
+</div><!-- /#wrapper -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="static/libs/jquery/1_12_4/jquery.min.js"></script>
+<script src="static/libs/bootstrap-3_3_7-dist/js/bootstrap.min.js"></script>
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="static/libs/bootstrap-3_3_7-dist/js/ie10-viewport-bug-workaround.js"></script>
+
+<script src="static/libs/chartjs-2_4_0/chart.bundle.js"></script>
+
+
+<!-- Menu Toggle Script -->
+<script>
+$("#menu-toggle").click(function(e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("toggled");
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+
+$('#search-input-sidebar').keyup(function() {
+
+  var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+  // var $rows = $(this).next(".entities-list").find("div");
+  var $rows = $(this).parent().parent().find("li.second-level");
+
+  $rows.show().filter(function() {
+      var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+      return !~text.indexOf(val);
+  }).hide();
+});
+
+</script>
+
+
+
+
+  <!-- Scroll Sidebar Script -->
+
+  
+  
+
+  <script type="text/javascript">
+
+    $(document).ready(function (){
+      $('#sidebar-wrapper').animate({
+          scrollTop: $("#sd_26").offset().top - 100
+      }, 100);
+    });
+
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

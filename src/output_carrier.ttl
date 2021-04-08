@@ -1,0 +1,18 @@
+@prefix gtaa: <http://data.beeldengeluid.nl/gtaa/> .
+@prefix nisv: <http://data.rdlabs.beeldengeluid.nl/schema/> .
+@prefix non-gtaa: <http://data.beeldengeluid.nl/nongtaa/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix resource: <http://data.rdlabs.beeldengeluid.nl/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://data.rdlabs.beeldengeluid.nl/resource/2101608270064370221> a nisv:Carrier ;
+    nisv:hasCarrierNumber "HAD6120"^^xsd:string ;
+    nisv:hasCarrierType "DAT cassette"^^xsd:string ;
+    nisv:hasCreationDate "2008-04-11T21:30:09+00:00"^^xsd:dateTime ;
+    nisv:hasSortDate "1937-04-02"^^xsd:date ;
+    nisv:isCarrierOf <http://data.rdlabs.beeldengeluid.nl/resource/2101608050034197431>,
+        <http://data.rdlabs.beeldengeluid.nl/resource/2101608080068352931> .
+
