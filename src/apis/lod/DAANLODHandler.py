@@ -79,10 +79,10 @@ class DAANLODHandler(object):
 
         # if the type is a logtrackitem, check it is a scene description, as we can't yet handle other types
         if setSpec == model.ObjectType.LOGTRACKITEM.value:
-            logtrackType = record["metadata"]["entry"]["logtrack_type"]
-            if not model.isSceneDescription(logtrackType):
+            logtrack_type = record["metadata"]["entry"]["logtrack_type"]
+            if not model.isSceneDescription(logtrack_type):
                 raise ValueError(
-                    "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrackType)
+                    "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrack_type)
 
         rdfConcept = NISVRdfConcept(record["metadata"]["entry"], setSpec, self.config)
 

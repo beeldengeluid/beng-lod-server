@@ -29,35 +29,34 @@ class LODAPI(Resource):
 
     LD_TO_MIME_TYPE = {v: k for k, v in MIME_TYPE_TO_LD.items()}
 
-    def _extractDesiredFormats(self, acceptType):
+    def _extractDesiredFormats(self, accept_type):
         mimetype = 'application/rdf+xml'
-        if acceptType.find('rdf+xml') != -1:
+        if accept_type.find('rdf+xml') != -1:
             mimetype = 'application/rdf+xml'
-        elif acceptType.find('json+ld') != -1:
+        elif accept_type.find('json+ld') != -1:
             mimetype = 'application/ld+json'
-        elif acceptType.find('json') != -1:
+        elif accept_type.find('json') != -1:
             mimetype = 'application/ld+json'
-        elif acceptType.find('turtle') != -1:
+        elif accept_type.find('turtle') != -1:
             mimetype = 'text/turtle'
-        elif acceptType.find('json') != -1:
+        elif accept_type.find('json') != -1:
             mimetype = 'text/n3'
         return mimetype, self.MIME_TYPE_TO_LD[mimetype]
 
     @api.response(404, 'Resource does not exist error')
-    #     @api.representation('application/rdf+xml','application/ld+json','text/turtle','text/n3')
     def get(self, level, identifier):
-        acceptType = request.headers.get('Accept')
-        userFormat = request.args.get('format', None)
-        mimetype, ldFormat = self._extractDesiredFormats(acceptType)
+        accept_type = request.headers.get('Accept')
+        user_format = request.args.get('format', None)
+        mimetype, ld_format = self._extractDesiredFormats(accept_type)
 
         # override the accept format if the user specifies a format
-        if userFormat and userFormat in self.LD_TO_MIME_TYPE:
-            ldFormat = userFormat
-            mimetype = self.LD_TO_MIME_TYPE[userFormat]
+        if user_format and user_format in self.LD_TO_MIME_TYPE:
+            ld_format = user_format
+            mimetype = self.LD_TO_MIME_TYPE[user_format]
 
         # resp, status_code, headers = DAANLODHandler(current_app.config).getOAIRecord(level, identifier, ldFormat)
         resp, status_code, headers = DAANStorageLODHandler(current_app.config).getStorageRecord(level, identifier,
-                                                                                                ldFormat)
+                                                                                                ld_format)
 
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:
