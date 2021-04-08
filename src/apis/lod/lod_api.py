@@ -1,10 +1,10 @@
 from flask import current_app, request, Response
 from flask_restx import Namespace, fields, Resource
 
-from apis.lod.DAANLODHandler import DAANLODHandler
+# from apis.lod.DAANLODHandler import DAANLODHandler
 from apis.lod.DAANStorageLODHandler import DAANStorageLODHandler
 from apis.lod.LODHandlerConcept import LODHandlerConcept
-from apis.lod.LODSchemaHandler import LODSchemaHandler
+# from apis.lod.LODSchemaHandler import LODSchemaHandler
 
 api = Namespace('lod', description='LOD')
 
@@ -66,29 +66,10 @@ class LODAPI(Resource):
         return resp, status_code, headers
 
 
-# """ --------------------------- SCHEMA ENDPOINT -------------------------- """
-#
-#
-# # # @api.route('schema', endpoint='schema')
-# # @api.route('schema/<class_or_property>', endpoint='schema')
-#
-# @api.route('schema')
-# @api.route('schema/', endpoint='schema')
-# class LODSchemaAPI(Resource):
-#
-#     @api.response(404, 'Schema does not exist error')
-#     def get(self):
-#         resp, status_code, headers = LODSchemaHandler(current_app.config).getSchema()
-#         if status_code == 200:
-#             return Response(resp, mimetype='text/turtle')
-#         return resp, status_code, headers
-
-
-
 """ --------------------------- GTAA ENDPOINT -------------------------- """
 
 
-@api.route('concept/<set>/<notation>', endpoint='concept')
+@api.route('concept/<set_code>/<notation>', endpoint='concept')
 class LODConceptAPI(Resource):
 
     MIME_TYPE_TO_LD = {
@@ -114,8 +95,11 @@ class LODConceptAPI(Resource):
             mimetype = 'text/n3'
         return mimetype, self.MIME_TYPE_TO_LD[mimetype]
 
+    # TODO: how to use the representations:
+    #  https://flask-restx.readthedocs.io/en/latest/_modules/flask_restx/api.html#Api.representation
+
     @api.response(404, 'Resource does not exist error')
-    def get(self, set, notation):
+    def get(self, set_code, notation):
         acceptType = request.headers.get('Accept')
         userFormat = request.args.get('format', None)
         mimetype, ldFormat = self._extractDesiredFormats(acceptType)
@@ -125,7 +109,7 @@ class LODConceptAPI(Resource):
             ldFormat = userFormat
             mimetype = self.LD_TO_MIME_TYPE[userFormat]
 
-        resp, status_code, headers = LODHandlerConcept(current_app.config).getConceptRDF(set, notation, ldFormat)
+        resp, status_code, headers = LODHandlerConcept(current_app.config).getConceptRDF(set_code, notation, ldFormat)
 
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:
