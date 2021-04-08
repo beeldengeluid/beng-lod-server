@@ -42,7 +42,14 @@ class LODAPI(Resource):
             mimetype = 'text/n3'
         return mimetype, self.MIME_TYPE_TO_LD[mimetype]
 
-    @api.response(404, 'Resource does not exist error')
+    # TODO: incorporate this:
+    # https://flask-restx.readthedocs.io/en/latest/_modules/flask_restx/api.html#Api.representation
+    # @api.representation('application/rdf+xml')
+
+    # TODO: mimetype can also be passed to rdflib serialize
+    # https://rdflib.readthedocs.io/en/stable/plugin_serializers.html
+
+    @api.response(404, 'Resource does not exist.')
     def get(self, level, identifier):
         accept_type = request.headers.get('Accept')
         user_format = request.args.get('format', None)

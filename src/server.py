@@ -84,62 +84,6 @@ REGULAR ROUTING (STATIC CONTENT)
 def home():
     return render_template('index.html')
 
-
-#
-# @app.route('/html-schema', methods=['GET'])
-# @app.route('/html-schema/', methods=['GET'])
-# @app.route('/html-schema/<string:language>/')
-# @app.route('/html-schema/<string:language>/<string:className>')
-# def htmlSchema(language='NONE', className='NONE'):
-#     CLASS_ROOT = "http://data.rdlabs.beeldengeluid.nl/schema"
-#     DOMAIN = "http://www.w3.org/2000/01/rdf-schema#domain"
-#     RANGE = "http://www.w3.org/2000/01/rdf-schema#range"
-#     SUBCLASS = "http://www.w3.org/2000/01/rdf-schema#subClassOf"
-#     bengClasses = []
-#     bengProps = []
-#
-#     with open('../resource/bengSchema.json', 'r') as bengSchema:
-#         data = bengSchema.read()
-#     obj = json.loads(data)
-#
-#     # setting default language if none provided.
-#     if language == 'NONE':
-#         language = 'nl'
-#
-#     if className != 'NONE':
-#         classProps = []
-#         for d in obj:
-#             for k, v in d.items():
-#                 if k and k == '@type' and d[k][0].endswith('Property') and DOMAIN in d:
-#                     if d[DOMAIN][0]['@id'] == CLASS_ROOT + "/" + className:
-#                         classProps.append(d)
-#         # Class with no properties on its own (Abstract Class)
-#         if len(classProps) > 0:
-#             return render_template('schema.html', language=language, className=className, classProps=classProps)
-#         else:
-#             implementedByClass = []
-#             rangeOfProperty = []
-#             for node in obj:
-#                 if SUBCLASS in node:
-#                     for subClassItem in node[SUBCLASS]:
-#                         if CLASS_ROOT + "/" + className == subClassItem['@id']:
-#                             implementedByClass.append(node)
-#                 elif RANGE in node:
-#                     for rangeItem in node[RANGE]:
-#                         if CLASS_ROOT + "/" + className == rangeItem['@id']:
-#                             rangeOfProperty.append(node)
-#             return render_template('schema.html', language=language, className=className,
-#                                    rangeOfProperty=rangeOfProperty, implementedByClass=implementedByClass)
-#
-#     for d in obj:
-#         # parsing Schema (in json format)
-#         for k, v in d.items():
-#             if k and k == '@type' and d[k][0].endswith('Class'):
-#                 bengClasses.append(d)
-#             elif k and k == '@type' and d[k][0].endswith('Property'):
-#                 bengProps.append(d)
-#     return render_template('schema.html', language=language, bengClasses=bengClasses, bengProps=bengProps)
-
 @app.route('/schema')
 @app.route('/schema/')
 def schema():
