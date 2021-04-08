@@ -21,6 +21,7 @@ class NISVRdfConcept:
 
         # load classes and their mappings to DAAN from RDF schema
         # TODO: make this a parameter passed to the object on init.
+
         self._schema = DAANSchemaImporter(self.config["SCHEMA_FILE"], self.config["MAPPING_FILE"])
         self._classes = self._schema.getClasses()
 
