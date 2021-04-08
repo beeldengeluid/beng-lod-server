@@ -8,6 +8,7 @@ from ontodoc import ontodoc
 from SchemaInMemory import SchemaInMemory
 from util.APIUtil import APIUtil
 from apis.lod.DAANSchemaImporter import DAANSchemaImporter
+from flask_caching import Cache
 
 app = Flask(__name__)
 
@@ -17,6 +18,12 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['RESTPLUS_VALIDATE'] = False
 
 app.debug = app.config['DEBUG']
+
+# add cache setting
+app.config['CACHE_TYPE'] = "SimpleCache"
+
+# initialize the cache
+cache = Cache(app)
 
 CORS(app)
 
@@ -39,8 +46,9 @@ sim = SchemaInMemory(schema_file=app.config['SCHEMA_FILE'])
 
 
 @app.before_first_request
-def create_daan_scheme():
-    daan_schema = DAANSchemaImporter(app.config["SCHEMA_FILE"], app.config["MAPPING_FILE"])
+@cache.cached(timeout=50, key_prefix='daan_schema')
+def get_daan_scheme():
+    return DAANSchemaImporter(app.config["SCHEMA_FILE"], app.config["MAPPING_FILE"])
 
 
 api.init_app(
