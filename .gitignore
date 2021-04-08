@@ -13,3 +13,4 @@ resource/*/*.xml
 .idea/
 docs/
 schema/
+*.txt
