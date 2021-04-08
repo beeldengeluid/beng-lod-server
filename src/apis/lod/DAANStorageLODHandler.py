@@ -17,12 +17,12 @@ class DAANStorageLODHandler(object):
         # check config
         self.config = config
 
-    def getStorageRecord(self, level, identifier, returnFormat):
+    def getStorageRecord(self, level, identifier, return_format):
         """Constructs a URI from the level and identifier, retrieves the record data from the URI,
         and returns LOD for the record in the desired return format"""
         url = self._prepareURI(level, identifier)
         try:
-            data = self._storage2LOD(url, returnFormat)
+            data = self._storage2LOD(url, return_format)
         except ValueError as e:
             return APIUtil.toErrorResponse('bad_request', e)
         except urllib.error.HTTPError as e:
@@ -36,38 +36,41 @@ class DAANStorageLODHandler(object):
         """ Constructs valid Storage url from the config settings, the level (type) and the identifier.
             <storage URL>/storage/<TYPE>/<id>
         """
-        return "%s/storage/%s/%s" % (self.config['STORAGE_BASE_URL'], level, identifier)
+        if self.config.get('STORAGE_BASE_URL') is not None:
+            return "%s/storage/%s/%s" % (self.config.get('STORAGE_BASE_URL'), level, identifier)
+        else:
+            return None
 
-    def _storage2LOD(self, url, returnFormat):
+    def _storage2LOD(self, url, return_format):
         """ Returns the record data from a URL, transformed to RDF, loaded
-        in a Graph and serialized to target format."""
+        in a Graph and serialized to target format.
+        # TODO: test whether the return_format parameter can be given the mimetype
+        """
 
         # retrieve the record data in XML via OAI-PMH
-        xmlString = self._getJsonFromStorage(url)
+        json_data = self._getJsonFromStorage(url)
 
         # transform the XML to RDF
-        resultConcept = self._transformJSONToRDF(xmlString)
+        result_concept = self._transformJSONToRDF(json_data)
 
         # serialise the RDF graph to desired format
-        data = resultConcept.serialize(returnFormat)
+        data = result_concept.serialize(return_format)
         return data
 
-    def _transformJSONToRDF(self, json):
+    def _transformJSONToRDF(self, json_obj):
         """Transforms the json to RDF using the schema mapping"""
 
         # get the type - series, season etc.
-        setSpec = json[DAAN_TYPE]
+        set_spec = json_obj[DAAN_TYPE]
 
         # if the type is a logtrackitem, check it is a scene description, as we can't yet handle other types
-        if setSpec == ObjectType.LOGTRACKITEM.value:
-            logtrackType = json["logtrack_type"]
-            if not isSceneDescription(logtrackType):
+        if set_spec == ObjectType.LOGTRACKITEM.value:
+            logtrack_type = json_obj["logtrack_type"]
+            if not isSceneDescription(logtrack_type):
                 raise ValueError(
-                    "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrackType)
-
-        rdfConcept = NISVRdfConcept(json, setSpec, self.config)
-
-        return rdfConcept
+                    "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrack_type)
+        rdf_concept = NISVRdfConcept(json, set_spec, self.config)
+        return rdf_concept
 
     def _getJsonFromStorage(self, url):
         """Retrieves a JSON object from the given Storage url"""

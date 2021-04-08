@@ -1,6 +1,5 @@
-from flask import Flask, render_template, request, Response, url_for, send_from_directory, redirect, send_file
+from flask import Flask, render_template, request, Response, send_from_directory, redirect
 from flask_cors import CORS
-import json
 import datetime
 import os
 from pathlib import Path
@@ -8,6 +7,7 @@ from apis import api
 from ontodoc import ontodoc
 from SchemaInMemory import SchemaInMemory
 from util.APIUtil import APIUtil
+from apis.lod.DAANSchemaImporter import DAANSchemaImporter
 
 app = Flask(__name__)
 
@@ -33,6 +33,15 @@ def server_init():
 sim = SchemaInMemory(schema_file=app.config['SCHEMA_FILE'])
 
 # print(Path(app.static_folder).parent)
+
+# TODO: create the schema object before first request
+# https://flask-caching.readthedocs.io/en/latest/
+
+
+@app.before_first_request
+def create_daan_scheme():
+    daan_schema = DAANSchemaImporter(app.config["SCHEMA_FILE"], app.config["MAPPING_FILE"])
+
 
 api.init_app(
     app,
@@ -83,6 +92,7 @@ REGULAR ROUTING (STATIC CONTENT)
 @app.route('/')
 def home():
     return render_template('index.html')
+
 
 @app.route('/schema')
 @app.route('/schema/')

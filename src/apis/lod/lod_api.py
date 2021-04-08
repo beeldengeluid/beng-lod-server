@@ -1,10 +1,8 @@
 from flask import current_app, request, Response
 from flask_restx import Namespace, fields, Resource
 
-from apis.lod.LODHandler import LODHandler
+from apis.lod.DAANStorageLODHandler import DAANStorageLODHandler
 from apis.lod.LODHandlerConcept import LODHandlerConcept
-
-# from apis.lod.LODSchemaHandler import LODSchemaHandler
 
 api = Namespace('lod', description='LOD')
 
@@ -60,7 +58,7 @@ class LODAPI(Resource):
             ld_format = user_format
             mimetype = self.LD_TO_MIME_TYPE[user_format]
 
-        resp, status_code, headers = LODHandler(current_app.config).getOAIRecord(level, identifier, ld_format)
+        resp, status_code, headers = DAANStorageLODHandler(current_app.config).getStorageRecord(level, identifier, ld_format)
 
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:

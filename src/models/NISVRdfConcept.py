@@ -12,7 +12,7 @@ from apis.lod.DAANSchemaImporter import DAANSchemaImporter
 
 class NISVRdfConcept:
 
-    def __init__(self, metadata, conceptType, config):
+    def __init__(self, metadata, concept_type, config):
 
         # check config
         self.config = config
@@ -20,6 +20,7 @@ class NISVRdfConcept:
             raise APIUtil.raiseDescriptiveValueError('internal_server_error', 'Schema or mapping file not specified')
 
         # load classes and their mappings to DAAN from RDF schema
+        # TODO: make this a parameter passed to the object on init.
         self._schema = DAANSchemaImporter(self.config["SCHEMA_FILE"], self.config["MAPPING_FILE"])
         self._classes = self._schema.getClasses()
 
@@ -54,7 +55,7 @@ class NISVRdfConcept:
         self.itemNode = URIRef(schema.NISV_DATA_NAMESPACE + metadata["id"])
 
         # get the RDF class URI for this type
-        self.classUri = schema.CLASS_URIS_FOR_DAAN_LEVELS[conceptType]
+        self.classUri = schema.CLASS_URIS_FOR_DAAN_LEVELS[concept_type]
 
         # add the type
         self.graph.add((self.itemNode, RDF.type, URIRef(self.classUri)))
