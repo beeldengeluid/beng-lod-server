@@ -1,14 +1,14 @@
 from flask import Flask, render_template, request, Response, send_from_directory, redirect
 from flask_cors import CORS
 import datetime
+from datetime import datetime
 import os
 from pathlib import Path
 from apis import api
 from ontodoc import ontodoc
 from SchemaInMemory import SchemaInMemory
 from util.APIUtil import APIUtil
-from apis.lod.DAANSchemaImporter import DAANSchemaImporter
-from flask_caching import Cache
+from cache import cache
 
 app = Flask(__name__)
 
@@ -16,16 +16,13 @@ app = Flask(__name__)
 app.config.from_object('settings.Config')
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['RESTPLUS_VALIDATE'] = False
+app.config['CACHE_TYPE'] = "SimpleCache"
 
 app.debug = app.config['DEBUG']
 
-# add cache setting
-app.config['CACHE_TYPE'] = "SimpleCache"
-
-# initialize the cache
-cache = Cache(app)
-
 CORS(app)
+
+cache.init_app(app)
 
 
 # Code added to generate the ontology documentation
@@ -41,15 +38,6 @@ sim = SchemaInMemory(schema_file=app.config['SCHEMA_FILE'])
 
 # print(Path(app.static_folder).parent)
 
-# TODO: create the schema object before first request
-# https://flask-caching.readthedocs.io/en/latest/
-
-
-@app.before_first_request
-@cache.cached(timeout=50, key_prefix='daan_schema')
-def get_daan_scheme():
-    return DAANSchemaImporter(app.config["SCHEMA_FILE"], app.config["MAPPING_FILE"])
-
 
 api.init_app(
     app,
@@ -63,8 +51,8 @@ CUSTOM TEMPLATE FUNCTIONS
 
 # Formats dates to be used in templates
 @app.template_filter()
-def datetimeformat(value, format='%d, %b %Y'):
-    return datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ").strftime(format)
+def datetimeformat(value, dt_format='%d, %b %Y'):
+    return datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ").strftime(dt_format)
 
 
 @app.template_filter()

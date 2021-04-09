@@ -12,6 +12,7 @@ DUMMY_SCHEMA_FILE = 'dummy_file_that_does_not_exist'
 DUMMY_MAPPING_FILE = 'dummy_file_that_does_not_exist'
 DUMMY_URI_ERROR = 'this_is_really_not_an_existing_uri'
 
+
 def test_LODHandler_bad_config():
     lodHandler = None
     try:
@@ -22,6 +23,7 @@ def test_LODHandler_bad_config():
     finally:
         unstub()
 
+
 def test_LODHandler_schema_not_found():
     lodHandler = None
     try:
@@ -31,6 +33,7 @@ def test_LODHandler_schema_not_found():
         assert lodHandler is None
     finally:
         unstub()
+
 
 def test_LODHandler_mapping_not_found():
     lodHandler = None

@@ -6,11 +6,12 @@ from rdflib import Graph, URIRef, Literal, BNode
 from rdflib.plugin import PluginException
 from util.APIUtil import APIUtil
 from apis.lod.DAANSchemaImporter import DAANSchemaImporter
-
-"""Class to represent an NISV concept in RDF, with functions to create the RDF in a graph from the JSON payload"""
+from cache import cache
 
 
 class NISVRdfConcept:
+    """ Class to represent an NISV concept in RDF, with functions to create the RDF in a graph from the JSON payload.
+    """
 
     def __init__(self, metadata, concept_type, config):
 
@@ -19,10 +20,9 @@ class NISVRdfConcept:
         if "SCHEMA_FILE" not in self.config or "MAPPING_FILE" not in self.config:
             raise APIUtil.raiseDescriptiveValueError('internal_server_error', 'Schema or mapping file not specified')
 
-        # load classes and their mappings to DAAN from RDF schema
-        # TODO: make this a parameter passed to the object on init.
+        self._schema = self.get_daan_scheme()
 
-        self._schema = DAANSchemaImporter(self.config["SCHEMA_FILE"], self.config["MAPPING_FILE"])
+        # self._schema = DAANSchemaImporter(self.config["SCHEMA_FILE"], self.config["MAPPING_FILE"])
         self._classes = self._schema.getClasses()
 
         assert self._classes is not None, APIUtil.raiseDescriptiveValueError('internal_server_error',
@@ -67,9 +67,14 @@ class NISVRdfConcept:
         # create RDF relations with the parents of the record
         self.__parentToRdf(metadata)
 
+    # @cache.cached(timeout=50, key_prefix='daan_scheme')
+    def get_daan_scheme(self):
+        return DAANSchemaImporter(self.config["SCHEMA_FILE"], self.config["MAPPING_FILE"])
+
     def __getMetadataValue(self, metadata, metadataField):
-        """Gets the value of the metadata field from the JSON metadata.
-		Returns either a single value, or a list of multiple values"""
+        """ Gets the value of the metadata field from the JSON metadata.
+            Returns either a single value, or a list of multiple values
+        """
 
         if "," in metadataField:
             fieldParts = metadataField.split(",")
@@ -104,11 +109,12 @@ class NISVRdfConcept:
 
     def __payloadToRdf(self, payload, parentNode, classUri):
         """Converts the metadata described in payload (json) to RDF, and attaches it to the parentNode
-		(e.g. the parentNode can be the identifier node for a program, and the payload the metadata describing
-		that program.). Calls itself recursively to handle any classes in the metadata, e.g. the publication
-		belonging to a program.
-		Uses the classUri of the parent node to select the right information from  classes for the conversion.
-		Returns the result in graph"""
+        (e.g. the parentNode can be the identifier node for a program, and the payload the metadata describing
+        that program.). Calls itself recursively to handle any classes in the metadata, e.g. the publication
+        belonging to a program.
+        Uses the classUri of the parent node to select the right information from  classes for the conversion.
+        Returns the result in graph
+        """
 
         # Select the relevant properties for this type of parent using the classUri
         properties = self._classes[classUri]["properties"]
@@ -188,8 +194,8 @@ class NISVRdfConcept:
 
     def __parentToRdf(self, metadata):
         """Depending on the type of the child (e.g. program) retrieve the information about its
-		parents from the metadata, link the child to the parents, and return the new instances and
-		properties in the graph"""
+        parents from the metadata, link the child to the parents, and return the new instances and
+        properties in the graph"""
         if self.classUri == schema.CLIP:  # for a clip, use the program reference
             if DAAN_PROGRAM_ID in metadata:
                 self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_PROGRAM),
