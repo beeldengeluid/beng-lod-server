@@ -21,36 +21,22 @@ class NISVRdfConcept:
             raise APIUtil.raiseDescriptiveValueError('internal_server_error', 'Schema or mapping file not specified')
 
         self._schema = self.get_daan_scheme()
-
-        # self._schema = DAANSchemaImporter(self.config["SCHEMA_FILE"], self.config["MAPPING_FILE"])
         self._classes = self._schema.getClasses()
 
         assert self._classes is not None, APIUtil.raiseDescriptiveValueError('internal_server_error',
                                                                              'Error while loading the schema classes and properties')
-        # set up namespace manager for RDF graph
-        self.namespaceManager = NamespaceManager(Graph())
+
         nisvSchemaNamespace = Namespace(schema.NISV_SCHEMA_NAMESPACE)
         nisvDataNamespace = Namespace(schema.NISV_DATA_NAMESPACE)
         gtaaNamespace = Namespace(schema.GTAA_NAMESPACE)
         nonGtaaNamespace = Namespace(schema.NON_GTAA_NAMESPACE)
 
-        # set the namespaces in the manager
-        self.namespaceManager.bind(schema.NISV_SCHEMA_PREFIX, nisvSchemaNamespace)
-        self.namespaceManager.bind(schema.NISV_DATA_PREFIX, nisvDataNamespace)
-        self.namespaceManager.bind("skos", SKOS)
-        self.namespaceManager.bind("gtaa", gtaaNamespace)
-        self.namespaceManager.bind("non-gtaa", nonGtaaNamespace)
-        self.namespaceManager.bind("non-gtaa", nonGtaaNamespace)
-
-        self.graph = Graph(namespace_manager=self.namespaceManager)
-
-        # need a dict as well as the manager otherwise the json-ld doesn't properly produce compact IRIs
-        self.namespacesDict = {}
-        self.namespacesDict[schema.NISV_SCHEMA_PREFIX] = nisvSchemaNamespace
-        self.namespacesDict[schema.NISV_DATA_PREFIX] = nisvDataNamespace
-        self.namespacesDict["skos"] = SKOS
-        self.namespacesDict["gtaa"] = gtaaNamespace
-        self.namespacesDict["non-gtaa"] = nonGtaaNamespace
+        self.graph = Graph()
+        self.graph.namespace_manager.bind(schema.NISV_SCHEMA_PREFIX, nisvSchemaNamespace)
+        self.graph.namespace_manager.bind(schema.NISV_DATA_PREFIX, nisvDataNamespace)
+        self.graph.namespace_manager.bind("skos", SKOS)
+        self.graph.namespace_manager.bind("gtaa", gtaaNamespace)
+        self.graph.namespace_manager.bind("non-gtaa", nonGtaaNamespace)
 
         # create a node for the record
         self.itemNode = URIRef(schema.NISV_DATA_NAMESPACE + metadata["id"])
@@ -67,7 +53,7 @@ class NISVRdfConcept:
         # create RDF relations with the parents of the record
         self.__parentToRdf(metadata)
 
-    # @cache.cached(timeout=50, key_prefix='daan_scheme')
+    @cache.cached(timeout=50, key_prefix='daan_scheme')
     def get_daan_scheme(self):
         return DAANSchemaImporter(self.config["SCHEMA_FILE"], self.config["MAPPING_FILE"])
 
@@ -243,11 +229,13 @@ class NISVRdfConcept:
 
         return
 
-    def serialize(self, returnFormat):
+    def serialize(self, return_format):
         """ Serialize graph data to requested format."""
         try:
-            return self.graph.serialize(format=returnFormat, context=self.namespacesDict)
-
+            return self.graph.serialize(
+                format=return_format,
+                context=dict(self.graph.namespaces())
+            )
         except PluginException as e:
             print(e)
         except Exception as e:

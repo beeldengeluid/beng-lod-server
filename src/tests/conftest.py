@@ -80,7 +80,6 @@ def application_settings():
     """ Returns the application settings."""
     app = Flask(__name__)
     app.config.from_object('settings-example.Config')
-    # app.config['CACHE_TYPE'] = "SimpleCache"
     return app.config
 
 
@@ -134,10 +133,10 @@ def http_test_client(application_settings):
 @pytest.fixture(scope="session")
 def generic_client(http_test_client, flask_test_client):
     """ Returns a GenericClient instance that either:
-		returns the response from an HTTP client that sends requests to a Flask server,
-		or, when offline, returns the response from a Flask test client that sends
-		requests to a local Flask server.
-	"""
+        returns the response from an HTTP client that sends requests to a Flask server,
+        or, when offline, returns the response from a Flask test client that sends
+        requests to a local Flask server.
+    """
 
     class Response(object):
         def __init__(self, text, status_code, headers):

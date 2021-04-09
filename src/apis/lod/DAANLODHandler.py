@@ -50,13 +50,13 @@ class DAANLODHandler(object):
         in a Graph and serialized to target format."""
 
         # retrieve the record data in XML via OAI-PMH
-        xmlString = self._getXMLFromOAI(url)
+        xml_string = self._getXMLFromOAI(url)
 
         # transform the XML to RDF
-        resultConcept = self._transformXMLToRDF(xmlString)
+        result_concept = self._transformXMLToRDF(xml_string)
 
         # serialise the RDF graph to desired format
-        data = resultConcept.serialize(returnFormat)
+        data = result_concept.serialize(returnFormat)
         return data
 
     def _transformXMLToRDF(self, xmlString):
@@ -84,9 +84,8 @@ class DAANLODHandler(object):
                 raise ValueError(
                     "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrack_type)
 
-        rdfConcept = NISVRdfConcept(record["metadata"]["entry"], setSpec, self.config)
-
-        return rdfConcept
+        rdf_concept = NISVRdfConcept(record["metadata"]["entry"], setSpec, self.config)
+        return rdf_concept
 
     def _getXMLFromOAI(self, url):
         """Retrieves an XML string from the given OAI-PMH url"""

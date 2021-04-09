@@ -9,14 +9,19 @@ from util import SettingsUtil
 from rdflib import URIRef, Literal
 from rdflib.namespace import RDF, XSD
 import xmltodict
+from flask import Flask
+from cache import cache
 
 
 def test_import_schema(application_settings):
-    schema = DAANSchemaImporter(application_settings["SCHEMA_FILE"], application_settings["MAPPING_FILE"])
-    print(schema.getClasses())
+    daan_schema = DAANSchemaImporter(application_settings["SCHEMA_FILE"], application_settings["MAPPING_FILE"])
+    # print(daan_schema.getClasses())
 
 
 def test_oai_payload_to_rdf(application_settings, i_program, i_season, i_series, i_carrier, i_clip):
+    app = Flask(__name__)
+    cache.init_app(app, application_settings)
+
     # ugly hack - as the storage and OAI versions have different formats, need to select
     # a specific mapping file\
     basePath = SettingsUtil.getBasePath()
@@ -24,7 +29,7 @@ def test_oai_payload_to_rdf(application_settings, i_program, i_season, i_series,
     testSettings = copy.deepcopy(application_settings)
     testSettings["MAPPING_FILE"] = mappingFile
 
-    classes = DAANSchemaImporter(testSettings["SCHEMA_FILE"], testSettings["MAPPING_FILE"]).getClasses()
+    # classes = DAANSchemaImporter(testSettings["SCHEMA_FILE"], testSettings["MAPPING_FILE"]).getClasses()
 
     ## PROGRAM
     i_program = i_program.replace("fe:", "")
@@ -38,8 +43,10 @@ def test_oai_payload_to_rdf(application_settings, i_program, i_season, i_series,
     # do some checks
     programTriples = list(graph.triples((rdfConcept.itemNode, None, None)))
     assert len(programTriples) == 27
-    assert (rdfConcept.itemNode, URIRef(schema.IS_PART_OF_SEASON), URIRef(schema.NISV_DATA_NAMESPACE + "2101902260253604731")) in programTriples
-    assert (rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasSortDate"), Literal("2019-03-26", datatype=XSD.date)) in programTriples
+    assert (rdfConcept.itemNode, URIRef(schema.IS_PART_OF_SEASON),
+            URIRef(schema.NISV_DATA_NAMESPACE + "2101902260253604731")) in programTriples
+    assert (rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasSortDate"),
+            Literal("2019-03-26", datatype=XSD.date)) in programTriples
     creators = list(graph.subjects(RDF.type, URIRef(schema.NISV_SCHEMA_NAMESPACE + "Creator")))
     assert len(creators) == 1
     for creator in creators:
@@ -50,8 +57,9 @@ def test_oai_payload_to_rdf(application_settings, i_program, i_season, i_series,
     publications = list(graph.subjects(RDF.type, URIRef(schema.NISV_SCHEMA_NAMESPACE + "PublicationEvent")))
     assert len(publications) == 2
     for publication in publications:
-        broadcastStations = list(graph.objects(publication, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasBroadcastStation")))
-        assert len(broadcastStations) == 0 or len(broadcastStations)==1
+        broadcastStations = list(
+            graph.objects(publication, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasBroadcastStation")))
+        assert len(broadcastStations) == 0 or len(broadcastStations) == 1
         if broadcastStations:
             stationName = graph.preferredLabel(broadcastStations[0])[0][1]
             assert str(stationName) == "NPO 2"
@@ -68,13 +76,17 @@ def test_oai_payload_to_rdf(application_settings, i_program, i_season, i_series,
     # do some checks
     seasonTriples = list(graph.triples((rdfConcept.itemNode, None, None)))
     assert len(seasonTriples) == 20
-    assert (rdfConcept.itemNode, URIRef(schema.IS_PART_OF_SERIES), URIRef(schema.NISV_DATA_NAMESPACE + "2101909080260953431")) in seasonTriples
+    assert (rdfConcept.itemNode, URIRef(schema.IS_PART_OF_SERIES),
+            URIRef(schema.NISV_DATA_NAMESPACE + "2101909080260953431")) in seasonTriples
     producers = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasProducer")))
     assert len(producers) == 1
-    assert (producers[0], URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasRole"), Literal("producent", datatype=XSD.string)) in list(graph.triples((producers[0], None, None)))
-    productionOrganisations = list(graph.objects(producers[0], URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasOrganisation")))
+    assert (producers[0], URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasRole"),
+            Literal("producent", datatype=XSD.string)) in list(graph.triples((producers[0], None, None)))
+    productionOrganisations = list(
+        graph.objects(producers[0], URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasOrganisation")))
     assert len(productionOrganisations) == 1
-    assert (productionOrganisations[0], RDF.type, URIRef(schema.NISV_SCHEMA_NAMESPACE + "Organisation")) in list(graph.triples((productionOrganisations[0], None, None)))
+    assert (productionOrganisations[0], RDF.type, URIRef(schema.NISV_SCHEMA_NAMESPACE + "Organisation")) in list(
+        graph.triples((productionOrganisations[0], None, None)))
     productionName = graph.preferredLabel(productionOrganisations[0])[0][1]
     assert str(productionName) == "NTR"
     creators = list(graph.subjects(RDF.type, URIRef(schema.NISV_SCHEMA_NAMESPACE + "Creator")))
@@ -130,7 +142,8 @@ def test_oai_payload_to_rdf(application_settings, i_program, i_season, i_series,
     programmes = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "isCarrierOf")))
     assert len(programmes) == 2
     for programme in programmes:
-        assert str(programme) == schema.NISV_DATA_NAMESPACE+ "2101608050034197431" or str(programme) == schema.NISV_DATA_NAMESPACE + "2101608080068352931"
+        assert str(programme) == schema.NISV_DATA_NAMESPACE + "2101608050034197431" or str(
+            programme) == schema.NISV_DATA_NAMESPACE + "2101608080068352931"
     carrierTypes = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasCarrierType")))
     assert len(carrierTypes) == 1
     assert str(carrierTypes[0]) == "DAT cassette"
@@ -145,7 +158,8 @@ def test_oai_payload_to_rdf(application_settings, i_program, i_season, i_series,
     # do some checks
     clipTriples = list(graph.triples((rdfConcept.itemNode, None, None)))
     assert len(clipTriples) == 4
-    assert (rdfConcept.itemNode, URIRef(schema.IS_PART_OF_PROGRAM), URIRef(schema.NISV_DATA_NAMESPACE + "2101909160261187331")) in clipTriples
+    assert (rdfConcept.itemNode, URIRef(schema.IS_PART_OF_PROGRAM),
+            URIRef(schema.NISV_DATA_NAMESPACE + "2101909160261187331")) in clipTriples
     mainTitles = list(graph.objects(rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasMainTitle")))
     assert len(mainTitles) == 1
     titleTexts = list(graph.objects(mainTitles[0], URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasTitleText")))
@@ -154,7 +168,11 @@ def test_oai_payload_to_rdf(application_settings, i_program, i_season, i_series,
 
     graph.serialize(destination='output_clip.txt', format='turtle')
 
+
 def test_storage_api_payload_to_rdf(application_settings, i_program_storage, i_season, i_series, i_carrier, i_clip):
+    app = Flask(__name__)
+    cache.init_app(app, application_settings)
+
     # ugly hack - as the storage and OAI versions have different formats, need to select
     # a specific mapping file
     basePath = SettingsUtil.getBasePath()
@@ -162,7 +180,7 @@ def test_storage_api_payload_to_rdf(application_settings, i_program_storage, i_s
     testSettings = copy.deepcopy(application_settings)
     testSettings["MAPPING_FILE"] = mappingFile
 
-    classes = DAANSchemaImporter(testSettings["SCHEMA_FILE"], testSettings["MAPPING_FILE"]).getClasses()
+    # classes = DAANSchemaImporter(testSettings["SCHEMA_FILE"], testSettings["MAPPING_FILE"]).getClasses()
 
     ## PROGRAM
 
@@ -174,8 +192,10 @@ def test_storage_api_payload_to_rdf(application_settings, i_program_storage, i_s
     # do some checks
     programTriples = list(graph.triples((rdfConcept.itemNode, None, None)))
     assert len(programTriples) == 27
-    assert (rdfConcept.itemNode, URIRef(schema.IS_PART_OF_SEASON), URIRef(schema.NISV_DATA_NAMESPACE + "2101902260253604731")) in programTriples
-    assert (rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasSortDate"), Literal("2019-03-26", datatype=XSD.date)) in programTriples
+    assert (rdfConcept.itemNode, URIRef(schema.IS_PART_OF_SEASON),
+            URIRef(schema.NISV_DATA_NAMESPACE + "2101902260253604731")) in programTriples
+    assert (rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasSortDate"),
+            Literal("2019-03-26", datatype=XSD.date)) in programTriples
     creators = list(graph.subjects(RDF.type, URIRef(schema.NISV_SCHEMA_NAMESPACE + "Creator")))
     assert len(creators) == 1
     for creator in creators:
@@ -186,9 +206,9 @@ def test_storage_api_payload_to_rdf(application_settings, i_program_storage, i_s
     publications = list(graph.subjects(RDF.type, URIRef(schema.NISV_SCHEMA_NAMESPACE + "PublicationEvent")))
     assert len(publications) == 2
     for publication in publications:
-        broadcastStations = list(graph.objects(publication, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasBroadcastStation")))
-        assert len(broadcastStations) == 0 or len(broadcastStations)==1
+        broadcastStations = list(
+            graph.objects(publication, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasBroadcastStation")))
+        assert len(broadcastStations) == 0 or len(broadcastStations) == 1
         if broadcastStations:
             stationName = graph.preferredLabel(broadcastStations[0])[0][1]
             assert str(stationName) == "NPO 2"
-

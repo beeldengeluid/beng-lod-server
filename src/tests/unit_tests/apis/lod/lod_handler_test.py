@@ -3,7 +3,8 @@ from mockito import when, unstub, verify, ANY
 from apis.lod.DAANLODHandler import DAANLODHandler
 from util.APIUtil import APIUtil
 from apis.lod.DAANSchemaImporter import DAANSchemaImporter
-
+from flask import Flask
+from cache import cache
 """ ------------------------ fetchDocument -----------------------"""
 
 DUMMY_ID = 'dummy_id'
@@ -61,6 +62,9 @@ def test_LODHandler_corrupt_schema(application_settings):
 @pytest.mark.parametrize('return_type', ['json-ld', 'xml', 'n3', 'ttl'])
 def test_getOAIRecord_200(application_settings, i_program, return_type):
     try:
+        app = Flask(__name__)
+        cache.init_app(app, application_settings)
+
         lodHandler = DAANLODHandler(application_settings)
         when(DAANLODHandler)._getXMLFromOAI(ANY).thenReturn(i_program)
         data, status_code, headers = lodHandler.getOAIRecord(DUMMY_LEVEL, DUMMY_ID, return_type)
@@ -110,3 +114,5 @@ def test_getOAIRecord_wrong_logtracktype_400(application_settings, i_other_logtr
 
     finally:
         unstub()
+
+# TODO: add storage tests

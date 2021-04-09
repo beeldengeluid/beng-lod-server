@@ -8,7 +8,7 @@ class Config(object):
     APP_VERSION = 'v1.2'
 
     DEBUG = True
-    # CACHE_TYPE = 'SimpleCache'
+    CACHE_TYPE = 'SimpleCache'
 
     basePath = SettingsUtil.getBasePath()
 
