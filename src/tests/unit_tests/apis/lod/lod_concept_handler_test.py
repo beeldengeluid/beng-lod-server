@@ -8,7 +8,7 @@ from util.APIUtil import APIUtil
 DUMMY_SET = "dummy-set"
 DUMMY_NOTATION = "dummy-notation"
 
-# @pytest.mark.xfail
+
 @pytest.mark.parametrize('concept_uri',  ['http://vanhetneppadjeaf.com', 'file://bestaatnietman', 'geeneens een url', 'fake://hahahaha'])
 def test_get_concept_rdf__invalid_concept_uri(application_settings, concept_uri):
     try:

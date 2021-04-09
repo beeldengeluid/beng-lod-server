@@ -180,8 +180,6 @@ def test_storage_api_payload_to_rdf(application_settings, i_program_storage, i_s
     testSettings = copy.deepcopy(application_settings)
     testSettings["MAPPING_FILE"] = mappingFile
 
-    # classes = DAANSchemaImporter(testSettings["SCHEMA_FILE"], testSettings["MAPPING_FILE"]).getClasses()
-
     ## PROGRAM
 
     rdfConcept = NISVRdfConcept(i_program_storage, "PROGRAM", testSettings)
