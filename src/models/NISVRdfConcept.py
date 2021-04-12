@@ -53,7 +53,7 @@ class NISVRdfConcept:
         # create RDF relations with the parents of the record
         self.__parentToRdf(metadata)
 
-    @cache.cached(timeout=50, key_prefix='daan_scheme')
+    @cache.cached(key_prefix='daan_scheme')
     def get_daan_scheme(self):
         return DAANSchemaImporter(self.config["SCHEMA_FILE"], self.config["MAPPING_FILE"])
 
@@ -234,7 +234,8 @@ class NISVRdfConcept:
         try:
             return self.graph.serialize(
                 format=return_format,
-                context=dict(self.graph.namespaces())
+                context=dict(self.graph.namespaces()),
+                auto_compact=True
             )
         except PluginException as e:
             print(e)
