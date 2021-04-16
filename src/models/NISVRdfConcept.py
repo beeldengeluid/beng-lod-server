@@ -53,7 +53,7 @@ class NISVRdfConcept:
         # create RDF relations with the parents of the record
         self.__parentToRdf(metadata)
 
-    @cache.cached(key_prefix='daan_scheme')
+    @cache.cached(timeout=0, key_prefix='daan_scheme')
     def get_daan_scheme(self):
         return DAANSchemaImporter(self.config["SCHEMA_FILE"], self.config["MAPPING_FILE"])
 
