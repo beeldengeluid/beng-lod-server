@@ -1,0 +1,16 @@
+@prefix gtaa: <http://data.beeldengeluid.nl/gtaa/> .
+@prefix nisv: <http://data.rdlabs.beeldengeluid.nl/schema/> .
+@prefix non-gtaa: <http://data.beeldengeluid.nl/nongtaa/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix resource: <http://data.rdlabs.beeldengeluid.nl/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://data.rdlabs.beeldengeluid.nl/resource/2101909190739586924> a nisv:SceneDescription ;
+    nisv:hasDescription "Zijn vertolking van 'The Sound Of Silence' in het AVROTROS programma Beste Zangers is ruim 200.000 keer bekeken en #1 in de iTunes lijst... Dat had operazanger Henk Poort nooit verwacht!(foto: Youtube / AVROTROS)"^^xsd:string ;
+    nisv:hasMainTitle [ a nisv:Title ;
+            nisv:hasTitleText "Henk Poort over succes bij Beste Zangers"^^xsd:string ] ;
+    nisv:isPartOfProgram <http://data.rdlabs.beeldengeluid.nl/resource/2101909160261187331> .
+

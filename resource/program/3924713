@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><bg:bgelement xmlns:bg="http://oaipmh.beeldengeluid.nl/basic" xmlns:bga="http://oaipmh.beeldengeluid.nl/aggregated" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" aggregationType="program" id="3924713">
+    <dc:identifier>3924713@program</dc:identifier>
+    <dc:relation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="dcterms:URI">http://in.beeldengeluid.nl/collectie/details/expressie/3924713/false/true</dc:relation>
+    <dcterms:isPartOf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="dcterms:URI">http://oaipmh.beeldengeluid.nl/resource/season/16520?output=bg</dcterms:isPartOf>
+    <bg:maintitles>
+        <bg:title type="gegeven titel">Toespraak Steve Jobs op Stanford University</bg:title>
+    </bg:maintitles>
+    <bg:speakers>
+        <bg:speaker>
+            <bg:name>Jobs, Steve</bg:name>
+        </bg:speaker>
+    </bg:speakers>
+    <bg:recordinglocations>
+        <bg:location>VS, Palo Alto, Stanford University</bg:location>
+    </bg:recordinglocations>
+    <bg:context>
+        <bg:colour>kleur</bg:colour>
+    </bg:context>
+    <bg:recordings>
+        <bg:recording>
+            <bg:startdate>12-06-2005</bg:startdate>
+        </bg:recording>
+    </bg:recordings>
+    <bg:qualification>
+        <bg:source>EVN</bg:source>
+        <bg:rights>USSTAN</bg:rights>
+    </bg:qualification>
+    <bg:duration>224312</bg:duration>
+    <bg:carriers>
+        <bg:carrier>
+            <bg:startoncarrier>0</bg:startoncarrier>
+            <bg:endoncarrier>224312</bg:endoncarrier>
+            <bg:carrierreference>573424_JOBS_S-EVN00Z01EPF</bg:carrierreference>
+            <bg:carriertype>media archive</bg:carriertype>
+            <bg:repository>Digitaal Archief</bg:repository>
+            <bg:carrierclass>Programma</bg:carrierclass>
+            <bg:carrierid>7892063</bg:carrierid>
+            <bg:dmguid>2011100714144980800790450790017A43C92F00000008896B00000D0F112922</bg:dmguid>
+            <bg:startoffset>0</bg:startoffset>
+            <bg:publid>4305231</bg:publid>
+            <bg:id>90206836</bg:id>
+            <bg:creationdate>2011-10-07T14:17:45Z</bg:creationdate>
+        </bg:carrier>
+        <bg:carrier>
+            <bg:startoncarrier>0</bg:startoncarrier>
+            <bg:endoncarrier>224312</bg:endoncarrier>
+            <bg:carrierreference>573424_JOBS_S-EVN00Z01EPF.mpg</bg:carrierreference>
+            <bg:carriertype>MPG1</bg:carriertype>
+            <bg:repository>Digitaal Archief</bg:repository>
+            <bg:carrierclass>Programma</bg:carrierclass>
+            <bg:carrierid>7892064</bg:carrierid>
+            <bg:publid>4305231</bg:publid>
+            <bg:id>90206837</bg:id>
+            <bg:creationdate>2011-10-07T14:17:45Z</bg:creationdate>
+        </bg:carrier>
+        <bg:carrier>
+            <bg:startoncarrier>0</bg:startoncarrier>
+            <bg:endoncarrier>224312</bg:endoncarrier>
+            <bg:carrierreference>573424_JOBS_S-EVN00Z01EPF.mxf</bg:carrierreference>
+            <bg:carriertype>MXF</bg:carriertype>
+            <bg:repository>Digitaal Archief</bg:repository>
+            <bg:carrierclass>Programma</bg:carrierclass>
+            <bg:carrierid>7892065</bg:carrierid>
+            <bg:publid>4305231</bg:publid>
+            <bg:id>90206838</bg:id>
+            <bg:creationdate>2011-10-07T14:17:45Z</bg:creationdate>
+        </bg:carrier>
+    </bg:carriers>
+    <bg:summary>Steve Jobs, één van de grondleggers van de personal computer en mede-oprichter en directeur van het Amerikaanse computerconcern Apple inc., is op 56-jarige leeftijd overleden aan de gevolgen van alvleesklierkanker. Op 12 juni 2005 heeft hij een toespraak gehouden aan de universiteit van Stanford in zijn woonplaats Palo Alto, waarin hij ingaat op zijn loopbaan en zijn ziekte.
+TOESPRAAK van Jobs over:
+- het voortijdig verlaten van de middelbare school dat hij één van de beste beslissingen uit zijn leven noemt, omdat hij zich daarna meer kon gaan richten op zaken die hem interesseerden en die geleid hebben tot de ontwikkeling van de pc; 
+- de ontwikkeling van Apple, waaraan hij op zijn twintigste begint in de garage van zijn ouders samen met Steve Wozniak. Op zijn dertigste wordt hij bij Apple ontslagen, maar hij noemt zijn ontslag een goed medicijn en het begin van één van de creatiefste periodes van zijn leven;
+- leven en dood. Hij hoopt nog enige decennia te leven, maar sinds zijn ziekte is de dood geen puur intellectueel concept meer voor hem. Toch beschouwt hij de dood als waarschijnlijk de beste uitvinding van het leven; 
+- zijn boodschap voor de toekomst. Hij houdt studenten voor zich niet te laten leiden door dogma's maar de moed te hebben om af te gaan op wat hun hart en intuïtie ingeeft. Hij eindigt met de slagzin: "Stay hungry, stay foolish". 
+SHOTS van studenten die luisteren en applaudisseren.</bg:summary>
+    <bg:keywords>
+        <bg:keyword sequencenumber="3">ICT</bg:keyword>
+        <bg:keyword sequencenumber="2">computers</bg:keyword>
+        <bg:keyword sequencenumber="5">dood</bg:keyword>
+        <bg:keyword sequencenumber="7">levensbeschouwingen</bg:keyword>
+        <bg:keyword sequencenumber="6">loopbaan</bg:keyword>
+        <bg:keyword sequencenumber="1">overlijden</bg:keyword>
+        <bg:keyword sequencenumber="4">toespraken</bg:keyword>
+    </bg:keywords>
+    <bg:personnames>
+        <bg:personname>Jobs, Steve</bg:personname>
+    </bg:personnames>
+    <bg:locations>
+        <bg:location>VS</bg:location>
+    </bg:locations>
+    <bg:names>
+        <bg:name>Apple Inc.</bg:name>
+    </bg:names>
+    <bg:taskid>4596126</bg:taskid>
+    <bg:languageid>1</bg:languageid>
+    <bg:publications>
+        <bg:publication id="4305231">
+            <bg:type>internationale beelduitwisseling</bg:type>
+            <bg:duration>224312</bg:duration>
+            <bg:distributionchannel>televisie</bg:distributionchannel>
+            <bg:datereceived>06-10-2011</bg:datereceived>
+            <bg:networks/>
+            <bg:broadcasters>
+                <bg:broadcaster>NIET VAN TOEPASSING</bg:broadcaster>
+            </bg:broadcasters>
+            <bg:sortdate>06-10-2011</bg:sortdate>
+            <bg:sorttype>3</bg:sorttype>
+            <bg:ugstatus>Onbekend</bg:ugstatus>
+        </bg:publication>
+    </bg:publications>
+</bg:bgelement>

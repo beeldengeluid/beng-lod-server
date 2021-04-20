@@ -1,93 +1,613 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<bg:bgelement xmlns:bg="http://dummy.uri.nl/basic"
-              xmlns:dc="http://purl.org/dc/elements/1.1/"
-              xmlns:dcterms="http://purl.org/dc/terms/" aggregationType="program" id="5354463">
-    <dc:identifier>23456@program</dc:identifier>
-    <dc:relation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="dcterms:URI">http://dummy.uri/12345</dc:relation>
-    <dcterms:isPartOf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="dcterms:URI">http://dummy.uri/23456</dcterms:isPartOf>
-    <bg:external-id>DUMMY ID</bg:external-id>
-    <bg:maintitles>
-        <bg:title>DUMMY TITLE</bg:title>
-    </bg:maintitles>
-    <bg:creators>
-        <bg:creator>
-            <bg:name>DUMMY CREATOR</bg:name>
-            <bg:roles>
-                <bg:role>DUMMY ROLE</bg:role>
-            </bg:roles>
-        </bg:creator>
-    </bg:creators>
-    <bg:producers>
-        <bg:producer>
-            <bg:name>DUMMY OMROEP</bg:name>
-        </bg:producer>
-    </bg:producers>
-    <bg:productioncountries>
-        <bg:country>DUMMY COUNTRY</bg:country>
-    </bg:productioncountries>
-    <bg:languages>
-        <bg:language>
-            <bg:language>DUMMY LANGUAGE</bg:language>
-            <bg:use>DUMMY USE</bg:use>
-        </bg:language>
-    </bg:languages>
-    <bg:context>
-        <bg:colour>DUMMY COLOR</bg:colour>
-    </bg:context>
-    <bg:recordings>
-        <bg:recording>
-            <bg:productionyear>DUMMY PRODUCTION YEAR</bg:productionyear>
-        </bg:recording>
-    </bg:recordings>
-    <bg:qualification/>
-    <bg:sourcecatalog>DUMMY CATALOG</bg:sourcecatalog>
-    <bg:duration>10000</bg:duration>
-    <bg:episodenumber>1</bg:episodenumber>
-    <bg:carriers>
-        <bg:carrier>
-            <bg:startoncarrier>120000</bg:startoncarrier>
-            <bg:endoncarrier>734960</bg:endoncarrier>
-            <bg:carrierreference>DUMMY REFERENCE</bg:carrierreference>
-            <bg:carriertype>DUMMY CARRIER TYPE</bg:carriertype>
-            <bg:repository>DUMMY REPO</bg:repository>
-            <bg:carrierclass>DUMMY CLASS</bg:carrierclass>
-            <bg:carrierid>19057378</bg:carrierid>
-            <bg:dmguid>DUMMY ID</bg:dmguid>
-            <bg:startoffset>115000</bg:startoffset>
-            <bg:publid>5820171</bg:publid>
-            <bg:format>DUMMY FORMAT</bg:format>
-            <bg:id>110583888</bg:id>
-            <bg:creationdate>2019-01-30T11:39:14Z</bg:creationdate>
-        </bg:carrier>
-    </bg:carriers>
-    <bg:summary>DUMMY SUMMY</bg:summary>
-    <bg:availablecollections>
-        <bg:collection>DUMMY COLLECTION</bg:collection>
-    </bg:availablecollections>
-    <bg:taskid>34534</bg:taskid>
-    <bg:languageid>1</bg:languageid>
-    <bg:publications>
-        <bg:publication id="5820171">
-            <bg:type>DUMMY TYPE</bg:type>
-            <bg:startdate>30-01-2019</bg:startdate>
-            <bg:starttime>40091000</bg:starttime>
-            <bg:endtime>40808000</bg:endtime>
-            <bg:duration>614960</bg:duration>
-            <bg:publication-annotation>DUMMY ANNOTATION</bg:publication-annotation>
-            <bg:distributionchannel>DUMMY CHANNEL</bg:distributionchannel>
-            <bg:distributionformat>DUMMY FORMAT</bg:distributionformat>
-            <bg:rebroadcast>0</bg:rebroadcast>
-            <bg:networks>
-                <bg:network>DUMMY NETWORK</bg:network>
-            </bg:networks>
-            <bg:broadcasters>
-                <bg:broadcaster>DUMMY OMROEP</bg:broadcaster>
-            </bg:broadcasters>
-            <bg:sortdate>30-01-2019</bg:sortdate>
-            <bg:sorttype>1</bg:sorttype>
-            <bg:broadcastnorm>HD</bg:broadcastnorm>
-            <bg:productid>DUMMY PRODUCT ID</bg:productid>
-            <bg:ugstatus>DUMMY UG STATUS</bg:ugstatus>
-        </bg:publication>
-    </bg:publications>
-</bg:bgelement>
+<?xml version="1.0" encoding="utf-8" ?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/">
+<responseDate>2019-10-30T11:28:20Z</responseDate>
+<GetRecord>
+<record>
+<header>
+<identifier>oai:PROGRAM:2101908220260647331</identifier>
+<datestamp>2019-09-19T12:50:55Z</datestamp>
+<setSpec>PROGRAM</setSpec>
+</header>
+<metadata>
+<fe:entry xmlns:fe="http://oaipmh.beeldengeluid.nl/flexentry">
+<fe:id>2101908220260647331</fe:id>
+<fe:parents>
+<fe:parents>
+<fe:parent_type>SEASON</fe:parent_type>
+<fe:parent_id>2101902260253604731</fe:parent_id>
+</fe:parents>
+</fe:parents>
+<fe:payload>
+<fe:nisv.seasontitle>
+<fe:value>De Rijdende Rechter (voorjaar 2019)</fe:value>
+</fe:nisv.seasontitle>
+<fe:nisv.tenant>
+<fe:value>tenant_NISV</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-tenants/tenant_NISV
+</fe:origin>
+<fe:resolved_value>Beeld En Geluid</fe:resolved_value>
+</fe:nisv.tenant>
+<fe:nisv.sourceid>
+<fe:value>KN_1708063</fe:value>
+</fe:nisv.sourceid>
+<fe:nisv.metadatastatus>
+<fe:value>approved</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-metadatastatus/approved
+</fe:origin>
+<fe:resolved_value>Approved</fe:resolved_value>
+</fe:nisv.metadatastatus>
+<fe:nisv.sortdate>
+<fe:value>2019-03-26</fe:value>
+</fe:nisv.sortdate>
+<fe:omp.taskstatus>
+<fe:value>pub_ok</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~omp-taskstatus/pub_ok
+</fe:origin>
+<fe:resolved_value>Publishing task completed OK</fe:resolved_value>
+</fe:omp.taskstatus>
+<fe:nisv.title>
+<fe:value>'Pril doet wat hij wil'</fe:value>
+</fe:nisv.title>
+<fe:nisv.materialtype>
+<fe:value>video</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-pgmmaterialtype/video
+</fe:origin>
+<fe:resolved_value>video</fe:resolved_value>
+</fe:nisv.materialtype>
+<fe:nisv.seriestitle>
+<fe:value>DE RIJDENDE RECHTER</fe:value>
+</fe:nisv.seriestitle>
+<fe:nisv.metadatastatushidden>
+<fe:value>approved</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-metadatastatus/approved
+</fe:origin>
+<fe:resolved_value>Approved</fe:resolved_value>
+</fe:nisv.metadatastatushidden>
+<fe:nisv.mdissues>
+<fe:nisv.mdissues>
+<fe:mdissues.source>
+<fe:value>whatson</fe:value>
+</fe:mdissues.source>
+<fe:mdissues.type>
+<fe:value>T~</fe:value>
+</fe:mdissues.type>
+<fe:mdissues.severity>
+<fe:value>W</fe:value>
+</fe:mdissues.severity>
+<fe:mdissues.field>
+<fe:value>nisv.publication</fe:value>
+</fe:mdissues.field>
+<fe:mdissues.message>
+<fe:value>Broadcast station is normalized</fe:value>
+</fe:mdissues.message>
+<fe:mdissues.preflabel>
+<fe:value>NPO 2</fe:value>
+</fe:mdissues.preflabel>
+<fe:mdissues.value>
+<fe:value>NED2</fe:value>
+</fe:mdissues.value>
+<fe:mdissues.thesaurus>
+<fe:value>THE31</fe:value>
+</fe:mdissues.thesaurus>
+</fe:nisv.mdissues>
+<fe:nisv.mdissues>
+<fe:mdissues.source>
+<fe:value>whatson</fe:value>
+</fe:mdissues.source>
+<fe:mdissues.type>
+<fe:value>T~</fe:value>
+</fe:mdissues.type>
+<fe:mdissues.severity>
+<fe:value>W</fe:value>
+</fe:mdissues.severity>
+<fe:mdissues.field>
+<fe:value>nisv.crew</fe:value>
+</fe:mdissues.field>
+<fe:mdissues.message>
+<fe:value>Crew name is normalized</fe:value>
+</fe:mdissues.message>
+<fe:mdissues.preflabel>
+<fe:value>Elsen, Jetske van den</fe:value>
+</fe:mdissues.preflabel>
+<fe:mdissues.value>
+<fe:value>van den Elsen, Jetske</fe:value>
+</fe:mdissues.value>
+<fe:mdissues.thesaurus>
+<fe:value>THE22</fe:value>
+</fe:mdissues.thesaurus>
+</fe:nisv.mdissues>
+<fe:nisv.mdissues>
+<fe:mdissues.source>
+<fe:value>whatson</fe:value>
+</fe:mdissues.source>
+<fe:mdissues.type>
+<fe:value>G</fe:value>
+</fe:mdissues.type>
+<fe:mdissues.severity>
+<fe:value>W</fe:value>
+</fe:mdissues.severity>
+<fe:mdissues.field>
+<fe:value>genreunion</fe:value>
+</fe:mdissues.field>
+<fe:mdissues.message>
+<fe:value>Expected at least one valid TV genre</fe:value>
+</fe:mdissues.message>
+</fe:nisv.mdissues>
+<fe:nisv.mdissues>
+<fe:mdissues.source>
+<fe:value>poms</fe:value>
+</fe:mdissues.source>
+<fe:mdissues.type>
+<fe:value>T~</fe:value>
+</fe:mdissues.type>
+<fe:mdissues.severity>
+<fe:value>W</fe:value>
+</fe:mdissues.severity>
+<fe:mdissues.field>
+<fe:value>nisv.crew</fe:value>
+</fe:mdissues.field>
+<fe:mdissues.message>
+<fe:value>Crew name is normalized</fe:value>
+</fe:mdissues.message>
+<fe:mdissues.preflabel>
+<fe:value>Elsen, Jetske van den</fe:value>
+</fe:mdissues.preflabel>
+<fe:mdissues.value>
+<fe:value>van den Elsen, Jetske</fe:value>
+</fe:mdissues.value>
+<fe:mdissues.thesaurus>
+<fe:value>THE22</fe:value>
+</fe:mdissues.thesaurus>
+</fe:nisv.mdissues>
+<fe:nisv.mdissues>
+<fe:mdissues.source>
+<fe:value>poms</fe:value>
+</fe:mdissues.source>
+<fe:mdissues.type>
+<fe:value>G</fe:value>
+</fe:mdissues.type>
+<fe:mdissues.severity>
+<fe:value>W</fe:value>
+</fe:mdissues.severity>
+<fe:mdissues.field>
+<fe:value>genreunion</fe:value>
+</fe:mdissues.field>
+<fe:mdissues.message>
+<fe:value>Expected at least one valid TV genre</fe:value>
+</fe:mdissues.message>
+</fe:nisv.mdissues>
+</fe:nisv.mdissues>
+<fe:nisv.collectionsgroup>
+<fe:nisv.collectionsgroup>
+<fe:collectionsgroup.dir>
+<fe:value>50000</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/directory/collections-group/50000
+</fe:origin>
+<fe:resolved_value>Publieke omroepen</fe:resolved_value>
+<fe:nisv.collectionsname>
+<fe:value>Publieke omroepen</fe:value>
+</fe:nisv.collectionsname>
+</fe:collectionsgroup.dir>
+</fe:nisv.collectionsgroup>
+</fe:nisv.collectionsgroup>
+<fe:nisv.currentbroadcaster>
+<fe:nisv.currentbroadcaster>
+<fe:currentbroadcaster.broadcaster>
+<fe:value>238098</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE30/238098
+</fe:origin>
+<fe:resolved_value>KRO-NCRV</fe:resolved_value>
+</fe:currentbroadcaster.broadcaster>
+</fe:nisv.currentbroadcaster>
+</fe:nisv.currentbroadcaster>
+<fe:nisv.publication>
+<fe:nisv.publication>
+<fe:publication.begindate>
+<fe:value>2019-03-26</fe:value>
+</fe:publication.begindate>
+</fe:nisv.publication>
+<fe:nisv.publication>
+<fe:publication.origbroadcastorg>
+<fe:value>KRO-NCRV</fe:value>
+</fe:publication.origbroadcastorg>
+<fe:publication.distributionchannel>
+<fe:value>79</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC1/79
+</fe:origin>
+<fe:resolved_value>televisie</fe:resolved_value>
+</fe:publication.distributionchannel>
+<fe:publication.strendtime>
+<fe:value>14:50:50</fe:value>
+</fe:publication.strendtime>
+<fe:publication.annotation>
+<fe:value>Stereo</fe:value>
+</fe:publication.annotation>
+<fe:publication.station>
+<fe:value>239476</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE31/239476
+</fe:origin>
+<fe:resolved_value>NPO 2</fe:resolved_value>
+</fe:publication.station>
+<fe:publication.strstarttime>
+<fe:value>14:20:36</fe:value>
+</fe:publication.strstarttime>
+<fe:publication.broadcaststd>
+<fe:value>1891012</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC41/1891012
+</fe:origin>
+<fe:resolved_value>HD</fe:resolved_value>
+</fe:publication.broadcaststd>
+<fe:publication.type>
+<fe:value>78</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC3/78
+</fe:origin>
+<fe:resolved_value>uitzending</fe:resolved_value>
+</fe:publication.type>
+<fe:publication.endtime>
+<fe:value>53450000</fe:value>
+</fe:publication.endtime>
+<fe:publication.starttime>
+<fe:value>51636000</fe:value>
+</fe:publication.starttime>
+<fe:publication.aspectratio>
+<fe:value>1891013</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC6/1891013
+</fe:origin>
+<fe:resolved_value>HD1080i</fe:resolved_value>
+</fe:publication.aspectratio>
+<fe:publication.plannedforsubtitling>
+<fe:value>true</fe:value>
+</fe:publication.plannedforsubtitling>
+<fe:publication.broadcastorg>
+<fe:value>238098</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE30/238098
+</fe:origin>
+<fe:resolved_value>KRO-NCRV</fe:resolved_value>
+</fe:publication.broadcastorg>
+<fe:publication.begindate>
+<fe:value>2019-08-22</fe:value>
+</fe:publication.begindate>
+<fe:publication.repetition>
+<fe:value>true</fe:value>
+</fe:publication.repetition>
+<fe:publication.indicationlive>
+<fe:value>false</fe:value>
+</fe:publication.indicationlive>
+<fe:publication.productionid>
+<fe:value>KN_1708063</fe:value>
+</fe:publication.productionid>
+</fe:nisv.publication>
+</fe:nisv.publication>
+<fe:nisv.productioncountry>
+<fe:nisv.productioncountry>
+<fe:productioncountry.name>
+<fe:value>39742</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE26/39742
+</fe:origin>
+<fe:resolved_value>Nederland</fe:resolved_value>
+</fe:productioncountry.name>
+</fe:nisv.productioncountry>
+</fe:nisv.productioncountry>
+<fe:nisv.sourcedescription>
+<fe:value>
+<Program wonid="1672688989527" version="1.1"><Type><DomainItem><Code>E</Code><Value>Aflevering</Value></DomainItem></Type><Code>KN_1708063</Code><Nature><DomainItem><Code>EXTP</Code><Value>Externe Productie</Value></DomainItem></Nature><Status><DomainItem><Code>GIDS</Code><Value>Gidsinformatie compleet</Value></DomainItem></Status><OriginalTitle/><BroadcastTitle>&apos;Pril doet wat hij wil&apos;</BroadcastTitle><ShortBroadcastTitle/><SubTitle/><Department><DomainItem><Code>KN</Code><Value>KRO-NCRV</Value></DomainItem></Department><Category><DomainItem><Code>0799</Code><Value>Informatief - Overig</Value></DomainItem></Category><Audio><DomainItem><Code>STERE</Code><Value>Stereo</Value></DomainItem></Audio><Colour><DomainItem><Code>K</Code><Value>Kleur</Value></DomainItem></Colour><ImageFormat><DomainItem><Code>HD1080i</Code><Value>HD1080i</Value></DomainItem></ImageFormat><ImageRatio><DomainItem><Code>HD</Code><Value>HD</Value></DomainItem></ImageRatio><Subtitled><Boolean>false</Boolean></Subtitled><Dubbed><Boolean>false</Boolean></Dubbed><SubtitlingCode/><LiveStreaming><Boolean>false</Boolean></LiveStreaming><OnDemandStreaming><Boolean>false</Boolean></OnDemandStreaming><OnCellPhone><Boolean>false</Boolean></OnCellPhone><Duration><Timecode><Hours>0</Hours><Minutes>30</Minutes><Seconds>0</Seconds><Frames>0</Frames></Timecode></Duration><PlannedTransmissionSlots><TransmissionSlot wonid="1568645383813"><TxDate><Date><Year>2019</Year><Month>8</Month><Day>22</Day></Date></TxDate><StartTime><Timecode><Hours>14</Hours><Minutes>20</Minutes><Seconds>36</Seconds><Frames>0</Frames></Timecode></StartTime><Duration><Timecode><Hours>0</Hours><Minutes>30</Minutes><Seconds>14</Seconds><Frames>0</Frames></Timecode></Duration><EndTime><Timecode><Hours>14</Hours><Minutes>50</Minutes><Seconds>50</Seconds><Frames>0</Frames></Timecode></EndTime><Channel><DomainItem><Code>NED2</Code><Value>Nederland 2</Value></DomainItem></Channel></TransmissionSlot></PlannedTransmissionSlots><IntendedTransmissionSlots><IntendedTransmissionSlot><TxDate><Date><Year>2019</Year><Month>8</Month><Day>22</Day></Date></TxDate><StartTime><Timecode><Hours>14</Hours><Minutes>55</Minutes><Seconds>0</Seconds><Frames>0</Frames></Timecode></StartTime><Channel><DomainItem><Code>NED2</Code><Value>Nederland 2</Value></DomainItem></Channel></IntendedTransmissionSlot></IntendedTransmissionSlots><OriginalLanguage><DomainItem><Code>NL</Code><Value>Nederlands</Value></DomainItem></OriginalLanguage><ProductionCountry><DomainItem><Code>NLD</Code><Value>Nederland</Value></DomainItem></ProductionCountry><ProductionYear><Year>2019</Year></ProductionYear><CoProduction><Boolean>false</Boolean></CoProduction><Distributor/><ProductionCompany><Firm><Code>IDTV</Code><Name>IDTV</Name></Firm></ProductionCompany><Producer/><ShortDescription>Gerhard Pril is meer dan 25 jaar lid van Philips Hengelsportvereniging Veldhoven. Hij vist al die jaren op eenzelfde manier, in zijn ouderwetse visstoel direct aan de oever. Maar dat mag niet meer.</ShortDescription><LongDescription>Gerhard Pril is meer dan 25 jaar lid van Philips Hengelsportvereniging Veldhoven. Hij vist al die jaren op eenzelfde manier, in zijn ouderwetse visstoel direct aan de oever. Sinds een aantal jaar zijn er steigers geplaatst rondom zijn favoriete visvijver Het Karperputje. Alle vissers moeten nu vanaf een steiger vissen. Maar dat kan hij niet met zijn ouderwetse visgerei. Hans Dings is voorzitter van de hengelsportvereniging. Die steigers hebben zij moeten plaatsen ter versteviging van de oevers die langzaamaan het water in verdwijnen. De vereniging wil juist de mooie visplek behouden. Meneer Pril voelt zich weggepest, waarom kan zijn plekje niet blijven zoals die is? De Rijdende Rechter reist af naar Veldhoven om zelf een hengel uit te gooien in het Karperputje.</LongDescription><OriginalDescription/><SpeakerText/><Remarks/><TeletextPage/><TeletextDescription>Gerhard Pril is meer dan 25 jaar lid van Philips Hengelsportvereniging Veldhoven. Maar moet van zijn visstekkie af.</TeletextDescription><StreamingLogo>KN</StreamingLogo><MediaSet clipcreatestatus="true"><VisioningStatus><DomainItem><Code>UITZ</Code><Value>Uitzendklaar</Value></DomainItem></VisioningStatus><Audio><DomainItem><Code>STERE</Code><Value>Stereo</Value></DomainItem></Audio><Colour><DomainItem><Code>K</Code><Value>Kleur</Value></DomainItem></Colour><ImageFormat><DomainItem><Code>HD1080i</Code><Value>HD1080i</Value></DomainItem></ImageFormat><ImageRatio><DomainItem><Code>HD</Code><Value>HD</Value></DomainItem></ImageRatio><Media><Code>DE_RIJDENDE_R-KN_0000ACG2</Code><Format><DomainItem><Code>MXF</Code><Value>MXF </Value></DomainItem></Format><Identification>52175693</Identification><StartPoint><Timecode><Hours>0</Hours><Minutes>2</Minutes><Seconds>0</Seconds><Frames>0</Frames></Timecode></StartPoint><EndPoint><Timecode><Hours>0</Hours><Minutes>31</Minutes><Seconds>50</Seconds><Frames>9</Frames></Timecode></EndPoint><OWEFileNumber>DE_RIJDENDE_R-KN_0000ACG2</OWEFileNumber><FirstSoundDescription>KRO-NCRV Pingel</FirstSoundDescription><FirstImageDescription>KRO-NCRV Pingel</FirstImageDescription><LastSoundDescription>KRO-NCRV Ident</LastSoundDescription><LastImageDescription>KRO-NCRV Ident</LastImageDescription></Media></MediaSet><MediaRemarks/><Director/><ScriptWriter/><Composer/><Presentor><Person><Code/><FirstName>Jetske</FirstName><LastName>van den Elsen</LastName></Person></Presentor><Commentator/><Actors></Actors><ContactPerson/><ContactPhoneNumber>Jeanne Gnimavo-Wennekendonk 0652520130</ContactPhoneNumber><UsedMaterials></UsedMaterials><Episode><EpisodeNumber>11</EpisodeNumber><ProductReference wonid="1624613148527"><Code>KN_1705055</Code></ProductReference></Episode><EpisodeType><DomainItem><Code>G</Code><Value>Niet van toepassing</Value></DomainItem></EpisodeType><FirstTransmissionDate><Date><Year>2019</Year><Month>3</Month><Day>26</Day></Date></FirstTransmissionDate><ShowRepeatInfo><Boolean>false</Boolean></ShowRepeatInfo><SatelliteEncription><Boolean>false</Boolean></SatelliteEncription><TeletextSubtitlePage>888</TeletextSubtitlePage><TeletextSubtitlingAvailable><Boolean>true</Boolean></TeletextSubtitlingAvailable><ActorsDescription/><Awards/><ProductionURL/><ProductionEmail/><ProductionBasedOn/><ProductionCommissioner/><Subsidiser/><CoProducers/><ArchivedByBroadcaster><Boolean>false</Boolean></ArchivedByBroadcaster><ContinuityRemarks/><NicamViolence><DomainItem><Code>AL</Code><Value>Alle leeftijden</Value></DomainItem></NicamViolence><NicamSex><DomainItem><Code>AL</Code><Value>Alle leeftijden</Value></DomainItem></NicamSex><NicamFear><DomainItem><Code>AL</Code><Value>Alle leeftijden</Value></DomainItem></NicamFear><NicamDiscrimination><DomainItem><Code>AL</Code><Value>Alle leeftijden</Value></DomainItem></NicamDiscrimination><NicamDrugs><DomainItem><Code>AL</Code><Value>Alle leeftijden</Value></DomainItem></NicamDrugs><NicamFoulLanguage><Boolean>true</Boolean></NicamFoulLanguage><MJBMovie><Boolean>false</Boolean></MJBMovie><MJBEducation><Boolean>false</Boolean></MJBEducation><MJBCulture><Boolean>false</Boolean></MJBCulture><MJBArt><Boolean>false</Boolean></MJBArt><MJBMinority><Boolean>false</Boolean></MJBMinority><MJBDocumentary><Boolean>false</Boolean></MJBDocumentary><MJBArtDocumentary><Boolean>false</Boolean></MJBArtDocumentary><MJBChildren><Boolean>false</Boolean></MJBChildren><MJBYouth><Boolean>false</Boolean></MJBYouth><Embargo><Boolean>false</Boolean></Embargo><RecordingStartDate/><RecordingEndDate/><RecordingPeriod/><RecordingPlace/><MultiLanguage/><Live><Boolean>false</Boolean></Live><SLA><DomainItem><Code>A</Code><Value>A</Value></DomainItem></SLA><p_subtitlingPlannedTT888><Boolean>true</Boolean></p_subtitlingPlannedTT888></Program>
+</fe:value>
+</fe:nisv.sourcedescription>
+<fe:nisv.recordinginformation>
+<fe:nisv.recordinginformation>
+<fe:recordinginformation.prodyear>
+<fe:value>2019</fe:value>
+</fe:recordinginformation.prodyear>
+</fe:nisv.recordinginformation>
+</fe:nisv.recordinginformation>
+<fe:nisv.productioncompany>
+<fe:nisv.productioncompany>
+<fe:productioncompany.name>
+<fe:value>30780</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE37/30780
+</fe:origin>
+<fe:resolved_value>IdtV</fe:resolved_value>
+</fe:productioncompany.name>
+<fe:productioncompany.role>
+<fe:value>75</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC17/75
+</fe:origin>
+<fe:resolved_value>producent</fe:resolved_value>
+</fe:productioncompany.role>
+</fe:nisv.productioncompany>
+</fe:nisv.productioncompany>
+<fe:nisv.episodenumber>
+<fe:value>11</fe:value>
+</fe:nisv.episodenumber>
+<fe:nisv.crew>
+<fe:nisv.crew>
+<fe:crew.role>
+<fe:value>2608029</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC16/2608029
+</fe:origin>
+<fe:resolved_value>presentatie</fe:resolved_value>
+</fe:crew.role>
+<fe:crew.name>
+<fe:value>215283</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/215283
+</fe:origin>
+<fe:resolved_value>Elsen, Jetske van den</fe:resolved_value>
+</fe:crew.name>
+</fe:nisv.crew>
+</fe:nisv.crew>
+<fe:nisv.colour>
+<fe:value>39</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC13/39
+</fe:origin>
+<fe:resolved_value>kleur</fe:resolved_value>
+</fe:nisv.colour>
+<fe:nisv.classification>
+<fe:nisv.classification>
+<fe:classification.subject>
+<fe:value>1890855</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC42/1890855
+</fe:origin>
+<fe:resolved_value>Geweld</fe:resolved_value>
+</fe:classification.subject>
+<fe:classification.age>
+<fe:value>1890861</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC43/1890861
+</fe:origin>
+<fe:resolved_value>alle leeftijden</fe:resolved_value>
+</fe:classification.age>
+</fe:nisv.classification>
+<fe:nisv.classification>
+<fe:classification.subject>
+<fe:value>1890857</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC42/1890857
+</fe:origin>
+<fe:resolved_value>Angst</fe:resolved_value>
+</fe:classification.subject>
+<fe:classification.age>
+<fe:value>1890861</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC43/1890861
+</fe:origin>
+<fe:resolved_value>alle leeftijden</fe:resolved_value>
+</fe:classification.age>
+</fe:nisv.classification>
+<fe:nisv.classification>
+<fe:classification.subject>
+<fe:value>1890856</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC42/1890856
+</fe:origin>
+<fe:resolved_value>Sex</fe:resolved_value>
+</fe:classification.subject>
+<fe:classification.age>
+<fe:value>1890861</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC43/1890861
+</fe:origin>
+<fe:resolved_value>alle leeftijden</fe:resolved_value>
+</fe:classification.age>
+</fe:nisv.classification>
+<fe:nisv.classification>
+<fe:classification.subject>
+<fe:value>1890858</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC42/1890858
+</fe:origin>
+<fe:resolved_value>Discriminatie</fe:resolved_value>
+</fe:classification.subject>
+<fe:classification.age>
+<fe:value>1890861</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC43/1890861
+</fe:origin>
+<fe:resolved_value>alle leeftijden</fe:resolved_value>
+</fe:classification.age>
+</fe:nisv.classification>
+<fe:nisv.classification>
+<fe:classification.subject>
+<fe:value>1890859</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC42/1890859
+</fe:origin>
+<fe:resolved_value>Drugs- en alcoholmisbruik</fe:resolved_value>
+</fe:classification.subject>
+<fe:classification.age>
+<fe:value>1890861</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC43/1890861
+</fe:origin>
+<fe:resolved_value>alle leeftijden</fe:resolved_value>
+</fe:classification.age>
+</fe:nisv.classification>
+<fe:nisv.classification>
+<fe:classification.subject>
+<fe:value>1890860</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC42/1890860
+</fe:origin>
+<fe:resolved_value>Grof taalgebruik</fe:resolved_value>
+</fe:classification.subject>
+<fe:classification.age>
+<fe:value>2862228</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC43/2862228
+</fe:origin>
+<fe:resolved_value>ja</fe:resolved_value>
+</fe:classification.age>
+</fe:nisv.classification>
+</fe:nisv.classification>
+<fe:nisv.sourcecatalogue>
+<fe:value>whatson_poms</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC27/whatson_poms
+</fe:origin>
+<fe:resolved_value>WHATS'On; POMS</fe:resolved_value>
+</fe:nisv.sourcecatalogue>
+<fe:nisv.summaryshort>
+<fe:value>
+Gerhard Pril is meer dan 25 jaar lid van Philips Hengelsportvereniging Veldhoven. Hij vist al die jaren op eenzelfde manier, in zijn ouderwetse visstoel direct aan de oever. Sinds een aantal jaar zijn er steigers geplaatst rondom zijn favoriete visvijver Het Karperputje. Alle vissers moeten nu vanaf een steiger vissen, maar dat kan hij niet met zijn ouderwetse visgerei. Hans Dings is voorzitter van de hengelsportvereniging. Die steigers hebben zij moeten plaatsen ter versteviging van de oevers, die langzaamaan het water in verdwijnen. De vereniging wil juist de mooie visplek behouden. Meneer Pril voelt zich weggepest. Waarom kan zijn plekje niet blijven zoals die is? De Rijdende Rechter reist af naar Veldhoven om zelf een hengel uit te gooien in het Karperputje.
+</fe:value>
+</fe:nisv.summaryshort>
+<fe:nisv.category>
+<fe:value>other</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-category/other
+</fe:origin>
+<fe:resolved_value>other</fe:resolved_value>
+</fe:nisv.category>
+<fe:nisv.culturalheritage>
+<fe:value>1897253</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC44/1897253
+</fe:origin>
+<fe:resolved_value>B</fe:resolved_value>
+</fe:nisv.culturalheritage>
+<fe:nisv.rightslicense>
+<fe:value>3</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-arlicense/3
+</fe:origin>
+<fe:resolved_value>License check</fe:resolved_value>
+</fe:nisv.rightslicense>
+<fe:nisv.publishings>
+<fe:nisv.publishings>
+<fe:publishings.presentlyshared>
+<fe:value>true</fe:value>
+</fe:publishings.presentlyshared>
+<fe:publishings.determinationdate>
+<fe:value>2019-08-22</fe:value>
+</fe:publishings.determinationdate>
+<fe:publishings.publishing>
+<fe:value>NISVMPP</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-publishingpoints/NISVMPP
+</fe:origin>
+<fe:resolved_value>NISV @MPP</fe:resolved_value>
+</fe:publishings.publishing>
+</fe:nisv.publishings>
+<fe:nisv.publishings>
+<fe:publishings.presentlyshared>
+<fe:value>true</fe:value>
+</fe:publishings.presentlyshared>
+<fe:publishings.determinationdate>
+<fe:value>2019-08-22</fe:value>
+</fe:publishings.determinationdate>
+<fe:publishings.publishing>
+<fe:value>GPP</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-publishingpoints/GPP
+</fe:origin>
+<fe:resolved_value>GPP</fe:resolved_value>
+</fe:publishings.publishing>
+</fe:nisv.publishings>
+<fe:nisv.publishings>
+<fe:publishings.publishing>
+<fe:value>OMP</fe:value>
+<fe:origin>
+https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-publishingpoints/OMP
+</fe:origin>
+<fe:resolved_value>OMP</fe:resolved_value>
+</fe:publishings.publishing>
+<fe:publishings.presentlyshared>
+<fe:value>true</fe:value>
+</fe:publishings.presentlyshared>
+<fe:publishings.determinationdate>
+<fe:value>2019-09-01</fe:value>
+</fe:publishings.determinationdate>
+</fe:nisv.publishings>
+</fe:nisv.publishings>
+<fe:nisv.strlength>
+<fe:value>00:30:30</fe:value>
+</fe:nisv.strlength>
+<fe:nisv.length>
+<fe:value>1830000</fe:value>
+</fe:nisv.length>
+<fe:nisv.sourcedescription2>
+<fe:value>
+{"objectType":"program","mid":"KN_1708063","type":"BROADCAST","avType":"VIDEO","workflow":"PUBLISHED","sortDate":1566476400000,"creationDate":1562320871524,"lastModified":1566482757097,"urn":"urn:vpro:media:program:111940654","embeddable":true,"episodeOf":[{"midRef":"KN_1705055","urnRef":"urn:vpro:media:group:110230039","type":"SEASON","index":11,"highlighted":false,"added":1562320871674}],"crids":["crid://npo/programmagegevens/1568645388668"],"broadcasters":[{"id":"KRNC","value":"KRO-NCRV"}],"regions":["PLUSVOD:EU"],"titles":[{"value":"De Rijdende Rechter","owner":"MIS","type":"MAIN"},{"value":"'Pril doet wat hij wil'","owner":"MIS","type":"SUB"},{"value":"DE RIJDENDE RECHTER","owner":"MIS","type":"ORIGINAL"}],"descriptions":[{"value":"Gerhard Pril is meer dan 25 jaar lid van Philips Hengelsportvereniging Veldhoven. Hij vist al die jaren op eenzelfde manier, in zijn ouderwetse visstoel direct aan de oever. Sinds een aantal jaar zijn er steigers geplaatst rondom zijn favoriete visvijver Het Karperputje. Alle vissers moeten nu vanaf een steiger vissen, maar dat kan hij niet met zijn ouderwetse visgerei. Hans Dings is voorzitter van de hengelsportvereniging. Die steigers hebben zij moeten plaatsen ter versteviging van de oevers, die langzaamaan het water in verdwijnen. De vereniging wil juist de mooie visplek behouden. Meneer Pril voelt zich weggepest. Waarom kan zijn plekje niet blijven zoals die is? De Rijdende Rechter reist af naar Veldhoven om zelf een hengel uit te gooien in het Karperputje.","owner":"MIS","type":"MAIN"},{"value":"Gerhard Pril is meer dan 25 jaar lid van Philips Hengelsportvereniging Veldhoven. Hij vist al die jaren op eenzelfde manier, in zijn ouderwetse visstoel direct aan de oever. Maar dat mag niet meer.","owner":"MIS","type":"SHORT"},{"value":"Gerhard Pril is meer dan 25 jaar lid van Philips Hengelsportvereniging Veldhoven., maar moet van zijn visstekkie af.","owner":"MIS","type":"KICKER"}],"genres":[{"id":"3.0.1.7","terms":["Informatief"]}],"hasSubtitles":true,"countries":[{"code":"NL","value":"Nederland"}],"languages":[{"code":"nl","value":"Nederlands"}],"isDubbed":false,"availableSubtitles":[{"language":"nl","type":"CAPTION"}],"releaseYear":2019,"duration":1790424,"credits":[{"givenName":"Jetske","familyName":"van den Elsen","role":"PRESENTER"}],"descendantOf":[{"midRef":"POMS_S_NPO_13133300","urnRef":"urn:vpro:media:group:108346454","type":"PLAYLIST"},{"midRef":"KN_1705055","urnRef":"urn:vpro:media:group:110230039","type":"SEASON"},{"midRef":"KN_1679108","urnRef":"urn:vpro:media:group:70890387","type":"SERIES"},{"midRef":"POMS_S_NPO_9798311","urnRef":"urn:vpro:media:group:95895388","type":"COLLECTION"},{"midRef":"POMS_S_NPO_11394957","urnRef":"urn:vpro:media:group:98786306","type":"PLAYLIST"}],"ageRating":"ALL","contentRatings":["GROF_TAALGEBRUIK"],"predictions":[{"state":"REALIZED","publishStart":946684800000,"publishStop":4133980740000,"platform":"INTERNETVOD"},{"state":"REALIZED","publishStart":1566478207000,"publishStop":1567342207000,"platform":"TVVOD"},{"state":"REALIZED","publishStart":1566478207000,"publishStop":1598014207000,"platform":"PLUSVOD"}],"locations":[{"programUrl":"npo+drm://plusvod.omroep.nl/KN_1708063","avAttributes":{"bitrate":3500000,"avFileFormat":"HASP"},"owner":"AUTHORITY","creationDate":1566481312149,"workflow":"PUBLISHED","platform":"PLUSVOD","publishStart":1566478207000,"publishStop":1598014207000,"lastModified":1566482757101,"urn":"urn:vpro:media:location:112348464"},{"programUrl":"sub+http://npo.npoplus.nl/video/MXF/KN_1708063","avAttributes":{"bitrate":3500000,"avFileFormat":"MPEG2"},"owner":"PROJECTM","creationDate":1566479438934,"workflow":"PUBLISHED","platform":"PLUSVOD","publishStart":1566478207000,"publishStop":1598014207000,"lastModified":1566479439043,"urn":"urn:vpro:media:location:112348088"},{"programUrl":"npo+drm://tvvod.omroep.nl/KN_1708063","avAttributes":{"bitrate":3500000,"avFileFormat":"HASP"},"owner":"AUTHORITY","creationDate":1566481312149,"workflow":"PUBLISHED","platform":"TVVOD","publishStart":1566478207000,"publishStop":1567342207000,"lastModified":1566482757101,"urn":"urn:vpro:media:location:112348466"},{"programUrl":"npo+drm://internetvod.omroep.nl/KN_1708063","avAttributes":{"bitrate":3500000,"avFileFormat":"HASP"},"owner":"AUTHORITY","creationDate":1566481312148,"workflow":"PUBLISHED","platform":"INTERNETVOD","publishStart":946684800000,"publishStop":4133980740000,"lastModified":1566482757101,"urn":"urn:vpro:media:location:112348462"},{"programUrl":"sub+http://tvvod.omroep.nl/video/H264_2500/KN_1708063","avAttributes":{"bitrate":2500000,"avFileFormat":"H264"},"owner":"PROJECTM","creationDate":1566478475559,"workflow":"PUBLISHED","platform":"TVVOD","publishStart":1566478207000,"publishStop":1567342207000,"lastModified":1566478475570,"urn":"urn:vpro:media:location:112348034"},{"programUrl":"sub+http://tvvod.omroep.nl/video/MPEG2_3500/KN_1708063","avAttributes":{"bitrate":3500000,"avFileFormat":"MPEG2"},"owner":"PROJECTM","creationDate":1566478474442,"workflow":"PUBLISHED","platform":"TVVOD","publishStart":1566478207000,"publishStop":1567342207000,"lastModified":1566478474453,"urn":"urn:vpro:media:location:112348031"}],"scheduleEvents":[{"channel":"NED2","start":1566476400000,"guideDay":1566424800000,"duration":1830000,"midRef":"KN_1708063","poProgID":"KN_1708063","textSubtitles":"Teletekst ondertitels","urnRef":"urn:vpro:media:program:111940654"}],"images":[{"title":"De Rijdende Rechter","description":"Gerhard Pril is meer dan 25 jaar lid van Philips Hengelsportvereniging Veldhoven. Hij vist al die jaren op eenzelfde manier, in zijn ouderwetse visstoel direct aan de oever. Maar dat mag niet meer.","imageUri":"urn:vpro:image:1254805","offset":60000,"height":1080,"width":1920,"credits":"Still De Rijdende Rechter / 'Pril doet wat hij wil'","sourceName":"KRO-NCRV","date":"2019","owner":"AUTHORITY","type":"STILL","highlighted":false,"creationDate":1566481315084,"workflow":"PUBLISHED","lastModified":1566481315084,"urn":"urn:vpro:media:image:112348467"},{"title":"De Rijdende Rechter","description":"Gerhard Pril is meer dan 25 jaar lid van Philips Hengelsportvereniging Veldhoven. Hij vist al die jaren op eenzelfde manier, in zijn ouderwetse visstoel direct aan de oever. Maar dat mag niet meer.","imageUri":"urn:vpro:image:1254806","offset":120000,"height":1080,"width":1920,"credits":"Still De Rijdende Rechter / 'Pril doet wat hij wil'","sourceName":"KRO-NCRV","date":"2019","owner":"AUTHORITY","type":"STILL","highlighted":false,"creationDate":1566481315921,"workflow":"PUBLISHED","lastModified":1566481315921,"urn":"urn:vpro:media:image:112348468"},{"title":"De Rijdende Rechter","description":"Gerhard Pril is meer dan 25 jaar lid van Philips Hengelsportvereniging Veldhoven. Hij vist al die jaren op eenzelfde manier, in zijn ouderwetse visstoel direct aan de oever. Maar dat mag niet meer.","imageUri":"urn:vpro:image:1254807","offset":180000,"height":1080,"width":1920,"credits":"Still De Rijdende Rechter / 'Pril doet wat hij wil'","sourceName":"KRO-NCRV","date":"2019","owner":"AUTHORITY","type":"STILL","highlighted":false,"creationDate":1566481317500,"workflow":"PUBLISHED","lastModified":1566481317500,"urn":"urn:vpro:media:image:112348469"}],"publishDate":1566482757336}
+</fe:value>
+</fe:nisv.sourcedescription2>
+<fe:nisv.genrenpo>
+<fe:nisv.genrenpo>
+<fe:genrenpo.name>
+<fe:value>Informatief</fe:value>
+</fe:genrenpo.name>
+</fe:nisv.genrenpo>
+</fe:nisv.genrenpo>
+<fe:omp.showbrowse>
+<fe:value>true</fe:value>
+</fe:omp.showbrowse>
+</fe:payload>
+<fe:aclGroups>
+<fe:aclGroups>
+<fe:name>Administrators</fe:name>
+<fe:read>1</fe:read>
+<fe:write>1</fe:write>
+<fe:admin>1</fe:admin>
+</fe:aclGroups>
+<fe:aclGroups>
+<fe:name>NISV_ADMINISTRATOR</fe:name>
+<fe:read>1</fe:read>
+<fe:write>1</fe:write>
+<fe:admin>1</fe:admin>
+</fe:aclGroups>
+<fe:aclGroups>
+<fe:name>PORTAL_EDU_NISV</fe:name>
+<fe:read>1</fe:read>
+<fe:write/>
+<fe:admin/>
+</fe:aclGroups>
+<fe:aclGroups>
+<fe:name>PORTAL_GP</fe:name>
+<fe:read>1</fe:read>
+<fe:write/>
+<fe:admin/>
+</fe:aclGroups>
+<fe:aclGroups>
+<fe:name>PORTAL_MP_NISV</fe:name>
+<fe:read>1</fe:read>
+<fe:write/>
+<fe:admin/>
+</fe:aclGroups>
+<fe:aclGroups>
+<fe:name>TENANT_NISV</fe:name>
+<fe:read>1</fe:read>
+<fe:write>1</fe:write>
+<fe:admin>1</fe:admin>
+</fe:aclGroups>
+</fe:aclGroups>
+<fe:site_id>PGMTV2000495513</fe:site_id>
+<fe:date_created>1566478252443</fe:date_created>
+<fe:date_last_updated>1568897455798</fe:date_last_updated>
+<fe:payload_model>
+http://acc-app-bng-01.beeldengeluid.nl:8101/model/api/metadata/form/nisv-tv-radio-program/r1
+</fe:payload_model>
+<fe:viz_type>PROGRAM</fe:viz_type>
+<fe:acl_hash>-1197288755</fe:acl_hash>
+</fe:entry>
+</metadata>
+</record>
+</GetRecord>
+</OAI-PMH>

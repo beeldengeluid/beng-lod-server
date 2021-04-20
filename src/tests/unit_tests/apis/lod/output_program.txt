@@ -1,0 +1,64 @@
+@prefix nisv: <http://data.rdlabs.beeldengeluid.nl/schema/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<2101908220260647331> nisv:hasCategory "other"^^xsd:string ;
+    nisv:hasColour "kleur"^^xsd:string ;
+    nisv:hasCreator [ a nisv:Creator ;
+            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/215283> ;
+            nisv:hasRole "presentatie"^^xsd:string ] ;
+    nisv:hasCulturalHeritageCategory "B"^^xsd:string ;
+    nisv:hasDuration "1830000"^^xsd:long ;
+    nisv:hasEpisodeNumber "11"^^xsd:long ;
+    nisv:hasMainTitle [ a nisv:Title ;
+            nisv:hasTitleText "'Pril doet wat hij wil'"^^xsd:string ] ;
+    nisv:hasMaterialType "video"^^xsd:string ;
+    nisv:hasMetadataStatus "Approved"^^xsd:string ;
+    nisv:hasProducer [ a nisv:Producer ;
+            nisv:hasOrganisation <http://data.beeldengeluid.nl/gtaa/30780> ;
+            nisv:hasRole "producent"^^xsd:string ] ;
+    nisv:hasProductionCountry <http://data.beeldengeluid.nl/gtaa/39742> ;
+    nisv:hasPublication [ a nisv:PublicationEvent ;
+            nisv:hasStartDate "2019-03-26"^^xsd:date ],
+        [ a nisv:PublicationEvent ;
+            nisv:hasAdditionalInformation "Stereo"^^xsd:string ;
+            nisv:hasAspectRatio "HD1080i"^^xsd:string ;
+            nisv:hasBroadcastStandard "HD"^^xsd:string ;
+            nisv:hasBroadcastStation <http://data.beeldengeluid.nl/nongtaa/239476> ;
+            nisv:hasBroadcaster <http://data.beeldengeluid.nl/nongtaa/238098> ;
+            nisv:hasDistributionChannel "televisie"^^xsd:string ;
+            nisv:hasEndTime "53450000"^^xsd:string ;
+            nisv:hasOriginalBroadcaster [ a nisv:Broadcaster ;
+                    skos:prefLabel "KRO-NCRV"@nl ] ;
+            nisv:hasPublicationType "uitzending"^^xsd:string ;
+            nisv:hasStartDate "2019-08-22"^^xsd:date ;
+            nisv:hasStartTime "51636000"^^xsd:long ;
+            nisv:hasSubtitlingPlanned "true"^^xsd:string ;
+            nisv:isRepeat "true"^^xsd:string ;
+            nisv:wasLive "false"^^xsd:string ] ;
+    nisv:hasRecording [ a nisv:RecordingEvent ;
+            nisv:hasProductionYear "2019"^^xsd:dateTime ] ;
+    nisv:hasSortDate "2019-03-26"^^xsd:date ;
+    nisv:hasSourceCatalogue "WHATS'On; POMS"^^xsd:string ;
+    nisv:hasSummary "Gerhard Pril is meer dan 25 jaar lid van Philips Hengelsportvereniging Veldhoven. Hij vist al die jaren op eenzelfde manier, in zijn ouderwetse visstoel direct aan de oever. Sinds een aantal jaar zijn er steigers geplaatst rondom zijn favoriete visvijver Het Karperputje. Alle vissers moeten nu vanaf een steiger vissen, maar dat kan hij niet met zijn ouderwetse visgerei. Hans Dings is voorzitter van de hengelsportvereniging. Die steigers hebben zij moeten plaatsen ter versteviging van de oevers, die langzaamaan het water in verdwijnen. De vereniging wil juist de mooie visplek behouden. Meneer Pril voelt zich weggepest. Waarom kan zijn plekje niet blijven zoals die is? De Rijdende Rechter reist af naar Veldhoven om zelf een hengel uit te gooien in het Karperputje."^^xsd:string ;
+    nisv:inCollectionsGroup "Publieke omroepen"^^xsd:string ;
+    nisv:isPartOfSeason <http://data.rdlabs.beeldengeluid.nl/schema/2101902260253604731> .
+
+<http://data.beeldengeluid.nl/gtaa/215283> a nisv:Person ;
+    skos:prefLabel "Elsen, Jetske van den"@nl .
+
+<http://data.beeldengeluid.nl/gtaa/30780> a nisv:Organisation ;
+    skos:prefLabel "IdtV"@nl .
+
+<http://data.beeldengeluid.nl/gtaa/39742> a nisv:Location ;
+    skos:prefLabel "Nederland"@nl .
+
+<http://data.beeldengeluid.nl/nongtaa/238098> a nisv:Broadcaster ;
+    skos:prefLabel "KRO-NCRV"@nl .
+
+<http://data.beeldengeluid.nl/nongtaa/239476> a nisv:BroadcastStation ;
+    skos:prefLabel "NPO 2"@nl .
+
