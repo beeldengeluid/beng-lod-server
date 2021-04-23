@@ -39,7 +39,7 @@ class NISVRdfConcept:
         self.graph.namespace_manager.bind("non-gtaa", nonGtaaNamespace)
 
         # create a node for the record
-        resource_path = '/'.join([concept_type,  metadata["id"]])
+        resource_path = '/'.join([concept_type.lower(),  metadata["id"]])
         self.itemNode = URIRef(schema.NISV_DATA_NAMESPACE + resource_path)
 
         # get the RDF class URI for this type
