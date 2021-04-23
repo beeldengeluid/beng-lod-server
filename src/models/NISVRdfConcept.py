@@ -135,6 +135,7 @@ class NISVRdfConcept:
                         #  from DAAN with a skos:Concept in the RDF
                         # create a node for the skos concept
 
+                        # TODO: check the consistency of usedPath
                         # look one step higher to be able to get to the ID of a thesaurus item
                         if "," in usedPath:
                             classPath = ",".join(usedPath.split(",")[:-1])
