@@ -1,10 +1,11 @@
 from flask import current_app, request, Response
 from flask_restx import Namespace, fields, Resource
+from flask_accept import accept
 
 from apis.lod.DAANStorageLODHandler import DAANStorageLODHandler
 from apis.lod.LODHandlerConcept import LODHandlerConcept
 
-api = Namespace('lod', description='LOD')
+api = Namespace('lod', description='Resources in RDF for Netherlands Institute for Sound and Vision.')
 
 # generic response model
 responseModel = api.model('Response', {
@@ -14,58 +15,59 @@ responseModel = api.model('Response', {
 
 """ --------------------------- RESOURCE ENDPOINT -------------------------- """
 
+MIME_TYPE_TO_LD = {
+    'application/rdf+xml': 'xml',
+    'application/json+ld': 'json-ld',
+    'application/n-triples': 'nt',
+    'text/turtle': 'ttl',
+}
 
+
+def get_generic(level, identifier):
+    """ Experimental function that generates the expected data based on the mime_type.
+        It can be used by the accept-decorated methods from the resource derived class.
+    """
+    # Note that the rdflib-json-ld plugin doesn't accept mime_type, therefore we use a small converter
+    mime_type = request.headers.get('Accept', default='application/json+ld')
+    ld_format = MIME_TYPE_TO_LD.get(mime_type)
+    resp, status_code, headers = DAANStorageLODHandler(current_app.config).getStorageRecord(level,
+                                                                                            identifier,
+                                                                                            ld_format)
+    # make sure to apply the correct mimetype for valid responses
+    if status_code == 200:
+        return Response(resp, mimetype=mime_type, headers=headers)
+
+    return Response(resp, status_code, headers=headers)
+
+
+@api.doc(responses={
+    200: 'Success',
+    400: 'Bad request.',
+    404: 'Resource does not exist.',
+    406: 'Not Acceptable. The requested format in the Accept header is not supported by the server.'
+})
 @api.route('resource/<level>/<identifier>', endpoint='dereference')
 class LODAPI(Resource):
-    MIME_TYPE_TO_LD = {
-        'application/rdf+xml': 'xml',
-        'application/ld+json': 'json-ld',
-        'text/turtle': 'ttl',
-        'text/n3': 'n3'
-    }
 
-    LD_TO_MIME_TYPE = {v: k for k, v in MIME_TYPE_TO_LD.items()}
-
-    def _extractDesiredFormats(self, accept_type):
-        mimetype = 'application/rdf+xml'
-        if accept_type.find('rdf+xml') != -1:
-            mimetype = 'application/rdf+xml'
-        elif accept_type.find('json+ld') != -1:
-            mimetype = 'application/ld+json'
-        elif accept_type.find('json') != -1:
-            mimetype = 'application/ld+json'
-        elif accept_type.find('turtle') != -1:
-            mimetype = 'text/turtle'
-        elif accept_type.find('json') != -1:
-            mimetype = 'text/n3'
-        return mimetype, self.MIME_TYPE_TO_LD[mimetype]
-
-    # TODO: incorporate this:
-    # https://flask-restx.readthedocs.io/en/latest/_modules/flask_restx/api.html#Api.representation
-    # @api.representation('application/rdf+xml')
-
-    # TODO: mimetype can also be passed to rdflib serialize
-    # https://rdflib.readthedocs.io/en/stable/plugin_serializers.html
-
-    @api.response(404, 'Resource does not exist.')
+    @accept('application/json+ld')
     def get(self, level, identifier):
-        accept_type = request.headers.get('Accept')
-        user_format = request.args.get('format', None)
-        mimetype, ld_format = self._extractDesiredFormats(accept_type)
+        return get_generic(level, identifier)
 
-        # override the accept format if the user specifies a format
-        if user_format and user_format in self.LD_TO_MIME_TYPE:
-            ld_format = user_format
-            mimetype = self.LD_TO_MIME_TYPE[user_format]
+    @get.support('application/rdf+xml')
+    def get_rdf_xml(self, level, identifier):
+        return get_generic(level, identifier)
 
-        resp, status_code, headers = DAANStorageLODHandler(current_app.config).getStorageRecord(level, identifier, ld_format)
+    @get.support('application/n-triples')
+    def get_n_triples(self, level, identifier):
+        return get_generic(level, identifier)
 
-        # make sure to apply the correct mimetype for valid responses
-        if status_code == 200:
-            return Response(resp, mimetype=mimetype, headers=headers)
+    @get.support('text/turtle')
+    def get_turtle(self, level, identifier):
+        return get_generic(level, identifier)
 
-        # otherwise resp SHOULD be a json error message and thus the response can be returned like this
-        return resp, status_code, headers
+    @get.support('text/html')
+    def get_html(self, level, identifier):
+        return get_generic(level, identifier)
 
 
 """ --------------------------- GTAA ENDPOINT -------------------------- """
@@ -73,7 +75,6 @@ class LODAPI(Resource):
 
 @api.route('concept/<set_code>/<notation>', endpoint='concept')
 class LODConceptAPI(Resource):
-
     MIME_TYPE_TO_LD = {
         'application/rdf+xml': 'xml',
         'application/ld+json': 'json-ld',

@@ -42,7 +42,7 @@ sim = SchemaInMemory(schema_file=app.config['SCHEMA_FILE'])
 api.init_app(
     app,
     title='Beeld en Geluid LOD API',
-    description='LOD API mostly for e.g. dereferencing B&G resources')
+    description='Given a level and an identifier the resources can be dereferenced in several formats.')
 
 """------------------------------------------------------------------------------
 CUSTOM TEMPLATE FUNCTIONS
