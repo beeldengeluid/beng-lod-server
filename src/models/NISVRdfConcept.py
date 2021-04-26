@@ -7,6 +7,13 @@ from rdflib.plugin import PluginException
 from util.APIUtil import APIUtil
 from apis.lod.DAANSchemaImporter import DAANSchemaImporter
 from cache import cache
+from urllib.parse import urljoin
+
+
+def get_uri(cat_type="PROGRAM", daan_id=None):
+    if daan_id is None:
+        return None
+    return urljoin(schema.NISV_DATA_NAMESPACE, '/'.join([cat_type.lower(), daan_id]))
 
 
 class NISVRdfConcept:
@@ -186,14 +193,16 @@ class NISVRdfConcept:
         properties in the graph"""
         if self.classUri == schema.CLIP:  # for a clip, use the program reference
             if DAAN_PROGRAM_ID in metadata:
-                resource_path = '/'.join(['program', metadata[DAAN_PROGRAM_ID]])
-                self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_PROGRAM),
-                                URIRef(schema.NISV_DATA_NAMESPACE + resource_path)))
+                self.graph.add((self.itemNode,
+                                URIRef(schema.IS_PART_OF_PROGRAM),
+                                URIRef(get_uri(daan_id=metadata[DAAN_PROGRAM_ID])))
+                               )
             elif DAAN_PAYLOAD in metadata and DAAN_PROGRAM_ID in metadata[
                 DAAN_PAYLOAD]:  # this is the case in the backbone json
-                resource_path = '/'.join(['program', metadata[DAAN_PAYLOAD][DAAN_PROGRAM_ID]])
-                self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_PROGRAM),
-                                URIRef(schema.NISV_DATA_NAMESPACE + resource_path)))
+                self.graph.add((self.itemNode,
+                                URIRef(schema.IS_PART_OF_PROGRAM),
+                                URIRef(get_uri(daan_id=metadata[DAAN_PAYLOAD][DAAN_PROGRAM_ID])))
+                )
         elif DAAN_PARENT in metadata and metadata[DAAN_PARENT] and DAAN_PARENT in metadata[DAAN_PARENT]:
             # for other
             if type(metadata[DAAN_PARENT][DAAN_PARENT]) is list:
@@ -204,40 +213,49 @@ class NISVRdfConcept:
             for parent in parents:
                 # for each parent, link it with the correct relationship given the types
                 if self.classUri == schema.CARRIER:  # link carriers as children
-                    resource_path = '/'.join(['carrier', parent[DAAN_PARENT_ID]])
-                    self.graph.add((self.itemNode, URIRef(schema.IS_CARRIER_OF),
-                                    URIRef(schema.NISV_DATA_NAMESPACE + resource_path)))
+                    self.graph.add((self.itemNode,
+                                    URIRef(schema.IS_CARRIER_OF),
+                                    URIRef(get_uri(cat_type='carrier', daan_id=parent[DAAN_PARENT_ID]))
+                                    ))
                 elif parent[DAAN_PARENT_TYPE] == ObjectType.SERIES.name:
-                    resource_path = '/'.join(['series', parent[DAAN_PARENT_ID]])
-                    self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_SERIES),
-                                    URIRef(schema.NISV_DATA_NAMESPACE + resource_path)))
+                    self.graph.add((self.itemNode,
+                                    URIRef(schema.IS_PART_OF_SERIES),
+                                    URIRef(get_uri(cat_type='series', daan_id=parent[DAAN_PARENT_ID]))
+                                    ))
                 elif parent[DAAN_PARENT_TYPE] == ObjectType.SEASON.name:
-                    resource_path = '/'.join(['season', parent[DAAN_PARENT_ID]])
-                    self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_SEASON),
-                                    URIRef(schema.NISV_DATA_NAMESPACE + resource_path)))
+                    self.graph.add((self.itemNode,
+                                    URIRef(schema.IS_PART_OF_SEASON),
+                                    URIRef(get_uri(cat_type='season', daan_id=parent[DAAN_PARENT_ID]))
+                                    ))
                 elif parent[DAAN_PARENT_TYPE] == ObjectType.PROGRAM.name:
-                    resource_path = '/'.join(['program', parent[DAAN_PARENT_ID]])
-                    self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_PROGRAM),
-                                    URIRef(schema.NISV_DATA_NAMESPACE + resource_path)))
+                    self.graph.add((self.itemNode,
+                                    URIRef(schema.IS_PART_OF_PROGRAM),
+                                    URIRef(get_uri(daan_id=parent[DAAN_PARENT_ID]))
+                                    ))
         elif type(metadata[DAAN_PARENT]) is list:  # this is the case for the backbone json
             for parent in metadata[DAAN_PARENT]:
                 # for each parent, link it with the correct relationship given the types
                 if self.classUri == schema.CARRIER:  # link carriers as children
-                    resource_path = '/'.join(['carrier', parent[DAAN_PARENT_ID]])
-                    self.graph.add((self.itemNode, URIRef(schema.IS_CARRIER_OF),
-                                    URIRef(schema.NISV_DATA_NAMESPACE + resource_path)))
+                    self.graph.add((self.itemNode,
+                                    URIRef(schema.IS_CARRIER_OF),
+                                    URIRef(get_uri(cat_type='carrier', daan_id=parent[DAAN_PARENT_ID]))
+                                    ))
                 elif parent[DAAN_PARENT_TYPE] == ObjectType.SERIES.name:
-                    resource_path = '/'.join(['series', parent[DAAN_PARENT_ID]])
-                    self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_SERIES),
-                                    URIRef(schema.NISV_DATA_NAMESPACE + resource_path)))
+                    self.graph.add((self.itemNode,
+                                    URIRef(schema.IS_PART_OF_SERIES),
+                                    URIRef(get_uri(cat_type='series', daan_id=parent[DAAN_PARENT_ID]))
+                                    ))
                 elif parent[DAAN_PARENT_TYPE] == ObjectType.SEASON.name:
-                    resource_path = '/'.join(['season', parent[DAAN_PARENT_ID]])
-                    self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_SEASON),
-                                    URIRef(schema.NISV_DATA_NAMESPACE + resource_path)))
+                    self.graph.add((self.itemNode,
+                                    URIRef(schema.IS_PART_OF_SEASON),
+                                    URIRef(get_uri(cat_type='season', daan_id=parent[DAAN_PARENT_ID]))
+                                    ))
                 elif parent[DAAN_PARENT_TYPE] == ObjectType.PROGRAM.name:
                     resource_path = '/'.join(['program', parent[DAAN_PARENT_ID]])
-                    self.graph.add((self.itemNode, URIRef(schema.IS_PART_OF_PROGRAM),
-                                    URIRef(schema.NISV_DATA_NAMESPACE + resource_path)))
+                    self.graph.add((self.itemNode,
+                                    URIRef(schema.IS_PART_OF_PROGRAM),
+                                    URIRef(get_uri(daan_id=parent[DAAN_PARENT_ID]))
+                                    ))
 
         return
 
