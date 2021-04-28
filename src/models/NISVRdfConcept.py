@@ -7,13 +7,16 @@ from rdflib.plugin import PluginException
 from util.APIUtil import APIUtil
 from apis.lod.DAANSchemaImporter import DAANSchemaImporter
 from cache import cache
-from urllib.parse import urljoin
+from urllib.parse import urlparse, urlunparse
 
 
 def get_uri(cat_type="PROGRAM", daan_id=None):
     if daan_id is None:
         return None
-    return urljoin(schema.NISV_DATA_NAMESPACE, '/'.join([cat_type.lower(), daan_id]))
+    url_parts = urlparse(schema.NISV_DATA_NAMESPACE)
+    path = '/'.join(['resource', cat_type.lower(), daan_id])
+    parts = (url_parts.scheme, url_parts.netloc, path, '', '', '')
+    return urlunparse(parts)
 
 
 class NISVRdfConcept:
@@ -202,7 +205,7 @@ class NISVRdfConcept:
                 self.graph.add((self.itemNode,
                                 URIRef(schema.IS_PART_OF_PROGRAM),
                                 URIRef(get_uri(daan_id=metadata[DAAN_PAYLOAD][DAAN_PROGRAM_ID])))
-                )
+                               )
         elif DAAN_PARENT in metadata and metadata[DAAN_PARENT] and DAAN_PARENT in metadata[DAAN_PARENT]:
             # for other
             if type(metadata[DAAN_PARENT][DAAN_PARENT]) is list:

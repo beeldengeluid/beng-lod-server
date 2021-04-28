@@ -11,13 +11,16 @@ from rdflib.namespace import RDF, XSD
 import xmltodict
 from flask import Flask
 from cache import cache
-from urllib.parse import urljoin
+from urllib.parse import urlparse, urlunparse
 
 
 def get_uri(cat_type="PROGRAM", daan_id=None):
     if daan_id is None:
         return None
-    return urljoin(schema.NISV_DATA_NAMESPACE, '/'.join([cat_type.lower(), daan_id]))
+    url_parts = urlparse(schema.NISV_DATA_NAMESPACE)
+    path = '/'.join(['resource', cat_type.lower(), daan_id])
+    parts = (url_parts.scheme, url_parts.netloc, path, '', '', '')
+    return urlunparse(parts)
 
 
 def test_import_schema(application_settings):
@@ -43,23 +46,23 @@ def test_oai_payload_to_rdf(application_settings, i_program, i_season, i_series,
     i_program = i_program.replace("fe:", "")
     program_json = xmltodict.parse(i_program)
 
-    rdfConcept = NISVRdfConcept(program_json["GetRecord"]["record"]["metadata"]["entry"],
-                                "PROGRAM",
-                                test_settings)
-    graph = rdfConcept.graph
+    rdf_concept = NISVRdfConcept(program_json["GetRecord"]["record"]["metadata"]["entry"],
+                                 "PROGRAM",
+                                 test_settings)
+    graph = rdf_concept.graph
     graph.serialize(destination='output_program.txt', format='turtle')
 
     # do some checks
-    programTriples = list(graph.triples((rdfConcept.itemNode, None, None)))
-    assert len(programTriples) == 27
-    assert (rdfConcept.itemNode,
+    program_triples = list(graph.triples((rdf_concept.itemNode, None, None)))
+    assert len(program_triples) == 27
+    assert (rdf_concept.itemNode,
             URIRef(schema.IS_PART_OF_SEASON),
             URIRef(get_uri(cat_type="SEASON", daan_id="2101902260253604731"))
-            ) in programTriples
+            ) in program_triples
 
-    assert (rdfConcept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasSortDate"),
+    assert (rdf_concept.itemNode, URIRef(schema.NISV_SCHEMA_NAMESPACE + "hasSortDate"),
             Literal("2019-03-26", datatype=XSD.date)
-            ) in programTriples
+            ) in program_triples
 
     creators = list(graph.subjects(RDF.type, URIRef(schema.NISV_SCHEMA_NAMESPACE + "Creator")))
     assert len(creators) == 1

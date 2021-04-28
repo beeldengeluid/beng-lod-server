@@ -7,13 +7,16 @@ from rdflib.plugin import PluginException
 from util.APIUtil import APIUtil
 from apis.lod.SDOSchemaImporter import SDOSchemaImporter
 from cache import cache
-from urllib.parse import urljoin
+from urllib.parse import urlparse, urlunparse
 
 
 def get_uri(cat_type="PROGRAM", daan_id=None):
     if daan_id is None:
         return None
-    return urljoin(schema.NISV_DATA_NAMESPACE, '/'.join([cat_type.lower(), daan_id]))
+    url_parts = urlparse(schema.NISV_DATA_NAMESPACE)
+    path = '/'.join(['resource', cat_type.lower(), daan_id])
+    parts = (url_parts.scheme, url_parts.netloc, path, '', '', '')
+    return urlunparse(parts)
 
 
 class SDORdfConcept:
@@ -253,7 +256,6 @@ class SDORdfConcept:
                                     URIRef(get_uri(cat_type='season', daan_id=parent[DAAN_PARENT_ID]))
                                     ))
                 elif parent[DAAN_PARENT_TYPE] == ObjectType.PROGRAM.name:
-                    resource_path = '/'.join(['program', parent[DAAN_PARENT_ID]])
                     self.graph.add((self.itemNode,
                                     URIRef(schema.IS_PART_OF_PROGRAM),
                                     URIRef(get_uri(daan_id=parent[DAAN_PARENT_ID]))

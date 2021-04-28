@@ -28,8 +28,18 @@ def get_generic(level, identifier):
         It can be used by the accept-decorated methods from the resource derived class.
     """
     # Note that the rdflib-json-ld plugin doesn't accept mime_type, therefore we use a small converter
+    # TODO: officially, the mimetype is 'application/ld+json'
     mime_type = request.headers.get('Accept', default='application/json+ld')
+
     ld_format = MIME_TYPE_TO_LD.get(mime_type)
+
+    # TODO: check the Accept header for the key/value 'profile'. What value?
+    # sdo = False
+    # if sdo is True:
+    #     resp, status_code, headers = SDOStorageLODHandler(current_app.config).getStorageRecord(level,
+    #                                                                                             identifier,
+    #                                                                                             ld_format)
+
     resp, status_code, headers = DAANStorageLODHandler(current_app.config).getStorageRecord(level,
                                                                                             identifier,
                                                                                             ld_format)
@@ -49,6 +59,8 @@ def get_generic(level, identifier):
 @api.route('resource/<level>/<identifier>', endpoint='dereference')
 class LODAPI(Resource):
 
+    # TODO: add the profile into the Accept header. See: https://www.w3.org/TR/dx-prof-conneg/
+    # TODO: officially, the mimetype is 'application/ld+json'
     @accept('application/json+ld')
     def get(self, level, identifier):
         return get_generic(level, identifier)

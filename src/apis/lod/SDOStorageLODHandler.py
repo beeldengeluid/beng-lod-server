@@ -1,21 +1,20 @@
-from models.NISVRdfConcept import NISVRdfConcept
+from models.SDORdfConcept import SDORdfConcept
 from models.DAANJsonModel import DAAN_TYPE, ObjectType, isSceneDescription
 from apis.lod.StorageLODHandler import StorageLODHandler
 
 
-class DAANStorageLODHandler(StorageLODHandler):
-    """ STORAGE API serves catalogue data on a URL,
-    This class gets the JSON from the URL, then uses the mapping
-    information from the schema to create RDF from the JSON.
-    This implementation produces RDF in the NISV scheme/model.
+class SDOStorageLODHandler(StorageLODHandler):
+    """ STORAGE API serves catalogue data on a URL. This class gets the JSON from the URL,
+    then uses the mapping information from the schema to create RDF from the JSON.
+    This implementation produces RDF in the schema.org model (SDO)).
     """
     def __init__(self, config):
         super().__init__(config)
         self.config = config
 
     def _transform_json_to_rdf(self, json_obj):
-        """ Transforms the json to RDF using the schema mapping.
-            This method is an override for the base class.
+        """ Transforms JSON data from the flex Direct Access Metadata API to schema.org
+            # TODO: refactor NISVRdfConcept for SDO to SDOVRdfConcept
         """
         # get the type - series, season etc.
         cat_type = json_obj[DAAN_TYPE]
@@ -26,8 +25,6 @@ class DAANStorageLODHandler(StorageLODHandler):
             if not isSceneDescription(logtrack_type):
                 raise ValueError(
                     "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrack_type)
-        # create the result object
-        rdf_concept = NISVRdfConcept(json_obj,
-                                     cat_type,
-                                     self.config)
+
+        rdf_concept = SDORdfConcept(json_obj, cat_type, self.config)
         return rdf_concept
