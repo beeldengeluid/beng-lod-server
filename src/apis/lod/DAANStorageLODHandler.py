@@ -1,6 +1,6 @@
 from util.APIUtil import APIUtil
 from models.NISVRdfConcept import NISVRdfConcept
-from models.SDORdfConcept import SDOVRdfConcept
+from models.SDORdfConcept import SDORdfConcept
 import urllib.request
 from models.DAANJsonModel import DAAN_TYPE, ObjectType, isSceneDescription
 import json

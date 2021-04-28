@@ -5,7 +5,7 @@ from rdflib.namespace import RDF, RDFS, SKOS, Namespace, NamespaceManager
 from rdflib import Graph, URIRef, Literal, BNode
 from rdflib.plugin import PluginException
 from util.APIUtil import APIUtil
-from apis.lod.DAANSchemaImporter import DAANSchemaImporter
+from apis.lod.SDOSchemaImporter import SDOSchemaImporter
 from cache import cache
 from urllib.parse import urljoin
 
@@ -16,7 +16,7 @@ def get_uri(cat_type="PROGRAM", daan_id=None):
     return urljoin(schema.NISV_DATA_NAMESPACE, '/'.join([cat_type.lower(), daan_id]))
 
 
-class SDOVRdfConcept:
+class SDORdfConcept:
     """ Class to represent an NISV catalog object in RDF.
         It uses functions to create the RDF in a graph using the JSON payload from the Direct Access Metadata API.
 
@@ -29,7 +29,7 @@ class SDOVRdfConcept:
         if "SCHEMA_FILE" not in self.config or "MAPPING_FILE" not in self.config:
             raise APIUtil.raiseDescriptiveValueError('internal_server_error', 'Schema or mapping file not specified')
 
-        self._schema = self.get_daan_scheme()
+        self._schema = self.get_sdo_scheme()
         self._classes = self._schema.getClasses()
 
         assert self._classes is not None, APIUtil.raiseDescriptiveValueError('internal_server_error',
@@ -63,9 +63,9 @@ class SDOVRdfConcept:
         # create RDF relations with the parents of the record
         self.__parentToRdf(metadata)
 
-    @cache.cached(timeout=0, key_prefix='daan_scheme')
-    def get_daan_scheme(self):
-        return DAANSchemaImporter(self.config["SCHEMA_FILE"], self.config["MAPPING_FILE"])
+    @cache.cached(timeout=0, key_prefix='sdo_scheme')
+    def get_sdo_scheme(self):
+        return SDOSchemaImporter(self.config["SCHEMA_DOT_ORG"], self.config["MAPPING_FILE_SDO"])
 
     def __getMetadataValue(self, metadata, metadataField):
         """ Gets the value of the metadata field from the JSON metadata.

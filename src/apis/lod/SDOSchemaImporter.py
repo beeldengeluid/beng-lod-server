@@ -8,6 +8,7 @@ to retrieve these from the DAAN OAI-PMH"""
 class SDOSchemaImporter:
     """ Importer for the RDFS schema definition based on the schema.org.
         TODO: adapt this class to read the schema.org schema.
+        NOTE: get the machine readable schema etc. here: https://schema.org/docs/developers.html
     """
 
     def __init__(self, schemaFile, mappingFile):
