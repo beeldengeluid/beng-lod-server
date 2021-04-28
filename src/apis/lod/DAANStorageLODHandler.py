@@ -73,7 +73,7 @@ class DAANStorageLODHandler(object):
                 raise ValueError(
                     "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrack_type)
 
-        rdf_concept = SDOVRdfConcept(json_obj, set_spec, self.config)
+        rdf_concept = SDORdfConcept(json_obj, set_spec, self.config)
         return rdf_concept
 
     def _transformJSONToRDF(self, json_obj):
