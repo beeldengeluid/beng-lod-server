@@ -17,7 +17,7 @@ responseModel = api.model('Response', {
 
 MIME_TYPE_TO_LD = {
     'application/rdf+xml': 'xml',
-    'application/json+ld': 'json-ld',
+    'application/ld+json': 'json-ld',
     'application/n-triples': 'nt',
     'text/turtle': 'ttl',
 }
@@ -36,13 +36,13 @@ def get_generic(level, identifier):
     # TODO: check the Accept header for the key/value 'profile'. What value?
     # sdo = False
     # if sdo is True:
-    #     resp, status_code, headers = SDOStorageLODHandler(current_app.config).getStorageRecord(level,
-    #                                                                                             identifier,
-    #                                                                                             ld_format)
+    #     resp, status_code, headers = SDOStorageLODHandler(current_app.config).get_storage_record(level,
+    #                                                                                               identifier,
+    #                                                                                               ld_format)
 
-    resp, status_code, headers = DAANStorageLODHandler(current_app.config).getStorageRecord(level,
-                                                                                            identifier,
-                                                                                            ld_format)
+    resp, status_code, headers = DAANStorageLODHandler(current_app.config).get_storage_record(level,
+                                                                                              identifier,
+                                                                                              ld_format)
     # make sure to apply the correct mimetype for valid responses
     if status_code == 200:
         return Response(resp, mimetype=mime_type, headers=headers)
@@ -60,8 +60,7 @@ def get_generic(level, identifier):
 class LODAPI(Resource):
 
     # TODO: add the profile into the Accept header. See: https://www.w3.org/TR/dx-prof-conneg/
-    # TODO: officially, the mimetype is 'application/ld+json'
-    @accept('application/json+ld')
+    @accept('application/ld+json')
     def get(self, level, identifier):
         return get_generic(level, identifier)
 
