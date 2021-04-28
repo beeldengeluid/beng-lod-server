@@ -1,56 +1,60 @@
+@prefix gtaa: <http://data.beeldengeluid.nl/gtaa/> .
 @prefix nisv: <http://data.rdlabs.beeldengeluid.nl/schema/> .
+@prefix non-gtaa: <http://data.beeldengeluid.nl/nongtaa/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix resource: <http://data.rdlabs.beeldengeluid.nl/resource/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<2101909080260953331> nisv:hasCreator [ a nisv:Creator ;
-            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/252421> ;
-            nisv:hasRole "geluid"^^xsd:string ],
-        [ a nisv:Creator ;
+<http://data.rdlabs.beeldengeluid.nl/resource/season/2101909080260953331> a nisv:Season ;
+    nisv:hasCreator [ a nisv:Creator ;
             nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/113684> ;
             nisv:hasRole "eindredactie"^^xsd:string ],
-        [ a nisv:Creator ;
-            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/244047> ;
-            nisv:hasRole "camera"^^xsd:string ],
-        [ a nisv:Creator ;
-            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/245640> ;
-            nisv:hasRole "camera"^^xsd:string ],
-        [ a nisv:Creator ;
-            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/250145> ;
-            nisv:hasRole "productie"^^xsd:string ],
-        [ a nisv:Creator ;
-            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/240548> ;
-            nisv:hasRole "research"^^xsd:string ],
         [ a nisv:Creator ;
             nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/251833> ;
             nisv:hasRole "research"^^xsd:string ],
         [ a nisv:Creator ;
+            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/244047> ;
+            nisv:hasRole "camera"^^xsd:string ],
+        [ a nisv:Creator ;
             nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/244580> ;
             nisv:hasRole "montage"^^xsd:string ],
-        [ a nisv:Creator ;
-            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/240482> ;
-            nisv:hasRole "geluid"^^xsd:string ],
-        [ a nisv:Creator ;
-            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/243695> ;
-            nisv:hasRole "productie"^^xsd:string ],
         [ a nisv:Creator ;
             nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/240548> ;
             nisv:hasRole "regie"^^xsd:string ],
         [ a nisv:Creator ;
+            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/252421> ;
+            nisv:hasRole "geluid"^^xsd:string ],
+        [ a nisv:Creator ;
+            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/245640> ;
+            nisv:hasRole "camera"^^xsd:string ],
+        [ a nisv:Creator ;
+            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/240482> ;
+            nisv:hasRole "geluid"^^xsd:string ],
+        [ a nisv:Creator ;
+            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/240548> ;
+            nisv:hasRole "research"^^xsd:string ],
+        [ a nisv:Creator ;
+            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/250145> ;
+            nisv:hasRole "productie"^^xsd:string ],
+        [ a nisv:Creator ;
             nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/111171> ;
-            nisv:hasRole "eindredactie"^^xsd:string ] ;
+            nisv:hasRole "eindredactie"^^xsd:string ],
+        [ a nisv:Creator ;
+            nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/243695> ;
+            nisv:hasRole "productie"^^xsd:string ] ;
     nisv:hasMainTitle [ a nisv:Title ;
             nisv:hasTitleText "Dilemma's rond leven en dood (najaar 2019)"^^xsd:string ] ;
     nisv:hasMetadataStatus "Approved"^^xsd:string ;
-    nisv:hasNumberOfEpisodes "2"^^xsd:long ;
+    nisv:hasNumberOfEpisodes "2"^^xsd:int ;
     nisv:hasProducer [ a nisv:Producer ;
             nisv:hasOrganisation <http://data.beeldengeluid.nl/gtaa/224203> ;
             nisv:hasRole "producent"^^xsd:string ] ;
     nisv:hasSeasonNumber "1"^^xsd:string ;
     nisv:hasSummary "Thema's als voltooid leven/euthanasie en orgaandonatie zijn zeer omstreden en vaak ronduit taboe onder hindoes in Nederland. Tegenstanders beroepen zich op de Vedische reÃ¯ncarnatieleer, terwijl de voorstanders juist stellen dat de oude geschriften geen belemmeringen opwerpen in deze ethische kwesties. Aan de hand van concrete casussen van hindoes die voor belangrijke beslissingen staan rond leven en dood en door gesprekken met hindoegeestelijken en deskundigen worden in dit tweeluik de voor- en tegenargumenten over voltooid leven en orgaandonatie onderzocht."^^xsd:string ;
-    nisv:isPartOfSeries <http://data.rdlabs.beeldengeluid.nl/schema/2101909080260953431> .
+    nisv:isPartOfSeries <http://data.rdlabs.beeldengeluid.nl/resource/series/2101909080260953431> .
 
 <http://data.beeldengeluid.nl/gtaa/111171> a nisv:Person ;
     skos:prefLabel "Hogenboom, Erik"@nl .

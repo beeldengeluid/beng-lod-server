@@ -1,18 +1,41 @@
+@prefix gtaa: <http://data.beeldengeluid.nl/gtaa/> .
 @prefix nisv: <http://data.rdlabs.beeldengeluid.nl/schema/> .
+@prefix non-gtaa: <http://data.beeldengeluid.nl/nongtaa/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix resource: <http://data.rdlabs.beeldengeluid.nl/resource/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<2101908220260647331> nisv:hasCategory "other"^^xsd:string ;
+<http://data.rdlabs.beeldengeluid.nl/resource/program/2101908220260647331> a nisv:Program ;
+    nisv:hasCategory "other"^^xsd:string ;
+    nisv:hasClassification [ a nisv:Classification ;
+            nisv:hasAge "alle leeftijden"^^xsd:string ;
+            nisv:hasClassificationSubject "Geweld"^^xsd:string ],
+        [ a nisv:Classification ;
+            nisv:hasAge "alle leeftijden"^^xsd:string ;
+            nisv:hasClassificationSubject "Sex"^^xsd:string ],
+        [ a nisv:Classification ;
+            nisv:hasAge "ja"^^xsd:string ;
+            nisv:hasClassificationSubject "Grof taalgebruik"^^xsd:string ],
+        [ a nisv:Classification ;
+            nisv:hasAge "alle leeftijden"^^xsd:string ;
+            nisv:hasClassificationSubject "Angst"^^xsd:string ],
+        [ a nisv:Classification ;
+            nisv:hasAge "alle leeftijden"^^xsd:string ;
+            nisv:hasClassificationSubject "Discriminatie"^^xsd:string ],
+        [ a nisv:Classification ;
+            nisv:hasAge "alle leeftijden"^^xsd:string ;
+            nisv:hasClassificationSubject "Drugs- en alcoholmisbruik"^^xsd:string ] ;
     nisv:hasColour "kleur"^^xsd:string ;
     nisv:hasCreator [ a nisv:Creator ;
             nisv:hasPerson <http://data.beeldengeluid.nl/gtaa/215283> ;
             nisv:hasRole "presentatie"^^xsd:string ] ;
     nisv:hasCulturalHeritageCategory "B"^^xsd:string ;
+    nisv:hasCurrentBroadcaster <http://data.beeldengeluid.nl/nongtaa/238098> ;
     nisv:hasDuration "1830000"^^xsd:long ;
-    nisv:hasEpisodeNumber "11"^^xsd:long ;
+    nisv:hasEpisodeNumber "11"^^xsd:int ;
     nisv:hasMainTitle [ a nisv:Title ;
             nisv:hasTitleText "'Pril doet wat hij wil'"^^xsd:string ] ;
     nisv:hasMaterialType "video"^^xsd:string ;
@@ -30,9 +53,9 @@
             nisv:hasBroadcastStation <http://data.beeldengeluid.nl/nongtaa/239476> ;
             nisv:hasBroadcaster <http://data.beeldengeluid.nl/nongtaa/238098> ;
             nisv:hasDistributionChannel "televisie"^^xsd:string ;
-            nisv:hasEndTime "53450000"^^xsd:string ;
+            nisv:hasEndTime "53450000"^^xsd:long ;
             nisv:hasOriginalBroadcaster [ a nisv:Broadcaster ;
-                    skos:prefLabel "KRO-NCRV"@nl ] ;
+                    rdfs:label "KRO-NCRV"@nl ] ;
             nisv:hasPublicationType "uitzending"^^xsd:string ;
             nisv:hasStartDate "2019-08-22"^^xsd:date ;
             nisv:hasStartTime "51636000"^^xsd:long ;
@@ -45,7 +68,7 @@
     nisv:hasSourceCatalogue "WHATS'On; POMS"^^xsd:string ;
     nisv:hasSummary "Gerhard Pril is meer dan 25 jaar lid van Philips Hengelsportvereniging Veldhoven. Hij vist al die jaren op eenzelfde manier, in zijn ouderwetse visstoel direct aan de oever. Sinds een aantal jaar zijn er steigers geplaatst rondom zijn favoriete visvijver Het Karperputje. Alle vissers moeten nu vanaf een steiger vissen, maar dat kan hij niet met zijn ouderwetse visgerei. Hans Dings is voorzitter van de hengelsportvereniging. Die steigers hebben zij moeten plaatsen ter versteviging van de oevers, die langzaamaan het water in verdwijnen. De vereniging wil juist de mooie visplek behouden. Meneer Pril voelt zich weggepest. Waarom kan zijn plekje niet blijven zoals die is? De Rijdende Rechter reist af naar Veldhoven om zelf een hengel uit te gooien in het Karperputje."^^xsd:string ;
     nisv:inCollectionsGroup "Publieke omroepen"^^xsd:string ;
-    nisv:isPartOfSeason <http://data.rdlabs.beeldengeluid.nl/schema/2101902260253604731> .
+    nisv:isPartOfSeason <http://data.rdlabs.beeldengeluid.nl/resource/season/2101902260253604731> .
 
 <http://data.beeldengeluid.nl/gtaa/215283> a nisv:Person ;
     skos:prefLabel "Elsen, Jetske van den"@nl .
@@ -56,9 +79,9 @@
 <http://data.beeldengeluid.nl/gtaa/39742> a nisv:Location ;
     skos:prefLabel "Nederland"@nl .
 
-<http://data.beeldengeluid.nl/nongtaa/238098> a nisv:Broadcaster ;
-    skos:prefLabel "KRO-NCRV"@nl .
-
 <http://data.beeldengeluid.nl/nongtaa/239476> a nisv:BroadcastStation ;
     skos:prefLabel "NPO 2"@nl .
+
+<http://data.beeldengeluid.nl/nongtaa/238098> a nisv:Broadcaster ;
+    skos:prefLabel "KRO-NCRV"@nl .
 

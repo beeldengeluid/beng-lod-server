@@ -1,5 +1,6 @@
 from util.APIUtil import APIUtil
 from models.NISVRdfConcept import NISVRdfConcept
+from models.SDORdfConcept import SDOVRdfConcept
 import urllib.request
 from models.DAANJsonModel import DAAN_TYPE, ObjectType, isSceneDescription
 import json
@@ -50,12 +51,30 @@ class DAANStorageLODHandler(object):
         # retrieve the record data in XML via OAI-PMH
         json_data = self._getJsonFromStorage(url)
 
+        # TODO: make the data profile configurable, e.g. nisv or sdo
         # transform the XML to RDF
         result_concept = self._transformJSONToRDF(json_data)
 
         # serialise the RDF graph to desired format
         data = result_concept.serialize(return_format)
         return data
+
+    def _transform_json_to_sdo(self, json_obj):
+        """ Transforms JSON data from the flex Direct Access Metdata API to schema.org
+            # TODO: refactor NISVRdfConcept for SDO to SDOVRdfConcept
+        """
+        # get the type - series, season etc.
+        set_spec = json_obj[DAAN_TYPE]
+
+        # if the type is a logtrackitem, check it is a scene description, as we can't yet handle other types
+        if set_spec == ObjectType.LOGTRACKITEM.value:
+            logtrack_type = json_obj["logtrack_type"]
+            if not isSceneDescription(logtrack_type):
+                raise ValueError(
+                    "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrack_type)
+
+        rdf_concept = SDOVRdfConcept(json_obj, set_spec, self.config)
+        return rdf_concept
 
     def _transformJSONToRDF(self, json_obj):
         """Transforms the json to RDF using the schema mapping"""
