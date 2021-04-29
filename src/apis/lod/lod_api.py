@@ -3,6 +3,7 @@ from flask_restx import Namespace, fields, Resource
 from flask_accept import accept
 
 from apis.lod.DAANStorageLODHandler import DAANStorageLODHandler
+from apis.lod.SDOStorageLODHandler import SDOStorageLODHandler
 from apis.lod.LODHandlerConcept import LODHandlerConcept
 
 api = Namespace('lod', description='Resources in RDF for Netherlands Institute for Sound and Vision.')
@@ -33,16 +34,19 @@ def get_generic(level, identifier):
 
     ld_format = MIME_TYPE_TO_LD.get(mime_type)
 
+    resp, status_code, headers = SDOStorageLODHandler(current_app.config).get_storage_record(level,
+                                                                                               identifier,
+                                                                                              ld_format)
+
     # TODO: check the Accept header for the key/value 'profile'. What value?
     # sdo = False
     # if sdo is True:
     #     resp, status_code, headers = SDOStorageLODHandler(current_app.config).get_storage_record(level,
-    #                                                                                               identifier,
-    #                                                                                               ld_format)
+    #                                                                                               identifier,                                                                                           ld_format)
 
-    resp, status_code, headers = DAANStorageLODHandler(current_app.config).get_storage_record(level,
-                                                                                              identifier,
-                                                                                              ld_format)
+    # resp, status_code, headers = DAANStorageLODHandler(current_app.config).get_storage_record(level,
+    #                                                                                           identifier,
+    #                                                                                           ld_format)
     # make sure to apply the correct mimetype for valid responses
     if status_code == 200:
         return Response(resp, mimetype=mime_type, headers=headers)

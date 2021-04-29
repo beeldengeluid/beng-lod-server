@@ -1,4 +1,4 @@
-import models.DAANRdfModel as schema
+import models.SDORdfModel as schema
 from models.DAANJsonModel import DAAN_PROGRAM_ID, DAAN_PARENT, DAAN_PARENT_ID, DAAN_PARENT_TYPE, DAAN_PAYLOAD, \
     ObjectType
 from rdflib.namespace import RDF, RDFS, SKOS, Namespace, NamespaceManager
@@ -29,7 +29,7 @@ class SDORdfConcept:
 
         # check config
         self.config = config
-        if "SCHEMA_FILE" not in self.config or "MAPPING_FILE" not in self.config:
+        if "SCHEMA_DOT_ORG" not in self.config or "MAPPING_FILE_SDO" not in self.config:
             raise APIUtil.raiseDescriptiveValueError('internal_server_error', 'Schema or mapping file not specified')
 
         self._schema = self.get_sdo_scheme()
@@ -39,12 +39,14 @@ class SDORdfConcept:
                                                                              'Error while loading the schema classes and properties')
 
         nisvSchemaNamespace = Namespace(schema.NISV_SCHEMA_NAMESPACE)
+        schemaOrgNamespace = Namespace(schema.SCHEMA_DOT_ORG_NAMESPACE)
         nisvDataNamespace = Namespace(schema.NISV_DATA_NAMESPACE)
         gtaaNamespace = Namespace(schema.GTAA_NAMESPACE)
         nonGtaaNamespace = Namespace(schema.NON_GTAA_NAMESPACE)
 
         self.graph = Graph()
         self.graph.namespace_manager.bind(schema.NISV_SCHEMA_PREFIX, nisvSchemaNamespace)
+        self.graph.namespace_manager.bind(schema.SCHEMA_DOT_ORG_PREFIX, schemaOrgNamespace)
         self.graph.namespace_manager.bind(schema.NISV_DATA_PREFIX, nisvDataNamespace)
         self.graph.namespace_manager.bind("skos", SKOS)
         self.graph.namespace_manager.bind("gtaa", gtaaNamespace)
@@ -141,7 +143,7 @@ class SDORdfConcept:
                     if rdfProperty["range"] in schema.XSD_TYPES:
                         self.graph.add((parentNode, URIRef(uri), Literal(newPayloadItem, datatype=rdfProperty[
                             "range"])))  # add the new payload as the value
-                    elif rdfProperty["rangeSuperClass"] == schema.ACTING_ENTITY or rdfProperty[
+                    elif rdfProperty[
                         "rangeSuperClass"] == str(SKOS.Concept):
                         # In these cases, we have a class as range, but only a simple value in DAAN, as we want to model a label
                         #  from DAAN with a skos:Concept in the RDF
@@ -198,16 +200,18 @@ class SDORdfConcept:
         properties in the graph"""
         if self.classUri == schema.CLIP:  # for a clip, use the program reference
             if DAAN_PROGRAM_ID in metadata:
-                self.graph.add((self.itemNode,
-                                URIRef(schema.IS_PART_OF_PROGRAM),
-                                URIRef(get_uri(daan_id=metadata[DAAN_PROGRAM_ID])))
+                self.graph.add(
+                                (URIRef(get_uri(daan_id=metadata[DAAN_PROGRAM_ID])),
+                                 URIRef(schema.HAS_CLIP),
+                                 self.itemNode)
                                )
             elif DAAN_PAYLOAD in metadata and DAAN_PROGRAM_ID in metadata[
                 DAAN_PAYLOAD]:  # this is the case in the backbone json
-                self.graph.add((self.itemNode,
-                                URIRef(schema.IS_PART_OF_PROGRAM),
-                                URIRef(get_uri(daan_id=metadata[DAAN_PAYLOAD][DAAN_PROGRAM_ID])))
-                )
+                self.graph.add(
+                                (URIRef(get_uri(daan_id=metadata[DAAN_PAYLOAD][DAAN_PROGRAM_ID])),
+                                 URIRef(schema.HAS_CLIP),
+                                 self.itemNode)
+                               )
         elif DAAN_PARENT in metadata and metadata[DAAN_PARENT] and DAAN_PARENT in metadata[DAAN_PARENT]:
             # for other
             if type(metadata[DAAN_PARENT][DAAN_PARENT]) is list:
@@ -233,9 +237,9 @@ class SDORdfConcept:
                                     URIRef(get_uri(cat_type='season', daan_id=parent[DAAN_PARENT_ID]))
                                     ))
                 elif parent[DAAN_PARENT_TYPE] == ObjectType.PROGRAM.name:
-                    self.graph.add((self.itemNode,
-                                    URIRef(schema.IS_PART_OF_PROGRAM),
-                                    URIRef(get_uri(daan_id=parent[DAAN_PARENT_ID]))
+                    self.graph.add((URIRef(get_uri(daan_id=parent[DAAN_PARENT_ID]),
+                                    URIRef(schema.HAS_CLIP),
+                                    self.itemNode)
                                     ))
         elif type(metadata[DAAN_PARENT]) is list:  # this is the case for the backbone json
             for parent in metadata[DAAN_PARENT]:
@@ -256,9 +260,9 @@ class SDORdfConcept:
                                     URIRef(get_uri(cat_type='season', daan_id=parent[DAAN_PARENT_ID]))
                                     ))
                 elif parent[DAAN_PARENT_TYPE] == ObjectType.PROGRAM.name:
-                    self.graph.add((self.itemNode,
-                                    URIRef(schema.IS_PART_OF_PROGRAM),
-                                    URIRef(get_uri(daan_id=parent[DAAN_PARENT_ID]))
+                    self.graph.add((URIRef(get_uri(daan_id=parent[DAAN_PARENT_ID]),
+                                    URIRef(schema.HAS_CLIP),
+                                    self.itemNode)
                                     ))
 
         return

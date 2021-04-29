@@ -1,5 +1,5 @@
 from rdflib import Graph
-from models.DAANRdfModel import HAS_DAAN_PATH
+from models.SDORdfModel import HAS_DAAN_PATH
 
 """Imports schema information as a list of classes, their properties, and the paths needed
 to retrieve these from the DAAN OAI-PMH"""
@@ -17,11 +17,11 @@ class SDOSchemaImporter:
         self._graph.parse(mappingFile, format="turtle")
 
         self._propertiesWithoutDomain = {}
-        self._loadPropertiesWithoutDomain()
-        assert self._propertiesWithoutDomain, 'ERROR in DAANSchemaImporter: The properties were not loaded.'
+        self._loadPropertiesWithoutDomain()  # TODO: remove this if we have no properties without domain in the final version
 
         self._classes = {}
         self._loadClasses()
+        assert self._classes, 'ERROR in SDOSchemaImporter: The classes were not loaded.'
 
     def getClasses(self):
         return self._classes
@@ -59,8 +59,6 @@ class SDOSchemaImporter:
         """
         query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass WHERE{  ?property rdfs:range ?range . \
         ?property <%s> ?path MINUS {?property rdfs:domain ?s}}""" % HAS_DAAN_PATH
-
-        self._propertiesWithoutDomain = self._loadPropertiesFromQuery(query)
 
     def _loadClasses(self):
         """
