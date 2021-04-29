@@ -58,6 +58,7 @@ def get_generic(data, code, headers, level, identifier):
     # Accept-Profile and Content-Profile are to be used.
 
     profile = request.headers.get('Accept-Profile', default=NISV_PROFILE)
+    profile = SDO_PROFILE
     if profile == SDO_PROFILE:
         resp, status_code, headers = SDOStorageLODHandler(current_app.config).get_storage_record(level,
                                                                                                  identifier,
