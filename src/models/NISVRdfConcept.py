@@ -1,3 +1,4 @@
+import logging
 import models.DAANRdfModel as schema
 from models.DAANJsonModel import DAAN_PROGRAM_ID, DAAN_PARENT, DAAN_PARENT_ID, DAAN_PARENT_TYPE, DAAN_PAYLOAD, \
     ObjectType
@@ -271,7 +272,9 @@ class NISVRdfConcept:
                 auto_compact=True
             )
         except PluginException as e:
+            logging.error(str(e))
             print(e)
+            raise
         except Exception as e:
             print('serializeGraph => ')
             print(e)

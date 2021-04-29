@@ -33,9 +33,9 @@ class StorageLODHandler:
         """ Constructs valid Storage url from the config settings, the level (type) and the identifier.
             <storage URL>/storage/<TYPE>/<id>
         """
-        url_parts=urlparse(self.config.get('STORAGE_BASE_URL'))
+        url_parts = urlparse(self.config.get('STORAGE_BASE_URL'))
         if url_parts.netloc is not None:
-            path = '/'.join(['storage', level, identifier])
+            path = '/'.join(['storage', level, str(identifier)])
             parts = (url_parts.scheme, url_parts.netloc, path, '', '', '')
             return urlunparse(parts)
         else:
