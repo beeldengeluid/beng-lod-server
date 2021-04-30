@@ -31,7 +31,7 @@ MIME_TYPE_TO_LD = {
 
 # TODO: make sure the schema file is downloadable in turtle
 NISV_PROFILE = 'http://data.rdlabs.beeldengeluid.nl/schema'
-SDO_PROFILE = "http://schema.org"
+SDO_PROFILE = 'http://schema.org'
 
 
 def get_generic(level, identifier):
@@ -57,6 +57,9 @@ def get_generic(level, identifier):
     mime_type = MIME_TYPE_JSON_LD
     if len(accept_parts) == 1:
         mime_type = request.headers.get('Accept')
+        # uncomment if you want to enforce a profile
+        profile_param = '='.join(['profile', '"{}"'.format(SDO_PROFILE)])
+        accept_parts.append(profile_param)
     if len(accept_parts) > 1:
         for part in accept_parts:
             kv = part.split('=')
@@ -65,15 +68,17 @@ def get_generic(level, identifier):
 
     # mime_type = request.headers.get('Accept', default=MIME_TYPE_JSON_LD)
     ld_format = MIME_TYPE_TO_LD.get(mime_type)
-    if accept_profile == SDO_PROFILE:
+    if accept_profile == '"{}"'.format(SDO_PROFILE):    # note the double quotes are needed for http header
         resp, status_code, headers = SDOStorageLODHandler(current_app.config).get_storage_record(level,
                                                                                                  identifier,
                                                                                                  ld_format)
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:
-            profile_param = '='.join(['profile', SDO_PROFILE])
-            content_type = ';'.join([headers['Content-Type'], profile_param])
-            headers['Content-Type'] = content_type
+            content_type = mime_type
+            if headers.get('Content-Type') is not None:
+                content_type = headers.get('Content-Type')
+            profile_param = '='.join(['profile', '"{}"'.format(SDO_PROFILE)])
+            headers['Content-Type'] = ';'.join([content_type, profile_param])
             return Response(resp, mimetype=mime_type, headers=headers)
         return Response(resp, status_code, headers=headers)
     else:
@@ -82,9 +87,11 @@ def get_generic(level, identifier):
                                                                                                   ld_format)
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:
-            profile_param = '='.join(['profile', NISV_PROFILE])
-            content_type = ';'.join([headers['Content-Type'], profile_param])
-            headers['Content-Type'] = content_type
+            content_type = mime_type
+            if headers.get('Content-Type') is not None:
+                content_type = headers.get('Content-Type')
+            profile_param = '='.join(['profile', '"{}"'.format(NISV_PROFILE)])
+            headers['Content-Type'] = ';'.join([content_type, profile_param])
             return Response(resp, mimetype=mime_type, headers=headers)
         return Response(resp, status_code, headers=headers)
 
