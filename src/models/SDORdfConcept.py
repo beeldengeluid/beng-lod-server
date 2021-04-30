@@ -22,12 +22,9 @@ def get_uri(cat_type="PROGRAM", daan_id=None):
 class SDORdfConcept:
     """ Class to represent an NISV catalog object in RDF.
         It uses functions to create the RDF in a graph using the JSON payload from the Direct Access Metadata API.
-
     """
 
     def __init__(self, metadata, concept_type, config):
-
-        # check config
         self.config = config
         if "SCHEMA_DOT_ORG" not in self.config or "MAPPING_FILE_SDO" not in self.config:
             raise APIUtil.raiseDescriptiveValueError('internal_server_error', 'Schema or mapping file not specified')
@@ -38,6 +35,7 @@ class SDORdfConcept:
         assert self._classes is not None, APIUtil.raiseDescriptiveValueError('internal_server_error',
                                                                              'Error while loading the schema classes and properties')
 
+        # TODO: these declarations outside the class (in file context)?
         nisvSchemaNamespace = Namespace(schema.NISV_SCHEMA_NAMESPACE)
         schemaOrgNamespace = Namespace(schema.SCHEMA_DOT_ORG_NAMESPACE)
         nisvDataNamespace = Namespace(schema.NISV_DATA_NAMESPACE)
@@ -53,8 +51,7 @@ class SDORdfConcept:
         self.graph.namespace_manager.bind("non-gtaa", nonGtaaNamespace)
 
         # create a node for the record
-        resource_path = '/'.join([concept_type.lower(), metadata["id"]])
-        self.itemNode = URIRef(schema.NISV_DATA_NAMESPACE + resource_path)
+        self.itemNode = URIRef(get_uri(cat_type=concept_type, daan_id=metadata['id']))
 
         # get the RDF class URI for this type
         self.classUri = schema.CLASS_URIS_FOR_DAAN_LEVELS[concept_type]
@@ -115,6 +112,11 @@ class SDORdfConcept:
         belonging to a program.
         Uses the classUri of the parent node to select the right information from  classes for the conversion.
         Returns the result in graph
+
+        :param: payload: the metadata described in payload (json)
+        :param: parentNode: e.g. the parentNode can be the identifier node for a program
+        :param: classUri: the classUri of the parent node to select the right information from classes.
+        :returns: the conversion result in a graph.
         """
 
         # Select the relevant properties for this type of parent using the classUri

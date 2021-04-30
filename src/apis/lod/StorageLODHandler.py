@@ -72,37 +72,3 @@ class StorageLODHandler:
         """ Transforms JSON data from the flex Direct Access Metadata API to RDF.
         """
         pass
-
-    #
-    #
-    # def _transform_json_to_rdf(self, json_obj):
-    #     """ Transforms JSON data from the flex Direct Access Metadata API to schema.org
-    #         # TODO: refactor NISVRdfConcept for SDO to SDOVRdfConcept
-    #     """
-    #     # get the type - series, season etc.
-    #     set_spec = json_obj[DAAN_TYPE]
-    #
-    #     # if the type is a logtrackitem, check it is a scene description, as we can't yet handle other types
-    #     if set_spec == ObjectType.LOGTRACKITEM.value:
-    #         logtrack_type = json_obj["logtrack_type"]
-    #         if not isSceneDescription(logtrack_type):
-    #             raise ValueError(
-    #                 "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrack_type)
-    #
-    #     rdf_concept = SDORdfConcept(json_obj, set_spec, self.config)
-    #     return rdf_concept
-    #
-    # def _transform_json_to_rdf(self, json_obj):
-    #     """Transforms the json to RDF using the schema mapping"""
-    #
-    #     # get the type - series, season etc.
-    #     set_spec = json_obj[DAAN_TYPE]
-    #
-    #     # if the type is a logtrackitem, check it is a scene description, as we can't yet handle other types
-    #     if set_spec == ObjectType.LOGTRACKITEM.value:
-    #         logtrack_type = json_obj["logtrack_type"]
-    #         if not isSceneDescription(logtrack_type):
-    #             raise ValueError(
-    #                 "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrack_type)
-    #     rdf_concept = NISVRdfConcept(json_obj, set_spec, self.config)
-    #     return rdf_concept
