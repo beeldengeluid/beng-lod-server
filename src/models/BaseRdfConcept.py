@@ -1,72 +1,38 @@
-import logging
-import models.DAANRdfModel as schema
 from models.DAANJsonModel import DAAN_PROGRAM_ID, DAAN_PARENT, DAAN_PARENT_ID, DAAN_PARENT_TYPE, DAAN_PAYLOAD, \
     ObjectType
-from rdflib.namespace import RDF, RDFS, SKOS, Namespace, NamespaceManager
-from rdflib import Graph, URIRef, Literal, BNode
+from rdflib.namespace import RDF, RDFS, SKOS
+from rdflib import URIRef, Literal, BNode
 from rdflib.plugin import PluginException
 from util.APIUtil import APIUtil
-from apis.lod.DAANSchemaImporter import DAANSchemaImporter
-from cache import cache
-from urllib.parse import urlparse, urlunparse
 
 
-def get_uri(cat_type="PROGRAM", daan_id=None):
-    if daan_id is None:
-        return None
-    url_parts = urlparse(schema.NISV_DATA_NAMESPACE)
-    path = '/'.join(['resource', cat_type.lower(), daan_id])
-    parts = (url_parts.scheme, url_parts.netloc, path, '', '', '')
-    return urlunparse(parts)
-
-
-class NISVRdfConcept:
-    """ Class to represent an NISV concept in RDF, with functions to create the RDF in a graph from the JSON payload.
+class BaseRdfConcept:
+    """ Class to represent an NISV catalog object in RDF.
+        It uses functions to create the RDF in a graph using the JSON payload from the Direct Access Metadata API.
     """
 
-    def __init__(self, metadata, concept_type, config):
-
-        # check config
+    def __init__(self, config):
         self.config = config
-        if "SCHEMA_FILE" not in self.config or "MAPPING_FILE" not in self.config:
-            raise APIUtil.raiseDescriptiveValueError('internal_server_error', 'Schema or mapping file not specified')
+        self._schema = None
+        self._classes = None
+        self.graph = None
+        self.itemNode = None
+        self.classUri = None
 
-        self._schema = self.get_daan_scheme()
-        self._classes = self._schema.getClasses()
+    def get_classes(self):
+        if self._schema is not None:
+            return self._schema.getClasses()
+        return None
 
+    def _post_init(self):
+        self._schema = self.get_scheme()
+        self._classes = self.get_classes()
         assert self._classes is not None, APIUtil.raiseDescriptiveValueError('internal_server_error',
                                                                              'Error while loading the schema classes and properties')
 
-        nisvSchemaNamespace = Namespace(schema.NISV_SCHEMA_NAMESPACE)
-        nisvDataNamespace = Namespace(schema.NISV_DATA_NAMESPACE)
-        gtaaNamespace = Namespace(schema.GTAA_NAMESPACE)
-        nonGtaaNamespace = Namespace(schema.NON_GTAA_NAMESPACE)
-
-        self.graph = Graph()
-        self.graph.namespace_manager.bind(schema.NISV_SCHEMA_PREFIX, nisvSchemaNamespace)
-        self.graph.namespace_manager.bind(schema.NISV_DATA_PREFIX, nisvDataNamespace)
-        self.graph.namespace_manager.bind("skos", SKOS)
-        self.graph.namespace_manager.bind("gtaa", gtaaNamespace)
-        self.graph.namespace_manager.bind("non-gtaa", nonGtaaNamespace)
-
-        # create a node for the record
-        self.itemNode = URIRef(get_uri(cat_type=concept_type, daan_id=metadata['id']))
-
-        # get the RDF class URI for this type
-        self.classUri = schema.CLASS_URIS_FOR_DAAN_LEVELS[concept_type]
-
-        # add the type
-        self.graph.add((self.itemNode, RDF.type, URIRef(self.classUri)))
-
-        # convert the record payload to RDF
-        self.__payloadToRdf(metadata["payload"], self.itemNode, self.classUri)
-
-        # create RDF relations with the parents of the record
-        self.__parentToRdf(metadata)
-
-    @cache.cached(timeout=0, key_prefix='daan_scheme')
-    def get_daan_scheme(self):
-        return DAANSchemaImporter(self.config["SCHEMA_FILE"], self.config["MAPPING_FILE"])
+    def get_scheme(self):
+        """ Returns a schema instance. Must be overridden by subclass for specific scheme."""
+        return None
 
     def __getMetadataValue(self, metadata, metadataField):
         """ Gets the value of the metadata field from the JSON metadata.
@@ -111,6 +77,11 @@ class NISVRdfConcept:
         belonging to a program.
         Uses the classUri of the parent node to select the right information from  classes for the conversion.
         Returns the result in graph
+
+        :param: payload: the metadata described in payload (json)
+        :param: parentNode: e.g. the parentNode can be the identifier node for a program
+        :param: classUri: the classUri of the parent node to select the right information from classes.
+        :returns: the conversion result in a graph.
         """
 
         # Select the relevant properties for this type of parent using the classUri
@@ -139,7 +110,7 @@ class NISVRdfConcept:
                     if rdfProperty["range"] in schema.XSD_TYPES:
                         self.graph.add((parentNode, URIRef(uri), Literal(newPayloadItem, datatype=rdfProperty[
                             "range"])))  # add the new payload as the value
-                    elif rdfProperty["rangeSuperClass"] == schema.ACTING_ENTITY or rdfProperty[
+                    elif rdfProperty[
                         "rangeSuperClass"] == str(SKOS.Concept):
                         # In these cases, we have a class as range, but only a simple value in DAAN, as we want to model a label
                         #  from DAAN with a skos:Concept in the RDF
@@ -196,15 +167,17 @@ class NISVRdfConcept:
         properties in the graph"""
         if self.classUri == schema.CLIP:  # for a clip, use the program reference
             if DAAN_PROGRAM_ID in metadata:
-                self.graph.add((self.itemNode,
-                                URIRef(schema.IS_PART_OF_PROGRAM),
-                                URIRef(get_uri(daan_id=metadata[DAAN_PROGRAM_ID])))
+                self.graph.add(
+                                (URIRef(get_uri(daan_id=metadata[DAAN_PROGRAM_ID])),
+                                 URIRef(schema.HAS_CLIP),
+                                 self.itemNode)
                                )
             elif DAAN_PAYLOAD in metadata and DAAN_PROGRAM_ID in metadata[
                 DAAN_PAYLOAD]:  # this is the case in the backbone json
-                self.graph.add((self.itemNode,
-                                URIRef(schema.IS_PART_OF_PROGRAM),
-                                URIRef(get_uri(daan_id=metadata[DAAN_PAYLOAD][DAAN_PROGRAM_ID])))
+                self.graph.add(
+                                (URIRef(get_uri(daan_id=metadata[DAAN_PAYLOAD][DAAN_PROGRAM_ID])),
+                                 URIRef(schema.HAS_CLIP),
+                                 self.itemNode)
                                )
         elif DAAN_PARENT in metadata and metadata[DAAN_PARENT] and DAAN_PARENT in metadata[DAAN_PARENT]:
             # for other
@@ -231,9 +204,9 @@ class NISVRdfConcept:
                                     URIRef(get_uri(cat_type='season', daan_id=parent[DAAN_PARENT_ID]))
                                     ))
                 elif parent[DAAN_PARENT_TYPE] == ObjectType.PROGRAM.name:
-                    self.graph.add((self.itemNode,
-                                    URIRef(schema.IS_PART_OF_PROGRAM),
-                                    URIRef(get_uri(daan_id=parent[DAAN_PARENT_ID]))
+                    self.graph.add((URIRef(get_uri(daan_id=parent[DAAN_PARENT_ID]),
+                                    URIRef(schema.HAS_CLIP),
+                                    self.itemNode)
                                     ))
         elif type(metadata[DAAN_PARENT]) is list:  # this is the case for the backbone json
             for parent in metadata[DAAN_PARENT]:
@@ -254,9 +227,9 @@ class NISVRdfConcept:
                                     URIRef(get_uri(cat_type='season', daan_id=parent[DAAN_PARENT_ID]))
                                     ))
                 elif parent[DAAN_PARENT_TYPE] == ObjectType.PROGRAM.name:
-                    self.graph.add((self.itemNode,
-                                    URIRef(schema.IS_PART_OF_PROGRAM),
-                                    URIRef(get_uri(daan_id=parent[DAAN_PARENT_ID]))
+                    self.graph.add((URIRef(get_uri(daan_id=parent[DAAN_PARENT_ID]),
+                                    URIRef(schema.HAS_CLIP),
+                                    self.itemNode)
                                     ))
 
         return
@@ -270,10 +243,7 @@ class NISVRdfConcept:
                 auto_compact=True
             )
         except PluginException as e:
-            logging.error(str(e))
             print(e)
-            raise
         except Exception as e:
-            logging.error(str(e))
             print('serializeGraph => ')
             print(e)
