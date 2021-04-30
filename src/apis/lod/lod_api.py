@@ -35,10 +35,7 @@ NISV_PROFILE = 'http://data.rdlabs.beeldengeluid.nl/schema'
 SDO_PROFILE = 'https://schema.org/version/latest/schemaorg-current-https.ttl'
 
 
-# TODO: fix the fact that Flask needs get_generic(data=data, code=code, headers=headers) and the
-#  beng-lod-server needs the level and identifier. Additional param?
-def get_generic(data, code, headers, level, identifier):
-    # def get_generic(level, identifier):
+def get_generic(level, identifier):
     """ Experimental function that generates the expected data based on the mime_type.
         It can be used by the accept-decorated methods from the resource derived class.
 
@@ -92,27 +89,27 @@ class LODAPI(Resource):
     @accept('application/ld+json')
     def get(self, identifier, level='program'):
         # note we need to use empty params for the UI
-        return get_generic(None, None, None, level=level, identifier=identifier)
+        return get_generic(level=level, identifier=identifier)
 
     @get.support('application/rdf+xml')
     def get_rdf_xml(self, identifier, level='program'):
-        return get_generic(None, None, None, level=level, identifier=identifier)
+        return get_generic(level=level, identifier=identifier)
 
     @get.support('application/n-triples')
     def get_n_triples(self, identifier, level='program'):
-        return get_generic(None, None, None, level=level, identifier=identifier)
+        return get_generic(level=level, identifier=identifier)
 
     @get.support('text/turtle')
     def get_turtle(self, identifier, level='program'):
-        return get_generic(None, None, None, level=level, identifier=identifier)
+        return get_generic(level=level, identifier=identifier)
 
     @get.support('text/html')
     def get_html(self, identifier, level='program'):
-        return get_generic(None, None, None, level=level, identifier=identifier)
+        return get_generic(level=level, identifier=identifier)
 
     @get.support('application/json')
     def get_json(self, identifier, level='program'):
-        return get_generic(None, None, None, level=level, identifier=identifier)
+        return get_generic(level=level, identifier=identifier)
 
 
 """ --------------------------- GTAA ENDPOINT -------------------------- """
