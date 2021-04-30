@@ -31,8 +31,7 @@ MIME_TYPE_TO_LD = {
 
 # TODO: make sure the schema file is downloadable in turtle
 NISV_PROFILE = 'http://data.rdlabs.beeldengeluid.nl/schema'
-# TODO: Is this really the namespace/profile te refer to? Or is it only the file where the RDFS is defined?
-SDO_PROFILE = 'https://schema.org/version/latest/schemaorg-current-https.ttl'
+SDO_PROFILE = "http://schema.org"
 
 
 def get_generic(level, identifier):
@@ -46,23 +45,35 @@ def get_generic(level, identifier):
         :param: identifier, the DAAN id the resource is findable with, in combination with level
     """
     # TODO: check if the rdflib-json-ld plugin does accept mime_type='application/ld+json'
-    mime_type = request.headers.get('Accept', default=MIME_TYPE_JSON_LD)
+
+    """ See: https://www.w3.org/TR/dx-prof-conneg/#related-http
+        profile = request.headers.get('Accept-Profile', default=NISV_PROFILE)
+        NOTE: Accept-Profile and Content-Profile are not really adopted yet. Therefore (ab-)use the
+        Accept header with additional parameter:
+        Example: Accept: application/ld+json; profile="http://schema.org"
+    """
+    accept_parts = request.headers.get('Accept').split(';')
+    accept_profile = NISV_PROFILE
+    mime_type = MIME_TYPE_JSON_LD
+    if len(accept_parts) == 1:
+        mime_type = request.headers.get('Accept')
+    if len(accept_parts) > 1:
+        for part in accept_parts:
+            kv = part.split('=')
+            if len(kv) > 1 and kv[0] == 'profile':
+                accept_profile = kv[1]
+
+    # mime_type = request.headers.get('Accept', default=MIME_TYPE_JSON_LD)
     ld_format = MIME_TYPE_TO_LD.get(mime_type)
-
-    # TODO: check the Accept header for the key/value 'profile'. What value?
-    # See: https://www.w3.org/TR/dx-prof-conneg/#related-http
-    # In order to signal the use of Media Type-independent profiles, the http header fields
-    # Accept-Profile and Content-Profile are to be used.
-
-    profile = request.headers.get('Accept-Profile', default=NISV_PROFILE)
-    profile = SDO_PROFILE
-    if profile == SDO_PROFILE:
+    if accept_profile == SDO_PROFILE:
         resp, status_code, headers = SDOStorageLODHandler(current_app.config).get_storage_record(level,
                                                                                                  identifier,
                                                                                                  ld_format)
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:
-            headers['Content-Profile'] = SDO_PROFILE
+            profile_param = '='.join(['profile', SDO_PROFILE])
+            content_type = ';'.join([headers['Content-Type'], profile_param])
+            headers['Content-Type'] = content_type
             return Response(resp, mimetype=mime_type, headers=headers)
         return Response(resp, status_code, headers=headers)
     else:
@@ -71,7 +82,9 @@ def get_generic(level, identifier):
                                                                                                   ld_format)
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:
-            headers['Content-Profile'] = NISV_PROFILE
+            profile_param = '='.join(['profile', NISV_PROFILE])
+            content_type = ';'.join([headers['Content-Type'], profile_param])
+            headers['Content-Type'] = content_type
             return Response(resp, mimetype=mime_type, headers=headers)
         return Response(resp, status_code, headers=headers)
 
