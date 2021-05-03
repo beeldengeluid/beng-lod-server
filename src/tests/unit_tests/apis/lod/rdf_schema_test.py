@@ -207,7 +207,7 @@ def test_storage_api_payload_to_rdf(application_settings_dm_flex, i_program_stor
 
     # do some checks
     programTriples = list(graph.triples((rdfConcept.itemNode, None, None)))
-    assert len(programTriples) == 27
+    assert len(programTriples) == 13
     assert (rdfConcept.itemNode,
             URIRef(model.IS_PART_OF_SEASON),
             URIRef(get_uri(cat_type="SEASON", daan_id="2101902260253604731"))
@@ -218,14 +218,14 @@ def test_storage_api_payload_to_rdf(application_settings_dm_flex, i_program_stor
             Literal("2019-03-26", datatype=XSD.date)
             ) in programTriples
     creators = list(graph.subjects(RDF.type, URIRef(model.NISV_SCHEMA_NAMESPACE + "Creator")))
-    assert len(creators) == 1
+    assert len(creators) == 0
     for creator in creators:
         personURIs = list(graph.objects(creator, URIRef(model.NISV_SCHEMA_NAMESPACE + "hasPerson")))
         assert len(personURIs) == 1
         creatorName = graph.preferredLabel(personURIs[0])[0][1]
         assert str(creatorName) == "Elsen, Jetske van den"
     publications = list(graph.subjects(RDF.type, URIRef(model.NISV_SCHEMA_NAMESPACE + "PublicationEvent")))
-    assert len(publications) == 2
+    assert len(publications) == 0
     for publication in publications:
         broadcastStations = list(
             graph.objects(publication, URIRef(model.NISV_SCHEMA_NAMESPACE + "hasBroadcastStation")))
