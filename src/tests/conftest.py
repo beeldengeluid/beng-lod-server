@@ -83,6 +83,24 @@ def application_settings():
     return app.config
 
 
+@pytest.fixture(scope="session")
+def application_settings_oai():
+    """ Returns the application settings for OAI."""
+    app = Flask(__name__)
+    from settings import OAIConfig
+    app.config.from_object(OAIConfig())
+    return app.config
+
+
+@pytest.fixture(scope="session")
+def application_settings_dm_flex():
+    """ Returns the application settings for NISV model dm flex API."""
+    app = Flask(__name__)
+    from settings import NISVConfig
+    app.config.from_object(NISVConfig())
+    return app.config
+
+
 """------------------------ APPLICATION CLIENT (VALID & INVALID) ----------------------"""
 
 

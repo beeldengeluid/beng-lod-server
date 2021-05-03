@@ -1,6 +1,6 @@
-from models.SDORdfConcept import SDORdfConcept
 from models.DAANJsonModel import DAAN_TYPE, ObjectType, isSceneDescription
 from apis.lod.StorageLODHandler import StorageLODHandler
+import models.SDORdfModel as SDORdfModel
 
 
 class SDOStorageLODHandler(StorageLODHandler):
@@ -14,7 +14,6 @@ class SDOStorageLODHandler(StorageLODHandler):
 
     def _transform_json_to_rdf(self, json_obj):
         """ Transforms JSON data from the flex Direct Access Metadata API to schema.org
-            # TODO: refactor NISVRdfConcept for SDO to SDOVRdfConcept
         """
         # get the type - series, season etc.
         cat_type = json_obj[DAAN_TYPE]
@@ -26,5 +25,7 @@ class SDOStorageLODHandler(StorageLODHandler):
                 raise ValueError(
                     "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrack_type)
 
-        rdf_concept = SDORdfConcept(json_obj, cat_type, self.config)
-        return rdf_concept
+        # Note that this is import is here not at the top, to prevent circular dependency to happen
+        from models.NISVRdfConcept import NISVRdfConcept
+        return NISVRdfConcept(json_obj, cat_type, self.config, model=SDORdfModel)
+

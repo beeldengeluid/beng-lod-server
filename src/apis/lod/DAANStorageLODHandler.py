@@ -1,6 +1,6 @@
-from models.NISVRdfConcept import NISVRdfConcept
 from models.DAANJsonModel import DAAN_TYPE, ObjectType, isSceneDescription
 from apis.lod.StorageLODHandler import StorageLODHandler
+import models.DAANRdfModel as DAANRdfModel
 
 
 class DAANStorageLODHandler(StorageLODHandler):
@@ -26,8 +26,6 @@ class DAANStorageLODHandler(StorageLODHandler):
             if not isSceneDescription(logtrack_type):
                 raise ValueError(
                     "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrack_type)
-        # create the result object
-        rdf_concept = NISVRdfConcept(json_obj,
-                                     cat_type,
-                                     self.config)
-        return rdf_concept
+        # Note: this class is imported here, because otherwise a circular dependency is created
+        from models.NISVRdfConcept import NISVRdfConcept
+        return NISVRdfConcept(json_obj, cat_type, self.config, model=DAANRdfModel)

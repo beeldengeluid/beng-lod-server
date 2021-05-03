@@ -1,9 +1,10 @@
-from flask import current_app, request, Response
+from flask import current_app, request, Response, Flask
 from flask_restx import Namespace, fields, Resource
 from flask_accept import accept
 from apis.lod.DAANStorageLODHandler import DAANStorageLODHandler
 from apis.lod.SDOStorageLODHandler import SDOStorageLODHandler
 from apis.lod.LODHandlerConcept import LODHandlerConcept
+from settings import NISVConfig, SDOConfig
 
 api = Namespace('lod', description='Resources in RDF for Netherlands Institute for Sound and Vision.')
 
@@ -35,40 +36,24 @@ SDO_PROFILE = 'http://schema.org'
 
 
 def get_generic(level, identifier):
-    """ Experimental function that generates the expected data based on the mime_type.
+    """ Generates the expected data based on the mime_type.
         It can be used by the accept-decorated methods from the resource derived class.
 
-        :param: data: one of three params that is here for content-type to be visible in the UI.
-        :param: code: status_code. also one of the three params for UI
-        :param: headers: one of the params for the OpenAPI UI as well.
         :param: level, meaning the catalogue type, e.g. like 'program' (default), 'series', etc.
         :param: identifier, the DAAN id the resource is findable with, in combination with level
     """
-    # TODO: check if the rdflib-json-ld plugin does accept mime_type='application/ld+json'
-
     """ See: https://www.w3.org/TR/dx-prof-conneg/#related-http
-        profile = request.headers.get('Accept-Profile', default=NISV_PROFILE)
-        NOTE: Accept-Profile and Content-Profile are not really adopted yet. Therefore (ab-)use the
-        Accept header with additional parameter:
+        NOTE: Abuse the Accept header with additional parameter:
         Example: Accept: application/ld+json; profile="http://schema.org"
     """
-    accept_parts = request.headers.get('Accept').split(';')
-    accept_profile = NISV_PROFILE
-    mime_type = MIME_TYPE_JSON_LD
-    if len(accept_parts) == 1:
-        mime_type = request.headers.get('Accept')
-        # uncomment if you want to enforce a profile
-        profile_param = '='.join(['profile', '"{}"'.format(SDO_PROFILE)])
-        accept_parts.append(profile_param)
-    if len(accept_parts) > 1:
-        for part in accept_parts:
-            kv = part.split('=')
-            if len(kv) > 1 and kv[0] == 'profile':
-                accept_profile = kv[1]
+    mime_type, accept_profile = parse_accept(accept_header=request.headers.get('Accept'))
 
-    # mime_type = request.headers.get('Accept', default=MIME_TYPE_JSON_LD)
+    # TODO: check if the rdflib-json-ld plugin does accept mime_type='application/ld+json'
     ld_format = MIME_TYPE_TO_LD.get(mime_type)
-    if accept_profile == '"{}"'.format(SDO_PROFILE):    # note the double quotes are needed for http header
+    app = Flask(__name__)
+    if accept_profile == '"{}"'.format(SDO_PROFILE):
+        # update the config for schema.org
+        app.config.from_object(SDOConfig())
         resp, status_code, headers = SDOStorageLODHandler(current_app.config).get_storage_record(level,
                                                                                                  identifier,
                                                                                                  ld_format)
@@ -82,6 +67,8 @@ def get_generic(level, identifier):
             return Response(resp, mimetype=mime_type, headers=headers)
         return Response(resp, status_code, headers=headers)
     else:
+        # update the config for NISV model
+        app.config.from_object(NISVConfig())
         resp, status_code, headers = DAANStorageLODHandler(current_app.config).get_storage_record(level,
                                                                                                   identifier,
                                                                                                   ld_format)
@@ -96,6 +83,29 @@ def get_generic(level, identifier):
         return Response(resp, status_code, headers=headers)
 
 
+def parse_accept(accept_header=None):
+    """ Parses an Accept header for a request for RDF to the server. It returns the mimet_type and profile.
+    :param: accept_header: the Accept parameter from the HTTP request.
+    :returns: mime_type, accept_profile. None if input parameter is missing.
+    """
+    if accept_header is None:
+        return None
+    accept_parts = accept_header.split(';')
+    accept_profile = NISV_PROFILE
+    mime_type = MIME_TYPE_JSON_LD
+    if len(accept_parts) == 1:
+        mime_type = request.headers.get('Accept')
+        # # uncomment if you want to enforce a profile (for testing)
+        # profile_param = '='.join(['profile', '"{}"'.format(SDO_PROFILE)])
+        # accept_parts.append(profile_param)
+    if len(accept_parts) > 1:
+        for part in accept_parts:
+            kv = part.split('=')
+            if len(kv) > 1 and kv[0] == 'profile':
+                accept_profile = kv[1]
+    return mime_type, accept_profile
+
+
 @api.doc(responses={
     200: 'Success',
     400: 'Bad request.',
@@ -105,7 +115,6 @@ def get_generic(level, identifier):
 @api.route('resource/<any(program, series, season, logtrackitem):level>/<int:identifier>', endpoint='dereference')
 class LODAPI(Resource):
 
-    # TODO: add the profile into the Accept header. See: https://www.w3.org/TR/dx-prof-conneg/
     @accept('application/ld+json')
     def get(self, identifier, level='program'):
         # note we need to use empty params for the UI

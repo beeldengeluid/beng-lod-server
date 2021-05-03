@@ -6,12 +6,11 @@ from urllib.parse import urlparse, urlunparse
 
 
 class StorageLODHandler:
-    """ STORAGE API serves catalogue data on a URL.
-        This class is a base class for a LOD Handler that either serves NISV schema data, or
+    """ Base class for a LOD Handler that either serves NISV schema data, or
         schema.org. Other formats can get their own handler.
+        The payload from the STORAGE API is used as input to serve catalogue data on a URI.
     """
     def __init__(self, config):
-        # check config
         self.config = config
 
     def get_storage_record(self, level, identifier, return_format):
