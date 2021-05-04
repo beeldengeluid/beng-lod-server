@@ -1,5 +1,4 @@
 from flask import Flask
-
 import json
 import os
 import pytest
@@ -94,10 +93,19 @@ def application_settings_oai():
 
 @pytest.fixture(scope="session")
 def application_settings_dm_flex():
-    """ Returns the application settings for NISV model dm flex API."""
+    """ Returns the application settings for NISV model and dm flex API."""
     app = Flask(__name__)
     from settings import NISVConfig
     app.config.from_object(NISVConfig())
+    return app.config
+
+
+@pytest.fixture(scope="session")
+def application_settings_dm_flex_sdo():
+    """ Returns the application settings for Schema.org model and dm flex API."""
+    app = Flask(__name__)
+    from settings import SDOConfig
+    app.config.from_object(SDOConfig())
     return app.config
 
 

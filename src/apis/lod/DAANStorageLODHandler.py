@@ -1,11 +1,10 @@
 from models.DAANJsonModel import DAAN_TYPE, ObjectType, isSceneDescription
 from apis.lod.StorageLODHandler import StorageLODHandler
-import models.DAANRdfModel as DAANRdfModel
 
 
 class DAANStorageLODHandler(StorageLODHandler):
     """ STORAGE API serves catalogue data on a URL,
-    This class gets the JSON from the URL, then uses the mapping
+    This class gets the JSON from the Direct Metadata Flex API, then uses the mapping
     information from the schema to create RDF from the JSON.
     This implementation produces RDF in the NISV scheme/model.
     """
@@ -28,4 +27,4 @@ class DAANStorageLODHandler(StorageLODHandler):
                     "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrack_type)
         # Note: this class is imported here, because otherwise a circular dependency is created
         from models.NISVRdfConcept import NISVRdfConcept
-        return NISVRdfConcept(json_obj, cat_type, self.config, model=DAANRdfModel)
+        return NISVRdfConcept(json_obj, cat_type, self.config)

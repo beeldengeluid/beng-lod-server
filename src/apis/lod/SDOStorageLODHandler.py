@@ -1,6 +1,5 @@
 from models.DAANJsonModel import DAAN_TYPE, ObjectType, isSceneDescription
 from apis.lod.StorageLODHandler import StorageLODHandler
-import models.SDORdfModel as SDORdfModel
 
 
 class SDOStorageLODHandler(StorageLODHandler):
@@ -26,6 +25,7 @@ class SDOStorageLODHandler(StorageLODHandler):
                     "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrack_type)
 
         # Note that this is import is here not at the top, to prevent circular dependency to happen
-        from models.NISVRdfConcept import NISVRdfConcept
-        return NISVRdfConcept(json_obj, cat_type, self.config, model=SDORdfModel)
+        from models.SDORdfConcept import SDORdfConcept
+        return SDORdfConcept(json_obj, cat_type, self.config)
+
 
