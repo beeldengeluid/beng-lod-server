@@ -1,9 +1,10 @@
-from flask import current_app, request, Response
+from flask import current_app, request, Response, Flask
 from flask_restx import Namespace, fields, Resource
 from flask_accept import accept
-
 from apis.lod.DAANStorageLODHandler import DAANStorageLODHandler
+from apis.lod.SDOStorageLODHandler import SDOStorageLODHandler
 from apis.lod.LODHandlerConcept import LODHandlerConcept
+from settings import NISVConfig, SDOConfig
 
 api = Namespace('lod', description='Resources in RDF for Netherlands Institute for Sound and Vision.')
 
@@ -15,29 +16,94 @@ responseModel = api.model('Response', {
 
 """ --------------------------- RESOURCE ENDPOINT -------------------------- """
 
+MIME_TYPE_JSON_LD = 'application/ld+json'
+MIME_TYPE_RDF_XML = 'application/rdf+xml'
+MIME_TYPE_TURTLE = 'text/turtle'
+MIME_TYPE_N_TRIPLES = 'application/n-triples'
+MIME_TYPE_JSON = 'application/json'
+
 MIME_TYPE_TO_LD = {
-    'application/rdf+xml': 'xml',
-    'application/json+ld': 'json-ld',
-    'application/n-triples': 'nt',
-    'text/turtle': 'ttl',
+    MIME_TYPE_RDF_XML: 'xml',
+    MIME_TYPE_JSON_LD: 'json-ld',
+    MIME_TYPE_N_TRIPLES: 'nt',
+    MIME_TYPE_TURTLE: 'ttl',
+    MIME_TYPE_JSON: 'json-ld'
 }
+
+# TODO: make sure the schema file is downloadable in turtle
+NISV_PROFILE = 'http://data.rdlabs.beeldengeluid.nl/schema'
+SDO_PROFILE = 'http://schema.org'
 
 
 def get_generic(level, identifier):
-    """ Experimental function that generates the expected data based on the mime_type.
+    """ Generates the expected data based on the mime_type.
         It can be used by the accept-decorated methods from the resource derived class.
-    """
-    # Note that the rdflib-json-ld plugin doesn't accept mime_type, therefore we use a small converter
-    mime_type = request.headers.get('Accept', default='application/json+ld')
-    ld_format = MIME_TYPE_TO_LD.get(mime_type)
-    resp, status_code, headers = DAANStorageLODHandler(current_app.config).getStorageRecord(level,
-                                                                                            identifier,
-                                                                                            ld_format)
-    # make sure to apply the correct mimetype for valid responses
-    if status_code == 200:
-        return Response(resp, mimetype=mime_type, headers=headers)
 
-    return Response(resp, status_code, headers=headers)
+        :param: level, meaning the catalogue type, e.g. like 'program' (default), 'series', etc.
+        :param: identifier, the DAAN id the resource is findable with, in combination with level
+    """
+    """ See: https://www.w3.org/TR/dx-prof-conneg/#related-http
+        NOTE: Abuse the Accept header with additional parameter:
+        Example: Accept: application/ld+json; profile="http://schema.org"
+    """
+    mime_type, accept_profile = parse_accept(accept_header=request.headers.get('Accept'))
+
+    # TODO: check if the rdflib-json-ld plugin does accept mime_type='application/ld+json'
+    ld_format = MIME_TYPE_TO_LD.get(mime_type)
+    app = Flask(__name__)
+    if accept_profile == '"{}"'.format(SDO_PROFILE):
+        # update the config for schema.org
+        app.config.from_object(SDOConfig())
+        resp, status_code, headers = SDOStorageLODHandler(current_app.config).get_storage_record(level,
+                                                                                                 identifier,
+                                                                                                 ld_format)
+        # make sure to apply the correct mimetype for valid responses
+        if status_code == 200:
+            content_type = mime_type
+            if headers.get('Content-Type') is not None:
+                content_type = headers.get('Content-Type')
+            profile_param = '='.join(['profile', '"{}"'.format(SDO_PROFILE)])
+            headers['Content-Type'] = ';'.join([content_type, profile_param])
+            return Response(resp, mimetype=mime_type, headers=headers)
+        return Response(resp, status_code, headers=headers)
+    else:
+        # update the config for NISV model
+        app.config.from_object(NISVConfig())
+        resp, status_code, headers = DAANStorageLODHandler(current_app.config).get_storage_record(level,
+                                                                                                  identifier,
+                                                                                                  ld_format)
+        # make sure to apply the correct mimetype for valid responses
+        if status_code == 200:
+            content_type = mime_type
+            if headers.get('Content-Type') is not None:
+                content_type = headers.get('Content-Type')
+            profile_param = '='.join(['profile', '"{}"'.format(NISV_PROFILE)])
+            headers['Content-Type'] = ';'.join([content_type, profile_param])
+            return Response(resp, mimetype=mime_type, headers=headers)
+        return Response(resp, status_code, headers=headers)
+
+
+def parse_accept(accept_header=None):
+    """ Parses an Accept header for a request for RDF to the server. It returns the mimet_type and profile.
+    :param: accept_header: the Accept parameter from the HTTP request.
+    :returns: mime_type, accept_profile. None if input parameter is missing.
+    """
+    if accept_header is None:
+        return None
+    accept_parts = accept_header.split(';')
+    accept_profile = NISV_PROFILE
+    mime_type = MIME_TYPE_JSON_LD
+    if len(accept_parts) == 1:
+        mime_type = request.headers.get('Accept')
+        # # uncomment if you want to enforce a profile (for testing)
+        # profile_param = '='.join(['profile', '"{}"'.format(SDO_PROFILE)])
+        # accept_parts.append(profile_param)
+    if len(accept_parts) > 1:
+        for part in accept_parts:
+            kv = part.split('=')
+            if len(kv) > 1 and kv[0] == 'profile':
+                accept_profile = kv[1]
+    return mime_type, accept_profile
 
 
 @api.doc(responses={
@@ -46,28 +112,33 @@ def get_generic(level, identifier):
     404: 'Resource does not exist.',
     406: 'Not Acceptable. The requested format in the Accept header is not supported by the server.'
 })
-@api.route('resource/<level>/<identifier>', endpoint='dereference')
+@api.route('resource/<any(program, series, season, logtrackitem):level>/<int:identifier>', endpoint='dereference')
 class LODAPI(Resource):
 
-    @accept('application/json+ld')
-    def get(self, level, identifier):
-        return get_generic(level, identifier)
+    @accept('application/ld+json')
+    def get(self, identifier, level='program'):
+        # note we need to use empty params for the UI
+        return get_generic(level=level, identifier=identifier)
 
     @get.support('application/rdf+xml')
-    def get_rdf_xml(self, level, identifier):
-        return get_generic(level, identifier)
+    def get_rdf_xml(self, identifier, level='program'):
+        return get_generic(level=level, identifier=identifier)
 
     @get.support('application/n-triples')
-    def get_n_triples(self, level, identifier):
-        return get_generic(level, identifier)
+    def get_n_triples(self, identifier, level='program'):
+        return get_generic(level=level, identifier=identifier)
 
     @get.support('text/turtle')
-    def get_turtle(self, level, identifier):
-        return get_generic(level, identifier)
+    def get_turtle(self, identifier, level='program'):
+        return get_generic(level=level, identifier=identifier)
 
     @get.support('text/html')
-    def get_html(self, level, identifier):
-        return get_generic(level, identifier)
+    def get_html(self, identifier, level='program'):
+        return get_generic(level=level, identifier=identifier)
+
+    @get.support('application/json')
+    def get_json(self, identifier, level='program'):
+        return get_generic(level=level, identifier=identifier)
 
 
 """ --------------------------- GTAA ENDPOINT -------------------------- """

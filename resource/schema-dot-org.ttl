@@ -1,0 +1,87 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sdo: <https://schema.org/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://dublincore.org/documents/2010/10/11/dcmi-terms#> .
+
+
+### IN PROGRESS: schema not yet complete!
+
+#################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.w3.org/2001/XMLSchema#date
+xsd:date rdf:type rdfs:Datatype .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://schema.org/about
+sdo:about rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range sdo:Thing .
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  https://schema.org/about
+sdo:about rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range xsd:string .
+
+###  https://schema.org/name
+sdo:name rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range xsd:string .
+
+###  https://schema.org/description
+sdo:description rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range xsd:string .
+
+###  https://schema.org/duration
+sdo:duration rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range xsd:string .
+
+###  https://schema.org/datePublished
+sdo:datePublished rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range xsd:string .
+
+###  https://schema.org/keywords
+sdo:keywords rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range xsd:string .
+
+#################################################################
+#    Classes
+#################################################################
+
+###  https://schema.org/Thing
+sdo:Thing rdf:type rdfs:Class .
+
+###  https://schema.org/MediaObject
+sdo:MediaObject rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:Thing .
+
+###  https://schema.org/CreativeWork
+sdo:CreativeWork rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:Thing .
+
+###  https://schema.org/Clip
+sdo:Clip rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:Thing .
+
+###  https://schema.org/CreativeWorkSeason
+sdo:CreativeWorkSeason rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:Thing .
+
+###  https://schema.org/CreativeWorkSeries
+sdo:CreativeWorkSeries rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:Thing .

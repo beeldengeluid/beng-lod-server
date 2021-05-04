@@ -1,5 +1,4 @@
 from flask import Flask
-
 import json
 import os
 import pytest
@@ -80,6 +79,33 @@ def application_settings():
     """ Returns the application settings."""
     app = Flask(__name__)
     app.config.from_object('settings-example.Config')
+    return app.config
+
+
+@pytest.fixture(scope="session")
+def application_settings_oai():
+    """ Returns the application settings for OAI."""
+    app = Flask(__name__)
+    from settings import OAIConfig
+    app.config.from_object(OAIConfig())
+    return app.config
+
+
+@pytest.fixture(scope="session")
+def application_settings_dm_flex():
+    """ Returns the application settings for NISV model and dm flex API."""
+    app = Flask(__name__)
+    from settings import NISVConfig
+    app.config.from_object(NISVConfig())
+    return app.config
+
+
+@pytest.fixture(scope="session")
+def application_settings_dm_flex_sdo():
+    """ Returns the application settings for Schema.org model and dm flex API."""
+    app = Flask(__name__)
+    from settings import SDOConfig
+    app.config.from_object(SDOConfig())
     return app.config
 
 

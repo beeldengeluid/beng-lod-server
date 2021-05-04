@@ -594,7 +594,8 @@ xsd:date rdf:type rdfs:Datatype .
 <http://data.rdlabs.beeldengeluid.nl/schema/Title> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.title" .
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasTitleText
-<http://data.rdlabs.beeldengeluid.nl/schema/hasTitleText> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "alttitle.name, value" ; <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "value" .
+<http://data.rdlabs.beeldengeluid.nl/schema/hasTitleText> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "alttitle.name, value" ;
+<http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "value" .
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasTitleType
 <http://data.rdlabs.beeldengeluid.nl/schema/hasTitleType> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "alttitle.type, resolved_value" .

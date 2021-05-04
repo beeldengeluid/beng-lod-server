@@ -41,8 +41,8 @@ sim = SchemaInMemory(schema_file=app.config['SCHEMA_FILE'])
 
 api.init_app(
     app,
-    title='Beeld en Geluid LOD API',
-    description='Given a level and an identifier the resources can be dereferenced in several formats.')
+    title='Open Data Lab API - Nederlands Instituut voor Beeld en Geluid',
+    description='Get RDF for resources in the DAAN catalogue and the GTAA thesaurus.')
 
 """------------------------------------------------------------------------------
 CUSTOM TEMPLATE FUNCTIONS
