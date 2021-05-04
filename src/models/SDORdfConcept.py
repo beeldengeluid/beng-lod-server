@@ -43,7 +43,7 @@ class SDORdfConcept(BaseRdfConcept):
     @cache.cached(timeout=0, key_prefix='sdo_scheme')
     def get_scheme(self):
         """ Returns a schema instance."""
-        return DAANSchemaImporter(self.config["SCHEMA_FILE"], self.config["MAPPING_FILE"])
+        return DAANSchemaImporter(self.config["schema"], self.config["mapping"])
 
     def __payload_to_rdf(self, payload, parent_node, class_uri):
         """ Converts the metadata described in payload (json) to RDF, and attaches it to the parentNode

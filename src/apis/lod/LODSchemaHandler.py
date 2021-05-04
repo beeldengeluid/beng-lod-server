@@ -1,6 +1,7 @@
 import os
 from util.APIUtil import APIUtil
 
+#TODO I think this class is obsolete
 
 class LODSchemaHandler():
 
@@ -8,9 +9,13 @@ class LODSchemaHandler():
 		self.config = config
 
 	def getSchema(self):
-		if os.path.exists(self.config['SCHEMA_FILE']):
-			f = open(self.config['SCHEMA_FILE'], 'r')
+		if os.path.exists(self.config['DEFAULT_PROFILE']['schema']):
+			f = open(self.config['DEFAULT_PROFILE']['schema'], 'r')
 			schema = f.read()
 			f.close()
 			return APIUtil.toSuccessResponse(schema)
-		return APIUtil.toErrorResponse('internal_server_error', 'The schema file %s could not be found'%self.config['SCHEMA_FILE'])
+		return APIUtil.toErrorResponse(
+			'internal_server_error', 'The schema file %s could not be found'.format(
+				self.config['DEFAULT_PROFILE']['schema']
+			)
+		)

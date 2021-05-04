@@ -4,7 +4,6 @@ from flask_accept import accept
 from apis.lod.DAANStorageLODHandler import DAANStorageLODHandler
 from apis.lod.SDOStorageLODHandler import SDOStorageLODHandler
 from apis.lod.LODHandlerConcept import LODHandlerConcept
-from settings import NISVConfig, SDOConfig
 
 api = Namespace('lod', description='Resources in RDF for Netherlands Institute for Sound and Vision.')
 
@@ -31,11 +30,10 @@ MIME_TYPE_TO_LD = {
 }
 
 # TODO: make sure the schema file is downloadable in turtle
-NISV_PROFILE = 'http://data.rdlabs.beeldengeluid.nl/schema'
+DAAN_PROFILE = 'http://data.rdlabs.beeldengeluid.nl/schema'
 SDO_PROFILE = 'http://schema.org'
 
-
-def get_generic(level, identifier):
+def get_generic(level, identifier, app_config):
     """ Generates the expected data based on the mime_type.
         It can be used by the accept-decorated methods from the resource derived class.
 
@@ -50,13 +48,13 @@ def get_generic(level, identifier):
 
     # TODO: check if the rdflib-json-ld plugin does accept mime_type='application/ld+json'
     ld_format = MIME_TYPE_TO_LD.get(mime_type)
-    app = Flask(__name__)
+
     if accept_profile == '"{}"'.format(SDO_PROFILE):
-        # update the config for schema.org
-        app.config.from_object(SDOConfig())
-        resp, status_code, headers = SDOStorageLODHandler(current_app.config).get_storage_record(level,
-                                                                                                 identifier,
-                                                                                                 ld_format)
+        resp, status_code, headers = SDOStorageLODHandler(app_config, SDO_PROFILE).get_storage_record(
+            level,
+            identifier,
+            ld_format
+        )
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:
             content_type = mime_type
@@ -68,16 +66,18 @@ def get_generic(level, identifier):
         return Response(resp, status_code, headers=headers)
     else:
         # update the config for NISV model
-        app.config.from_object(NISVConfig())
-        resp, status_code, headers = DAANStorageLODHandler(current_app.config).get_storage_record(level,
-                                                                                                  identifier,
-                                                                                                  ld_format)
+        resp, status_code, headers = DAANStorageLODHandler(app_config, DAAN_PROFILE).get_storage_record(
+            level,
+            identifier,
+            ld_format
+        )
+        print(resp)
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:
             content_type = mime_type
             if headers.get('Content-Type') is not None:
                 content_type = headers.get('Content-Type')
-            profile_param = '='.join(['profile', '"{}"'.format(NISV_PROFILE)])
+            profile_param = '='.join(['profile', '"{}"'.format(DAAN_PROFILE)])
             headers['Content-Type'] = ';'.join([content_type, profile_param])
             return Response(resp, mimetype=mime_type, headers=headers)
         return Response(resp, status_code, headers=headers)
@@ -91,7 +91,7 @@ def parse_accept(accept_header=None):
     if accept_header is None:
         return None
     accept_parts = accept_header.split(';')
-    accept_profile = NISV_PROFILE
+    accept_profile = DAAN_PROFILE
     mime_type = MIME_TYPE_JSON_LD
     if len(accept_parts) == 1:
         mime_type = request.headers.get('Accept')
@@ -118,27 +118,27 @@ class LODAPI(Resource):
     @accept('application/ld+json')
     def get(self, identifier, level='program'):
         # note we need to use empty params for the UI
-        return get_generic(level=level, identifier=identifier)
+        return get_generic(level=level, identifier=identifier, app_config=current_app.config)
 
     @get.support('application/rdf+xml')
     def get_rdf_xml(self, identifier, level='program'):
-        return get_generic(level=level, identifier=identifier)
+        return get_generic(level=level, identifier=identifier, app_config=current_app.config)
 
     @get.support('application/n-triples')
     def get_n_triples(self, identifier, level='program'):
-        return get_generic(level=level, identifier=identifier)
+        return get_generic(level=level, identifier=identifier, app_config=current_app.config)
 
     @get.support('text/turtle')
     def get_turtle(self, identifier, level='program'):
-        return get_generic(level=level, identifier=identifier)
+        return get_generic(level=level, identifier=identifier, app_config=current_app.config)
 
     @get.support('text/html')
     def get_html(self, identifier, level='program'):
-        return get_generic(level=level, identifier=identifier)
+        return get_generic(level=level, identifier=identifier, app_config=current_app.config)
 
     @get.support('application/json')
     def get_json(self, identifier, level='program'):
-        return get_generic(level=level, identifier=identifier)
+        return get_generic(level=level, identifier=identifier, app_config=current_app.config)
 
 
 """ --------------------------- GTAA ENDPOINT -------------------------- """

@@ -19,11 +19,13 @@ def get_uri(cat_type="PROGRAM", daan_id=None):
     parts = (url_parts.scheme, url_parts.netloc, path, '', '', '')
     return urlunparse(parts)
 
-
+"""
 def test_import_schema(application_settings):
-    daan_schema = DAANSchemaImporter(application_settings["SCHEMA_FILE"], application_settings["MAPPING_FILE"])
+    daan_schema = DAANSchemaImporter(
+    	application_settings["PROFILES"][0]['schema'],
+    	application_settings["PROFILES"][0]['mapping'])
     # print(daan_schema.getClasses())
-
+"""
 
 # def test_oai_payload_to_rdf(application_settings_oai, i_program, i_season, i_series, i_carrier, i_clip):
 #     app = Flask(__name__)

@@ -11,9 +11,9 @@ class BaseRdfConcept:
         It uses functions to create the RDF in a graph using the JSON payload from the Direct Access Metadata API.
     """
 
-    def __init__(self, config, model=None):
-        self.config = config
-        if "SCHEMA_FILE" not in self.config or "MAPPING_FILE" not in self.config:
+    def __init__(self, profile, model=None):
+        self.profile = profile
+        if "schema" not in self.profile or "mapping" not in self.profile:
             raise APIUtil.raiseDescriptiveValueError('internal_server_error', 'Schema or mapping file not specified')
         self._model = model
         self._schema = None

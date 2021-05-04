@@ -8,9 +8,9 @@ class DAANStorageLODHandler(StorageLODHandler):
     information from the schema to create RDF from the JSON.
     This implementation produces RDF in the NISV scheme/model.
     """
-    def __init__(self, config):
+    def __init__(self, config, profile_id):
         super().__init__(config)
-        self.config = config
+        self.profile_id = profile_id
 
     def _transform_json_to_rdf(self, json_obj):
         """ Transforms the json to RDF using the schema mapping.
@@ -27,4 +27,4 @@ class DAANStorageLODHandler(StorageLODHandler):
                     "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrack_type)
         # Note: this class is imported here, because otherwise a circular dependency is created
         from models.NISVRdfConcept import NISVRdfConcept
-        return NISVRdfConcept(json_obj, cat_type, self.config)
+        return NISVRdfConcept(json_obj, cat_type, self.get_profile(self.profile_id))

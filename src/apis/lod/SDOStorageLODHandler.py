@@ -7,9 +7,10 @@ class SDOStorageLODHandler(StorageLODHandler):
     then uses the mapping information from the schema to create RDF from the JSON.
     This implementation produces RDF in the schema.org model (SDO)).
     """
-    def __init__(self, config):
+    def __init__(self, config, profile_id):
         super().__init__(config)
-        self.config = config
+        self.profile_id = profile_id
+
 
     def _transform_json_to_rdf(self, json_obj):
         """ Transforms JSON data from the flex Direct Access Metadata API to schema.org
@@ -26,6 +27,6 @@ class SDOStorageLODHandler(StorageLODHandler):
 
         # Note that this is import is here not at the top, to prevent circular dependency to happen
         from models.SDORdfConcept import SDORdfConcept
-        return SDORdfConcept(json_obj, cat_type, self.config)
+        return SDORdfConcept(json_obj, cat_type, self.get_profile(self.profile_id))
 
 

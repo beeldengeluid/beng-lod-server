@@ -1,7 +1,3 @@
-import os
-from util import SettingsUtil
-
-
 class Config(object):
     APP_HOST = '0.0.0.0'
     APP_PORT = 5309
@@ -10,31 +6,25 @@ class Config(object):
     DEBUG = True
     CACHE_TYPE = 'SimpleCache'
 
-    base_path = SettingsUtil.get_base_path()
-
     # OAI_BASE_URL = 'http://dummy.oai.com'
     # XSLT_FILE = os.path.abspath(os.path.join(base_path, 'resource', 'nisv-bg-oai2lod-v04.xsl'))
 
-    STORAGE_BASE_URL = 'http://acc-app-bng-01.beeldengeluid.nl:8101'
+    STORAGE_BASE_URL = 'http://...'
 
-    # use config version below when using storage API
-    SCHEMA_FILE = os.path.abspath(os.path.join(base_path, 'resource', 'bengSchema.ttl'))
-    MAPPING_FILE = os.path.abspath(os.path.join(base_path, 'resource', 'daan-mapping-storage.ttl'))
-
-
-# use version below when using OAI
-class OAIConfig(Config):
-    base_path = SettingsUtil.get_base_path()
-    MAPPING_FILE = os.path.abspath(os.path.join(base_path, 'resource', 'daan-mapping.ttl'))
-
-
-class SDOConfig(Config):
-    base_path = SettingsUtil.get_base_path()
-    SCHEMA_FILE = os.path.abspath(os.path.join(base_path, 'resource', 'schema-dot-org.ttl'))
-    MAPPING_FILE = os.path.abspath(os.path.join(base_path, 'resource', 'daan-mapping-schema-org.ttl'))
-
-
-class NISVConfig(Config):
-    base_path = SettingsUtil.get_base_path()
-    SCHEMA_FILE = os.path.abspath(os.path.join(base_path, 'resource', 'bengSchema.ttl'))
-    MAPPING_FILE = os.path.abspath(os.path.join(base_path, 'resource', 'daan-mapping-storage.ttl'))
+    PROFILES = [
+        {
+            'id' : 'http://data.rdlabs.beeldengeluid.nl/schema',
+            'schema' : '../resource/bengSchema.ttl',
+            'mapping' : '../resource/daan-mapping-storage.ttl',
+            'default' : True #this profile is loaded in memory by default
+        },
+        {
+            'id' : 'http://schema.org',
+            'schema' : '../resource/schema-dot-org.ttl',
+            'mapping' : '../resource/daan-mapping-schema-org.ttl'
+        },
+        {
+            'id' : 'oai',
+            'mapping' : '../resource/daan-mapping.ttl',
+        }
+    ]

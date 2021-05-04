@@ -24,17 +24,26 @@ CORS(app)
 
 cache.init_app(app)
 
+def get_default_profile():
+    def_profile = app.config['PROFILES'][0]
+    for p in app.config['PROFILES']:
+        if 'default' in p and p['default'] == True:
+            def_profile = p
+            break
+    return def_profile
+
+app.config['DEFAULT_PROFILE'] = get_default_profile()
 
 # Code added to generate the ontology documentation
 @app.before_first_request
 def server_init():
     output_path = 'schema'
     if not os.path.exists(os.path.join(Path(app.static_folder).parent, output_path)):
-        ontodoc(ontology_file=app.config['SCHEMA_FILE'], output_path=output_path)
+        ontodoc(ontology_file=app.config['DEFAULT_PROFILE']['schema'], output_path=output_path)
 
 
 # schema in memory
-sim = SchemaInMemory(schema_file=app.config['SCHEMA_FILE'])
+sim = SchemaInMemory(schema_file=app.config['DEFAULT_PROFILE']['schema'])
 
 # print(Path(app.static_folder).parent)
 
@@ -95,8 +104,8 @@ def home():
 def schema():
     if 'text/turtle' in request.headers.get('Accept'):
         # a text page with the RDF in turtle format is returned.
-        if os.path.exists(app.config['SCHEMA_FILE']):
-            f = open(app.config['SCHEMA_FILE'], 'r')
+        if os.path.exists(app.config['PROFILES']['DAAN']['schema']):
+            f = open(app.config['PROFILES']['DAAN']['schema'], 'r')
             schema_ttl = f.read()
             f.close()
             return APIUtil.toSuccessResponse(schema_ttl)

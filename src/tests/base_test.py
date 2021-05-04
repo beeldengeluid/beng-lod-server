@@ -16,6 +16,4 @@ def test_settings_valid(application_settings):
 
     assert 'DEBUG' in application_settings and type(application_settings['DEBUG']) == bool
 
-    assert 'OAI_BASE_URL' in application_settings and type(application_settings['OAI_BASE_URL']) == str
-    assert 'SCHEMA_FILE' in application_settings and type(application_settings['SCHEMA_FILE']) == str
-    assert 'MAPPING_FILE' in application_settings and type(application_settings['MAPPING_FILE']) == str
+    assert 'PROFILES' in application_settings and type(application_settings['PROFILES']) == list
