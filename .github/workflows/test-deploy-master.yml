@@ -37,8 +37,11 @@ jobs:
     runs-on: self-hosted
     needs: test
     steps:
-    - uses: actions/checkout@v1
-    - name: install with puppet
+    - name: Update ansible
       run: |
-        cd /etc/puppetlabs/code/modules/rd_infra_service/
-        sudo puppet apply examples/test-cluster/beng_lod_server.pp
+        cd /opt/git/x-omgeving/ansible/
+        sudo git pull
+    - name: autodeploy with ansible
+      run: |
+        cd /opt/git/x-omgeving/ansible/
+        ansible-playbook beng-lod-server.yml
