@@ -13,3 +13,5 @@ resource/*/*.xml
 docs/
 schema/
 *.txt
+ontospy
+ontospy-schema

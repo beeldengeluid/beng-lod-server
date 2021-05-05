@@ -6,8 +6,7 @@ class Config(object):
     DEBUG = True
     CACHE_TYPE = 'SimpleCache'
 
-    # OAI_BASE_URL = 'http://dummy.oai.com'
-    # XSLT_FILE = os.path.abspath(os.path.join(base_path, 'resource', 'nisv-bg-oai2lod-v04.xsl'))
+    ONTOSPY_OUTPUT_DIR = 'static/ontospy'
 
     STORAGE_BASE_URL = 'http://...'
 
