@@ -12,18 +12,18 @@ class Config(object):
 
     PROFILES = [
         {
-            'id' : 'http://data.rdlabs.beeldengeluid.nl/schema',
-            'schema' : '../resource/bengSchema.ttl',
-            'mapping' : '../resource/daan-mapping-storage.ttl',
-            'default' : True #this profile is loaded in memory by default
+            'id': 'http://data.rdlabs.beeldengeluid.nl/schema',
+            'schema': '../resource/bengSchema.ttl',
+            'mapping': '../resource/daan-mapping-storage.ttl',
+            'default': True  # this profile is loaded in memory by default
         },
         {
-            'id' : 'http://schema.org',
-            'schema' : '../resource/schema-dot-org.ttl',
-            'mapping' : '../resource/daan-mapping-schema-org.ttl'
+            'id': 'http://schema.org',
+            'schema': '../resource/schema-dot-org.ttl',
+            'mapping': '../resource/daan-mapping-schema-org.ttl'
         },
         {
-            'id' : 'oai',
-            'mapping' : '../resource/daan-mapping.ttl',
+            'id': 'oai',
+            'mapping': '../resource/daan-mapping.ttl',
         }
     ]

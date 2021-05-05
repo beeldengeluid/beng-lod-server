@@ -33,6 +33,7 @@ MIME_TYPE_TO_LD = {
 DAAN_PROFILE = 'http://data.rdlabs.beeldengeluid.nl/schema'
 SDO_PROFILE = 'http://schema.org'
 
+
 def get_generic(level, identifier, app_config):
     """ Generates the expected data based on the mime_type.
         It can be used by the accept-decorated methods from the resource derived class.
