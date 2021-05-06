@@ -13,10 +13,10 @@ class NISVRdfConcept(BaseRdfConcept):
     """ Class to represent an NISV concept in RDF, with functions to create the RDF in a graph from the JSON payload.
     """
 
-    def __init__(self, metadata, concept_type, config):
-        super().__init__(config, model=DAANRdfModel)
-        self.config = config
-        if "SCHEMA_FILE" not in self.config or "MAPPING_FILE" not in self.config:
+    def __init__(self, metadata, concept_type, profile):
+        super().__init__(profile, model=DAANRdfModel)
+        self.profile = profile
+        if "schema" not in self.profile or "mapping" not in self.profile:
             raise APIUtil.raiseDescriptiveValueError('internal_server_error', 'Schema or mapping file not specified')
         self._model = DAANRdfModel
         self._schema = self.get_scheme()
@@ -43,7 +43,7 @@ class NISVRdfConcept(BaseRdfConcept):
     @cache.cached(timeout=0, key_prefix='nisv_scheme')
     def get_scheme(self):
         """ Returns a schema instance."""
-        return DAANSchemaImporter(self.config["SCHEMA_FILE"], self.config["MAPPING_FILE"])
+        return DAANSchemaImporter(self.profile["schema"], self.profile["mapping"])
 
     def __payload_to_rdf(self, payload, parent_node, class_uri):
         """Converts the metadata described in payload (json) to RDF, and attaches it to the parentNode
@@ -87,7 +87,8 @@ class NISVRdfConcept(BaseRdfConcept):
                         self.graph.add((parent_node, URIRef(uri), Literal(newPayloadItem, datatype=rdfProperty[
                             "range"])))  # add the new payload as the value
                     elif rdfProperty[
-                        "rangeSuperClass"] == str(SKOS.Concept):
+                        "rangeSuperClass"] == str(SKOS.Concept) or rdfProperty[
+                        "rangeSuperClass"] == str(DAANRdfModel.ACTING_ENTITY):
                         # In these cases, we have a class as range, but only a simple value in DAAN, as we want
                         # to model a label from DAAN with a skos:Concept in the RDF
                         # create a node for the skos concept

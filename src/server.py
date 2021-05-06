@@ -9,6 +9,7 @@ from ontodoc import ontodoc
 from SchemaInMemory import SchemaInMemory
 from util.APIUtil import APIUtil
 from cache import cache
+from jinja2.exceptions import TemplateNotFound
 
 app = Flask(__name__)
 
@@ -16,7 +17,7 @@ app = Flask(__name__)
 app.config.from_object('settings.Config')
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['RESTPLUS_VALIDATE'] = False
-app.config['CACHE_TYPE'] = "SimpleCache"
+#app.config['CACHE_TYPE'] = "SimpleCache"
 
 app.debug = app.config['DEBUG']
 
@@ -24,20 +25,37 @@ CORS(app)
 
 cache.init_app(app)
 
+def get_active_profile():
+    def_profile = app.config['PROFILES'][0]
+    for p in app.config['PROFILES']:
+        if 'default' in p and p['default'] == True:
+            def_profile = p
+            break
+    return def_profile
+
+#TODO now the active profile is static and cannot be defined via the URL
+app.config['ACTIVE_PROFILE'] = get_active_profile()
 
 # Code added to generate the ontology documentation
 @app.before_first_request
 def server_init():
-    output_path = 'schema'
-    if not os.path.exists(os.path.join(Path(app.static_folder).parent, output_path)):
-        ontodoc(ontology_file=app.config['SCHEMA_FILE'], output_path=output_path)
+    loaded_schemas = {}
+    for p in app.config['PROFILES']:
+        if 'prefix' in p and 'schema' in p and p['schema']:
+            # generate the ontospy HTML for the configured profile
+            generate_ontospy_html(p)
+            # schema in memory
+            p['sim'] = SchemaInMemory(profile=p)
 
+def get_profile_dir(profile):
+    return 'static/ontospy/{}'.format(profile['prefix']) if 'prefix' in profile else None
 
-# schema in memory
-sim = SchemaInMemory(schema_file=app.config['SCHEMA_FILE'])
-
-# print(Path(app.static_folder).parent)
-
+def generate_ontospy_html(profile):
+    if 'schema' in profile and 'prefix' in profile:
+        profile_dir = get_profile_dir(profile)
+        if profile_dir and not os.path.exists(profile_dir):
+            print('Generating ontospy HTML for {}'.format(profile['prefix']))
+            ontodoc(ontology_file=profile['schema'], output_path=profile_dir, profile=profile)
 
 api.init_app(
     app,
@@ -45,124 +63,63 @@ api.init_app(
     description='Get RDF for resources in the DAAN catalogue and the GTAA thesaurus.')
 
 """------------------------------------------------------------------------------
-CUSTOM TEMPLATE FUNCTIONS
-------------------------------------------------------------------------------"""
-
-
-# Formats dates to be used in templates
-@app.template_filter()
-def datetimeformat(value, dt_format='%d, %b %Y'):
-    return datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ").strftime(dt_format)
-
-
-@app.template_filter()
-def getLastStringAfter(value):
-    lastIndex = value.rindex("/")
-    return value[lastIndex + 1:len(value)]
-
-
-@app.template_filter()
-def externalResource(url):
-    BENGSCHEMA = "http://data.rdlabs.beeldengeluid.nl"
-    if url.find(BENGSCHEMA) == -1:
-        return True
-    else:
-        return False
-
-
-"""------------------------------------------------------------------------------
 PING / HEARTBEAT ENDPOINT
 ------------------------------------------------------------------------------"""
-
 
 @app.route('/ping')
 def ping():
     return Response('pong', mimetype='text/plain')
 
-
 """------------------------------------------------------------------------------
-REGULAR ROUTING (STATIC CONTENT)
+ROUTING FOR BROWSING THE SCHEMAS/PROFILES (TODO INTEGRATE WITH SWAGGER API)
 ------------------------------------------------------------------------------"""
-
-
-@app.route('/')
-def home():
-    return render_template('index.html')
-
 
 @app.route('/schema')
 @app.route('/schema/')
 def schema():
+    active_profile = app.config['ACTIVE_PROFILE']
+
     if 'text/turtle' in request.headers.get('Accept'):
         # a text page with the RDF in turtle format is returned.
-        if os.path.exists(app.config['SCHEMA_FILE']):
-            f = open(app.config['SCHEMA_FILE'], 'r')
+        if os.path.exists(app.config['ACTIVE_PROFILE']['schema']):
+            f = open(app.config['ACTIVE_PROFILE']['schema'], 'r')
             schema_ttl = f.read()
             f.close()
             return APIUtil.toSuccessResponse(schema_ttl)
         return APIUtil.toErrorResponse('internal_server_error', 'The schema file could not be found')
-    return send_from_directory(os.path.join(Path(app.static_folder).parent, 'schema'), 'index.html')
-
-
-@app.route('/schema/static/libs/bootswatch3_2/yeti/fonts/<path:path>')
-def schema_fonts_path(path):
-    return send_from_directory('schema/static/libs/bootstrap-3_3_7-dist/fonts', path)
-
-
-@app.route('/schema/static/<path:path>')
-def schema_static(path):
-    return send_from_directory('schema/static', path)
-
+    return send_from_directory(get_profile_dir(active_profile), 'index.html')
 
 @app.route('/schema/<path:path>')
-def schema_path(path):
-    print(request.path)
-    rp = request.path
-    if rp != '/' and rp.endswith('/'):
-        return redirect(rp[:-1])
-    elif rp.endswith('.html'):
-        # HTML representation pages for the resource is served, but URI name is shown (preferred path).
-        # e.g. "http://data.rdlabs.beeldengeluid.nl/schema/Person" is requested and shown in the address bar, but
-        # the HTML page '/schema/class-nisvperson.html' is served.
-        if path.startswith('class-nisv'):
-            entity_name = path[10:-5]
-            resource_name = sim.get_resource_name(entity_name=entity_name)
-            return redirect('/schema/%s' % resource_name)
-        elif path.startswith('prop-nisv'):
-            entity_name = path[9:-5]
-            resource_name = sim.get_resource_name(entity_name=entity_name, resource_type='prop')
-            return redirect('/schema/%s' % resource_name)
-        return send_from_directory(os.path.join(Path(app.static_folder).parent, 'schema'), path)
-    elif 'text/turtle' in request.headers.get('Accept'):
+def schema_path(path=None):
+    active_profile = app.config['ACTIVE_PROFILE']
+
+    if 'text/turtle' in request.headers.get('Accept'):
         # a text page with the RDF for the resource represented in the turtle format is returned.
         uri = "http://data.rdlabs.beeldengeluid.nl/schema/%s" % path
-        return sim.get_resource(class_or_prop=uri)
+        return active_profile['sim'].get_resource(class_or_prop=uri)
     elif 'application/rdf+xml' in request.headers.get('Accept'):
         # an XML page with the RDF for the resource represented in RDF/XML format is returned.
         uri = "http://data.rdlabs.beeldengeluid.nl/schema/%s" % path
-        return sim.get_resource(class_or_prop=uri, return_format='xml')
-
+        return active_profile['sim'].get_resource(class_or_prop=uri, return_format='xml')
     # elif 'application/ld+json' in request.headers.get('Accept'):
     #     # an page with the RDF for the resource represented in JSON-LD format is returned.
     #     uri = "http://data.rdlabs.beeldengeluid.nl/schema/%s" % path
-    #     return sim.get_resource(class_or_prop=uri, return_format='json+ld')
-    # not supported yet
-
-    else:
-        # Returned pages are either class or prop pages generated by ontospy. Note that the requested page names
-        # in the address bar can be replaced with the preferred resource names.
-        # E.g. 'http://localhost:5309/schema/prop-nisvhascarrierannotation.html' is requested and returned,
-        # but the address bar shows 'http://localhost:5309/schema/hasCarrierAnnotation'.
-        # The request is redirected and the console will show something like this:
-        # "GET /schema/prop-nisvhascarrierannotation.html HTTP/1.1" 302 -
-        # "GET /schema/hasCarrierAnnotation HTTP/1.1" 200 -
-        doc_title = 'class-nisv%s.html' % path.lower()
-        if os.path.exists(os.path.join(Path(app.static_folder).parent, 'schema/%s' % doc_title)):
-            return send_from_directory('schema', doc_title)
-        else:
-            doc_title = 'prop-nisv%s.html' % path.lower()
-            return send_from_directory('schema', doc_title)
-
+    #     return active_profile['sim'].get_resource(class_or_prop=uri, return_format='json+ld')
+    elif 'text/html' in request.headers.get('Accept') and path.find('.') == -1:
+        html_path = active_profile['sim'].resource_name_to_html( #make sure load the correct html template
+            app.config['ACTIVE_PROFILE']['prefix'],
+            app.config['ACTIVE_PROFILE']['uri'],
+            path
+        )
+        if html_path:
+            return send_from_directory(get_profile_dir(active_profile), html_path)
+    elif os.path.exists(os.path.join(get_profile_dir(active_profile), path)):
+        if path.find('.html') != -1: #redirect the html to the nice Resource URI
+            resource_name = active_profile['sim'].url_path_to_resource_name(active_profile['prefix'], path)
+            if resource_name:
+                return redirect('/schema/{}'.format(resource_name))
+        return send_from_directory(get_profile_dir(active_profile), path)
+    return Response('This page does not exist (404)')
 
 if __name__ == '__main__':
     app.run(host=app.config['APP_HOST'], port=app.config['APP_PORT'])

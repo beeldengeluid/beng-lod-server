@@ -1,6 +1,5 @@
-import os
-from util import SettingsUtil
-
+from apis.lod.DAANStorageLODHandler import DAANStorageLODHandler
+from apis.lod.SDOStorageLODHandler import SDOStorageLODHandler
 
 class Config(object):
     APP_HOST = '0.0.0.0'
@@ -10,31 +9,31 @@ class Config(object):
     DEBUG = True
     CACHE_TYPE = 'SimpleCache'
 
-    base_path = SettingsUtil.get_base_path()
+    STORAGE_BASE_URL = 'http://...'
 
-    # OAI_BASE_URL = 'http://dummy.oai.com'
-    # XSLT_FILE = os.path.abspath(os.path.join(base_path, 'resource', 'nisv-bg-oai2lod-v04.xsl'))
-
-    STORAGE_BASE_URL = 'http://acc-app-bng-01.beeldengeluid.nl:8101'
-
-    # use config version below when using storage API
-    SCHEMA_FILE = os.path.abspath(os.path.join(base_path, 'resource', 'bengSchema.ttl'))
-    MAPPING_FILE = os.path.abspath(os.path.join(base_path, 'resource', 'daan-mapping-storage.ttl'))
-
-
-# use version below when using OAI
-class OAIConfig(Config):
-    base_path = SettingsUtil.get_base_path()
-    MAPPING_FILE = os.path.abspath(os.path.join(base_path, 'resource', 'daan-mapping.ttl'))
-
-
-class SDOConfig(Config):
-    base_path = SettingsUtil.get_base_path()
-    SCHEMA_FILE = os.path.abspath(os.path.join(base_path, 'resource', 'schema-dot-org.ttl'))
-    MAPPING_FILE = os.path.abspath(os.path.join(base_path, 'resource', 'daan-mapping-schema-org.ttl'))
-
-
-class NISVConfig(Config):
-    base_path = SettingsUtil.get_base_path()
-    SCHEMA_FILE = os.path.abspath(os.path.join(base_path, 'resource', 'bengSchema.ttl'))
-    MAPPING_FILE = os.path.abspath(os.path.join(base_path, 'resource', 'daan-mapping-storage.ttl'))
+    PROFILES = [
+        {
+            'title' : 'NISV Catalogue schema',
+            'uri' : 'http://data.rdlabs.beeldengeluid.nl/schema/',
+            'prefix' : 'nisv', # based on @prefix nisv: <http://data.rdlabs.beeldengeluid.nl/schema/> .
+            'schema' : '../resource/bengSchema.ttl',
+            'mapping' : '../resource/daan-mapping-storage.ttl',
+            'storage_handler' : DAANStorageLODHandler,
+            'default' : True #this profile is loaded in memory by default
+        },
+        {
+            'title' : 'NISV Catalogue schema.org schema',
+            'uri' : 'https://schema.org/',
+            'prefix' : 'sdo', # based on @prefix sdo: <https://schema.org/> .
+            'schema' : '../resource/schema-dot-org.ttl',
+            'mapping' : '../resource/daan-mapping-schema-org.ttl',
+            'storage_handler' : SDOStorageLODHandler
+        },
+        {
+            'title' : 'NISV Catalogue OAI schema',
+            'uri' : 'http://www.openarchives.org/OAI/2.0/oai_dc/', #temporary: taken from https://dltj.org/article/oai-pmh-namespaces/
+            'prefix' : 'oai',
+            'schema' : None,
+            'mapping' : '../resource/daan-mapping.ttl',
+        }
+    ]

@@ -8,6 +8,7 @@ from util.APIUtil import APIUtil
 INVALID_SCHEMA_PATH = './dummy/dummy.ttl'
 
 
+"""
 def test_getSchema_200(application_settings, o_get_schema):
     try:
         schemaHandler = LODSchemaHandler(application_settings)
@@ -17,8 +18,9 @@ def test_getSchema_200(application_settings, o_get_schema):
 
     finally:
         unstub()
+"""
 
-
+"""
 @pytest.mark.parametrize('invalid_appplication_settings', [
     {'SCHEMA_FILE': INVALID_SCHEMA_PATH}
 ])
@@ -32,3 +34,4 @@ def test_getSchema_500(o_get_schema, invalid_appplication_settings):
 
     finally:
         unstub()
+"""

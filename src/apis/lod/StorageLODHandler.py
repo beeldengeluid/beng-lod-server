@@ -4,6 +4,7 @@ import json
 from urllib.error import HTTPError
 from urllib.parse import urlparse, urlunparse
 
+#TODO rewrite using the requests library
 
 class StorageLODHandler:
     """ Base class for a LOD Handler that either serves NISV schema data, or
@@ -12,6 +13,15 @@ class StorageLODHandler:
     """
     def __init__(self, config):
         self.config = config
+
+    def get_profile(self, profile_uri):
+        profile = None
+        if 'PROFILES' in self.config:
+            for p in self.config['PROFILES']:
+                if p['uri'] == profile_uri:
+                    profile = p
+                    break
+        return profile
 
     def get_storage_record(self, level, identifier, return_format):
         """Constructs a URI from the level and identifier, retrieves the record data from the URI,

@@ -13,3 +13,5 @@ resource/*/*.xml
 docs/
 schema/
 *.txt
+src/static/ontospy/*
+!src/static/ontospy/README.md
