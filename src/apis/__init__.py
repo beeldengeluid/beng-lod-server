@@ -1,6 +1,5 @@
 from flask_restx import Api
 from .lod.lod_api import api as lodAPI
-from .lod.lod_api import get_generic
 
 apiVersion = 'v0.2'
 basePath = '/'

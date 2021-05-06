@@ -14,11 +14,11 @@ class StorageLODHandler:
     def __init__(self, config):
         self.config = config
 
-    def get_profile(self, profile_id):
+    def get_profile(self, profile_uri):
         profile = None
         if 'PROFILES' in self.config:
             for p in self.config['PROFILES']:
-                if p['uri'] == profile_id:
+                if p['uri'] == profile_uri:
                     profile = p
                     break
         return profile

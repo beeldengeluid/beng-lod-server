@@ -14,9 +14,13 @@ class DAANSchemaImporter:
         self._graph = Graph()
         self._graph.parse(schemaFile, format="turtle")
         self._graph.parse(mappingFile, format="turtle")
-
+        print(schemaFile)
+        print(mappingFile)
         self._propertiesWithoutDomain = {}
         self._loadPropertiesWithoutDomain()
+        print(self._propertiesWithoutDomain)
+
+        #FIXME this does not work yet for the SDO schema
         assert self._propertiesWithoutDomain, 'ERROR in DAANSchemaImporter: The properties were not loaded.'
 
         self._classes = {}
@@ -52,6 +56,7 @@ class DAANSchemaImporter:
 
         return properties
 
+    #FIXME this does not work yet for the SDO schema
     def _loadPropertiesWithoutDomain(self):
         """
             get properties without a domain, these apply (potentially) to all classes
@@ -80,7 +85,7 @@ class DAANSchemaImporter:
         properties = {}
 
         # first the properties belonging directly to this class
-        query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass WHERE{?property rdfs:domain <%s> . 
+        query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass WHERE{?property rdfs:domain <%s> .
         ?property rdfs:range ?range . ?property <%s> ?path . OPTIONAL{?range rdfs:subClassOf ?rangeSuperClass}}""" % (
             classUri, HAS_DAAN_PATH)
 
