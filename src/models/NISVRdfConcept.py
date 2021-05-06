@@ -87,7 +87,8 @@ class NISVRdfConcept(BaseRdfConcept):
                         self.graph.add((parent_node, URIRef(uri), Literal(newPayloadItem, datatype=rdfProperty[
                             "range"])))  # add the new payload as the value
                     elif rdfProperty[
-                        "rangeSuperClass"] == str(SKOS.Concept):
+                        "rangeSuperClass"] == str(SKOS.Concept) or rdfProperty[
+                        "rangeSuperClass"] == str(DAANRdfModel.ACTING_ENTITY):
                         # In these cases, we have a class as range, but only a simple value in DAAN, as we want
                         # to model a label from DAAN with a skos:Concept in the RDF
                         # create a node for the skos concept
