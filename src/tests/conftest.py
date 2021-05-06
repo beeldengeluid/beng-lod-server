@@ -79,7 +79,7 @@ def application_settings():
     """ Returns the application settings."""
     app = Flask(__name__)
     app.config.from_object('settings-example.Config')
-    app.config['DEFAULT_PROFILE'] = app.config['PROFILES'][0]
+    app.config['ACTIVE_PROFILE'] = app.config['PROFILES'][0]
     return app.config
 
 

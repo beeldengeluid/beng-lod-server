@@ -18,7 +18,7 @@ class StorageLODHandler:
         profile = None
         if 'PROFILES' in self.config:
             for p in self.config['PROFILES']:
-                if p['id'] == profile_id:
+                if p['uri'] == profile_id:
                     profile = p
                     break
         return profile

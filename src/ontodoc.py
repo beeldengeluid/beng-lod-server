@@ -13,8 +13,9 @@ class ontodoc:
 
     """
 
-    def __init__(self, ontology_file=None, output_path=None):
+    def __init__(self, ontology_file=None, output_path=None, profile=None):
         self.graph_file = ontology_file
+        self.profile = profile
         self.model = ontospy.Ontospy(self.graph_file, verbose=True)
         # self.gendocs(output_folder=output_path)
         self.complete_docs(output_folder=output_path)
@@ -47,9 +48,9 @@ class ontodoc:
         # """
         if output_folder is not None:
             v = KompleteVizMultiModel(self.model,
-                                      title='Schema NISV Catalogue',
+                                      title=self.profile['title'] if 'title' in self.profile else 'Unknown schema',
                                       # output_path_static='/home/wmelder/PycharmProjects/beng-lod-server/src/static',
-                                      # static_url='static/',
+                                      static_url='/static/ontospy/{}/static/'.format(self.profile['prefix']),
                                       theme='yeti')  # => instantiate the visualization object
             # attempt to put the files into the webserver directory
             # v.build(output_path='/var/www/docs')  # => render visualization.

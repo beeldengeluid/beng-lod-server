@@ -30,8 +30,8 @@ MIME_TYPE_TO_LD = {
 }
 
 # TODO: make sure the schema file is downloadable in turtle
-DAAN_PROFILE = 'http://data.rdlabs.beeldengeluid.nl/schema'
-SDO_PROFILE = 'http://schema.org'
+DAAN_PROFILE = 'http://data.rdlabs.beeldengeluid.nl/schema/'
+SDO_PROFILE = 'https://schema.org/'
 
 
 def get_generic(level, identifier, app_config):
@@ -72,7 +72,6 @@ def get_generic(level, identifier, app_config):
             identifier,
             ld_format
         )
-        print(resp)
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:
             content_type = mime_type
