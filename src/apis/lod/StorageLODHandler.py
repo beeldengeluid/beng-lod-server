@@ -4,7 +4,8 @@ import json
 from urllib.error import HTTPError
 from urllib.parse import urlparse, urlunparse
 
-#TODO rewrite using the requests library
+# TODO rewrite using the requests library
+
 
 class StorageLODHandler:
     """ Base class for a LOD Handler that either serves NISV schema data, or

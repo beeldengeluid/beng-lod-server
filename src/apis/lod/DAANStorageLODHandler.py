@@ -9,6 +9,11 @@ class DAANStorageLODHandler(StorageLODHandler):
     This implementation produces RDF in the NISV scheme/model.
     """
     def __init__(self, config, profile):
+        """ Handler for request for RDF data for resource from the NISV catalogue.
+            The data is retrieved from the Direct Metadata API of the flex datastore.
+            :param config: the main config object for the handler
+            :param profile_id: the ID for the data profile, the mapping that is needed for conversion.
+        """
         super().__init__(config)
         self.profile = profile
 

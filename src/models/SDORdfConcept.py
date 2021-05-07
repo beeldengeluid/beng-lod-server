@@ -18,7 +18,7 @@ class SDORdfConcept(BaseRdfConcept):
     def __init__(self, metadata, concept_type, profile):
         super().__init__(profile, model=SDORdfModel)
         self._schema = self.get_scheme()
-        self._classes = self._schema.getClasses()
+        self._classes = self._schema.get_classes()
 
         err_msg = 'Error while loading the schema classes and properties'
         assert self._classes is not None, APIUtil.raiseDescriptiveValueError('internal_server_error', err_msg)

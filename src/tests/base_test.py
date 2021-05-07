@@ -1,7 +1,7 @@
 import os
 
 """
-Tests everything related to the validity of the application settings (settings_old.py)
+Tests everything related to the validity of the application settings (settings.py)
 """
 
 

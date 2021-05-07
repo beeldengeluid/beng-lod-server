@@ -1,6 +1,5 @@
-from flask import current_app, request, Response, Flask
+from flask import current_app, request, Response
 from flask_restx import Namespace, fields, Resource
-from flask_accept import accept
 from apis.lod.LODHandlerConcept import LODHandlerConcept
 
 api = Namespace('lod', description='Resources in RDF for Netherlands Institute for Sound and Vision.')
@@ -27,9 +26,10 @@ MIME_TYPE_TO_LD = {
     MIME_TYPE_JSON: 'json-ld'
 }
 
+
 # TODO: make sure the schema file is downloadable in turtle
-#DAAN_PROFILE = 'http://data.rdlabs.beeldengeluid.nl/schema/'
-#SDO_PROFILE = 'https://schema.org/'
+# DAAN_PROFILE = 'http://data.rdlabs.beeldengeluid.nl/schema/'
+# SDO_PROFILE = 'https://schema.org/'
 
 def get_profile_by_uri(profile_uri, app_config):
     print('looking for: {}'.format(profile_uri))
@@ -37,8 +37,9 @@ def get_profile_by_uri(profile_uri, app_config):
         if p['uri'] == profile_uri:
             print('ACTUALLY GOT THE PROFILE: {}'.format(profile_uri))
             return p
-    else: #otherwise return the default profile
+    else:  # otherwise return the default profile
         return app_config['ACTIVE_PROFILE']
+
 
 """ Generates the expected data based on the mime_type.
     It can be used by the accept-decorated methods from the resource derived class.
@@ -50,6 +51,8 @@ def get_profile_by_uri(profile_uri, app_config):
     NOTE: Abuse the Accept header with additional parameter:
     Example: Accept: application/ld+json; profile="http://schema.org"
 """
+
+
 def get_lod_resource(level, identifier, mime_type, accept_profile, app_config):
     profile = get_profile_by_uri(accept_profile, app_config)
 
@@ -72,6 +75,7 @@ def get_lod_resource(level, identifier, mime_type, accept_profile, app_config):
         headers['Content-Type'] = ';'.join([content_type, profile_param])
         return Response(resp, mimetype=mime_type, headers=headers)
     return Response(resp, status_code, headers=headers)
+
 
 def parse_accept(accept_header):
     """ Parses an Accept header for a request for RDF to the server. It returns the mimet_type and profile.
@@ -110,12 +114,11 @@ def parse_accept(accept_header):
 @api.route('resource/<any(program, series, season, logtrackitem):level>/<int:identifier>', endpoint='dereference')
 class LODAPI(Resource):
 
-    #@accept('application/ld+json')
+    # @accept('application/ld+json')
     def get(self, identifier, level='program'):
         mime_type, accept_profile = parse_accept(request.headers.get('Accept'))
 
         if mime_type:
-
             # note we need to use empty params for the UI
             return get_lod_resource(
                 level=level,
@@ -166,7 +169,8 @@ class LODConceptAPI(Resource):
             ld_format = user_format
             mimetype = self.LD_TO_MIME_TYPE[user_format]
 
-        resp, status_code, headers = LODHandlerConcept(current_app.config).getConceptRDF(set_code, notation, ld_format)
+        resp, status_code, headers = LODHandlerConcept(current_app.config).get_concept_rdf(set_code, notation,
+                                                                                           ld_format)
 
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:

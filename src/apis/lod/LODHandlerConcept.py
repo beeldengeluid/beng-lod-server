@@ -3,6 +3,7 @@ from rdflib.plugin import PluginException
 from util.APIUtil import APIUtil
 from urllib.error import URLError
 
+
 class LODHandlerConcept(object):
 	""" OpenSKOS platform provides RDF data for each SKOS concept. As far as I know the
 		sub domain data.beeldengeluid.nl is forwarded to OpenSKOS platform on DNS level.
@@ -27,11 +28,13 @@ class LODHandlerConcept(object):
 	def __init__(self, config):
 		self.config = config
 
-	def getConceptUri(self, set, notation):
-		uri = u'http://data.beeldengeluid.nl/%s/%s.rdf' % (set, notation)
+	@staticmethod
+	def get_concept_uri(set_spec, notation):
+		uri = u'http://data.beeldengeluid.nl/%s/%s.rdf' % (set_spec, notation)
 		return uri
 
-	def getConceptData(self, uri, return_format=None):
+	@staticmethod
+	def get_concept_data(uri, return_format=None):
 		graph = Graph()
 		try:
 			graph.load(uri)
@@ -45,9 +48,9 @@ class LODHandlerConcept(object):
 		except PluginException as e:
 			return None
 
-	def getConceptRDF(self, set, notation, return_format):
-		uri = self.getConceptUri(set, notation)
-		data = self.getConceptData(uri, return_format)
+	def get_concept_rdf(self, set_spec, notation, return_format):
+		uri = self.get_concept_uri(set_spec, notation)
+		data = self.get_concept_data(uri, return_format)
 		if data:
 			return APIUtil.toSuccessResponse(data)
 		return APIUtil.toErrorResponse('bad_request', 'Invalid concept URI or return format')

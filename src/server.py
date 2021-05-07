@@ -1,15 +1,11 @@
-from flask import Flask, render_template, request, Response, send_from_directory, redirect
+from flask import Flask, request, Response, send_from_directory, redirect
 from flask_cors import CORS
-import datetime
-from datetime import datetime
 import os
-from pathlib import Path
 from apis import api
 from ontodoc import ontodoc
 from SchemaInMemory import SchemaInMemory
 from util.APIUtil import APIUtil
 from cache import cache
-from jinja2.exceptions import TemplateNotFound
 
 app = Flask(__name__)
 
@@ -17,7 +13,6 @@ app = Flask(__name__)
 app.config.from_object('settings.Config')
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['RESTPLUS_VALIDATE'] = False
-#app.config['CACHE_TYPE'] = "SimpleCache"
 
 app.debug = app.config['DEBUG']
 
@@ -25,16 +20,19 @@ CORS(app)
 
 cache.init_app(app)
 
+
 def get_active_profile():
     def_profile = app.config['PROFILES'][0]
     for p in app.config['PROFILES']:
-        if 'default' in p and p['default'] == True:
+        if 'default' in p and p['default'] is True:
             def_profile = p
             break
     return def_profile
 
-#TODO now the active profile is static and cannot be defined via the URL
+
+# TODO now the active profile is static and cannot be defined via the URL
 app.config['ACTIVE_PROFILE'] = get_active_profile()
+
 
 # Code added to generate the ontology documentation
 @app.before_first_request
@@ -47,8 +45,10 @@ def server_init():
             # schema in memory
             p['sim'] = SchemaInMemory(profile=p)
 
+
 def get_profile_dir(profile):
     return 'static/ontospy/{}'.format(profile['prefix']) if 'prefix' in profile else None
+
 
 def generate_ontospy_html(profile):
     if 'schema' in profile and 'prefix' in profile:
@@ -56,6 +56,7 @@ def generate_ontospy_html(profile):
         if profile_dir and not os.path.exists(profile_dir):
             print('Generating ontospy HTML for {}'.format(profile['prefix']))
             ontodoc(ontology_file=profile['schema'], output_path=profile_dir, profile=profile)
+
 
 api.init_app(
     app,
@@ -66,13 +67,16 @@ api.init_app(
 PING / HEARTBEAT ENDPOINT
 ------------------------------------------------------------------------------"""
 
+
 @app.route('/ping')
 def ping():
     return Response('pong', mimetype='text/plain')
 
+
 """------------------------------------------------------------------------------
 ROUTING FOR BROWSING THE SCHEMAS/PROFILES (TODO INTEGRATE WITH SWAGGER API)
 ------------------------------------------------------------------------------"""
+
 
 @app.route('/schema')
 @app.route('/schema/')
@@ -88,6 +92,7 @@ def schema():
             return APIUtil.toSuccessResponse(schema_ttl)
         return APIUtil.toErrorResponse('internal_server_error', 'The schema file could not be found')
     return send_from_directory(get_profile_dir(active_profile), 'index.html')
+
 
 @app.route('/schema/<path:path>')
 def schema_path(path=None):
@@ -106,7 +111,7 @@ def schema_path(path=None):
     #     uri = "http://data.rdlabs.beeldengeluid.nl/schema/%s" % path
     #     return active_profile['sim'].get_resource(class_or_prop=uri, return_format='json+ld')
     elif 'text/html' in request.headers.get('Accept') and path.find('.') == -1:
-        html_path = active_profile['sim'].resource_name_to_html( #make sure load the correct html template
+        html_path = active_profile['sim'].resource_name_to_html(  # make sure load the correct html template
             app.config['ACTIVE_PROFILE']['prefix'],
             app.config['ACTIVE_PROFILE']['uri'],
             path
@@ -114,12 +119,13 @@ def schema_path(path=None):
         if html_path:
             return send_from_directory(get_profile_dir(active_profile), html_path)
     elif os.path.exists(os.path.join(get_profile_dir(active_profile), path)):
-        if path.find('.html') != -1: #redirect the html to the nice Resource URI
+        if path.find('.html') != -1:  # redirect the html to the nice Resource URI
             resource_name = active_profile['sim'].url_path_to_resource_name(active_profile['prefix'], path)
             if resource_name:
                 return redirect('/schema/{}'.format(resource_name))
         return send_from_directory(get_profile_dir(active_profile), path)
     return Response('This page does not exist (404)')
+
 
 if __name__ == '__main__':
     app.run(host=app.config['APP_HOST'], port=app.config['APP_PORT'])

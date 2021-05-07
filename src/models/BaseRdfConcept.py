@@ -39,7 +39,7 @@ class BaseRdfConcept:
 
     def get_classes(self):
         if self._schema is not None:
-            return self._schema.getClasses()
+            return self._schema.get_classes()
         return None
 
     # noinspection PyMethodMayBeStatic
