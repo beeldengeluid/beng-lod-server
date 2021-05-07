@@ -16,26 +16,34 @@ MIME_TYPE_JSON_LD = 'application/ld+json'
 MIME_TYPE_RDF_XML = 'application/rdf+xml'
 MIME_TYPE_TURTLE = 'text/turtle'
 MIME_TYPE_N_TRIPLES = 'application/n-triples'
+MIME_TYPE_N3 = 'text/n3'
 MIME_TYPE_JSON = 'application/json'
+
+ACCEPT_TYPES = [
+    MIME_TYPE_JSON_LD,
+    MIME_TYPE_RDF_XML,
+    MIME_TYPE_TURTLE,
+    MIME_TYPE_N_TRIPLES,
+    MIME_TYPE_JSON,
+    MIME_TYPE_N3
+]
 
 MIME_TYPE_TO_LD = {
     MIME_TYPE_RDF_XML: 'xml',
     MIME_TYPE_JSON_LD: 'json-ld',
     MIME_TYPE_N_TRIPLES: 'nt',
     MIME_TYPE_TURTLE: 'ttl',
-    MIME_TYPE_JSON: 'json-ld'
+    MIME_TYPE_JSON: 'json-ld',
+    MIME_TYPE_N3: 'n3'
 }
-
 
 # TODO: make sure the schema file is downloadable in turtle
 # DAAN_PROFILE = 'http://data.rdlabs.beeldengeluid.nl/schema/'
 # SDO_PROFILE = 'https://schema.org/'
 
 def get_profile_by_uri(profile_uri, app_config):
-    print('looking for: {}'.format(profile_uri))
     for p in app_config['PROFILES']:
         if p['uri'] == profile_uri:
-            print('ACTUALLY GOT THE PROFILE: {}'.format(profile_uri))
             return p
     else:  # otherwise return the default profile
         return app_config['ACTIVE_PROFILE']
@@ -59,8 +67,6 @@ def get_lod_resource(level, identifier, mime_type, accept_profile, app_config):
     # TODO: check if the rdflib-json-ld plugin does accept mime_type='application/ld+json'
     ld_format = MIME_TYPE_TO_LD.get(mime_type)
 
-    print('MIMETYPE {} LD FORMAT {}'.format(mime_type, ld_format))
-
     resp, status_code, headers = profile['storage_handler'](app_config, profile).get_storage_record(
         level,
         identifier,
@@ -77,29 +83,26 @@ def get_lod_resource(level, identifier, mime_type, accept_profile, app_config):
     return Response(resp, status_code, headers=headers)
 
 
-def parse_accept(accept_header):
+def parse_accept_header(accept_header):
     """ Parses an Accept header for a request for RDF to the server. It returns the mimet_type and profile.
     :param: accept_header: the Accept parameter from the HTTP request.
     :returns: mime_type, accept_profile. None if input parameter is missing.
     """
-    print(accept_header)
     mime_type = MIME_TYPE_JSON_LD
     accept_profile = None
 
     if accept_header is None or accept_header == '*/*':
         return mime_type, accept_profile
 
-    accept_parts = accept_header.split(';')
+    if accept_header in ACCEPT_TYPES:
+        return accept_header, accept_profile
 
-    print(accept_parts)
-    if len(accept_parts) == 1:
-        mime_type = request.headers.get('Accept')
-        # # uncomment if you want to enforce a profile (for testing)
-        # profile_param = '='.join(['profile', '"{}"'.format(SDO_PROFILE)])
-        # accept_parts.append(profile_param)
-    if len(accept_parts) > 1:
-        for part in accept_parts:
-            kv = part.split('=')
+    if accept_header.find(';') != -1 and accept_header.find('profile') != -1:
+        temp = accept_header.split(';')
+        if len(temp) == 2:
+            mime_type = temp[0]
+
+            kv = temp[1].split('=')
             if len(kv) > 1 and kv[0] == 'profile':
                 accept_profile = kv[1].replace('"', '')
     return mime_type, accept_profile
@@ -116,7 +119,7 @@ class LODAPI(Resource):
 
     # @accept('application/ld+json')
     def get(self, identifier, level='program'):
-        mime_type, accept_profile = parse_accept(request.headers.get('Accept'))
+        mime_type, accept_profile = parse_accept_header(request.headers.get('Accept'))
 
         if mime_type:
             # note we need to use empty params for the UI
@@ -135,13 +138,6 @@ class LODAPI(Resource):
 
 @api.route('concept/<set_code>/<notation>', endpoint='concept')
 class LODConceptAPI(Resource):
-    MIME_TYPE_TO_LD = {
-        'application/rdf+xml': 'xml',
-        'application/ld+json': 'json-ld',
-        'text/turtle': 'ttl',
-        'text/n3': 'n3'
-    }
-
     LD_TO_MIME_TYPE = {v: k for k, v in MIME_TYPE_TO_LD.items()}
 
     def _extractDesiredFormats(self, accept_type):
