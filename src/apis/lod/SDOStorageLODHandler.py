@@ -4,13 +4,12 @@ from apis.lod.StorageLODHandler import StorageLODHandler
 
 class SDOStorageLODHandler(StorageLODHandler):
     """ STORAGE API serves catalogue data on a URL. This class gets the JSON from the URL,
-    then uses the mapping information from the schema to create RDF from the JSON.
-    This implementation produces RDF in the schema.org model (SDO)).
+        then uses the mapping information from the schema to create RDF from the JSON.
+        This implementation produces RDF using the schema.org ontology (SDO)).
     """
     def __init__(self, config, profile):
         super().__init__(config)
         self.profile = profile
-
 
     def _transform_json_to_rdf(self, json_obj):
         """ Transforms JSON data from the flex Direct Access Metadata API to schema.org
