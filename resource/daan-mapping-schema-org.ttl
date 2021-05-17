@@ -261,7 +261,7 @@ xsd:date rdf:type rdfs:Datatype .
 
 
 ###  https://schema.org/description
-<https://schema.org/description> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.summary, value", "nisv.summaryshort, value" .
+###<https://schema.org/description> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.summary, value", "nisv.summaryshort, value" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasDistributionChannel
