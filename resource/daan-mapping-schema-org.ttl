@@ -36,31 +36,29 @@ xsd:date rdf:type rdfs:Datatype .
 ###<http://data.rdlabs.beeldengeluid.nl/schema/hasBroadcaster> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "publication.broadcastorg, resolved_value" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasCast
-###<http://data.rdlabs.beeldengeluid.nl/schema/hasCast> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.cast, nisv.cast" .
+###  https://schema.org/actor
+<https://schema.org/actor> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.cast, cast.actor, resolved_value" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasCountry
 ###<http://data.rdlabs.beeldengeluid.nl/schema/hasCountry> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.country".
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasCreator
-###<http://data.rdlabs.beeldengeluid.nl/schema/hasCreator> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.crew, nisv.crew" .
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasEntity
-###<http://data.rdlabs.beeldengeluid.nl/schema/hasEntity> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "performer.name, resolved_value" .
-
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasEntityInRole
-###<http://data.rdlabs.beeldengeluid.nl/schema/hasEntityInRole> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.corporation, nisv.corporation" ,
-###                                                                                                                      "nisv.person, nisv.person" .
+###  https://schema.org/creator
+<https://schema.org/creator> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.crew, crew.name, resolved_value",
+                                                                                    "nisv.creator, creator.name, resolved_value" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasExecutive
-###<http://data.rdlabs.beeldengeluid.nl/schema/hasExecutive> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.performer, nisv.performer".
+###  https://schema.org/mentions
+<https://schema.org/mentions> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.corporation, corporation.name, resolved_value" ,
+                                                                                                                      "nisv.person, person.name, resolved_value" .
+
+###  https://schema.org/byArtist
+<https://schema.org/byArtist> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.performer, performer.name, resolved_value".
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasGenre
-###<http://data.rdlabs.beeldengeluid.nl/schema/hasGenre> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.genre, nisv.genre, genre.name, resolved_value" .
+###  https://schema.org/genre
+<https://schema.org/genre> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.genre, genre.name, resolved_value" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasLanguage
@@ -71,8 +69,8 @@ xsd:date rdf:type rdfs:Datatype .
 ###<http://data.rdlabs.beeldengeluid.nl/schema/hasLanguageUsage> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.language" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasLocation
-###<http://data.rdlabs.beeldengeluid.nl/schema/hasLocation> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.geographical, nisv.geographical, geographical.name, resolved_value" .
+###  https://schema.org/location
+<https://schema.org/location> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.geographical, geographical.name, resolved_value" .
 
 
 
@@ -93,10 +91,6 @@ xsd:date rdf:type rdfs:Datatype .
 ###<http://data.rdlabs.beeldengeluid.nl/schema/hasOriginalBroadcaster> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "publication.origbroadcastorg, value" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasOriginalCreator
-###<http://data.rdlabs.beeldengeluid.nl/schema/hasOriginalCreator> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.creator, nisv.creator" .
-
-
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasPerson
 ###<http://data.rdlabs.beeldengeluid.nl/schema/hasPerson> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "cast.actor, resolved_value" ,
 ###                                                                                                                "creator.name, resolved_value" ,
@@ -105,12 +99,12 @@ xsd:date rdf:type rdfs:Datatype .
 ###                                                                                                                 "person.name, resolved_value" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasProducer
-###<http://data.rdlabs.beeldengeluid.nl/schema/hasProducer> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.productioncompany, nisv.productioncompany" .
+###  https://schema.org/productionCompany
+<https://schema.org/productionCompany> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.productioncompany, productioncompany.name, resolved_value" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasProductionCountry
-###<http://data.rdlabs.beeldengeluid.nl/schema/hasProductionCountry> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.productioncountry, nisv.productioncountry,productioncountry.name, resolved_value" .
+###<http://data.rdlabs.beeldengeluid.nl/schema/hasProductionCountry> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.productioncountry, productioncountry.name, resolved_value" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasPublication
@@ -121,8 +115,8 @@ xsd:date rdf:type rdfs:Datatype .
 ###<http://data.rdlabs.beeldengeluid.nl/schema/hasRecording> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.recordinginformation, nisv.recordinginformation" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasSpeaker
-###<http://data.rdlabs.beeldengeluid.nl/schema/hasSpeaker> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "guest.name, resolved_value" .
+###  https://schema.org/contributor
+<https://schema.org/contributor> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.guest, guest.name, resolved_value" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasSubTitle
@@ -130,7 +124,7 @@ xsd:date rdf:type rdfs:Datatype .
 
 
 ###  https://schema.org/about
-<https://schema.org/about> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.subjectterm,nisv.subjectterm, subjectterm.name, resolved_value".
+<https://schema.org/about> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.subjectterm, subjectterm.name, resolved_value".
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasTargetGroup
 ###<http://data.rdlabs.beeldengeluid.nl/schema/hasTargetGroup> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.targetaudience, targetaudience.name, resolved_value" .
@@ -142,7 +136,7 @@ xsd:date rdf:type rdfs:Datatype .
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasCurrentBroadcaster
 ###<http://data.rdlabs.beeldengeluid.nl/schema/hasCurrentBroadcaster> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.currentbroadcaster, nisv.currentbroadcaster, currentbroadcaster.broadcaster, resolved_value" .
 
-
+### https://schema.org/Thing
 #################################################################
 #    Data properties
 #################################################################
@@ -524,8 +518,8 @@ xsd:date rdf:type rdfs:Datatype .
 ###<http://data.rdlabs.beeldengeluid.nl/schema/LanguageUsage> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.language" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/Location
-###<http://data.rdlabs.beeldengeluid.nl/schema/Location> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.geographical" .
+###  https://schema.org/Place
+<https://schema.org/Place> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.geographical" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/MusicStyle
@@ -536,16 +530,16 @@ xsd:date rdf:type rdfs:Datatype .
 ###<http://data.rdlabs.beeldengeluid.nl/schema/Nationality> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.country" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/Organisation
-###<http://data.rdlabs.beeldengeluid.nl/schema/Organisation> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.corporation" .
+###  https://schema.org/Organization
+<ttps://schema.org/Organization> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.corporation" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/OriginalCreator
 ###<http://data.rdlabs.beeldengeluid.nl/schema/OriginalCreator> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.creator" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/Person
-###<http://data.rdlabs.beeldengeluid.nl/schema/Person> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.person" .
+###  https://schema.org/Person
+<https://schema.org/Person> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.person" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Producer
@@ -587,6 +581,8 @@ xsd:date rdf:type rdfs:Datatype .
 ###  http://data.rdlabs.beeldengeluid.nl/schema/TargetGroup
 ###<http://data.rdlabs.beeldengeluid.nl/schema/TargetGroup> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.targetaudience" .
 
+### https://schema.org/Thing
+<hhttps://schema.org/Thing> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.subjectterm" .
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Title
 ###<http://data.rdlabs.beeldengeluid.nl/schema/Title> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.title" .

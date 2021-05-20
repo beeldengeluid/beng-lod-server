@@ -8,18 +8,22 @@ SCHEMA_DOT_ORG_PREFIX = "sdo"
 NISV_DATA_PREFIX = "resource"
 
 # URIs for concepts in the schema
-
-# URIs for concepts in the schema
 PROGRAM = SCHEMA_DOT_ORG_NAMESPACE + "CreativeWork"
 SEASON = SCHEMA_DOT_ORG_NAMESPACE + "CreativeWorkSeason"
 SERIES = SCHEMA_DOT_ORG_NAMESPACE + "CreativeWorkSeries"
 CARRIER = SCHEMA_DOT_ORG_NAMESPACE + "MediaObject"
+THING = SCHEMA_DOT_ORG_NAMESPACE + "Thing"
+PERSON = SCHEMA_DOT_ORG_NAMESPACE + "Person"
+ORGANIZATION = SCHEMA_DOT_ORG_NAMESPACE + "Organization"
 CLIP = SCHEMA_DOT_ORG_NAMESPACE + "Clip"
+
+# URIS for relations in the schema
 HAS_DAAN_PATH = NISV_SCHEMA_NAMESPACE + "hasDaanPath"
 IS_CARRIER_OF = SCHEMA_DOT_ORG_NAMESPACE + "associatedMedia"
 IS_PART_OF_SERIES = SCHEMA_DOT_ORG_NAMESPACE + "partOfSeries"
 IS_PART_OF_SEASON = SCHEMA_DOT_ORG_NAMESPACE + "partOfSeason"
 HAS_CLIP = SCHEMA_DOT_ORG_NAMESPACE + "hasPart"
+MENTIONS = SCHEMA_DOT_ORG_NAMESPACE + "mentions"
 #IS_PART_OF_PROGRAM = SCHEMA_DOT_ORG_NAMESPACE + "isPartOfProgram"  # TODO work out how to handle this, is no equivalent property
 
 # TODO: look at how to use the GTAA types
@@ -32,6 +36,8 @@ NON_GTAA_NAMESPACE = "http://data.beeldengeluid.nl/nongtaa/"
 
 XSD_TYPES = [str(XSD.string), str(XSD.int), str(XSD.float), str(XSD.boolean), str(XSD.long), str(XSD.dateTime),
              str(XSD.date)]
+
+ROLE_TYPES = [PERSON, ORGANIZATION]
 
 # URIs to use for different levels of DAAN records
 CLASS_URIS_FOR_DAAN_LEVELS = {"SERIES": SERIES, "SEASON": SEASON, "PROGRAM": PROGRAM, "LOGTRACKITEM": CLIP,
