@@ -41,6 +41,7 @@ MIME_TYPE_TO_LD = {
 # DAAN_PROFILE = 'http://data.rdlabs.beeldengeluid.nl/schema/'
 # SDO_PROFILE = 'https://schema.org/'
 
+
 def get_profile_by_uri(profile_uri, app_config):
     for p in app_config['PROFILES']:
         if p['uri'] == profile_uri:
@@ -49,19 +50,21 @@ def get_profile_by_uri(profile_uri, app_config):
         return app_config['ACTIVE_PROFILE']
 
 
-""" Generates the expected data based on the mime_type.
-    It can be used by the accept-decorated methods from the resource derived class.
-
-    :param: level, meaning the catalogue type, e.g. like 'program' (default), 'series', etc.
-    :param: identifier, the DAAN id the resource is findable with, in combination with level
-"""
-""" See: https://www.w3.org/TR/dx-prof-conneg/#related-http
-    NOTE: Abuse the Accept header with additional parameter:
-    Example: Accept: application/ld+json; profile="http://schema.org"
-"""
-
-
 def get_lod_resource(level, identifier, mime_type, accept_profile, app_config):
+    """ Generates the expected data based on the mime_type.
+        It can be used by the accept-decorated methods from the resource derived class.
+
+        :param level: meaning the catalogue type, e.g. like 'program' (default), 'series', etc.
+        :param identifier: the DAAN id the resource is findable with, in combination with level
+        :param mime_type: the mime_type, or serialization the resource is requested in.
+        :param accept_profile: the model/schema/ontology the data is requested in.
+        :param app_config: the application configuration
+        :return: RDF data in a response object
+    """
+    """ See: https://www.w3.org/TR/dx-prof-conneg/#related-http
+        NOTE: Abuse the Accept header with additional parameter:
+        Example: Accept: application/ld+json; profile="http://schema.org"
+    """
     profile = get_profile_by_uri(accept_profile, app_config)
 
     # TODO: check if the rdflib-json-ld plugin does accept mime_type='application/ld+json'
@@ -117,7 +120,6 @@ def parse_accept_header(accept_header):
 @api.route('resource/<any(program, series, season, logtrackitem):level>/<int:identifier>', endpoint='dereference')
 class LODAPI(Resource):
 
-    # @accept('application/ld+json')
     def get(self, identifier, level='program'):
         mime_type, accept_profile = parse_accept_header(request.headers.get('Accept'))
 
