@@ -34,6 +34,11 @@ class SDORdfConcept(BaseRdfConcept):
         # add the type
         self.graph.add((self.itemNode, RDF.type, URIRef(self.classUri)))
 
+        # add a GPP landing page for the item
+        self.landing_page = URIRef(self.get_gpp_link(concept_type, metadata["id"]))
+        sdo_property_for_url = ''.join([self._model.SCHEMA_DOT_ORG_NAMESPACE, 'url'])
+        self.graph.add((self.itemNode, URIRef(sdo_property_for_url), URIRef(self.landing_page)))
+
         # convert the record payload to RDF
         self.__payload_to_rdf(metadata["payload"], self.itemNode, self.classUri)
 
@@ -43,7 +48,7 @@ class SDORdfConcept(BaseRdfConcept):
     @cache.cached(timeout=0, key_prefix='sdo_scheme')
     def get_scheme(self):
         """ Returns a schema instance."""
-        #FIXME this does not work yet for the SDO schema (see the DAANSchemaImporter)
+        # FIXME this does not work yet for the SDO schema (see the DAANSchemaImporter)
         return DAANSchemaImporter(self.profile["schema"], self.profile["mapping"])
 
     def __payload_to_rdf(self, payload, parent_node, class_uri):
