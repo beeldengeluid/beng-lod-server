@@ -32,7 +32,7 @@ sdo:about rdf:type rdf:Property ;
 ###  https://schema.org/about
 sdo:about rdf:type rdf:Property ;
                 rdfs:domain sdo:Thing ;
-                rdfs:range xsd:string .
+                rdfs:range sdo:Thing .
 
 ###  https://schema.org/name
 sdo:name rdf:type rdf:Property ;
@@ -97,7 +97,7 @@ sdo:location rdf:type rdf:Property ;
 ###  https://schema.org/genre
 sdo:genre rdf:type rdf:Property ;
                 rdfs:domain sdo:Thing ;
-                rdfs:range xsd:string .
+                rdfs:range sdo:Thing .
 
 
 #################################################################
