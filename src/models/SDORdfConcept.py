@@ -34,6 +34,11 @@ class SDORdfConcept(BaseRdfConcept):
         # add the type
         self.graph.add((self.itemNode, RDF.type, URIRef(self.classUri)))
 
+        # add a GPP landing page for the item
+        self.landing_page = self.get_gpp_link(concept_type, metadata["id"])
+        if self.landing_page is not None:
+            self.graph.add((self.itemNode, URIRef(self._model.URL), URIRef(self.landing_page)))
+
         # convert the record payload to RDF
         self.__payload_to_rdf(metadata["payload"], self.itemNode, self.classUri)
 
@@ -43,8 +48,42 @@ class SDORdfConcept(BaseRdfConcept):
     @cache.cached(timeout=0, key_prefix='sdo_scheme')
     def get_scheme(self):
         """ Returns a schema instance."""
-        #FIXME this does not work yet for the SDO schema (see the DAANSchemaImporter)
+        # FIXME this does not work yet for the SDO schema (see the DAANSchemaImporter)
         return DAANSchemaImporter(self.profile["schema"], self.profile["mapping"])
+
+    def __create_skos_concept(self, used_path, payload, concept_label, property_description):
+        """Searches in the concept_metadata for a thesaurus concept. If one is found, creates a node for it and
+        adds the concept_label as its label, then links it to the parent_node, using the property_uri, and
+        sets its type to the range and additionalType values in the property_description"""
+        skos_concept_node = None
+
+        # look one step higher to get the ID of the thesaurus item
+        concept_metadata = []
+        if "," in used_path:
+            class_path = ",".join(used_path.split(",")[:-1])
+            concept_metadata = self._get_metadata_value(payload, class_path)
+
+            # the value could be a list, so make sure it always is so can treat everything the same way
+            if type(concept_metadata) is not list:
+                concept_metadata = [concept_metadata]
+
+        for concept in concept_metadata:
+            if "origin" in concept and "value" in concept and "resolved_value" in concept:
+                if concept["resolved_value"] == concept_label:
+                    # we have found the right thesaurus concept and can use the value to generate the URI
+                    if property_description["range"] in self._model.NON_GTAA_TYPES:
+                        skos_concept_node = URIRef(self._model.NON_GTAA_NAMESPACE + concept["value"])
+                    else:
+                        skos_concept_node = URIRef(self._model.GTAA_NAMESPACE + concept["value"])
+
+        # type is set to Person or Organization depending on the property range
+        # additionalType is set to SKOS concept
+        self.graph.add((skos_concept_node, RDF.type, URIRef(property_description["range"])))
+        self.graph.add((skos_concept_node, URIRef(self._model.ADDITIONAL_TYPE), SKOS.Concept))
+
+        self.graph.add((skos_concept_node, SKOS.prefLabel, Literal(concept_label, lang="nl")))
+
+        return skos_concept_node
 
     def __payload_to_rdf(self, payload, parent_node, class_uri):
         """ Converts the metadata described in payload (json) to RDF, and attaches it to the parentNode
@@ -58,78 +97,80 @@ class SDORdfConcept(BaseRdfConcept):
         properties = self._classes[class_uri]["properties"]
 
         # retrieve metadata for each relevant property
-        for uri, rdfProperty in properties.items():
+        for property_uri, property_description in properties.items():
 
             # try each possible path for the property until find some metadata
-            new_payload = None
-            used_path = None
-            for path in rdfProperty["paths"]:
+            property_payload = []
+            used_paths = []
+            for path in property_description["paths"]:
                 new_payload = self._get_metadata_value(payload, path)
-                used_path = path
                 if new_payload:
-                    break
-
-            # if we found metadata for this property
-            if new_payload:
-                if type(new_payload) is not list:
-                    new_payload = [new_payload]  # we can have a list of metadata, so make sure it is always
-                # a list for consistent handling
-
-                # for each item in the metadata list
-                for newPayloadItem in new_payload:
-                    # if range of property is simple data type, just link it to the parent using the property
-                    if rdfProperty["range"] in self._model.XSD_TYPES:
-                        self.graph.add((parent_node, URIRef(uri), Literal(newPayloadItem, datatype=rdfProperty[
-                            "range"])))  # add the new payload as the value
-                    elif rdfProperty[
-                        "rangeSuperClass"] == str(SKOS.Concept):
-                        # In these cases, we have a class as range, but only a simple value in DAAN, as we want
-                        # to model a label from DAAN with a skos:Concept in the RDF
-                        # create a node for the skos concept
-
-                        # look one step higher to be able to get to the ID of a thesaurus item
-                        concept_metadata = []
-                        if used_path is not None and "," in used_path:
-                            class_path = ",".join(used_path.split(",")[:-1])
-                            concept_metadata = self._get_metadata_value(payload, class_path)
-
-                            # the value could be a list, so make sure it always is so can treat everything the same way
-                            if type(concept_metadata) is not list:
-                                concept_metadata = [concept_metadata]
-
-                        concept_node = None
-                        skos_concept = None
-                        for concept in concept_metadata:
-                            if "origin" in concept and "value" in concept and "resolved_value" in concept:
-                                if concept["resolved_value"] == newPayloadItem:
-                                    # we have a thesaurus concept and can use the value to generate the URI
-                                    if rdfProperty["range"] in self._model.NON_GTAA_TYPES:
-                                        concept_node = URIRef(self._model.NON_GTAA_NAMESPACE + concept["value"])
-                                    else:
-                                        concept_node = URIRef(self._model.GTAA_NAMESPACE + concept["value"])
-                                skos_concept = True
-                        if not concept_node:
-                            # we only have a label, so we create a blank node
-                            concept_node = BNode()
-                            skos_concept = False
-
-                        self.graph.add((concept_node, RDF.type, URIRef(rdfProperty["range"])))
-                        self.graph.add((parent_node, URIRef(uri), concept_node))  # link it to the parent
-
-                        if skos_concept is True:
-                            # set the pref label of the concept node to be the DAAN payload item
-                            self.graph.add((concept_node, SKOS.prefLabel, Literal(newPayloadItem, lang="nl")))
-                        else:
-                            # set the rdfs label of the concept node to be the DAAN payload item
-                            self.graph.add((concept_node, RDFS.label, Literal(newPayloadItem, lang="nl")))
+                    if type(new_payload) is list:
+                        for payload_item in new_payload:
+                            property_payload.append(payload_item)
+                            used_paths.append(path)
                     else:
-                        # we have a class as range
-                        # create a blank node for the class ID, and a triple to set the type of the class
-                        blank_node = BNode()
-                        self.graph.add((blank_node, RDF.type, URIRef(rdfProperty["range"])))
-                        self.graph.add((parent_node, URIRef(uri), blank_node))  # link it to the parent
-                        # and call the function again to handle the properties for the class
-                        self.__payload_to_rdf(newPayloadItem, blank_node, rdfProperty["range"])
+                        property_payload.append(new_payload)
+                        used_paths.append(path)
+
+            # for each item in the metadata list
+            i = 0
+            for new_payload_item in property_payload:
+                # if range of property is simple data type, just link it to the parent using the property
+                used_path = used_paths[i]
+                i += 1
+                if property_description["range"] in self._model.XSD_TYPES:
+                    self.graph.add((parent_node, URIRef(property_uri), Literal(new_payload_item, datatype=property_description[
+                        "range"])))  # add the new payload as the value
+                elif property_description["range"] in self._model.ROLE_TYPES or property_uri == self._model.MENTIONS:
+                    # In these cases, we have a person or organisation linked via a role,
+                    # so we first need to create a node for the  person or organisation
+                    # then we need to create a node for the role
+                    # then point from that node to the node for the Person or organisation
+
+                    # try to create a SKOS concept node
+                    concept_node = self.__create_skos_concept(used_path, payload, new_payload_item, property_description)
+
+                    if concept_node is None:
+                        # we couldn't find a skos concept so we only have a label, so we create a blank node
+                        concept_node = BNode()
+                        # set the rdfs label of the concept node to be the DAAN payload item
+                        self.graph.add((concept_node, RDFS.label, Literal(new_payload_item, lang="nl")))
+
+                    # create a blank node for the role
+                    role_node = BNode()
+                    # link the role node to the parent node
+                    self.graph.add((parent_node, URIRef(property_uri), role_node))
+
+                    # link the concept node to the role node
+                    self.graph.add((role_node, URIRef(property_uri), concept_node))
+
+                elif "additionalType" in property_description and property_description[
+                    "additionalType"] == str(SKOS.Concept):
+                    # In these cases, we have a class as range, but only a simple value in DAAN, as we want
+                    # to model a label from DAAN with a skos:Concept in the RDF
+                    # create a node for the skos concept
+
+                    # try to create a SKOS concept node
+                    concept_node = self.__create_skos_concept(used_path, payload, new_payload_item,
+                                                              property_description)
+
+                    if concept_node is None:
+                        # we couldn't find a skos concept so we only have a label, so we create a blank node
+                        concept_node = BNode()
+                        # set the rdfs label of the concept node to be the DAAN payload item
+                        self.graph.add((concept_node, RDFS.label, Literal(new_payload_item, lang="nl")))
+
+                    self.graph.add((parent_node, URIRef(property_uri), concept_node))  # link it to the parent
+
+                else:
+                    # we have a class as range
+                    # create a blank node for the class ID, and a triple to set the type of the class
+                    blank_node = BNode()
+                    self.graph.add((blank_node, RDF.type, URIRef(property_description["range"])))
+                    self.graph.add((parent_node, URIRef(property_uri), blank_node))  # link it to the parent
+                    # and call the function again to handle the properties for the class
+                    self.__payload_to_rdf(new_payload_item, blank_node, property_description["range"])
 
         return
 

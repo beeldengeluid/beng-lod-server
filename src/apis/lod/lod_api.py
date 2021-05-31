@@ -41,6 +41,7 @@ MIME_TYPE_TO_LD = {
 # DAAN_PROFILE = 'http://data.rdlabs.beeldengeluid.nl/schema/'
 # SDO_PROFILE = 'https://schema.org/'
 
+
 def get_profile_by_uri(profile_uri, app_config):
     for p in app_config['PROFILES']:
         if p['uri'] == profile_uri:
@@ -49,19 +50,21 @@ def get_profile_by_uri(profile_uri, app_config):
         return app_config['ACTIVE_PROFILE']
 
 
-""" Generates the expected data based on the mime_type.
-    It can be used by the accept-decorated methods from the resource derived class.
-
-    :param: level, meaning the catalogue type, e.g. like 'program' (default), 'series', etc.
-    :param: identifier, the DAAN id the resource is findable with, in combination with level
-"""
-""" See: https://www.w3.org/TR/dx-prof-conneg/#related-http
-    NOTE: Abuse the Accept header with additional parameter:
-    Example: Accept: application/ld+json; profile="http://schema.org"
-"""
-
-
 def get_lod_resource(level, identifier, mime_type, accept_profile, app_config):
+    """ Generates the expected data based on the mime_type.
+        It can be used by the accept-decorated methods from the resource derived class.
+
+        :param level: meaning the catalogue type, e.g. like 'program' (default), 'series', etc.
+        :param identifier: the DAAN id the resource is findable with, in combination with level
+        :param mime_type: the mime_type, or serialization the resource is requested in.
+        :param accept_profile: the model/schema/ontology the data is requested in.
+        :param app_config: the application configuration
+        :return: RDF data in a response object
+    """
+    """ See: https://www.w3.org/TR/dx-prof-conneg/#related-http
+        NOTE: Abuse the Accept header with additional parameter:
+        Example: Accept: application/ld+json; profile="http://schema.org"
+    """
     profile = get_profile_by_uri(accept_profile, app_config)
 
     # TODO: check if the rdflib-json-ld plugin does accept mime_type='application/ld+json'
@@ -117,8 +120,8 @@ def parse_accept_header(accept_header):
 @api.route('resource/<any(program, series, season, logtrackitem):level>/<int:identifier>', endpoint='dereference')
 class LODAPI(Resource):
 
-    # @accept('application/ld+json')
     def get(self, identifier, level='program'):
+        """ Get the RDF for the catalogue item. """
         mime_type, accept_profile = parse_accept_header(request.headers.get('Accept'))
 
         if mime_type:
@@ -156,6 +159,7 @@ class LODConceptAPI(Resource):
 
     @api.response(404, 'Resource does not exist error')
     def get(self, set_code, notation):
+        """ Get the RDF for the SKOS Concept. """
         accept_type = request.headers.get('Accept')
         user_format = request.args.get('format', None)
         mimetype, ld_format = self._extractDesiredFormats(accept_type)
@@ -174,3 +178,27 @@ class LODConceptAPI(Resource):
 
         # otherwise resp SHOULD be a json error message and thus the response can be returned like this
         return resp, status_code, headers
+
+
+# """ --------------------------- DATASETS ENDPOINT -------------------------- """
+#
+#
+# @api.doc(responses={
+#     200: 'Success',
+#     400: 'Bad request.',
+#     404: 'Resource does not exist.',
+#     406: 'Not Acceptable. The requested format in the Accept header is not supported by the server.'
+# })
+# @api.route('datasets/<dataset_identifier>', endpoint='datasets')
+# class LODDatasetAPI(Resource):
+#     """ If no dataset_identifier is given, return the JSON-LD for all datasets.
+#         Otherwise, serve the JSON-LD for the dataset that was requested.
+#         The dataset_identifier is an alphanumerical character string.
+#     """
+#
+#     @api.response(404, 'Resource does not exist error')
+#     def get(self, dataset_identifier=None):
+#         """ Get the JSON-LD for the dataset_identifier.
+#             By default, all metadata for the datasets is given.
+#         """
+#         pass

@@ -54,7 +54,8 @@ class DAANSchemaImporter:
                 rdf_property = {
                     "paths": [str(propertyData[1])],
                     "range": str(propertyData[2]),
-                    "rangeSuperClass": str(propertyData[3])
+                    "rangeSuperClass": str(propertyData[3]),
+                    "additionalType": str(propertyData[4])
                 }
                 properties[property_uri] = rdf_property
 
@@ -64,8 +65,8 @@ class DAANSchemaImporter:
         """
             get properties without a domain, these apply (potentially) to all classes
         """
-        query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass WHERE{  ?property rdfs:range ?range . \
-        ?property <%s> ?path MINUS {?property rdfs:domain ?s}}""" % HAS_DAAN_PATH
+        query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass ?additionalType WHERE{  ?property rdfs:range ?range . \
+        ?property <%s> ?path MINUS {?property rdfs:domain ?s} . OPTIONAL{?range rdfs:subClassOf ?rangeSuperClass}. OPTIONAL{?range sdo:additionalType ?additionalType}}""" % HAS_DAAN_PATH
 
         self._propertiesWithoutDomain = self._load_properties_from_query(query)
 
@@ -88,16 +89,16 @@ class DAANSchemaImporter:
         properties = {}
 
         # first the properties belonging directly to this class
-        query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass WHERE{?property rdfs:domain <%s> .
-        ?property rdfs:range ?range . ?property <%s> ?path . OPTIONAL{?range rdfs:subClassOf ?rangeSuperClass}}""" % (
+        query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass ?additionalType WHERE{?property rdfs:domain <%s> .
+        ?property rdfs:range ?range . ?property <%s> ?path . OPTIONAL{?range rdfs:subClassOf ?rangeSuperClass}. OPTIONAL{?range sdo:additionalType ?additionalType}}""" % (
             class_uri, HAS_DAAN_PATH)
 
         properties.update(self._load_properties_from_query(query))
 
         # now, the properties belonging to superclasses of this class (which are inherited)
-        query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass WHERE{?property rdfs:domain ?s . \
+        query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass ?additionalType WHERE{?property rdfs:domain ?s . \
         <%s> rdfs:subClassOf ?s. ?property rdfs:range ?range . ?property <%s> ?path . \
-         OPTIONAL{ ?range rdfs:subClassOf ?rangeSuperClass}}""" % (class_uri, HAS_DAAN_PATH)
+         OPTIONAL{ ?range rdfs:subClassOf ?rangeSuperClass}. OPTIONAL{?range sdo:additionalType ?additionalType}}""" % (class_uri, HAS_DAAN_PATH)
 
         properties.update(self._load_properties_from_query(query))
 

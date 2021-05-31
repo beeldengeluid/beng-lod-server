@@ -32,7 +32,7 @@ sdo:about rdf:type rdf:Property ;
 ###  https://schema.org/about
 sdo:about rdf:type rdf:Property ;
                 rdfs:domain sdo:Thing ;
-                rdfs:range xsd:string .
+                rdfs:range sdo:Thing .
 
 ###  https://schema.org/name
 sdo:name rdf:type rdf:Property ;
@@ -59,16 +59,63 @@ sdo:keywords rdf:type rdf:Property ;
                 rdfs:domain sdo:Thing ;
                 rdfs:range xsd:string .
 
+###  https://schema.org/actor
+sdo:actor rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range sdo:Person .
+
+###  https://schema.org/creator
+sdo:creator rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range sdo:Person .
+
+###  https://schema.org/mentions - used for persons and corporations
+sdo:mentions rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range sdo:Thing .
+
+###  https://schema.org/byArtist - used for performers
+sdo:byArtist rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range sdo:Person .
+
+###  https://schema.org/contributor - used for guests
+sdo:contributor rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range sdo:Person .
+
+###  https://schema.org/productionCompany
+sdo:productionCompany rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range sdo:Organization .
+
+###  https://schema.org/location
+sdo:location rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range sdo:Place .
+
+###  https://schema.org/genre
+sdo:genre rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range sdo:Thing .
+
+
 #################################################################
 #    Classes
 #################################################################
 
 ###  https://schema.org/Thing
-sdo:Thing rdf:type rdfs:Class .
+sdo:Thing rdf:type rdfs:Class ;
+    sdo:additionalType skos:Concept.
 
 ###  https://schema.org/MediaObject
 sdo:MediaObject rdf:type rdfs:Class ;
              rdfs:subClassOf sdo:Thing .
+
+###  https://schema.org/Place
+sdo:Place rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:Thing ;
+             sdo:additionalType skos:Concept .
 
 ###  https://schema.org/CreativeWork
 sdo:CreativeWork rdf:type rdfs:Class ;
