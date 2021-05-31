@@ -45,6 +45,11 @@ class BaseRdfConcept:
         :returns: the contructed URL for the landing page
         Example: https://zoeken.beeldengeluid.nl/program/urn:vme:default:program:2101810040249483931
         """
+        if cat_type.upper() == "SEASON":
+            # TODO: fix the landing page for season (join with series)
+            # example: https://zoeken.beeldengeluid.nl/
+            # series/urn:vme:default:series:2101608030027704331/urn:vme:default:season:2101608040029114331
+            return None
         return f'https://zoeken.beeldengeluid.nl/{cat_type.lower()}/urn:vme:default:{cat_type.lower()}:{daan_id}'
 
     def get_classes(self):
