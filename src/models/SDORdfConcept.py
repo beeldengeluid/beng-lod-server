@@ -44,7 +44,6 @@ class SDORdfConcept(BaseRdfConcept):
         # create RDF relations with the parents of the record
         self.__parent_to_rdf(metadata)
 
-
     @cache.cached(timeout=0, key_prefix='sdo_scheme')
     def get_scheme(self):
         """ Returns a schema instance."""
@@ -79,7 +78,7 @@ class SDORdfConcept(BaseRdfConcept):
         # type is set to Person or Organization depending on the property range
         # additionalType is set to SKOS concept
         self.graph.add((skos_concept_node, RDF.type, URIRef(property_description["range"])))
-        self.graph.add((skos_concept_node, URIRef(self._model.ADDITIONAL_TYPE), SKOS.CONCEPT))
+        self.graph.add((skos_concept_node, URIRef(self._model.ADDITIONAL_TYPE), SKOS.Concept))
 
         self.graph.add((skos_concept_node, SKOS.prefLabel, Literal(concept_label, lang="nl")))
 

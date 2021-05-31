@@ -121,6 +121,7 @@ def parse_accept_header(accept_header):
 class LODAPI(Resource):
 
     def get(self, identifier, level='program'):
+        """ Get the RDF for the catalogue item. """
         mime_type, accept_profile = parse_accept_header(request.headers.get('Accept'))
 
         if mime_type:
@@ -158,6 +159,7 @@ class LODConceptAPI(Resource):
 
     @api.response(404, 'Resource does not exist error')
     def get(self, set_code, notation):
+        """ Get the RDF for the SKOS Concept. """
         accept_type = request.headers.get('Accept')
         user_format = request.args.get('format', None)
         mimetype, ld_format = self._extractDesiredFormats(accept_type)
@@ -176,3 +178,27 @@ class LODConceptAPI(Resource):
 
         # otherwise resp SHOULD be a json error message and thus the response can be returned like this
         return resp, status_code, headers
+
+
+""" --------------------------- DATASETS ENDPOINT -------------------------- """
+
+
+@api.doc(responses={
+    200: 'Success',
+    400: 'Bad request.',
+    404: 'Resource does not exist.',
+    406: 'Not Acceptable. The requested format in the Accept header is not supported by the server.'
+})
+@api.route('datasets/<dataset_identifier>', endpoint='datasets')
+class LODDatasetAPI(Resource):
+    """ If no dataset_identifier is given, return the JSON-LD for all datasets.
+        Otherwise, serve the JSON-LD for the dataset that was requested.
+        The dataset_identifier is an alphanumerical character string.
+    """
+
+    @api.response(404, 'Resource does not exist error')
+    def get(self, dataset_identifier=None):
+        """ Get the JSON-LD for the dataset_identifier.
+            By default, all metadata for the datasets is given.
+        """
+        pass
