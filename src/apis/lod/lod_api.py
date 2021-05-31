@@ -180,25 +180,25 @@ class LODConceptAPI(Resource):
         return resp, status_code, headers
 
 
-""" --------------------------- DATASETS ENDPOINT -------------------------- """
-
-
-@api.doc(responses={
-    200: 'Success',
-    400: 'Bad request.',
-    404: 'Resource does not exist.',
-    406: 'Not Acceptable. The requested format in the Accept header is not supported by the server.'
-})
-@api.route('datasets/<dataset_identifier>', endpoint='datasets')
-class LODDatasetAPI(Resource):
-    """ If no dataset_identifier is given, return the JSON-LD for all datasets.
-        Otherwise, serve the JSON-LD for the dataset that was requested.
-        The dataset_identifier is an alphanumerical character string.
-    """
-
-    @api.response(404, 'Resource does not exist error')
-    def get(self, dataset_identifier=None):
-        """ Get the JSON-LD for the dataset_identifier.
-            By default, all metadata for the datasets is given.
-        """
-        pass
+# """ --------------------------- DATASETS ENDPOINT -------------------------- """
+#
+#
+# @api.doc(responses={
+#     200: 'Success',
+#     400: 'Bad request.',
+#     404: 'Resource does not exist.',
+#     406: 'Not Acceptable. The requested format in the Accept header is not supported by the server.'
+# })
+# @api.route('datasets/<dataset_identifier>', endpoint='datasets')
+# class LODDatasetAPI(Resource):
+#     """ If no dataset_identifier is given, return the JSON-LD for all datasets.
+#         Otherwise, serve the JSON-LD for the dataset that was requested.
+#         The dataset_identifier is an alphanumerical character string.
+#     """
+#
+#     @api.response(404, 'Resource does not exist error')
+#     def get(self, dataset_identifier=None):
+#         """ Get the JSON-LD for the dataset_identifier.
+#             By default, all metadata for the datasets is given.
+#         """
+#         pass
