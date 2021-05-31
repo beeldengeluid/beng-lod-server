@@ -106,7 +106,7 @@ sdo:genre rdf:type rdf:Property ;
 
 ###  https://schema.org/Thing
 sdo:Thing rdf:type rdfs:Class ;
-    rdfs:subClassOf skos:Concept.
+    sdo:additionalType skos:Concept.
 
 ###  https://schema.org/MediaObject
 sdo:MediaObject rdf:type rdfs:Class ;
@@ -115,7 +115,7 @@ sdo:MediaObject rdf:type rdfs:Class ;
 ###  https://schema.org/Place
 sdo:Place rdf:type rdfs:Class ;
              rdfs:subClassOf sdo:Thing ;
-             rdfs:subClassOf skos:Concept .
+             sdo:additionalType skos:Concept .
 
 ###  https://schema.org/CreativeWork
 sdo:CreativeWork rdf:type rdfs:Class ;

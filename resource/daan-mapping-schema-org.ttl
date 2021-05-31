@@ -581,8 +581,8 @@ xsd:date rdf:type rdfs:Datatype .
 ###  http://data.rdlabs.beeldengeluid.nl/schema/TargetGroup
 ###<http://data.rdlabs.beeldengeluid.nl/schema/TargetGroup> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.targetaudience" .
 
-### https://schema.org/Thing
-<hhttps://schema.org/Thing> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.subjectterm" .
+### https://schema.org/Thing  NOTE: path is not actually used, we only set it to get this concept to be detected when loading classes
+<https://schema.org/Thing> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "none" .
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/Title
 ###<http://data.rdlabs.beeldengeluid.nl/schema/Title> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.title" .
