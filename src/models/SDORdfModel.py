@@ -26,6 +26,7 @@ HAS_CLIP = SCHEMA_DOT_ORG_NAMESPACE + "hasPart"
 MENTIONS = SCHEMA_DOT_ORG_NAMESPACE + "mentions"
 ADDITIONAL_TYPE = SCHEMA_DOT_ORG_NAMESPACE + "additionalType"
 URL = SCHEMA_DOT_ORG_NAMESPACE + "url"
+CONDITIONS_OF_ACCESS = SCHEMA_DOT_ORG_NAMESPACE + "conditionsOfAccess"
 #IS_PART_OF_PROGRAM = SCHEMA_DOT_ORG_NAMESPACE + "isPartOfProgram"  # TODO work out how to handle this, is no equivalent property
 
 # TODO: look at how to use the GTAA types
