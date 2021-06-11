@@ -122,9 +122,9 @@ class SDORdfConcept(BaseRdfConcept):
                 if property_uri == self._model.CONDITIONS_OF_ACCESS:
                     # we are generating the access conditions, for which we want to use the showbrowse property to
                     # determine the correct message
-                    access_text = "Media is not playable in the General Public Portal"
+                    access_text = "Media is not available for viewing/listening online"
                     if new_payload_item.lower() == "true":
-                        access_text = "Media playable in the General Public Portal: True. See the item's URL."
+                        access_text = "View/listen to media online at the item's URL: True"
 
                     self.graph.add((parent_node, URIRef(property_uri), Literal(access_text, datatype=property_description[
                         "range"])))
