@@ -99,6 +99,11 @@ sdo:genre rdf:type rdf:Property ;
                 rdfs:domain sdo:Thing ;
                 rdfs:range sdo:Thing .
 
+###  https://schema.org/conditionsOfAccess
+sdo:conditionsOfAccess rdf:type rdf:Property ;
+                rdfs:domain sdo:CreativeWork ;
+                rdfs:range xsd:string .
+
 
 #################################################################
 #    Classes

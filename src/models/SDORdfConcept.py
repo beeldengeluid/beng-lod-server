@@ -119,7 +119,17 @@ class SDORdfConcept(BaseRdfConcept):
                 # if range of property is simple data type, just link it to the parent using the property
                 used_path = used_paths[i]
                 i += 1
-                if property_description["range"] in self._model.XSD_TYPES:
+                if property_uri == self._model.CONDITIONS_OF_ACCESS:
+                    # we are generating the access conditions, for which we want to use the showbrowse property to
+                    # determine the correct message
+                    access_text = "Media is not available for viewing/listening online"
+                    if new_payload_item.lower() == "true":
+                        access_text = "View/listen to media online at the item's URL: True"
+
+                    self.graph.add((parent_node, URIRef(property_uri), Literal(access_text, datatype=property_description[
+                        "range"])))
+
+                elif property_description["range"] in self._model.XSD_TYPES:
                     self.graph.add((parent_node, URIRef(property_uri), Literal(new_payload_item, datatype=property_description[
                         "range"])))  # add the new payload as the value
                 elif property_description["range"] in self._model.ROLE_TYPES or property_uri == self._model.MENTIONS:

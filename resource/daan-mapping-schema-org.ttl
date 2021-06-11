@@ -467,6 +467,8 @@ xsd:date rdf:type rdfs:Datatype .
 ###  http://data.rdlabs.beeldengeluid.nl/schema/wasLive
 ###<http://data.rdlabs.beeldengeluid.nl/schema/wasLive> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "publication.indicationlive, value" .
 
+### https://schema.org/conditionsOfAccess
+<https://schema.org/conditionsOfAccess> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.showbrowse, value" .
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasPublishedTitle
 ###<http://data.rdlabs.beeldengeluid.nl/schema/hasPublishedTitle> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "publication.title, value" .
