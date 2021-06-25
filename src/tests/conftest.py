@@ -1,5 +1,4 @@
 from flask import Flask
-
 import json
 import os
 import pytest
@@ -80,8 +79,34 @@ def application_settings():
     """ Returns the application settings."""
     app = Flask(__name__)
     app.config.from_object('settings-example.Config')
+    app.config['ACTIVE_PROFILE'] = app.config['PROFILES'][0]
     return app.config
 
+
+"""
+@pytest.fixture(scope="session")
+def application_settings_oai():
+    app = Flask(__name__)
+    from settings import OAIConfig
+    app.config.from_object(OAIConfig())
+    return app.config
+
+
+@pytest.fixture(scope="session")
+def application_settings_dm_flex():
+    app = Flask(__name__)
+    from settings import NISVConfig
+    app.config.from_object(NISVConfig())
+    return app.config
+
+
+@pytest.fixture(scope="session")
+def application_settings_dm_flex_sdo():
+    app = Flask(__name__)
+    from settings import SDOConfig
+    app.config.from_object(SDOConfig())
+    return app.config
+"""
 
 """------------------------ APPLICATION CLIENT (VALID & INVALID) ----------------------"""
 

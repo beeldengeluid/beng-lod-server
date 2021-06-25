@@ -9,8 +9,9 @@ resource/*/*.xml
 .pytest_cache
 .project
 .pydevproject
-*.ttl
 .idea/
 docs/
 schema/
 *.txt
+src/static/ontospy/*
+!src/static/ontospy/README.md

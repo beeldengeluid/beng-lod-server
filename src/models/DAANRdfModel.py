@@ -6,9 +6,6 @@ NISV_SCHEMA_PREFIX = "nisv"
 NISV_DATA_PREFIX = "resource"
 
 # URIs for concepts in the schema
-HAS_DAAN_PATH = NISV_SCHEMA_NAMESPACE + "hasDaanPath"
-
-# URIs for concepts in the schema
 PROGRAM = NISV_SCHEMA_NAMESPACE + "Program"
 SEASON = NISV_SCHEMA_NAMESPACE + "Season"
 SERIES = NISV_SCHEMA_NAMESPACE + "Series"

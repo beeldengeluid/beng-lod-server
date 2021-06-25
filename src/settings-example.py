@@ -1,5 +1,5 @@
-import os
-from util import SettingsUtil
+from apis.lod.DAANStorageLODHandler import DAANStorageLODHandler
+from apis.lod.SDOStorageLODHandler import SDOStorageLODHandler
 
 
 class Config(object):
@@ -10,13 +10,32 @@ class Config(object):
     DEBUG = True
     CACHE_TYPE = 'SimpleCache'
 
-    basePath = SettingsUtil.getBasePath()
+    STORAGE_BASE_URL = 'http://...'
 
-    OAI_BASE_URL = 'http://dummy.oai.com'
-    XSLT_FILE = basePath + os.sep + 'resource' + os.sep + 'nisv-bg-oai2lod-v04.xsl'
-    SCHEMA_FILE = basePath + os.sep + 'resource' + os.sep + 'bengSchema.ttl'
-    # use version below when using OAI
-    # MAPPING_FILE = basePath + os.sep + 'resource' + os.sep + 'daan-mapping.ttl'
-    # use version below when using storage API
-    MAPPING_FILE = basePath + os.sep + 'resource' + os.sep + 'daan-mapping-storage.ttl'
-    STORAGE_BASE_URL = 'http://acc-app-bng-01.beeldengeluid.nl:8101'
+    PROFILES = [
+        {
+            'title': 'NISV Catalogue schema',
+            'uri': 'http://data.rdlabs.beeldengeluid.nl/schema/',
+            'prefix': 'nisv',  # based on @prefix nisv: <http://data.rdlabs.beeldengeluid.nl/schema/> .
+            'schema': '../resource/bengSchema.ttl',
+            'mapping': '../resource/daan-mapping-storage.ttl',
+            'storage_handler': DAANStorageLODHandler,
+            'default': True  # this profile is loaded in memory by default
+        },
+        {
+            'title': 'NISV Catalogue schema.org schema',
+            'uri': 'https://schema.org/',
+            'prefix': 'sdo',  # based on @prefix sdo: <https://schema.org/> .
+            'schema': '../resource/schema-dot-org.ttl',
+            'mapping': '../resource/daan-mapping-schema-org.ttl',
+            'storage_handler': SDOStorageLODHandler
+        },
+        {
+            'title': 'NISV Catalogue OAI schema',
+            'uri': 'http://www.openarchives.org/OAI/2.0/oai_dc/',
+            # temporary: taken from https://dltj.org/article/oai-pmh-namespaces/
+            'prefix': 'oai',
+            'schema': None,
+            'mapping': '../resource/daan-mapping.ttl',
+        }
+    ]
