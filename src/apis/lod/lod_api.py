@@ -185,8 +185,8 @@ class LODConceptAPI(Resource):
 # """ --------------------------- SPARQL HDT ENDPOINT -------------------------- """
 
 
-# @api.route('sparql/<str:query>', endpoint='sparql-hdt')
-@api.route('sparql/', endpoint='sparql-hdt')
+@api.route('sparql/<str:query>', endpoint='sparql-hdt')
+@api.route('sparql/', endpoint='sparql-hdt-test')
 class LODSparqlAPI(Resource):
     """ The Sparql endpoint accepts a SPARQL query in the parameter.
     :param query: [Required] A string containing the SPARQL query
@@ -199,12 +199,21 @@ class LODSparqlAPI(Resource):
     def get(self):
         """ Get results from the HDT.
         """
-        SPARQLHandlerHDT(current_app.config)
+        query = """
+        PREFIX schema: <https://schema.org/>
+        SELECT ?s ?p ?o WHERE {
+            ?s rdf:type schema:CreativeWork .
+            ?s ?p ?o
+        } LIMIT 100"""
 
+        resp, status_code, headers = SPARQLHandlerHDT(current_app.config).run_query(query)
 
-    # TODO: Create a class containing the RDFLIB-HDT sparql endpoint
+        # make sure to apply the correct mimetype for valid responses
+        if status_code == 200:
+            return Response(resp, headers=headers)
 
-
+        # otherwise resp SHOULD be a json error message and thus the response can be returned like this
+        return resp, status_code, headers
 
 
 # """ --------------------------- DATASETS ENDPOINT -------------------------- """
