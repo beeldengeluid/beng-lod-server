@@ -185,7 +185,7 @@ class LODConceptAPI(Resource):
 # """ --------------------------- SPARQL HDT ENDPOINT -------------------------- """
 
 
-@api.route('sparql/<str:query>', endpoint='sparql-hdt')
+#@api.route('sparql/<str:query>', endpoint='sparql-hdt')
 @api.route('sparql/', endpoint='sparql-hdt-test')
 class LODSparqlAPI(Resource):
     """ The Sparql endpoint accepts a SPARQL query in the parameter.

@@ -1,7 +1,10 @@
 from util.APIUtil import APIUtil
 from rdflib import Graph
-#from rdflib_hdt import HDTStore, optimize_sparql
-#from rdflib_hdt import HDTDocument
+from rdflib_hdt import HDTStore, optimize_sparql
+from rdflib_hdt import HDTDocument
+from rdflib.plugins.sparql.results.jsonresults import JSONResultParser, JSONResultSerializer
+import io
+import json
 
 
 class SPARQLHandlerHDT:
@@ -43,12 +46,22 @@ class SPARQLHandlerHDT:
     def run_query(self, query=None):
         """ Runs a query against an HDT store."""
         # Calling this function optimizes the RDFlib SPARQL engine for HDT documents
-        # optimize_sparql()
-        #
-        # graph = Graph(store=HDTStore(self.hdt_file))
-        #
-        # data = graph.query(query)
-        # return APIUtil.toSuccessResponse(data)
+        optimize_sparql()
+        graph = Graph(store=HDTStore(self.hdt_file))
+        results = graph.query(query)
+        json_result_serializer = JSONResultSerializer(results)
+        data_bytes = io.BytesIO()
+        json_result_serializer.serialize(data_bytes, encoding='utf-8')
+        # print(data_bytes.getvalue())
+        # TODO: find out how to use the parser
+        #json_result_parser = JSONResultParser(results)
+        #data_string = io.StringIO()
+        #json_results = json_result_parser.parse(data_string)
+        #for row in results:
+        #    print(row)
+        #    #print('%s %s %s' % row)
+
+        return APIUtil.toSuccessResponse(data_bytes.getvalue())
 
     def get_results(self):
         pass
