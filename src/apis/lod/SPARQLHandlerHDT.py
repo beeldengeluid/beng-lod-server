@@ -63,5 +63,3 @@ class SPARQLHandlerHDT:
 
         return APIUtil.toSuccessResponse(data_bytes.getvalue())
 
-    def get_results(self):
-        pass
