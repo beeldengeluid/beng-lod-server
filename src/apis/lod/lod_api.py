@@ -1,6 +1,6 @@
 from flask import current_app, request, Response
 from flask_restx import Namespace, fields, Resource
-# from flask_restx import reqparse
+from flask_restx import reqparse
 from apis.lod.LODHandlerConcept import LODHandlerConcept
 from apis.lod.SPARQLHandlerHDT import SPARQLHandlerHDT
 
@@ -185,27 +185,18 @@ class LODConceptAPI(Resource):
 # """ --------------------------- SPARQL HDT ENDPOINT -------------------------- """
 
 
-#@api.route('sparql/<str:query>', endpoint='sparql-hdt')
 @api.route('sparql/', endpoint='sparql-hdt-test')
+@api.doc(params={'query':{ 'description': 'Give the SPARQL query as input.', 'in': 'query', 'example':'PREFIX schema: \<https://schema.org/\> SELECT ?s ?p ?o WHERE { ?s rdf:type schema:CreativeWork . ?s ?p ?o } LIMIT 100'}})
 class LODSparqlAPI(Resource):
     """ The Sparql endpoint accepts a SPARQL query in the parameter.
     :param query: [Required] A string containing the SPARQL query
     """
-    # parser = reqparse.RequestParser()
-    # parser.add_argument('query',  required=True, type=str, help='A SPARQL query to be executed')
-    # args = parser.parse_args()
 
     @api.response(404, 'Resource does not exist error')
     def get(self):
         """ Get results from the HDT.
         """
-        query = """
-        PREFIX schema: <https://schema.org/>
-        SELECT ?s ?p ?o WHERE {
-            ?s rdf:type schema:CreativeWork .
-            ?s ?p ?o
-        } LIMIT 100"""
-
+        query = request.args.get('query', None)
         resp, status_code, headers = SPARQLHandlerHDT(current_app.config).run_query(query)
 
         # make sure to apply the correct mimetype for valid responses
@@ -214,6 +205,7 @@ class LODSparqlAPI(Resource):
 
         # otherwise resp SHOULD be a json error message and thus the response can be returned like this
         return resp, status_code, headers
+
 
 
 # """ --------------------------- DATASETS ENDPOINT -------------------------- """
