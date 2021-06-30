@@ -186,7 +186,7 @@ class LODConceptAPI(Resource):
 
 
 @api.route('sparql/', endpoint='sparql-hdt-test')
-@api.doc(params={'query':{ 'description': 'Give the SPARQL query as input.', 'in': 'query', 'example':'PREFIX schema: \<https://schema.org/\> SELECT ?s ?p ?o WHERE { ?s rdf:type schema:CreativeWork . ?s ?p ?o } LIMIT 100'}})
+@api.doc(params={'query':{ 'description': 'Give the SPARQL query as input.', 'in': 'query', 'example': r'PREFIX schema: \<https://schema.org/\> SELECT ?s ?p ?o WHERE { ?s rdf:type schema:CreativeWork . ?s ?p ?o } LIMIT 100'}})
 class LODSparqlAPI(Resource):
     """ The Sparql endpoint accepts a SPARQL query in the parameter.
     :param query: [Required] A string containing the SPARQL query
