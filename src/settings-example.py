@@ -39,3 +39,4 @@ class Config(object):
             'mapping': '../resource/daan-mapping.ttl',
         }
     ]
+

@@ -1,6 +1,8 @@
 from flask import current_app, request, Response
 from flask_restx import Namespace, fields, Resource
+from flask_restx import reqparse
 from apis.lod.LODHandlerConcept import LODHandlerConcept
+from apis.lod.SPARQLHandlerHDT import SPARQLHandlerHDT
 
 api = Namespace('lod', description='Resources in RDF for Netherlands Institute for Sound and Vision.')
 
@@ -180,6 +182,32 @@ class LODConceptAPI(Resource):
         return resp, status_code, headers
 
 
+# """ --------------------------- SPARQL HDT ENDPOINT -------------------------- """
+
+
+@api.route('sparql/', endpoint='sparql-hdt-test')
+@api.doc(params={'query':{ 'description': 'Give the SPARQL query as input.', 'in': 'query', 'example': r'PREFIX schema: \<https://schema.org/\> SELECT ?s ?p ?o WHERE { ?s rdf:type schema:CreativeWork . ?s ?p ?o } LIMIT 100'}})
+class LODSparqlAPI(Resource):
+    """ The Sparql endpoint accepts a SPARQL query in the parameter.
+    :param query: [Required] A string containing the SPARQL query
+    """
+
+    @api.response(404, 'Resource does not exist error')
+    def get(self):
+        """ Get results from the HDT.
+        """
+        query = request.args.get('query', None)
+        resp, status_code, headers = SPARQLHandlerHDT(current_app.config).run_query(query)
+
+        # make sure to apply the correct mimetype for valid responses
+        if status_code == 200:
+            return Response(resp, headers=headers)
+
+        # otherwise resp SHOULD be a json error message and thus the response can be returned like this
+        return resp, status_code, headers
+
+
+
 # """ --------------------------- DATASETS ENDPOINT -------------------------- """
 #
 #
@@ -202,3 +230,4 @@ class LODConceptAPI(Resource):
 #             By default, all metadata for the datasets is given.
 #         """
 #         pass
+
