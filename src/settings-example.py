@@ -39,3 +39,5 @@ class Config(object):
             'mapping': '../resource/daan-mapping.ttl',
         }
     ]
+
+    HDT_FILE = '~/data/nisv/hdt/nisv_cat_daan_sdo_20210617.nt.hdt'

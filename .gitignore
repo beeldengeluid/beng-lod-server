@@ -14,4 +14,6 @@ docs/
 schema/
 *.txt
 src/static/ontospy/*
-!src/static/ontospy/README.md
+src/static/ontospy/README.md
+src/util/quickstart.py
+src/util/datacatalogfromspreadsheet-a5ccabb0919f.json
