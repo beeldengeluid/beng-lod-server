@@ -173,6 +173,16 @@ class SDORdfConcept(BaseRdfConcept):
         self.graph.add((self.itemNode, URIRef(self._model.HAS_ASSOCIATED_MEDIA), media_object_node))
         self.graph.add((media_object_node, URIRef(self._model.HAS_CONTENT_URL), content_url))
 
+    @cache.cached(timeout=0)
+    def get_open_beelden_links(self, item_id):
+        links = []
+        with open(self.profile["ob_links"]) as links_file:
+            links_dictionary = json.load(links_file)
+            if item_id in links_dictionary:
+                links = links_dictionary[item_id]["links"]
+        return links
+
+
     def __create_skos_concept(self, used_path, payload, concept_label, property_description):
         """Searches in the concept_metadata for a thesaurus concept. If one is found, creates a node for it and
         adds the concept_label as its label, then links it to the parent_node, using the property_uri, and
