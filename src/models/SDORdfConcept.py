@@ -1,4 +1,3 @@
-import json
 import models.SDORdfModel as SDORdfModel
 from models.DAANJsonModel import DAAN_PROGRAM_ID, DAAN_PARENT, DAAN_PARENT_ID, DAAN_PARENT_TYPE, DAAN_PAYLOAD, \
     ObjectType
@@ -41,12 +40,6 @@ class SDORdfConcept(BaseRdfConcept):
         if self.landing_page is not None:
             self.graph.add((self.itemNode, URIRef(self._model.URL), URIRef(self.landing_page)))
 
-        # add links from Open Beelden
-        links = self.get_open_beelden_links(metadata["id"])
-        if links is not None:
-            for link in links:
-                self.graph.add((self.itemNode, URIRef(self._model.URL), URIRef(link)))
-
         # convert the record payload to RDF
         self.__payload_to_rdf(metadata["payload"], self.itemNode, self.classUri)
 
@@ -58,16 +51,6 @@ class SDORdfConcept(BaseRdfConcept):
         """ Returns a schema instance."""
         # FIXME this does not work yet for the SDO schema (see the DAANSchemaImporter)
         return DAANSchemaImporter(self.profile["schema"], self.profile["mapping"])
-
-    @cache.cached(timeout=0)
-    def get_open_beelden_links(self, item_id):
-        links = []
-        with open(self.profile["ob_links"]) as links_file:
-            links_dictionary = json.load(links_file)
-            if item_id in links_dictionary:
-                links = links_dictionary[item_id]["links"]
-        return links
-
 
     def __create_skos_concept(self, used_path, payload, concept_label, property_description):
         """Searches in the concept_metadata for a thesaurus concept. If one is found, creates a node for it and
