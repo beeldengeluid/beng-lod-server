@@ -8,9 +8,11 @@ from rdflib.namespace import Namespace
 from rdflib import URIRef, Literal, BNode
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
+import re
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
-SCHEMA_DOT_ORG_NAMESPACE = 'https://schema.org/'
+
+SDO = Namespace('https://schema.org/')
 
 
 def date_time_string():
@@ -34,6 +36,46 @@ def values_to_dict(values):
     return list_of_dicts
 
 
+def string_as_literal(value, field):
+    """ Given a string value from the spreadsheet, generate a lang string Literal.
+        Assume 'nl' as default language.
+        Spreadsheet values can have '@nl' or '@en' at the end of the string.
+        :param value: a string containing some value for a field
+        :param field: the name of the field.
+        :returns: a (list of) strings with lang attributes for the right fields
+    """
+    try:
+        # check if field needs lang attribute
+        if field not in ['name', 'description', 'alternateName']:
+            return value
+        pattern = r'^(?P<string_part>.+)@((?P<lang_part>.{2})){0,1}$'
+        lang_string_pattern = re.compile(pattern, flags=re.IGNORECASE)
+        result = re.match(lang_string_pattern, value)
+        if result is None:
+            return Literal(value, lang='nl')
+        else:
+            string_value = result.group('string_part')
+            lang_value = result.group('lang_part')
+            return Literal(string_value, lang=lang_value)
+    except Exception as e:
+        logging.error(str(e))
+
+
+def check_list_or_string(value):
+    """ In case the value is a list, it is processed multiple times
+    """
+    # TODO: provide a way to handle lists of string (including multiple languages)
+    list_values = value.split('\n')
+    if len(list_values) == 1:
+        return_values = []
+        for value in list_values:
+            if value != '':
+                continue
+
+    if isinstance(value, list):
+        pass
+
+
 class DatasetSheet2JSONLD:
     """ Connect to a spreadsheet using Google Sheet API.
         Get the Datacatalog and Dataset information and make a nice JSON-LD document from this.
@@ -49,22 +91,38 @@ class DatasetSheet2JSONLD:
         self._sheet = None
         self._init_sheets_api()
         self._data_catalog = Graph()
+        self._init_namespaces()
         self._init_data_catalog()
         self._init_datasets()
         self._init_organization()
         self._init_data_downloads()
         self.write_json_ld()
+        self.write_turtle()
+
+    def write_turtle(self, json_ld_file='graph_as_string.ttl'):
+        """ Serialize the data catalog to a Turtle file"""
+        with open(json_ld_file, 'w') as f:
+            f.write(self.graph_as_string(serialization_format='turtle'))
 
     def write_json_ld(self, json_ld_file='graph_as_string.jsonld'):
         """ Serialize the data catalog to a JSON-LD file"""
         with open(json_ld_file, 'w') as f:
             f.write(self.graph_as_string())
 
-    def graph_as_string(self):
-        context_as_dict = dict(self._data_catalog.namespaces())
-        return self._data_catalog.serialize(format='json-ld',
-                                            context=context_as_dict,
+    def graph_as_string(self, serialization_format='json-ld'):
+        return self._data_catalog.serialize(format=serialization_format,
+                                            context=dict(self._data_catalog.namespaces()),
                                             auto_compact=True).decode("utf-8")
+
+    def list_of_dict_to_graph(self, list_of_dict):
+        """ Generate triples and add to the data catalog graph. """
+        for row in list_of_dict:
+            item_id = URIRef(row.get('@id'))
+            [
+                self._data_catalog.add((item_id, URIRef(f'{SDO}{key}'), string_as_literal(value)))
+                for key, value in row.items()
+                if (item_id is not None) and key != '@id'
+            ]
 
     def _init_sheets_api(self):
         """ Initializes the sheets api, preparing it ot read data.
@@ -77,8 +135,9 @@ class DatasetSheet2JSONLD:
     def _init_namespaces(self):
         """ Init the datacatalog Graph with the right namespaces.
         """
-        SDO = Namespace('https://schema.org/')
-        self._data_catalog.namespace_manager.bind('schema', SDO)
+        # self._data_catalog.namespace_manager.bind('schema', SDO)
+        self._data_catalog.bind('schema', SDO)
+        print(dict(self._data_catalog.namespaces()))
 
     def _init_data_catalog(self):
         """ Read the values from a Google spreadsheet. Convert every row into a dict using the
@@ -89,17 +148,7 @@ class DatasetSheet2JSONLD:
         result = self._sheet.values().get(spreadsheetId=self._odl_spreadsheet_id,
                                           range=data_catalog_range).execute()
         data_catalog_list = values_to_dict(result.get('values', []))
-        for item in data_catalog_list:
-            print(item)
-
-        # generate triples and add to the graph
-        for row in data_catalog_list:
-            item_id = URIRef(row.get('@id'))
-            [
-                self._data_catalog.add((item_id, URIRef(SDO.key), Literal(value)))
-                for key, value in row.items()
-                if (item_id is not None) and key != '@id'
-            ]
+        self.list_of_dict_to_graph(data_catalog_list)
 
     def _init_datasets(self):
         """ Read the dataset information from the spreadsheet and load into a dict.
@@ -109,10 +158,7 @@ class DatasetSheet2JSONLD:
         result = self._sheet.values().get(spreadsheetId=self._odl_spreadsheet_id,
                                           range=dataset_range).execute()
         dataset_list = values_to_dict(result.get('values', []))
-        for item in dataset_list:
-            print(item)
-            # TODO: generate triples.
-            # TODO: add the triples to the graph
+        self.list_of_dict_to_graph(dataset_list)
 
     def _init_data_downloads(self):
         """ Read the DataDownload information from the spreadsheet and load into a dict.
@@ -122,10 +168,7 @@ class DatasetSheet2JSONLD:
         result = self._sheet.values().get(spreadsheetId=self._odl_spreadsheet_id,
                                           range=distribution_range).execute()
         distribution_list = values_to_dict(result.get('values', []))
-        for item in distribution_list:
-            print(item)
-            # TODO: generate triples.
-            # TODO: add the triples to the graph
+        self.list_of_dict_to_graph(distribution_list)
 
     def _init_organization(self):
         """ Read the organization information from the spreadsheet. """
@@ -134,10 +177,7 @@ class DatasetSheet2JSONLD:
         result = self._sheet.values().get(spreadsheetId=self._odl_spreadsheet_id,
                                           range=organization_range).execute()
         organization_list = values_to_dict(result.get('values', []))
-        for item in organization_list:
-            print(item)
-            # TODO: generate triples.
-            # TODO: add the triples to the graph
+        self.list_of_dict_to_graph(organization_list)
 
     def query(self, query=None):
         """ run a query against the data catalog graph."""
