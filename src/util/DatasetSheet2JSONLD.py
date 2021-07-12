@@ -193,10 +193,4 @@ if __name__ == '__main__':
 
     s2j = DatasetSheet2JSONLD(config=Config)
 
-    # csv with dataset information
-    # full_path = pathlib.Path(Config['DATASETS_CSV_FILE_PATH']).as_uri()
-
-    # generate the JSON-LD
-
-    # get_the_concept_data(csv_path=full_path)
     print("Done.")
