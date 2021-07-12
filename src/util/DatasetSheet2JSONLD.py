@@ -5,7 +5,7 @@ from datetime import datetime
 import os
 from rdflib import Graph
 from rdflib.namespace import Namespace
-from rdflib import URIRef, Literal, BNode
+from rdflib import URIRef, Literal
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 import re
@@ -61,19 +61,18 @@ def string_as_literal(value, field):
         logging.error(str(e))
 
 
-def check_list_or_string(value):
-    """ In case the value is a list, it is processed multiple times
+def get_literal_for_value(value, field):
+    """ In case the value is a list, it is processed multiple times.
+    :param value: from the spreadsheet cell
+    :param field: the header for the spreadsheet column
+    :returns: list of literals for al the values in the string
     """
-    # TODO: provide a way to handle lists of string (including multiple languages)
     list_values = value.split('\n')
-    if len(list_values) == 1:
-        return_values = []
-        for value in list_values:
-            if value != '':
-                continue
-
-    if isinstance(value, list):
-        pass
+    return [
+        string_as_literal(value, field)
+        for value in list_values
+        if value != ''
+    ]
 
 
 class DatasetSheet2JSONLD:
@@ -119,7 +118,7 @@ class DatasetSheet2JSONLD:
         for row in list_of_dict:
             item_id = URIRef(row.get('@id'))
             [
-                self._data_catalog.add((item_id, URIRef(f'{SDO}{key}'), string_as_literal(value)))
+                self._data_catalog.add((item_id, URIRef(f'{SDO}{key}'), get_literal_for_value(value, key)))
                 for key, value in row.items()
                 if (item_id is not None) and key != '@id'
             ]
