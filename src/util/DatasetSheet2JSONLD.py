@@ -4,7 +4,7 @@ import logging
 from datetime import datetime
 import os
 from rdflib import Graph
-from rdflib.namespace import Namespace
+from rdflib.namespace import Namespace, RDF
 from rdflib import URIRef, Literal
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
@@ -47,7 +47,7 @@ def string_as_literal(value, field):
     try:
         # check if field needs lang attribute
         if field not in ['name', 'description', 'alternateName']:
-            return value
+            return Literal(value)
         pattern = r'^(?P<string_part>.+)@((?P<lang_part>.{2})){0,1}$'
         lang_string_pattern = re.compile(pattern, flags=re.IGNORECASE)
         result = re.match(lang_string_pattern, value)
@@ -65,7 +65,7 @@ def get_literal_for_value(value, field):
     """ In case the value is a list, it is processed multiple times.
     :param value: from the spreadsheet cell
     :param field: the header for the spreadsheet column
-    :returns: list of literals for al the values in the string
+    :returns: list of literals for al the values in the value
     """
     list_values = value.split('\n')
     return [
@@ -95,18 +95,29 @@ class DatasetSheet2JSONLD:
         self._init_datasets()
         self._init_organization()
         self._init_data_downloads()
-        self.write_json_ld()
-        self.write_turtle()
+        self.write_data_catalog_to_file()
 
-    def write_turtle(self, json_ld_file='graph_as_string.ttl'):
-        """ Serialize the data catalog to a Turtle file"""
-        with open(json_ld_file, 'w') as f:
-            f.write(self.graph_as_string(serialization_format='turtle'))
+    def write_data_catalog_to_file(self):
+        """ First check whether the file already exists. If not create one. Otherwise do nothing."""
+        json_ld_data_catalog_file = 'graph_as_string.jsonld'
+        if not os.path.exists(json_ld_data_catalog_file):
+            self.write_json_ld(json_ld_file=json_ld_data_catalog_file)
+        turtle_data_catalog_file = 'graph_as_string.ttl'
+        if not os.path.exists(turtle_data_catalog_file):
+            self.write_turtle(turtle_file=turtle_data_catalog_file)
 
-    def write_json_ld(self, json_ld_file='graph_as_string.jsonld'):
-        """ Serialize the data catalog to a JSON-LD file"""
-        with open(json_ld_file, 'w') as f:
-            f.write(self.graph_as_string())
+    def write_turtle(self, turtle_file=None):
+        """ Serialize the whole data catalog Graph to a Turtle file"""
+        if turtle_file is not None:
+            with open(turtle_file, 'w') as f:
+                f.write(self.graph_as_string(serialization_format='turtle'))
+
+    def write_json_ld(self, json_ld_file=None):
+        """ Serialize the whole data catalog Graph to a JSON-LD file.
+        """
+        if json_ld_file is not None:
+            with open(json_ld_file, 'w') as f:
+                f.write(self.graph_as_string())
 
     def graph_as_string(self, serialization_format='json-ld'):
         return self._data_catalog.serialize(format=serialization_format,
@@ -114,11 +125,15 @@ class DatasetSheet2JSONLD:
                                             auto_compact=True).decode("utf-8")
 
     def list_of_dict_to_graph(self, list_of_dict):
-        """ Generate triples and add to the data catalog graph. """
+        """ Generate triples and add to the data catalog graph.
+        Processing: all the lists from the spreadsheet, all cells from each row, all lines in a cell.
+        """
         for row in list_of_dict:
             item_id = URIRef(row.get('@id'))
             [
-                self._data_catalog.add((item_id, URIRef(f'{SDO}{key}'), get_literal_for_value(value, key)))
+                [self._data_catalog.add((item_id, URIRef(f'{SDO}{key}'), literal))
+                 for literal in get_literal_for_value(value, key)
+                 ]
                 for key, value in row.items()
                 if (item_id is not None) and key != '@id'
             ]
@@ -147,6 +162,13 @@ class DatasetSheet2JSONLD:
         result = self._sheet.values().get(spreadsheetId=self._odl_spreadsheet_id,
                                           range=data_catalog_range).execute()
         data_catalog_list = values_to_dict(result.get('values', []))
+
+        # add the schema:DataCatalog type to the graph
+        for row in data_catalog_list:
+            item_id = URIRef(row.get('@id'))
+            self._data_catalog.add((item_id, URIRef(f'{RDF}type'), URIRef(f'{SDO}DataCatalog')))
+
+        # add all the other properties
         self.list_of_dict_to_graph(data_catalog_list)
 
     def _init_datasets(self):
@@ -157,6 +179,13 @@ class DatasetSheet2JSONLD:
         result = self._sheet.values().get(spreadsheetId=self._odl_spreadsheet_id,
                                           range=dataset_range).execute()
         dataset_list = values_to_dict(result.get('values', []))
+
+        # add a schema:Dataset type for every row
+        for row in dataset_list:
+            item_id = URIRef(row.get('@id'))
+            self._data_catalog.add((item_id, URIRef(f'{RDF}type'), URIRef(f'{SDO}Dataset')))
+
+        # now add the properties
         self.list_of_dict_to_graph(dataset_list)
 
     def _init_data_downloads(self):
@@ -167,6 +196,13 @@ class DatasetSheet2JSONLD:
         result = self._sheet.values().get(spreadsheetId=self._odl_spreadsheet_id,
                                           range=distribution_range).execute()
         distribution_list = values_to_dict(result.get('values', []))
+
+        # add a schema:DataDownload type for every row
+        for row in distribution_list:
+            item_id = URIRef(row.get('@id'))
+            self._data_catalog.add((item_id, URIRef(f'{RDF}type'), URIRef(f'{SDO}DataDownload')))
+
+        # add the rest of the properties
         self.list_of_dict_to_graph(distribution_list)
 
     def _init_organization(self):
@@ -176,6 +212,13 @@ class DatasetSheet2JSONLD:
         result = self._sheet.values().get(spreadsheetId=self._odl_spreadsheet_id,
                                           range=organization_range).execute()
         organization_list = values_to_dict(result.get('values', []))
+
+        # add a schema:Organization type
+        for row in organization_list:
+            item_id = URIRef(row.get('@id'))
+            self._data_catalog.add((item_id, URIRef(f'{RDF}type'), URIRef(f'{SDO}Organization')))
+
+        # add the properties for Organization
         self.list_of_dict_to_graph(organization_list)
 
     def query(self, query=None):
