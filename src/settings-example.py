@@ -40,4 +40,6 @@ class Config(object):
         }
     ]
 
-    HDT_FILE = '~/data/nisv/hdt/nisv_cat_daan_sdo_20210617.nt.hdt'
+    SERVICE_ACCOUNT_FILE = 'datacatalogfromspreadsheet-a5ccabb0919f.json'
+    SERVICE_ACCOUNT_ID = '112951440462998509903'
+    ODL_SPREADSHEET_ID = '14KEFxuNfM9yezKssyUHrGuhL6sRC6ATvtPcrghKNh8s'
