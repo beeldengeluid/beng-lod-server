@@ -96,6 +96,69 @@ class DatasetSheet2JSONLD:
         self._init_organization()
         self._init_data_downloads()
         self.write_data_catalog_to_file()
+        self.print_data_catalog()
+
+    def print_data_catalog(self):
+        """ Utility function to print some examples to standard output."""
+        g = Graph()
+        g.bind('schema', SDO)
+        for triple in self.get_data_download('http://data.beeldengeluid.nl/id/datadownload/0001'):
+            g.add(triple)
+        json_string = g.serialize(format='json-ld',
+                                  context=dict(g.namespaces()),
+                                  auto_compact=True).decode("utf-8")
+        print(json_string)
+
+    def validation_nde(self):
+        """ Construct a Graph that contains only the datasets that are valid conform NDE requirements.
+        So, the schema.org as default namespace, the DataCatalog contains:
+            - The DataCatalog has at least:
+                - an IRI
+                - a name
+                - a publisher
+                - at least one dataset
+
+            - An Organization as publisher has at least:
+                - an IRI
+                - a name
+
+            - The organization data is then included as the dataset’s publisher.
+
+            - A Dataset MUST have at least:
+                - an IRI
+                - a name
+                - a license IRI
+
+                SHOULD have:
+                - a publisher
+                - (at least one) distribution
+
+                Publishers SHOULD add at least one distribution. Each distribution MUST have
+                 at least a MIME format and the URL where the distribution can be accessed.
+
+            - A DataDownload has a minimal definition:
+                - contentUrl
+                - encodingFormat
+                - what about the @id?
+                - usageInfo (If the distribution is non-standard API)
+
+        """
+        pass
+
+    def validation_nde_data_download(self, data_download_id=None):
+        """ Use the NDE validation criteria to describe the DataDownload.
+        :param data_download_id: id of a data download, coming from the spreadsheet.
+        :returns: the description for the data_download_id, if the criteria are met. None otherwise.
+        """
+
+        return None
+
+    def get_data_download(self, data_download_id):
+        """ Get the triples for a DataDownload.
+        :param data_download_id: the id of a DataDownload, originating from the spreadsheet.
+        :returns: The triples (or the Graph?)  for the DataDownload.
+        """
+        return self._data_catalog.triples((URIRef(data_download_id), None, None))
 
     def write_data_catalog_to_file(self):
         """ First check whether the file already exists. If not create one. Otherwise do nothing."""
@@ -149,7 +212,6 @@ class DatasetSheet2JSONLD:
     def _init_namespaces(self):
         """ Init the datacatalog Graph with the right namespaces.
         """
-        # self._data_catalog.namespace_manager.bind('schema', SDO)
         self._data_catalog.bind('schema', SDO)
         print(dict(self._data_catalog.namespaces()))
 
@@ -173,6 +235,8 @@ class DatasetSheet2JSONLD:
 
     def _init_datasets(self):
         """ Read the dataset information from the spreadsheet and load into a dict.
+            A Dataset can be the object of a schema:dataset property of the schema:DataCatalog.
+            It has the property schema:includedInDataCatalog, that lists the data catalog that it is part of.
         """
         logging.debug('Init datasets.')
         dataset_range = 'Dataset!A1:T'
@@ -185,11 +249,25 @@ class DatasetSheet2JSONLD:
             item_id = URIRef(row.get('@id'))
             self._data_catalog.add((item_id, URIRef(f'{RDF}type'), URIRef(f'{SDO}Dataset')))
 
+        # add a schema:dataset property for every row.
+        for row in dataset_list:
+            item_id = URIRef(row.get('@id'))
+
+            # multiple DataCatalog are possible, so add a schema:dataset for each.
+            included_in_data_catalog = row.get('includedInDataCatalog')
+            if included_in_data_catalog is not None:
+                list_of_data_catalogs = included_in_data_catalog.split('\n')
+                for data_catalog in list_of_data_catalogs:
+                    data_catalog_id = URIRef(data_catalog)
+                    self._data_catalog.add((data_catalog_id, URIRef(f'{SDO}dataset'), item_id))
+
         # now add the properties
         self.list_of_dict_to_graph(dataset_list)
 
     def _init_data_downloads(self):
         """ Read the DataDownload information from the spreadsheet and load into a dict.
+            Every DataDownload can be used as object in a schema:distribution property for a schema:Dataset.
+            The property
         """
         logging.debug('Init distribution/data downloads.')
         distribution_range = 'Distribution!A1:J'
