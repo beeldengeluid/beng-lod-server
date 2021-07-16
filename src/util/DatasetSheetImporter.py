@@ -9,6 +9,7 @@ from rdflib import URIRef, Literal
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 import re
+from pathlib import Path
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
@@ -31,14 +32,25 @@ def values_to_dict(values):
     # build a dict for each row
     for row in values[1:]:
         # use the header row for the keys
-        row_dict = {values[0][row.index(value)]: value for value in row}
+        row_dict = {values[0][index]: value for index, value in enumerate(row)}
         list_of_dicts.append(row_dict)
     return list_of_dicts
 
 
+def string_as_uri(value, field):
+    """ Given a string from the spreadsheet, generate a URIRef. The field is used to determine
+    whether a URI is required.
+    :returns: a URI, or None when the value can be processed as a Literal.
+    """
+    if field in ['mainEntityOfPage', 'includedInDataCatalog', 'distribution', 'contentUrl',
+                 'license', 'usageInfo', 'creator', 'publisher', 'dataset', 'sameAs']:
+        return URIRef(value)
+    return None
+
+
 def string_as_literal(value, field):
     """ Given a string value from the spreadsheet, generate a lang string Literal.
-        Assume 'nl' as default language.
+        Assume 'nl' as default language. The field is used to determine if lang string is needed.
         Spreadsheet values can have '@nl' or '@en' at the end of the string.
         :param value: a string containing some value for a field
         :param field: the name of the field.
@@ -61,30 +73,34 @@ def string_as_literal(value, field):
         logging.error(str(e))
 
 
-def get_literal_for_value(value, field):
-    """ In case the value is a list, it is processed multiple times.
+def get_object_for_value(value, field):
+    """ Value is processed: a URI is produced when applicable and a Literal otherwise.
+    In case the value is a list, it is processed multiple times.
     :param value: from the spreadsheet cell
     :param field: the header for the spreadsheet column
-    :returns: list of literals for al the values in the value
+    :returns: list of objects for al the values in the value
     """
-    list_values = value.split('\n')
+    list_values = value.splitlines()
     return [
-        string_as_literal(value, field)
+        string_as_uri(value, field) if (string_as_uri(value, field) is not None) else string_as_literal(value, field)
         for value in list_values
         if value != ''
     ]
 
 
-class DatasetSheet2JSONLD:
+class DatasetSheetImporter:
     """ Connect to a spreadsheet using Google Sheet API.
-        Get the Datacatalog and Dataset information and make a nice JSON-LD document from this.
-        TODO: For front-end developers Graph based data can be difficult, therefore the class also needs to
-        provide a proper tree structured JSON file.
+    Get the DataCatalog, Dataset, DataDownload and Organization information and put it in a Graph.
+    Serialize the graph to a nice file.
     """
 
     def __init__(self, config=None):
-        assert config is not None, 'DatasetSheet2JSONLD needs configuration.'
-        self._service_account_file = config.SERVICE_ACCOUNT_FILE
+        assert config is not None, 'DatasetSheetImporter needs configuration.'
+        # slightly difficult attempt to get the absolute path, instead of the relative path in the settings
+        import inspect
+        path_settings_file = Path(inspect.getfile(config))
+        path_dir_settings_file = path_settings_file.parent
+        self._service_account_file = str(path_dir_settings_file.joinpath(config.SERVICE_ACCOUNT_FILE))
         self._service_account_id = config.SERVICE_ACCOUNT_ID
         self._odl_spreadsheet_id = config.ODL_SPREADSHEET_ID
         self._sheet = None
@@ -95,70 +111,6 @@ class DatasetSheet2JSONLD:
         self._init_datasets()
         self._init_organization()
         self._init_data_downloads()
-        self.write_data_catalog_to_file()
-        self.print_data_catalog()
-
-    def print_data_catalog(self):
-        """ Utility function to print some examples to standard output."""
-        g = Graph()
-        g.bind('schema', SDO)
-        for triple in self.get_data_download('http://data.beeldengeluid.nl/id/datadownload/0001'):
-            g.add(triple)
-        json_string = g.serialize(format='json-ld',
-                                  context=dict(g.namespaces()),
-                                  auto_compact=True).decode("utf-8")
-        print(json_string)
-
-    def validation_nde(self):
-        """ Construct a Graph that contains only the datasets that are valid conform NDE requirements.
-        So, the schema.org as default namespace, the DataCatalog contains:
-            - The DataCatalog has at least:
-                - an IRI
-                - a name
-                - a publisher
-                - at least one dataset
-
-            - An Organization as publisher has at least:
-                - an IRI
-                - a name
-
-            - The organization data is then included as the dataset’s publisher.
-
-            - A Dataset MUST have at least:
-                - an IRI
-                - a name
-                - a license IRI
-
-                SHOULD have:
-                - a publisher
-                - (at least one) distribution
-
-                Publishers SHOULD add at least one distribution. Each distribution MUST have
-                 at least a MIME format and the URL where the distribution can be accessed.
-
-            - A DataDownload has a minimal definition:
-                - contentUrl
-                - encodingFormat
-                - what about the @id?
-                - usageInfo (If the distribution is non-standard API)
-
-        """
-        pass
-
-    def validation_nde_data_download(self, data_download_id=None):
-        """ Use the NDE validation criteria to describe the DataDownload.
-        :param data_download_id: id of a data download, coming from the spreadsheet.
-        :returns: the description for the data_download_id, if the criteria are met. None otherwise.
-        """
-
-        return None
-
-    def get_data_download(self, data_download_id):
-        """ Get the triples for a DataDownload.
-        :param data_download_id: the id of a DataDownload, originating from the spreadsheet.
-        :returns: The triples (or the Graph?)  for the DataDownload.
-        """
-        return self._data_catalog.triples((URIRef(data_download_id), None, None))
 
     def write_data_catalog_to_file(self):
         """ First check whether the file already exists. If not create one. Otherwise do nothing."""
@@ -193,13 +145,10 @@ class DatasetSheet2JSONLD:
         """
         for row in list_of_dict:
             item_id = URIRef(row.get('@id'))
-            [
-                [self._data_catalog.add((item_id, URIRef(f'{SDO}{key}'), literal))
-                 for literal in get_literal_for_value(value, key)
-                 ]
-                for key, value in row.items()
-                if (item_id is not None) and key != '@id'
-            ]
+            for key, value in row.items():
+                if (item_id is not None) and key != '@id':
+                    for obj in get_object_for_value(value, key):
+                        self._data_catalog.add((item_id, URIRef(f'{SDO}{key}'), obj))
 
     def _init_sheets_api(self):
         """ Initializes the sheets api, preparing it ot read data.
@@ -210,10 +159,9 @@ class DatasetSheet2JSONLD:
         self._sheet = service.spreadsheets()
 
     def _init_namespaces(self):
-        """ Init the datacatalog Graph with the right namespaces.
+        """ Init the data catalog Graph with the right namespaces.
         """
         self._data_catalog.bind('schema', SDO)
-        print(dict(self._data_catalog.namespaces()))
 
     def _init_data_catalog(self):
         """ Read the values from a Google spreadsheet. Convert every row into a dict using the
@@ -249,14 +197,10 @@ class DatasetSheet2JSONLD:
             item_id = URIRef(row.get('@id'))
             self._data_catalog.add((item_id, URIRef(f'{RDF}type'), URIRef(f'{SDO}Dataset')))
 
-        # add a schema:dataset property for every row.
-        for row in dataset_list:
-            item_id = URIRef(row.get('@id'))
-
             # multiple DataCatalog are possible, so add a schema:dataset for each.
             included_in_data_catalog = row.get('includedInDataCatalog')
             if included_in_data_catalog is not None:
-                list_of_data_catalogs = included_in_data_catalog.split('\n')
+                list_of_data_catalogs = included_in_data_catalog.splitlines()
                 for data_catalog in list_of_data_catalogs:
                     data_catalog_id = URIRef(data_catalog)
                     self._data_catalog.add((data_catalog_id, URIRef(f'{SDO}dataset'), item_id))
@@ -303,15 +247,26 @@ class DatasetSheet2JSONLD:
         """ run a query against the data catalog graph."""
 
 
-if __name__ == '__main__':
-    # set the log file
-    log_dir = os.path.abspath(os.path.expanduser('~/logs'))
-    logging.basicConfig(filename=os.path.join(log_dir, 'dataset_csv_to_jsonld_%s.log' % date_time_string()),
+def init_logging():
+    log_dir = Path('~/logs').expanduser()
+    if not log_dir.is_dir():
+        log_dir.mkdir(parents=True, exist_ok=True)
+    logging.basicConfig(filename=os.path.join(log_dir, 'dataset_sheet_importer_%s.log' % date_time_string()),
                         level=logging.DEBUG,
                         format='%(asctime)s %(levelname)s: %(message)s')
 
-    from src.settings import Config
 
-    s2j = DatasetSheet2JSONLD(config=Config)
+if __name__ == '__main__':
+    init_logging()
+    # log_dir = Path('~/logs').expanduser()
+    # if not log_dir.is_dir():
+    #     log_dir.mkdir(parents=True, exist_ok=True)
+    # logging.basicConfig(filename=os.path.join(log_dir, 'dataset_sheet_importer_%s.log' % date_time_string()),
+    #                     level=logging.DEBUG,
+    #                     format='%(asctime)s %(levelname)s: %(message)s')
+
+    from src.settings import Config
+    s2j = DatasetSheetImporter(config=Config)
+    s2j.write_data_catalog_to_file()
 
     print("Done.")
