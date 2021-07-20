@@ -1,7 +1,7 @@
 from flask_restx import Api
 from .lod.lod_api import api as lodAPI
 
-apiVersion = 'v0.2'
+apiVersion = 'v0.3'
 basePath = '/'
 
 api = Api(version=apiVersion)

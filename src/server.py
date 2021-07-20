@@ -60,8 +60,8 @@ def generate_ontospy_html(profile):
 
 api.init_app(
     app,
-    title='Open Data Lab API - Nederlands Instituut voor Beeld en Geluid',
-    description='Get RDF for resources in the DAAN catalogue and the GTAA thesaurus.')
+    title='Open Data Lab API - Netherlands Institute for Sound and Vision',
+    description='Get RDF for open datasets and for resources in the NISV catalogue.')
 
 """------------------------------------------------------------------------------
 PING / HEARTBEAT ENDPOINT
