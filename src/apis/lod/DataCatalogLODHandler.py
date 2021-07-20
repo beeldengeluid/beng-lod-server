@@ -58,7 +58,7 @@ class DataCatalogLODHandler:
         """
         data_catalog_file = get_data_catalog_file(application_config)
         if not os.path.exists(data_catalog_file):
-            from src.settings import Config
+            from settings import Config
             dsi = DatasetSheetImporter(config=Config)
             dsi.write_turtle(turtle_file=data_catalog_file)
 

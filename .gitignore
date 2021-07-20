@@ -18,3 +18,4 @@ src/static/ontospy/README.md
 src/util/quickstart.py
 src/util/datacatalogfromspreadsheet-a5ccabb0919f.json
 resource/datacatalogfromspreadsheet-a5ccabb0919f.json
+resource/data_catalog.ttl

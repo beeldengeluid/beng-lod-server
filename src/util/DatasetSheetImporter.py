@@ -265,7 +265,8 @@ if __name__ == '__main__':
     #                     level=logging.DEBUG,
     #                     format='%(asctime)s %(levelname)s: %(message)s')
 
-    from src.settings import Config
+    #this does not work, the settings are not on the path, src.settings works on Windows apparently
+    from settings import Config
     s2j = DatasetSheetImporter(config=Config)
     s2j.write_data_catalog_to_file()
 
