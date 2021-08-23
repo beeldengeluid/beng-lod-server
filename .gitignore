@@ -23,3 +23,5 @@ resource/data_catalog.ttl
 /src/get_dmapi_program_2101608050036218831.json
 /src/get_dmapi_program_2101606230008608731.json
 /src/last_request.json
+/src/util/graph_as_string.jsonld
+/src/util/graph_as_string.ttl
