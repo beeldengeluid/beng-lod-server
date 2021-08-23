@@ -1,9 +1,9 @@
 from rdflib.namespace import XSD
 
 NISV_SCHEMA_NAMESPACE = 'http://data.rdlabs.beeldengeluid.nl/schema/'
-NISV_DATA_NAMESPACE = 'http://data.rdlabs.beeldengeluid.nl/resource/'
+NISV_DATA_NAMESPACE = 'http://data.rdlabs.beeldengeluid.nl/id/'
 NISV_SCHEMA_PREFIX = "nisv"
-NISV_DATA_PREFIX = "resource"
+NISV_DATA_PREFIX = "id"
 
 # URIs for concepts in the schema
 PROGRAM = NISV_SCHEMA_NAMESPACE + "Program"

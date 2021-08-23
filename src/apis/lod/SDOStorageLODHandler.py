@@ -22,10 +22,8 @@ class SDOStorageLODHandler(StorageLODHandler):
             logtrack_type = json_obj["logtrack_type"]
             if not isSceneDescription(logtrack_type):
                 raise ValueError(
-                    "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrack_type)
+                    f"Cannot retrieve data for a logtrack item of type {logtrack_type}. Must be of type 'scenedesc'")
 
         # Note that this is import is here not at the top, to prevent circular dependency to happen
         from models.SDORdfConcept import SDORdfConcept
         return SDORdfConcept(json_obj, cat_type, self.profile)
-
-

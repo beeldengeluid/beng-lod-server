@@ -124,17 +124,17 @@ def prepare_beng_uri(path):
     404: 'Resource does not exist.',
     406: 'Not Acceptable. The requested format in the Accept header is not supported by the server.'
 })
-@api.route('resource/<any(program, series, season, logtrackitem):level>/<int:identifier>', endpoint='dereference')
+@api.route('id/<any(program, series, season, logtrackitem):cat_type>/<int:identifier>', endpoint='dereference')
 class LODAPI(Resource):
 
-    def get(self, identifier, level='program'):
+    def get(self, identifier, cat_type='program'):
         """ Get the RDF for the catalogue item. """
         mime_type, accept_profile = parse_accept_header(request.headers.get('Accept'))
 
         if mime_type:
             # note we need to use empty params for the UI
             return get_lod_resource(
-                level=level,
+                level=cat_type,
                 identifier=identifier,
                 mime_type=mime_type,
                 accept_profile=accept_profile,

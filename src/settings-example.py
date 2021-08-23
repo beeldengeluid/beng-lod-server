@@ -10,7 +10,7 @@ class Config(object):
     DEBUG = True
     CACHE_TYPE = 'SimpleCache'
 
-    STORAGE_BASE_URL = 'http://...'
+    STORAGE_BASE_URL = 'http://acc-app-bng-01.beeldengeluid.nl:8101'
 
     PROFILES = [
         {

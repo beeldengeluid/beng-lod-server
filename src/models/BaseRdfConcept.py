@@ -21,10 +21,10 @@ class BaseRdfConcept:
         self.itemNode = None
         self.classUri = None
         self.graph = Graph()
-        self.graph.namespace_manager.bind(self._model.NISV_SCHEMA_PREFIX,
-                                          Namespace(self._model.NISV_SCHEMA_NAMESPACE))
-        self.graph.namespace_manager.bind(self._model.NISV_DATA_PREFIX,
-                                          Namespace(self._model.NISV_DATA_NAMESPACE))
+        # self.graph.namespace_manager.bind(self._model.NISV_SCHEMA_PREFIX,
+        #                                   Namespace(self._model.NISV_SCHEMA_NAMESPACE))
+        # self.graph.namespace_manager.bind(self._model.NISV_DATA_PREFIX,
+        #                                   Namespace(self._model.NISV_DATA_NAMESPACE))
         self.graph.namespace_manager.bind("skos", SKOS)
         self.graph.namespace_manager.bind("gtaa", Namespace(self._model.GTAA_NAMESPACE))
         self.graph.namespace_manager.bind("non-gtaa", Namespace(self._model.NON_GTAA_NAMESPACE))
@@ -38,8 +38,9 @@ class BaseRdfConcept:
         parts = (url_parts.scheme, url_parts.netloc, path, '', '', '')
         return urlunparse(parts)
 
+    # noinspection PyMethodMayBeStatic
     def get_gpp_link(self, cat_type="PROGRAM", daan_id=None):
-        """ Construct a URL for the item landing page in teh general public portal.
+        """ Construct a URL for the item landing page in the general public portal.
         :param cat_type: the catalogue type of the item
         :param daan_id: the alphanumerical string that is the unique identifier within the catalogue.
         :returns: the contructed URL for the landing page
