@@ -25,8 +25,13 @@ class StorageLODHandler:
         return profile
 
     def get_storage_record(self, level, identifier, return_format):
-        """Constructs a URI from the level and identifier, retrieves the record data from the URI,
-        and returns LOD for the record in the desired return format"""
+        """ Constructs a URI from the level and identifier, retrieves the record metadata from the
+         DM API URI, and returns LOD for the record in the desired return format.
+         :param level: cat type, e.g. 'program'
+         :param identifier: the DAAN id
+         :param return_format: the Accept type, like 'text/turtle, etc.'
+         :returns: a response object
+         """
         url = self._prepare_uri(level, identifier)
         try:
             data = self._storage_2_lod(url, return_format)
@@ -40,8 +45,11 @@ class StorageLODHandler:
         return APIUtil.toErrorResponse('bad_request', 'That return format is not supported')
 
     def _prepare_uri(self, level, identifier):
-        """ Constructs valid Storage url from the config settings, the level (type) and the identifier.
-            <storage URL>/storage/<TYPE>/<id>
+        """ Constructs valid Storage url from the config settings, the level (cat type) and the identifier.
+                <storage URL>/storage/<TYPE>/<id>
+        :param level: the cat type
+        :param identifier: the DAAN id
+        :returns: a proper URI for getting metadata from the DM API
         """
         url_parts = urlparse(self.config.get('STORAGE_BASE_URL'))
         if url_parts.netloc is not None:
@@ -53,10 +61,14 @@ class StorageLODHandler:
 
     @staticmethod
     def _get_json_from_storage(url):
-        """Retrieves a JSON object from the given Storage url"""
+        """ Retrieves a JSON object from the given Storage url
+            Description: http://acc-app-bng-01.beeldengeluid.nl:8101/storage/doc
+        """
         with urllib.request.urlopen(
                 url) as storageUrl:
             data = json.loads(storageUrl.read().decode())
+            with open('last_request.json', 'w') as f:
+                json.dump(data, f, indent=4)
         return data
 
     def _storage_2_lod(self, url, return_format):
@@ -65,20 +77,20 @@ class StorageLODHandler:
         TODO: find out if the return_format parameter can be given the mimetype. Refactor for json-ld.
         """
 
-        # retrieve the record data in XML via OAI-PMH
+        # retrieve the record data in JSON from DM API
         json_data = self._get_json_from_storage(url)
 
-        # transform the XML to RDF
-        result_concept = self._transform_json_to_rdf(json_data)
+        # transform the JSON to RDF
+        result_object = self._transform_json_to_rdf(json_data)
 
         # serialise the RDF graph to desired format
-        # TODO: find out how to get rid of this warning
-        data = result_concept.serialize(return_format)
+        data = result_object.serialize(return_format)
         return data
 
     """ Methods below need to be overwritten by the derived class
     """
     def _transform_json_to_rdf(self, json_obj):
         """ Transforms JSON data from the flex Direct Access Metadata API to RDF.
+        Derived Classes need to implement this.
         """
-        pass
+        raise NotImplementedError()
