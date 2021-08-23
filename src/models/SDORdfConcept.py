@@ -23,7 +23,8 @@ class SDORdfConcept(BaseRdfConcept):
         err_msg = 'Error while loading the schema classes and properties'
         assert self._classes is not None, APIUtil.raiseDescriptiveValueError('internal_server_error', err_msg)
 
-        self.graph.namespace_manager.bind(self._model.SCHEMA_DOT_ORG_PREFIX,
+        # self.graph.namespace_manager.bind(self._model.SCHEMA_DOT_ORG_PREFIX,
+        self.graph.namespace_manager.bind('@vocab',
                                           Namespace(self._model.SCHEMA_DOT_ORG_NAMESPACE))
         # create a node for the record
         self.itemNode = URIRef(self.get_uri(concept_type, metadata["id"]))
@@ -89,10 +90,14 @@ class SDORdfConcept(BaseRdfConcept):
     def __payload_to_rdf(self, payload, parent_node, class_uri):
         """ Converts the metadata described in payload (json) to RDF, and attaches it to the parentNode
         (e.g. the parentNode can be the identifier node for a program, and the payload the metadata describing
-        that program.). Calls itself recursively to handle any classes in the metadata, e.g. the publication
+        that program). Calls itself recursively to handle any classes in the metadata, e.g. the publication
         belonging to a program.
-        Uses the classUri of the parent node to select the right information from  classes for the conversion.
-        Returns the result in graph
+        Uses the classUri of the parent node to select the right information from classes for the conversion.
+        :param payload: a JSON string of metadata
+        :param parent_node: an ID of the parent node (e.g. like a 'scene description' has a 'program' as parent)
+        :param class_uri: the class URI for the parent node
+
+        :returns: the result in graph
         """
         # Select the relevant properties for this type of parent using the classUri
         properties = self._classes[class_uri]["properties"]

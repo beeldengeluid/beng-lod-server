@@ -1,7 +1,7 @@
 import models.DAANRdfModel as DAANRdfModel
 from models.DAANJsonModel import DAAN_PROGRAM_ID, DAAN_PARENT, DAAN_PARENT_ID, DAAN_PARENT_TYPE, DAAN_PAYLOAD, \
     ObjectType
-from rdflib.namespace import RDF, RDFS, SKOS
+from rdflib.namespace import RDF, RDFS, SKOS, Namespace
 from rdflib import URIRef, Literal, BNode
 from util.APIUtil import APIUtil
 from models.BaseRdfConcept import BaseRdfConcept
@@ -15,6 +15,10 @@ class NISVRdfConcept(BaseRdfConcept):
 
     def __init__(self, metadata, concept_type, profile):
         super().__init__(profile, model=DAANRdfModel)
+        # self.graph.namespace_manager.bind(self._model.NISV_DATA_PREFIX,
+        # use a default namespace
+        self.graph.namespace_manager.bind('@vocab',
+                                          Namespace(self._model.NISV_SCHEMA_NAMESPACE))
         self.profile = profile
         if "schema" not in self.profile or "mapping" not in self.profile:
             raise APIUtil.raiseDescriptiveValueError('internal_server_error', 'Schema or mapping file not specified')

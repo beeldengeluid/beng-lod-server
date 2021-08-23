@@ -2,10 +2,10 @@ from rdflib.namespace import XSD
 
 NISV_SCHEMA_NAMESPACE = 'http://data.rdlabs.beeldengeluid.nl/schema/'
 SCHEMA_DOT_ORG_NAMESPACE = 'https://schema.org/'
-NISV_DATA_NAMESPACE = 'http://data.rdlabs.beeldengeluid.nl/resource/'
+NISV_DATA_NAMESPACE = 'http://data.rdlabs.beeldengeluid.nl/id/'
 NISV_SCHEMA_PREFIX = "nisv"
 SCHEMA_DOT_ORG_PREFIX = "sdo"
-NISV_DATA_PREFIX = "resource"
+NISV_DATA_PREFIX = "id"
 
 # URIs for concepts in the schema
 PROGRAM = SCHEMA_DOT_ORG_NAMESPACE + "CreativeWork"
