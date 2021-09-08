@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    {% block header %}
+    <title>{% block title %}{% endblock %} - BenG LOD</title>
+    {% endblock %}
+</head>
+<body>
+<section class="content" >
+  {% block content %}{% endblock %}
+</section>
+</body>
+</html>

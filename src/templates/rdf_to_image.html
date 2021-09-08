@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}{{ level }}  {{ identifier }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <embed type="text/html" src="/static/rdf_to_image.html" width="800px" height="600px">
+{% endblock %}

@@ -1,4 +1,4 @@
-from flask import Flask, request, Response, send_from_directory, redirect
+from flask import Flask, request, Response, send_from_directory, redirect, url_for
 from flask_cors import CORS
 import os
 from apis import api
@@ -133,6 +133,12 @@ def schema_path(path=None):
         return send_from_directory(get_ontospy_dir(active_profile), path)
     """
     return APIUtil.toErrorResponse('not_found', 'This page does not exist (anymore)')
+
+
+# favicon
+@app.route('/favicon.ico')
+def favicon():
+    return url_for('static', filename='rdf_w3c_icon.64')
 
 
 if __name__ == '__main__':
