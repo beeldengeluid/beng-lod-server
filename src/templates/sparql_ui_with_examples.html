@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block sparql_example_tabs %}
+
+{% for example in my_examples %}
+    var x = document.getElementsByClassName("tab");
+    var searchText = "{{ example.title|safe }}";
+    var text_content;
+    var found = undefined;
+    for (var i = 0; i < x.length; i++) {
+        var span = x.item(i).getElementsByTagName("span");
+        text_content = span.item(0).textContent;
+        if (text_content.localeCompare(searchText) == 0) {
+            found = 0;
+            break;
+        }
+    }
+    if (found == undefined) {
+        // Add a new Tab. Returns the new Tab object.
+        tab = yasgui.addTab(
+          true, // set as active tab
+          { ...Yasgui.Tab.getDefaults(), name: "{{ example.title|safe }}",
+            requestConfig: { endpoint: "http://zorin.beeldengeluid.nl:3023/sparql" }
+           }
+        );
+        // set the query of the tab
+        tab.setQuery(`{{ example.query|safe }}`);
+    }
+
+{% endfor %}
+{% endblock %}

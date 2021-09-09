@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Example SPARQL Frontend</title>
+  <link href="https://unpkg.com/@triply/yasgui/build/yasgui.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://unpkg.com/@triply/yasgui/build/yasgui.min.js"></script>
+    <style>
+  .yasgui .autocompleteWrapper {
+    display: none !important;
+  }
+</style>
+</head>
+<body>
+  <header>
+    {% block header %}<h1>Example SPARQL queries for Open Data Lab</h1>{% endblock %}
+    <h3>http://zorin.beeldengeluid.nl:3023/sparql</h3>
+  </header>
+  <div id="yasgui"></div>
+  <script>
+    const yasgui = new Yasgui(document.getElementById("yasgui"), {
+  requestConfig: { endpoint: "http://zorin.beeldengeluid.nl:3023/sparql" },
+  copyEndpointOnNewTab: true,
+});
+    {% block sparql_example_tabs %}{% endblock %}
+  </script>
+
+</body>
+</html>

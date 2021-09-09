@@ -47,3 +47,5 @@ class Config(object):
     DATA_CATALOG_FILE = '../resource/data_catalog.ttl'
 
     BENG_DATA_DOMAIN = 'http://data.beeldengeluid.nl/'
+
+    SPARQL_EXAMPLES = "../resource/example_queries.json"
