@@ -10,7 +10,7 @@ class Config(object):
     DEBUG = True
     CACHE_TYPE = 'SimpleCache'
 
-    STORAGE_BASE_URL = 'http://acc-app-bng-01.beeldengeluid.nl:8101'
+    STORAGE_BASE_URL = 'http://prd-app-bng-01.beeldengeluid.nl:8101/'
 
     PROFILES = [
         {
@@ -19,16 +19,16 @@ class Config(object):
             'prefix': 'nisv',  # based on @prefix nisv: <http://data.rdlabs.beeldengeluid.nl/schema/> .
             'schema': '../resource/bengSchema.ttl',
             'mapping': '../resource/daan-mapping-storage.ttl',
-            'storage_handler': DAANStorageLODHandler,
-            'default': True  # this profile is loaded in memory by default
+            'storage_handler': DAANStorageLODHandler
         },
         {
-            'title': 'NISV Catalogue schema.org schema',
+            'title': 'NISV Catalogue using schema.org ontology',
             'uri': 'https://schema.org/',
             'prefix': 'sdo',  # based on @prefix sdo: <https://schema.org/> .
             'schema': '../resource/schema-dot-org.ttl',
             'mapping': '../resource/daan-mapping-schema-org.ttl',
-            'storage_handler': SDOStorageLODHandler
+            'storage_handler': SDOStorageLODHandler,
+            'default': True  # this profile is loaded in memory by default
         },
         {
             'title': 'NISV Catalogue OAI schema',
