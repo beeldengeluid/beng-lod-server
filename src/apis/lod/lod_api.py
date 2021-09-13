@@ -83,7 +83,8 @@ def rdf_to_image(rdf_string=None, rdf_format=MIME_TYPE_JSON_LD):
     pos = nx.spring_layout(mdg, scale=2)
 
     node_labels = get_mapping_for_schema_nodes()
-    # edge_labels = get_mapping_for_schema_edges()
+    edge_labels = get_mapping_for_schema_edge_labels()
+
     # print('PRINT NETWORK EDGES')
     # for edge in mdg.edges():
     #     # check id edge has label
@@ -92,7 +93,7 @@ def rdf_to_image(rdf_string=None, rdf_format=MIME_TYPE_JSON_LD):
     #     print(edge)
     #     print(f'EDGE IN EDGE_LABELS: {edge in edge_labels}')
 
-    # nx.draw_networkx_edge_labels(mdg, pos, edge_labels=edge_labels)
+    nx.draw_networkx_edge_labels(mdg, pos, edge_labels=edge_labels)
     relabeled_mdg = nx.relabel_nodes(mdg, node_labels)
     # edge_labels = nx.get_edge_attributes(mdg, 'label')
     # for label in edge_labels:
@@ -121,18 +122,16 @@ def rdf_to_image(rdf_string=None, rdf_format=MIME_TYPE_JSON_LD):
     # populates the nodes and edges data structures
     net.from_nx(relabeled_mdg)
     net.show_buttons(filter_=['physics'])
-#     net.set_options("""
-# var options = {
-#   "physics": {
-#     "barnesHut": {
-#       "gravitationalConstant": -12300,
-#       "centralGravity": 0,
-#       "springLength": 55
-#     },
-#     "minVelocity": 0.75
-#   }
-# }
-#         """)
+    net.set_options("""
+var options = {
+  "physics": {
+    "barnesHut": {
+      "springLength": 135
+    },
+    "minVelocity": 0.75
+  }
+}
+        """)
     net.write_html(html_path, notebook=False)
 
 
@@ -181,13 +180,13 @@ def get_mapping_for_schema_edge_labels():
         # print(f"{edge.s} connected to {edge.p} with edge label {edge.o}")
         # print(f"{edge.a} connected to {edge.b} with edge label {edge.property}")
 
-    # mapping = {
-    #     str(k): str(v)
-    #     for k, v in sim.graph.query(sparql_query)
-    # }
-    # print('MAPPING SCHEMA PROPERTIES')
-    # print(mapping)
-    # return mapping
+    mapping = {
+        str(k): str(v)
+        for k, v in sim.graph.query(q)
+    }
+    print('MAPPING SCHEMA PROPERTIES')
+    print(mapping)
+    return mapping
 
 
 def get_mapping_for_schema_edges():
