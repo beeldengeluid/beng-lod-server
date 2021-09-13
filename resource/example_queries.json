@@ -17,6 +17,10 @@
 	{
 		"title": "Items in collectie over een persoon",
 		"query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX sdo: <https://schema.org/>\nPREFIX skos: <http://www.w3.org/2004/02/skos/core#>\nPREFIX gtaa: <http://data.beeldengeluid.nl/gtaa/>		\n\nSELECT DISTINCT ?programId ?main_title ?gtaa_concept ?person_name_pref_label \nWHERE {\n  VALUES ?person_name_pref_label {\n    \n'Verhoeven, Paul'\n  }\n  ?programId a sdo:CreativeWork . \n  ?programId (sdo:about|sdo:mentions|sdo:creator|sdo:contributor|sdo:actor|sdo:crew|sdo:performer)/(sdo:about|sdo:mentions|sdo:creator|sdo:contributor|sdo:actor|sdo:crew|sdo:performer) ?gtaa_concept .\n?gtaa_concept skos:prefLabel\n?person_name_pref_label.\n?programId sdo:name ?name .\n  BIND(str(?name) as ?main_title)\n}"
-	}
+	},
+    {
+      "title": "Children of program",
+      "query": "PREFIX sdo: <https://schema.org/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n# Select all logtrackitems that are scene description for a program\nSELECT *\nWHERE {\n  VALUES ?program {\n    <http://data.rdlabs.beeldengeluid.nl/id/program/2101608190180567031>\n  }\n  ?program rdf:type sdo:CreativeWork .\n  ?program sdo:hasPart ?scene_description\n \n} LIMIT 10\n"
+    }
   ]
 }
