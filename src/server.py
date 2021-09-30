@@ -1,4 +1,4 @@
-from flask import Flask, request, Response, send_from_directory, redirect
+from flask import Flask, request, Response, send_from_directory, redirect, render_template
 from flask_cors import CORS
 import os
 from apis import api
@@ -60,8 +60,8 @@ def generate_ontospy_html(profile):
 
 api.init_app(
     app,
-    title='Open Data Lab API - Nederlands Instituut voor Beeld en Geluid',
-    description='Get RDF for resources in the DAAN catalogue and the GTAA thesaurus.')
+    title='Open Data Lab API - Netherlands Institute for Sound and Vision',
+    description='Get RDF for open datasets and for resources in the NISV catalogue.')
 
 """------------------------------------------------------------------------------
 PING / HEARTBEAT ENDPOINT
@@ -125,6 +125,26 @@ def schema_path(path=None):
                 return redirect('/schema/{}'.format(resource_name))
         return send_from_directory(get_profile_dir(active_profile), path)
     return Response('This page does not exist (404)')
+
+
+@app.route('/yasgui')
+@app.route('/yasgui/')
+def yasgui():
+    """ Return a UI where SPARQL examples can be loaded.
+    GH issue # 136
+    """
+    import json
+
+    def read_example_queries(fn='example_queries.json'):
+        """ Load queries from a JSON document."""
+        with open(fn, 'r') as f:
+            return json.load(f, strict=False)
+
+    queries = {}
+    example_fn = app.config.get('SPARQL_EXAMPLES')
+    if os.path.exists(example_fn):
+        queries = read_example_queries(fn=example_fn)
+    return render_template('sparql_ui_with_examples.html', my_examples=queries.get('examples'))
 
 
 if __name__ == '__main__':
