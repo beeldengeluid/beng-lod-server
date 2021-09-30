@@ -41,11 +41,11 @@ class SDORdfConcept(BaseRdfConcept):
         if self.landing_page is not None:
             self.graph.add((self.itemNode, URIRef(self._model.URL), URIRef(self.landing_page)))
 
-        # add links from Open Beelden
+        # add links from Open Beelden, via media objects
         links = self.get_open_beelden_links(metadata["id"])
         if links is not None:
             for link in links:
-                self.graph.add((self.itemNode, URIRef(self._model.URL), URIRef(link)))
+                self.__add_media_object(link)
 
         # convert the record payload to RDF
         self.__payload_to_rdf(metadata["payload"], self.itemNode, self.classUri)
@@ -163,6 +163,15 @@ class SDORdfConcept(BaseRdfConcept):
                 links = links_dictionary[item_id]["links"]
         return links
 
+    def __add_media_object(self, content_url):
+        """Adds a media object to the RDF item, and links it to the content_url via the media object"""
+
+        # create a media object. NB: Do NOT use a DAAN ID as we use this function to model info from open beelden
+        # items, which are not listed within DAAN but are derived from certain DAAN items.
+
+        media_object_node = BNode()  # use a BNode to emphasize that this Media Object is not an entity in DAAN
+        self.graph.add((self.itemNode, URIRef(self._model.HAS_ASSOCIATED_MEDIA), media_object_node))
+        self.graph.add((media_object_node, URIRef(self._model.HAS_CONTENT_URL), content_url))
 
     def __create_skos_concept(self, used_path, payload, concept_label, property_description):
         """Searches in the concept_metadata for a thesaurus concept. If one is found, creates a node for it and
