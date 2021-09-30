@@ -262,12 +262,11 @@ if __name__ == '__main__':
                                     for scene_title in scene_result['title']:
                                         if titles_match(scene_title, ob_title, 70):
                                             # check if the scene description is attached to the right carrier
-                                            if scene_result['item_id'] == matched_carrier_id:
-                                            #if True:
+                                            #if 'item_id' in scene_result and scene_result['item_id'] == matched_carrier_id:
+                                            if True:
                                                 # use the scene description ID for the link
                                                 print(f"Using {scene_title} for {ob_title}")
                                                 matched_id = scene_result['id']
-                                                scene_description_level_match_count += 1
                                                 local_match_count += 1
                         if local_match_count > 1:
                             print("WARNING: ambiguous matches for scene description")
@@ -276,6 +275,8 @@ if __name__ == '__main__':
                         print("Matching on programme level")
                         if not scene_descs:
                             print('no scene descriptions')
+                    else:
+                        scene_description_level_match_count += 1
                     match_count += 1
                     if matched_id in matches:
                         if ob_link not in matches[matched_id]["links"]:
