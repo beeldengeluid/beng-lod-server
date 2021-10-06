@@ -16,6 +16,15 @@
 ###  http://www.w3.org/2001/XMLSchema#date
 xsd:date rdf:type rdfs:Datatype .
 
+# need this for URL?
+### https://schema.org/Text
+sdo:Text rdf:type rdfs:Class ;
+        rdfs:subClassOf sdo:DataType .
+
+### https://schema.org/DataType
+sdo:DataType rdf:type rdfs:Class ;
+        rdfs:subClassOf rdfs:Class .
+
 #################################################################
 #    Object Properties
 #################################################################
@@ -104,6 +113,10 @@ sdo:conditionsOfAccess rdf:type rdf:Property ;
                 rdfs:domain sdo:CreativeWork ;
                 rdfs:range xsd:string .
 
+###  https://schema.org/license
+sdo:license rdf:type rdf:Property ;
+                rdfs:domain sdo:CreativeWork ;
+                rdfs:range sdo:URL .
 
 #################################################################
 #    Classes
@@ -137,3 +150,7 @@ sdo:CreativeWorkSeason rdf:type rdfs:Class ;
 ###  https://schema.org/CreativeWorkSeries
 sdo:CreativeWorkSeries rdf:type rdfs:Class ;
              rdfs:subClassOf sdo:Thing .
+
+###  https://schema.org/URL
+sdo:URL rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:Text .
