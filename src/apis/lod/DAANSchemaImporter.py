@@ -14,10 +14,10 @@ class DAANSchemaImporter:
 
     def __init__(self, schema_file, mapping_file):
         self._graph = Graph()
+        print(f'Parsing schema file: {schema_file}')
         self._graph.parse(schema_file, format="turtle")
+        print(f'Parsing mapping file: {mapping_file}')
         self._graph.parse(mapping_file, format="turtle")
-        print(schema_file)
-        print(mapping_file)
         self._propertiesWithoutDomain = {}
         self._load_properties_without_domain()
         print(self._propertiesWithoutDomain)
@@ -65,8 +65,11 @@ class DAANSchemaImporter:
         """
             get properties without a domain, these apply (potentially) to all classes
         """
-        query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass ?additionalType WHERE{  ?property rdfs:range ?range . \
-        ?property <%s> ?path MINUS {?property rdfs:domain ?s} . OPTIONAL{?range rdfs:subClassOf ?rangeSuperClass}. OPTIONAL{?range sdo:additionalType ?additionalType}}""" % HAS_DAAN_PATH
+        query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass ?additionalType \
+        WHERE{  ?property rdfs:range ?range . \
+        ?property <%s> ?path MINUS {?property rdfs:domain ?s} . \
+        OPTIONAL{?range rdfs:subClassOf ?rangeSuperClass}. \
+        OPTIONAL{?range sdo:additionalType ?additionalType}}""" % HAS_DAAN_PATH
 
         self._propertiesWithoutDomain = self._load_properties_from_query(query)
 
@@ -89,16 +92,23 @@ class DAANSchemaImporter:
         properties = {}
 
         # first the properties belonging directly to this class
-        query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass ?additionalType WHERE{?property rdfs:domain <%s> .
-        ?property rdfs:range ?range . ?property <%s> ?path . OPTIONAL{?range rdfs:subClassOf ?rangeSuperClass}. OPTIONAL{?range sdo:additionalType ?additionalType}}""" % (
-            class_uri, HAS_DAAN_PATH)
+        query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass ?additionalType \
+        WHERE{ ?property rdfs:domain <%s> . \
+        ?property rdfs:range ?range . \
+        ?property <%s> ?path . \
+        OPTIONAL{?range rdfs:subClassOf ?rangeSuperClass}. \
+        OPTIONAL{?range sdo:additionalType ?additionalType}}""" % (class_uri, HAS_DAAN_PATH)
 
         properties.update(self._load_properties_from_query(query))
 
         # now, the properties belonging to superclasses of this class (which are inherited)
-        query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass ?additionalType WHERE{?property rdfs:domain ?s . \
-        <%s> rdfs:subClassOf ?s. ?property rdfs:range ?range . ?property <%s> ?path . \
-         OPTIONAL{ ?range rdfs:subClassOf ?rangeSuperClass}. OPTIONAL{?range sdo:additionalType ?additionalType}}""" % (class_uri, HAS_DAAN_PATH)
+        query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass ?additionalType \
+        WHERE{ ?property rdfs:domain ?s . \
+        <%s> rdfs:subClassOf ?s. \
+        ?property rdfs:range ?range . \
+        ?property <%s> ?path . \
+         OPTIONAL{ ?range rdfs:subClassOf ?rangeSuperClass}. \
+         OPTIONAL{?range sdo:additionalType ?additionalType}}""" % (class_uri, HAS_DAAN_PATH)
 
         properties.update(self._load_properties_from_query(query))
 
