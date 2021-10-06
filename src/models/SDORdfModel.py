@@ -65,10 +65,10 @@ RS_EU_ORPHAN_WORK = 'http://rightsstatements.org/vocab/InC-OW-EU/1.0/'
 # RS_CONTRACTUAL_RESTRICTIONS = 'http://rightsstatements.org/vocab/NoC-CR/1.0/'
 RS_COPYRIGHT_NOT_EVALUATED = 'http://rightsstatements.org/vocab/CNE/1.0/'
 
-# list of dutch public broadcast organizations
-DUTCH_PUBLIC_BROADCASTERS = ['HUMAN', 'HV', 'HOS', 'Humanistische Omroep', 'MAX', 'OMROEP MAX', 'VPRO', 'NOS',
-                             'NTS', 'NRU', 'NTR', 'NPS', 'Teleac', 'RVU', 'FEDUCO', 'FEDOCU', 'NOT', 'TELEAC',
-                             'TELEAC/NOT', 'STV', 'EO', 'IKOR', 'IKON', 'NIK MEDIA', 'Joodse Omroep', 'JOODSE OMROEP',
-                             'POWNED', 'AVRO/TROS', 'AVROTROS', 'AVRO', 'TROS', 'KRO-NCRV', 'KRO', 'NCRV', 'RKK',
-                             'BOS', 'BNN', 'VARA', 'BNNVARA', 'WNL'
-                             ]
+# # list of dutch public broadcast organizations
+# DUTCH_PUBLIC_BROADCASTERS = ['HUMAN', 'HV', 'HOS', 'Humanistische Omroep', 'MAX', 'OMROEP MAX', 'VPRO', 'NOS',
+#                              'NTS', 'NRU', 'NTR', 'NPS', 'Teleac', 'RVU', 'FEDUCO', 'FEDOCU', 'NOT', 'TELEAC',
+#                              'TELEAC/NOT', 'STV', 'EO', 'IKOR', 'IKON', 'NIK MEDIA', 'Joodse Omroep', 'JOODSE OMROEP',
+#                              'POWNED', 'AVRO/TROS', 'AVROTROS', 'AVRO', 'TROS', 'KRO-NCRV', 'KRO', 'NCRV', 'RKK',
+#                              'BOS', 'BNN', 'VARA', 'BNNVARA', 'WNL'
+#                              ]

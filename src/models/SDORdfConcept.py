@@ -177,6 +177,7 @@ class SDORdfConcept(BaseRdfConcept):
                 # if range of property is simple data type, just link it to the parent using the property
                 used_path = used_paths[i]
                 i += 1
+                # move this because it has a Class as range
                 if property_uri == self._model.LICENSE:
                     license_urls = self.rights_to_license_uri(payload)
                     for license_uri in license_urls:
