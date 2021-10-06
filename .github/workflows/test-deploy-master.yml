@@ -20,7 +20,7 @@ jobs:
       uses: dschep/install-pipenv-action@v1
     - name: Install dependencies
       run: |
-        pipenv install --dev --three
+        pipenv install --dev --python 3.6
     - name: Test with pytest
       run: |
         cp src/settings-example.py src/settings.py
