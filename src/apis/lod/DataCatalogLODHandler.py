@@ -30,7 +30,7 @@ def get_data_catalog_file(app_config):
 def triples_to_string(triples, mime_type=MIME_TYPE_JSON_LD):
     """ Gets triple from a rdflib slice. Returns the string. """
     g = Graph()
-    g.bind('schema', SDO)
+    g.bind('sdo', SDO)
     for triple in triples:
         g.add(triple)
     return g.serialize(format=mime_type,
@@ -145,7 +145,7 @@ class DataCatalogLODHandler:
             return APIUtil.toErrorResponse('not_found')
 
         g = Graph()
-        g.bind('schema', SDO)
+        g.bind('sdo', SDO)
 
         # load the triples for the data download
         for triple in self.triples_data_download(data_download_uri=data_download_id):
@@ -169,7 +169,7 @@ class DataCatalogLODHandler:
             return APIUtil.toErrorResponse('not_found')
 
         g = Graph()
-        g.bind('schema', SDO)
+        g.bind('sdo', SDO)
 
         # add triples for the data_catalog
         for triple in self.triples_data_catalog(data_catalog_uri=data_catalog_uri):
@@ -208,7 +208,7 @@ class DataCatalogLODHandler:
             return APIUtil.toErrorResponse('not_found')
 
         g = Graph()
-        g.bind('schema', SDO)
+        g.bind('sdo', SDO)
 
         if self.is_valid_dataset(dataset_uri):
 
