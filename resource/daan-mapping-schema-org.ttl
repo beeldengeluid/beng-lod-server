@@ -470,6 +470,9 @@ xsd:date rdf:type rdfs:Datatype .
 ### https://schema.org/conditionsOfAccess
 <https://schema.org/conditionsOfAccess> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.showbrowse, value" .
 
+### https://schema.org/license
+<https://schema.org/license> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.rightslicenseterms, value" .
+
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasPublishedTitle
 ###<http://data.rdlabs.beeldengeluid.nl/schema/hasPublishedTitle> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "publication.title, value" .
 

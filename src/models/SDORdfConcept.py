@@ -46,6 +46,58 @@ class SDORdfConcept(BaseRdfConcept):
         # create RDF relations with the parents of the record
         self.__parent_to_rdf(metadata)
 
+    def rights_to_license_uri(self, payload=None):
+        """ Analyse the metadata, return a proper CC license.
+        :param payload: JSON metadata containing nisv.rightslicense and nisv.licensecondition.
+        :returns: CC license or None if param not given or license not determined.
+        """
+        if payload is None:
+            return None
+        rights_license = self._get_metadata_value(payload, 'nisv.rightslicense')
+
+        # blocked
+        if rights_license == 'Blocked':
+            return self._model.RS_COPYRIGHT_NOT_EVALUATED
+
+        # required license
+        if rights_license == 'Required license':
+            raise NotImplementedError
+
+        # license check
+        if rights_license == 'License check':
+            maker_org = self._get_metadata_value(payload, 'nisv.makerorganization')
+            if maker_org in self._model.DUTCH_PUBLIC_BROADCASTERS:
+                return self._model.RS_IN_COPYRIGHT
+            return self._model.RS_COPYRIGHT_NOT_EVALUATED
+
+        # license free - orphan status
+        if rights_license == 'Orphan status':
+            # NISV doesn't have any orphan works, so if we see this status return 'not evaluated'
+            return self._model.RS_COPYRIGHT_NOT_EVALUATED
+
+        # license free - public domain
+        if rights_license == 'Public domain':
+            raise NotImplementedError
+
+        # license free - released by rights holder
+        if rights_license in ('Released by rightsholder', 'Released'):
+            # NB: released (will be replaced with 'license free')
+            # check the licenseconditions
+            license_condition = self._get_metadata_value(payload, 'nisv.licensecondition')
+            license_urls = []
+            if license_condition == '':
+                # case the license condition is not set
+                raise NotImplementedError
+            for license_value in license_condition:
+                # only two licenses are in the data
+                if license_value == 'CC-BY':
+                    license_urls.append(self._model.CC_BY)
+                elif license_value == 'CC-BY-SA':
+                    license_urls.append(self._model.CC_BY_SA)
+
+        # if not licenscondition is set => exception or additional logic
+        return self._model.RS_COPYRIGHT_NOT_EVALUATED
+
     @cache.cached(timeout=0, key_prefix='sdo_scheme')
     def get_scheme(self):
         """ Returns a schema instance."""
@@ -125,6 +177,12 @@ class SDORdfConcept(BaseRdfConcept):
                 # if range of property is simple data type, just link it to the parent using the property
                 used_path = used_paths[i]
                 i += 1
+                if property_uri == self._model.LICENSE:
+                    license_urls = self.rights_to_license_uri(payload)
+                    for license_uri in license_urls:
+                        # add the URI for the rights statement or license
+                        self.graph.add((parent_node, URIRef(property_uri), URIRef(license_uri)))
+
                 if property_uri == self._model.CONDITIONS_OF_ACCESS:
                     # we are generating the access conditions, for which we want to use the showbrowse property to
                     # determine the correct message
@@ -132,12 +190,15 @@ class SDORdfConcept(BaseRdfConcept):
                     if new_payload_item.lower() == "true":
                         access_text = "View/listen to media online at the item's URL: True"
 
-                    self.graph.add((parent_node, URIRef(property_uri), Literal(access_text, datatype=property_description[
-                        "range"])))
+                    self.graph.add((parent_node, URIRef(property_uri), Literal(access_text,
+                                                                               datatype=property_description[
+                                                                                   "range"])))
 
                 elif property_description["range"] in self._model.XSD_TYPES:
-                    self.graph.add((parent_node, URIRef(property_uri), Literal(new_payload_item, datatype=property_description[
-                        "range"])))  # add the new payload as the value
+                    # add the new payload as the value
+                    self.graph.add((parent_node, URIRef(property_uri), Literal(new_payload_item,
+                                                                               datatype=property_description[
+                                                                                   "range"])))
                 elif property_description["range"] in self._model.ROLE_TYPES or property_uri == self._model.MENTIONS:
                     # In these cases, we have a person or organisation linked via a role,
                     # so we first need to create a node for the  person or organisation
