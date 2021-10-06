@@ -8,19 +8,19 @@ on:
 jobs:
   test:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
     - uses: actions/checkout@v1
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v1
+    - name: Set up Python 3.6
+      uses: actions/setup-python@v2
       with:
-        python-version: 3.7
-    - name: Install pipenv
-      uses: dschep/install-pipenv-action@v1
+        python-version: 3.6
+    - name: Install pipenv with command
+      run: pip install pipenv
     - name: Install dependencies
       run: |
-        pipenv install --dev --three
+        pipenv install --dev --python 3.6
     - name: Test with pytest
       run: |
         cp src/settings-example.py src/settings.py
