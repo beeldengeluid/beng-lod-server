@@ -161,7 +161,7 @@ class DatasetSheetImporter:
     def _init_namespaces(self):
         """ Init the data catalog Graph with the right namespaces.
         """
-        self._data_catalog.bind('schema', SDO)
+        self._data_catalog.bind('sdo', SDO)
 
     def _init_data_catalog(self):
         """ Read the values from a Google spreadsheet. Convert every row into a dict using the
