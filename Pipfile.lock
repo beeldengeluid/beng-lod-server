@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7527f8ff65d85e01b814747e72acf6a9dff5377b7db2c5d83c2c9f8ededa7276"
+            "sha256": "f373d73c6925443b2fab11b20094b0c7d1014ca0abd490888f4c2bf610a2f1c6"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -188,7 +188,7 @@
         },
         "jsonschema": {
             "git": "https://github.com/Julian/jsonschema.git",
-            "ref": "e61dcbcb2a156b8d517c4ee7ea08c8e9e2acfb35"
+            "ref": "86e41f326fdfe6fdcaa50d40cb40389faace7395"
         },
         "lxml": {
             "hashes": [
