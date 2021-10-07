@@ -6,6 +6,7 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+setuptools = "<58"
 lxml = "==4.6.3"
 pytest = "==4.3.0"
 mockito = "==1.2.2"
@@ -29,5 +30,3 @@ rdflib-jsonld = "==0.5.0"
 
 [requires]
 python_version = "3.6"
-
-setuptools = "<58"
