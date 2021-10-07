@@ -1,13 +1,14 @@
 from flask_restx import Api
-from .lod.lod_api import api as lodAPI
+from .lod.dataset_api import api as dataset_api
+from .lod.resource_api import api as resource_api
+from .lod.concept_api import api as concept_api
 
 apiVersion = 'v0.3'
-basePath = '/'
+base_path = '/'
 
 api = Api(version=apiVersion)
 
-api.add_namespace(lodAPI, path='%s' % basePath)
-
-
-# # # TODO: find out if this Flask extension is better suited for the LOD server:
-# # # https://flask-restful.readthedocs.io/en/latest/extending.html#content-negotiation
+#TODO figure out to add/remove namespace based on settings (current_app cannot be used here)
+api.add_namespace(dataset_api, path='%s' % base_path)
+api.add_namespace(resource_api, path='%s' % base_path)
+api.add_namespace(concept_api, path='%s' % base_path)
