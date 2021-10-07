@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "fec7f6633206d119ad977fc08a24c28263c30f279261ab4505a531da76b7ea11"
+            "sha256": "7527f8ff65d85e01b814747e72acf6a9dff5377b7db2c5d83c2c9f8ededa7276"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -187,12 +187,8 @@
             "version": "==3.0.2"
         },
         "jsonschema": {
-            "hashes": [
-                "sha256:48f4e74f8bec0c2f75e9fcfffa264e78342873e1b57e2cfeae54864cc5e9e4dd",
-                "sha256:9938802041347f2c62cad2aef59e9a0826cd34584f3609db950efacb4dbf6518"
-            ],
-            "index": "pypi",
-            "version": "==4.0.1"
+            "git": "https://github.com/Julian/jsonschema.git",
+            "ref": "e61dcbcb2a156b8d517c4ee7ea08c8e9e2acfb35"
         },
         "lxml": {
             "hashes": [
