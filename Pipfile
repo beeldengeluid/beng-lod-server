@@ -6,28 +6,20 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-lxml = "==4.6.3"
-pytest = "==4.3.0"
-mockito = "==1.2.2"
-Flask = "==1.0.2"
-Flask-Cors = "==3.0.9"
+lxml = "*"
+pytest = "*"
+mockito = "*"
+Flask-Cors = "*"
 xmltodict = "*"
 flask-restx = "*"
 ontospy = "*"
 pygments = "*"
 flask-caching = "*"
-flask-accept = "*"
-jsonschema = "==3.0.2"
+jsonschema = "*"
 google-api-python-client = "*"
 google-auth-httplib2 = "*"
 google-auth-oauthlib = "*"
-urllib3 = ">=1.26.5"
+urllib3 = "*"
 requests = "*"
-Django = ">=3.1.13"
-rdflib = "==5.0.0"
-rdflib-jsonld = "==0.5.0"
-
-[requires]
-python_version = "3.6"
-
-setuptools = "<58"
+rdflib = "*"
+keepalive = "*"
