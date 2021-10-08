@@ -28,7 +28,7 @@ jobs:
       run: |
         cp src/settings-example.py src/settings.py
         pipenv install pytest pytest-cov --dev
-        pipenv run pytest src/tests/unit_tests
+        pipenv run pytest --cov src/tests/unit_tests
     - name: Lint with flake8
       run: |
         pipenv install flake8
