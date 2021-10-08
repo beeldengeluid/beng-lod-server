@@ -7,7 +7,7 @@ from cache import cache
 from rdflib import URIRef, Literal
 from rdflib import Graph
 from rdflib.namespace import Namespace, RDF
-from apis.api_util import MimeType
+from apis.mime_type_util import MimeType
 
 SDO = Namespace('https://schema.org/')
 

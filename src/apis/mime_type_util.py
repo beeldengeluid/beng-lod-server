@@ -28,9 +28,9 @@ def accept_type_to_mime_type(accept_type:str) -> MimeType:
         if accept_type.find('rdf+xml') != -1:
             mt = MimeType.RDF_XML
         elif accept_type.find('json+ld') != -1:
-            mt = Mimetyp.JSON_LD
+            mt = MimeType.JSON_LD
         elif accept_type.find('json') != -1:
-            mt = Mimetyp.JSON_LD
+            mt = MimeType.JSON_LD
         elif accept_type.find('turtle') != -1:
             mt = MimeType.TURTLE
         elif accept_type.find('n3') != -1:

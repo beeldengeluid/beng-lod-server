@@ -1,6 +1,6 @@
 from flask import current_app, request, Response
 from flask_restx import Namespace, fields, Resource
-from apis.api_util import parse_accept_header, MimeType, get_profile_by_uri
+from apis.mime_type_util import parse_accept_header, MimeType, get_profile_by_uri
 
 api = Namespace('resource', description='Resources in RDF for Netherlands Institute for Sound and Vision.')
 

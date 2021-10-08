@@ -2,7 +2,7 @@ from flask import current_app, request, Response
 from flask_restx import Namespace, fields, Resource
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
 from urllib.parse import urlparse, urlunparse
-from apis.api_util import parse_accept_header, MimeType
+from apis.mime_type_util import parse_accept_header, MimeType
 
 api = Namespace('dataset', description='Datasets in RDF for Netherlands Institute for Sound and Vision.')
 

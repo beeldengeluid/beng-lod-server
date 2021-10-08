@@ -1,7 +1,7 @@
 from flask import current_app, request, Response
 from flask_restx import Namespace, fields, Resource
 from apis.concept.LODHandlerConcept import LODHandlerConcept
-from apis.api_util import accept_type_to_mime_type, ld_to_mimetype_map
+from apis.mime_type_util import accept_type_to_mime_type, ld_to_mimetype_map
 
 api = Namespace('concept', description='Concepts in RDF for Netherlands Institute for Sound and Vision.')
 
