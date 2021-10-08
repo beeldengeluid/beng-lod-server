@@ -25,7 +25,7 @@ def triples_to_string(triples, mime_type=MimeType.JSON_LD):
         g.add(triple)
     return g.serialize(format=mime_type.value,
                        context=dict(g.namespaces()),
-                       auto_compact=True).decode("utf-8")
+                       auto_compact=True)
 
 class DataCatalogLODHandler:
     """ Handles requests from the beng-lod server for data catalogs, datasets, datadownloads.
@@ -53,7 +53,7 @@ class DataCatalogLODHandler:
 
         # load the data from the file
         self._data_catalog = Graph()
-        self._data_catalog.parse(data_catalog_file, format=MimeType.TURTLE)
+        self._data_catalog.parse(data_catalog_file, format=MimeType.TURTLE.value)
 
     """-------------NDE requirements validation----------------------"""
 
@@ -124,7 +124,7 @@ class DataCatalogLODHandler:
 
     """------------LOD Handler functions---------------"""
 
-    def get_data_download(self, data_download_id, mime_format=MimeType.JSON_LD):
+    def get_data_download(self, data_download_id, mime_format=MimeType.JSON_LD.value):
         """ Get the triples for a DataDownload.
         :param data_download_id: the id of a DataDownload, originating from the spreadsheet. Must be a URI.
         :param mime_format: mime_type for the data response.
@@ -141,14 +141,14 @@ class DataCatalogLODHandler:
             g.add(triple)
 
         # now return the collected triples in the requested format
-        json_string = g.serialize(format=mime_format.value,
+        json_string = g.serialize(format=mime_format,
                                   context=dict(self._data_catalog.namespaces()),
-                                  auto_compact=True).decode("utf-8")
+                                  auto_compact=True)
         if json_string:
             return APIUtil.toSuccessResponse(json_string)
         return APIUtil.toErrorResponse('bad_request', 'Invalid URI or return format')
 
-    def get_data_catalog(self, data_catalog_uri, mime_format=MimeType.JSON_LD):
+    def get_data_catalog(self, data_catalog_uri, mime_format=MimeType.JSON_LD.value):
         """ Returns the data from the data catalog graph in requested serialization format.
         :param data_catalog_uri: the identifier for the data catalog
         :param mime_format: the requested mime type for the graph data. Defaults to JSON-LD.
@@ -180,14 +180,14 @@ class DataCatalogLODHandler:
                     g.add(triple)
 
         # now return the collected triples in the requested format
-        json_string = g.serialize(format=mime_format.value,
+        json_string = g.serialize(format=mime_format,
                                   context=dict(self._data_catalog.namespaces()),
-                                  auto_compact=True).decode("utf-8")
+                                  auto_compact=True)
         if json_string:
             return APIUtil.toSuccessResponse(json_string)
         return APIUtil.toErrorResponse('bad_request', 'Invalid URI or return format')
 
-    def get_dataset(self, dataset_uri, mime_format=MimeType.JSON_LD):
+    def get_dataset(self, dataset_uri, mime_format=MimeType.JSON_LD.value):
         """ Returns the data from the data catalog graph in requested serialization format.
         :param dataset_uri: the identifier for the dataset
         :param mime_format: the requested mime type for the graph data. Defaults to JSON-LD.
@@ -215,9 +215,9 @@ class DataCatalogLODHandler:
             for triple in self.triples_organization(organization_id=organization_id):
                 g.add(triple)
 
-        json_string = g.serialize(format=mime_format.value,
+        json_string = g.serialize(format=mime_format,
                                   context=dict(self._data_catalog.namespaces()),
-                                  auto_compact=True).decode("utf-8")
+                                  auto_compact=True)
         if json_string:
             return APIUtil.toSuccessResponse(json_string)
         return APIUtil.toErrorResponse('bad_request', 'Invalid URI or return format')
