@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import os.path
 from util.APIUtil import APIUtil
-from util.DatasetSheetImporter import DatasetSheetImporter
+from importer.DatasetSheetImporter import DatasetSheetImporter
 from cache import cache
 from rdflib import URIRef, Literal
 from rdflib import Graph
@@ -34,6 +34,7 @@ class DataCatalogLODHandler:
         from a Google spreadsheet, that is the source of all datasets.
     """
 
+    #TODO pass the profile from the settings rather than hardcoding SDO!
     def __init__(self, app_config=None):
         if app_config is None:
             return

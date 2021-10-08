@@ -13,6 +13,7 @@ from pathlib import Path
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
+#TODO pass the profile from the settings rather than hardcoding SDO!
 SDO = Namespace('https://schema.org/')
 
 
@@ -87,7 +88,7 @@ def get_object_for_value(value, field):
         if value != ''
     ]
 
-
+#TODO pass the profile from the settings rather than hardcoding SDO!
 class DatasetSheetImporter:
     """ Connect to a spreadsheet using Google Sheet API.
     Get the DataCatalog, Dataset, DataDownload and Organization information and put it in a Graph.
