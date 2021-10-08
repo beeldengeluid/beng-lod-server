@@ -1,8 +1,8 @@
 from flask import current_app, request, Response
 from flask_restx import Namespace, fields, Resource
-from apis.lod.DataCatalogLODHandler import DataCatalogLODHandler
+from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
 from urllib.parse import urlparse, urlunparse
-from apis.api_util import parse_accept_header, mimetype_to_ld
+from apis.api_util import parse_accept_header, MimeType
 
 api = Namespace('dataset', description='Datasets in RDF for Netherlands Institute for Sound and Vision.')
 
@@ -32,16 +32,15 @@ class LODDatasetAPI(Resource):
         All triples for the Dataset and its DataDownloads are included.
         """
         mime_type, accept_profile = parse_accept_header(request.headers.get('Accept'))
-        ld_format = mimetype_to_ld(mime_type)
         dataset_uri = prepare_beng_uri(path=f'id/dataset/{number}')
 
         resp, status_code, headers = DataCatalogLODHandler(app_config=current_app.config).get_dataset(
-            dataset_uri, mime_format=ld_format
+            dataset_uri, mime_format=mime_type.to_ld_format()
         )
 
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:
-            return Response(resp, mimetype=mime_type, headers=headers)
+            return Response(resp, mimetype=mime_type.value, headers=headers)
 
         # otherwise resp SHOULD be a json error message and thus the response can be returned like this
         return resp, status_code, headers
@@ -62,16 +61,15 @@ class LODDataCatalogAPI(Resource):
         All triples describing the DataCatalog and its Datasets are included.
         """
         mime_type, accept_profile = parse_accept_header(request.headers.get('Accept'))
-        ld_format = mimetype_to_ld(mime_type)
         data_catalog_uri = prepare_beng_uri(path=f'id/datacatalog/{number}')
 
         resp, status_code, headers = DataCatalogLODHandler(
             app_config=current_app.config
-        ).get_data_catalog(data_catalog_uri, mime_format=ld_format)
+        ).get_data_catalog(data_catalog_uri, mime_format=mime_type.to_ld_format())
 
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:
-            return Response(resp, mimetype=mime_type, headers=headers)
+            return Response(resp, mimetype=mime_type.value, headers=headers)
 
         # otherwise resp SHOULD be a json error message and thus the response can be returned like this
         return resp, status_code, headers
@@ -91,16 +89,15 @@ class LODDataDownloadAPI(Resource):
         """ Get the RDF for the DataDownload.
         """
         mime_type, accept_profile = parse_accept_header(request.headers.get('Accept'))
-        ld_format = mimetype_to_ld(mime_type)
         data_download_uri = prepare_beng_uri(path=f'id/datadownload/{number}')
 
-        resp, status_code, headers = DataCatalogLODHandler(app_config=current_app.config
-                                                           ).get_data_download(data_download_uri,
-                                                                               mime_format=ld_format)
+        resp, status_code, headers = DataCatalogLODHandler(
+            app_config=current_app.config
+        ).get_data_download(data_download_uri, mime_format=mime_type.to_ld_format())
 
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:
-            return Response(resp, mimetype=mime_type, headers=headers)
+            return Response(resp, mimetype=mime_type.value, headers=headers)
 
         # otherwise resp SHOULD be a json error message and thus the response can be returned like this
         return resp, status_code, headers

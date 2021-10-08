@@ -6,7 +6,7 @@ from rdflib import URIRef, Literal, BNode
 from util.APIUtil import APIUtil
 from models.BaseRdfConcept import BaseRdfConcept
 from cache import cache
-from apis.lod.DAANSchemaImporter import DAANSchemaImporter
+from importer.DAANSchemaImporter import DAANSchemaImporter
 
 
 class NISVRdfConcept(BaseRdfConcept):

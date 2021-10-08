@@ -1,6 +1,6 @@
 from flask import current_app, request, Response
 from flask_restx import Namespace, fields, Resource
-from apis.api_util import parse_accept_header, mimetype_to_ld, get_profile_by_uri
+from apis.api_util import parse_accept_header, MimeType, get_profile_by_uri
 
 api = Namespace('resource', description='Resources in RDF for Netherlands Institute for Sound and Vision.')
 
@@ -19,22 +19,27 @@ def get_lod_resource(level, identifier, mime_type, accept_profile, app_config):
         NOTE: Abuse the Accept header with additional parameter:
         Example: Accept: application/ld+json; profile="http://schema.org"
     """
+    mt = None
+    try:
+        mt = MimeType(mime_type)
+    except ValueError as e:
+        mt = MimeType.JSON_LD
+
     profile = get_profile_by_uri(accept_profile, app_config)
-    ld_format = mimetype_to_ld(mime_type)
 
     resp, status_code, headers = profile['storage_handler'](app_config, profile).get_storage_record(
         level,
         identifier,
-        ld_format
+        mt.to_ld_format()
     )
     # make sure to apply the correct mimetype for valid responses
     if status_code == 200:
-        content_type = mime_type
+        content_type = mt.value
         if headers.get('Content-Type') is not None:
             content_type = headers.get('Content-Type')
         profile_param = '='.join(['profile', '"{}"'.format(profile['schema'])])
         headers['Content-Type'] = ';'.join([content_type, profile_param])
-        return Response(resp, mimetype=mime_type, headers=headers)
+        return Response(resp, mimetype=mt.value, headers=headers)
     return Response(resp, status_code, headers=headers)
 
 @api.doc(responses={
