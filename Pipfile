@@ -21,6 +21,7 @@ google-auth-oauthlib = "*"
 urllib3 = "*"
 requests = "*"
 rdflib = {editable = true,git = "https://github.com/rdflib/rdflib.git",ref = "6.0.1"}
+flask = "*"
 
 [requires]
 python_version = "3.7"
