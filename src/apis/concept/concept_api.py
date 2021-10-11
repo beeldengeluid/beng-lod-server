@@ -5,6 +5,7 @@ from apis.mime_type_util import accept_type_to_mime_type, ld_to_mimetype_map
 
 api = Namespace('concept', description='Concepts in RDF for Netherlands Institute for Sound and Vision.')
 
+
 @api.route('concept/<set_code>/<notation>', endpoint='concept')
 class LODConceptAPI(Resource):
     LD_TO_MIME_TYPE = ld_to_mimetype_map()

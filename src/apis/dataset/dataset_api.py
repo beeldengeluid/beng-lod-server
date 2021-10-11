@@ -8,11 +8,13 @@ api = Namespace('dataset', description='Datasets in RDF for Netherlands Institut
 
 """ --------------------------- RESOURCE ENDPOINT -------------------------- """
 
+
 def prepare_beng_uri(path):
     """ Use the domain and the path given to construct a proper Beeld en Geluid URI. """
     parts = urlparse(current_app.config['BENG_DATA_DOMAIN'])
     new_parts = (parts.scheme, parts.netloc, path, None, None, None)
     return urlunparse(new_parts)
+
 
 @api.doc(responses={
     200: 'Success',
@@ -45,6 +47,7 @@ class LODDatasetAPI(Resource):
         # otherwise resp SHOULD be a json error message and thus the response can be returned like this
         return resp, status_code, headers
 
+
 @api.doc(responses={
     200: 'Success',
     400: 'Bad request.',
@@ -73,6 +76,7 @@ class LODDataCatalogAPI(Resource):
 
         # otherwise resp SHOULD be a json error message and thus the response can be returned like this
         return resp, status_code, headers
+
 
 @api.doc(responses={
     200: 'Success',

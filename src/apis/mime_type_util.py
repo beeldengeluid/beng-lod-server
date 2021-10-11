@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class MimeType(Enum):
     JSON_LD = 'application/ld+json'
     RDF_XML = 'application/rdf+xml'
@@ -23,6 +24,7 @@ class MimeType(Enum):
             return 'json-ld'
         return None
 
+
 def accept_type_to_mime_type(accept_type:str) -> MimeType:
         mt = MimeType.RDF_XML
         if accept_type.find('rdf+xml') != -1:
@@ -37,11 +39,13 @@ def accept_type_to_mime_type(accept_type:str) -> MimeType:
             mt = MimeType.N3
         return mt
 
+
 def ld_to_mimetype_map():
     ld_to_mt = {}
     for mt in MimeType:
         ld_to_mt[mt.to_ld_format()] = mt
     return ld_to_mt
+
 
 def get_profile_by_uri(profile_uri, app_config):
     for p in app_config['PROFILES']:
@@ -50,7 +54,8 @@ def get_profile_by_uri(profile_uri, app_config):
     else:  # otherwise return the default profile
         return app_config['ACTIVE_PROFILE']
 
-def parse_accept_header(accept_header:str) -> MimeType:
+
+def parse_accept_header(accept_header: str) -> MimeType:
     """ Parses an Accept header for a request for RDF to the server. It returns the mime_type and profile.
     :param: accept_header: the Accept parameter from the HTTP request.
     :returns: mime_type, accept_profile. None if input parameter is missing.

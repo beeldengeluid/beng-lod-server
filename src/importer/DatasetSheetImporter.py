@@ -13,7 +13,7 @@ from pathlib import Path
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
-#TODO pass the profile from the settings rather than hardcoding SDO!
+# TODO pass the profile from the settings rather than hardcoding SDO!
 SDO = Namespace('https://schema.org/')
 
 
@@ -88,7 +88,8 @@ def get_object_for_value(value, field):
         if value != ''
     ]
 
-#TODO pass the profile from the settings rather than hardcoding SDO!
+
+# TODO pass the profile from the settings rather than hardcoding SDO!
 class DatasetSheetImporter:
     """ Connect to a spreadsheet using Google Sheet API.
     Get the DataCatalog, Dataset, DataDownload and Organization information and put it in a Graph.
@@ -266,7 +267,7 @@ if __name__ == '__main__':
     #                     level=logging.DEBUG,
     #                     format='%(asctime)s %(levelname)s: %(message)s')
 
-    #this does not work, the settings are not on the path, src.settings works on Windows apparently
+    # this does not work, the settings are not on the path, src.settings works on Windows apparently
     from settings import Config
     s2j = DatasetSheetImporter(config=Config)
     s2j.write_data_catalog_to_file()
