@@ -1,8 +1,9 @@
 from flask import current_app, request, Response
-from flask_restx import Namespace, fields, Resource
+from flask_restx import Namespace, Resource
 from apis.mime_type_util import parse_accept_header, MimeType, get_profile_by_uri
 
 api = Namespace('resource', description='Resources in RDF for Netherlands Institute for Sound and Vision.')
+
 
 def get_lod_resource(level, identifier, mime_type, accept_profile, app_config):
     """ Generates the expected data based on the mime_type.
@@ -41,6 +42,7 @@ def get_lod_resource(level, identifier, mime_type, accept_profile, app_config):
         headers['Content-Type'] = ';'.join([content_type, profile_param])
         return Response(resp, mimetype=mt.value, headers=headers)
     return Response(resp, status_code, headers=headers)
+
 
 @api.doc(responses={
     200: 'Success',

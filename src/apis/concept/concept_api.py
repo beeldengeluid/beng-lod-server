@@ -1,5 +1,5 @@
 from flask import current_app, request, Response
-from flask_restx import Namespace, fields, Resource
+from flask_restx import Namespace, Resource
 from apis.concept.LODHandlerConcept import LODHandlerConcept
 from apis.mime_type_util import accept_type_to_mime_type, ld_to_mimetype_map
 
