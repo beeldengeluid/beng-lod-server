@@ -37,10 +37,13 @@ class LODHandlerConcept(object):
 	def get_concept_data(uri, return_format=None):
 		graph = Graph()
 		try:
-			graph.load(uri)
+			# uri = 'http://www.w3.org/People/Berners-Lee/card'
+			# TODO: fix this issue in rdflib: https://github.com/RDFLib/rdflib/issues/1430
+			graph.parse(uri, format='xml')  # Note that OpenSKOS can only return RDF+XML
 		except URLError as e:
 			return None
 		except FileNotFoundError as e:
+			print(f'{str(e)}')
 			return None
 
 		try:
