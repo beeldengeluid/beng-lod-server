@@ -2,7 +2,7 @@ from flask import Flask, request, Response, send_from_directory, redirect, rende
 from flask_cors import CORS
 import os
 from apis import api
-from ontodoc import ontodoc
+#from ontodoc import ontodoc
 from SchemaInMemory import SchemaInMemory
 from util.APIUtil import APIUtil
 from cache import cache
@@ -41,7 +41,7 @@ def server_init():
     for p in app.config['PROFILES']:
         if 'prefix' in p and 'schema' in p and p['schema']:
             # generate the ontospy HTML for the configured profile
-            generate_ontospy_html(p)
+            #generate_ontospy_html(p)
             # schema in memory
             p['sim'] = SchemaInMemory(profile=p)
 
@@ -49,14 +49,14 @@ def server_init():
 def get_profile_dir(profile):
     return 'static/ontospy/{}'.format(profile['prefix']) if 'prefix' in profile else None
 
-
+"""
 def generate_ontospy_html(profile):
     if 'schema' in profile and 'prefix' in profile:
         profile_dir = get_profile_dir(profile)
         if profile_dir and not os.path.exists(profile_dir):
             print('Generating ontospy HTML for {}'.format(profile['prefix']))
             ontodoc(ontology_file=profile['schema'], output_path=profile_dir, profile=profile)
-
+"""
 
 api.init_app(
     app,

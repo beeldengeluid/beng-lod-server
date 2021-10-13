@@ -1,6 +1,6 @@
 import pytest
 from mockito import when, unstub
-from apis.lod.SDOStorageLODHandler import SDOStorageLODHandler
+from apis.resource.SDOStorageLODHandler import SDOStorageLODHandler
 from util.APIUtil import APIUtil
 
 """ ------------------------ fetchDocument -----------------------"""

@@ -8,24 +8,24 @@ on:
 jobs:
   test:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
     - uses: actions/checkout@v1
     - name: Set up Python 3.7
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v2
       with:
         python-version: 3.7
-    - name: Install pipenv
-      uses: dschep/install-pipenv-action@v1
+    - name: Install pipenv with command
+      run: pip install pipenv
     - name: Install dependencies
       run: |
-        pipenv install --dev --three
+        pipenv install --dev --python 3.7
     - name: Test with pytest
       run: |
         cp src/settings-example.py src/settings.py
         pipenv install pytest pytest-cov --dev
-        pipenv run pytest src/tests/unit_tests
+        pipenv run pytest --cov src/tests/unit_tests
     - name: Lint with flake8
       run: |
         pipenv install flake8

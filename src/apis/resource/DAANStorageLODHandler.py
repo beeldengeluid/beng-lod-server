@@ -1,6 +1,5 @@
 from models.DAANJsonModel import DAAN_TYPE, ObjectType, isSceneDescription
-from apis.lod.StorageLODHandler import StorageLODHandler
-
+from apis.resource.StorageLODHandler import StorageLODHandler
 
 class DAANStorageLODHandler(StorageLODHandler):
     """ STORAGE API serves catalogue data on a URL,

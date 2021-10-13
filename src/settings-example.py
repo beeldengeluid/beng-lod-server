@@ -1,5 +1,5 @@
-from apis.lod.DAANStorageLODHandler import DAANStorageLODHandler
-from apis.lod.SDOStorageLODHandler import SDOStorageLODHandler
+from apis.resource.DAANStorageLODHandler import DAANStorageLODHandler
+from apis.resource.SDOStorageLODHandler import SDOStorageLODHandler
 
 
 class Config(object):
@@ -11,6 +11,8 @@ class Config(object):
     CACHE_TYPE = 'SimpleCache'
 
     STORAGE_BASE_URL = 'http://prd-app-bng-01.beeldengeluid.nl:8101/'
+
+    ENABLED_ENDPOINTS = ['resource', 'concept', 'dataset'] # allow all by default
 
     PROFILES = [
         {

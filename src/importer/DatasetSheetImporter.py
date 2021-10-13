@@ -124,20 +124,23 @@ class DatasetSheetImporter:
     def write_turtle(self, turtle_file=None):
         """ Serialize the whole data catalog Graph to a Turtle file"""
         if turtle_file is not None:
-            with open(turtle_file, 'w') as f:
-                f.write(self.graph_as_string(serialization_format='turtle'))
+            self.graph_to_file(destination=turtle_file, serialization_format='turtle')
 
     def write_json_ld(self, json_ld_file=None):
         """ Serialize the whole data catalog Graph to a JSON-LD file.
         """
         if json_ld_file is not None:
-            with open(json_ld_file, 'w') as f:
-                f.write(self.graph_as_string())
+            self.graph_to_file(destination=json_ld_file)
 
-    def graph_as_string(self, serialization_format='json-ld'):
-        return self._data_catalog.serialize(format=serialization_format,
-                                            context=dict(self._data_catalog.namespaces()),
-                                            auto_compact=True).decode("utf-8")
+    def graph_to_file(self, serialization_format='json-ld', destination=None):
+        """ Uses the graph's serialize method to write to file.
+        Note that when destination is None the serialize method returns a string or bytes.
+        """
+        self._data_catalog.serialize(destination=destination,
+                                     format=serialization_format,
+                                     context=dict(self._data_catalog.namespaces()),
+                                     encoding='utf-8',
+                                     auto_compact=True)
 
     def list_of_dict_to_graph(self, list_of_dict):
         """ Generate triples and add to the data catalog graph.
@@ -161,7 +164,7 @@ class DatasetSheetImporter:
     def _init_namespaces(self):
         """ Init the data catalog Graph with the right namespaces.
         """
-        self._data_catalog.bind('schema', SDO)
+        self._data_catalog.bind('sdo', SDO)
 
     def _init_data_catalog(self):
         """ Read the values from a Google spreadsheet. Convert every row into a dict using the
@@ -265,7 +268,7 @@ if __name__ == '__main__':
     #                     level=logging.DEBUG,
     #                     format='%(asctime)s %(levelname)s: %(message)s')
 
-    #this does not work, the settings are not on the path, src.settings works on Windows apparently
+    # this does not work, the settings are not on the path, src.settings works on Windows apparently
     from settings import Config
     s2j = DatasetSheetImporter(config=Config)
     s2j.write_data_catalog_to_file()

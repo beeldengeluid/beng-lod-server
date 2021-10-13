@@ -6,24 +6,22 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-lxml = "==4.6.3"
-rdflib = "==4.2.2"
-rdflib-jsonld = "==0.4.0"
-pytest = "==4.3.0"
-mockito = "==1.1.1"
-Flask = "==1.0.2"
-Flask-Cors = "==3.0.9"
+lxml = "*"
+pytest = "*"
+mockito = "*"
+Flask-Cors = "*"
 xmltodict = "*"
 flask-restx = "*"
-ontospy = "*"
-django = "==3.1.12"
 pygments = "*"
 flask-caching = "*"
-flask-accept = "*"
-jsonschema = "==3.0.2"
+jsonschema = {git = "https://github.com/Julian/jsonschema.git",ref = "v4.0.0"}
 google-api-python-client = "*"
 google-auth-httplib2 = "*"
 google-auth-oauthlib = "*"
-urllib3 = ">=1.26.5"
+urllib3 = "*"
 requests = "*"
-setuptools = "<58"
+rdflib = "*"
+flask = "*"
+
+[requires]
+python_version = "3.7"

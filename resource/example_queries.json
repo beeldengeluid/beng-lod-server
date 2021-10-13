@@ -25,6 +25,10 @@
     {
       "title":  "Online te bekijken/beluisteren.",
       "query": "PREFIX sdo: <https://schema.org/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n# Toon alleen items die ook op GPP te bekijken/beluisteren zijn.\nSELECT DISTINCT ?item \nWHERE {\n  ?item rdf:type sdo:CreativeWork .\n  ?item sdo:conditionsOfAccess ?show_browse\n  FILTER(CONTAINS(?show_browse, 'True'))\n} LIMIT 10"
+    },
+    {
+      "title": "Items over bepaald onderwerp, die online afspeelbaar zijn",
+      "query": "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\nPREFIX sdo: <https://schema.org/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n# Toon alleen items die ook op GPP te bekijken/beluisteren zijn.\nSELECT DISTINCT ?item ?url_gpp ?prefLabel\nWHERE {\n  VALUES ?prefLabel {\n    \"invasies\"@nl\n#    \"Jodenvervolging\"@nl\n    #  \"Tweede Wereldoorlog\"@nl\n  }\n  ?item rdf:type sdo:CreativeWork .\n  ?item sdo:conditionsOfAccess ?show_browse .\n  ?item sdo:url ?url_gpp .\n  ?item (sdo:about|sdo:mentions)/skos:prefLabel ?prefLabel\n  FILTER(CONTAINS(?show_browse, 'True'))\n} LIMIT 10"
     }
   ]
 }
