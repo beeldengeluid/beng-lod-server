@@ -20,7 +20,7 @@ google-auth-httplib2 = "*"
 google-auth-oauthlib = "*"
 urllib3 = "*"
 requests = "*"
-rdflib = {editable = true,git = "https://github.com/rdflib/rdflib.git",ref = "6.0.1"}
+rdflib = "*"
 flask = "*"
 
 [requires]
