@@ -6,7 +6,7 @@ from rdflib import URIRef, Literal, BNode
 from util.APIUtil import APIUtil
 from models.BaseRdfConcept import BaseRdfConcept
 from cache import cache
-from apis.lod.DAANSchemaImporter import DAANSchemaImporter
+from importer.DAANSchemaImporter import DAANSchemaImporter
 
 
 class NISVRdfConcept(BaseRdfConcept):
@@ -17,7 +17,7 @@ class NISVRdfConcept(BaseRdfConcept):
         super().__init__(profile, model=DAANRdfModel)
         # self.graph.namespace_manager.bind(self._model.NISV_DATA_PREFIX,
         # use a default namespace
-        self.graph.namespace_manager.bind('@vocab',
+        self.graph.namespace_manager.bind('sdo',
                                           Namespace(self._model.NISV_SCHEMA_NAMESPACE))
         self.profile = profile
         if "schema" not in self.profile or "mapping" not in self.profile:

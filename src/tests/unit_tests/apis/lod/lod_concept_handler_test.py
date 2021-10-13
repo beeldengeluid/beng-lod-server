@@ -1,6 +1,6 @@
 import pytest
 from mockito import when, unstub
-from apis.lod.LODHandlerConcept import LODHandlerConcept
+from apis.concept.LODHandlerConcept import LODHandlerConcept
 from util.APIUtil import APIUtil
 
 """ ------------------------ fetchDocument -----------------------"""
