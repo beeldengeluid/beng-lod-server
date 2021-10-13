@@ -19,17 +19,6 @@ def get_data_catalog_file(app_config):
     return os.path.abspath(app_config['DATA_CATALOG_FILE'])
 
 
-def triples_to_string(triples, mime_type=MimeType.JSON_LD):
-    """ Gets triple from a rdflib slice. Returns the string. """
-    g = Graph()
-    g.bind('sdo', SDO)
-    for triple in triples:
-        g.add(triple)
-    return g.serialize(format=mime_type.value,
-                       context=dict(g.namespaces()),
-                       auto_compact=True)
-
-
 class DataCatalogLODHandler:
     """ Handles requests from the beng-lod server for data catalogs, datasets, datadownloads.
         The only data model/ontology this data is available in is schema.org. In contrast with the resource
