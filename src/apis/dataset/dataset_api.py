@@ -55,7 +55,7 @@ class LODDatasetAPI(Resource):
     406: 'Not Acceptable. The requested format in the Accept header is not supported by the server.'
 })
 @api.route('id/datacatalog/<number>', endpoint='data_catalogs')
-@api.doc(params={'number': {'description': 'Enter a zero padded 3 digit integer value.', 'in': 'number'}})
+@api.doc(params={'number': {'description': 'Enter a zero padded 4 digit integer value.', 'in': 'number'}})
 class LODDataCatalogAPI(Resource):
 
     @api.response(404, 'Resource does not exist error')
