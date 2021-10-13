@@ -13,7 +13,6 @@ from pathlib import Path
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
-# TODO pass the profile from the settings rather than hardcoding SDO!
 SDO = Namespace('https://schema.org/')
 
 
@@ -89,7 +88,6 @@ def get_object_for_value(value, field):
     ]
 
 
-# TODO pass the profile from the settings rather than hardcoding SDO!
 class DatasetSheetImporter:
     """ Connect to a spreadsheet using Google Sheet API.
     Get the DataCatalog, Dataset, DataDownload and Organization information and put it in a Graph.
@@ -126,20 +124,23 @@ class DatasetSheetImporter:
     def write_turtle(self, turtle_file=None):
         """ Serialize the whole data catalog Graph to a Turtle file"""
         if turtle_file is not None:
-            with open(turtle_file, 'w') as f:
-                f.write(self.graph_as_string(serialization_format='turtle'))
+            self.graph_to_file(destination=turtle_file, serialization_format='turtle')
 
     def write_json_ld(self, json_ld_file=None):
         """ Serialize the whole data catalog Graph to a JSON-LD file.
         """
         if json_ld_file is not None:
-            with open(json_ld_file, 'w') as f:
-                f.write(self.graph_as_string())
+            self.graph_to_file(destination=json_ld_file)
 
-    def graph_as_string(self, serialization_format='json-ld'):
-        return self._data_catalog.serialize(format=serialization_format,
-                                            context=dict(self._data_catalog.namespaces()),
-                                            auto_compact=True).decode("utf-8")
+    def graph_to_file(self, serialization_format='json-ld', destination=None):
+        """ Uses the graph's serialize method to write to file.
+        Note that when destination is None the serialize method returns a string or bytes.
+        """
+        self._data_catalog.serialize(destination=destination,
+                                     format=serialization_format,
+                                     context=dict(self._data_catalog.namespaces()),
+                                     encoding='utf-8',
+                                     auto_compact=True)
 
     def list_of_dict_to_graph(self, list_of_dict):
         """ Generate triples and add to the data catalog graph.
