@@ -78,7 +78,7 @@ def etree_parse_doc():
 def application_settings():
     """ Returns the application settings."""
     app = Flask(__name__)
-    app.config.from_object('config.settings-example.Config')
+    app.config.from_object('config.settings_example.Config')
     app.config['ACTIVE_PROFILE'] = app.config['PROFILES'][0]
     return app.config
 
