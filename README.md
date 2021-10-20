@@ -15,7 +15,7 @@ pipenv install
 Copy the settings-example.py to settings.py:
 
 ```
-cp settings-example.py settings.py
+cp src/config/settings_example.py src/config/settings.py
 ```
 
 Then change the settings to your liking...
