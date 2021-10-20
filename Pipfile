@@ -4,11 +4,12 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pytest = "*"
+pytest-cov = "*"
+mockito = "*"
 
 [packages]
 lxml = "*"
-pytest = "*"
-mockito = "*"
 Flask-Cors = "*"
 xmltodict = "*"
 flask-restx = "*"
@@ -20,7 +21,6 @@ google-auth-oauthlib = "*"
 urllib3 = "*"
 requests = "*"
 rdflib = "*"
-flask = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"

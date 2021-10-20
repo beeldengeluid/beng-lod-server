@@ -13,6 +13,7 @@ resource/*/*.xml
 docs/
 schema/
 *.txt
+.coverage
 src/static/ontospy/*
 src/static/ontospy/README.md
 src/util/quickstart.py
