@@ -29,11 +29,12 @@ URL = SCHEMA_DOT_ORG_NAMESPACE + "url"
 CONDITIONS_OF_ACCESS = SCHEMA_DOT_ORG_NAMESPACE + "conditionsOfAccess"
 LICENSE = SCHEMA_DOT_ORG_NAMESPACE + "license"
 # TODO work out how to handle this, is no equivalent property
-#IS_PART_OF_PROGRAM = SCHEMA_DOT_ORG_NAMESPACE + "isPartOfProgram"
+# IS_PART_OF_PROGRAM = SCHEMA_DOT_ORG_NAMESPACE + "isPartOfProgram"
 
 # TODO: look at how to use the GTAA types
 # list of non-gtaa types, so we can use the correct namespace for concepts of this type
-NON_GTAA_TYPES = [SCHEMA_DOT_ORG_NAMESPACE + "TargetGroup", NISV_SCHEMA_NAMESPACE + "Broadcaster", NISV_SCHEMA_NAMESPACE + "BroadcastStation",
+NON_GTAA_TYPES = [SCHEMA_DOT_ORG_NAMESPACE + "TargetGroup", NISV_SCHEMA_NAMESPACE + "Broadcaster",
+                  NISV_SCHEMA_NAMESPACE + "BroadcastStation",
                   SCHEMA_DOT_ORG_NAMESPACE + "Language"]
 
 GTAA_NAMESPACE = "http://data.beeldengeluid.nl/gtaa/"
@@ -64,11 +65,8 @@ RS_EU_ORPHAN_WORK = 'http://rightsstatements.org/vocab/InC-OW-EU/1.0/'
 # RS_EDUCATIONAL_USE_PERMITTED = 'http://rightsstatements.org/vocab/InC-EDU/1.0/'
 # RS_CONTRACTUAL_RESTRICTIONS = 'http://rightsstatements.org/vocab/NoC-CR/1.0/'
 RS_COPYRIGHT_NOT_EVALUATED = 'http://rightsstatements.org/vocab/CNE/1.0/'
+RS_OTHER_LEGAL_RESTRICTIONS = 'http://rightsstatements.org/vocab/NoC-OKLR/1.0/'
 
-# # list of dutch public broadcast organizations
-# DUTCH_PUBLIC_BROADCASTERS = ['HUMAN', 'HV', 'HOS', 'Humanistische Omroep', 'MAX', 'OMROEP MAX', 'VPRO', 'NOS',
-#                              'NTS', 'NRU', 'NTR', 'NPS', 'Teleac', 'RVU', 'FEDUCO', 'FEDOCU', 'NOT', 'TELEAC',
-#                              'TELEAC/NOT', 'STV', 'EO', 'IKOR', 'IKON', 'NIK MEDIA', 'Joodse Omroep', 'JOODSE OMROEP',
-#                              'POWNED', 'AVRO/TROS', 'AVROTROS', 'AVRO', 'TROS', 'KRO-NCRV', 'KRO', 'NCRV', 'RKK',
-#                              'BOS', 'BNN', 'VARA', 'BNNVARA', 'WNL'
-#                              ]
+# Tweede Kamer license
+TK_AUDIOVISUAL_LICENSE = \
+    'https://www.tweedekamer.nl/sites/default/files/atoms/files/licentievoorwaarden_audiovisueel_materiaal_tweede_kamer.pdf'

@@ -48,55 +48,88 @@ class SDORdfConcept(BaseRdfConcept):
 
     def rights_to_license_uri(self, payload=None):
         """ Analyse the metadata, return a proper CC license.
-        :param payload: JSON metadata containing nisv.rightslicense and nisv.licensecondition.
+        This is an implementation of the rules in the beng-lod wiki page:
+        https://github.com/beeldengeluid/beng-lod-server/wiki/Rights-and-licenses-for-NISV-open-data
+        :param payload: JSON metadata.
         :returns: CC license or None if param not given or license not determined.
         """
         if payload is None:
             return None
+
+        # get the necessary metadata values to determine the right statuses
         rights_license = self._get_metadata_value(payload, 'nisv.rightslicense')
+        status = rights_license.get('resolved_value')
+        iprcombined = self._get_metadata_value(payload, 'nisv.iprcombined')
+        iprc = iprcombined.get('resolved_value') if isinstance(iprcombined, dict) else None
+        ethicalprivatecombined = self._get_metadata_value(payload, 'nisv.ethicalprivatecombined')
+        epc = ethicalprivatecombined.get('resolved_value') if isinstance(ethicalprivatecombined, dict) else None
+        collection_group_list = self._get_metadata_value(payload, 'nisv.collectionsgroup')
+        collection_group = ''
+        for collectionsgroup in collection_group_list:
+            collection_group_dir = collectionsgroup.get('collectionsgroup.dir') if isinstance(collectionsgroup, dict) \
+                else None
+            collection_group = collection_group_dir.get('resolved_value') if isinstance(collection_group_dir,
+                                                                                        dict) \
+                else None
 
-        # blocked
-        if rights_license == 'Blocked':
-            return self._model.RS_COPYRIGHT_NOT_EVALUATED
+        license_condition = self._get_metadata_value(payload, 'nisv.licensecondition')
+        cc_value = license_condition.get('resolved_value') if isinstance(license_condition, dict) else None
 
-        # required license
-        if rights_license == 'Required license':
+        # BLOCKED
+        if status == 'Blocked':
             raise NotImplementedError
 
-        # license check
-        if rights_license == 'License check':
-            maker_org = self._get_metadata_value(payload, 'nisv.makerorganization')
-            if maker_org in self._model.DUTCH_PUBLIC_BROADCASTERS:
-                return self._model.RS_IN_COPYRIGHT
+        # REQUIRED LICENSE
+        if status == 'Required license' and epc == '' and collection_group in ['Commerciële omroepen',
+                                                                               'Publieke omroepen',
+                                                                               'Regionale omroepen',
+                                                                               'Handelsplaten']:
+            return self._model.RS_IN_COPYRIGHT
+
+        if status == 'Required license' and epc == 'Required License' and iprc == 'Public domain':
+            return self._model.RS_OTHER_LEGAL_RESTRICTIONS
+
+        if status == 'Required license' and epc == 'Required license' and iprc == '':
             return self._model.RS_COPYRIGHT_NOT_EVALUATED
 
-        # license free - orphan status
-        if rights_license == 'Orphan status':
+        # LICENSE CHECK
+        if status == 'License check' and collection_group in ['Commerciële omroepen', 'Publieke omroepen',
+                                                              'Regionale omroepen', 'Handelsplaten']:
+            return self._model.RS_IN_COPYRIGHT
+
+        if status == 'License check' and collection_group in ['Tweede Kamer']:
+            return self._model.TK_AUDIOVISUAL_LICENSE
+
+        if status == 'License check' and collection_group in ['Beeld en Geluid', 'Overige']:
+            return self._model.RS_COPYRIGHT_NOT_EVALUATED
+
+        # LICENSE FREE - ORPHHAN STATUS
+        if status == 'License free - Orphan status':
             # NISV doesn't have any orphan works, so if we see this status return 'not evaluated'
             return self._model.RS_COPYRIGHT_NOT_EVALUATED
 
-        # license free - public domain
-        if rights_license == 'Public domain':
-            raise NotImplementedError
+        # LICENSE FREE - PUBLIC DOMAIN
+        if status == 'License free - Public domain' and epc == 'Required License':
+            return self._model.RS_OTHER_LEGAL_RESTRICTIONS
 
-        # license free - released by rights holder
-        if rights_license in ('Released by rightsholder', 'Released'):
-            # NB: released (will be replaced with 'license free')
-            # check the licenseconditions
-            license_condition = self._get_metadata_value(payload, 'nisv.licensecondition')
-            license_urls = []
-            if license_condition == '':
-                # case the license condition is not set
-                raise NotImplementedError
-            for license_value in license_condition:
-                # only two licenses are in the data
-                if license_value == 'CC-BY':
-                    license_urls.append(self._model.CC_BY)
-                elif license_value == 'CC-BY-SA':
-                    license_urls.append(self._model.CC_BY_SA)
+        if status == 'License free - Public domain' and epc == 'Assessed, not blocked':
+            return self._model.CC_PDM
 
-        # if not licenscondition is set => exception or additional logic
-        return self._model.RS_COPYRIGHT_NOT_EVALUATED
+        # RELEASED and LICENSE FREE - RELEASED BY RIGHTSHOLDER
+        # TODO: check the rightsholder
+        if status in ['License free - Released by rightsholder', 'Released'] and iprc == 'Public domain':
+            return self._model.CC_PDM
+
+        if status in ['License free - Released by rightsholder', 'Released'] and iprc == 'Released under license' and \
+                epc == 'Assessed, not blocked' and cc_value == 'CC-BY':
+            return self._model.CC_BY
+
+        if status in ['License free - Released by rightsholder', 'Released'] and iprc == 'Released under license' and \
+                epc == 'Assessed, not blocked' and cc_value == 'CC-BY-SA':
+            return self._model.CC_BY_SA
+
+        # DEFAULT, not a valid license available
+        raise NotImplementedError
 
     @cache.cached(timeout=0, key_prefix='sdo_scheme')
     def get_scheme(self):
@@ -177,14 +210,17 @@ class SDORdfConcept(BaseRdfConcept):
                 # if range of property is simple data type, just link it to the parent using the property
                 used_path = used_paths[i]
                 i += 1
-                # move this because it has a Class as range
-                if property_uri == self._model.LICENSE:
-                    license_urls = self.rights_to_license_uri(payload)
-                    for license_uri in license_urls:
-                        # add the URI for the rights statement or license
-                        self.graph.add((parent_node, URIRef(property_uri), URIRef(license_uri)))
 
-                if property_uri == self._model.CONDITIONS_OF_ACCESS:
+                if property_uri == self._model.LICENSE:
+                    try:
+                        license_url = self.rights_to_license_uri(payload)
+                        if license_url is not None:
+                            # add the URI for the rights statement or license
+                            self.graph.add((parent_node, URIRef(property_uri), URIRef(license_url)))
+                    except NotImplementedError as e:
+                        print(str(e))
+
+                elif property_uri == self._model.CONDITIONS_OF_ACCESS:
                     # we are generating the access conditions, for which we want to use the showbrowse property to
                     # determine the correct message
                     access_text = "Media is not available for viewing/listening online"
@@ -207,7 +243,8 @@ class SDORdfConcept(BaseRdfConcept):
                     # then point from that node to the node for the Person or organisation
 
                     # try to create a SKOS concept node
-                    concept_node = self.__create_skos_concept(used_path, payload, new_payload_item, property_description)
+                    concept_node = self.__create_skos_concept(used_path, payload, new_payload_item,
+                                                              property_description)
 
                     if concept_node is None:
                         # we couldn't find a skos concept so we only have a label, so we create a blank node
