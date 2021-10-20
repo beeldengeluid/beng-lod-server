@@ -12,20 +12,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Set up Python 3.7
+    - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
-        python-version: 3.7
+        python-version: 3.8
     - name: Install pipenv with command
       run: pip install pipenv
     - name: Install dependencies
       run: |
-        pipenv install --dev --python 3.7
+        pipenv install --three
     - name: Test with pytest
       run: |
-        cp src/settings-example.py src/settings.py
-        pipenv install pytest pytest-cov --dev
-        pipenv run pytest --cov src/tests/unit_tests
+        pipenv install -d
+        pipenv run pytest src/tests
     - name: Lint with flake8
       run: |
         pipenv install flake8

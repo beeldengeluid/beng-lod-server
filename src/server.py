@@ -10,7 +10,7 @@ from cache import cache
 app = Flask(__name__)
 
 # init the config
-app.config.from_object('settings.Config')
+app.config.from_object('config.settings.Config')
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['RESTPLUS_VALIDATE'] = False
 

@@ -2,7 +2,7 @@ from flask_restx import Api
 from .dataset.dataset_api import api as dataset_api
 from .resource.resource_api import api as resource_api
 from .concept.concept_api import api as concept_api
-from settings import Config
+from config.settings import Config
 
 apiVersion = 'v0.3'
 base_path = '/'

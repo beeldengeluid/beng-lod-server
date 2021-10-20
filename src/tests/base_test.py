@@ -6,7 +6,7 @@ Tests everything related to the validity of the application settings (settings.p
 
 
 def test_settings_exist(base_file_path):
-    assert os.path.exists(os.path.join(base_file_path, 'settings-example.py'))
+    assert os.path.exists(os.path.join(base_file_path, 'config', 'settings-example.py'))
 
 
 def test_settings_valid(application_settings):
