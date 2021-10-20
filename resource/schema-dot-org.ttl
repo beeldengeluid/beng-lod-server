@@ -16,15 +16,6 @@
 ###  http://www.w3.org/2001/XMLSchema#date
 xsd:date rdf:type rdfs:Datatype .
 
-# need this for URL?
-### https://schema.org/Text
-sdo:Text rdf:type rdfs:Class ;
-        rdfs:subClassOf sdo:DataType .
-
-### https://schema.org/DataType
-sdo:DataType rdf:type rdfs:Class ;
-        rdfs:subClassOf rdfs:Class .
-
 #################################################################
 #    Object Properties
 #################################################################
@@ -153,4 +144,4 @@ sdo:CreativeWorkSeries rdf:type rdfs:Class ;
 
 ###  https://schema.org/URL
 sdo:URL rdf:type rdfs:Class ;
-             rdfs:subClassOf sdo:Text .
+    rdfs:subClassOf sdo:Text .
