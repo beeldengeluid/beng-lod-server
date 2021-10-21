@@ -76,6 +76,15 @@ class SDORdfConcept(BaseRdfConcept):
         cc_value = license_condition.get('resolved_value') if isinstance(license_condition, dict) else None
 
         # BLOCKED
+        if status == 'Blocked' and iprc is None and collection_group in ['Commerciële omroepen',
+                                                                         'Publieke omroepen',
+                                                                         'Regionale omroepen',
+                                                                         'Handelsplaten']:
+            return self._model.RS_IN_COPYRIGHT
+
+        if status == 'Blocked' and iprc is None and collection_group in ['Beeld en Geluid', 'Overige', '']:
+            return self._model.RS_COPYRIGHT_NOT_EVALUATED
+        # default
         if status == 'Blocked':
             raise NotImplementedError
 
@@ -100,7 +109,7 @@ class SDORdfConcept(BaseRdfConcept):
         if status == 'License check' and collection_group in ['Tweede Kamer']:
             return self._model.TK_AUDIOVISUAL_LICENSE
 
-        if status == 'License check' and collection_group in ['Beeld en Geluid', 'Overige']:
+        if status == 'License check' and collection_group in ['Beeld en Geluid', 'Overige', '']:
             return self._model.RS_COPYRIGHT_NOT_EVALUATED
 
         # LICENSE FREE - ORPHHAN STATUS
