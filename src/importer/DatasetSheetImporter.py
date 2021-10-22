@@ -269,7 +269,7 @@ if __name__ == '__main__':
     #                     format='%(asctime)s %(levelname)s: %(message)s')
 
     # this does not work, the settings are not on the path, src.settings works on Windows apparently
-    from settings import Config
+    from config.settings import Config
     s2j = DatasetSheetImporter(config=Config)
     s2j.write_data_catalog_to_file()
 
