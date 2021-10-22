@@ -7,7 +7,7 @@ from elasticsearch import Elasticsearch
 from elasticsearch import helpers
 
 
-def levenshtein_ratio_and_distance(s, t, ratio_calc = False):
+def levenshtein_ratio_and_distance(s, t, ratio_calc=False):
     """ levenshtein_ratio_and_distance:
         Calculates levenshtein distance between two strings.
         If ratio_calc = True, the function computes the
@@ -17,40 +17,45 @@ def levenshtein_ratio_and_distance(s, t, ratio_calc = False):
         first j characters of t
     """
     # Initialize matrix of zeros
-    rows = len(s)+1
-    cols = len(t)+1
-    distance = np.zeros((rows,cols),dtype = int)
+    rows = len(s) + 1
+    cols = len(t) + 1
+    distance = np.zeros((rows, cols), dtype=int)
 
-    # Populate matrix of zeros with the indeces of each character of both strings
+    # Populate matrix of zeros with the indices of each character of both strings
     for i in range(1, rows):
-        for k in range(1,cols):
+        for k in range(1, cols):
             distance[i][0] = i
             distance[0][k] = k
 
     # Iterate over the matrix to compute the cost of deletions,insertions and/or substitutions
     for col in range(1, cols):
         for row in range(1, rows):
-            if s[row-1] == t[col-1]:
-                cost = 0 # If the characters are the same in the two strings in a given position [i,j] then the cost is 0
+            if s[row - 1] == t[col - 1]:
+                # If the characters are the same in the two strings in a given position [i,j] then the cost is 0
+                cost = 0
             else:
-                # In order to align the results with those of the Python Levenshtein package, if we choose to calculate the ratio
-                # the cost of a substitution is 2. If we calculate just distance, then the cost of a substitution is 1.
-                if ratio_calc == True:
+                # In order to align the results with those of the Python Levenshtein package, if we choose to
+                # calculate the ratio the cost of a substitution is 2. If we calculate just distance, then the
+                # cost of a substitution is 1.
+                if ratio_calc:
                     cost = 2
                 else:
                     cost = 1
-            distance[row][col] = min(distance[row-1][col] + 1,      # Cost of deletions
-                                 distance[row][col-1] + 1,          # Cost of insertions
-                                 distance[row-1][col-1] + cost)     # Cost of substitutions
-    if ratio_calc == True:
+            distance[row][col] = min(distance[row - 1][col] + 1,  # Cost of deletions
+                                     distance[row][col - 1] + 1,  # Cost of insertions
+                                     distance[row - 1][col - 1] + cost)  # Cost of substitutions
+
+    # TODO: row and col not in scope
+    if ratio_calc:
         # Computation of the Levenshtein Distance Ratio
-        Ratio = ((len(s)+len(t)) - distance[row][col]) / (len(s)+len(t))
-        return Ratio
+        ratio = ((len(s) + len(t)) - distance[row][col]) / (len(s) + len(t))
+        return ratio
     else:
-        # print(distance) # Uncomment if you want to see the matrix showing how the algorithm computes the cost of deletions,
-        # insertions and/or substitutions
+        # print(distance) # Uncomment if you want to see the matrix showing how
+        # the algorithm computes the cost of deletions, insertions and/or substitutions
         # This is the minimum number of edits needed to convert string a to string b
         return "The strings are {} edits away".format(distance[row][col])
+
 
 def titles_match(title1, title2, threshold):
     title1_stripped = strip_string(title1)
@@ -59,10 +64,11 @@ def titles_match(title1, title2, threshold):
     if title1_stripped == title2_stripped or title1_stripped in title2_stripped or title2_stripped in title1_stripped:
         return True
     match_score = levenshtein_ratio_and_distance(title1_stripped, title2_stripped, ratio_calc=True)
-    if match_score*100 > threshold:
+    if match_score * 100 > threshold:
         return True
     else:
         return False
+
 
 def strip_string(text):
     pattern = r'[^A-Za-z0-9]+'
@@ -73,6 +79,7 @@ def strip_string(text):
     text = text.replace("y", "ij")
     text = text.replace("NEGENTIEN TWEE EN DERTIG", "1932")
     return text
+
 
 def generate_candidate_queries(ob_source_list, result):
     candidate_carrier_queries = []
@@ -114,20 +121,21 @@ def generate_candidate_queries(ob_source_list, result):
 
             mpg_ref = hasFormatTest + ".mpg"
             candidate_carrier_queries.append({"query": {"bool": {
-            "must": [{"term": {"assetItems.carriernumber": mpg_ref}}]}}})
+                "must": [{"term": {"assetItems.carriernumber": mpg_ref}}]}}})
             candidate_carrier_queries.append({"query": {"bool": {
-            "must": [{"term": {"assetItems.carriernumber": mpg_ref.replace("_", "-")}}]}}})
+                "must": [{"term": {"assetItems.carriernumber": mpg_ref.replace("_", "-")}}]}}})
             mxf_ref = hasFormatTest + ".mxf"
             candidate_carrier_queries.append({"query": {"bool": {
                 "must": [{"term": {"assetItems.carriernumber": mxf_ref}}]}}})
             candidate_carrier_queries.append({"query": {"bool": {
-            "must": [{"term": {"assetItems.carriernumber": mxf_ref.replace("_", "-")}}]}}})
+                "must": [{"term": {"assetItems.carriernumber": mxf_ref.replace("_", "-")}}]}}})
 
     if 'dcterms:identifier' in result['_source']['@graph']:
         identifier = result['_source']['@graph']['dcterms:identifier']
         candidate_carrier_queries.append({"query": {"bool": {"must": [{"term": {"dc:identifier": identifier}}]}}})
         candidate_carrier_queries.append({"query": {"bool": {"must": [{"term": {"program.site_id": identifier}}]}}})
     return candidate_carrier_queries
+
 
 def get_link(result):
     ob_link = ""
@@ -144,6 +152,7 @@ def get_link(result):
                     ob_link = hasFormat
     return ob_link
 
+
 if __name__ == '__main__':
     print(sys.argv)
     __es = Elasticsearch(
@@ -156,7 +165,8 @@ if __name__ == '__main__':
 
     matches = {}
 
-    query = {"_source": ["@graph.dcterms:source", "@graph.dcterms:hasFormat", "@graph.dcterms:identifier", "@graph.dcterms:title"],
+    query = {"_source": ["@graph.dcterms:source", "@graph.dcterms:hasFormat", "@graph.dcterms:identifier",
+                         "@graph.dcterms:title"],
              "query": {
                  "bool": {
                      "must": [
@@ -166,7 +176,7 @@ if __name__ == '__main__':
                      ]
                  }
              }
-    }
+             }
     resp = helpers.scan(__es, query, index=open_beelden_catalogue)
 
     count = 0
@@ -214,15 +224,14 @@ if __name__ == '__main__':
                     break
                 index += 1
 
-
-
             if found_match:
                 for daan_id in daan_ids:
                     matched_id = daan_id
                     local_match_count = 0
                     scene_descs = False
                     if "assetItems.carriernumber" in json.dumps(successful_query):
-                        matched_carrier_number = successful_query['query']['bool']['must'][0]['term']['assetItems.carriernumber']
+                        matched_carrier_number = \
+                            successful_query['query']['bool']['must'][0]['term']['assetItems.carriernumber']
                         if len(matched_carrier_number) <= 3:
                             print(f"Skipping {matched_carrier_number} as ambiguous")
                             continue
@@ -247,13 +256,14 @@ if __name__ == '__main__':
                         scene_descs = False
                         # try to match a scene description title. If not, just link on programme level
                         for prog_result in scene_resp:
-                            scene_descs= True
+                            scene_descs = True
                             if ob_title == "Ontdek uw stad-tentoonstelling":
                                 print("wait")
                             # get the carrier ID that had matched in the query
                             matched_carrier_id = ""
                             for carrier_result in prog_result['_source']['assetItems']:
-                                if 'carriernumber' in carrier_result and carrier_result['carriernumber'][0] == matched_carrier_number:
+                                if 'carriernumber' in carrier_result and \
+                                        carrier_result['carriernumber'][0] == matched_carrier_number:
                                     matched_carrier_id = carrier_result['id']
 
                             local_match_count = 0
@@ -262,7 +272,8 @@ if __name__ == '__main__':
                                     for scene_title in scene_result['title']:
                                         if titles_match(scene_title, ob_title, 70):
                                             # check if the scene description is attached to the right carrier
-                                            #if 'item_id' in scene_result and scene_result['item_id'] == matched_carrier_id:
+                                            # if 'item_id' in scene_result and
+                                            # scene_result['item_id'] == matched_carrier_id:
                                             if True:
                                                 # use the scene description ID for the link
                                                 print(f"Using {scene_title} for {ob_title}")
