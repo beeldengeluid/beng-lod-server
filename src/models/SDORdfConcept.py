@@ -46,6 +46,101 @@ class SDORdfConcept(BaseRdfConcept):
         # create RDF relations with the parents of the record
         self.__parent_to_rdf(metadata)
 
+    def rights_to_license_uri(self, payload=None):
+        """ Analyse the metadata, return a proper CC license.
+        This is an implementation of the rules in the beng-lod wiki page:
+        https://github.com/beeldengeluid/beng-lod-server/wiki/Rights-and-licenses-for-NISV-open-data
+        :param payload: JSON metadata.
+        :returns: CC license or None if param not given or license not determined.
+        """
+        if payload is None:
+            return None
+
+        # get the necessary metadata values to determine the right statuses
+        rights_license = self._get_metadata_value(payload, 'nisv.rightslicense')
+        status = rights_license.get('resolved_value')
+        iprcombined = self._get_metadata_value(payload, 'nisv.iprcombined')
+        iprc = iprcombined.get('resolved_value') if isinstance(iprcombined, dict) else None
+        ethicalprivatecombined = self._get_metadata_value(payload, 'nisv.ethicalprivatecombined')
+        epc = ethicalprivatecombined.get('resolved_value') if isinstance(ethicalprivatecombined, dict) else None
+        collection_group_list = self._get_metadata_value(payload, 'nisv.collectionsgroup')
+        collection_group = ''
+        for collectionsgroup in collection_group_list:
+            collection_group_dir = collectionsgroup.get('collectionsgroup.dir') if isinstance(collectionsgroup, dict) \
+                else None
+            collection_group = collection_group_dir.get('resolved_value') if isinstance(collection_group_dir,
+                                                                                        dict) \
+                else None
+
+        license_condition = self._get_metadata_value(payload, 'nisv.licensecondition')
+        cc_value = license_condition.get('resolved_value') if isinstance(license_condition, dict) else None
+
+        # BLOCKED
+        if status == 'Blocked' and iprc is None and collection_group in ['Commerciële omroepen',
+                                                                         'Publieke omroepen',
+                                                                         'Regionale omroepen',
+                                                                         'Handelsplaten']:
+            return self._model.RS_IN_COPYRIGHT
+
+        if status == 'Blocked' and iprc is None and collection_group in ['Beeld en Geluid', 'Overige', '']:
+            return self._model.RS_COPYRIGHT_NOT_EVALUATED
+        # default
+        if status == 'Blocked':
+            raise NotImplementedError
+
+        # REQUIRED LICENSE
+        if status == 'Required license' and epc == '' and collection_group in ['Commerciële omroepen',
+                                                                               'Publieke omroepen',
+                                                                               'Regionale omroepen',
+                                                                               'Handelsplaten']:
+            return self._model.RS_IN_COPYRIGHT
+
+        if status == 'Required license' and epc == 'Required License' and iprc == 'Public domain':
+            return self._model.RS_OTHER_LEGAL_RESTRICTIONS
+
+        if status == 'Required license' and epc == 'Required license' and iprc == '':
+            return self._model.RS_COPYRIGHT_NOT_EVALUATED
+
+        # LICENSE CHECK
+        if status == 'License check' and collection_group in ['Commerciële omroepen', 'Publieke omroepen',
+                                                              'Regionale omroepen', 'Handelsplaten']:
+            return self._model.RS_IN_COPYRIGHT
+
+        if status == 'License check' and collection_group in ['Tweede Kamer']:
+            return self._model.TK_AUDIOVISUAL_LICENSE
+
+        if status == 'License check' and collection_group in ['Beeld en Geluid', 'Overige', '']:
+            return self._model.RS_COPYRIGHT_NOT_EVALUATED
+
+        # LICENSE FREE - ORPHHAN STATUS
+        if status == 'License free - Orphan status':
+            # NISV doesn't have any orphan works, so if we see this status return 'not evaluated'
+            return self._model.RS_COPYRIGHT_NOT_EVALUATED
+
+        # LICENSE FREE - PUBLIC DOMAIN
+        if status == 'License free - Public domain' and epc == 'Required License':
+            return self._model.RS_OTHER_LEGAL_RESTRICTIONS
+
+        if status == 'License free - Public domain' and epc == 'Assessed, not blocked':
+            return self._model.CC_PDM
+
+        # RELEASED and LICENSE FREE - RELEASED BY RIGHTSHOLDER
+        # TODO: check the rightsholder
+        if status in ['License free - Released by rightsholder', 'Released'] and iprc == 'Public domain' and \
+                epc == 'Assessed, not blocked':
+            return self._model.CC_PDM
+
+        if status in ['License free - Released by rightsholder', 'Released'] and iprc == 'Released under license' and \
+                epc == 'Assessed, not blocked' and cc_value == 'CC-BY':
+            return self._model.CC_BY
+
+        if status in ['License free - Released by rightsholder', 'Released'] and iprc == 'Released under license' and \
+                epc == 'Assessed, not blocked' and cc_value == 'CC-BY-SA':
+            return self._model.CC_BY_SA
+
+        # DEFAULT, not a valid license available
+        raise NotImplementedError
+
     @cache.cached(timeout=0, key_prefix='sdo_scheme')
     def get_scheme(self):
         """ Returns a schema instance."""
@@ -125,19 +220,32 @@ class SDORdfConcept(BaseRdfConcept):
                 # if range of property is simple data type, just link it to the parent using the property
                 used_path = used_paths[i]
                 i += 1
-                if property_uri == self._model.CONDITIONS_OF_ACCESS:
+
+                if property_uri == self._model.LICENSE:
+                    try:
+                        license_url = self.rights_to_license_uri(payload)
+                        if license_url is not None:
+                            # add the URI for the rights statement or license
+                            self.graph.add((parent_node, URIRef(property_uri), URIRef(license_url)))
+                    except NotImplementedError as e:
+                        print(str(e))
+
+                elif property_uri == self._model.CONDITIONS_OF_ACCESS:
                     # we are generating the access conditions, for which we want to use the showbrowse property to
                     # determine the correct message
                     access_text = "Media is not available for viewing/listening online"
                     if new_payload_item.lower() == "true":
                         access_text = "View/listen to media online at the item's URL: True"
 
-                    self.graph.add((parent_node, URIRef(property_uri), Literal(access_text, datatype=property_description[
-                        "range"])))
+                    self.graph.add((parent_node, URIRef(property_uri), Literal(access_text,
+                                                                               datatype=property_description[
+                                                                                   "range"])))
 
                 elif property_description["range"] in self._model.XSD_TYPES:
-                    self.graph.add((parent_node, URIRef(property_uri), Literal(new_payload_item, datatype=property_description[
-                        "range"])))  # add the new payload as the value
+                    # add the new payload as the value
+                    self.graph.add((parent_node, URIRef(property_uri), Literal(new_payload_item,
+                                                                               datatype=property_description[
+                                                                                   "range"])))
                 elif property_description["range"] in self._model.ROLE_TYPES or property_uri == self._model.MENTIONS:
                     # In these cases, we have a person or organisation linked via a role,
                     # so we first need to create a node for the  person or organisation
@@ -145,7 +253,8 @@ class SDORdfConcept(BaseRdfConcept):
                     # then point from that node to the node for the Person or organisation
 
                     # try to create a SKOS concept node
-                    concept_node = self.__create_skos_concept(used_path, payload, new_payload_item, property_description)
+                    concept_node = self.__create_skos_concept(used_path, payload, new_payload_item,
+                                                              property_description)
 
                     if concept_node is None:
                         # we couldn't find a skos concept so we only have a label, so we create a blank node

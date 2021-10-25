@@ -470,6 +470,9 @@ xsd:date rdf:type rdfs:Datatype .
 ### https://schema.org/conditionsOfAccess
 <https://schema.org/conditionsOfAccess> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.showbrowse, value" .
 
+### https://schema.org/license
+<https://schema.org/license> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.rightslicense, resolved_value" .
+
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasPublishedTitle
 ###<http://data.rdlabs.beeldengeluid.nl/schema/hasPublishedTitle> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "publication.title, value" .
 
@@ -595,3 +598,5 @@ xsd:date rdf:type rdfs:Datatype .
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasTitleType
 ###<http://data.rdlabs.beeldengeluid.nl/schema/hasTitleType> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "alttitle.type, resolved_value" .
 
+### https://schema.org/URL
+<https://schema.org/URL> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "none" .

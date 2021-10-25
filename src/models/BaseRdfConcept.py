@@ -63,7 +63,7 @@ class BaseRdfConcept:
         """ Gets the value of the metadata field from the JSON metadata.
         :param: metadata: JSON metadata
         :param: metadata_field, the name of the field to retrieve the value for.
-            :returns: either a single value, or a list of multiple values
+            :returns: either a single value, a list of multiple values, or a dict.
         """
         if "," in metadata_field:
             field_parts = metadata_field.split(",")

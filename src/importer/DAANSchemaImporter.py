@@ -104,7 +104,7 @@ class DAANSchemaImporter:
         # now, the properties belonging to superclasses of this class (which are inherited)
         query = """SELECT DISTINCT ?property ?path ?range ?rangeSuperClass ?additionalType \
         WHERE{ ?property rdfs:domain ?s . \
-        <%s> rdfs:subClassOf ?s. \
+        <%s> rdfs:subClassOf* ?s. \
         ?property rdfs:range ?range . \
         ?property <%s> ?path . \
          OPTIONAL{ ?range rdfs:subClassOf ?rangeSuperClass}. \
