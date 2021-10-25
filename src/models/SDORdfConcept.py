@@ -126,7 +126,8 @@ class SDORdfConcept(BaseRdfConcept):
 
         # RELEASED and LICENSE FREE - RELEASED BY RIGHTSHOLDER
         # TODO: check the rightsholder
-        if status in ['License free - Released by rightsholder', 'Released'] and iprc == 'Public domain':
+        if status in ['License free - Released by rightsholder', 'Released'] and iprc == 'Public domain' and \
+                epc == 'Assessed, not blocked':
             return self._model.CC_PDM
 
         if status in ['License free - Released by rightsholder', 'Released'] and iprc == 'Released under license' and \
