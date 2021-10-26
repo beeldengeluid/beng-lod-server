@@ -32,15 +32,23 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         pipenv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
   deploy:
-
-    runs-on: self-hosted
+    runs-on: [self-hosted]
     needs: test
     steps:
-    - name: Update ansible
+    # - name: Update ansible
+      # run: |
+       #  cd /opt/git/x-omgeving/ansible/
+       #  sudo git pull
+    - name: autodeploy to acc with ansible
       run: |
         cd /opt/git/x-omgeving/ansible/
-        sudo git pull
-    - name: autodeploy with ansible
+        ansible-playbook beng-lod-server.yml --extra-vars "env=acc app_version=master"
+
+  deploy_aws:
+    runs-on: [self-hosted, aws]
+    needs: [test]
+    steps:
+    - name: autodeploy to aws with ansible
       run: |
         cd /opt/git/x-omgeving/ansible/
-        ansible-playbook beng-lod-server.yml
+        ansible-playbook beng-lod-server.yml  --extra-vars "env=odl app_version=master app_port=80"
