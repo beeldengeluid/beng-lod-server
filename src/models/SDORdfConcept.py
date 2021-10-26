@@ -182,6 +182,44 @@ class SDORdfConcept(BaseRdfConcept):
                 links = links_dictionary[item_id]["links"]
         return links
 
+    def __add_media_object(self, content_url):
+        """Adds a media object to the RDF item, and links it to the content_url via the media object"""
+
+        # create a media object. NB: Do NOT use a DAAN ID as we use this function to model info from open beelden
+        # items, which are not listed within DAAN but are derived from certain DAAN items.
+
+        media_object_node = BNode()  # use a BNode to emphasize that this Media Object is not an entity in DAAN
+        self.graph.add((self.itemNode, URIRef(self._model.HAS_ASSOCIATED_MEDIA), media_object_node))
+        self.graph.add((media_object_node, URIRef(self._model.HAS_CONTENT_URL), URIRef(content_url)))
+
+    @cache.cached(timeout=0)
+    def get_open_beelden_links(self, item_id):
+        links = []
+        with open(self.profile["ob_links"]) as links_file:
+            links_dictionary = json.load(links_file)
+            if item_id in links_dictionary:
+                links = links_dictionary[item_id]["links"]
+        return links
+
+    def __add_media_object(self, content_url):
+        """Adds a media object to the RDF item, and links it to the content_url via the media object"""
+
+        # create a media object. NB: Do NOT use a DAAN ID as we use this function to model info from open beelden
+        # items, which are not listed within DAAN but are derived from certain DAAN items.
+
+        media_object_node = BNode()  # use a BNode to emphasize that this Media Object is not an entity in DAAN
+        self.graph.add((self.itemNode, URIRef(self._model.HAS_ASSOCIATED_MEDIA), media_object_node))
+        self.graph.add((media_object_node, URIRef(self._model.HAS_CONTENT_URL), content_url))
+
+    @cache.cached(timeout=0)
+    def get_open_beelden_links(self, item_id):
+        links = []
+        with open(self.profile["ob_links"]) as links_file:
+            links_dictionary = json.load(links_file)
+            if item_id in links_dictionary:
+                links = links_dictionary[item_id]["links"]
+        return links
+
 
     def __create_skos_concept(self, used_path, payload, concept_label, property_description):
         """Searches in the concept_metadata for a thesaurus concept. If one is found, creates a node for it and
