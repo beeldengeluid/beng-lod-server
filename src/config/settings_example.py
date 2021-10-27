@@ -30,6 +30,7 @@ class Config(object):
             'schema': '../resource/schema-dot-org.ttl',
             'mapping': '../resource/daan-mapping-schema-org.ttl',
             'storage_handler': SDOStorageLODHandler,
+            'ob_links': '../resource/ob_link_matches.json',
             'default': True  # this profile is loaded in memory by default
         },
         {

@@ -1,3 +1,4 @@
+import json
 import models.SDORdfModel as SDORdfModel
 from models.DAANJsonModel import DAAN_PROGRAM_ID, DAAN_PARENT, DAAN_PARENT_ID, DAAN_PARENT_TYPE, DAAN_PAYLOAD, \
     ObjectType
@@ -39,6 +40,12 @@ class SDORdfConcept(BaseRdfConcept):
         self.landing_page = self.get_gpp_link(concept_type, metadata["id"])
         if self.landing_page is not None:
             self.graph.add((self.itemNode, URIRef(self._model.URL), URIRef(self.landing_page)))
+
+        # add links from Open Beelden, via media objects
+        links = self.get_open_beelden_links(metadata["id"])
+        if links is not None:
+            for link in links:
+                self.__add_media_object(link)
 
         # convert the record payload to RDF
         self.__payload_to_rdf(metadata["payload"], self.itemNode, self.classUri)
@@ -146,6 +153,31 @@ class SDORdfConcept(BaseRdfConcept):
         """ Returns a schema instance."""
         # FIXME this does not work yet for the SDO schema (see the DAANSchemaImporter)
         return DAANSchemaImporter(self.profile["schema"], self.profile["mapping"])
+
+    @cache.cached(timeout=0)
+    def get_open_beelden_links(self, item_id):
+        links = []
+        with open(self.profile["ob_links"]) as links_file:
+            links_dictionary = json.load(links_file)
+            if item_id in links_dictionary:
+                links = links_dictionary[item_id]["links"]
+        return links
+
+    def __add_media_object(self, content_url):
+        """Adds a media object to the RDF item, and links it to the content_url via the media object"""
+
+        # create a media object. NB: Do NOT use a DAAN ID as we use this function to model info from open beelden
+        # items, which are not listed within DAAN but are derived from certain DAAN items.
+
+        media_object_node = BNode()  # use a BNode to emphasize that this Media Object is not an entity in DAAN
+        self.graph.add((self.itemNode, URIRef(self._model.HAS_ASSOCIATED_MEDIA), media_object_node))
+        self.graph.add((media_object_node, RDF.type, URIRef(self._model.CARRIER)))
+        self.graph.add((media_object_node, URIRef(self._model.HAS_CONTENT_URL), URIRef(content_url)))
+        self.graph.add((media_object_node, URIRef(self._model.HAS_ENCODING_FORMAT), Literal('video/mp4')))
+
+        # Let's not forget we also have the OpenBeelden URI for the item in cc:attributionUrl.
+        # mmm. unfortunately it has to be extracted from the metadata
+        # self.graph.add((media_object_node, URIRef(self._model.IS_MAIN_ENTITY_OF_PAGE), URIRef(ccattributionurl)))
 
     def __create_skos_concept(self, used_path, payload, concept_label, property_description):
         """Searches in the concept_metadata for a thesaurus concept. If one is found, creates a node for it and

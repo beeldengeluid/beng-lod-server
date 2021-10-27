@@ -20,6 +20,7 @@ CLIP = SCHEMA_DOT_ORG_NAMESPACE + "Clip"
 # URIS for relations in the schema
 HAS_DAAN_PATH = NISV_SCHEMA_NAMESPACE + "hasDaanPath"
 IS_CARRIER_OF = SCHEMA_DOT_ORG_NAMESPACE + "associatedMedia"
+HAS_ENCODING_FORMAT = SCHEMA_DOT_ORG_NAMESPACE + "encodingFormat"
 IS_PART_OF_SERIES = SCHEMA_DOT_ORG_NAMESPACE + "partOfSeries"
 IS_PART_OF_SEASON = SCHEMA_DOT_ORG_NAMESPACE + "partOfSeason"
 HAS_CLIP = SCHEMA_DOT_ORG_NAMESPACE + "hasPart"
@@ -30,6 +31,11 @@ CONDITIONS_OF_ACCESS = SCHEMA_DOT_ORG_NAMESPACE + "conditionsOfAccess"
 LICENSE = SCHEMA_DOT_ORG_NAMESPACE + "license"
 # TODO work out how to handle this, is no equivalent property
 # IS_PART_OF_PROGRAM = SCHEMA_DOT_ORG_NAMESPACE + "isPartOfProgram"
+HAS_ASSOCIATED_MEDIA = SCHEMA_DOT_ORG_NAMESPACE + "associatedMedia"
+URL = SCHEMA_DOT_ORG_NAMESPACE + "url"
+HAS_CONTENT_URL = SCHEMA_DOT_ORG_NAMESPACE + "contentUrl"
+IS_MAIN_ENTITY_OF_PAGE = SCHEMA_DOT_ORG_NAMESPACE + "mainEntityOfPage"
+#IS_PART_OF_PROGRAM = SCHEMA_DOT_ORG_NAMESPACE + "isPartOfProgram"  # TODO work out how to handle this, is no equivalent property
 
 # TODO: look at how to use the GTAA types
 # list of non-gtaa types, so we can use the correct namespace for concepts of this type
