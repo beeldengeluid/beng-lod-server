@@ -5,6 +5,8 @@ from urllib.error import HTTPError
 from urllib.parse import urlparse, urlunparse
 
 # TODO rewrite using the requests library
+import requests
+from requests.exceptions import ConnectionError
 
 
 class StorageLODHandler:
@@ -32,8 +34,15 @@ class StorageLODHandler:
          :param return_format: the Accept type, like 'text/turtle, etc.'
          :returns: a response object
          """
-        url = self._prepare_uri(level, identifier)
         try:
+            # TODO: configure that this is only active when the code is run in AWS.
+            # if run in AWS is true, test for permission
+            lod_url = self._prepare_lod_resource_uri(level, identifier)
+            if not self.check_resource_public(resource_url=lod_url):
+                return APIUtil.toErrorResponse('access_denied', 'The resource can not be dereferenced.')
+
+            # get it
+            url = self._prepare_uri(level, identifier)
             data = self._storage_2_lod(url, return_format)
         except ValueError as e:
             return APIUtil.toErrorResponse('bad_request', e)
@@ -43,6 +52,47 @@ class StorageLODHandler:
         if data:
             return APIUtil.toSuccessResponse(data)
         return APIUtil.toErrorResponse('bad_request', 'That return format is not supported')
+
+    def check_resource_public(self, resource_url):
+        """ Fire a query to the public sparql endpoint. In case the resource is available, it is permitted
+        for public access.
+        :param resource_url: the resource to be checked.
+        :return True (yes, public access allowed), False (no, not allowed to dereference)
+        """
+        try:
+            # get the SPARQL endpoint from the config
+            sparql_endpoint = self.config.get('SPARQL_ENDPOINT')
+            query_ask = 'ASK {<%s> ?p ?o . }' % resource_url
+            nisv_error = {}
+
+            # prepare and get the data from the triple store
+            resp = requests.get(sparql_endpoint, params={'query': query_ask, 'format': 'json'})
+
+            if resp.status_code == 400:
+                return nisv_error
+            if resp.json().get('boolean'):
+                return True
+            else:
+                return False
+        except ConnectionError as e:
+            print(str(e))
+        except Exception as e:
+            print(str(e))
+
+    def _prepare_lod_resource_uri(self, level, identifier):
+        """ Constructs valid url using the data domain, the level (cat type) and the identifier.
+                <storage URL>/storage/<TYPE>/<id>
+        :param level: the cat type
+        :param identifier: the DAAN id
+        :returns: a proper URI as it should be listed in the LOD server
+        """
+        url_parts = urlparse(self.config.get('BENG_DATA_DOMAIN'))
+        if url_parts.netloc is not None:
+            path = '/'.join(['id', level, str(identifier)])
+            parts = (url_parts.scheme, url_parts.netloc, path, '', '', '')
+            return urlunparse(parts)
+        else:
+            return None
 
     def _prepare_uri(self, level, identifier):
         """ Constructs valid Storage url from the config settings, the level (cat type) and the identifier.
