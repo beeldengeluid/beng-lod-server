@@ -39,18 +39,63 @@ class BaseRdfConcept:
         return urlunparse(parts)
 
     # noinspection PyMethodMayBeStatic
-    def get_gpp_link(self, cat_type="PROGRAM", daan_id=None):
+    def get_gpp_link(self, metadata, cat_type="PROGRAM", daan_id=None):
         """ Construct a URL for the item landing page in the general public portal.
+        :param metadata: JSON metadata of the item to get daan id's
         :param cat_type: the catalogue type of the item
         :param daan_id: the alphanumerical string that is the unique identifier within the catalogue.
         :returns: the contructed URL for the landing page
         Example: https://zoeken.beeldengeluid.nl/program/urn:vme:default:program:2101810040249483931
         """
-        if cat_type.upper() == "SEASON":
-            # TODO: fix the landing page for season (join with series)
-            # example: https://zoeken.beeldengeluid.nl/
-            # series/urn:vme:default:series:2101608030027704331/urn:vme:default:season:2101608040029114331
-            return None
+        url_parts = urlparse('https://zoeken.beeldengeluid.nl/')
+        parents = metadata.get("parents")
+
+        if cat_type.upper() == "SEASON" and parents is not None:
+            series_urn = None
+            if isinstance(parents, list):
+                if parents[0].get('parent_type') == "SERIES":
+                    parent_id = parents[0].get('parent_id')
+                    series_urn = f'urn:vme:default:series:{parent_id}'
+
+            elif isinstance(parents, dict):
+                if parents.get('parent_type') == "SERIES":
+                    parent_id = parents.get('parent_id')
+                    series_urn = f'urn:vme:default:series:{parent_id}'
+
+            path = None
+            if series_urn is not None:
+                season_urn = f'urn:vme:default:season:{daan_id}'
+                path = '/'.join(['series', series_urn, season_urn])
+            parts = (url_parts.scheme, url_parts.netloc, path, '', '', '')
+            return urlunparse(parts)
+
+        if cat_type.upper() == "LOGTRACKITEM" and parents is not None:
+            # Find the program it belongs to
+            program_urn = None
+            program_ref_id = metadata.get('program_ref_id')
+            if program_ref_id is not None:
+                program_urn = f'urn:vme:default:program:{program_ref_id}'
+
+            # find the asset
+            asset_urn = None
+            if isinstance(parents, list):
+                if parents[0].get('parent_type') == "ITEM":
+                    parent_id = parents[0].get('parent_id')
+                    asset_urn = f'urn:vme:default:asset:{parent_id}'
+
+            elif isinstance(parents, dict):
+                if parents.get('parent_type') == "ITEM":
+                    parent_id = parents.get('parent_id')
+                    asset_urn = f'urn:vme:default:asset:{parent_id}'
+
+            # define the segment
+            segment_urn = f'urn:vme:default:logtrackitem:{daan_id}'
+
+            path = '/'.join(['program', program_urn, 'asset', asset_urn, 'segment', segment_urn])
+            parts = (url_parts.scheme, url_parts.netloc, path, '', '', '')
+            return urlunparse(parts)
+
+        # DEFAULT CASE (PROGRAM, SERIES)
         return f'https://zoeken.beeldengeluid.nl/{cat_type.lower()}/urn:vme:default:{cat_type.lower()}:{daan_id}'
 
     def get_classes(self):

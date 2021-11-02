@@ -37,7 +37,7 @@ class SDORdfConcept(BaseRdfConcept):
         self.graph.add((self.itemNode, RDF.type, URIRef(self.classUri)))
 
         # add a GPP landing page for the item
-        self.landing_page = self.get_gpp_link(concept_type, metadata["id"])
+        self.landing_page = self.get_gpp_link(metadata, concept_type, metadata["id"])
         if self.landing_page is not None:
             self.graph.add((self.itemNode, URIRef(self._model.URL), URIRef(self.landing_page)))
 
