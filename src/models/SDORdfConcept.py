@@ -42,10 +42,12 @@ class SDORdfConcept(BaseRdfConcept):
             self.graph.add((self.itemNode, URIRef(self._model.URL), URIRef(self.landing_page)))
 
         # add links from Open Beelden, via media objects
-        links = self.get_open_beelden_links(metadata["id"])
+        links, website = self.get_open_beelden_information(metadata["id"])
         if links is not None:
             for link in links:
                 self.__add_media_object(link)
+        if website is not None:
+            self.graph.add((self.itemNode, URIRef(self._model.IS_MAIN_ENTITY_OF_PAGE), URIRef(website)))
 
         # convert the record payload to RDF
         self.__payload_to_rdf(metadata["payload"], self.itemNode, self.classUri)
@@ -155,13 +157,15 @@ class SDORdfConcept(BaseRdfConcept):
         return DAANSchemaImporter(self.profile["schema"], self.profile["mapping"])
 
     @cache.cached(timeout=0)
-    def get_open_beelden_links(self, item_id):
-        links = []
-        with open(self.profile["ob_links"]) as links_file:
-            links_dictionary = json.load(links_file)
-            if item_id in links_dictionary:
-                links = links_dictionary[item_id]["links"]
-        return links
+    def get_open_beelden_information(self, item_id):
+        links = None
+        website = None
+        with open(self.profile["ob_links"]) as ob_information_file:
+            information_dictionary = json.load(ob_information_file)
+            if item_id in information_dictionary:
+                links = information_dictionary[item_id]["content_links"]
+                website = information_dictionary[item_id]["website"]
+        return links, website
 
     def __add_media_object(self, content_url):
         """Adds a media object to the RDF item, and links it to the content_url via the media object"""

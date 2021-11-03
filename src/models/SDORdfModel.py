@@ -32,7 +32,6 @@ LICENSE = SCHEMA_DOT_ORG_NAMESPACE + "license"
 # TODO work out how to handle this, is no equivalent property
 # IS_PART_OF_PROGRAM = SCHEMA_DOT_ORG_NAMESPACE + "isPartOfProgram"
 HAS_ASSOCIATED_MEDIA = SCHEMA_DOT_ORG_NAMESPACE + "associatedMedia"
-URL = SCHEMA_DOT_ORG_NAMESPACE + "url"
 HAS_CONTENT_URL = SCHEMA_DOT_ORG_NAMESPACE + "contentUrl"
 IS_MAIN_ENTITY_OF_PAGE = SCHEMA_DOT_ORG_NAMESPACE + "mainEntityOfPage"
 #IS_PART_OF_PROGRAM = SCHEMA_DOT_ORG_NAMESPACE + "isPartOfProgram"  # TODO work out how to handle this, is no equivalent property
