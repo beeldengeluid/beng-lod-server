@@ -1,0 +1,52 @@
+{
+  "@context": {
+    "gtaa": "http://data.beeldengeluid.nl/gtaa/",
+    "non-gtaa": "http://data.beeldengeluid.nl/nongtaa/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "sdo": "https://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xml": "http://www.w3.org/XML/1998/namespace",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "http://data.beeldengeluid.nl/gtaa/30122",
+      "@type": "https://schema.org/Thing",
+      "http://www.w3.org/2004/02/skos/core#prefLabel": {
+        "@language": "nl",
+        "@value": "cultureel programma"
+      },
+      "https://schema.org/additionalType": {
+        "@id": "http://www.w3.org/2004/02/skos/core#Concept"
+      }
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/gtaa/30223",
+      "@type": "https://schema.org/Thing",
+      "http://www.w3.org/2004/02/skos/core#prefLabel": {
+        "@language": "nl",
+        "@value": "magazine"
+      },
+      "https://schema.org/additionalType": {
+        "@id": "http://www.w3.org/2004/02/skos/core#Concept"
+      }
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/series/2101608030021686131",
+      "@type": "https://schema.org/CreativeWorkSeries",
+      "https://schema.org/genre": [
+        {
+          "@id": "http://data.beeldengeluid.nl/gtaa/30122"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/gtaa/30223"
+        }
+      ],
+      "https://schema.org/name": "747LIVE",
+      "https://schema.org/url": {
+        "@id": "https://zoeken.beeldengeluid.nl/series/urn:vme:default:series:2101608030021686131"
+      }
+    }
+  ]
+}

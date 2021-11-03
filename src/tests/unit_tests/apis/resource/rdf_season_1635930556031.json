@@ -1,0 +1,45 @@
+{
+  "@context": {
+    "gtaa": "http://data.beeldengeluid.nl/gtaa/",
+    "non-gtaa": "http://data.beeldengeluid.nl/nongtaa/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "sdo": "https://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xml": "http://www.w3.org/XML/1998/namespace",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "http://data.beeldengeluid.nl/id/season/2101608040028986031",
+      "@type": "https://schema.org/CreativeWorkSeason",
+      "https://schema.org/name": "Met Michiel (2014 - 2015)",
+      "https://schema.org/partOfSeries": {
+        "@id": "http://data.beeldengeluid.nl/id/series/2101608030021696231"
+      },
+      "https://schema.org/productionCompany": {
+        "@id": "_:Ndd8130d89cfb4b7fa806207456f817c6"
+      },
+      "https://schema.org/url": {
+        "@id": "https://zoeken.beeldengeluid.nl/series/urn:vme:default:series:2101608030021696231/urn:vme:default:season:2101608040028986031"
+      }
+    },
+    {
+      "@id": "_:Ndd8130d89cfb4b7fa806207456f817c6",
+      "https://schema.org/productionCompany": {
+        "@id": "http://data.beeldengeluid.nl/gtaa/224203"
+      }
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/gtaa/224203",
+      "@type": "https://schema.org/Organization",
+      "http://www.w3.org/2004/02/skos/core#prefLabel": {
+        "@language": "nl",
+        "@value": "NTR"
+      },
+      "https://schema.org/additionalType": {
+        "@id": "http://www.w3.org/2004/02/skos/core#Concept"
+      }
+    }
+  ]
+}

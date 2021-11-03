@@ -24,7 +24,6 @@ class SDORdfConcept(BaseRdfConcept):
         err_msg = 'Error while loading the schema classes and properties'
         assert self._classes is not None, APIUtil.raiseDescriptiveValueError('internal_server_error', err_msg)
 
-        # self.graph.namespace_manager.bind(self._model.SCHEMA_DOT_ORG_PREFIX,
         self.graph.namespace_manager.bind('sdo',
                                           Namespace(self._model.SCHEMA_DOT_ORG_NAMESPACE))
         # create a node for the record

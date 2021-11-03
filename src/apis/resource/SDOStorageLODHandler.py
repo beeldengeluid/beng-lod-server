@@ -24,6 +24,6 @@ class SDOStorageLODHandler(StorageLODHandler):
                 raise ValueError(
                     f"Cannot retrieve data for a logtrack item of type {logtrack_type}. Must be of type 'scenedesc'")
 
-        # Note that this is import is here not at the top, to prevent circular dependency to happen
+        # Note that this is import is here on purpose and not at the top, to prevent circular dependency to happen
         from models.SDORdfConcept import SDORdfConcept
         return SDORdfConcept(json_obj, cat_type, self.profile)

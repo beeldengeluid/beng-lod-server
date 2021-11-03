@@ -21,10 +21,6 @@ class BaseRdfConcept:
         self.itemNode = None
         self.classUri = None
         self.graph = Graph()
-        # self.graph.namespace_manager.bind(self._model.NISV_SCHEMA_PREFIX,
-        #                                   Namespace(self._model.NISV_SCHEMA_NAMESPACE))
-        # self.graph.namespace_manager.bind(self._model.NISV_DATA_PREFIX,
-        #                                   Namespace(self._model.NISV_DATA_NAMESPACE))
         self.graph.namespace_manager.bind("skos", SKOS)
         self.graph.namespace_manager.bind("gtaa", Namespace(self._model.GTAA_NAMESPACE))
         self.graph.namespace_manager.bind("non-gtaa", Namespace(self._model.NON_GTAA_NAMESPACE))
@@ -32,6 +28,8 @@ class BaseRdfConcept:
     def get_uri(self, cat_type="PROGRAM", daan_id=None):
         if daan_id is None:
             return None
+        if cat_type == 'LOGTRACKITEM':
+            cat_type = 'SCENE'
         url_parts = urlparse(self._model.NISV_DATA_NAMESPACE)
         primary_path = self._model.NISV_DATA_PREFIX
         path = '/'.join([primary_path, cat_type.lower(), daan_id])

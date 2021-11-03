@@ -2,7 +2,7 @@ from rdflib.namespace import XSD
 
 NISV_SCHEMA_NAMESPACE = 'http://data.rdlabs.beeldengeluid.nl/schema/'
 SCHEMA_DOT_ORG_NAMESPACE = 'https://schema.org/'
-NISV_DATA_NAMESPACE = 'http://data.rdlabs.beeldengeluid.nl/id/'
+NISV_DATA_NAMESPACE = 'http://data.beeldengeluid.nl/id/'
 NISV_SCHEMA_PREFIX = "nisv"
 SCHEMA_DOT_ORG_PREFIX = "sdo"
 NISV_DATA_PREFIX = "id"
@@ -32,10 +32,8 @@ LICENSE = SCHEMA_DOT_ORG_NAMESPACE + "license"
 # TODO work out how to handle this, is no equivalent property
 # IS_PART_OF_PROGRAM = SCHEMA_DOT_ORG_NAMESPACE + "isPartOfProgram"
 HAS_ASSOCIATED_MEDIA = SCHEMA_DOT_ORG_NAMESPACE + "associatedMedia"
-URL = SCHEMA_DOT_ORG_NAMESPACE + "url"
 HAS_CONTENT_URL = SCHEMA_DOT_ORG_NAMESPACE + "contentUrl"
 IS_MAIN_ENTITY_OF_PAGE = SCHEMA_DOT_ORG_NAMESPACE + "mainEntityOfPage"
-#IS_PART_OF_PROGRAM = SCHEMA_DOT_ORG_NAMESPACE + "isPartOfProgram"  # TODO work out how to handle this, is no equivalent property
 
 # TODO: look at how to use the GTAA types
 # list of non-gtaa types, so we can use the correct namespace for concepts of this type
