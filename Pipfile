@@ -22,6 +22,10 @@ google-auth-oauthlib = "*"
 urllib3 = "*"
 requests = "*"
 rdflib = "*"
+pytest = "*"
+mockito = "*"
+numpy = "*"
+elasticsearch = "*"
 
 [requires]
 python_version = "3.8"
