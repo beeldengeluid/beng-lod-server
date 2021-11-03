@@ -1,0 +1,25 @@
+{
+  "@context": {
+    "gtaa": "http://data.beeldengeluid.nl/gtaa/",
+    "non-gtaa": "http://data.beeldengeluid.nl/nongtaa/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "sdo": "https://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xml": "http://www.w3.org/XML/1998/namespace",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@id": "http://data.beeldengeluid.nl/id/program/2101608170156857531",
+  "@type": "https://schema.org/CreativeWork",
+  "https://schema.org/datePublished": "2015-05-19",
+  "https://schema.org/duration": "7200",
+  "https://schema.org/license": {
+    "@id": "http://rightsstatements.org/vocab/InC/1.0/"
+  },
+  "https://schema.org/partOfSeason": {
+    "@id": "http://data.beeldengeluid.nl/id/season/2101608040028986031"
+  },
+  "https://schema.org/url": {
+    "@id": "https://zoeken.beeldengeluid.nl/program/urn:vme:default:program:2101608170156857531"
+  }
+}

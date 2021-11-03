@@ -27,7 +27,7 @@ class StorageLODHandler:
     def get_storage_record(self, level, identifier, return_format):
         """ Constructs a URI from the level and identifier, retrieves the record metadata from the
          DM API URI, and returns LOD for the record in the desired return format.
-         :param level: cat type, e.g. 'program'
+         :param level: cat type ('program', 'series', 'season', 'scene')
          :param identifier: the DAAN id
          :param return_format: the Accept type, like 'text/turtle, etc.'
          :returns: a response object
@@ -47,13 +47,17 @@ class StorageLODHandler:
     def _prepare_uri(self, level, identifier):
         """ Constructs valid Storage url from the config settings, the level (cat type) and the identifier.
                 <storage URL>/storage/<TYPE>/<id>
-        :param level: the cat type
+            When <TYPE> is 'scene' it needs to be replaced with 'logtrackitem' for the storage API.
+        :param level: the cat type (program, series, season, scene)
         :param identifier: the DAAN id
         :returns: a proper URI for getting metadata from the DM API
         """
         url_parts = urlparse(self.config.get('STORAGE_BASE_URL'))
         if url_parts.netloc is not None:
-            path = '/'.join(['storage', level, str(identifier)])
+            if level == 'scene':
+                path = '/'.join(['storage', 'logtrackitem', str(identifier)])
+            else:
+                path = '/'.join(['storage', level, str(identifier)])
             parts = (url_parts.scheme, url_parts.netloc, path, '', '', '')
             return urlunparse(parts)
         else:

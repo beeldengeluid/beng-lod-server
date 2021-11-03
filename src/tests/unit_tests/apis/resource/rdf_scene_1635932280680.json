@@ -1,0 +1,31 @@
+{
+  "@context": {
+    "gtaa": "http://data.beeldengeluid.nl/gtaa/",
+    "non-gtaa": "http://data.beeldengeluid.nl/nongtaa/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "sdo": "https://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xml": "http://www.w3.org/XML/1998/namespace",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702280787434624",
+      "@type": "https://schema.org/Clip",
+      "https://schema.org/license": {
+        "@id": "http://rightsstatements.org/vocab/CNE/1.0/"
+      },
+      "https://schema.org/name": "Nijs, Rob de",
+      "https://schema.org/url": {
+        "@id": "https://zoeken.beeldengeluid.nl/program/urn:vme:default:program:2101608170159173431/asset/urn:vme:default:asset:2101609110211871921/segment/urn:vme:default:logtrackitem:2101702280787434624"
+      }
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/program/2101608170159173431",
+      "https://schema.org/hasPart": {
+        "@id": "http://data.beeldengeluid.nl/id/scene/2101702280787434624"
+      }
+    }
+  ]
+}

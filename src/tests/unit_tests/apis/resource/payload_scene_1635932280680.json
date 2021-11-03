@@ -1,0 +1,128 @@
+{
+    "id": "2101702280787434624",
+    "parents": [
+        {
+            "parent_type": "ITEM",
+            "parent_id": "2101609110211871921"
+        }
+    ],
+    "payload": {
+        "logtrackitem.siteid": {
+            "value": "LTI95451343_POS102595754"
+        },
+        "nisv.title": {
+            "value": "Nijs, Rob de"
+        },
+        "nisv.titletype": {
+            "value": "28",
+            "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC11/28",
+            "resolved_value": "titel"
+        },
+        "nisv.rightslicense": {
+            "value": "3",
+            "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-arlicense/3",
+            "resolved_value": "License check"
+        },
+        "nisv.metadatastatus": {
+            "value": "approved",
+            "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-metadatastatus/approved",
+            "resolved_value": "Approved"
+        },
+        "nisv.programid": {
+            "value": "PGM4520144"
+        },
+        "nisv.dragvolgnummer": {
+            "value": "3"
+        },
+        "nisv.dragersoort": {
+            "value": "10",
+            "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-dragersoort/10",
+            "resolved_value": "Photo"
+        }
+    },
+    "aclGroups": [
+        {
+            "name": "NISV_ADMINISTRATOR",
+            "read": "1",
+            "write": "1",
+            "nameRead": "NISV_ADMINISTRATOR_1"
+        },
+        {
+            "name": "PORTAL_GP",
+            "read": "1",
+            "nameRead": "PORTAL_GP_1"
+        },
+        {
+            "name": "PORTAL_MP_NISV",
+            "read": "1",
+            "nameRead": "PORTAL_MP_NISV_1"
+        },
+        {
+            "name": "TENANT_NISV",
+            "read": "1",
+            "write": "1",
+            "nameRead": "TENANT_NISV_1"
+        }
+    ],
+    "site_id": "LTI95451343_POS102595754",
+    "date_created": 1488281876359,
+    "date_last_updated": 1488281876428,
+    "media_start": 0.0,
+    "media_duration": 0.0,
+    "media_group": [
+        {
+            "type": "image/jpeg",
+            "url": "https://studio.mam.beeldengeluid.nl/api/media/mob/2101611290983345507/physical/2101611290983345507.jpg",
+            "frameRate": null,
+            "duration": null,
+            "startTime": null,
+            "isDefault": null
+        },
+        {
+            "type": "image/tiff",
+            "url": "https://studio.mam.beeldengeluid.nl/api/media/mob/2101611290983346207/physical/2101611290983346207.tiff",
+            "frameRate": null,
+            "duration": null,
+            "startTime": null,
+            "isDefault": "1"
+        },
+        {
+            "type": "image/jpeg",
+            "url": "https://studio.mam.beeldengeluid.nl/api/media/mob/2101611290983346807/physical/2101611290983346807.jpg",
+            "frameRate": null,
+            "duration": null,
+            "startTime": null,
+            "isDefault": null
+        },
+        {
+            "type": "image/tiff",
+            "url": "https://studio.mam.beeldengeluid.nl/api/media/mob/2101611290983350707/physical/2101611290983350707.tiff",
+            "frameRate": null,
+            "duration": null,
+            "startTime": null,
+            "isDefault": null
+        },
+        {
+            "type": "application/vnd.vizrt.ardok",
+            "url": "https://studio.mam.beeldengeluid.nl/api/media/mob/2101703150007511807/physical/2101703150007511807.data",
+            "frameRate": null,
+            "duration": null,
+            "startTime": null,
+            "isDefault": null
+        },
+        {
+            "type": "application/vnd.vizrt.ardokindex",
+            "url": "https://studio.mam.beeldengeluid.nl/api/media/mob/2101703150007511707/physical/2101703150007511707.index",
+            "frameRate": null,
+            "duration": null,
+            "startTime": null,
+            "isDefault": null
+        }
+    ],
+    "payload_model": "http://prd-app-bng-01.beeldengeluid.nl:8101/model/api/metadata/form/nisv-lti-sel-image/r1",
+    "viz_type": "LOGTRACKITEM",
+    "logtrack_type": "scenedesc",
+    "program_ref_id": "2101608170159173431",
+    "internal_ref_id": "2101609110242003123",
+    "acl_hash": -1089720507
+}

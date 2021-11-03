@@ -9,7 +9,7 @@ def get_lod_resource(level, identifier, mime_type, accept_profile, app_config):
     """ Generates the expected data based on the mime_type.
         It can be used by the accept-decorated methods from the resource derived class.
 
-        :param level: meaning the catalogue type, e.g. like 'program' (default), 'series', etc.
+        :param level: meaning the catalogue type ('program' (default), 'series', 'season', 'scene')
         :param identifier: the DAAN id the resource is findable with, in combination with level
         :param mime_type: the mime_type, or serialization the resource is requested in.
         :param accept_profile: the model/schema/ontology the data is requested in.
@@ -50,7 +50,7 @@ def get_lod_resource(level, identifier, mime_type, accept_profile, app_config):
     404: 'Resource does not exist.',
     406: 'Not Acceptable. The requested format in the Accept header is not supported by the server.'
 })
-@api.route('id/<any(program, series, season, logtrackitem):cat_type>/<int:identifier>', endpoint='dereference')
+@api.route('id/<any(program, series, season, scene):cat_type>/<int:identifier>', endpoint='dereference')
 class ResourceAPI(Resource):
 
     def get(self, identifier, cat_type='program'):

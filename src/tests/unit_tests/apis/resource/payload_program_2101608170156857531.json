@@ -1,0 +1,270 @@
+{
+    "id": "2101608170156857531",
+    "parents": [
+        {
+            "parent_type": "SEASON",
+            "parent_id": "2101608040028986031"
+        }
+    ],
+    "payload": {
+        "nisv.seriestitle": {
+            "value": "MET MICHIEL"
+        },
+        "nisv.seasontitle": {
+            "value": "Met Michiel (2014 - 2015)"
+        },
+        "nisv.length": {
+            "value": "7200"
+        },
+        "nisv.strlength": {
+            "value": "2:00:00"
+        },
+        "nisv.summaryshort": {
+            "value": "Begin je werk- of schooldag met heel veel goede muziek! Michiel Veenstra draait de mooiste classics naast de allerlekkerste muziek van nu en zoekt naar mooie en opmerkelijke verhalen achter de liedjes. Met elke week een artiest of band vol in de spotlights."
+        },
+        "nisv.episodenumber": {
+            "value": "1"
+        },
+        "nisv.category": {
+            "value": "musicprogrammes",
+            "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-category/musicprogrammes",
+            "resolved_value": "music programmes"
+        },
+        "nisv.rightslicense": {
+            "value": "3",
+            "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-arlicense/3",
+            "resolved_value": "License check"
+        },
+        "nisv.rightslicenseterms": {
+            "value": "Voor het lenen en het gebruik van liveoptredens in deze uitzendingen moet toestemming worden gevraagd bij de NTR."
+        },
+        "nisv.publishings": [
+            {
+                "publishings.presentlyshared": {
+                    "value": "true"
+                },
+                "publishings.note": {
+                    "value": "Added by batch ACL job"
+                },
+                "publishings.publishing": {
+                    "value": "NISVMPP",
+                    "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-publishingpoints/NISVMPP",
+                    "resolved_value": "NISV @MPP"
+                }
+            },
+            {
+                "publishings.presentlyshared": {
+                    "value": "true"
+                },
+                "publishings.note": {
+                    "value": "Added by batch ACL job"
+                },
+                "publishings.publishing": {
+                    "value": "GPP",
+                    "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-publishingpoints/GPP",
+                    "resolved_value": "GPP"
+                }
+            },
+            {
+                "publishings.publishing": {
+                    "value": "OMP",
+                    "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-publishingpoints/OMP",
+                    "resolved_value": "OMP"
+                },
+                "publishings.presentlyshared": {
+                    "value": "true"
+                },
+                "publishings.determinationdate": {
+                    "value": "2019-08-12"
+                }
+            }
+        ],
+        "nisv.publication": [
+            {
+                "publication.productionid": {
+                    "value": "RBX_NTR_646746"
+                },
+                "publication.distributionchannel": {
+                    "value": "80",
+                    "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC1/80",
+                    "resolved_value": "radio"
+                },
+                "publication.begindate": {
+                    "value": "2015-05-19"
+                },
+                "publication.type": {
+                    "value": "78",
+                    "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC3/78",
+                    "resolved_value": "uitzending"
+                },
+                "publication.station": {
+                    "value": "239583",
+                    "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE31/239583",
+                    "resolved_value": "NPO 3FM"
+                },
+                "publication.origbroadcastorg": {
+                    "value": "NTR"
+                },
+                "publication.broadcastorg": {
+                    "value": "223534",
+                    "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE30/223534",
+                    "resolved_value": "NTR"
+                },
+                "publication.starttime": {
+                    "value": "36000000"
+                },
+                "publication.strstarttime": {
+                    "value": "10:00:00"
+                },
+                "publication.endtime": {
+                    "value": "43200000"
+                },
+                "publication.strendtime": {
+                    "value": "12:00:00"
+                }
+            }
+        ],
+        "nisv.materialtype": {
+            "value": "audio",
+            "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-pgmmaterialtype/audio",
+            "resolved_value": "audio"
+        },
+        "nisv.sourcecatalogue": {
+            "value": "2862377",
+            "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC27/2862377",
+            "resolved_value": "POMS"
+        },
+        "nisv.sourceid": {
+            "value": "RBX_NTR_646746"
+        },
+        "nisv.language": [
+            {
+                "language.name": {
+                    "value": "30509",
+                    "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE28/30509",
+                    "resolved_value": "Nederlands"
+                },
+                "language.use": {
+                    "value": "32",
+                    "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC12/32",
+                    "resolved_value": "uitgangstaal"
+                }
+            }
+        ],
+        "nisv.link": [
+            {
+                "link.url": {
+                    "value": "urn:vpro:media:program:45702802"
+                },
+                "link.type": {
+                    "value": "1"
+                }
+            }
+        ],
+        "nisv.culturalheritage": {
+            "value": "1897254",
+            "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC44/1897254",
+            "resolved_value": "C"
+        },
+        "nisv.suitableformuseum": {
+            "value": "false"
+        },
+        "nisv.tenant": {
+            "value": "tenant_NISV",
+            "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-tenants/tenant_NISV",
+            "resolved_value": "Beeld En Geluid"
+        },
+        "nisv.tasklist": [
+            {
+                "tasklist.id": {
+                    "value": "5244875"
+                },
+                "tasklist.status": {
+                    "value": "5",
+                    "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-taskliststatus/5",
+                    "resolved_value": "Goedgekeurd"
+                },
+                "tasklist.intention": {
+                    "value": "1",
+                    "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-intention/1",
+                    "resolved_value": "Professioneel"
+                }
+            }
+        ],
+        "nisv.metadatastatus": {
+            "value": "approved",
+            "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-metadatastatus/approved",
+            "resolved_value": "Approved"
+        },
+        "nisv.metadatastatushidden": {
+            "value": "approved",
+            "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-metadatastatus/approved",
+            "resolved_value": "Approved"
+        },
+        "nisv.sourcedescription": {
+            "value": "{\n  \"_id\": \"urn:vpro:media:program:45702802\",\n  \"_rev\": \"8-750e168e47d6c26827d67f7349551bff\",\n  \"episodeOf\": [\n    {\n      \"urnRef\": \"urn:vpro:media:group:73216\",\n      \"midRef\": \"AUTO_METMICHIEL\",\n      \"added\": 1412684645845,\n      \"highlighted\": false,\n      \"type\": \"SERIES\",\n      \"index\": 1\n    }\n  ],\n  \"segments\": [\n    {\n      \"start\": 4542000,\n      \"urnRef\": \"urn:vpro:media:program:45702802\",\n      \"midRef\": \"RBX_NTR_646746\",\n      \"type\": \"SEGMENT\",\n      \"objectType\": \"segment\",\n      \"creationDate\": 1432027755307,\n      \"lastModified\": 1432027755429,\n      \"workflow\": \"PUBLISHED\",\n      \"mid\": \"RBX_NTR_865469\",\n      \"avType\": \"AUDIO\",\n      \"duration\": 283000,\n      \"crids\": [\n        \"crid://audiofragment.radiobox2/185602\"\n      ],\n      \"broadcasters\": [\n        \"NTR\"\n      ],\n      \"titles\": [\n        {\n          \"value\": \"Alabama Shakes: &#39;covers spelen of eigen werk? Dan maar eigen werk&#39;\",\n          \"owner\": \"RADIOBOX\",\n          \"type\": \"MAIN\"\n        }\n      ],\n      \"portals\": null,\n      \"descriptions\": null,\n      \"genres\": [],\n      \"tags\": [\n        \"Alabama Shakes\",\n        \"down the rabbit hole\"\n      ],\n      \"languages\": [],\n      \"locations\": [\n        {\n          \"programUrl\": \"http://radiobox2.omroep.nl/audiofragment/file/185602/fragment.mp3\",\n          \"avAttributes\": {\n            \"avFileFormat\": \"MP3\",\n            \"bitrate\": 0,\n            \"audioAttributes\": null\n          },\n          \"duration\": 0,\n          \"creationDate\": 1432027751882,\n          \"lastModified\": 1432027755430,\n          \"workflow\": \"PUBLISHED\",\n          \"type\": null,\n          \"owner\": \"RADIOBOX\",\n          \"urn\": \"urn:vpro:media:location:55597692\"\n        }\n      ],\n      \"scheduleEvents\": null,\n      \"images\": null,\n      \"urn\": \"urn:vpro:media:segment:55597690\",\n      \"embeddable\": true,\n      \"credits\": null,\n      \"isOrdered\": false,\n      \"sortDate\": 1432022400000,\n      \"descendantOf\": [\n        {\n          \"urnRef\": \"urn:vpro:media:group:73216\",\n          \"midRef\": \"AUTO_METMICHIEL\",\n          \"type\": \"SERIES\"\n        },\n        {\n          \"urnRef\": \"urn:vpro:media:program:45702802\",\n          \"midRef\": \"RBX_NTR_646746\",\n          \"type\": \"BROADCAST\"\n        }\n      ]\n    }\n  ],\n  \"poProgID\": null,\n  \"poSeriesID\": null,\n  \"poProgType\": null,\n  \"email\": null,\n  \"memberOf\": null,\n  \"websites\": null,\n  \"predictions\": null,\n  \"type\": \"BROADCAST\",\n  \"objectType\": \"program\",\n  \"creationDate\": 1412684645654,\n  \"lastModified\": 1432030224054,\n  \"workflow\": \"PUBLISHED\",\n  \"mid\": \"RBX_NTR_646746\",\n  \"avType\": \"AUDIO\",\n  \"duration\": 0,\n  \"crids\": [\n    \"crid://broadcast.radiobox2/298537\"\n  ],\n  \"broadcasters\": [\n    \"NTR\"\n  ],\n  \"titles\": [\n    {\n      \"value\": \"MetMichiel\",\n      \"owner\": \"RADIOBOX\",\n      \"type\": \"MAIN\"\n    }\n  ],\n  \"portals\": null,\n  \"descriptions\": [\n    {\n      \"value\": \"Begin je werk- of schooldag met heel veel goede muziek! Michiel Veenstra draait de mooiste classics naast de allerlekkerste muziek van nu en zoekt naar mooie en opmerkelijke verhalen achter de liedjes. Met elke week een artiest of band vol in de spotlights.\",\n      \"owner\": \"RADIOBOX\",\n      \"type\": \"MAIN\"\n    }\n  ],\n  \"genres\": [],\n  \"tags\": null,\n  \"languages\": [],\n  \"locations\": [\n    {\n      \"programUrl\": \"http://radiobox2.omroep.nl/broadcaststream/file/434045.mp3\",\n      \"avAttributes\": {\n        \"avFileFormat\": \"MP3\",\n        \"bitrate\": 0,\n        \"audioAttributes\": null\n      },\n      \"duration\": 0,\n      \"creationDate\": 1432030215176,\n      \"lastModified\": 1432030219728,\n      \"workflow\": \"PUBLISHED\",\n      \"type\": null,\n      \"owner\": \"RADIOBOX\",\n      \"urn\": \"urn:vpro:media:location:55600268\"\n    }\n  ],\n  \"scheduleEvents\": [\n    {\n      \"repeat\": null,\n      \"start\": 1432022400000,\n      \"duration\": 7200000,\n      \"poProgID\": \"RBX_NTR_646746\",\n      \"channel\": \"RAD3\",\n      \"urnRef\": \"urn:vpro:media:program:45702802\",\n      \"midRef\": \"RBX_NTR_646746\"\n    }\n  ],\n  \"images\": [\n    {\n      \"title\": \"persfoto_michiel_door_hp_juli_2013_8_(1).jpeg\",\n      \"imageUri\": \"urn:vpro:image:422409\",\n      \"creationDate\": 1430913614522,\n      \"lastModified\": 1430913617855,\n      \"workflow\": \"PUBLISHED\",\n      \"owner\": \"RADIOBOX\",\n      \"type\": \"PICTURE\",\n      \"highlighted\": false,\n      \"urn\": \"urn:vpro:media:image:55030328\",\n      \"description\": null\n    }\n  ],\n  \"urn\": \"urn:vpro:media:program:45702802\",\n  \"embeddable\": true,\n  \"credits\": [\n    {\n      \"givenName\": \"Michiel\",\n      \"familyName\": \"Veenstra\",\n      \"role\": \"PRESENTER\"\n    }\n  ],\n  \"isOrdered\": false,\n  \"sortDate\": 1432022400000,\n  \"descendantOf\": [\n    {\n      \"urnRef\": \"urn:vpro:media:group:73216\",\n      \"midRef\": \"AUTO_METMICHIEL\",\n      \"type\": \"SERIES\"\n    }\n  ]\n}"
+        },
+        "nisv.collectionsgroup": [
+            {
+                "collectionsgroup.dir": {
+                    "value": "50000",
+                    "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/directory/collections-group/50000",
+                    "resolved_value": "Publieke omroepen",
+                    "nisv.collectionsname": {
+                        "value": "Publieke omroepen"
+                    }
+                }
+            }
+        ],
+        "nisv.sortdate": {
+            "value": "2015-05-19"
+        },
+        "nisv.currentbroadcaster": [
+            {
+                "currentbroadcaster.broadcaster": {
+                    "value": "223534",
+                    "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE30/223534",
+                    "resolved_value": "NTR"
+                }
+            }
+        ],
+        "omp.showbrowse": {
+            "value": "false"
+        }
+    },
+    "aclGroups": [
+        {
+            "name": "NISV_ADMINISTRATOR",
+            "read": "1",
+            "write": "1",
+            "nameRead": "NISV_ADMINISTRATOR_1"
+        },
+        {
+            "name": "PORTAL_EDU_NISV",
+            "read": "1",
+            "nameRead": "PORTAL_EDU_NISV_1"
+        },
+        {
+            "name": "PORTAL_GP",
+            "read": "1",
+            "nameRead": "PORTAL_GP_1"
+        },
+        {
+            "name": "PORTAL_MP_NISV",
+            "read": "1",
+            "nameRead": "PORTAL_MP_NISV_1"
+        },
+        {
+            "name": "TENANT_NISV",
+            "read": "1",
+            "write": "1",
+            "nameRead": "TENANT_NISV_1"
+        }
+    ],
+    "site_id": "PGM4485841",
+    "date_created": 1432026510000,
+    "date_last_updated": 1565576044463,
+    "payload_model": "http://prd-app-bng-01.beeldengeluid.nl:8101/model/api/metadata/form/nisv-tv-radio-program/r1",
+    "viz_type": "PROGRAM",
+    "acl_hash": 581299796
+}
