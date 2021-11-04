@@ -1,5 +1,5 @@
-from src.apis.resource.DAANStorageLODHandler import DAANStorageLODHandler
-from src.apis.resource.SDOStorageLODHandler import SDOStorageLODHandler
+from apis.resource.DAANStorageLODHandler import DAANStorageLODHandler
+from apis.resource.SDOStorageLODHandler import SDOStorageLODHandler
 
 
 class Config(object):
