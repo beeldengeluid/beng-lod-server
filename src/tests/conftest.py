@@ -82,6 +82,7 @@ def application_settings():
     app.config['ACTIVE_PROFILE'] = app.config['PROFILES'][0]
     return app.config
 
+
 """------------------------ APPLICATION CLIENT (VALID & INVALID) ----------------------"""
 
 
@@ -116,7 +117,8 @@ def flask_test_client():
 def http_test_client(application_settings):
     """ Returns an HTTP client that can send requests to local server."""
     import requests
-    class HTTPClient():
+
+    class HTTPClient:
         def post(self, path, data=None):
             return requests.post(
                 'http://localhost:%s%s' % (application_settings['APP_PORT'], path),
@@ -143,7 +145,7 @@ def generic_client(http_test_client, flask_test_client):
             self.status_code = status_code
             self.headers = headers
 
-    class GenericClient():
+    class GenericClient:
         def post(self, mode, path, data=None):
             if mode == 'offline':
                 r = flask_test_client.post(
