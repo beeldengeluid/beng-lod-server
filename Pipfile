@@ -22,8 +22,6 @@ google-auth-oauthlib = "*"
 urllib3 = "*"
 requests = "*"
 rdflib = "*"
-pytest = "*"
-mockito = "*"
 numpy = "*"
 elasticsearch = "*"
 
