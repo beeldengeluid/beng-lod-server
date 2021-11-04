@@ -31,13 +31,12 @@ def test_get_program_photo():
 
 @pytest.mark.parametrize('concept_uri',  ['http://vanhetneppadjeaf.com', 'file://bestaatnietman', 'fake://hahahaha'])
 def test_get_concept_rdf__invalid_concept_uri(application_settings, concept_uri):
-    with pytest.raises(OSError):
-        try:
-            handler_concept = LODHandlerConcept(application_settings)
-            when(LODHandlerConcept).get_concept_uri(DUMMY_SET, DUMMY_NOTATION).thenReturn(concept_uri)
-            data, status_code, headers = handler_concept.get_concept_rdf(DUMMY_SET, DUMMY_NOTATION, return_format=format)
-        finally:
-            unstub()
+    try:
+        handler_concept = LODHandlerConcept(application_settings)
+        when(LODHandlerConcept).get_concept_uri(DUMMY_SET, DUMMY_NOTATION).thenReturn(concept_uri)
+        data, status_code, headers = handler_concept.get_concept_rdf(DUMMY_SET, DUMMY_NOTATION, return_format=format)
+    finally:
+        unstub()
 
 @pytest.mark.parametrize('concept_uri',  ['geeneens een url'])
 def test_get_concept_rdf__concept_uri_not_uri(application_settings, concept_uri):
@@ -52,15 +51,14 @@ def test_get_concept_rdf__concept_uri_not_uri(application_settings, concept_uri)
         unstub()
 
 def test_get_concept_rdf__invalid_return_format(application_settings, get_concept_rdf_url):
-    with pytest.raises(OSError):
-        try:
-            handler_concept = LODHandlerConcept(application_settings)
-            when(LODHandlerConcept).get_concept_uri(DUMMY_SET, DUMMY_NOTATION).thenReturn(get_concept_rdf_url)
-            data, status_code, headers = handler_concept.get_concept_rdf(DUMMY_SET, DUMMY_NOTATION, return_format='DIKKENEPZOOI')
-            assert 'error' in data
-            assert APIUtil.matchesErrorId(data['error'], 'bad_request')
-        finally:
-            unstub()
+    try:
+        handler_concept = LODHandlerConcept(application_settings)
+        when(LODHandlerConcept).get_concept_uri(DUMMY_SET, DUMMY_NOTATION).thenReturn(get_concept_rdf_url)
+        data, status_code, headers = handler_concept.get_concept_rdf(DUMMY_SET, DUMMY_NOTATION, return_format='DIKKENEPZOOI')
+        assert 'error' in data
+        assert APIUtil.matchesErrorId(data['error'], 'bad_request')
+    finally:
+        unstub()
 
 
 @pytest.mark.parametrize('ld_format',  ['xml', 'json-ld', 'ttl', 'n3'])
