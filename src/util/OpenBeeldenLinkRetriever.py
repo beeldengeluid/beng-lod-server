@@ -137,7 +137,7 @@ def generate_candidate_queries(ob_source_list, result):
     return candidate_carrier_queries
 
 
-def get_link(result):
+def get_content_link(result):
     ob_link = ""
     if "dcterms:hasFormat" in result["_source"]["@graph"]:
         if type(result["_source"]["@graph"]["dcterms:hasFormat"]) == list:
@@ -152,6 +152,33 @@ def get_link(result):
                     ob_link = hasFormat
     return ob_link
 
+def get_website(result):
+    website = ""
+    if "cc:attributionURL" in result["_source"]["@graph"]:
+        website = result["_source"]["@graph"]["cc:attributionURL"]
+
+    return website
+
+def get_title(result):
+    ob_title = ""
+    if isinstance(result["_source"]["@graph"]["dcterms:title"], list):
+        for title in result["_source"]["@graph"]["dcterms:title"]:
+            if title["@language"] == "nl":
+                ob_title = title["@value"]
+    else:
+        ob_title = result["_source"]["@graph"]["dcterms:title"]["@value"]
+    return ob_title
+
+def get_source_list(result):
+    ob_source_list = []
+    if "dcterms:source" in result["_source"]["@graph"]:
+        ob_source_json = result["_source"]["@graph"]["dcterms:source"]
+        if type(ob_source_json) == list:
+            ob_source_list = [source_item["@value"] for source_item in ob_source_json]
+        else:
+            ob_source_list = [ob_source_json["@value"]]
+
+    return ob_source_list
 
 if __name__ == '__main__':
     print(sys.argv)
@@ -166,7 +193,7 @@ if __name__ == '__main__':
     matches = {}
 
     query = {"_source": ["@graph.dcterms:source", "@graph.dcterms:hasFormat", "@graph.dcterms:identifier",
-                         "@graph.dcterms:title"],
+                         "@graph.dcterms:title", "@graph.cc:attributionURL"],
              "query": {
                  "bool": {
                      "must": [
@@ -185,27 +212,13 @@ if __name__ == '__main__':
     scene_description_level_match_count = 0
     fails = []
     for result in resp:
-        ob_id = result["_id"]
-        ob_source_list = []
-        ob_link = ""
-        ob_title = ""
         successful_query = {}
 
-        if isinstance(result["_source"]["@graph"]["dcterms:title"], list):
-            for title in result["_source"]["@graph"]["dcterms:title"]:
-                if title["@language"] == "nl":
-                    ob_title = title["@value"]
-        else:
-            ob_title = result["_source"]["@graph"]["dcterms:title"]["@value"]
-
-        if "dcterms:source" in result["_source"]["@graph"]:
-            ob_source_json = result["_source"]["@graph"]["dcterms:source"]
-            if type(ob_source_json) == list:
-                ob_source_list = [source_item["@value"] for source_item in ob_source_json]
-            else:
-                ob_source_list = [ob_source_json["@value"]]
-
-        ob_link = get_link(result)
+        ob_id = result["_id"]
+        ob_title = get_title(result)
+        ob_source_list = get_source_list(result)
+        ob_content_link = get_content_link(result)
+        ob_website = get_website(result)
 
         # # Now Find It!
         if count >= 0:
@@ -271,14 +284,13 @@ if __name__ == '__main__':
                                 if 'title' in scene_result:
                                     for scene_title in scene_result['title']:
                                         if titles_match(scene_title, ob_title, 70):
-                                            # check if the scene description is attached to the right carrier
-                                            # if 'item_id' in scene_result and
-                                            # scene_result['item_id'] == matched_carrier_id:
-                                            if True:
-                                                # use the scene description ID for the link
-                                                print(f"Using {scene_title} for {ob_title}")
-                                                matched_id = scene_result['id']
-                                                local_match_count += 1
+                                            # we do NOT check for a carrier match, we assume that as there is already
+                                            # a link at programme level, any scene description that matches on title
+                                            # is good
+                                            # use the scene description ID for the link
+                                            print(f"Using {scene_title} for {ob_title}")
+                                            matched_id = scene_result['id']
+                                            local_match_count += 1
                         if local_match_count > 1:
                             print("WARNING: ambiguous matches for scene description")
                     if matched_id == daan_id:
@@ -290,13 +302,14 @@ if __name__ == '__main__':
                         scene_description_level_match_count += 1
                     match_count += 1
                     if matched_id in matches:
-                        if ob_link not in matches[matched_id]["links"]:
-                            matches[matched_id]["links"].append(ob_link)
+                        if ob_content_link not in matches[matched_id]["content_links"]:
+                            matches[matched_id]["content_links"].append(ob_content_link)
                         matches[matched_id]["sources"].extend(ob_source_list)
                     else:
                         matches[matched_id] = {}
-                        matches[matched_id]["links"] = [ob_link]
+                        matches[matched_id]["content_links"] = [ob_content_link]
                         matches[matched_id]["sources"] = ob_source_list
+                        matches[matched_id]["website"] = ob_website
             else:
                 fails.append(ob_id)
             print(f"{count}")

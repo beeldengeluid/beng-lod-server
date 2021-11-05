@@ -1,6 +1,6 @@
 import json
 import pytest
-import util.OpenBeeldenLinkRetriever as ob
+from util import OpenBeeldenLinkRetriever as ob
 
 
 @pytest.mark.parametrize(('ob_source', 'hasFormat', 'identifier'), [

@@ -3,7 +3,7 @@ from .dataset.dataset_api import api as dataset_api
 from .resource.resource_api import api as resource_api
 from .concept.concept_api import api as concept_api
 try:
-	from config.settings import Config # fails in unit test
+	from config.settings import Config  # fails in unit test
 except ImportError as e:
 	from config.settings_example import Config
 
