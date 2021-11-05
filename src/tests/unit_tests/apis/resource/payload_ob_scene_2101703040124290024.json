@@ -1,0 +1,156 @@
+{
+    "id": "2101703040124290024",
+    "parents": [
+        {
+            "parent_type": "ITEM",
+            "parent_id": "2101608310097797221"
+        }
+    ],
+    "payload": {
+        "nisv.programid": {
+            "value": "PGM4011489"
+        },
+        "nisv.segmenttype": {
+            "value": "25",
+            "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC2/25",
+            "resolved_value": "item"
+        },
+        "logtrackitem.siteid": {
+            "value": "LTI98960475_POS106992639"
+        },
+        "nisv.title": {
+            "value": "JAARLIJKSE RIJJOOL VAN DE STUDENTEN"
+        },
+        "nisv.strlength": {
+            "value": "0:01:22"
+        },
+        "nisv.lengthannotation": {
+            "value": "Avail: 1'22\" (33 mtr.)"
+        },
+        "nisv.summary": {
+            "value": "Feestende, drinkende en lol makende studenten uit Wageningen,\r\ndie (oa per koets) deelnemen aan de jaarlijkse rijjool naar\r\nNijmegen."
+        },
+        "nisv.subjectterm": [
+            {
+                "subjectterm.name": {
+                    "value": "28560",
+                    "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE23/28560",
+                    "resolved_value": "feesten"
+                }
+            },
+            {
+                "subjectterm.name": {
+                    "value": "29018",
+                    "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE23/29018",
+                    "resolved_value": "rijtoeren"
+                }
+            },
+            {
+                "subjectterm.name": {
+                    "value": "26863",
+                    "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE23/26863",
+                    "resolved_value": "studenten"
+                }
+            }
+        ],
+        "nisv.geographical": [
+            {
+                "geographical.name": {
+                    "value": "39742",
+                    "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE26/39742",
+                    "resolved_value": "Nederland"
+                }
+            },
+            {
+                "geographical.name": {
+                    "value": "44495",
+                    "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE26/44495",
+                    "resolved_value": "Wageningen"
+                }
+            }
+        ],
+        "nisv.rightslicense": {
+            "value": "3",
+            "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-arlicense/3",
+            "resolved_value": "License check"
+        },
+        "nisv.recordinginformation": [
+            {
+                "recordinginformation.date": {
+                    "value": "1937-10-09"
+                }
+            }
+        ],
+        "nisv.colour": {
+            "value": "37",
+            "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC13/37",
+            "resolved_value": "zwart/wit"
+        },
+        "nisv.mute": {
+            "value": "true"
+        },
+        "nisv.sourcecatalogue": {
+            "value": "13",
+            "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC27/13",
+            "resolved_value": "Polygoon Hollands Nieuws"
+        },
+        "nisv.sourceid": {
+            "value": "4431"
+        },
+        "nisv.annotation": {
+            "value": "RVD-nummer: 099-131 UMATIC/VHS\r\nTussentitel(s).\r\nPapieren: Titellijst Centrale Commissie Filmkeuring. Zie bijlage\r\nbij\r\nbeschrijving"
+        },
+        "nisv.dragersoort": {
+            "value": "1",
+            "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-dragersoort/1",
+            "resolved_value": "Program"
+        },
+        "nisv.annotatie": {
+            "value": "Film: 35mm; origineel; negatief bij AVAC; master bij RVD.\r\nMateriaal: Zw/w\r\nGeluid: stom"
+        },
+        "nisv.dragvolgnummer": {
+            "value": "1"
+        }
+    },
+    "aclGroups": [
+        {
+            "name": "NISV_ADMINISTRATOR",
+            "read": "1",
+            "write": "1",
+            "nameRead": "NISV_ADMINISTRATOR_1"
+        },
+        {
+            "name": "PORTAL_EDU_NISV",
+            "read": "1",
+            "nameRead": "PORTAL_EDU_NISV_1"
+        },
+        {
+            "name": "PORTAL_GP",
+            "read": "1",
+            "nameRead": "PORTAL_GP_1"
+        },
+        {
+            "name": "PORTAL_MP_NISV",
+            "read": "1",
+            "nameRead": "PORTAL_MP_NISV_1"
+        },
+        {
+            "name": "TENANT_NISV",
+            "read": "1",
+            "write": "1",
+            "nameRead": "TENANT_NISV_1"
+        }
+    ],
+    "site_id": "LTI98960475_POS106992639",
+    "date_created": 1488660755348,
+    "date_last_updated": 1488660755437,
+    "media_start": 907.0,
+    "media_duration": 82.0,
+    "media_group": [],
+    "payload_model": "http://prd-app-bng-01.beeldengeluid.nl:8101/model/api/metadata/form/nisv-lti-sel-film-sound/r1",
+    "viz_type": "LOGTRACKITEM",
+    "logtrack_type": "scenedesc",
+    "program_ref_id": "2101608140120072331",
+    "internal_ref_id": "2101608310113256223",
+    "acl_hash": 581299796
+}

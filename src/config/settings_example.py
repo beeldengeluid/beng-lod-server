@@ -12,7 +12,7 @@ class Config(object):
 
     STORAGE_BASE_URL = 'http://prd-app-bng-01.beeldengeluid.nl:8101/'
 
-    ENABLED_ENDPOINTS = ['resource', 'concept', 'dataset'] # allow all by default
+    ENABLED_ENDPOINTS = ['resource', 'concept', 'dataset']  # allow all by default
 
     PROFILES = [
         {
