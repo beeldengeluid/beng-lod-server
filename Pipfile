@@ -24,6 +24,7 @@ requests = "*"
 rdflib = "*"
 numpy = "*"
 elasticsearch = "*"
+flask = "*"
 
 [requires]
 python_version = "3.8"

@@ -152,7 +152,6 @@ class SDORdfConcept(BaseRdfConcept):
     @cache.cached(timeout=0, key_prefix='sdo_scheme')
     def get_scheme(self):
         """ Returns a schema instance."""
-        # FIXME this does not work yet for the SDO schema (see the DAANSchemaImporter)
         return DAANSchemaImporter(self.profile["schema"], self.profile["mapping"])
 
     @cache.cached(timeout=0)

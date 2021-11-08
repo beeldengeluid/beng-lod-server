@@ -1,6 +1,7 @@
 import pytest
 import os
 import pathlib
+from cache import cache
 
 
 @pytest.fixture()
