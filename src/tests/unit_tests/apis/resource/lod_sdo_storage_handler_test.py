@@ -8,6 +8,7 @@ from rdflib.namespace import RDF
 from apis.mime_type_util import parse_accept_header, MimeType, get_profile_by_uri
 from cache import cache
 from flask import Flask
+from server import get_active_profile, config_absolute_paths
 
 # setup the test client
 app = Flask(__name__)
@@ -16,8 +17,6 @@ app = Flask(__name__)
 app.config.from_object('config.settings.Config')
 
 # init cache
-
-# cache = Cache()
 cache.init_app(app)
 
 """ ------------------------ fetchDocument -----------------------"""
@@ -31,12 +30,11 @@ RETURN_FORMAT_JSONLD = 'application/ld+json'
 
 def test_get_payload_scene_ob(application_settings, i_ob_scene_payload):
     try:
-        profile = get_profile_by_uri(SDO_PROFILE, application_settings)
+        profile = application_settings.get('ACTIVE_PROFILE')
         sdo_handler = profile['storage_handler'](application_settings, profile)
         when(sdo_handler)._prepare_uri(DUMMY_SET, DUMMY_NOTATION).thenReturn(DUMMY_URL)
         when(sdo_handler)._get_json_from_storage(DUMMY_URL).thenReturn(i_ob_scene_payload)
         mt = MimeType(RETURN_FORMAT_JSONLD)
-
         resp, status_code, headers = sdo_handler.get_storage_record(
             DUMMY_SET,
             DUMMY_NOTATION,
@@ -46,7 +44,10 @@ def test_get_payload_scene_ob(application_settings, i_ob_scene_payload):
 
         # load the resulting RDF data into a Graph
         g = Graph()
-        g.load(resp)
+        g.parse(data=resp, format=mt.to_ld_format())
+
+        # test for number of triples
+        assert len(g) == 30
 
         # test for existence of some triples
         type_triple = (URIRef("http://data.beeldengeluid.nl/id/scene/2101703040124290024"),
@@ -66,5 +67,3 @@ def test_get_payload_scene_ob(application_settings, i_ob_scene_payload):
 
     finally:
         unstub()
-
-    # when(SDOStorageLODHandler)._storage_2_lod(DUMMY_URL, RETURN_FORMAT_JSONLD).thenReturn(i_ob_scene_rdf)

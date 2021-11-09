@@ -3,6 +3,7 @@ import json
 import os
 import pytest
 from lxml import etree
+from server import config_absolute_paths, get_active_profile
 
 """
 Basic fixtures that are useful for most of the test modules
@@ -79,7 +80,9 @@ def application_settings():
     """ Returns the application settings."""
     app = Flask(__name__)
     app.config.from_object('config.settings_example.Config')
-    app.config['ACTIVE_PROFILE'] = app.config['PROFILES'][0]
+    app.config['ACTIVE_PROFILE'] = get_active_profile()
+    config_absolute_paths()
+
     return app.config
 
 

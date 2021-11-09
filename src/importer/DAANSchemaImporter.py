@@ -1,10 +1,9 @@
 import logging
-
 from rdflib import Graph
 from models.DAANRdfModel import HAS_DAAN_PATH
 
-"""Imports schema information as a list of classes, their properties, and the paths needed
-to retrieve these from the DAAN OAI-PMH"""
+""" Imports schema information as a list of classes, their properties, and the paths needed
+to retrieve these from the DAAN OAI-PMH """
 
 
 class DAANSchemaImporter:

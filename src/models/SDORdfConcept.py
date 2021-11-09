@@ -154,7 +154,7 @@ class SDORdfConcept(BaseRdfConcept):
         """ Returns a schema instance."""
         return DAANSchemaImporter(self.profile["schema"], self.profile["mapping"])
 
-    @cache.cached(timeout=0)
+    @cache.cached(timeout=0, key_prefix='openbeelden_links')
     def get_open_beelden_information(self, item_id):
         links = None
         website = None

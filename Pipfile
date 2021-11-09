@@ -25,6 +25,7 @@ rdflib = "*"
 numpy = "*"
 elasticsearch = "*"
 flask = "*"
+gitpython = "*"
 
 [requires]
 python_version = "3.8"
