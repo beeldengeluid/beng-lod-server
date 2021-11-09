@@ -8,9 +8,6 @@ from flask import Flask
 # setup the test client
 app = Flask(__name__)
 
-# init the config
-app.config.from_object('config.settings.Config')
-
 # init cache
 cache.init_app(app)
 
