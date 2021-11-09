@@ -3,7 +3,7 @@ import json
 import os
 import pytest
 from lxml import etree
-from config_util import config_absolute_paths
+from config.config_util import config_absolute_paths
 
 
 def get_active_profile(app):
