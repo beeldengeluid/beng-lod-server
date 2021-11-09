@@ -1,14 +1,9 @@
-import pytest
-import sys
 from mockito import when, unstub
-from apis.resource.SDOStorageLODHandler import SDOStorageLODHandler
-from util.APIUtil import APIUtil
 from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import RDF
-from apis.mime_type_util import parse_accept_header, MimeType, get_profile_by_uri
+from apis.mime_type_util import MimeType
 from cache import cache
 from flask import Flask
-from server import get_active_profile, config_absolute_paths
 
 # setup the test client
 app = Flask(__name__)
