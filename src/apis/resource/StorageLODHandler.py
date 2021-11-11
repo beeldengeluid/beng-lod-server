@@ -46,45 +46,6 @@ class StorageLODHandler:
         except urllib.error.HTTPError as e:
             return APIUtil.toErrorResponse('not_found', e)
 
-    # def is_public_resource(self, resource_url):
-    #     """ Fire a query to the public sparql endpoint. In case the resource is available, it is permitted
-    #     for public access.
-    #     :param resource_url: the resource to be checked.
-    #     :return True (yes, public access allowed), False (no, not allowed to dereference)
-    #     """
-    #     try:
-    #         # get the SPARQL endpoint from the config
-    #         sparql_endpoint = self.config.get('SPARQL_ENDPOINT')
-    #         query_ask = 'ASK {<%s> ?p ?o . }' % resource_url
-    #
-    #         # prepare and get the data from the triple store
-    #         resp = requests.get(sparql_endpoint, params={'query': query_ask, 'format': 'json'})
-    #         assert resp.status_code == 200, 'ASK request to sparql server was not successful.'
-    #
-    #         return resp.json().get('boolean') is True
-    #
-    #     except ConnectionError as e:
-    #         print(str(e))
-    #     except AssertionError as e:
-    #         print(str(e))
-    #     except Exception as e:
-    #         print(str(e))
-
-    # def _prepare_lod_resource_uri(self, level, identifier):
-    #     """ Constructs valid url using the data domain, the level (cat type) and the identifier.
-    #             <storage URL>/storage/<TYPE>/<id>
-    #     :param level: the cat type
-    #     :param identifier: the DAAN id
-    #     :returns: a proper URI as it should be listed in the LOD server
-    #     """
-    #     url_parts = urlparse(self.config.get('BENG_DATA_DOMAIN'))
-    #     if url_parts.netloc is not None:
-    #         path = '/'.join(['id', level, str(identifier)])
-    #         parts = (url_parts.scheme, url_parts.netloc, path, '', '', '')
-    #         return urlunparse(parts)
-    #     else:
-    #         return None
-
     def _prepare_storage_uri(self, level, identifier):
         """ Constructs valid Storage url from the config settings, the level (cat type) and the identifier.
                 <storage URL>/storage/<TYPE>/<id>

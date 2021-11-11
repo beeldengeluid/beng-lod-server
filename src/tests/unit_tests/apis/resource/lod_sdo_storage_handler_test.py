@@ -5,11 +5,6 @@ from apis.mime_type_util import MimeType
 from cache import cache
 from flask import Flask
 
-# setup the test client
-app = Flask(__name__)
-
-# init cache
-cache.init_app(app)
 
 """ ------------------------ fetchDocument -----------------------"""
 
@@ -22,6 +17,12 @@ RETURN_FORMAT_JSONLD = 'application/ld+json'
 
 def test_get_payload_scene_ob(application_settings, i_ob_scene_payload):
     try:
+        # # setup the test client
+        # app = Flask(__name__)
+
+        # init cache
+        cache.init_app(application_settings)
+
         profile = application_settings.get('ACTIVE_PROFILE')
         sdo_handler = profile['storage_handler'](application_settings, profile)
         # when(sdo_handler)._prepare_uri(DUMMY_SET, DUMMY_NOTATION).thenReturn(DUMMY_URL)
