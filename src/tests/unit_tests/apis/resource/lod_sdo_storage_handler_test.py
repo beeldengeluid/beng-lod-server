@@ -17,11 +17,12 @@ RETURN_FORMAT_JSONLD = 'application/ld+json'
 
 def test_get_payload_scene_ob(application_settings, i_ob_scene_payload):
     try:
-        # # setup the test client
-        # app = Flask(__name__)
+        # # setup the test server
+        app = Flask(__name__)
+        app.config.from_object(application_settings)
 
         # init cache
-        cache.init_app(application_settings)
+        cache.init_app(app)
 
         profile = application_settings.get('ACTIVE_PROFILE')
         sdo_handler = profile['storage_handler'](application_settings, profile)
