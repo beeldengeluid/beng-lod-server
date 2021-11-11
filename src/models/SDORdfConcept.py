@@ -20,6 +20,7 @@ class SDORdfConcept(BaseRdfConcept):
         super().__init__(profile, model=SDORdfModel)
         self._schema = self.get_scheme()
         self._classes = self._schema.get_classes()
+        self.information_dictionary = self.get_information_directory()
 
         err_msg = 'Error while loading the schema classes and properties'
         assert self._classes is not None, APIUtil.raiseDescriptiveValueError('internal_server_error', err_msg)
@@ -152,18 +153,19 @@ class SDORdfConcept(BaseRdfConcept):
     @cache.cached(timeout=0, key_prefix='sdo_scheme')
     def get_scheme(self):
         """ Returns a schema instance."""
-        # FIXME this does not work yet for the SDO schema (see the DAANSchemaImporter)
         return DAANSchemaImporter(self.profile["schema"], self.profile["mapping"])
 
-    @cache.cached(timeout=0)
+    @cache.cached(timeout=0, key_prefix='openbeelden_links')
+    def get_information_directory(self):
+        with open(self.profile["ob_links"]) as ob_information_file:
+            return json.load(ob_information_file)
+
     def get_open_beelden_information(self, item_id):
         links = None
         website = None
-        with open(self.profile["ob_links"]) as ob_information_file:
-            information_dictionary = json.load(ob_information_file)
-            if item_id in information_dictionary:
-                links = information_dictionary[item_id]["content_links"]
-                website = information_dictionary[item_id]["website"]
+        if item_id in self.information_dictionary:
+            links = self.information_dictionary[item_id]["content_links"]
+            website = self.information_dictionary[item_id]["website"]
         return links, website
 
     def __add_media_object(self, content_url):

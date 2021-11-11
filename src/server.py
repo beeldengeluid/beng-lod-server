@@ -1,3 +1,5 @@
+import logging
+
 from flask import Flask, request, Response, send_from_directory, redirect, render_template
 from flask_cors import CORS
 import os
@@ -6,6 +8,7 @@ from apis import api
 from SchemaInMemory import SchemaInMemory
 from util.APIUtil import APIUtil
 from cache import cache
+
 
 app = Flask(__name__)
 
@@ -48,6 +51,7 @@ def server_init():
 
 def get_profile_dir(profile):
     return 'static/ontospy/{}'.format(profile['prefix']) if 'prefix' in profile else None
+
 
 """
 def generate_ontospy_html(profile):

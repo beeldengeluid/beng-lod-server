@@ -1,0 +1,119 @@
+{
+  "@context": {
+    "gtaa": "http://data.beeldengeluid.nl/gtaa/",
+    "non-gtaa": "http://data.beeldengeluid.nl/nongtaa/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "sdo": "https://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xml": "http://www.w3.org/XML/1998/namespace",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "http://data.beeldengeluid.nl/id/program/2101608140120072331",
+      "https://schema.org/hasPart": {
+        "@id": "http://data.beeldengeluid.nl/id/scene/2101703040124290024"
+      }
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/gtaa/26863",
+      "@type": "https://schema.org/Thing",
+      "http://www.w3.org/2004/02/skos/core#prefLabel": {
+        "@language": "nl",
+        "@value": "studenten"
+      },
+      "https://schema.org/additionalType": {
+        "@id": "http://www.w3.org/2004/02/skos/core#Concept"
+      }
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/gtaa/28560",
+      "@type": "https://schema.org/Thing",
+      "http://www.w3.org/2004/02/skos/core#prefLabel": {
+        "@language": "nl",
+        "@value": "feesten"
+      },
+      "https://schema.org/additionalType": {
+        "@id": "http://www.w3.org/2004/02/skos/core#Concept"
+      }
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101703040124290024",
+      "@type": "https://schema.org/Clip",
+      "https://schema.org/about": [
+        {
+          "@id": "http://data.beeldengeluid.nl/gtaa/28560"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/gtaa/29018"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/gtaa/26863"
+        }
+      ],
+      "https://schema.org/associatedMedia": {
+        "@id": "_:N644ead8f16c942d9800d9d613faae521"
+      },
+      "https://schema.org/license": {
+        "@id": "http://rightsstatements.org/vocab/CNE/1.0/"
+      },
+      "https://schema.org/location": [
+        {
+          "@id": "http://data.beeldengeluid.nl/gtaa/39742"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/gtaa/44495"
+        }
+      ],
+      "https://schema.org/mainEntityOfPage": {
+        "@id": "https://www.openbeelden.nl/media/1253547"
+      },
+      "https://schema.org/name": "JAARLIJKSE RIJJOOL VAN DE STUDENTEN",
+      "https://schema.org/url": {
+        "@id": "https://zoeken.beeldengeluid.nl/program/urn:vme:default:program:2101608140120072331/asset/urn:vme:default:asset:2101608310097797221/segment/urn:vme:default:logtrackitem:2101703040124290024"
+      }
+    },
+    {
+      "@id": "_:N644ead8f16c942d9800d9d613faae521",
+      "@type": "https://schema.org/MediaObject",
+      "https://schema.org/contentUrl": {
+        "@id": "https://www.openbeelden.nl/files/12/53/1253551.WEEKNUMMER374-HRE0001D3FB_907720_968400.mp4"
+      },
+      "https://schema.org/encodingFormat": "video/mp4"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/gtaa/39742",
+      "@type": "https://schema.org/Place",
+      "http://www.w3.org/2004/02/skos/core#prefLabel": {
+        "@language": "nl",
+        "@value": "Nederland"
+      },
+      "https://schema.org/additionalType": {
+        "@id": "http://www.w3.org/2004/02/skos/core#Concept"
+      }
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/gtaa/44495",
+      "@type": "https://schema.org/Place",
+      "http://www.w3.org/2004/02/skos/core#prefLabel": {
+        "@language": "nl",
+        "@value": "Wageningen"
+      },
+      "https://schema.org/additionalType": {
+        "@id": "http://www.w3.org/2004/02/skos/core#Concept"
+      }
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/gtaa/29018",
+      "@type": "https://schema.org/Thing",
+      "http://www.w3.org/2004/02/skos/core#prefLabel": {
+        "@language": "nl",
+        "@value": "rijtoeren"
+      },
+      "https://schema.org/additionalType": {
+        "@id": "http://www.w3.org/2004/02/skos/core#Concept"
+      }
+    }
+  ]
+}
