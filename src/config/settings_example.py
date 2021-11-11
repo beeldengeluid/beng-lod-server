@@ -14,6 +14,7 @@ class Config(object):
 
     ENABLED_ENDPOINTS = ['resource', 'concept', 'dataset']  # allow all by default
 
+    # profiles determine which schema is used for the linked data
     PROFILES = [
         {
             'title': 'NISV Catalogue schema',
