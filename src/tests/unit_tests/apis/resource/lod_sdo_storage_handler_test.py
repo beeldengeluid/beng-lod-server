@@ -25,7 +25,7 @@ def test_get_payload_scene_ob(application_settings, i_ob_scene_payload):
 
         profile = application_settings.get('ACTIVE_PROFILE')
         sdo_handler = profile['storage_handler'](application_settings, profile)
-        # when(sdo_handler)._prepare_uri(DUMMY_SET, DUMMY_NOTATION).thenReturn(DUMMY_URL)
+        when(sdo_handler)._prepare_storage_uri(DUMMY_SET, DUMMY_NOTATION).thenReturn(DUMMY_URL)
         when(sdo_handler)._get_json_from_storage(DUMMY_URL).thenReturn(i_ob_scene_payload)
         mt = MimeType(RETURN_FORMAT_JSONLD)
         resp, status_code, headers = sdo_handler.get_storage_record(
