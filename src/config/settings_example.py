@@ -53,3 +53,6 @@ class Config(object):
 
     SPARQL_EXAMPLES = "../resource/example_queries.json"
     SPARQL_ENDPOINT = "http://54.217.179.144/sparql"
+
+    AUTH_USER = 'very_special'
+    AUTH_PASSWORD = 'nobody_knows'
