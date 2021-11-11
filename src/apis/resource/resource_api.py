@@ -100,9 +100,10 @@ class ResourceAPI(Resource):
         lod_url = prepare_lod_resource_uri(cat_type, identifier)
 
         # only registered user can access all items
+        auth_user = current_app.get('AUTH_USER')
+        auth_pass = current_app.get('AUTH_PASSWORD')
         auth = request.authorization
-        if auth is not None and auth.type == 'basic' and \
-                auth.username == 'lod-importer' and auth.password == 'havealod12345':
+        if auth is not None and auth.type == 'basic' and auth.username == auth_user and auth.password == auth_pass:
             # no restrictions, bypass the check
             logging.debug(request.authorization)
         else:
