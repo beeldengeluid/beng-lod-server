@@ -1,24 +1,25 @@
+import logging
 from flask import current_app, request, Response
 from flask_restx import Namespace, Resource
 from apis.mime_type_util import parse_accept_header, MimeType, get_profile_by_uri
+import requests
+from requests.exceptions import ConnectionError
+from urllib.parse import urlparse, urlunparse
+from util.APIUtil import APIUtil
 
 api = Namespace('resource', description='Resources in RDF for Netherlands Institute for Sound and Vision.')
 
 
 def get_lod_resource(level, identifier, mime_type, accept_profile, app_config):
     """ Generates the expected data based on the mime_type.
-        It can be used by the accept-decorated methods from the resource derived class.
-
-        :param level: meaning the catalogue type ('program' (default), 'series', 'season', 'scene')
-        :param identifier: the DAAN id the resource is findable with, in combination with level
+        :param level: meaning the catalogue type: 'program' (default), 'series', 'season', 'scene'.
+        :param identifier: the DAAN id.
         :param mime_type: the mime_type, or serialization the resource is requested in.
-        :param accept_profile: the model/schema/ontology the data is requested in.
+        :param accept_profile: the profile (or model/schema/ontology) the data is requested in. \
+            See: https://www.w3.org/TR/dx-prof-conneg/#related-http
+            Example: Accept: application/ld+json; profile="http://schema.org"
         :param app_config: the application configuration
         :return: RDF data in a response object
-    """
-    """ See: https://www.w3.org/TR/dx-prof-conneg/#related-http
-        NOTE: Abuse the Accept header with additional parameter:
-        Example: Accept: application/ld+json; profile="http://schema.org"
     """
     mt = None
     try:
@@ -44,6 +45,46 @@ def get_lod_resource(level, identifier, mime_type, accept_profile, app_config):
     return Response(resp, status_code, headers=headers)
 
 
+def is_public_resource(resource_url):
+    """ Checks whether the resource is allowed public access by firing a query to the public sparql endpoint.
+    :param resource_url: the resource to be checked.
+    :return True (yes, public access allowed), False (no, not allowed to dereference)
+    """
+    try:
+        # get the SPARQL endpoint from the config
+        sparql_endpoint = current_app.config.get('SPARQL_ENDPOINT')
+        query_ask = 'ASK {<%s> ?p ?o . }' % resource_url
+
+        # prepare and get the data from the triple store
+        resp = requests.get(sparql_endpoint, params={'query': query_ask, 'format': 'json'})
+        assert resp.status_code == 200, 'ASK request to sparql server was not successful.'
+
+        return resp.json().get('boolean') is True
+
+    except ConnectionError as e:
+        print(str(e))
+    except AssertionError as e:
+        print(str(e))
+    except Exception as e:
+        print(str(e))
+
+
+def prepare_lod_resource_uri(level, identifier):
+    """ Constructs valid url using the data domain, the level (cat type) and the identifier:
+            {Beng data domain}/id/{cat_type}>/{identifier}
+    :param level: the cat type
+    :param identifier: the DAAN id
+    :returns: a proper URI as it should be listed in the LOD server.
+    """
+    url_parts = urlparse(str(current_app.get('BENG_DATA_DOMAIN')))
+    if url_parts.netloc is not None:
+        path = '/'.join(['id', level, str(identifier)])
+        parts = (url_parts.scheme, url_parts.netloc, path, '', '', '')
+        return urlunparse(parts)
+    else:
+        return None
+
+
 @api.doc(responses={
     200: 'Success',
     400: 'Bad request.',
@@ -56,6 +97,17 @@ class ResourceAPI(Resource):
     def get(self, identifier, cat_type='program'):
         """ Get the RDF for the catalogue item. """
         mime_type, accept_profile = parse_accept_header(request.headers.get('Accept'))
+        lod_url = prepare_lod_resource_uri(cat_type, identifier)
+
+        # only registered user can access all items
+        auth = request.authorization
+        if auth is not None and auth.type == 'basic' and \
+                auth.username == 'lod-importer' and auth.password == 'havealod12345':
+            # no restrictions, bypass the check
+            logging.debug(request.authorization)
+        else:
+            if not is_public_resource(resource_url=lod_url):
+                return APIUtil.toErrorResponse('access_denied', 'The resource can not be dereferenced.')
 
         if mime_type:
             # note we need to use empty params for the UI
