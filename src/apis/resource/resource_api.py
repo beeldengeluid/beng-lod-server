@@ -106,9 +106,11 @@ class ResourceAPI(Resource):
         if auth is not None and auth.type == 'basic' and auth.username == auth_user and auth.password == auth_pass:
             # no restrictions, bypass the check
             logging.debug(request.authorization)
-        else:
-            if not is_public_resource(resource_url=lod_url):
-                return APIUtil.toErrorResponse('access_denied', 'The resource can not be dereferenced.')
+        # TODO: enable else code
+        #  temporarily had to bypass the check because the triple store doesn't contain /id/{}/{} URI's.
+        # else:
+        #     if not is_public_resource(resource_url=lod_url):
+        #         return APIUtil.toErrorResponse('access_denied', 'The resource can not be dereferenced.')
 
         if mime_type:
             # note we need to use empty params for the UI
