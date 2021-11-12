@@ -76,7 +76,7 @@ def prepare_lod_resource_uri(level, identifier):
     :param identifier: the DAAN id
     :returns: a proper URI as it should be listed in the LOD server.
     """
-    url_parts = urlparse(str(current_app.get('BENG_DATA_DOMAIN')))
+    url_parts = urlparse(str(current_app.config.get('BENG_DATA_DOMAIN')))
     if url_parts.netloc is not None:
         path = '/'.join(['id', level, str(identifier)])
         parts = (url_parts.scheme, url_parts.netloc, path, '', '', '')
@@ -100,15 +100,16 @@ class ResourceAPI(Resource):
         lod_url = prepare_lod_resource_uri(cat_type, identifier)
 
         # only registered user can access all items
-        auth_user = current_app.get('AUTH_USER')
-        auth_pass = current_app.get('AUTH_PASSWORD')
+        auth_user = current_app.config.get('AUTH_USER')
+        auth_pass = current_app.config.get('AUTH_PASSWORD')
         auth = request.authorization
         if auth is not None and auth.type == 'basic' and auth.username == auth_user and auth.password == auth_pass:
             # no restrictions, bypass the check
             logging.debug(request.authorization)
-        # TODO: enable else code
-        #  temporarily had to bypass the check because the triple store doesn't contain /id/{}/{} URI's.
-        # else:
+        else:
+            # NOTE: this else clause is only there so we can download as lod-importer, but nobody else can.
+            return APIUtil.toErrorResponse('access_denied', 'The resource can not be dereferenced.')
+        # TODO: replace the else code with the code below in comment
         #     if not is_public_resource(resource_url=lod_url):
         #         return APIUtil.toErrorResponse('access_denied', 'The resource can not be dereferenced.')
 
