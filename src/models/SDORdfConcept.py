@@ -55,6 +55,7 @@ class SDORdfConcept(BaseRdfConcept):
         # create RDF relations with the parents of the record
         self.__parent_to_rdf(metadata)
 
+    # TODO: make a module for rights
     def rights_to_license_uri(self, payload=None):
         """ Analyse the metadata, return a proper CC license.
         This is an implementation of the rules in the beng-lod wiki page:
