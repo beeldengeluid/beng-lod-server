@@ -1,3 +1,4 @@
+import logging
 from enum import Enum
 from typing import Optional
 
@@ -73,20 +74,20 @@ def parse_accept_header(accept_header: str) -> (MimeType, str):
     if accept_header is None or accept_header == '*/*':
         return mime_type, accept_profile
 
-    try:
-        return MimeType(accept_header), accept_profile
-    except ValueError as e:
-        print(f'accept header not a valid mimetype {str(e)}')
-
     if accept_header.find(';') != -1 and accept_header.find('profile') != -1:
         temp = accept_header.split(';')
         if len(temp) == 2:
             try:
                 mime_type = MimeType(temp[0])
             except ValueError as e:
-                print(e)
+                logging.debug(str(e))
 
             kv = temp[1].split('=')
-            if len(kv) > 1 and kv[0] == 'profile':
+            if len(kv) > 1 and kv[0].strip() == 'profile':
                 accept_profile = kv[1].replace('"', '')
-    return mime_type, accept_profile
+        return mime_type, accept_profile
+
+    try:
+        return MimeType(accept_header), accept_profile
+    except ValueError as e:
+        logging.error(f'Accept header not a valid mimetype: {str(e)}')
