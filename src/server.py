@@ -131,25 +131,5 @@ def schema_path(path=None):
     return Response('This page does not exist (404)')
 
 
-@app.route('/yasgui')
-@app.route('/yasgui/')
-def yasgui():
-    """ Return a UI where SPARQL examples can be loaded.
-    GH issue # 136
-    """
-    import json
-
-    def read_example_queries(fn='example_queries.json'):
-        """ Load queries from a JSON document."""
-        with open(fn, 'r') as f:
-            return json.load(f, strict=False)
-
-    queries = {}
-    example_fn = app.config.get('SPARQL_EXAMPLES')
-    if os.path.exists(example_fn):
-        queries = read_example_queries(fn=example_fn)
-    return render_template('sparql_ui_with_examples.html', my_examples=queries.get('examples'))
-
-
 if __name__ == '__main__':
     app.run(host=app.config['APP_HOST'], port=app.config['APP_PORT'])
