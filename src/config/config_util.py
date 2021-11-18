@@ -36,6 +36,6 @@ def config_absolute_paths(app):
             abs_oblinks_path = src_path.joinpath(profile_ob_links_path).resolve(strict=True)
             app.config['ACTIVE_PROFILE']['ob_links'] = abs_oblinks_path
         except FileNotFoundError as e:
-            logging.error(str(e), 'Active profile mapping file path could not be made absolute. '
+            logging.error(str(e), 'Active profile open beelden links file path could not be made absolute. '
                           'Prepare for things to go wrong in unittests.')
 

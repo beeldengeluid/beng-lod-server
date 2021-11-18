@@ -61,3 +61,30 @@ def test_get_payload_scene_ob(application_settings, i_ob_scene_payload):
 
     finally:
         unstub()
+
+
+def test_for_cant_encode_character(application_settings, i_error_scene_payload):
+    try:
+        # # setup the test server
+        app = Flask(__name__)
+        app.config.from_object(application_settings)
+
+        # init cache
+        cache.init_app(app)
+
+        profile = application_settings.get('ACTIVE_PROFILE')
+        sdo_handler = profile['storage_handler'](application_settings, profile)
+        when(sdo_handler)._prepare_storage_uri('scene', '2101702260627885424').thenReturn(DUMMY_URL)
+        when(sdo_handler)._get_json_from_storage(DUMMY_URL).thenReturn(i_error_scene_payload)
+        mt = MimeType(RETURN_FORMAT_JSONLD)
+        resp, status_code, headers = sdo_handler.get_storage_record(
+            'scene',
+            '2101702260627885424',
+            mt.to_ld_format()
+        )
+        assert status_code == 200
+
+    except UnicodeEncodeError as e:
+        print(str(e))
+    finally:
+        unstub()

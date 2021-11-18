@@ -17,3 +17,9 @@ def i_ob_scene_payload(load_json_file):
 def i_ob_scene_rdf(load_json_file):
     """ Returns RDF of an example Open Beelden item in JSON-LD."""
     return load_json_file(__file__, 'rdf_ob_scene_2101703040124290024.json')
+
+
+@pytest.fixture()
+def i_error_scene_payload(load_json_file):
+    """ Returns payload metadata for Open Beelden item from Flex data store in JSON format."""
+    return load_json_file(__file__, 'error_payload_scene_2101702260627885424.json')
