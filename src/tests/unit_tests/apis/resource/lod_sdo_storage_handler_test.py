@@ -88,3 +88,19 @@ def test_for_cant_encode_character(application_settings, i_error_scene_payload):
         print(str(e))
     finally:
         unstub()
+
+
+def test_for_material_type(application_settings, i_program_payload_material_type):
+    """
+    "nisv.materialtype": {
+        "value": "audio",
+        "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-pgmmaterialtype/audio",
+        "resolved_value": "audio"
+    },
+    """
+    try:
+
+    except UnicodeEncodeError as e:
+        print(str(e))
+    finally:
+        unstub()

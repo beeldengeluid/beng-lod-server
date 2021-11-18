@@ -1,6 +1,7 @@
 from models.DAANJsonModel import DAAN_TYPE, ObjectType, isSceneDescription
 from apis.resource.StorageLODHandler import StorageLODHandler
 
+
 class DAANStorageLODHandler(StorageLODHandler):
     """ STORAGE API serves catalogue data on a URL,
     This class gets the JSON from the Direct Metadata Flex API, then uses the mapping

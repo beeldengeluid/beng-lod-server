@@ -1,10 +1,10 @@
+import logging
+
 from util.APIUtil import APIUtil
 import urllib.request
 import json
 from urllib.error import HTTPError
 from urllib.parse import urlparse, urlunparse
-
-# TODO rewrite using the requests library
 import requests
 from requests.exceptions import ConnectionError
 
@@ -69,13 +69,27 @@ class StorageLODHandler:
     def _get_json_from_storage(url):
         """ Retrieves a JSON object from the given Storage url
             Description: http://acc-app-bng-01.beeldengeluid.nl:8101/storage/doc
+            :param url: the URI for the resource to get the data for.
+            :returns: the data or None
         """
-        with urllib.request.urlopen(
-                url) as storageUrl:
-            data = json.loads(storageUrl.read().decode())
-            with open('last_request.json', 'w') as f:
-                json.dump(data, f, indent=4)
-        return data
+        # with urllib.request.urlopen(
+        #         url) as storageUrl:
+        #     data = json.loads(storageUrl.read().decode())
+        #
+        #     with open('last_request.json', 'w') as f:
+        #         json.dump(data, f, indent=4)
+        # return data
+        #
+        # TODO rewrite using the requests library
+        try:
+            data = requests.get(url)
+            if logging.DEBUG is True:
+                with open('last_request.json', 'w') as f:
+                    json.dump(data, f, indent=4)
+            return data
+        except ConnectionError as con_err:
+            logging.error(str(con_err))
+            return None
 
     def _storage_2_lod(self, url, return_format):
         """ Returns the record data from a URL, transformed to RDF, loaded in a Graph and
