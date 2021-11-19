@@ -78,9 +78,9 @@ class StorageLODHandler:
         try:
             resp = requests.get(url)
             if resp.status_code == 200:
-                # if logging.DEBUG is True:
-                #     with open('last_request.json', 'w') as f:
-                #         json.dump(resp.text, f, indent=4)
+                if logging.DEBUG is True:
+                    with open('last_request.json', 'w') as f:
+                        json.dump(resp.text, f, indent=4)
                 return json.loads(resp.text)
         except ConnectionError as con_err:
             print(str(con_err))
