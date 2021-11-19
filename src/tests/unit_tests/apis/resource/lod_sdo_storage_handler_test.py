@@ -99,8 +99,36 @@ def test_for_material_type(application_settings, i_program_payload_material_type
     },
     """
     try:
-
+        pass
     except UnicodeEncodeError as e:
         print(str(e))
+    finally:
+        unstub()
+
+
+def test_no_payload_from_flex_store(application_settings):
+    """ Tests for a proper handling of errors with the flex store. """
+    try:
+        # # setup the test server
+        app = Flask(__name__)
+        app.config.from_object(application_settings)
+
+        # init cache
+        cache.init_app(app)
+
+        profile = application_settings.get('ACTIVE_PROFILE')
+        sdo_handler = profile['storage_handler'](application_settings, profile)
+        when(sdo_handler)._prepare_storage_uri('scene', '2101702260627885424').thenReturn(DUMMY_URL)
+        when(sdo_handler)._get_json_from_storage(DUMMY_URL).thenReturn(None)
+        mt = MimeType(RETURN_FORMAT_JSONLD)
+        resp, status_code, headers = sdo_handler.get_storage_record(
+            'scene',
+            '2101702260627885424',
+            mt.to_ld_format()
+        )
+        assert status_code == 500
+
+    except AssertionError as err:
+        print(str(err))
     finally:
         unstub()

@@ -45,6 +45,8 @@ class StorageLODHandler:
             return APIUtil.toErrorResponse('bad_request', e)
         except urllib.error.HTTPError as e:
             return APIUtil.toErrorResponse('not_found', e)
+        except Exception as err:
+            return APIUtil.toErrorResponse('internal_server_error', err)
 
     def _prepare_storage_uri(self, level, identifier):
         """ Constructs valid Storage url from the config settings, the level (cat type) and the identifier.
@@ -72,14 +74,18 @@ class StorageLODHandler:
             :param url: the URI for the resource to get the data for.
             :returns: the data or None
         """
-        # with urllib.request.urlopen(
-        #         url) as storageUrl:
-        #     data = json.loads(storageUrl.read().decode())
+        # try:
+        #     app.logger.info('Testing the logger.')
+        #     with urllib.request.urlopen(
+        #             url) as storageUrl:
+        #         data = json.loads(storageUrl.read().decode())
         #
-        #     with open('last_request.json', 'w') as f:
-        #         json.dump(data, f, indent=4)
-        # return data
-        #
+        #         with open('last_request.json', 'w') as f:
+        #             json.dump(data, f, indent=4)
+        #     return data
+        # except Exception as err:
+        #     app.logger.error(str(err))
+
         # TODO rewrite using the requests library
         try:
             data = requests.get(url)
@@ -88,16 +94,19 @@ class StorageLODHandler:
                     json.dump(data, f, indent=4)
             return data
         except ConnectionError as con_err:
-            logging.error(str(con_err))
+            print(str(con_err))
+            return None
+        except Exception as err:
+            print(str(err))
             return None
 
     def _storage_2_lod(self, url, return_format):
         """ Returns the record data from a URL, transformed to RDF, loaded in a Graph and
             serialized to target format.
         """
-
         # retrieve the record data in JSON from DM API
         json_data = self._get_json_from_storage(url)
+        assert isinstance(json_data, dict), 'No valid results from the flex store.'
 
         # transform the JSON to RDF
         result_object = self._transform_json_to_rdf(json_data)

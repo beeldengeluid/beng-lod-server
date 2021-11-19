@@ -62,11 +62,11 @@ def is_public_resource(resource_url):
         return resp.json().get('boolean') is True
 
     except ConnectionError as e:
-        print(str(e))
+        app.logger.error(str(e))
     except AssertionError as e:
-        print(str(e))
+        app.logger.error(str(e))
     except Exception as e:
-        print(str(e))
+        app.logger.error(str(e))
 
 
 def prepare_lod_resource_uri(level, identifier):
