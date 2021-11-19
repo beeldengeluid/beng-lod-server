@@ -8,7 +8,7 @@ class Config(object):
     APP_VERSION = 'v1.2'
 
     DEBUG = True
-    CACHE_TYPE = 'SimpleCache'
+    CACHE_TYPE = 'flask_caching.backends.SimpleCache'
 
     STORAGE_BASE_URL = 'http://prd-app-bng-01.beeldengeluid.nl:8101/'
 
