@@ -96,11 +96,7 @@ class DatasetSheetImporter:
 
     def __init__(self, config=None):
         assert config is not None, 'DatasetSheetImporter needs configuration.'
-        # slightly difficult attempt to get the absolute path, instead of the relative path in the settings
-        import inspect
-        path_settings_file = Path(inspect.getfile(config))
-        path_dir_settings_file = path_settings_file.parent
-        self._service_account_file = str(path_dir_settings_file.joinpath(config.SERVICE_ACCOUNT_FILE))
+        self._service_account_file = config.SERVICE_ACCOUNT_FILE
         self._service_account_id = config.SERVICE_ACCOUNT_ID
         self._odl_spreadsheet_id = config.ODL_SPREADSHEET_ID
         self._sheet = None
@@ -156,8 +152,10 @@ class DatasetSheetImporter:
     def _init_sheets_api(self):
         """ Initializes the sheets api, preparing it ot read data.
         """
-        credentials = service_account.Credentials.from_service_account_file(self._service_account_file,
-                                                                            scopes=SCOPES)
+        credentials = service_account.Credentials.from_service_account_file(
+            self._service_account_file,
+            scopes=SCOPES
+        )
         service = build('sheets', 'v4', credentials=credentials)
         self._sheet = service.spreadsheets()
 
