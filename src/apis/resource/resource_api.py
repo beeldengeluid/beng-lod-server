@@ -29,6 +29,8 @@ def get_lod_resource(level, identifier, mime_type, accept_profile, app_config):
 
     profile = get_profile_by_uri(accept_profile, app_config)
 
+    print(profile)
+
     resp, status_code, headers = profile['storage_handler'](app_config, profile).get_storage_record(
         level,
         identifier,

@@ -91,3 +91,4 @@ def parse_accept_header(accept_header: str) -> (MimeType, str):
         return MimeType(accept_header), accept_profile
     except ValueError as e:
         logging.error(f'Accept header not a valid mimetype: {str(e)}')
+        return MimeType.JSON_LD, accept_profile

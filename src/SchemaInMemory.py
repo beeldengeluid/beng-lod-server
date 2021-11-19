@@ -10,7 +10,6 @@ class SchemaInMemory:
         self.profile = profile
         self.ns = Namespace(profile['uri'])
 
-        print('USING PREFIXSSSSS {}'.format(self.profile['prefix']))
         print(profile)
         namespace_manager = NamespaceManager(Graph())
         namespace_manager.bind(self.profile['prefix'], self.ns, override=False)

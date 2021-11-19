@@ -36,7 +36,9 @@ class StorageLODHandler:
          """
         try:
             url = self._prepare_storage_uri(level, identifier)
+            print(f"Fetching from storage: {url}")
             data = self._storage_2_lod(url, return_format)
+            print(data)
             if data:
                 return APIUtil.toSuccessResponse(data)
             return APIUtil.toErrorResponse('bad_request', 'That return format is not supported')
@@ -46,6 +48,7 @@ class StorageLODHandler:
         except urllib.error.HTTPError as e:
             return APIUtil.toErrorResponse('not_found', e)
         except Exception as err:
+            print(err)
             return APIUtil.toErrorResponse('internal_server_error', err)
 
     def _prepare_storage_uri(self, level, identifier):
@@ -88,17 +91,14 @@ class StorageLODHandler:
 
         # TODO rewrite using the requests library
         try:
-            data = requests.get(url)
-            if logging.DEBUG is True:
-                with open('last_request.json', 'w') as f:
-                    json.dump(data, f, indent=4)
-            return data
-        except ConnectionError as con_err:
-            print(str(con_err))
-            return None
-        except Exception as err:
-            print(str(err))
-            return None
+            resp = requests.get(url)
+            if resp.status_code == 200:
+                return json.loads(resp.text)
+        except Exception as e:
+            print('TODO implement proper error handling for:')
+            print(e)
+        return None
+
 
     def _storage_2_lod(self, url, return_format):
         """ Returns the record data from a URL, transformed to RDF, loaded in a Graph and
