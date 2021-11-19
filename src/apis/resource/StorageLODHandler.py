@@ -36,9 +36,7 @@ class StorageLODHandler:
          """
         try:
             url = self._prepare_storage_uri(level, identifier)
-            print(f"Fetching from storage: {url}")
             data = self._storage_2_lod(url, return_format)
-            print(data)
             if data:
                 return APIUtil.toSuccessResponse(data)
             return APIUtil.toErrorResponse('bad_request', 'That return format is not supported')
@@ -77,28 +75,19 @@ class StorageLODHandler:
             :param url: the URI for the resource to get the data for.
             :returns: the data or None
         """
-        # try:
-        #     app.logger.info('Testing the logger.')
-        #     with urllib.request.urlopen(
-        #             url) as storageUrl:
-        #         data = json.loads(storageUrl.read().decode())
-        #
-        #         with open('last_request.json', 'w') as f:
-        #             json.dump(data, f, indent=4)
-        #     return data
-        # except Exception as err:
-        #     app.logger.error(str(err))
-
-        # TODO rewrite using the requests library
         try:
             resp = requests.get(url)
             if resp.status_code == 200:
+                # if logging.DEBUG is True:
+                #     with open('last_request.json', 'w') as f:
+                #         json.dump(resp.text, f, indent=4)
                 return json.loads(resp.text)
-        except Exception as e:
-            print('TODO implement proper error handling for:')
-            print(e)
-        return None
-
+        except ConnectionError as con_err:
+            print(str(con_err))
+            return None
+        except Exception as err:
+            print(str(err))
+            return None
 
     def _storage_2_lod(self, url, return_format):
         """ Returns the record data from a URL, transformed to RDF, loaded in a Graph and
