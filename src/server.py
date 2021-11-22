@@ -5,7 +5,6 @@ from apis import api
 from SchemaInMemory import SchemaInMemory
 from util.APIUtil import APIUtil
 from util.LoggingUtil import init_logger
-from cache import cache
 #from ontodoc import ontodoc
 
 app = Flask(__name__)
@@ -20,8 +19,6 @@ app.debug = app.config['DEBUG']
 logger = init_logger(app)
 
 CORS(app)
-
-cache.init_app(app)
 
 def get_active_profile():
     def_profile = app.config['PROFILES'][0]

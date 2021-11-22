@@ -4,11 +4,11 @@ import os.path
 import logging
 from util.APIUtil import APIUtil
 from importer.DatasetSheetImporter import DatasetSheetImporter
-from cache import cache
 from rdflib import URIRef, Literal
 from rdflib import Graph
 from rdflib.namespace import Namespace, RDF
 from apis.mime_type_util import MimeType
+from cachetools import cached, LRUCache, TTLCache
 
 SDO = Namespace('https://schema.org/')
 
@@ -34,7 +34,7 @@ class DataCatalogLODHandler:
         self._data_catalog = None
         self._init_data_catalog(application_config=app_config)
 
-    @cache.cached(timeout=0, key_prefix='init_data_catalog')
+    @cached(cache=LRUCache(maxsize=32))
     def _init_data_catalog(self, application_config):
         """ When initialized, get the data file from /resource. If this file doesn't exist,
         the DatasetSheetImport needs to produce this file.

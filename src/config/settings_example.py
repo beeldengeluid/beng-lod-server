@@ -8,7 +8,6 @@ class Config(object):
     APP_VERSION = 'v1.2'
 
     DEBUG = True
-    CACHE_TYPE = 'flask_caching.backends.SimpleCache'
 
     LOG_DIR = "./resources/log/" #should always work, log dir will be automatically created in your src/resources dir
     LOG_NAME = "beng-lod-server.log"
