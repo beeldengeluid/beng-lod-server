@@ -16,6 +16,9 @@ THING = SCHEMA_DOT_ORG_NAMESPACE + "Thing"
 PERSON = SCHEMA_DOT_ORG_NAMESPACE + "Person"
 ORGANIZATION = SCHEMA_DOT_ORG_NAMESPACE + "Organization"
 CLIP = SCHEMA_DOT_ORG_NAMESPACE + "Clip"
+AUDIO = SCHEMA_DOT_ORG_NAMESPACE + "AudioObject"
+VIDEO = SCHEMA_DOT_ORG_NAMESPACE + "VideoObject"
+PHOTO = SCHEMA_DOT_ORG_NAMESPACE + "ImageObject"
 
 # URIS for relations in the schema
 HAS_DAAN_PATH = NISV_SCHEMA_NAMESPACE + "hasDaanPath"
@@ -34,6 +37,7 @@ LICENSE = SCHEMA_DOT_ORG_NAMESPACE + "license"
 HAS_ASSOCIATED_MEDIA = SCHEMA_DOT_ORG_NAMESPACE + "associatedMedia"
 HAS_CONTENT_URL = SCHEMA_DOT_ORG_NAMESPACE + "contentUrl"
 IS_MAIN_ENTITY_OF_PAGE = SCHEMA_DOT_ORG_NAMESPACE + "mainEntityOfPage"
+HAS_MATERIAL_TYPE = SCHEMA_DOT_ORG_NAMESPACE + "material"
 
 # TODO: look at how to use the GTAA types
 # list of non-gtaa types, so we can use the correct namespace for concepts of this type
