@@ -2,7 +2,7 @@ from rdflib import Graph
 from rdflib.plugin import PluginException
 from util.APIUtil import APIUtil
 from urllib.error import URLError
-
+import logging
 
 class LODHandlerConcept(object):
 	""" OpenSKOS platform provides RDF data for each SKOS concept. As far as I know the
@@ -27,31 +27,35 @@ class LODHandlerConcept(object):
 	"""
 	def __init__(self, config):
 		self.config = config
+		self.logger = logging.getLogger(self.config['LOG_NAME'])
 
-	@staticmethod
 	def get_concept_uri(set_spec, notation):
-		uri = u'http://data.beeldengeluid.nl/%s/%s.rdf' % (set_spec, notation)
-		return uri
+		self.logger.debug('Getting concept URI')
+		return u'http://data.beeldengeluid.nl/%s/%s.rdf' % (set_spec, notation)
 
-	@staticmethod
 	def get_concept_data(uri, return_format=None):
+		self.logger.debug('Getting concept data')
 		graph = Graph()
 		try:
 			# uri = 'http://www.w3.org/People/Berners-Lee/card'
 			# TODO: fix this issue in rdflib: https://github.com/RDFLib/rdflib/issues/1430
 			graph.parse(location=uri, format='xml')  # Note that OpenSKOS can only return RDF+XML
 		except URLError as e:
+			self.logger.exception('URLError')
 			return None
 		except FileNotFoundError as e:
-			print(f'{str(e)}')
+			self.logger.exception('FileNotFoundError')
 			return None
 
 		try:
 			return graph.serialize(format=return_format)
 		except PluginException as e:
-			return None
+			self.logger.exception('PluginException')
+
+		return None
 
 	def get_concept_rdf(self, set_spec, notation, return_format):
+		self.logger.debug('Getting concept RDF data')
 		uri = self.get_concept_uri(set_spec, notation)
 		data = self.get_concept_data(uri, return_format)
 		if data:

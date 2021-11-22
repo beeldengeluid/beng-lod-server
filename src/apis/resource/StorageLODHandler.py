@@ -16,6 +16,7 @@ class StorageLODHandler:
     """
     def __init__(self, config):
         self.config = config
+        self.logger = logging.getLogger(self.config['LOG_NAME'])
 
     def get_profile(self, profile_uri):
         profile = None
@@ -42,12 +43,15 @@ class StorageLODHandler:
             return APIUtil.toErrorResponse('bad_request', 'That return format is not supported')
 
         except ValueError as e:
+            self.logger.debug('ValueError caused 400')
             return APIUtil.toErrorResponse('bad_request', e)
         except urllib.error.HTTPError as e:
+            self.logger.debug('HTTPError caused 404')
             return APIUtil.toErrorResponse('not_found', e)
         except Exception as err:
-            print(err)
-            return APIUtil.toErrorResponse('internal_server_error', err)
+            self.logger.exception('Exception')
+
+        return APIUtil.toErrorResponse('internal_server_error')
 
     def _prepare_storage_uri(self, level, identifier):
         """ Constructs valid Storage url from the config settings, the level (cat type) and the identifier.
@@ -68,8 +72,7 @@ class StorageLODHandler:
         else:
             return None
 
-    @staticmethod
-    def _get_json_from_storage(url):
+    def _get_json_from_storage(self, url):
         """ Retrieves a JSON object from the given Storage url
             Description: http://acc-app-bng-01.beeldengeluid.nl:8101/storage/doc
             :param url: the URI for the resource to get the data for.
@@ -78,16 +81,17 @@ class StorageLODHandler:
         try:
             resp = requests.get(url)
             if resp.status_code == 200:
-                if logging.DEBUG is True:
+                if self.config.get('LOG_LEVEL_CONSOLE', None) == 'DEBUG':
                     with open('last_request.json', 'w') as f:
                         json.dump(resp.text, f, indent=4)
                 return json.loads(resp.text)
         except ConnectionError as con_err:
-            print(str(con_err))
-            return None
+            self.logger.exception('ConnectionError')
+        except json.decoder.JSONDecodeError as json_err:
+            self.logger.exception(JSONDecodeError)
         except Exception as err:
-            print(str(err))
-            return None
+            self.logger.exception('Exception')
+        return None
 
     def _storage_2_lod(self, url, return_format):
         """ Returns the record data from a URL, transformed to RDF, loaded in a Graph and

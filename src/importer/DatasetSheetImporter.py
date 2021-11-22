@@ -94,11 +94,11 @@ class DatasetSheetImporter:
     Serialize the graph to a nice file.
     """
 
-    def __init__(self, config=None):
+    def __init__(self, config):
         assert config is not None, 'DatasetSheetImporter needs configuration.'
-        self._service_account_file = config.SERVICE_ACCOUNT_FILE
-        self._service_account_id = config.SERVICE_ACCOUNT_ID
-        self._odl_spreadsheet_id = config.ODL_SPREADSHEET_ID
+        self._service_account_file = config['SERVICE_ACCOUNT_FILE']
+        self._service_account_id = config['SERVICE_ACCOUNT_ID']
+        self._odl_spreadsheet_id = config['ODL_SPREADSHEET_ID']
         self._sheet = None
         self._init_sheets_api()
         self._data_catalog = Graph()
@@ -244,31 +244,3 @@ class DatasetSheetImporter:
         # add the properties for Organization
         self.list_of_dict_to_graph(organization_list)
 
-    def query(self, query=None):
-        """ run a query against the data catalog graph."""
-
-
-def init_logging():
-    log_dir = Path('~/logs').expanduser()
-    if not log_dir.is_dir():
-        log_dir.mkdir(parents=True, exist_ok=True)
-    logging.basicConfig(filename=os.path.join(log_dir, 'dataset_sheet_importer_%s.log' % date_time_string()),
-                        level=logging.DEBUG,
-                        format='%(asctime)s %(levelname)s: %(message)s')
-
-
-if __name__ == '__main__':
-    init_logging()
-    # log_dir = Path('~/logs').expanduser()
-    # if not log_dir.is_dir():
-    #     log_dir.mkdir(parents=True, exist_ok=True)
-    # logging.basicConfig(filename=os.path.join(log_dir, 'dataset_sheet_importer_%s.log' % date_time_string()),
-    #                     level=logging.DEBUG,
-    #                     format='%(asctime)s %(levelname)s: %(message)s')
-
-    # this does not work, the settings are not on the path, src.settings works on Windows apparently
-    from config.settings import Config
-    s2j = DatasetSheetImporter(config=Config)
-    s2j.write_data_catalog_to_file()
-
-    print("Done.")

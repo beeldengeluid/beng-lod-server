@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 import os.path
+import logging
 from util.APIUtil import APIUtil
 from importer.DatasetSheetImporter import DatasetSheetImporter
 from cache import cache
@@ -11,13 +12,12 @@ from apis.mime_type_util import MimeType
 
 SDO = Namespace('https://schema.org/')
 
-
+# TODO remove this after checking the unit tests
 def get_data_catalog_file(app_config):
     """ Read the data catalog file from config.
     :returns: the configured file absolute path or None.
     """
     return os.path.abspath(app_config['DATA_CATALOG_FILE'])
-
 
 class DataCatalogLODHandler:
     """ Handles requests from the beng-lod server for data catalogs, datasets, datadownloads.
@@ -30,6 +30,7 @@ class DataCatalogLODHandler:
     def __init__(self, app_config=None):
         if app_config is None:
             return
+        self.logger = logging.getLogger(app_config['LOG_NAME'])
         self._data_catalog = None
         self._init_data_catalog(application_config=app_config)
 
@@ -38,10 +39,11 @@ class DataCatalogLODHandler:
         """ When initialized, get the data file from /resource. If this file doesn't exist,
         the DatasetSheetImport needs to produce this file.
         """
+        self.logger.info('Loading data catalogue')
         data_catalog_file = get_data_catalog_file(application_config)
         if not os.path.exists(data_catalog_file):
-            from config.settings import Config
-            dsi = DatasetSheetImporter(config=Config)
+            self.logger.info(f"Data catalogue {data_catalog_file} does not exist, importing from spreadsheet")
+            dsi = DatasetSheetImporter(application_config)
             dsi.write_turtle(turtle_file=data_catalog_file)
 
         # load the data from the file

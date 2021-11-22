@@ -26,3 +26,4 @@ resource/data_catalog.ttl
 /src/importer/graph_as_string.jsonld
 /src/importer/graph_as_string.ttl
 /src/util/simple_test_script.py
+log

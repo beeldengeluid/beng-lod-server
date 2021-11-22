@@ -97,6 +97,7 @@ def prepare_lod_resource_uri(level, identifier):
 class ResourceAPI(Resource):
 
     def get(self, identifier, cat_type='program'):
+        logger = logging.getLogger(current_app.config['LOG_NAME'])
         """ Get the RDF for the catalogue item. """
         mime_type, accept_profile = parse_accept_header(request.headers.get('Accept'))
         lod_url = prepare_lod_resource_uri(cat_type, identifier)
@@ -107,9 +108,10 @@ class ResourceAPI(Resource):
         auth = request.authorization
         if auth is not None and auth.type == 'basic' and auth.username == auth_user and auth.password == auth_pass:
             # no restrictions, bypass the check
-            logging.debug(request.authorization)
+            logger.debug(request.authorization)
         else:
             # NOTE: this else clause is only there so we can download as lod-importer, but nobody else can.
+            logger.info(f"Access denied to resource {lod_url}")
             return APIUtil.toErrorResponse('access_denied', 'The resource can not be dereferenced.')
         # TODO: replace the else code with the code below in comment
         #     if not is_public_resource(resource_url=lod_url):

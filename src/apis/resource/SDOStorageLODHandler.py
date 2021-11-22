@@ -12,6 +12,7 @@ class SDOStorageLODHandler(StorageLODHandler):
         self.profile = profile
 
     def _transform_json_to_rdf(self, json_obj):
+        self.logger.debug('Transform json to RDF (SDO)')
         """ Transforms JSON data from the flex Direct Access Metadata API to schema.org
         """
         # get the type - series, season etc.
