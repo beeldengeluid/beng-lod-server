@@ -181,10 +181,6 @@ class SDORdfConcept(BaseRdfConcept):
         self.graph.add((media_object_node, URIRef(self._model.HAS_CONTENT_URL), URIRef(content_url)))
         self.graph.add((media_object_node, URIRef(self._model.HAS_ENCODING_FORMAT), Literal('video/mp4')))
 
-        # Let's not forget we also have the OpenBeelden URI for the item in cc:attributionUrl.
-        # mmm. unfortunately it has to be extracted from the metadata
-        # self.graph.add((media_object_node, URIRef(self._model.IS_MAIN_ENTITY_OF_PAGE), URIRef(ccattributionurl)))
-
     def __create_skos_concept(self, used_path, payload, concept_label, property_description):
         """Searches in the concept_metadata for a thesaurus concept. If one is found, creates a node for it and
         adds the concept_label as its label, then links it to the parent_node, using the property_uri, and
