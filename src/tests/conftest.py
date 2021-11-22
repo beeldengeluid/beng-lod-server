@@ -3,7 +3,7 @@ import json
 import os
 import pytest
 from lxml import etree
-from config.config_util import config_absolute_paths
+#from config.config_util import #config_absolute_paths
 
 
 def get_active_profile(app):
@@ -91,7 +91,7 @@ def application_settings():
     app = Flask(__name__)
     app.config.from_object('config.settings_example.Config')
     app.config['ACTIVE_PROFILE'] = get_active_profile(app)
-    config_absolute_paths(app)
+    #config_absolute_paths(app)
 
     return app.config
 
