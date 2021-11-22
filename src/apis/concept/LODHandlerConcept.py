@@ -29,11 +29,11 @@ class LODHandlerConcept(object):
 		self.config = config
 		self.logger = logging.getLogger(self.config['LOG_NAME'])
 
-	def get_concept_uri(set_spec, notation):
+	def get_concept_uri(self, set_spec, notation):
 		self.logger.debug('Getting concept URI')
 		return u'http://data.beeldengeluid.nl/%s/%s.rdf' % (set_spec, notation)
 
-	def get_concept_data(uri, return_format=None):
+	def get_concept_data(self, uri, return_format=None):
 		self.logger.debug('Getting concept data')
 		graph = Graph()
 		try:

@@ -88,7 +88,7 @@ class StorageLODHandler:
         except ConnectionError as con_err:
             self.logger.exception('ConnectionError')
         except json.decoder.JSONDecodeError as json_err:
-            self.logger.exception(JSONDecodeError)
+            self.logger.exception('JSONDecodeError')
         except Exception as err:
             self.logger.exception('Exception')
         return None
