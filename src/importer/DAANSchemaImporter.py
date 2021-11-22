@@ -11,6 +11,7 @@ class DAANSchemaImporter:
     Importer for the RDFS schema definition based on the DAAN CMS.
     """
 
+    #TODO add config validation
     def __init__(self, schema_file, mapping_file):
         self._graph = Graph()
         print(f'Parsing schema file: {schema_file}')

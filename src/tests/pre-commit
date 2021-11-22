@@ -1,4 +1,4 @@
 #!/bin/sh
 
 #copy this script to .git/hooks/pre-commit
-pipenv run pytest src/tests --cov
+cd src && pipenv run pytest tests --cov

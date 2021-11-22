@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d74591387283812ae46dad232b673b2fd663c7e7f83560d96047b750a1324c2a"
+            "sha256": "cef2bfe54639c82b3a2f13542f280c51df1d3a3e4df79db3bb561cc910e2a5b1"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -94,22 +94,6 @@
             ],
             "index": "pypi",
             "version": "==0.5.1"
-        },
-        "gitdb": {
-            "hashes": [
-                "sha256:8033ad4e853066ba6ca92050b9df2f89301b8fc8bf7e9324d412a63f8bf1a8fd",
-                "sha256:bac2fd45c0a1c9cf619e63a90d62bdc63892ef92387424b855792a6cabe789aa"
-            ],
-            "markers": "python_version >= '3.6'",
-            "version": "==4.0.9"
-        },
-        "gitpython": {
-            "hashes": [
-                "sha256:dc0a7f2f697657acc8d7f89033e8b1ea94dd90356b2983bca89dc8d2ab3cc647",
-                "sha256:df83fdf5e684fef7c6ee2c02fc68a5ceb7e7e759d08b694088d0cacb4eba59e5"
-            ],
-            "index": "pypi",
-            "version": "==3.1.24"
         },
         "google-api-core": {
             "hashes": [
@@ -554,22 +538,6 @@
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==1.16.0"
-        },
-        "smmap": {
-            "hashes": [
-                "sha256:2aba19d6a040e78d8b09de5c57e96207b09ed71d8e55ce0959eeee6c8e190d94",
-                "sha256:c840e62059cd3be204b0c9c9f74be2c09d5648eddd4580d9314c3ecde0b30936"
-            ],
-            "markers": "python_version >= '3.6'",
-            "version": "==5.0.0"
-        },
-        "typing-extensions": {
-            "hashes": [
-                "sha256:2cdf80e4e04866a9b3689a51869016d36db0814d84b8d8a568d22781d45d27ed",
-                "sha256:829704698b22e13ec9eaf959122315eabb370b0884400e9818334d8b677023d9"
-            ],
-            "markers": "python_version < '3.10'",
-            "version": "==4.0.0"
         },
         "uritemplate": {
             "hashes": [
