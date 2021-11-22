@@ -97,6 +97,7 @@ def schema():
     #return send_from_directory(get_ontospy_dir(active_profile), 'index.html')
     return APIUtil.toErrorResponse('not_found', 'This page does not exist (anymore)')
 
+
 @app.route('/schema/<path:path>')
 def schema_path(path=None):
     active_profile = app.config['ACTIVE_PROFILE']

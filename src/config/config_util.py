@@ -2,9 +2,11 @@ import logging
 import git
 from pathlib import Path
 
+
 def get_git_root():
     git_repo = git.Repo('.', search_parent_directories=True)
     return git_repo.git.rev_parse("--show-toplevel")
+
 
 def config_absolute_paths(app):
     """ Some settings are relative paths. Not-absolute paths in the settings file are relative
