@@ -1,5 +1,6 @@
 import logging
 import os
+import validators
 
 def validate_config(config):
     try:
@@ -23,9 +24,16 @@ def validate_config(config):
 
         assert __check_setting(config, 'LOG_DIR', str), 'LOG_DIR' # check file path
         assert __check_setting(config, 'LOG_NAME', str), 'LOG_NAME'
+
         assert __check_setting(config, 'LOG_LEVEL_CONSOLE', str), 'LOG_LEVEL_CONSOLE' # check valid values
+        assert __check_log_level(config['LOG_LEVEL_CONSOLE'])
+
         assert __check_setting(config, 'LOG_LEVEL_FILE', str), 'LOG_LEVEL_FILE' # check valid settings
+        assert __check_log_level(config['LOG_LEVEL_FILE'])
+
         assert __check_setting(config, 'STORAGE_BASE_URL', str), 'STORAGE_BASE_URL' # check valid URL
+        assert validators.url(config['STORAGE_BASE_URL'])
+
         assert __check_setting(config, 'ENABLED_ENDPOINTS', list), 'ENABLED_ENDPOINTS' # check valid settings
 
         assert __check_setting(config, 'SERVICE_ACCOUNT_FILE', str), 'SERVICE_ACCOUNT_FILE' # check valid path
@@ -36,6 +44,7 @@ def validate_config(config):
         assert __check_setting(config, 'SPARQL_EXAMPLES', str), 'SPARQL_ENDPOINT' # check valid path
 
         assert __check_setting(config, 'BENG_DATA_DOMAIN', str), 'BENG_DATA_DOMAIN' # check valid URL
+        assert validators.url(config['BENG_DATA_DOMAIN'])
 
         assert __check_setting(config, 'AUTH_USER', str), 'AUTH_USER'
         assert __check_setting(config, 'AUTH_PASSWORD', str), 'AUTH_PASSWORD'
@@ -52,6 +61,9 @@ def __check_setting(config, key, t, optional=False):
             setting is None or type(setting) == t
         )
     )
+
+def __check_log_level(level):
+    return level in ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
 
 def init_logger(app):
     logger = logging.getLogger(app.config['LOG_NAME'])
