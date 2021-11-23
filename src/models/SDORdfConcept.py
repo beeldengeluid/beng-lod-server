@@ -6,9 +6,8 @@ from rdflib.namespace import RDF, RDFS, SKOS, Namespace
 from rdflib import URIRef, Literal, BNode
 from util.APIUtil import APIUtil
 from models.BaseRdfConcept import BaseRdfConcept
-from cache import cache
 from importer.DAANSchemaImporter import DAANSchemaImporter
-
+from cachetools import cached, LRUCache, TTLCache
 
 class SDORdfConcept(BaseRdfConcept):
     """ Class to represent an NISV catalog object in RDF.
@@ -151,12 +150,14 @@ class SDORdfConcept(BaseRdfConcept):
         # DEFAULT, not a valid license available
         raise NotImplementedError
 
-    @cache.cached(timeout=0, key_prefix='sdo_scheme')
+    #@cache.cached(timeout=0, key_prefix='sdo_scheme')
+    @cached(cache=LRUCache(maxsize=32))
     def get_scheme(self):
         """ Returns a schema instance."""
         return DAANSchemaImporter(self.profile["schema"], self.profile["mapping"])
 
-    @cache.cached(timeout=0, key_prefix='openbeelden_links')
+    #@cache.cached(timeout=0, key_prefix='openbeelden_links')
+    @cached(cache=LRUCache(maxsize=32))
     def get_information_directory(self):
         with open(self.profile["ob_links"]) as ob_information_file:
             return json.load(ob_information_file)

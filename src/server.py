@@ -4,8 +4,7 @@ import os
 from apis import api
 from SchemaInMemory import SchemaInMemory
 from util.APIUtil import APIUtil
-from util.LoggingUtil import init_logger
-from cache import cache
+from util.base_util import init_logger, validate_config
 #from ontodoc import ontodoc
 
 app = Flask(__name__)
@@ -15,13 +14,15 @@ app.config.from_object('config.settings.Config')
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['RESTPLUS_VALIDATE'] = False
 
-app.debug = app.config['DEBUG']
-
 logger = init_logger(app)
 
-CORS(app)
+if not validate_config(app.config):
+    logger.error('Invalid config, quitting')
+    quit()
 
-cache.init_app(app)
+app.debug = app.config['DEBUG']
+
+CORS(app)
 
 def get_active_profile():
     def_profile = app.config['PROFILES'][0]
