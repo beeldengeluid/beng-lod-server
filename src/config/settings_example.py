@@ -16,7 +16,7 @@ class Config(object):
 
     STORAGE_BASE_URL = 'http://prd-app-bng-01.beeldengeluid.nl:8101/'
 
-    ENABLED_ENDPOINTS = ['resource', 'concept', 'dataset']  # allow all by default
+    ENABLED_ENDPOINTS = ['resource', 'dataset']  # allow all by default
 
     # profiles determine which schema is used for the linked data
     PROFILES = [
@@ -37,14 +37,6 @@ class Config(object):
             'storage_handler': SDOStorageLODHandler,
             'ob_links': '../resource/ob_link_matches.json',
             'default': True  # this profile is loaded in memory by default
-        },
-        {
-            'title': 'NISV Catalogue OAI schema',
-            'uri': 'http://www.openarchives.org/OAI/2.0/oai_dc/',
-            # temporary: taken from https://dltj.org/article/oai-pmh-namespaces/
-            'prefix': 'oai',
-            'schema': None,
-            'mapping': '../resource/daan-mapping.ttl',
         }
     ]
 
