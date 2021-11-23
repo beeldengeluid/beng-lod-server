@@ -2,25 +2,24 @@ import logging
 from rdflib import Graph
 from models.DAANRdfModel import HAS_DAAN_PATH
 
-""" Imports schema information as a list of classes, their properties, and the paths needed
-to retrieve these from the DAAN OAI-PMH """
+"""
+Imports schema information as a list of classes, their properties, and the paths needed
+to retrieve these from the DAAN OAI-PMH
 
-
+Importer for the RDFS schema definition based on the DAAN CMS.
+"""
 class DAANSchemaImporter:
-    """
-    Importer for the RDFS schema definition based on the DAAN CMS.
-    """
 
-    #TODO add config validation
-    def __init__(self, schema_file, mapping_file):
+    def __init__(self, schema_file, mapping_file, logger):
+        self.logger = logger
         self._graph = Graph()
-        print(f'Parsing schema file: {schema_file}')
+        self.logger.info(f"Parsing schema file: {schema_file}")
         self._graph.parse(schema_file, format="turtle")
-        print(f'Parsing mapping file: {mapping_file}')
+        self.logger.info(f"Parsing mapping file: {mapping_file}")
         self._graph.parse(mapping_file, format="turtle")
         self._propertiesWithoutDomain = {}
         self._load_properties_without_domain()
-        print(self._propertiesWithoutDomain)
+        self.logger.debug(self._propertiesWithoutDomain)
 
         # assert self._propertiesWithoutDomain, 'ERROR in DAANSchemaImporter: The properties were not loaded.'
         if not self._propertiesWithoutDomain:

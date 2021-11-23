@@ -12,12 +12,11 @@ class NISVRdfConcept(BaseRdfConcept):
     """ Class to represent an NISV concept in RDF, with functions to create the RDF in a graph from the JSON payload.
     """
 
-    def __init__(self, metadata, concept_type, profile):
-        super().__init__(profile, model=DAANRdfModel)
+    def __init__(self, metadata, concept_type, profile, logger):
+        super().__init__(profile, logger, model=DAANRdfModel)
         # self.graph.namespace_manager.bind(self._model.NISV_DATA_PREFIX,
         # use a default namespace
-        self.graph.namespace_manager.bind('sdo',
-                                          Namespace(self._model.NISV_SCHEMA_NAMESPACE))
+        self.graph.namespace_manager.bind('sdo', Namespace(self._model.NISV_SCHEMA_NAMESPACE))
         self.profile = profile
         if "schema" not in self.profile or "mapping" not in self.profile:
             raise APIUtil.raiseDescriptiveValueError('internal_server_error', 'Schema or mapping file not specified')
@@ -46,7 +45,7 @@ class NISVRdfConcept(BaseRdfConcept):
     @cached(cache=LRUCache(maxsize=32))
     def get_scheme(self):
         """ Returns a schema instance."""
-        return DAANSchemaImporter(self.profile["schema"], self.profile["mapping"])
+        return DAANSchemaImporter(self.profile["schema"], self.profile["mapping"], self.logger)
 
     def __payload_to_rdf(self, payload, parent_node, class_uri):
         """ Converts the metadata described in payload (JSON) to RDF, and attaches it to the parentNode
