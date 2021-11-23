@@ -11,8 +11,8 @@ class Config(object):
 
     LOG_DIR = "./resources/log/" #should always work, log dir will be automatically created in your src/resources dir
     LOG_NAME = "beng-lod-server.log"
-    LOG_LEVEL_CONSOLE = "DEBUG" # Levels: NOTSET - DEBUG - INFO - WARNING - ERROR - CRITICAL
-    LOG_LEVEL_FILE = "DEBUG" # Levels: NOTSET - DEBUG - INFO - WARNING - ERROR - CRITICAL
+    LOG_LEVEL_CONSOLE = "DEBUG" # Levels: DEBUG - INFO - WARNING - ERROR - CRITICAL
+    LOG_LEVEL_FILE = "DEBUG" # Levels: DEBUG - INFO - WARNING - ERROR - CRITICAL
 
     STORAGE_BASE_URL = 'http://prd-app-bng-01.beeldengeluid.nl:8101/'
 
