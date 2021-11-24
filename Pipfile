@@ -25,6 +25,7 @@ numpy = "*"
 elasticsearch = "*"
 flask = "*"
 validators = "*"
+cachetools = "*"
 
 [requires]
 python_version = "3.8"

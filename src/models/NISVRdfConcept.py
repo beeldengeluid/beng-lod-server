@@ -8,6 +8,7 @@ from models.BaseRdfConcept import BaseRdfConcept
 from importer.DAANSchemaImporter import DAANSchemaImporter
 from cachetools import cached, LRUCache, TTLCache
 
+
 class NISVRdfConcept(BaseRdfConcept):
     """ Class to represent an NISV concept in RDF, with functions to create the RDF in a graph from the JSON payload.
     """

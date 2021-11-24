@@ -3,10 +3,11 @@ import os
 import validators
 from pathlib import Path
 
+
 def validate_config(config, validate_file_paths=True):
-    file_paths_to_check  = []
+    file_paths_to_check = []
     try:
-        assert __check_setting(config, 'APP_HOST', str), 'APP_HOST' # check  host
+        assert __check_setting(config, 'APP_HOST', str), 'APP_HOST'  # check  host
         assert __check_setting(config, 'APP_PORT', int), 'APP_PORT'
         assert __check_setting(config, 'APP_VERSION', str), 'APP_VERSION'
         assert __check_setting(config, 'DEBUG', bool), 'DEBUG'
@@ -71,22 +72,27 @@ def validate_config(config, validate_file_paths=True):
         return False
     return True
 
+
 def __check_setting(config, key, t, optional=False):
     setting = config.get(key, None)
-    return (type(setting) == t and optional == False) or (
+    return (type(setting) == t and optional is False) or (
         optional and (
             setting is None or type(setting) == t
         )
     )
 
+
 def __check_log_level(level: str) -> bool:
     return level in ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
 
-def __validate_parent_dir(path : str) -> bool:
+
+def __validate_parent_dir(path: str) -> bool:
     return os.path.exists(Path(path).parent.absolute())
+
 
 def __validate_file_paths(paths: list) -> bool:
     return all([os.path.exists(p) for p in paths])
+
 
 def init_logger(app):
     logger = logging.getLogger(app.config['LOG_NAME'])
