@@ -27,4 +27,4 @@ class SDOStorageLODHandler(StorageLODHandler):
 
         # Note that this is import is here on purpose and not at the top, to prevent circular dependency to happen
         from models.SDORdfConcept import SDORdfConcept
-        return SDORdfConcept(json_obj, cat_type, self.profile)
+        return SDORdfConcept(json_obj, cat_type, self.profile, self.logger)
