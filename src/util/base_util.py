@@ -30,7 +30,7 @@ def validate_config(config, validate_file_paths=True):
             assert __check_setting(p, 'ob_links', str, True), 'PROFILE.ob_links'
             assert __check_setting(p, 'default', bool, True), 'PROFILE.default'
 
-        assert __check_setting(config, 'LOG_DIR', str), 'LOG_DIR' # check file path
+        assert __check_setting(config, 'LOG_DIR', str), 'LOG_DIR'  # check file path
 
         assert __check_setting(config, 'LOG_NAME', str), 'LOG_NAME'
 
@@ -47,15 +47,15 @@ def validate_config(config, validate_file_paths=True):
         for ep in config['ENABLED_ENDPOINTS']:
             assert ep in ['dataset', 'resource'], 'ENABLED_ENDPOINTS: invalid endpoint ID'
 
-        assert __check_setting(config, 'SERVICE_ACCOUNT_FILE', str), 'SERVICE_ACCOUNT_FILE' # check valid path
+        assert __check_setting(config, 'SERVICE_ACCOUNT_FILE', str), 'SERVICE_ACCOUNT_FILE'  # check valid path
         file_paths_to_check.append(config['SERVICE_ACCOUNT_FILE'])
         assert __check_setting(config, 'SERVICE_ACCOUNT_ID', str), 'SERVICE_ACCOUNT_ID'
         assert __check_setting(config, 'ODL_SPREADSHEET_ID', str), 'ODL_SPREADSHEET_ID'
 
-        assert __check_setting(config, 'DATA_CATALOG_FILE', str), 'DATA_CATALOG_FILE' # check valid path
+        assert __check_setting(config, 'DATA_CATALOG_FILE', str), 'DATA_CATALOG_FILE'  # check valid path
         file_paths_to_check.append(config['DATA_CATALOG_FILE'])
-        assert __check_setting(config, 'SPARQL_EXAMPLES', str), 'SPARQL_ENDPOINT' # check valid path
-        file_paths_to_check.append(config['SPARQL_EXAMPLES'])
+        assert __check_setting(config, 'SPARQL_ENDPOINT', str), 'SPARQL_ENDPOINT'  # check valid path
+        file_paths_to_check.append(config['SPARQL_ENDPOINT'])
 
         assert __check_setting(config, 'BENG_DATA_DOMAIN', str), 'BENG_DATA_DOMAIN'
         assert validators.url(config['BENG_DATA_DOMAIN']), 'BENG_DATA_DOMAIN invalid URL'

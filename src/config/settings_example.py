@@ -48,7 +48,6 @@ class Config(object):
 
     BENG_DATA_DOMAIN = 'http://data.beeldengeluid.nl/'
 
-    SPARQL_EXAMPLES = "../resource/example_queries.json"
     SPARQL_ENDPOINT = "https://cat.apis.beeldengeluid.nl/sparql"
 
     AUTH_USER = 'very_special'
