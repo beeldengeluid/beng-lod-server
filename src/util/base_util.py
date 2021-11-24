@@ -96,7 +96,7 @@ def init_logger(app):
 
     # create file handler which logs even debug messages
     if not os.path.exists(os.path.realpath(app.config['LOG_DIR'])):
-        os.mkdir(os.path.realpath(app.config['LOG_DIR']))
+        os.makedirs(os.path.realpath(app.config['LOG_DIR']))
 
     fh = logging.FileHandler(os.path.join(
         os.path.realpath(app.config['LOG_DIR']),
