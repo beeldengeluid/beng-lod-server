@@ -54,8 +54,9 @@ def validate_config(config, validate_file_paths=True):
 
         assert __check_setting(config, 'DATA_CATALOG_FILE', str), 'DATA_CATALOG_FILE'  # check valid path
         file_paths_to_check.append(config['DATA_CATALOG_FILE'])
-        assert __check_setting(config, 'SPARQL_ENDPOINT', str), 'SPARQL_ENDPOINT'  # check valid path
-        file_paths_to_check.append(config['SPARQL_ENDPOINT'])
+
+        assert __check_setting(config, 'SPARQL_ENDPOINT', str), 'SPARQL_ENDPOINT'
+        assert validators.url(config['SPARQL_ENDPOINT']), 'SPARQL_ENDPOINT invalid URL'
 
         assert __check_setting(config, 'BENG_DATA_DOMAIN', str), 'BENG_DATA_DOMAIN'
         assert validators.url(config['BENG_DATA_DOMAIN']), 'BENG_DATA_DOMAIN invalid URL'
