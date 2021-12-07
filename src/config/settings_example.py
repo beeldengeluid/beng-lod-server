@@ -8,11 +8,15 @@ class Config(object):
     APP_VERSION = 'v1.2'
 
     DEBUG = True
-    CACHE_TYPE = 'flask_caching.backends.SimpleCache'
+
+    LOG_DIR = "./resources/log/" #should always work, log dir will be automatically created in your src/resources dir
+    LOG_NAME = "beng-lod-server.log"
+    LOG_LEVEL_CONSOLE = "DEBUG" # Levels: DEBUG - INFO - WARNING - ERROR - CRITICAL
+    LOG_LEVEL_FILE = "DEBUG" # Levels: DEBUG - INFO - WARNING - ERROR - CRITICAL
 
     STORAGE_BASE_URL = 'http://prd-app-bng-01.beeldengeluid.nl:8101/'
 
-    ENABLED_ENDPOINTS = ['resource', 'concept', 'dataset']  # allow all by default
+    ENABLED_ENDPOINTS = ['resource', 'dataset']  # allow all by default
 
     # profiles determine which schema is used for the linked data
     PROFILES = [
@@ -33,14 +37,6 @@ class Config(object):
             'storage_handler': SDOStorageLODHandler,
             'ob_links': '../resource/ob_link_matches.json',
             'default': True  # this profile is loaded in memory by default
-        },
-        {
-            'title': 'NISV Catalogue OAI schema',
-            'uri': 'http://www.openarchives.org/OAI/2.0/oai_dc/',
-            # temporary: taken from https://dltj.org/article/oai-pmh-namespaces/
-            'prefix': 'oai',
-            'schema': None,
-            'mapping': '../resource/daan-mapping.ttl',
         }
     ]
 
@@ -52,8 +48,7 @@ class Config(object):
 
     BENG_DATA_DOMAIN = 'http://data.beeldengeluid.nl/'
 
-    SPARQL_EXAMPLES = "../resource/example_queries.json"
-    SPARQL_ENDPOINT = "http://54.217.179.144/sparql"
+    SPARQL_ENDPOINT = "https://cat.apis.beeldengeluid.nl/sparql"
 
     AUTH_USER = 'very_special'
     AUTH_PASSWORD = 'nobody_knows'

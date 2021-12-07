@@ -1,4 +1,3 @@
-import logging
 from rdflib import Graph
 from rdflib.namespace import SKOS, Namespace
 from rdflib.plugin import PluginException
@@ -11,8 +10,9 @@ class BaseRdfConcept:
         It uses functions to create the RDF in a graph using the JSON payload from the Direct Access Metadata API.
     """
 
-    def __init__(self, profile, model=None):
+    def __init__(self, profile, logger, model=None):
         self.profile = profile
+        self.logger = logger
         if "schema" not in self.profile or "mapping" not in self.profile:
             raise APIUtil.raiseDescriptiveValueError('internal_server_error', 'Schema or mapping file not specified')
         self._model = model
@@ -148,11 +148,7 @@ class BaseRdfConcept:
                 auto_compact=True
             )
         except PluginException as e:
-            logging.error(str(e))
-            print(e)
+            self.logger.exception('PluginException')
             raise
         except Exception as e:
-            logging.error('serializeGraph => ')
-            logging.error(str(e))
-            print('serializeGraph => ')
-            print(e)
+            self.logger.exception('Exception')

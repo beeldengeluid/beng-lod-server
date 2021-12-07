@@ -1,14 +1,11 @@
-import logging
-
-from flask import Flask, request, Response, send_from_directory, redirect, render_template
+from flask import Flask, request, Response, send_from_directory, redirect
 from flask_cors import CORS
 import os
 from apis import api
-#from ontodoc import ontodoc
 from SchemaInMemory import SchemaInMemory
 from util.APIUtil import APIUtil
-from cache import cache
-
+from util.base_util import init_logger, validate_config
+#from ontodoc import ontodoc
 
 app = Flask(__name__)
 
@@ -17,12 +14,15 @@ app.config.from_object('config.settings.Config')
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['RESTPLUS_VALIDATE'] = False
 
+logger = init_logger(app)
+
+if not validate_config(app.config):
+    logger.error('Invalid config, quitting')
+    quit()
+
 app.debug = app.config['DEBUG']
 
 CORS(app)
-
-cache.init_app(app)
-
 
 def get_active_profile():
     def_profile = app.config['PROFILES'][0]
@@ -46,19 +46,18 @@ def server_init():
             # generate the ontospy HTML for the configured profile
             #generate_ontospy_html(p)
             # schema in memory
+            logger.debug(f"Loading profile {p['prefix']} in memory")
             p['sim'] = SchemaInMemory(profile=p)
 
-
-def get_profile_dir(profile):
+"""
+def get_ontospy_dir(profile):
     return 'static/ontospy/{}'.format(profile['prefix']) if 'prefix' in profile else None
 
-
-"""
 def generate_ontospy_html(profile):
     if 'schema' in profile and 'prefix' in profile:
-        profile_dir = get_profile_dir(profile)
+        profile_dir = get_ontospy_dir(profile)
         if profile_dir and not os.path.exists(profile_dir):
-            print('Generating ontospy HTML for {}'.format(profile['prefix']))
+            logger.debug('Generating ontospy HTML for {}'.format(profile['prefix']))
             ontodoc(ontology_file=profile['schema'], output_path=profile_dir, profile=profile)
 """
 
@@ -74,6 +73,7 @@ PING / HEARTBEAT ENDPOINT
 
 @app.route('/ping')
 def ping():
+    logger.debug('Received ping')
     return Response('pong', mimetype='text/plain')
 
 
@@ -95,7 +95,8 @@ def schema():
             f.close()
             return APIUtil.toSuccessResponse(schema_ttl)
         return APIUtil.toErrorResponse('internal_server_error', 'The schema file could not be found')
-    return send_from_directory(get_profile_dir(active_profile), 'index.html')
+    #return send_from_directory(get_ontospy_dir(active_profile), 'index.html')
+    return APIUtil.toErrorResponse('not_found', 'This page does not exist (anymore)')
 
 
 @app.route('/schema/<path:path>')
@@ -114,6 +115,8 @@ def schema_path(path=None):
     #     # an page with the RDF for the resource represented in JSON-LD format is returned.
     #     uri = "http://data.rdlabs.beeldengeluid.nl/schema/%s" % path
     #     return active_profile['sim'].get_resource(class_or_prop=uri, return_format='json+ld')
+
+    """
     elif 'text/html' in request.headers.get('Accept') and path.find('.') == -1:
         html_path = active_profile['sim'].resource_name_to_html(  # make sure load the correct html template
             app.config['ACTIVE_PROFILE']['prefix'],
@@ -121,14 +124,15 @@ def schema_path(path=None):
             path
         )
         if html_path:
-            return send_from_directory(get_profile_dir(active_profile), html_path)
-    elif os.path.exists(os.path.join(get_profile_dir(active_profile), path)):
+            return send_from_directory(get_ontospy_dir(active_profile), html_path)
+    elif os.path.exists(os.path.join(get_ontospy_dir(active_profile), path)):
         if path.find('.html') != -1:  # redirect the html to the nice Resource URI
             resource_name = active_profile['sim'].url_path_to_resource_name(active_profile['prefix'], path)
             if resource_name:
                 return redirect('/schema/{}'.format(resource_name))
-        return send_from_directory(get_profile_dir(active_profile), path)
-    return Response('This page does not exist (404)')
+        return send_from_directory(get_ontospy_dir(active_profile), path)
+    """
+    return APIUtil.toErrorResponse('not_found', 'This page does not exist (anymore)')
 
 
 if __name__ == '__main__':

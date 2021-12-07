@@ -4,7 +4,6 @@ import json
 from rdflib import Graph
 from rdflib.exceptions import ParserError
 
-
 ERROR_RESPONSES = {
 	'access_denied': {
 		'msg': 'Access denied',

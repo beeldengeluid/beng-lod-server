@@ -2,7 +2,6 @@ from mockito import when, unstub
 from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import RDF
 from apis.mime_type_util import MimeType
-from cache import cache
 from flask import Flask
 
 
@@ -17,13 +16,6 @@ RETURN_FORMAT_JSONLD = 'application/ld+json'
 
 def test_get_payload_scene_ob(application_settings, i_ob_scene_payload):
     try:
-        # # setup the test server
-        app = Flask(__name__)
-        app.config.from_object(application_settings)
-
-        # init cache
-        cache.init_app(app)
-
         profile = application_settings.get('ACTIVE_PROFILE')
         sdo_handler = profile['storage_handler'](application_settings, profile)
         when(sdo_handler)._prepare_storage_uri(DUMMY_SET, DUMMY_NOTATION).thenReturn(DUMMY_URL)
@@ -65,13 +57,6 @@ def test_get_payload_scene_ob(application_settings, i_ob_scene_payload):
 
 def test_for_cant_encode_character(application_settings, i_error_scene_payload):
     try:
-        # # setup the test server
-        app = Flask(__name__)
-        app.config.from_object(application_settings)
-
-        # init cache
-        cache.init_app(app)
-
         profile = application_settings.get('ACTIVE_PROFILE')
         sdo_handler = profile['storage_handler'](application_settings, profile)
         when(sdo_handler)._prepare_storage_uri('scene', '2101702260627885424').thenReturn(DUMMY_URL)
@@ -109,13 +94,6 @@ def test_for_material_type(application_settings, i_program_payload_material_type
 def test_no_payload_from_flex_store(application_settings):
     """ Tests for a proper handling of errors with the flex store. """
     try:
-        # # setup the test server
-        app = Flask(__name__)
-        app.config.from_object(application_settings)
-
-        # init cache
-        cache.init_app(app)
-
         profile = application_settings.get('ACTIVE_PROFILE')
         sdo_handler = profile['storage_handler'](application_settings, profile)
         when(sdo_handler)._prepare_storage_uri('scene', '2101702260627885424').thenReturn(DUMMY_URL)

@@ -36,7 +36,7 @@ class LODDatasetAPI(Resource):
         mime_type, accept_profile = parse_accept_header(request.headers.get('Accept'))
         dataset_uri = prepare_beng_uri(path=f'id/dataset/{number}')
 
-        resp, status_code, headers = DataCatalogLODHandler(app_config=current_app.config).get_dataset(
+        resp, status_code, headers = DataCatalogLODHandler(current_app.config).get_dataset(
             dataset_uri, mime_format=mime_type.to_ld_format()
         )
 
@@ -66,9 +66,9 @@ class LODDataCatalogAPI(Resource):
         mime_type, accept_profile = parse_accept_header(request.headers.get('Accept'))
         data_catalog_uri = prepare_beng_uri(path=f'id/datacatalog/{number}')
 
-        resp, status_code, headers = DataCatalogLODHandler(
-            app_config=current_app.config
-        ).get_data_catalog(data_catalog_uri, mime_format=mime_type.to_ld_format())
+        resp, status_code, headers = DataCatalogLODHandler(current_app.config).get_data_catalog(
+            data_catalog_uri, mime_format=mime_type.to_ld_format()
+        )
 
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:
@@ -95,9 +95,9 @@ class LODDataDownloadAPI(Resource):
         mime_type, accept_profile = parse_accept_header(request.headers.get('Accept'))
         data_download_uri = prepare_beng_uri(path=f'id/datadownload/{number}')
 
-        resp, status_code, headers = DataCatalogLODHandler(
-            app_config=current_app.config
-        ).get_data_download(data_download_uri, mime_format=mime_type.to_ld_format())
+        resp, status_code, headers = DataCatalogLODHandler(current_app.config).get_data_download(
+            data_download_uri, mime_format=mime_type.to_ld_format()
+        )
 
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:

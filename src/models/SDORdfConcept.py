@@ -6,8 +6,8 @@ from rdflib.namespace import RDF, RDFS, SKOS, Namespace
 from rdflib import URIRef, Literal, BNode
 from util.APIUtil import APIUtil
 from models.BaseRdfConcept import BaseRdfConcept
-from cache import cache
 from importer.DAANSchemaImporter import DAANSchemaImporter
+from cachetools import cached, LRUCache, TTLCache
 
 
 class SDORdfConcept(BaseRdfConcept):
@@ -16,8 +16,8 @@ class SDORdfConcept(BaseRdfConcept):
 
     """
 
-    def __init__(self, metadata, concept_type, profile):
-        super().__init__(profile, model=SDORdfModel)
+    def __init__(self, metadata, concept_type, profile, logger):
+        super().__init__(profile, logger, model=SDORdfModel)
         self._schema = self.get_scheme()
         self._classes = self._schema.get_classes()
         self.information_dictionary = self.get_information_directory()
@@ -25,8 +25,7 @@ class SDORdfConcept(BaseRdfConcept):
         err_msg = 'Error while loading the schema classes and properties'
         assert self._classes is not None, APIUtil.raiseDescriptiveValueError('internal_server_error', err_msg)
 
-        self.graph.namespace_manager.bind('sdo',
-                                          Namespace(self._model.SCHEMA_DOT_ORG_NAMESPACE))
+        self.graph.namespace_manager.bind('sdo', Namespace(self._model.SCHEMA_DOT_ORG_NAMESPACE))
         # create a node for the record
         self.itemNode = URIRef(self.get_uri(concept_type, metadata["id"]))
 
@@ -151,12 +150,14 @@ class SDORdfConcept(BaseRdfConcept):
         # DEFAULT, not a valid license available
         raise NotImplementedError
 
-    @cache.cached(timeout=0, key_prefix='sdo_scheme')
+    # @cache.cached(timeout=0, key_prefix='sdo_scheme')
+    @cached(cache=LRUCache(maxsize=32))
     def get_scheme(self):
         """ Returns a schema instance."""
-        return DAANSchemaImporter(self.profile["schema"], self.profile["mapping"])
+        return DAANSchemaImporter(self.profile["schema"], self.profile["mapping"], self.logger)
 
-    @cache.cached(timeout=0, key_prefix='openbeelden_links')
+    # @cache.cached(timeout=0, key_prefix='openbeelden_links')
+    @cached(cache=LRUCache(maxsize=32))
     def get_information_directory(self):
         with open(self.profile["ob_links"]) as ob_information_file:
             return json.load(ob_information_file)

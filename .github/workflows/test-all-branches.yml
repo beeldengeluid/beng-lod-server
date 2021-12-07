@@ -24,7 +24,7 @@ jobs:
     - name: Install dependencies (including dev-packages)
       run: pipenv install --three --dev --skip-lock
     - name: Test with pytest
-      run: pipenv run pytest src/tests --cov
+      run: cd src && pipenv run pytest tests --cov
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
