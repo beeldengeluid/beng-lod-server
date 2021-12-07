@@ -35,10 +35,10 @@ jobs:
     runs-on: [self-hosted]
     needs: test
     steps:
-    # - name: Update ansible
-      # run: |
-       #  cd /opt/git/x-omgeving/ansible/
-       #  sudo git pull
+    - name: Update ansible
+      run: |
+        cd /opt/git/x-omgeving/ansible/
+        sudo git pull
     - name: autodeploy to acc with ansible
       run: |
         cd /opt/git/x-omgeving/ansible/
@@ -48,6 +48,10 @@ jobs:
     runs-on: [self-hosted, aws]
     needs: [test]
     steps:
+    - name: Update ansible
+      run: |
+        cd /opt/git/x-omgeving/ansible/
+        sudo git pull
     - name: autodeploy to aws with ansible
       run: |
         cd /opt/git/x-omgeving/ansible/
