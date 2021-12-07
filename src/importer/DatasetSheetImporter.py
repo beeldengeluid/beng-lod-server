@@ -143,11 +143,12 @@ class DatasetSheetImporter:
         Processing: all the lists from the spreadsheet, all cells from each row, all lines in a cell.
         """
         for row in list_of_dict:
-            item_id = URIRef(row.get('@id'))
-            for key, value in row.items():
-                if (item_id is not None) and key != '@id':
-                    for obj in get_object_for_value(value, key):
-                        self._data_catalog.add((item_id, URIRef(f'{SDO}{key}'), obj))
+            if row.get('@id') != '':
+                item_id = URIRef(row.get('@id'))
+                for key, value in row.items():
+                    if key != '@id':
+                        for obj in get_object_for_value(value, key):
+                            self._data_catalog.add((item_id, URIRef(f'{SDO}{key}'), obj))
 
     def _init_sheets_api(self):
         """ Initializes the sheets api, preparing it ot read data.
@@ -196,15 +197,16 @@ class DatasetSheetImporter:
         # add a schema:Dataset type for every row
         for row in dataset_list:
             item_id = URIRef(row.get('@id'))
-            self._data_catalog.add((item_id, URIRef(f'{RDF}type'), URIRef(f'{SDO}Dataset')))
+            if item_id is not None:
+                self._data_catalog.add((item_id, URIRef(f'{RDF}type'), URIRef(f'{SDO}Dataset')))
 
-            # multiple DataCatalog are possible, so add a schema:dataset for each.
-            included_in_data_catalog = row.get('includedInDataCatalog')
-            if included_in_data_catalog is not None:
-                list_of_data_catalogs = included_in_data_catalog.splitlines()
-                for data_catalog in list_of_data_catalogs:
-                    data_catalog_id = URIRef(data_catalog)
-                    self._data_catalog.add((data_catalog_id, URIRef(f'{SDO}dataset'), item_id))
+                # multiple DataCatalog are possible, so add a schema:dataset for each.
+                included_in_data_catalog = row.get('includedInDataCatalog')
+                if included_in_data_catalog is not None:
+                    list_of_data_catalogs = included_in_data_catalog.splitlines()
+                    for data_catalog in list_of_data_catalogs:
+                        data_catalog_id = URIRef(data_catalog)
+                        self._data_catalog.add((data_catalog_id, URIRef(f'{SDO}dataset'), item_id))
 
         # now add the properties
         self.list_of_dict_to_graph(dataset_list)
@@ -215,7 +217,7 @@ class DatasetSheetImporter:
             The property
         """
         logging.debug('Init distribution/data downloads.')
-        distribution_range = 'Distribution!A1:J'
+        distribution_range = 'Distribution!A1:K'
         result = self._sheet.values().get(spreadsheetId=self._odl_spreadsheet_id,
                                           range=distribution_range).execute()
         distribution_list = values_to_dict(result.get('values', []))

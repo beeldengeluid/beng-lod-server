@@ -304,7 +304,7 @@ xsd:date rdf:type rdfs:Datatype .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasMaterialType
-###<http://data.rdlabs.beeldengeluid.nl/schema/hasMaterialType> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.materialtype, resolved_value" .
+<https://schema.org/material> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.materialtype, resolved_value" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasMetadataStatus

@@ -23,6 +23,7 @@ ERROR_RESPONSES = {
 	}
 }
 
+
 class APIUtil:
 
 	@staticmethod
