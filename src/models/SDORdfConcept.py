@@ -181,9 +181,29 @@ class SDORdfConcept(BaseRdfConcept):
         self.graph.add((media_object_node, URIRef(self._model.HAS_CONTENT_URL), URIRef(content_url)))
         self.graph.add((media_object_node, URIRef(self._model.HAS_ENCODING_FORMAT), Literal('video/mp4')))
 
-        # Let's not forget we also have the OpenBeelden URI for the item in cc:attributionUrl.
-        # mmm. unfortunately it has to be extracted from the metadata
-        # self.graph.add((media_object_node, URIRef(self._model.IS_MAIN_ENTITY_OF_PAGE), URIRef(ccattributionurl)))
+    def __add_material_type_object(self, content_url=None, material_type=None):
+        """Given the material type, a media object is added to the RDF item. If the content_url is given,
+        it is linked to the media object.
+        :param content_url: pointer to the media that represents the creative work.
+        :param material_type: DAAN property for the sort of media object (audio, video, photo, paper, object, other).
+        This function handles (audio, video, photo), because they get an associatedMedia property.
+        """
+        if material_type is not None:
+            media_object_node = BNode()  # use a BNode to emphasize that this Media Object is not an entity in DAAN
+            self.graph.add((self.itemNode, URIRef(self._model.HAS_ASSOCIATED_MEDIA), media_object_node))
+
+            if material_type == 'audio':
+                self.graph.add((media_object_node, RDF.type, URIRef(self._model.AUDIO)))
+                self.graph.add((media_object_node, URIRef(self._model.HAS_ENCODING_FORMAT), Literal('audio/mp3')))
+            elif material_type == 'video':
+                self.graph.add((media_object_node, RDF.type, URIRef(self._model.VIDEO)))
+                self.graph.add((media_object_node, URIRef(self._model.HAS_ENCODING_FORMAT), Literal('video/mp4')))
+            elif material_type == 'photo':
+                self.graph.add((media_object_node, RDF.type, URIRef(self._model.PHOTO)))
+                self.graph.add((media_object_node, URIRef(self._model.HAS_ENCODING_FORMAT), Literal('image/jpeg')))
+
+            if content_url is not None:
+                self.graph.add((media_object_node, URIRef(self._model.HAS_CONTENT_URL), URIRef(content_url)))
 
     def __create_skos_concept(self, used_path, payload, concept_label, property_description):
         """Searches in the concept_metadata for a thesaurus concept. If one is found, creates a node for it and
@@ -259,7 +279,20 @@ class SDORdfConcept(BaseRdfConcept):
                 used_path = used_paths[i]
                 i += 1
 
-                if property_uri == self._model.LICENSE:
+                # do something with the material type
+                if property_uri == self._model.HAS_MATERIAL_TYPE:
+                    try:
+                        media_material = new_payload_item.lower()
+                        if media_material in ('audio', 'video', 'photo'):
+                            # add the associatedMedia
+                            self.__add_material_type_object(content_url=None, material_type=media_material)
+                        elif media_material in ('paper', 'object', 'other'):
+                            # add material property. Only 'paper' is really a physical substance, but add anyway...
+                            self.graph.add((parent_node, URIRef(property_uri), Literal(media_material)))
+                    except NotImplementedError as e:
+                        print(f'NotImplementedError: {str(e)}')
+
+                elif property_uri == self._model.LICENSE:
                     try:
                         license_url = self.rights_to_license_uri(payload)
                         if license_url is not None:
@@ -275,9 +308,10 @@ class SDORdfConcept(BaseRdfConcept):
                     if new_payload_item.lower() == "true":
                         access_text = "View/listen to media online at the item's URL: True"
 
-                    self.graph.add((parent_node, URIRef(property_uri), Literal(access_text,
-                                                                               datatype=property_description[
-                                                                                   "range"])))
+                    self.graph.add((parent_node,
+                                    URIRef(property_uri),
+                                    Literal(access_text, datatype=property_description["range"]))
+                                   )
 
                 elif property_description["range"] in self._model.XSD_TYPES:
                     # add the new payload as the value

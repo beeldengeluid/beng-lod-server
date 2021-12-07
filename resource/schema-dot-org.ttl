@@ -109,6 +109,11 @@ sdo:license rdf:type rdf:Property ;
                 rdfs:domain sdo:CreativeWork ;
                 rdfs:range sdo:URL .
 
+###  https://schema.org/material
+sdo:material rdf:type rdf:Property ;
+                rdfs:domain sdo:CreativeWork ;
+                rdfs:range xsd:string .
+
 #################################################################
 #    Classes
 #################################################################
@@ -120,6 +125,18 @@ sdo:Thing rdf:type rdfs:Class ;
 ###  https://schema.org/MediaObject
 sdo:MediaObject rdf:type rdfs:Class ;
              rdfs:subClassOf sdo:Thing .
+
+###  https://schema.org/AudioObject
+sdo:AudioObject rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:MediaObject .
+
+###  https://schema.org/VideoObject
+sdo:VideoObject rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:MediaObject .
+
+###  https://schema.org/ImageObject
+sdo:ImageObject rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:MediaObject .
 
 ###  https://schema.org/Place
 sdo:Place rdf:type rdfs:Class ;
