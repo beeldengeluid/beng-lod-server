@@ -140,7 +140,9 @@ class DatasetSheetImporter:
 
     def list_of_dict_to_graph(self, list_of_dict):
         """ Generate triples and add to the data catalog graph.
-        Processing: all the lists from the spreadsheet, all cells from each row, all lines in a cell.
+        All items in the list_of_dict value that have an ID set (no empty string) are processed as follows:
+            all cells from each row, all lines in a cell.
+        :param list_of_dict: the contents of a spreadsheet tab.
         """
         for row in list_of_dict:
             if row.get('@id') != '':
@@ -177,8 +179,9 @@ class DatasetSheetImporter:
 
         # add the schema:DataCatalog type to the graph
         for row in data_catalog_list:
-            item_id = URIRef(row.get('@id'))
-            self._data_catalog.add((item_id, URIRef(f'{RDF}type'), URIRef(f'{SDO}DataCatalog')))
+            if row.get('@id') != '':
+                item_id = URIRef(row.get('@id'))
+                self._data_catalog.add((item_id, URIRef(f'{RDF}type'), URIRef(f'{SDO}DataCatalog')))
 
         # add all the other properties
         self.list_of_dict_to_graph(data_catalog_list)
@@ -196,8 +199,8 @@ class DatasetSheetImporter:
 
         # add a schema:Dataset type for every row
         for row in dataset_list:
-            item_id = URIRef(row.get('@id'))
-            if item_id is not None:
+            if row.get('@id') != '':
+                item_id = URIRef(row.get('@id'))
                 self._data_catalog.add((item_id, URIRef(f'{RDF}type'), URIRef(f'{SDO}Dataset')))
 
                 # multiple DataCatalog are possible, so add a schema:dataset for each.
@@ -224,8 +227,9 @@ class DatasetSheetImporter:
 
         # add a schema:DataDownload type for every row
         for row in distribution_list:
-            item_id = URIRef(row.get('@id'))
-            self._data_catalog.add((item_id, URIRef(f'{RDF}type'), URIRef(f'{SDO}DataDownload')))
+            if row.get('@id') != '':
+                item_id = URIRef(row.get('@id'))
+                self._data_catalog.add((item_id, URIRef(f'{RDF}type'), URIRef(f'{SDO}DataDownload')))
 
         # add the rest of the properties
         self.list_of_dict_to_graph(distribution_list)
@@ -240,8 +244,9 @@ class DatasetSheetImporter:
 
         # add a schema:Organization type
         for row in organization_list:
-            item_id = URIRef(row.get('@id'))
-            self._data_catalog.add((item_id, URIRef(f'{RDF}type'), URIRef(f'{SDO}Organization')))
+            if row.get('@id') != '':
+                item_id = URIRef(row.get('@id'))
+                self._data_catalog.add((item_id, URIRef(f'{RDF}type'), URIRef(f'{SDO}Organization')))
 
         # add the properties for Organization
         self.list_of_dict_to_graph(organization_list)
