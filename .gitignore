@@ -10,6 +10,7 @@ resource/*/*.xml
 .project
 .pydevproject
 .idea/
+scripts
 docs/
 schema/
 *.txt
