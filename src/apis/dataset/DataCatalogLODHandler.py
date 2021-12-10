@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import os.path
 from util.APIUtil import APIUtil
-from importer.DatasetSheetImporter import DatasetSheetImporter
 from cache import cache
 from rdflib import URIRef, Literal
 from rdflib import Graph
@@ -39,12 +38,6 @@ class DataCatalogLODHandler:
         the DatasetSheetImport needs to produce this file.
         """
         data_catalog_file = get_data_catalog_file(application_config)
-        if not os.path.exists(data_catalog_file):
-            from config.settings import Config
-            dsi = DatasetSheetImporter(config=Config)
-            dsi.write_turtle(turtle_file=data_catalog_file)
-
-        # load the data from the file
         self._data_catalog = Graph()
         self._data_catalog.parse(data_catalog_file, format=MimeType.TURTLE.value)
 
