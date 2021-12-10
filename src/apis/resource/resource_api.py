@@ -108,14 +108,12 @@ class ResourceAPI(Resource):
         auth = request.authorization
         if auth is not None and auth.type == 'basic' and auth.username == auth_user and auth.password == auth_pass:
             # no restrictions, bypass the check
-            logger.debug(request.authorization)
+            # logger.debug(request.authorization)
+            pass
         else:
             # NOTE: this else clause is only there so we can download as lod-importer, but nobody else can.
-            logger.info(f"Access denied to resource {lod_url}")
-            return APIUtil.toErrorResponse('access_denied', 'The resource can not be dereferenced.')
-        # TODO: replace the else code with the code below in comment
-        #     if not is_public_resource(resource_url=lod_url):
-        #         return APIUtil.toErrorResponse('access_denied', 'The resource can not be dereferenced.')
+            if not is_public_resource(resource_url=lod_url):
+                return APIUtil.toErrorResponse('access_denied', 'The resource can not be dereferenced.')
 
         if mime_type:
             # note we need to use empty params for the UI
