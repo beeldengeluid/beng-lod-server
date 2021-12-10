@@ -28,10 +28,9 @@ class DataCatalogLODHandler:
 
     @cached(cache=LRUCache(maxsize=32))
     def _init_data_catalog(self, data_catalog_file: str):
-        """ When initialized, get the data file from /resource. If this file doesn't exist,
-        the DatasetSheetImport needs to produce this file.
+        """ When initialized, get the data file from /resource.
         """
-        data_catalog_file = get_data_catalog_file(application_config)
+        self.logger.info('Loading data catalogue')
         self._data_catalog = Graph()
         self._data_catalog.parse(data_catalog_file, format=MimeType.TURTLE.value)
 
