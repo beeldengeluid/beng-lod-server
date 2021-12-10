@@ -31,13 +31,7 @@ class DataCatalogLODHandler:
         """ When initialized, get the data file from /resource. If this file doesn't exist,
         the DatasetSheetImport needs to produce this file.
         """
-        self.logger.info('Loading data catalogue')
-        if not os.path.exists(data_catalog_file):
-            self.logger.info(f"Data catalogue {data_catalog_file} does not exist, importing from spreadsheet")
-            dsi = DatasetSheetImporter(self.config)
-            dsi.write_turtle(turtle_file=data_catalog_file)
-
-        # load the data from the file
+        data_catalog_file = get_data_catalog_file(application_config)
         self._data_catalog = Graph()
         self._data_catalog.parse(data_catalog_file, format=MimeType.TURTLE.value)
 
