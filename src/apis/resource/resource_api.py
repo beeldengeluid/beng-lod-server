@@ -108,7 +108,8 @@ class ResourceAPI(Resource):
         auth = request.authorization
         if auth is not None and auth.type == 'basic' and auth.username == auth_user and auth.password == auth_pass:
             # no restrictions, bypass the check
-            logger.debug(request.authorization)
+            # logger.debug(request.authorization)
+            pass
         else:
             # NOTE: this else clause is only there so we can download as lod-importer, but nobody else can.
             if not is_public_resource(resource_url=lod_url):
