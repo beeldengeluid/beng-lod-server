@@ -47,11 +47,6 @@ def validate_config(config, validate_file_paths=True):
         for ep in config['ENABLED_ENDPOINTS']:
             assert ep in ['dataset', 'resource'], 'ENABLED_ENDPOINTS: invalid endpoint ID'
 
-        assert __check_setting(config, 'SERVICE_ACCOUNT_FILE', str), 'SERVICE_ACCOUNT_FILE'  # check valid path
-        file_paths_to_check.append(config['SERVICE_ACCOUNT_FILE'])
-        assert __check_setting(config, 'SERVICE_ACCOUNT_ID', str), 'SERVICE_ACCOUNT_ID'
-        assert __check_setting(config, 'ODL_SPREADSHEET_ID', str), 'ODL_SPREADSHEET_ID'
-
         assert __check_setting(config, 'DATA_CATALOG_FILE', str), 'DATA_CATALOG_FILE'  # check valid path
         file_paths_to_check.append(config['DATA_CATALOG_FILE'])
 

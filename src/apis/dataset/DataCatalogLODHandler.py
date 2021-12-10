@@ -3,7 +3,6 @@
 import os.path
 import logging
 from util.APIUtil import APIUtil
-from importer.DatasetSheetImporter import DatasetSheetImporter
 from rdflib import URIRef, Literal
 from rdflib import Graph
 from rdflib.namespace import Namespace, RDF
@@ -11,6 +10,7 @@ from apis.mime_type_util import MimeType
 from cachetools import cached, LRUCache, TTLCache
 
 SDO = Namespace('https://schema.org/')
+
 
 class DataCatalogLODHandler:
     """ Handles requests from the beng-lod server for data catalogs, datasets, datadownloads.
