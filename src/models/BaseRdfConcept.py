@@ -142,6 +142,7 @@ class BaseRdfConcept:
     def serialize(self, return_format):
         """ Serialize graph data to requested format."""
         try:
+            # self.graph.removeUnusedPrefix()
             return self.graph.serialize(
                 format=return_format,
                 context=dict(self.graph.namespaces()),

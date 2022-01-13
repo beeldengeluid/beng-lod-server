@@ -10,6 +10,7 @@ class MimeType(Enum):
     N_TRIPLES = 'application/n-triples'
     N3 = 'text/n3'
     JSON = 'application/json'
+    HTML = 'text/html'
 
     def to_ld_format(self) -> Optional[str]:
         if self == MimeType.JSON_LD:
@@ -70,6 +71,10 @@ def parse_accept_header(accept_header: str) -> (MimeType, str):
     """
     mime_type = MimeType.JSON_LD
     accept_profile = None
+
+    # fo the HTML a schema.org profile will be assigned later
+    if MimeType.HTML.value in accept_header:
+        return MimeType.HTML, accept_profile
 
     if accept_header is None or accept_header == '*/*':
         return mime_type, accept_profile
