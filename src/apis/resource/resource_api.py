@@ -22,7 +22,7 @@ api = Namespace('resource', description='Resources in RDF for Netherlands Instit
 SDO_PROFILE = 'https://schema.org/'
 
 
-def rdf_to_image(rdf_string=None, rdf_format=MimeType.JSON_LD):
+def rdf_to_image(rdf_string=None, rdf_format=MimeType.JSON_LD, image_heading=None):
     """ Use Pyvis to visualize a Graph in HTML. See: https://pyvis.readthedocs.io/en/latest/index.html
     Examples VisJS: https://visjs.github.io/vis-network/examples/
     """
@@ -72,24 +72,25 @@ def rdf_to_image(rdf_string=None, rdf_format=MimeType.JSON_LD):
     # print(list(mdg.edges()))
 
     # Do the pyvis shine
-    net = Network(height='768px', width='1024px')
+    net = Network(height='768px', width='1024px', heading=image_heading)
     net.toggle_physics(status=True)
     # net.add_edge()
 
     # populates the nodes and edges data structures
     net.from_nx(relabeled_mdg)
     net.show_buttons(filter_=['physics'])
-    net.set_options("""
-var options = {
-  "physics": {
-    "barnesHut": {
-      "springLength": 135
-    },
-    "minVelocity": 0.75
-  }
-}
-        """)
-    net.write_html(html_path, notebook=False)
+#     net.set_options("""
+# var options = {
+#   "physics": {
+#     "barnesHut": {
+#       "springLength": 135
+#     },
+#     "minVelocity": 0.75
+#   }
+# }
+#         """)
+    # net.write_html(html_path, notebook=False)
+    net.save_graph(html_path)
 
 
 def get_mapping_for_schema_nodes():
@@ -205,8 +206,9 @@ def get_lod_resource(level, identifier, mime_type, accept_profile, app_config):
         )
         # now draw the graph
         # get_mapping_for_schema_edge_labels()
-        rdf_to_image(resp)
-        return Response(response=render_template('rdf_to_image.html', level=level, identifier=identifier))
+        rdf_to_image(resp, image_heading=f'{level}/{identifier} ')
+        # return Response(response=render_template('rdf_to_image.html', level=level, identifier=identifier))
+        return Response(response=render_template('rdf_to_image.html'))
     else:
         print(profile)
         resp, status_code, headers = profile['storage_handler'](app_config, profile).get_storage_record(
