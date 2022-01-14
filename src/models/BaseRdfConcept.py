@@ -142,9 +142,10 @@ class BaseRdfConcept:
     def serialize(self, return_format):
         """ Serialize graph data to requested format."""
         try:
+            context_used = self.remove_unused_prefixes()
             return self.graph.serialize(
                 format=return_format,
-                context=dict(self.graph.namespaces()),
+                context=context_used,
                 auto_compact=True
             )
         except PluginException as e:
@@ -152,3 +153,10 @@ class BaseRdfConcept:
             raise
         except Exception as e:
             self.logger.exception('Exception')
+
+    def remove_unused_prefixes(self):
+        """ Clean up the giant list of namespaces rdflib produces since the latest update.
+        """
+        context = dict(self.graph.namespaces())
+        used_prefixes = ['gtaa', 'non-gtaa', 'rdf', 'rdfs', 'sdo', 'skos', 'xml', 'xsd']
+        return {p: context[p] for p in used_prefixes}
