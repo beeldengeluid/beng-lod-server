@@ -154,6 +154,11 @@ class DataCatalogLODHandler:
             for triple in self.triples_dataset(dataset_uri=dataset_uri):
                 g.add(triple)
 
+            # add the triples for the organization
+            organization_id = self.get_organization_for_dataset(dataset_id=dataset_uri)
+            for triple in self.triples_organization(organization_id=organization_id):
+                g.add(triple)
+
             # add triples for each data download
             for data_download_id in self.get_data_downloads_for_dataset(dataset_id=dataset_uri):
                 for triple in self.triples_data_download(data_download_uri=data_download_id):
