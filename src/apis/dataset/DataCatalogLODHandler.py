@@ -276,4 +276,5 @@ class DataCatalogLODHandler:
         """
         context = dict(self._data_catalog.namespaces())
         used_prefixes = ['rdf', 'rdfs', 'sdo', 'skos', 'xml', 'xsd']
-        return {p: context[p] for p in used_prefixes}
+        return {i: j for i, j in context.items() if i in used_prefixes}
+

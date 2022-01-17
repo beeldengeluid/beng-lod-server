@@ -159,4 +159,4 @@ class BaseRdfConcept:
         """
         context = dict(self.graph.namespaces())
         used_prefixes = ['gtaa', 'non-gtaa', 'rdf', 'rdfs', 'sdo', 'skos', 'xml', 'xsd']
-        return {p: context[p] for p in used_prefixes}
+        return {i: j for i, j in context.items() if i in used_prefixes}
