@@ -155,7 +155,7 @@ class BaseRdfConcept:
             self.logger.exception('Exception')
 
     def remove_unused_prefixes(self):
-        """ Clean up the giant list of namespaces rdflib produces since the latest update.
+        """ Clean up the long list of namespaces.
         """
         context = dict(self.graph.namespaces())
         used_prefixes = ['gtaa', 'non-gtaa', 'rdf', 'rdfs', 'sdo', 'skos', 'xml', 'xsd']
