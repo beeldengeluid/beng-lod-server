@@ -5,7 +5,6 @@ from apis import api
 from SchemaInMemory import SchemaInMemory
 from util.APIUtil import APIUtil
 from util.base_util import init_logger, validate_config
-#from ontodoc import ontodoc
 
 app = Flask(__name__)
 
@@ -13,6 +12,7 @@ app = Flask(__name__)
 app.config.from_object('config.settings.Config')
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['RESTPLUS_VALIDATE'] = False
+app.config['GLOBAL_CACHE'] = {} # just put the cache in here
 
 logger = init_logger(app)
 

@@ -6,17 +6,17 @@ from rdflib import URIRef, Literal, BNode
 from util.APIUtil import APIUtil
 from models.BaseRdfConcept import BaseRdfConcept
 from importer.DAANSchemaImporter import DAANSchemaImporter
-from cachetools import cached, LRUCache, TTLCache
 
 
 class NISVRdfConcept(BaseRdfConcept):
     """ Class to represent an NISV concept in RDF, with functions to create the RDF in a graph from the JSON payload.
     """
 
-    def __init__(self, metadata, concept_type, profile, logger):
+    def __init__(self, metadata, concept_type, profile, logger, cache):
         super().__init__(profile, logger, model=DAANRdfModel)
         # self.graph.namespace_manager.bind(self._model.NISV_DATA_PREFIX,
         # use a default namespace
+        self.cache = cache
         self.graph.namespace_manager.bind('sdo', Namespace(self._model.NISV_SCHEMA_NAMESPACE))
         self.profile = profile
         if "schema" not in self.profile or "mapping" not in self.profile:
@@ -43,10 +43,16 @@ class NISVRdfConcept(BaseRdfConcept):
         # create RDF relations with the parents of the record
         self.__parent_to_rdf(metadata)
 
-    @cached(cache=LRUCache(maxsize=32))
-    def get_scheme(self):
-        """ Returns a schema instance."""
-        return DAANSchemaImporter(self.profile["schema"], self.profile["mapping"], self.logger)
+    # use a simple in-memory cache
+    def get_scheme(self, cache_key="nisv_scheme"):
+        if cache_key in self.cache:
+            self.logger.debug("GOT THE nisv_scheme FROM CACHE")
+            return self.cache[cache_key]
+        else:
+            self.logger.debug("NO nisv_scheme FOUND IN CACHE")
+            nisv_scheme = DAANSchemaImporter(self.profile["schema"], self.profile["mapping"], self.logger)
+            self.cache[cache_key] = nisv_scheme
+            return nisv_scheme
 
     def __payload_to_rdf(self, payload, parent_node, class_uri):
         """ Converts the metadata described in payload (JSON) to RDF, and attaches it to the parentNode

@@ -16,6 +16,7 @@ class DAANStorageLODHandler(StorageLODHandler):
         """
         super().__init__(config)
         self.profile = profile
+        self.cache = config["GLOBAL_CACHE"]
 
     def _transform_json_to_rdf(self, json_obj):
         self.logger.debug('Transform json to RDF (DAAN model)')
@@ -33,4 +34,4 @@ class DAANStorageLODHandler(StorageLODHandler):
                     "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrack_type)
         # Note: this class is imported here, because otherwise a circular dependency is created
         from models.NISVRdfConcept import NISVRdfConcept
-        return NISVRdfConcept(json_obj, cat_type, self.profile, self.logger)
+        return NISVRdfConcept(json_obj, cat_type, self.profile, self.logger, self.cache)

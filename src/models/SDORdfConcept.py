@@ -7,8 +7,6 @@ from rdflib import URIRef, Literal, BNode
 from util.APIUtil import APIUtil
 from models.BaseRdfConcept import BaseRdfConcept
 from importer.DAANSchemaImporter import DAANSchemaImporter
-from cachetools import cached, LRUCache, TTLCache
-
 
 class SDORdfConcept(BaseRdfConcept):
     """ Class to represent an NISV catalog object in RDF.
@@ -16,8 +14,9 @@ class SDORdfConcept(BaseRdfConcept):
 
     """
 
-    def __init__(self, metadata, concept_type, profile, logger):
+    def __init__(self, metadata, concept_type, profile, logger, cache):
         super().__init__(profile, logger, model=SDORdfModel)
+        self.cache = cache
         self._schema = self.get_scheme()
         self._classes = self._schema.get_classes()
         self.information_dictionary = self.get_information_directory()
@@ -150,17 +149,28 @@ class SDORdfConcept(BaseRdfConcept):
         # DEFAULT, not a valid license available
         raise NotImplementedError
 
-    # @cache.cached(timeout=0, key_prefix='sdo_scheme')
-    @cached(cache=LRUCache(maxsize=32))
-    def get_scheme(self):
-        """ Returns a schema instance."""
-        return DAANSchemaImporter(self.profile["schema"], self.profile["mapping"], self.logger)
+    # use a simple in-memory cache
+    def get_scheme(self, cache_key="sdo_scheme"):
+        if cache_key in self.cache:
+            self.logger.debug("GOT THE sdo_scheme FROM CACHE")
+            return self.cache[cache_key]
+        else:
+            self.logger.debug("NO sdo_scheme FOUND IN CACHE")
+            sdo_scheme = DAANSchemaImporter(self.profile["schema"], self.profile["mapping"], self.logger)
+            self.cache[cache_key] = sdo_scheme
+            return sdo_scheme
 
-    # @cache.cached(timeout=0, key_prefix='openbeelden_links')
-    @cached(cache=LRUCache(maxsize=32))
-    def get_information_directory(self):
-        with open(self.profile["ob_links"]) as ob_information_file:
-            return json.load(ob_information_file)
+    # use a simple in-memory cache
+    def get_information_directory(self, cache_key="ob_links"):
+        if cache_key in self.cache:
+            self.logger.debug("GOT THE ob_links FROM CACHE")
+            return self.cache[cache_key]
+        else:
+            self.logger.debug("NO ob_links FOUND IN CACHE")
+            with open(self.profile["ob_links"]) as ob_information_file:
+                ob_data = json.load(ob_information_file)
+                self.cache[cache_key] = ob_data
+                return ob_data
 
     def get_open_beelden_information(self, item_id):
         links = None
