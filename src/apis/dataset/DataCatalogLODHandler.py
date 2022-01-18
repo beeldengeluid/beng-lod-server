@@ -120,9 +120,8 @@ class DataCatalogLODHandler:
             g.add(triple)
 
         # now return the collected triples in the requested format
-        context_used = self.remove_unused_prefixes()
         json_string = g.serialize(format=mime_format,
-                                  context=context_used,
+                                  context=dict(self._data_catalog.namespaces()),
                                   auto_compact=True)
         if json_string:
             return APIUtil.toSuccessResponse(json_string)
@@ -165,9 +164,8 @@ class DataCatalogLODHandler:
                     g.add(triple)
 
         # now return the collected triples in the requested format
-        context_used = self.remove_unused_prefixes()
         json_string = g.serialize(format=mime_format,
-                                  context=context_used,
+                                  context=dict(self._data_catalog.namespaces()),
                                   auto_compact=True)
 
         if json_string:
@@ -202,9 +200,8 @@ class DataCatalogLODHandler:
             for triple in self.triples_organization(organization_id=organization_id):
                 g.add(triple)
 
-        context_used = self.remove_unused_prefixes()
         json_string = g.serialize(format=mime_format,
-                                  context=context_used,
+                                  context=dict(self._data_catalog.namespaces()),
                                   auto_compact=True)
         if json_string:
             return APIUtil.toSuccessResponse(json_string)
@@ -270,11 +267,3 @@ class DataCatalogLODHandler:
         """ Return the URI for the organization that is the publisher of the Dataset.
         """
         return self._data_catalog.value(URIRef(dataset_id), SDO.publisher)
-
-    def remove_unused_prefixes(self):
-        """ Clean up the long list of namespaces.
-        """
-        context = dict(self._data_catalog.namespaces())
-        used_prefixes = ['rdf', 'rdfs', 'sdo', 'skos', 'xml', 'xsd']
-        return {i: j for i, j in context.items() if i in used_prefixes}
-
