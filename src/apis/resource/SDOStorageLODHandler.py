@@ -10,6 +10,7 @@ class SDOStorageLODHandler(StorageLODHandler):
     def __init__(self, config, profile):
         super().__init__(config)
         self.profile = profile
+        self.cache = config["GLOBAL_CACHE"]
 
     def _transform_json_to_rdf(self, json_obj):
         self.logger.debug('Transform json to RDF (SDO)')
@@ -27,4 +28,4 @@ class SDOStorageLODHandler(StorageLODHandler):
 
         # Note that this is import is here on purpose and not at the top, to prevent circular dependency to happen
         from models.SDORdfConcept import SDORdfConcept
-        return SDORdfConcept(json_obj, cat_type, self.profile, self.logger)
+        return SDORdfConcept(json_obj, cat_type, self.profile, self.logger, self.cache)

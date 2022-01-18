@@ -1,8 +1,6 @@
 from apis.resource.DAANStorageLODHandler import DAANStorageLODHandler
 from apis.resource.SDOStorageLODHandler import SDOStorageLODHandler
 
-global_cache = {}
-
 class Config(object):
     APP_HOST = '0.0.0.0'
     APP_PORT = 5309

@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.config.from_object('config.settings.Config')
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['RESTPLUS_VALIDATE'] = False
+app.config['GLOBAL_CACHE'] = {} # just put the cache in here
 
 logger = init_logger(app)
 
