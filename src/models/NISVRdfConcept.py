@@ -6,7 +6,10 @@ from rdflib import URIRef, Literal, BNode
 from util.APIUtil import APIUtil
 from models.BaseRdfConcept import BaseRdfConcept
 from importer.DAANSchemaImporter import DAANSchemaImporter
-from settings import global_cache
+try:
+    from config.settings import global_cache  # fails in unit test
+except ImportError as e:
+    from config.settings_example import global_cache
 
 
 class NISVRdfConcept(BaseRdfConcept):

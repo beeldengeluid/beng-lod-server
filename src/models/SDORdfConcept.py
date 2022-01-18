@@ -7,7 +7,10 @@ from rdflib import URIRef, Literal, BNode
 from util.APIUtil import APIUtil
 from models.BaseRdfConcept import BaseRdfConcept
 from importer.DAANSchemaImporter import DAANSchemaImporter
-from config.settings import global_cache
+try:
+    from config.settings import global_cache  # fails in unit test
+except ImportError as e:
+    from config.settings_example import global_cache
 
 class SDORdfConcept(BaseRdfConcept):
     """ Class to represent an NISV catalog object in RDF.
