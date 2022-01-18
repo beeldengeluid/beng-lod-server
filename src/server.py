@@ -5,7 +5,6 @@ from apis import api
 from SchemaInMemory import SchemaInMemory
 from util.APIUtil import APIUtil
 from util.base_util import init_logger, validate_config
-#from ontodoc import ontodoc
 
 app = Flask(__name__)
 

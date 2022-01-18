@@ -7,7 +7,6 @@ from rdflib import URIRef, Literal
 from rdflib import Graph
 from rdflib.namespace import Namespace, RDF
 from apis.mime_type_util import MimeType
-from cachetools import cached, LRUCache, TTLCache
 
 SDO = Namespace('https://schema.org/')
 
@@ -26,7 +25,7 @@ class DataCatalogLODHandler:
         self._data_catalog = None
         self._init_data_catalog(config['DATA_CATALOG_FILE'])
 
-    @cached(cache=LRUCache(maxsize=32))
+    # TODO: implement caching suitable for this function
     def _init_data_catalog(self, data_catalog_file: str):
         """ When initialized, get the data file from /resource.
         """
