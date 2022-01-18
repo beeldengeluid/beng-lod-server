@@ -1,6 +1,6 @@
 import ontospy
-from ontospy.ontodocs.viz.viz_html_single import *
-from ontospy.ontodocs.viz.viz_html_multi import *
+from ontospy.ontodocs.viz.viz_html_single import HTMLVisualizer
+from ontospy.ontodocs.viz.viz_html_multi import KompleteVizMultiModel
 
 
 class ontodoc:
@@ -45,13 +45,17 @@ class ontodoc:
         :param: output_folder: the location on the file system where the static ontology website can be stored.
         Generate the full documentation for the given model.
         :return:
-        # """
+        #"""
         if output_folder is not None:
-            v = KompleteVizMultiModel(self.model,
-                                      title=self.profile['title'] if 'title' in self.profile else 'Unknown schema',
-                                      # output_path_static='/home/wmelder/PycharmProjects/beng-lod-server/src/static',
-                                      static_url='/static/ontospy/{}/static/'.format(self.profile['prefix']),
-                                      theme='yeti')  # => instantiate the visualization object
+            v = KompleteVizMultiModel(
+                self.model,
+                title=self.profile["title"]
+                if "title" in self.profile
+                else "Unknown schema",
+                # output_path_static='/home/wmelder/PycharmProjects/beng-lod-server/src/static',
+                static_url="/static/ontospy/{}/static/".format(self.profile["prefix"]),
+                theme="yeti",
+            )  # => instantiate the visualization object
             # attempt to put the files into the webserver directory
             # v.build(output_path='/var/www/docs')  # => render visualization.
             # v.build(output_path='docs')  # => render visualization.
