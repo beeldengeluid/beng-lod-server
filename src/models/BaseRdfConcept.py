@@ -25,9 +25,6 @@ class BaseRdfConcept:
         self.graph = Graph()
         self.graph.namespace_manager.bind("skos", SKOS)
         self.graph.namespace_manager.bind("gtaa", Namespace(self._model.GTAA_NAMESPACE))
-        self.graph.namespace_manager.bind(
-            "non-gtaa", Namespace(self._model.NON_GTAA_NAMESPACE)
-        )
 
     def get_uri(self, cat_type="PROGRAM", daan_id=None):
         if daan_id is None:
@@ -150,14 +147,10 @@ class BaseRdfConcept:
     def serialize(self, return_format):
         """Serialize graph data to requested format."""
         try:
-            # context_used = self.remove_unused_prefixes()
             return self.graph.serialize(
                 format=return_format,
-                context=dict(self.graph.namespaces()),
                 auto_compact=True,
             )
         except PluginException:
             self.logger.exception("PluginException")
             raise
-        except Exception:
-            self.logger.exception("Exception")

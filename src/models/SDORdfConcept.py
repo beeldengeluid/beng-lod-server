@@ -371,14 +371,9 @@ class SDORdfConcept(BaseRdfConcept):
             ):
                 if concept["resolved_value"] == concept_label:
                     # we have found the right thesaurus concept and can use the value to generate the URI
-                    if property_description["range"] in self._model.NON_GTAA_TYPES:
-                        skos_concept_node = URIRef(
-                            self._model.NON_GTAA_NAMESPACE + concept["value"]
-                        )
-                    else:
-                        skos_concept_node = URIRef(
-                            self._model.GTAA_NAMESPACE + concept["value"]
-                        )
+                    skos_concept_node = URIRef(
+                        self._model.GTAA_NAMESPACE + concept["value"]
+                    )
 
                     # type is set to Person or Organization depending on the property range
                     # additionalType is set to SKOS concept
