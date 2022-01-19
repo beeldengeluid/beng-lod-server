@@ -1,6 +1,12 @@
 import models.DAANRdfModel as DAANRdfModel
-from models.DAANJsonModel import DAAN_PROGRAM_ID, DAAN_PARENT, DAAN_PARENT_ID, DAAN_PARENT_TYPE, DAAN_PAYLOAD, \
-    ObjectType
+from models.DAANJsonModel import (
+    DAAN_PROGRAM_ID,
+    DAAN_PARENT,
+    DAAN_PARENT_ID,
+    DAAN_PARENT_TYPE,
+    DAAN_PAYLOAD,
+    ObjectType,
+)
 from rdflib.namespace import RDF, RDFS, SKOS, Namespace
 from rdflib import URIRef, Literal, BNode
 from util.APIUtil import APIUtil
@@ -9,27 +15,34 @@ from importer.DAANSchemaImporter import DAANSchemaImporter
 
 
 class NISVRdfConcept(BaseRdfConcept):
-    """ Class to represent an NISV concept in RDF, with functions to create the RDF in a graph from the JSON payload.
-    """
+    """Class to represent an NISV concept in RDF, with functions to create the RDF in a graph from the JSON payload."""
 
     def __init__(self, metadata, concept_type, profile, logger, cache):
         super().__init__(profile, logger, model=DAANRdfModel)
         # self.graph.namespace_manager.bind(self._model.NISV_DATA_PREFIX,
         # use a default namespace
         self.cache = cache
-        self.graph.namespace_manager.bind('sdo', Namespace(self._model.NISV_SCHEMA_NAMESPACE))
+        self.graph.namespace_manager.bind(
+            "sdo", Namespace(self._model.NISV_SCHEMA_NAMESPACE)
+        )
         self.profile = profile
         if "schema" not in self.profile or "mapping" not in self.profile:
-            raise APIUtil.raiseDescriptiveValueError('internal_server_error', 'Schema or mapping file not specified')
+            raise APIUtil.raiseDescriptiveValueError(
+                "internal_server_error", "Schema or mapping file not specified"
+            )
         self._model = DAANRdfModel
         self._schema = self.get_scheme()
         self._classes = self._schema.get_classes()
 
-        err_msg = 'Error while loading the schema classes and properties'
-        assert self._classes is not None, APIUtil.raiseDescriptiveValueError('internal_server_error', err_msg)
+        err_msg = "Error while loading the schema classes and properties"
+        assert self._classes is not None, APIUtil.raiseDescriptiveValueError(
+            "internal_server_error", err_msg
+        )
 
         # create a node for the record
-        self.itemNode = URIRef(self.get_uri(cat_type=concept_type, daan_id=metadata['id']))
+        self.itemNode = URIRef(
+            self.get_uri(cat_type=concept_type, daan_id=metadata["id"])
+        )
 
         # get the RDF class URI for this type
         self.classUri = self._model.CLASS_URIS_FOR_DAAN_LEVELS[concept_type]
@@ -50,12 +63,14 @@ class NISVRdfConcept(BaseRdfConcept):
             return self.cache[cache_key]
         else:
             self.logger.debug("NO nisv_scheme FOUND IN CACHE")
-            nisv_scheme = DAANSchemaImporter(self.profile["schema"], self.profile["mapping"], self.logger)
+            nisv_scheme = DAANSchemaImporter(
+                self.profile["schema"], self.profile["mapping"], self.logger
+            )
             self.cache[cache_key] = nisv_scheme
             return nisv_scheme
 
     def __payload_to_rdf(self, payload, parent_node, class_uri):
-        """ Converts the metadata described in payload (JSON) to RDF, and attaches it to the parentNode
+        """Converts the metadata described in payload (JSON) to RDF, and attaches it to the parentNode
         (e.g. the parentNode can be the identifier node for a program, and the payload the metadata describing
         that program.). Calls itself recursively to handle any classes in the metadata, e.g. the publication
         belonging to a program.
@@ -84,7 +99,7 @@ class NISVRdfConcept(BaseRdfConcept):
                     break
 
             # continue if we haven't found metadata for this property
-            if new_payload is None or new_payload == '':
+            if new_payload is None or new_payload == "":
                 continue
 
             # we can have a list of metadata, so make sure it is always a list for consistent handling
@@ -95,12 +110,16 @@ class NISVRdfConcept(BaseRdfConcept):
             for newPayloadItem in new_payload:
                 # if range of property is simple data type, just link it to the parent using the property
                 if rdfProperty["range"] in self._model.XSD_TYPES:
-                    self.graph.add((parent_node,
-                                    URIRef(prop_uri),
-                                    Literal(newPayloadItem, datatype=rdfProperty["range"])
-                                    ))  # add the new payload as the value
-                elif rdfProperty["rangeSuperClass"] == str(SKOS.Concept) or \
-                        rdfProperty["rangeSuperClass"] == str(DAANRdfModel.ACTING_ENTITY):
+                    self.graph.add(
+                        (
+                            parent_node,
+                            URIRef(prop_uri),
+                            Literal(newPayloadItem, datatype=rdfProperty["range"]),
+                        )
+                    )  # add the new payload as the value
+                elif rdfProperty["rangeSuperClass"] == str(SKOS.Concept) or rdfProperty[
+                    "rangeSuperClass"
+                ] == str(DAANRdfModel.ACTING_ENTITY):
                     # In these cases, we have a class as range, but only a simple value in DAAN, as we want
                     # to model a label from DAAN with a skos:Concept in the RDF
                     # create a node for the skos concept
@@ -118,13 +137,22 @@ class NISVRdfConcept(BaseRdfConcept):
                     concept_node = None
                     skos_concept = None
                     for concept in concept_metadata:
-                        if "origin" in concept and "value" in concept and "resolved_value" in concept:
+                        if (
+                            "origin" in concept
+                            and "value" in concept
+                            and "resolved_value" in concept
+                        ):
                             if concept["resolved_value"] == newPayloadItem:
                                 # we have a thesaurus concept and can use the value to generate the URI
                                 if rdfProperty["range"] in self._model.NON_GTAA_TYPES:
-                                    concept_node = URIRef(self._model.NON_GTAA_NAMESPACE + concept["value"])
+                                    concept_node = URIRef(
+                                        self._model.NON_GTAA_NAMESPACE
+                                        + concept["value"]
+                                    )
                                 else:
-                                    concept_node = URIRef(self._model.GTAA_NAMESPACE + concept["value"])
+                                    concept_node = URIRef(
+                                        self._model.GTAA_NAMESPACE + concept["value"]
+                                    )
                             skos_concept = True
 
                     if concept_node is None:
@@ -132,23 +160,43 @@ class NISVRdfConcept(BaseRdfConcept):
                         concept_node = BNode()
                         skos_concept = False
 
-                    self.graph.add((concept_node, RDF.type, URIRef(rdfProperty["range"])))
-                    self.graph.add((parent_node, URIRef(prop_uri), concept_node))  # link it to the parent
+                    self.graph.add(
+                        (concept_node, RDF.type, URIRef(rdfProperty["range"]))
+                    )
+                    self.graph.add(
+                        (parent_node, URIRef(prop_uri), concept_node)
+                    )  # link it to the parent
 
                     if skos_concept is True:
                         # set the pref label of the concept node to be the DAAN payload item
-                        self.graph.add((concept_node, SKOS.prefLabel, Literal(newPayloadItem, lang="nl")))
+                        self.graph.add(
+                            (
+                                concept_node,
+                                SKOS.prefLabel,
+                                Literal(newPayloadItem, lang="nl"),
+                            )
+                        )
                     else:
                         # set the rdfs label of the concept node to be the DAAN payload item
-                        self.graph.add((concept_node, RDFS.label, Literal(newPayloadItem, lang="nl")))
+                        self.graph.add(
+                            (
+                                concept_node,
+                                RDFS.label,
+                                Literal(newPayloadItem, lang="nl"),
+                            )
+                        )
                 else:
                     # we have a class as range
                     # create a blank node for the class ID, and a triple to set the type of the class
                     blank_node = BNode()
                     self.graph.add((blank_node, RDF.type, URIRef(rdfProperty["range"])))
-                    self.graph.add((parent_node, URIRef(prop_uri), blank_node))  # link it to the parent
+                    self.graph.add(
+                        (parent_node, URIRef(prop_uri), blank_node)
+                    )  # link it to the parent
                     # and call the function again to handle the properties for the class
-                    self.__payload_to_rdf(newPayloadItem, blank_node, rdfProperty["range"])
+                    self.__payload_to_rdf(
+                        newPayloadItem, blank_node, rdfProperty["range"]
+                    )
         return
 
     def __parent_to_rdf(self, metadata):
@@ -157,17 +205,31 @@ class NISVRdfConcept(BaseRdfConcept):
         properties in the graph"""
         if self.classUri == self._model.CLIP:  # for a clip, use the program reference
             if DAAN_PROGRAM_ID in metadata:
-                self.graph.add((self.itemNode,
-                                URIRef(self._model.IS_PART_OF_PROGRAM),
-                                URIRef(self.get_uri(daan_id=metadata[DAAN_PROGRAM_ID]))
-                                ))
+                self.graph.add(
+                    (
+                        self.itemNode,
+                        URIRef(self._model.IS_PART_OF_PROGRAM),
+                        URIRef(self.get_uri(daan_id=metadata[DAAN_PROGRAM_ID])),
+                    )
+                )
             elif DAAN_PAYLOAD in metadata and DAAN_PROGRAM_ID in metadata[DAAN_PAYLOAD]:
                 # this is the case in the backbone json
-                self.graph.add((self.itemNode,
-                                URIRef(self._model.IS_PART_OF_PROGRAM),
-                                URIRef(self.get_uri(daan_id=metadata[DAAN_PAYLOAD][DAAN_PROGRAM_ID]))
-                                ))
-        elif DAAN_PARENT in metadata and metadata[DAAN_PARENT] and DAAN_PARENT in metadata[DAAN_PARENT]:
+                self.graph.add(
+                    (
+                        self.itemNode,
+                        URIRef(self._model.IS_PART_OF_PROGRAM),
+                        URIRef(
+                            self.get_uri(
+                                daan_id=metadata[DAAN_PAYLOAD][DAAN_PROGRAM_ID]
+                            )
+                        ),
+                    )
+                )
+        elif (
+            DAAN_PARENT in metadata
+            and metadata[DAAN_PARENT]
+            and DAAN_PARENT in metadata[DAAN_PARENT]
+        ):
             # for other
             if type(metadata[DAAN_PARENT][DAAN_PARENT]) is list:
                 parents = metadata[DAAN_PARENT][DAAN_PARENT]
@@ -177,47 +239,97 @@ class NISVRdfConcept(BaseRdfConcept):
             for parent in parents:
                 # for each parent, link it with the correct relationship given the types
                 if self.classUri == self._model.CARRIER:  # link carriers as children
-                    self.graph.add((self.itemNode,
-                                    URIRef(self._model.IS_CARRIER_OF),
-                                    URIRef(self.get_uri(cat_type='carrier', daan_id=parent[DAAN_PARENT_ID]))
-                                    ))
+                    self.graph.add(
+                        (
+                            self.itemNode,
+                            URIRef(self._model.IS_CARRIER_OF),
+                            URIRef(
+                                self.get_uri(
+                                    cat_type="carrier", daan_id=parent[DAAN_PARENT_ID]
+                                )
+                            ),
+                        )
+                    )
                 elif parent[DAAN_PARENT_TYPE] == ObjectType.SERIES.name:
-                    self.graph.add((self.itemNode,
-                                    URIRef(self._model.IS_PART_OF_SERIES),
-                                    URIRef(self.get_uri(cat_type='series', daan_id=parent[DAAN_PARENT_ID]))
-                                    ))
+                    self.graph.add(
+                        (
+                            self.itemNode,
+                            URIRef(self._model.IS_PART_OF_SERIES),
+                            URIRef(
+                                self.get_uri(
+                                    cat_type="series", daan_id=parent[DAAN_PARENT_ID]
+                                )
+                            ),
+                        )
+                    )
                 elif parent[DAAN_PARENT_TYPE] == ObjectType.SEASON.name:
-                    self.graph.add((self.itemNode,
-                                    URIRef(self._model.IS_PART_OF_SEASON),
-                                    URIRef(self.get_uri(cat_type='season', daan_id=parent[DAAN_PARENT_ID]))
-                                    ))
+                    self.graph.add(
+                        (
+                            self.itemNode,
+                            URIRef(self._model.IS_PART_OF_SEASON),
+                            URIRef(
+                                self.get_uri(
+                                    cat_type="season", daan_id=parent[DAAN_PARENT_ID]
+                                )
+                            ),
+                        )
+                    )
                 elif parent[DAAN_PARENT_TYPE] == ObjectType.PROGRAM.name:
-                    self.graph.add((self.itemNode,
-                                    URIRef(self._model.IS_PART_OF_PROGRAM),
-                                    URIRef(self.get_uri(daan_id=parent[DAAN_PARENT_ID]))
-                                    ))
-        elif type(metadata[DAAN_PARENT]) is list:  # this is the case for the backbone json
+                    self.graph.add(
+                        (
+                            self.itemNode,
+                            URIRef(self._model.IS_PART_OF_PROGRAM),
+                            URIRef(self.get_uri(daan_id=parent[DAAN_PARENT_ID])),
+                        )
+                    )
+        elif (
+            type(metadata[DAAN_PARENT]) is list
+        ):  # this is the case for the backbone json
             for parent in metadata[DAAN_PARENT]:
                 # for each parent, link it with the correct relationship given the types
                 if self.classUri == self._model.CARRIER:  # link carriers as children
-                    self.graph.add((self.itemNode,
-                                    URIRef(self._model.IS_CARRIER_OF),
-                                    URIRef(self.get_uri(cat_type='carrier', daan_id=parent[DAAN_PARENT_ID]))
-                                    ))
+                    self.graph.add(
+                        (
+                            self.itemNode,
+                            URIRef(self._model.IS_CARRIER_OF),
+                            URIRef(
+                                self.get_uri(
+                                    cat_type="carrier", daan_id=parent[DAAN_PARENT_ID]
+                                )
+                            ),
+                        )
+                    )
                 elif parent[DAAN_PARENT_TYPE] == ObjectType.SERIES.name:
-                    self.graph.add((self.itemNode,
-                                    URIRef(self._model.IS_PART_OF_SERIES),
-                                    URIRef(self.get_uri(cat_type='series', daan_id=parent[DAAN_PARENT_ID]))
-                                    ))
+                    self.graph.add(
+                        (
+                            self.itemNode,
+                            URIRef(self._model.IS_PART_OF_SERIES),
+                            URIRef(
+                                self.get_uri(
+                                    cat_type="series", daan_id=parent[DAAN_PARENT_ID]
+                                )
+                            ),
+                        )
+                    )
                 elif parent[DAAN_PARENT_TYPE] == ObjectType.SEASON.name:
-                    self.graph.add((self.itemNode,
-                                    URIRef(self._model.IS_PART_OF_SEASON),
-                                    URIRef(self.get_uri(cat_type='season', daan_id=parent[DAAN_PARENT_ID]))
-                                    ))
+                    self.graph.add(
+                        (
+                            self.itemNode,
+                            URIRef(self._model.IS_PART_OF_SEASON),
+                            URIRef(
+                                self.get_uri(
+                                    cat_type="season", daan_id=parent[DAAN_PARENT_ID]
+                                )
+                            ),
+                        )
+                    )
                 elif parent[DAAN_PARENT_TYPE] == ObjectType.PROGRAM.name:
-                    self.graph.add((self.itemNode,
-                                    URIRef(self._model.IS_PART_OF_PROGRAM),
-                                    URIRef(self.get_uri(daan_id=parent[DAAN_PARENT_ID]))
-                                    ))
+                    self.graph.add(
+                        (
+                            self.itemNode,
+                            URIRef(self._model.IS_PART_OF_PROGRAM),
+                            URIRef(self.get_uri(daan_id=parent[DAAN_PARENT_ID])),
+                        )
+                    )
 
         return

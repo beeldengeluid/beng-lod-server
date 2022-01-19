@@ -3,23 +3,24 @@ from apis.resource.StorageLODHandler import StorageLODHandler
 
 
 class DAANStorageLODHandler(StorageLODHandler):
-    """ STORAGE API serves catalogue data on a URL,
+    """STORAGE API serves catalogue data on a URL,
     This class gets the JSON from the Direct Metadata Flex API, then uses the mapping
     information from the schema to create RDF from the JSON.
     This implementation produces RDF in the NISV scheme/model.
     """
+
     def __init__(self, config, profile):
-        """ Handler for request for RDF data for resource from the NISV catalogue.
-            The data is retrieved from the Direct Metadata API of the flex datastore.
-            :param config: the main config object for the handler
-            :param profile_id: the ID for the data profile, the mapping that is needed for conversion.
+        """Handler for request for RDF data for resource from the NISV catalogue.
+        The data is retrieved from the Direct Metadata API of the flex datastore.
+        :param config: the main config object for the handler
+        :param profile_id: the ID for the data profile, the mapping that is needed for conversion.
         """
         super().__init__(config)
         self.profile = profile
         self.cache = config["GLOBAL_CACHE"]
 
     def _transform_json_to_rdf(self, json_obj):
-        self.logger.debug('Transform json to RDF (DAAN model)')
+        self.logger.debug("Transform json to RDF (DAAN model)")
         """ Transforms the json to RDF using the schema mapping.
             This method is an override for the base class.
         """
@@ -31,7 +32,10 @@ class DAANStorageLODHandler(StorageLODHandler):
             logtrack_type = json_obj["logtrack_type"]
             if not isSceneDescription(logtrack_type):
                 raise ValueError(
-                    "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc" % logtrack_type)
+                    "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc"
+                    % logtrack_type
+                )
         # Note: this class is imported here, because otherwise a circular dependency is created
         from models.NISVRdfConcept import NISVRdfConcept
+
         return NISVRdfConcept(json_obj, cat_type, self.profile, self.logger, self.cache)
