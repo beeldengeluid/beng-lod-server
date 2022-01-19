@@ -150,7 +150,6 @@ class DataCatalogLODHandler:
         # now return the collected triples in the requested format
         json_string = g.serialize(
             format=mime_format,
-            context=dict(self._data_catalog.namespaces()),
             auto_compact=True,
         )
         if json_string:
@@ -204,7 +203,6 @@ class DataCatalogLODHandler:
         # now return the collected triples in the requested format
         json_string = g.serialize(
             format=mime_format,
-            context=dict(self._data_catalog.namespaces()),
             auto_compact=True,
         )
 
@@ -244,7 +242,6 @@ class DataCatalogLODHandler:
 
         json_string = g.serialize(
             format=mime_format,
-            context=dict(self._data_catalog.namespaces()),
             auto_compact=True,
         )
         if json_string:

@@ -6,6 +6,7 @@ NISV_DATA_NAMESPACE = "http://data.beeldengeluid.nl/id/"
 NISV_SCHEMA_PREFIX = "nisv"
 SCHEMA_DOT_ORG_PREFIX = "sdo"
 NISV_DATA_PREFIX = "id"
+GTAA_NAMESPACE = "http://data.beeldengeluid.nl/gtaa/"
 
 # URIs for concepts in the schema
 PROGRAM = SCHEMA_DOT_ORG_NAMESPACE + "CreativeWork"
@@ -38,18 +39,6 @@ HAS_ASSOCIATED_MEDIA = SCHEMA_DOT_ORG_NAMESPACE + "associatedMedia"
 HAS_CONTENT_URL = SCHEMA_DOT_ORG_NAMESPACE + "contentUrl"
 IS_MAIN_ENTITY_OF_PAGE = SCHEMA_DOT_ORG_NAMESPACE + "mainEntityOfPage"
 HAS_MATERIAL_TYPE = SCHEMA_DOT_ORG_NAMESPACE + "material"
-
-# TODO: look at how to use the GTAA types
-# list of non-gtaa types, so we can use the correct namespace for concepts of this type
-NON_GTAA_TYPES = [
-    SCHEMA_DOT_ORG_NAMESPACE + "TargetGroup",
-    NISV_SCHEMA_NAMESPACE + "Broadcaster",
-    NISV_SCHEMA_NAMESPACE + "BroadcastStation",
-    SCHEMA_DOT_ORG_NAMESPACE + "Language",
-]
-
-GTAA_NAMESPACE = "http://data.beeldengeluid.nl/gtaa/"
-NON_GTAA_NAMESPACE = "http://data.beeldengeluid.nl/nongtaa/"
 
 XSD_TYPES = [
     str(XSD.string),
