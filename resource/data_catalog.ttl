@@ -14,7 +14,7 @@
     sdo:description "Publicatie van Beeld en Geluid materiaal op EUScreen"@nl ;
     sdo:encodingFormat "text/xml" ;
     sdo:inLanguage "nl-NL" ;
-    sdo:license <https://creativecommons.org/licenses/by-sa/3.0/nl/> ;
+    sdo:license <https://creativecommons.org/licenses/by-sa/3.0/> ;
     sdo:name "Beeld en Geluid op EUScreen"@nl ;
     sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
 
@@ -24,7 +24,7 @@
     sdo:description "The collection of Broadcasts from Radio Oranje (Radio Orange) contains a selection of the radio broadcasts that were transmitted between 1940 and 1945. They were broadcasts created by the Dutch Government in exile in London, transmitted to encourage and inform the people of the Netherlands whilst under occupation."@en ;
     sdo:encodingFormat "audio/wav" ;
     sdo:inLanguage "nl-NL" ;
-    sdo:license <http://creativecommons.org/licenses/by-sa/3.0/> ;
+    sdo:license <https://creativecommons.org/licenses/by-sa/3.0/> ;
     sdo:name "Radio Oranje op SoundCloud"@nl ;
     sdo:usageInfo <https://developers.soundcloud.com/docs/api/guide> .
 
@@ -61,7 +61,7 @@
     sdo:description "www.natuurbeelden.nl"@nl ;
     sdo:encodingFormat "text/xml" ;
     sdo:inLanguage "nl-NL" ;
-    sdo:license <https://creativecommons.org/licenses/by-sa/3.0/nl/> ;
+    sdo:license <https://creativecommons.org/licenses/by-sa/3.0/> ;
     sdo:name "Natuurbeelden op Open Beelden"@nl ;
     sdo:usageInfo <https://www.openbeelden.nl/api/> .
 
@@ -71,7 +71,7 @@
     sdo:description "The collection of Broadcasts from Radio Herrijzend Nederland (Radio 'The Netherlands Revived') contains a selection of the radio broadcasts that were transmitted between 1944 and 1946. They were broadcasted by the military authorities from Eindhoven after its liberation in September 1944, to encourage and inform the people of the still occupied north of the Netherlands. After the liberation it continued to broadcast untill January 1946."@en ;
     sdo:encodingFormat "audio/wav" ;
     sdo:inLanguage "nl-NL" ;
-    sdo:license <http://creativecommons.org/publicdomain/mark/1.0/deed.nl> ;
+    sdo:license <https://creativecommons.org/publicdomain/mark/1.0/> ;
     sdo:name "Radio Herrijzend Nederland op Soundcloud"@nl ;
     sdo:usageInfo <https://developers.soundcloud.com/docs/api/guide> .
 
@@ -81,7 +81,7 @@
     sdo:description "Radio uitzendingen Radio Herrijzend Nederland van Beeld en Geluid op Wikimedia Commons"@nl ;
     sdo:encodingFormat "audio/wav" ;
     sdo:inLanguage "nl-NL" ;
-    sdo:license <http://creativecommons.org/publicdomain/mark/1.0/deed.nl> ;
+    sdo:license <https://creativecommons.org/publicdomain/mark/1.0/> ;
     sdo:name "Radio uitzendingen Radio Herrijzend Nederland van Beeld en Geluid op Wikimedia Commons"@nl ;
     sdo:usageInfo <https://www.mediawiki.org/wiki/API:Tutorial> .
 
@@ -101,7 +101,7 @@
     sdo:description "On july 10th 1941 Radio De Brandaris began transmitting alongside Radio Orange. The broadcasts of Radio De Brandaris were meant for Dutch allied seafarers and other ships from Holland. In the beginning of november 1942 Radio de Brandaris became part of Radio Orange."@en ;
     sdo:encodingFormat "audio/wav" ;
     sdo:inLanguage "nl-NL" ;
-    sdo:license <http://creativecommons.org/publicdomain/mark/1.0/deed.nl> ;
+    sdo:license <https://creativecommons.org/publicdomain/mark/1.0/> ;
     sdo:name "Radio de Brandaris op SoundCloud"@nl ;
     sdo:usageInfo <https://developers.soundcloud.com/docs/api/guide> .
 
@@ -201,7 +201,7 @@
         "Open Beelden is een open mediaplatform dat toegang biedt tot audiovisuele collecties die eenvoudig hergebruikt kunnen worden."@nl ;
     sdo:encodingFormat "text/html" ;
     sdo:inLanguage "nl-NL" ;
-    sdo:license <http://creativecommons.org/licenses/by-sa/3.0/> ;
+    sdo:license <https://creativecommons.org/licenses/by-sa/3.0/> ;
     sdo:name "Open Beelden op EUScreen"@nl ;
     sdo:usageInfo <https://euscreen.eu/about.html> .
 
@@ -336,7 +336,7 @@
     sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0010> ;
     sdo:inLanguage "nl-NL" ;
     sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
-    sdo:license <https://creativecommons.org/licenses/by-sa/3.0/nl/> ;
+    sdo:license <https://creativecommons.org/licenses/by-sa/3.0/> ;
     sdo:mainEntityOfPage <https://www.europeana.eu/en/search?page=1&qf=PROVIDER%3A%22Europeana%20Sounds%22&qf=COUNTRY%3A%22Netherlands%22&query=%2A%3A%2A&view=grid> ;
     sdo:name "Open Beelden op Europeana Sounds"@nl ;
     sdo:publisher <https://www.beeldengeluid.nl> ;
