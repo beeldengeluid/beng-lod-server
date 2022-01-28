@@ -350,7 +350,18 @@
     sdo:publisher <https://www.beeldengeluid.nl> ;
     sdo:temporalCoverage "1941/1944" .
 
-<http://data.beeldengeluid.nl/id/dataset/0023> a sdo:Dataset ;
+<http://data.beeldengeluid.nl/id/dataset/0024> a sdo:Dataset ;
+    sdo:description "Politiek, cultuur en sport, kortom alle facetten van het leven komen aan bod aan de tafel van Frits Barend en Henk van Dorp, immer bijgestaan door oud-voetballer en columnist Jan Mulder. Naast Jan Mulder zijn schrijver Boudewijn Büch en politiek verslaggever Frits Wester vaste gasten; ze schuiven regelmatig aan de tafel aan. Aanvankelijk wordt het programma in een café/restaurant in Eemnes opgenomen. Later verhuizen de opnamen naar Gooiland en sinds 2002 komen de uitzendingen vanaf het Media Park. In een gezellige sfeer, met nootjes op tafel. Spraakmakende gasten, emotionele onderwerpen en opvallende uitspraken maken dat je Barend & Van Dorp gezien moet hebben. In totaal worden er 960 afleveringen gemaakt. In 2008 dragen Frits Barend en Henk van Dorp alle afleveringen van de talkshow over aan Beeld en Geluid."@nl ;
+    sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0023> ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
+    sdo:license <http://rightsstatements.org/vocab/InC/1.0/> ;
+    sdo:mainEntityOfPage <https://wiki.beeldengeluid.nl/index.php/Barend_%26_Van_Dorp_(praatprogramma)> ;
+    sdo:name "Barend & van Dorp"@nl ;
+    sdo:publisher <https://www.beeldengeluid.nl> ;
+    sdo:temporalCoverage "2002/2006" .
+
+<http://data.beeldengeluid.nl/id/dataset/0025> a sdo:Dataset ;
     sdo:description "Open Beelden items die ook op Europeana Sounds zijn gepubliceerd."@nl ;
     sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0010> ;
     sdo:inLanguage "nl-NL" ;
@@ -361,24 +372,17 @@
     sdo:publisher <https://www.beeldengeluid.nl> ;
     sdo:temporalCoverage "1921/1974" .
 
-<http://data.beeldengeluid.nl/id/dataset/0024> a sdo:Dataset ;
+<http://data.beeldengeluid.nl/id/dataset/0026> a sdo:Dataset ;
     sdo:dateModified "2020" ;
     sdo:description "Deze dataset beschikt over de laatste linked data versie van het muziekweb. Hier vind je een linked data view waarin alle albums van het muziekweb zijn weergegeven."@nl,
-        "Muziekweb is de muziekbibliotheek van Nederland. Ons doel is om muziek en de informatie over muziek voor iedereen laagdrempelig aan te bieden. Muziekweb heeft sinds 1961 een collectie opgebouwd van 600.000 cd’s, 300.000 lp’s en 30.000 muziek-dvd’s (dat is samen goed voor zo'n zeven miljoen tracks!). De site is een bron van informatie over muziek die de afgelopen vijftig jaar in Nederland is uitgebracht, en een ideale plek om meer muziek te leren kennen."@nl,
-        "Politiek, cultuur en sport, kortom alle facetten van het leven komen aan bod aan de tafel van Frits Barend en Henk van Dorp, immer bijgestaan door oud-voetballer en columnist Jan Mulder. Naast Jan Mulder zijn schrijver Boudewijn Büch en politiek verslaggever Frits Wester vaste gasten; ze schuiven regelmatig aan de tafel aan. Aanvankelijk wordt het programma in een café/restaurant in Eemnes opgenomen. Later verhuizen de opnamen naar Gooiland en sinds 2002 komen de uitzendingen vanaf het Media Park. In een gezellige sfeer, met nootjes op tafel. Spraakmakende gasten, emotionele onderwerpen en opvallende uitspraken maken dat je Barend & Van Dorp gezien moet hebben. In totaal worden er 960 afleveringen gemaakt. In 2008 dragen Frits Barend en Henk van Dorp alle afleveringen van de talkshow over aan Beeld en Geluid."@nl ;
-    sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0023>,
-        <http://data.beeldengeluid.nl/id/datadownload/0025> ;
+        "Muziekweb is de muziekbibliotheek van Nederland. Ons doel is om muziek en de informatie over muziek voor iedereen laagdrempelig aan te bieden. Muziekweb heeft sinds 1961 een collectie opgebouwd van 600.000 cd’s, 300.000 lp’s en 30.000 muziek-dvd’s (dat is samen goed voor zo'n zeven miljoen tracks!). De site is een bron van informatie over muziek die de afgelopen vijftig jaar in Nederland is uitgebracht, en een ideale plek om meer muziek te leren kennen."@nl ;
+    sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0025> ;
     sdo:inLanguage "nl-NL" ;
     sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
-    sdo:license <http://rightsstatements.org/vocab/InC/1.0/>,
-        <https://opendatacommons.org/licenses/by/> ;
-    sdo:mainEntityOfPage <https://data.muziekweb.nl/>,
-        <https://wiki.beeldengeluid.nl/index.php/Barend_%26_Van_Dorp_(praatprogramma)> ;
-    sdo:name "Barend & van Dorp"@nl,
-        "Muziekweb"@nl ;
-    sdo:publisher <https://www.beeldengeluid.nl>,
-        <https://www.muziekweb.nl/> ;
-    sdo:temporalCoverage "2002/2006" .
+    sdo:license <https://opendatacommons.org/licenses/by/> ;
+    sdo:mainEntityOfPage <https://data.muziekweb.nl/> ;
+    sdo:name "Muziekweb"@nl ;
+    sdo:publisher <https://www.muziekweb.nl/> .
 
 <https://natuurbeelden.openbeelden.nl/> a sdo:Organization ;
     sdo:name "Stichting Natuurbeelden"@nl .
@@ -392,8 +396,9 @@
         <http://data.beeldengeluid.nl/id/dataset/0007>,
         <http://data.beeldengeluid.nl/id/dataset/0010>,
         <http://data.beeldengeluid.nl/id/dataset/0013>,
-        <http://data.beeldengeluid.nl/id/dataset/0023>,
-        <http://data.beeldengeluid.nl/id/dataset/0024> ;
+        <http://data.beeldengeluid.nl/id/dataset/0024>,
+        <http://data.beeldengeluid.nl/id/dataset/0025>,
+        <http://data.beeldengeluid.nl/id/dataset/0026> ;
     sdo:description "Alle open data beschikbaar gesteld door het Nederlands Instituut voor Beeld en Geluid."@nl ;
     sdo:name "Open Data at NISV"@en,
         "Open Data van Beeld en Geluid"@nl ;
