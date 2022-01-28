@@ -384,6 +384,10 @@
     sdo:name "Muziekweb"@nl ;
     sdo:publisher <https://www.muziekweb.nl/> .
 
+<https://www.muziekweb.nl/> a sdo:Organization ;
+    sdo:name "Muziekweb"@nl ;
+    sdo:sameAs <http://www.wikidata.org/entity/Q18088607> .
+
 <https://natuurbeelden.openbeelden.nl/> a sdo:Organization ;
     sdo:name "Stichting Natuurbeelden"@nl .
 
