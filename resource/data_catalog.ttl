@@ -35,10 +35,20 @@
     sdo:inLanguage "nl-NL" ;
     sdo:usageInfo <https://developers.soundcloud.com/docs/api/guide> .
 
+<http://data.beeldengeluid.nl/id/datadownload/0024> a sdo:DataDownload ;
+    sdo:contentSize "174" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:nongtaa:Genre_Filmmuseum> ;
+    sdo:description "Genres in gebruik voor EYE filmmuseum."@nl ;
+    sdo:encodingFormat "text/xml" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "Genre Filmmuseum"@nl ;
+    sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
+
 <http://data.beeldengeluid.nl/id/datadownload/0001> a sdo:DataDownload ;
     sdo:contentSize "2126454" ;
     sdo:contentUrl <https://cat.apis.beeldengeluid.nl/sparql> ;
-    sdo:description "SPARQL endpoint voor de Beeld en Geluid DAAN catalogus in schema.org formaat"@nl ;
+    sdo:description "Bevraag de Beeld en Geluid media catalogus in schema.org formaat in SPARQL."@nl ;
     sdo:encodingFormat "application/sparql-query" ;
     sdo:inLanguage "nl-NL" ;
     sdo:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
@@ -106,8 +116,8 @@
     sdo:usageInfo <https://developers.soundcloud.com/docs/api/guide> .
 
 <http://data.beeldengeluid.nl/id/datadownload/0013> a sdo:DataDownload ;
-    sdo:contentSize "660771" ;
-    sdo:contentUrl <http://openskos.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:138d0e62-d688-e289-f136-05ad7acc85a2> ;
+    sdo:contentSize "375110" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:Persoonsnamen> ;
     sdo:description "Person names from the Common Thesaurus Audiovisal Archives"@en,
         "Persoonsnamenas uit de GTAA. Elke persoonsnaam, inclusief labels en notes, is een SKOS Concept en is gegroepeerd in een ConceptScheme."@nl ;
     sdo:encodingFormat "text/xml" ;
@@ -117,8 +127,8 @@
     sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
 
 <http://data.beeldengeluid.nl/id/datadownload/0014> a sdo:DataDownload ;
-    sdo:contentSize "175031" ;
-    sdo:contentUrl <http://openskos.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:73fbf6f6-4e5c-5f53-f88e-3f73cc18b9c6> ;
+    sdo:contentSize "32415" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:Namen> ;
     sdo:description "As met diverse soorten eigennamen in de GTAA. Elke naam, inclusief labels en notes, is een SKOS Concept en is gegroepeerd in een ConceptScheme."@nl ;
     sdo:encodingFormat "text/xml" ;
     sdo:inLanguage "nl-NL" ;
@@ -127,8 +137,8 @@
     sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
 
 <http://data.beeldengeluid.nl/id/datadownload/0015> a sdo:DataDownload ;
-    sdo:contentSize "16452" ;
-    sdo:contentUrl <http://openskos.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:52bd3e5f-a368-abed-59b2-6b0ccee5641d> ;
+    sdo:contentSize "4141" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:Onderwerpen> ;
     sdo:description "Onderwerpen uit de GTAA. Hierbij hoort de as Classificatie. Elk onderwerp, inclusief labels, notes en relaties, is een SKOS Concept en is gegroepeerd in een ConceptScheme."@nl ;
     sdo:encodingFormat "text/xml" ;
     sdo:inLanguage "nl-NL" ;
@@ -137,8 +147,8 @@
     sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
 
 <http://data.beeldengeluid.nl/id/datadownload/0016> a sdo:DataDownload ;
-    sdo:contentSize "217" ;
-    sdo:contentUrl <http://openskos.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:5cfb534c-35e6-ce69-a040-85a7b6fc4530> ;
+    sdo:contentSize "136" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:Genre> ;
     sdo:description "Genre informatie uit de GTAA. Elk genre, inclusief labels, notes en relaties, is een SKOS Concept en is gegroepeerd in een ConceptScheme."@nl ;
     sdo:encodingFormat "text/xml" ;
     sdo:inLanguage "nl-NL" ;
@@ -147,8 +157,8 @@
     sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
 
 <http://data.beeldengeluid.nl/id/datadownload/0017> a sdo:DataDownload ;
-    sdo:contentSize "19269" ;
-    sdo:contentUrl <http://openskos.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:f3deec83-a6e8-d368-971b-757d872d3ab9> ;
+    sdo:contentSize "14252" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:GeografischeNamen> ;
     sdo:description "As met geografische namen in de GTAA. Elke geografische naam, inclusief labels en notes, is een SKOS Concept en is gegroepeerd in een ConceptScheme."@nl ;
     sdo:encodingFormat "text/xml" ;
     sdo:inLanguage "nl-NL" ;
@@ -157,8 +167,8 @@
     sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
 
 <http://data.beeldengeluid.nl/id/datadownload/0018> a sdo:DataDownload ;
-    sdo:contentSize "100" ;
-    sdo:contentUrl <http://openskos.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:943ff48d-3a40-4a00-5fa0-d40fb701500a> ;
+    sdo:contentSize "99" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:Classificatie> ;
     sdo:description "Classificatie-as uit de GTAA met hoofd- en subrubrieken bij de as Onderwerpen. Elke hoofd- en subrubriek is een SKOS Concept en is gegroepeerd in een ConceptScheme. De concepten bevatten labels, notes, onderlinge relaties en relaties met top concepten uit Onderwerpen."@nl ;
     sdo:encodingFormat "text/xml" ;
     sdo:inLanguage "nl-NL" ;
@@ -167,8 +177,8 @@
     sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
 
 <http://data.beeldengeluid.nl/id/datadownload/0019> a sdo:DataDownload ;
-    sdo:contentSize "13235" ;
-    sdo:contentUrl <https://openskos.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:6fc0e662-d073-e06b-c54e-dbcf75fc9b16> ;
+    sdo:contentSize "4765" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:OnderwerpenBenG> ;
     sdo:description "As voor onderwerpstermen die slechts voor shots/clips/geluiden worden toegepast. Hierbij hoort de as Classificatie. Elk onderwerp, inclusief labels, notes en relaties, is een SKOS Concept en is gegroepeerd in een ConceptScheme."@nl ;
     sdo:encodingFormat "text/xml" ;
     sdo:inLanguage "nl-NL" ;
@@ -216,6 +226,16 @@
     sdo:name "Barend & van Dorp op EUScreen"@nl ;
     sdo:usageInfo <https://euscreen.eu/about.html> .
 
+<http://data.beeldengeluid.nl/id/datadownload/0025> a sdo:DataDownload ;
+    sdo:contentUrl <https://api.data.muziekweb.nl/datasets/MuziekwebOrganization/Muziekweb/services/Muziekweb/sparql> ;
+    sdo:dateModified "2020" ;
+    sdo:description "Bevraag Muziekweb via SPARQL."@nl ;
+    sdo:encodingFormat "application/sparql-query" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/by/> ;
+    sdo:name "Muziekweb als linked data"@nl ;
+    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
+
 <http://data.beeldengeluid.nl/id/dataset/0001> a sdo:Dataset ;
     sdo:creator <https://www.beeldengeluid.nl> ;
     sdo:description "Metadata for the catalogue objects that are provided by Netherlands Institue for Sound and Vision."@en ;
@@ -230,10 +250,8 @@
 
 <http://data.beeldengeluid.nl/id/dataset/0002> a sdo:Dataset ;
     sdo:creator <https://www.beeldengeluid.nl> ;
-    sdo:description "Open Images also contains datasets from other providers and content (mostly remixes) added by users. Access to the material on Open Images is provided under the Creative Commons licensing model."@en,
-        "The Sound and Vision dataset on Open Images contains more than 3000 videos. It consists of Polygoon newsreels and some other films from the 20th century. The videos cover a broad range of Dutch (news) topics, such as art, culture, transportation, health, education, nature, politics, sports, pets, fashion and curiosa. The metadata is provided in Dutch and English."@en,
-        "The Sound and Vision dataset on Open Images is downloadable via the Open Images OAI-PMH provider. The dataset is also available via the Europeana API."@en,
-        "Een verzameling van videomateriaal dat Beeld en Geluid onder een Creative Commons licentie vrijgeeft, of reeds in het Publiek Domein valt."@nl ;
+    sdo:description "The Sound and Vision dataset on Open Images contains more than 7000 videos. It consists of Polygoon newsreels and some other films from the 20th century. The videos cover a broad range of Dutch (news) topics, such as art, culture, transportation, health, education, nature, politics, sports, pets, fashion and curiosa. The metadata is provided in Dutch and English. Open Images also contains datasets from other providers and content (mostly remixes) added by users. Access to the material on Open Images is provided under the Creative Commons licensing model. The Sound and Vision dataset on Open Images is downloadable via the Open Images OAI-PMH provider. The dataset is also available via the Europeana API."@en,
+        "Een verzameling van videomateriaal dat Beeld en Geluid onder een Creative Commons licentie vrijgeeft, of reeds in het Publiek Domein valt. De beeldengeluid dataset op Open Beelden bevat meer dan 7000 videos. Het bestaat uit Polygoon journaals en andere films uit de 20ste eeuw. De videos beslaan een breed scala van Nederlandse (nieuws) onderwerpen, zoals kunst, cultuur, transport, gezondheid, onderwijs, natuur, politiek, sport, huisdieren, mode en curiosa. De metadata zijn beschikbaar in het Nederlands en Engels. Open Beelden bevat ook datasets van andere leveranciers en ook content (remixes) toegevoegd door gebruikers. Toegang tot het materiaal op Open Beelden wordt verleend onder het creative Commons licentiemodel. De Beeld en Geluid dataset op Open Beelden is harvestable via de Open Beelden OAI-PMH data provider. De dataset is ook beschikbaar via de europeana API."@nl ;
     sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0003>,
         <http://data.beeldengeluid.nl/id/datadownload/0022> ;
     sdo:inLanguage "nl-NL" ;
@@ -302,7 +320,7 @@
 <http://data.beeldengeluid.nl/id/dataset/0010> a sdo:Dataset ;
     sdo:creator <https://www.beeldengeluid.nl> ;
     sdo:description "Sound and Vision has teamed up with several other Dutch organizations that manage audiovisual cultural heritage to develop the Gemeenschappelijke Thesaurus voor Audiovisuele Archieven (Common Thesaurus for Audiovisual Archives, GTAA). The GTAA is used for efficient characterization of the content of audio-visual material from the archive with labels derived from a controlled and structured list of terms, a thesaurus."@en,
-        "Het Nederlands Instituut voor Beeld en Geluid heeft samen met enkele andere Nederlandse organisaties die audiovisueel cultureel erfgoed beheren de Gemeenschappelijke Thesaurus voor Audiovisuele Archieven (GTAA) ontwikkeld. De GTAA wordt gebruikt voor het doeltreffend karakteriseren van de inhoud van audiovisueel materiaal uit het archief met labels afkomstig uit een gecontroleerde en gestructureerde lijst van termen, een thesaurus."@nl ;
+        "Het Nederlands Instituut voor Beeld en Geluid heeft samen met andere Nederlandse organisaties die audiovisueel cultureel erfgoed beheren de Gemeenschappelijke Thesaurus voor Audiovisuele Archieven (GTAA) ontwikkeld. De GTAA wordt gebruikt voor het doeltreffend karakteriseren van de inhoud van audiovisueel materiaal uit het archief met labels afkomstig uit een gecontroleerde en gestructureerde lijst van termen, een thesaurus."@nl ;
     sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0013>,
         <http://data.beeldengeluid.nl/id/datadownload/0014>,
         <http://data.beeldengeluid.nl/id/datadownload/0015>,
@@ -343,14 +361,22 @@
     sdo:temporalCoverage "1921/1974" .
 
 <http://data.beeldengeluid.nl/id/dataset/0024> a sdo:Dataset ;
-    sdo:description "Politiek, cultuur en sport, kortom alle facetten van het leven komen aan bod aan de tafel van Frits Barend en Henk van Dorp, immer bijgestaan door oud-voetballer en columnist Jan Mulder. Naast Jan Mulder zijn schrijver Boudewijn Büch en politiek verslaggever Frits Wester vaste gasten; ze schuiven regelmatig aan de tafel aan. Aanvankelijk wordt het programma in een café/restaurant in Eemnes opgenomen. Later verhuizen de opnamen naar Gooiland en sinds 2002 komen de uitzendingen vanaf het Media Park. In een gezellige sfeer, met nootjes op tafel. Spraakmakende gasten, emotionele onderwerpen en opvallende uitspraken maken dat je Barend & Van Dorp gezien moet hebben. In totaal worden er 960 afleveringen gemaakt. In 2008 dragen Frits Barend en Henk van Dorp alle afleveringen van de talkshow over aan Beeld en Geluid."@nl ;
-    sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0023> ;
+    sdo:dateModified "2020" ;
+    sdo:description "Deze dataset beschikt over de laatste linked data versie van het muziekweb. Hier vind je een linked data view waarin alle albums van het muziekweb zijn weergegeven."@nl,
+        "Muziekweb is de muziekbibliotheek van Nederland. Ons doel is om muziek en de informatie over muziek voor iedereen laagdrempelig aan te bieden. Muziekweb heeft sinds 1961 een collectie opgebouwd van 600.000 cd’s, 300.000 lp’s en 30.000 muziek-dvd’s (dat is samen goed voor zo'n zeven miljoen tracks!). De site is een bron van informatie over muziek die de afgelopen vijftig jaar in Nederland is uitgebracht, en een ideale plek om meer muziek te leren kennen."@nl,
+        "Politiek, cultuur en sport, kortom alle facetten van het leven komen aan bod aan de tafel van Frits Barend en Henk van Dorp, immer bijgestaan door oud-voetballer en columnist Jan Mulder. Naast Jan Mulder zijn schrijver Boudewijn Büch en politiek verslaggever Frits Wester vaste gasten; ze schuiven regelmatig aan de tafel aan. Aanvankelijk wordt het programma in een café/restaurant in Eemnes opgenomen. Later verhuizen de opnamen naar Gooiland en sinds 2002 komen de uitzendingen vanaf het Media Park. In een gezellige sfeer, met nootjes op tafel. Spraakmakende gasten, emotionele onderwerpen en opvallende uitspraken maken dat je Barend & Van Dorp gezien moet hebben. In totaal worden er 960 afleveringen gemaakt. In 2008 dragen Frits Barend en Henk van Dorp alle afleveringen van de talkshow over aan Beeld en Geluid."@nl ;
+    sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0023>,
+        <http://data.beeldengeluid.nl/id/datadownload/0025> ;
     sdo:inLanguage "nl-NL" ;
     sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
-    sdo:license <http://rightsstatements.org/vocab/InC/1.0/> ;
-    sdo:mainEntityOfPage <https://wiki.beeldengeluid.nl/index.php/Barend_%26_Van_Dorp_(praatprogramma)> ;
-    sdo:name "Barend & van Dorp"@nl ;
-    sdo:publisher <https://www.beeldengeluid.nl> ;
+    sdo:license <http://rightsstatements.org/vocab/InC/1.0/>,
+        <https://opendatacommons.org/licenses/by/> ;
+    sdo:mainEntityOfPage <https://data.muziekweb.nl/>,
+        <https://wiki.beeldengeluid.nl/index.php/Barend_%26_Van_Dorp_(praatprogramma)> ;
+    sdo:name "Barend & van Dorp"@nl,
+        "Muziekweb"@nl ;
+    sdo:publisher <https://www.beeldengeluid.nl>,
+        <https://www.muziekweb.nl/> ;
     sdo:temporalCoverage "2002/2006" .
 
 <https://natuurbeelden.openbeelden.nl/> a sdo:Organization ;
