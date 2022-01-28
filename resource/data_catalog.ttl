@@ -227,6 +227,7 @@
     sdo:usageInfo <https://euscreen.eu/about.html> .
 
 <http://data.beeldengeluid.nl/id/datadownload/0025> a sdo:DataDownload ;
+    sdo:contentSize "930000" ;
     sdo:contentUrl <https://api.data.muziekweb.nl/datasets/MuziekwebOrganization/Muziekweb/services/Muziekweb/sparql> ;
     sdo:dateModified "2020" ;
     sdo:description "Bevraag Muziekweb via SPARQL."@nl ;
