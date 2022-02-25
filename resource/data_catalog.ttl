@@ -45,35 +45,14 @@
     sdo:name "Genre Filmmuseum"@nl ;
     sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
 
-<http://data.beeldengeluid.nl/id/datadownload/0026> a sdo:DataDownload ;
-    sdo:contentSize "375110" ;
+<http://data.beeldengeluid.nl/id/datadownload/0033> a sdo:DataDownload ;
+    sdo:contentSize "174" ;
     sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
-    sdo:description "Person names from the Common Thesaurus Audiovisal Archives"@en,
-        "Persoonsnamenas uit de GTAA. Elke persoonsnaam, inclusief labels en notes, is een SKOS Concept."@nl ;
+    sdo:description "Genres in use for EYE film museum."@nl ;
     sdo:encodingFormat "application/sparql-query" ;
     sdo:inLanguage "nl-NL" ;
     sdo:license <https://opendatacommons.org/licenses/odbl/> ;
-    sdo:name "GTAA Persoonsnamen"@nl ;
-    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
-
-<http://data.beeldengeluid.nl/id/datadownload/0027> a sdo:DataDownload ;
-    sdo:contentSize "99" ;
-    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
-    sdo:description "Classificatie-as uit de GTAA met hoofd- en subrubrieken bij de as Onderwerpen. Elke hoofd- en subrubriek is een SKOS Concept met labels, notes, onderlinge relaties en relaties met topconcepten uit Onderwerpen."@nl ;
-    sdo:encodingFormat "application/sparql-query" ;
-    sdo:inLanguage "nl-NL" ;
-    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
-    sdo:name "GTAA Classificatie"@nl ;
-    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
-
-<http://data.beeldengeluid.nl/id/datadownload/0028> a sdo:DataDownload ;
-    sdo:contentSize "136" ;
-    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
-    sdo:description "Genres en programmasoorten: deze termen geven een typering of aanduiding van de productie als geheel, ze verwijzen naar de vorm, het genre of het type programma (bijvoorbeeld: 'korte film', 'lifestyleprogramma', 'hoorspel', 'politieserie'). Elk genre, inclusief labels, notes en relaties, is een SKOS Concept."@nl ;
-    sdo:encodingFormat "application/sparql-query" ;
-    sdo:inLanguage "nl-NL" ;
-    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
-    sdo:name "GTAA Genres"@nl ;
+    sdo:name "Filmmuseum Genres"@nl ;
     sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
 
 <http://data.beeldengeluid.nl/id/datadownload/0001> a sdo:DataDownload ;
@@ -158,9 +137,9 @@
     sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
 
 <http://data.beeldengeluid.nl/id/datadownload/0014> a sdo:DataDownload ;
-    sdo:contentSize "32415" ;
+    sdo:contentSize "32484" ;
     sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:Namen> ;
-    sdo:description "As met diverse soorten eigennamen (zoals corporatie- en andere namen) in de GTAA. Elke naam, inclusief labels en notes, is een SKOS Concept."@nl ;
+    sdo:description "As met diverse soorten eigennamen van o.a. organisaties, muziekensembles, bevolkingsgroepen, oorlogen, verdragen, feest(dag)en, prijzen, producten, en titels van tijdschriften, boeken, films, radio- en televisieprogramma’s (bijvoorbeeld: 'KLM', 'Hindoestanen', 'Kerstmis', 'Golfoorlog', 'De aanslag'). Elke naam, inclusief labels en notes, is een SKOS Concept."@nl ;
     sdo:encodingFormat "text/xml" ;
     sdo:inLanguage "nl-NL" ;
     sdo:license <https://opendatacommons.org/licenses/odbl/> ;
@@ -168,7 +147,7 @@
     sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
 
 <http://data.beeldengeluid.nl/id/datadownload/0015> a sdo:DataDownload ;
-    sdo:contentSize "4141" ;
+    sdo:contentSize "4144" ;
     sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:Onderwerpen> ;
     sdo:description "Onderwerpen uit de GTAA. Hierbij hoort de as Classificatie. Elk onderwerp, inclusief labels, notes en relaties, is een SKOS Concept."@nl ;
     sdo:encodingFormat "text/xml" ;
@@ -268,6 +247,77 @@
     sdo:name "Muziekweb als linked data"@nl ;
     sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
 
+<http://data.beeldengeluid.nl/id/datadownload/0026> a sdo:DataDownload ;
+    sdo:contentSize "375110" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
+    sdo:description "Person names from the Common Thesaurus Audiovisal Archives"@en,
+        "Persoonsnamenas uit de GTAA. Elke persoonsnaam, inclusief labels en notes, is een SKOS Concept."@nl ;
+    sdo:encodingFormat "application/sparql-query" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA Persoonsnamen"@nl ;
+    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0027> a sdo:DataDownload ;
+    sdo:contentSize "99" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
+    sdo:description "Classificatie-as uit de GTAA met hoofd- en subrubrieken bij de as Onderwerpen. Elke hoofd- en subrubriek is een SKOS Concept met labels, notes, onderlinge relaties en relaties met topconcepten uit Onderwerpen."@nl ;
+    sdo:encodingFormat "application/sparql-query" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA Classificatie"@nl ;
+    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0028> a sdo:DataDownload ;
+    sdo:contentSize "136" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
+    sdo:description "Genres en programmasoorten: deze termen geven een typering of aanduiding van de productie als geheel, ze verwijzen naar de vorm, het genre of het type programma (bijvoorbeeld: 'korte film', 'lifestyleprogramma', 'hoorspel', 'politieserie'). Elk genre, inclusief labels, notes en relaties, is een SKOS Concept."@nl ;
+    sdo:encodingFormat "application/sparql-query" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA Genres"@nl ;
+    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0029> a sdo:DataDownload ;
+    sdo:contentSize "14256" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
+    sdo:description "As met geografische namen in de GTAA. Bevat namen van steden, gemeenten, provincies, snelwegen, landen, enz. Elke geografische naam, inclusief labels en notes, is een SKOS Concept en is gegroepeerd in een ConceptScheme."@nl ;
+    sdo:encodingFormat "application/sparql-query" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA Geografische namen"@nl ;
+    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0030> a sdo:DataDownload ;
+    sdo:contentSize "32484" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
+    sdo:description "As met diverse soorten eigennamen van o.a. organisaties, muziekensembles, bevolkingsgroepen, oorlogen, verdragen, feest(dag)en, prijzen, producten, en titels van tijdschriften, boeken, films, radio- en televisieprogramma’s (bijvoorbeeld: 'KLM', 'Hindoestanen', 'Kerstmis', 'Golfoorlog', 'De aanslag'). Elke naam, inclusief labels en notes, is een SKOS Concept."@nl ;
+    sdo:encodingFormat "application/sparql-query" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA Namen"@nl ;
+    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0031> a sdo:DataDownload ;
+    sdo:contentSize "4144" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
+    sdo:description "Onderwerpen of wel begrippen (bijv. 'zwemmen', 'daklozen', 'binnenvaartschepen', 'audiovisuele archieven'). Hierbij hoort de as Classificatie. Elk onderwerp, inclusief labels, notes en relaties, is een SKOS Concept."@nl ;
+    sdo:encodingFormat "application/sparql-query" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA Onderwerpen"@nl ;
+    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0032> a sdo:DataDownload ;
+    sdo:contentSize "4767" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
+    sdo:description "As voor onderwerpstermen, bevat naast de begrippen uit de as Onderwerpen toegevoegde concepten voor specifiek beeld (shots en stockshots) en geluid. Voorbeelden: 'dorpsbeelden', 'blaffen', 'begroetingen', 'gapen', enz. Hierbij hoort de as Classificatie. Elk onderwerp, inclusief labels, notes en relaties, is een SKOS Concept."@nl ;
+    sdo:encodingFormat "application/sparql-query" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA OnderwerpenBenG"@nl ;
+    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
+
 <http://data.beeldengeluid.nl/id/dataset/0001> a sdo:Dataset ;
     sdo:creator <https://www.beeldengeluid.nl> ;
     sdo:description "Metadata for the catalogue objects that are provided by Netherlands Institue for Sound and Vision."@en ;
@@ -359,7 +409,14 @@
         <http://data.beeldengeluid.nl/id/datadownload/0016>,
         <http://data.beeldengeluid.nl/id/datadownload/0017>,
         <http://data.beeldengeluid.nl/id/datadownload/0018>,
-        <http://data.beeldengeluid.nl/id/datadownload/0019> ;
+        <http://data.beeldengeluid.nl/id/datadownload/0019>,
+        <http://data.beeldengeluid.nl/id/datadownload/0026>,
+        <http://data.beeldengeluid.nl/id/datadownload/0027>,
+        <http://data.beeldengeluid.nl/id/datadownload/0028>,
+        <http://data.beeldengeluid.nl/id/datadownload/0029>,
+        <http://data.beeldengeluid.nl/id/datadownload/0030>,
+        <http://data.beeldengeluid.nl/id/datadownload/0031>,
+        <http://data.beeldengeluid.nl/id/datadownload/0032> ;
     sdo:inLanguage "nl-NL" ;
     sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
     sdo:license <http://opendatacommons.org/licenses/odbl/1.0/> ;
