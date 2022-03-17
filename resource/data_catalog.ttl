@@ -420,7 +420,7 @@
     sdo:inLanguage "nl-NL" ;
     sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
     sdo:license <http://opendatacommons.org/licenses/odbl/1.0/> ;
-    sdo:mainEntityOfPage <https://labs.beeldengeluid.nl/dataset/5520ccca-2c8e-11e6-a743-005056a71e3a> ;
+    sdo:mainEntityOfPage <https://labs.beeldengeluid.nl/datasets/gtaa> ;
     sdo:name "Common Thesaurus Audiovisual Archives"@en,
         "GTAA (Gemeenschappelijke Thesaurus Audiovisuele Archieven)"@nl ;
     sdo:publisher <https://www.beeldengeluid.nl> .
