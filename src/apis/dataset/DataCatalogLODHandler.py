@@ -4,10 +4,9 @@ import logging
 from util.APIUtil import APIUtil
 from rdflib import URIRef
 from rdflib import Graph
-from rdflib.namespace import Namespace, RDF
+from rdflib.namespace import Namespace
+from rdflib.namespace import RDF, SDO
 from apis.mime_type_util import MimeType
-
-SDO = Namespace("https://schema.org/")
 
 
 class DataCatalogLODHandler:
