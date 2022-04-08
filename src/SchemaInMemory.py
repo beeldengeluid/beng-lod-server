@@ -5,6 +5,7 @@ import os
 
 
 class SchemaInMemory:
+    """This class is used to generate the right HTML page for entities in the schema."""
     def __init__(self, profile=None):
         self.profile = profile
         self.ns = Namespace(profile["uri"])
