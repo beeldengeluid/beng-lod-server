@@ -64,10 +64,13 @@ def test_prepare_storage_uri(application_settings, storage_base_url, level, iden
 @pytest.mark.parametrize(
     "status_code, response_text, exception, expected_output",
     [
-        (200, json.dumps(DUMMY_STORAGE_DATA), None, DUMMY_STORAGE_DATA),
-        (500, None, None, None),
-        (200, "BROKEN JSON", None, None),
-        (200, None, ConnectionError, None),
+        (200, json.dumps(DUMMY_STORAGE_DATA), None, DUMMY_STORAGE_DATA),  # happy flow
+        (500, None, None, None),  # any non-200 will receive None
+        (400, None, None, None),
+        (403, None, None, None),
+        (404, None, None, None),
+        (200, "BROKEN JSON", None, None),  # broken JSON data will result in None
+        (200, None, ConnectionError, None),  # these exceptions are caught and result in None
         (200, None, json.decoder.JSONDecodeError, None),
         (200, None, Exception, None),
     ],
