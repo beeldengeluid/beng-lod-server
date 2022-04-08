@@ -37,13 +37,13 @@ def get_active_profile():
 # TODO now the active profile is static and cannot be defined via the URL
 app.config["ACTIVE_PROFILE"] = get_active_profile()
 
-
-@app.before_first_request
-def server_init():
-    for p in app.config["PROFILES"]:
-        if "prefix" in p and "schema" in p and p["schema"]:
-            logger.debug(f"Loading profile {p['prefix']} in memory")
-            p["sim"] = SchemaInMemory(profile=p)
+#
+# @app.before_first_request
+# def server_init():
+#     for p in app.config["PROFILES"]:
+#         if "prefix" in p and "schema" in p and p["schema"]:
+#             logger.debug(f"Loading profile {p['prefix']} in memory")
+#             p["sim"] = SchemaInMemory(profile=p)
 
 
 api.init_app(
