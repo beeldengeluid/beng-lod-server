@@ -34,9 +34,10 @@ class StorageLODHandler:
         :param return_format: the Accept type, like 'text/turtle, etc.'
         :returns: a response object
         """
+        use_file_logger = self.config.get("LOG_LEVEL_CONSOLE", None) == "DEBUG"
         try:
             url = self._prepare_storage_uri(self.config.get("STORAGE_BASE_URL"), level, identifier)
-            data = self._storage_2_lod(url, return_format)
+            data = self._storage_2_lod(url, return_format, use_file_logger)
             if data:
                 return APIUtil.toSuccessResponse(data)
             return APIUtil.toErrorResponse(
@@ -72,7 +73,7 @@ class StorageLODHandler:
             return urlunparse(parts)
         return None
 
-    def _get_json_from_storage(self, url):
+    def _get_json_from_storage(self, url : str, use_file_logger : bool=False):
         """Retrieves a JSON object from the given Storage url
         Description: http://acc-app-bng-01.beeldengeluid.nl:8101/storage/doc
         :param url: the URI for the resource to get the data for.
@@ -81,9 +82,8 @@ class StorageLODHandler:
         try:
             resp = requests.get(url)
             if resp.status_code == 200:
-                if self.config.get("LOG_LEVEL_CONSOLE", None) == "DEBUG":
-                    with open("last_request.json", "w") as f:
-                        json.dump(resp.text, f, indent=4)
+                if use_file_logger:
+                    self._log_json_to_file(resp.text)
                 return json.loads(resp.text)
         except ConnectionError:
             self.logger.exception("ConnectionError")
@@ -93,12 +93,16 @@ class StorageLODHandler:
             self.logger.exception("Exception")
         return None
 
-    def _storage_2_lod(self, url, return_format):
+    def _log_json_to_file(self, json_data):
+        with open("last_request.json", "w") as f:
+            json.dump(json_data, f, indent=4)
+
+    def _storage_2_lod(self, url : str, return_format : str, use_file_logger : bool = False):
         """Returns the record data from a URL, transformed to RDF, loaded in a Graph and
         serialized to target format.
         """
         # retrieve the record data in JSON from DM API
-        json_data = self._get_json_from_storage(url)
+        json_data = self._get_json_from_storage(url, use_file_logger)
         assert isinstance(json_data, dict), "No valid results from the flex store."
 
         # transform the JSON to RDF

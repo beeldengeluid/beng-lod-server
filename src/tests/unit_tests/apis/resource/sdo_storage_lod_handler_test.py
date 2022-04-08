@@ -21,7 +21,7 @@ def test_get_payload_scene_ob(application_settings, i_ob_scene_payload):
         when(sdo_handler)._prepare_storage_uri(storage_base_url, DUMMY_LEVEL, DUMMY_ID).thenReturn(
             DUMMY_URL
         )
-        when(sdo_handler)._get_json_from_storage(DUMMY_URL).thenReturn(
+        when(sdo_handler)._get_json_from_storage(DUMMY_URL, True).thenReturn(
             i_ob_scene_payload
         )
         mt = MimeType(RETURN_FORMAT_JSONLD)
@@ -71,7 +71,7 @@ def test_for_cant_encode_character(application_settings, i_error_scene_payload):
         when(sdo_handler)._prepare_storage_uri(
             storage_base_url, "scene", "2101702260627885424"
         ).thenReturn(DUMMY_URL)
-        when(sdo_handler)._get_json_from_storage(DUMMY_URL).thenReturn(
+        when(sdo_handler)._get_json_from_storage(DUMMY_URL, True).thenReturn(
             i_error_scene_payload
         )
         mt = MimeType(RETURN_FORMAT_JSONLD)
@@ -111,7 +111,7 @@ def test_no_payload_from_flex_store(application_settings):
         when(sdo_handler)._prepare_storage_uri(
             storage_base_url, "scene", "2101702260627885424"
         ).thenReturn(DUMMY_URL)
-        when(sdo_handler)._get_json_from_storage(DUMMY_URL).thenReturn(None)
+        when(sdo_handler)._get_json_from_storage(DUMMY_URL, True).thenReturn(None)
         mt = MimeType(RETURN_FORMAT_JSONLD)
         resp, status_code, headers = sdo_handler.get_storage_record(
             "scene", "2101702260627885424", mt.to_ld_format()
