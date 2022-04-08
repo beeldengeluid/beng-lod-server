@@ -35,7 +35,7 @@ class StorageLODHandler:
         :returns: a response object
         """
         try:
-            url = self._prepare_storage_uri(level, identifier)
+            url = self._prepare_storage_uri(self.config.get("STORAGE_BASE_URL"), level, identifier)
             data = self._storage_2_lod(url, return_format)
             if data:
                 return APIUtil.toSuccessResponse(data)
@@ -54,7 +54,7 @@ class StorageLODHandler:
 
         return APIUtil.toErrorResponse("internal_server_error")
 
-    def _prepare_storage_uri(self, level, identifier):
+    def _prepare_storage_uri(self, storage_base_url : str, level : str, identifier : int):
         """Constructs valid Storage url from the config settings, the level (cat type) and the identifier.
                 <storage URL>/storage/<TYPE>/<id>
             When <TYPE> is 'scene' it needs to be replaced with 'logtrackitem' for the storage API.
@@ -62,16 +62,15 @@ class StorageLODHandler:
         :param identifier: the DAAN id
         :returns: a proper URI for getting metadata from the DM API
         """
-        url_parts = urlparse(self.config.get("STORAGE_BASE_URL"))
-        if url_parts.netloc is not None:
+        url_parts = urlparse(storage_base_url)
+        if url_parts.netloc is not None and url_parts.netloc != "":
             if level == "scene":
                 path = "/".join(["storage", "logtrackitem", str(identifier)])
             else:
                 path = "/".join(["storage", level, str(identifier)])
             parts = (url_parts.scheme, url_parts.netloc, path, "", "", "")
             return urlunparse(parts)
-        else:
-            return None
+        return None
 
     def _get_json_from_storage(self, url):
         """Retrieves a JSON object from the given Storage url

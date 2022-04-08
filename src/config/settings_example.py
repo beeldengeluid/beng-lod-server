@@ -14,7 +14,7 @@ class Config(object):
     LOG_LEVEL_CONSOLE = "DEBUG"  # Levels: DEBUG - INFO - WARNING - ERROR - CRITICAL
     LOG_LEVEL_FILE = "DEBUG"  # Levels: DEBUG - INFO - WARNING - ERROR - CRITICAL
 
-    STORAGE_BASE_URL = "http://prd-app-bng-01.beeldengeluid.nl:8101/"
+    STORAGE_BASE_URL = "http://flexstore:1234"
 
     ENABLED_ENDPOINTS = ["resource", "dataset"]  # allow all by default
 
