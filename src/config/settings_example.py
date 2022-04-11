@@ -40,7 +40,7 @@ class Config(object):
         },
     ]
 
-    DATA_CATALOG_FILE = "../resource/data_catalog.ttl"
+    DATA_CATALOG_FILE = "../resource/data_catalog_unit_test.ttl"  # copy to ../resource/data_catalog.ttl
 
     BENG_DATA_DOMAIN = "http://data.beeldengeluid.nl/"
 

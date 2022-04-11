@@ -5,10 +5,12 @@ from mockito import when, unstub, verify
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
 from util.ld_util import prepare_beng_uri
 from apis.mime_type_util import MimeType
+from rdflib.plugin import PluginException
 
 
-# this "dummy data" actually refers to existing data in the ./resources/daan-catalog.ttl
-# change this later
+# this "dummy data" relies on the ./resources/daan-catalog_unit_test.ttl
+# which is loaded in memory (as rdflib graph) on DataCatalogLODHandler init
+# all unit tests assume the data, from said file, is loaded in memory
 DUMMY_BENG_DATA_DOMAIN = "http://data.beeldengeluid.nl/"
 DUMMY_DATASET_ID = "0001"
 DUMMY_DATASET_URI = prepare_beng_uri(
@@ -27,6 +29,7 @@ XML_ENCODING_DECLARATION = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
         (DUMMY_DATASET_URI, MimeType.N_TRIPLES, True),
         (DUMMY_DATASET_URI, MimeType.N3, True),
         (DUMMY_DATASET_URI, MimeType.JSON, True),
+        (DUMMY_DATASET_URI, "application/phony_mime_type", True),
         
     ],
 )
@@ -34,7 +37,10 @@ def test_get_dataset(application_settings, dataset_uri, mime_type, valid_dataset
     try:
         dch = DataCatalogLODHandler(application_settings)
         when(dch).is_valid_dataset(DUMMY_DATASET_URI).thenReturn(valid_dataset)
-        resp, status_code, headers = dch.get_dataset(dataset_uri, mime_type.to_ld_format())
+        resp, status_code, headers = dch.get_dataset(
+            dataset_uri, 
+            mime_type.to_ld_format() if not type(mime_type) == str else mime_type
+        )
         assert status_code == 200
         if mime_type == MimeType.JSON_LD:
             json_data = json.loads(resp)
@@ -56,5 +62,7 @@ def test_get_dataset(application_settings, dataset_uri, mime_type, valid_dataset
             assert type(resp) == str
             assert type(json_data) == dict
         verify(dch, times=1).is_valid_dataset(DUMMY_DATASET_URI)
+    except PluginException:
+        assert mime_type == "application/phony_mime_type"
     finally:
         unstub()

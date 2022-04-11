@@ -20,7 +20,6 @@ src/static/ontospy/*
 src/static/ontospy/README.md
 src/util/quickstart.py
 resource/datacatalogfromspreadsheet-a5ccabb0919f.json
-resource/data_catalog.ttl
 /src/get_dmapi_program_2101608170159186431_photo.json
 /src/get_dmapi_program_2101608050036218831.json
 /src/get_dmapi_program_2101606230008608731.json
