@@ -1,15 +1,15 @@
 import pytest
 import json
+from copy import deepcopy
 from lxml import etree
 from mockito import when, unstub
 from rdflib import Graph, URIRef
 from rdflib.namespace import RDF
 from rdflib.plugin import PluginException
-from models import SDORdfConcept
+from models.SDORdfConcept import SDORdfConcept
 from apis.mime_type_util import MimeType
 from apis.resource.SDOStorageLODHandler import SDOStorageLODHandler
 
-""" ------------------------ fetchDocument -----------------------"""
 
 XML_ENCODING_DECLARATION = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 DUMMY_LEVEL = "program"
@@ -52,8 +52,11 @@ DUMMY_STORAGE_DATA = {
     "acl_hash": 581299796
 }
 
+DUMMY_STORAGE_DATA__UNSUPPORTED_LOGTRACK_TYPE = deepcopy(DUMMY_STORAGE_DATA)
+DUMMY_STORAGE_DATA__UNSUPPORTED_LOGTRACK_TYPE["logtrack_type"] = "unsupported logtrack type"
 
-def test_get_payload_scene_ob(application_settings, i_ob_scene_payload):
+
+def test_get_storage_record__ob_scene_payload(application_settings, i_ob_scene_payload):
     try:
         profile = application_settings.get("ACTIVE_PROFILE")
         storage_base_url = application_settings.get("STORAGE_BASE_URL")
@@ -103,7 +106,7 @@ def test_get_payload_scene_ob(application_settings, i_ob_scene_payload):
         unstub()
 
 
-def test_for_cant_encode_character(application_settings, i_error_scene_payload):
+def test_get_storage_record__error_scene_payload(application_settings, i_error_scene_payload):
     try:
         profile = application_settings.get("ACTIVE_PROFILE")
         storage_base_url = application_settings.get("STORAGE_BASE_URL")
@@ -126,23 +129,7 @@ def test_for_cant_encode_character(application_settings, i_error_scene_payload):
         unstub()
 
 
-def test_for_material_type(application_settings, i_program_payload_material_type):
-    """
-    "nisv.materialtype": {
-        "value": "audio",
-        "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-pgmmaterialtype/audio",
-        "resolved_value": "audio"
-    },
-    """
-    try:
-        pass
-    except UnicodeEncodeError as e:
-        print(str(e))
-    finally:
-        unstub()
-
-
-def test_no_payload_from_flex_store(application_settings):
+def test_get_storage_record__no_storage_data(application_settings):
     """Tests for a proper handling of errors with the flex store."""
     try:
         profile = application_settings.get("ACTIVE_PROFILE")
@@ -205,5 +192,24 @@ def test_storage_2_lod(application_settings, storage_url, return_mime_type):
             assert type(serialized_data) == str
     except PluginException:  # MimeType.JSON is not supported by rdflib
         assert return_mime_type == MimeType.JSON
+    finally:
+        unstub()
+
+@pytest.mark.parametrize(
+    "storage_data, raised_exception",
+    [
+        (DUMMY_STORAGE_DATA, None),
+        (DUMMY_STORAGE_DATA__UNSUPPORTED_LOGTRACK_TYPE, ValueError),
+    ],
+)
+def test_transform_json_to_rdf(application_settings, storage_data, raised_exception):
+    try:
+        profile = application_settings.get("ACTIVE_PROFILE")
+        slh = SDOStorageLODHandler(application_settings, profile)
+        concept = slh._transform_json_to_rdf(storage_data)
+        if raised_exception is None:
+            assert type(concept) == SDORdfConcept
+    except ValueError:
+        assert raised_exception == ValueError
     finally:
         unstub()
