@@ -10,7 +10,7 @@ From your command line run this from the repository root:
 ```
 pipenv install
 ```
-# create a settings file
+# Create a settings file
 
 Copy the settings-example.py to settings.py:
 
@@ -20,10 +20,16 @@ cp src/config/settings_example.py src/config/settings.py
 
 Then change the settings to your liking...
 
-# run the server
+# Run the server
 Using pipenv you can start the virtual environment and the server from the command line like this:
 ```
 cd src
 pipenv run python server.py
 ```
 
+When the server is started correctly, you can checkout the OpenAPI specification from your browser: 
+
+```http://127.0.0.1:5309/```, 
+or you can get RDF directly, for example: 
+```
+curl -L -H "Accept: application/ld+json" http://127.0.0.1:5309/id/program/2101608130117680531``` 
