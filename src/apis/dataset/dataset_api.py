@@ -1,23 +1,13 @@
 from flask import current_app, request, Response
 from flask_restx import Namespace, Resource
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
-from urllib.parse import urlparse, urlunparse
 from apis.mime_type_util import parse_accept_header
+from util.ld_util import prepare_beng_uri
 
 api = Namespace(
     "dataset",
     description="Datasets in RDF for Netherlands Institute for Sound and Vision.",
 )
-
-""" --------------------------- RESOURCE ENDPOINT -------------------------- """
-
-
-def prepare_beng_uri(path):
-    """Use the domain and the path given to construct a proper Beeld en Geluid URI."""
-    parts = urlparse(current_app.config["BENG_DATA_DOMAIN"])
-    new_parts = (parts.scheme, parts.netloc, path, None, None, None)
-    return urlunparse(new_parts)
-
 
 @api.doc(
     responses={
@@ -45,7 +35,10 @@ class LODDatasetAPI(Resource):
         All triples for the Dataset and its DataDownloads are included.
         """
         mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
-        dataset_uri = prepare_beng_uri(path=f"id/dataset/{number}")
+        dataset_uri = prepare_beng_uri(
+            current_app.config["BENG_DATA_DOMAIN"], 
+            f"id/dataset/{number}"
+        )
 
         resp, status_code, headers = DataCatalogLODHandler(
             current_app.config
@@ -83,7 +76,10 @@ class LODDataCatalogAPI(Resource):
         All triples describing the DataCatalog and its Datasets are included.
         """
         mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
-        data_catalog_uri = prepare_beng_uri(path=f"id/datacatalog/{number}")
+        data_catalog_uri = prepare_beng_uri(
+            current_app.config["BENG_DATA_DOMAIN"], 
+            f"id/datacatalog/{number}"
+        )
 
         resp, status_code, headers = DataCatalogLODHandler(
             current_app.config
@@ -119,7 +115,10 @@ class LODDataDownloadAPI(Resource):
     def get(self, number=None):
         """Get the RDF for the DataDownload."""
         mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
-        data_download_uri = prepare_beng_uri(path=f"id/datadownload/{number}")
+        data_download_uri = prepare_beng_uri(
+            current_app.config["BENG_DATA_DOMAIN"], 
+            f"id/datadownload/{number}"
+        )
 
         resp, status_code, headers = DataCatalogLODHandler(
             current_app.config
