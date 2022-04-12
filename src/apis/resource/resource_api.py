@@ -1,4 +1,3 @@
-# import logging
 from flask import current_app, request, Response
 from flask_restx import Namespace, Resource
 from apis.mime_type_util import parse_accept_header, MimeType, get_profile_by_uri
@@ -56,53 +55,17 @@ def is_public_resource(resource_url):
     try:
         # get the SPARQL endpoint from the config
         sparql_endpoint = current_app.config.get("SPARQL_ENDPOINT")
-        query_construct = "CONSTRUCT { <%s> ?p ?o } WHERE { <%s> ?p ?o }" % resource_url
-
-        # prepare and get the data from the triple store
-        resp = requests.get(
-            sparql_endpoint, params={"query": query_construct, "format": "xml"}
-        )
-        assert (
-            resp.status_code == 200
-        ), "CONSTRUCT request to sparql server was not successful."
-
-        if status_code == 200:
-            # TODO: LOAD the server response into a graph
-            content_type = mt.value
-            if headers.get("Content-Type") is not None:
-                content_type = headers.get("Content-Type")
-            profile_param = "=".join(["profile", '"{}"'.format(profile["schema"])])
-            headers["Content-Type"] = ";".join([content_type, profile_param])
-            return Response(resp, mimetype=mt.value, headers=headers)
-
-        return resp.json().get("boolean") is True
-
-    except ConnectionError as e:
-        print(str(e))
-    except AssertionError as e:
-        print(str(e))
-    except Exception as e:
-        print(str(e))
-
-
-def get_lod_view(resource_url):
-    """Returns a 'LOD view'-like HTML page for the resource.
-    :param resource_url: the resource to be viewed.
-
-    """
-    try:
-        # get the SPARQL endpoint from the config
-        sparql_endpoint = current_app.config.get("SPARQL_ENDPOINT")
         query_ask = "ASK {<%s> ?p ?o . }" % resource_url
 
         # prepare and get the data from the triple store
         resp = requests.get(
             sparql_endpoint, params={"query": query_ask, "format": "json"}
         )
-        # TODO: prepare a response
         assert (
             resp.status_code == 200
         ), "ASK request to sparql server was not successful."
+
+        return resp.json().get("boolean") is True
 
     except ConnectionError as e:
         print(str(e))
