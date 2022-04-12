@@ -13,7 +13,7 @@ if [ ! -z "$USE_VENV" ] ; then
 fi
 
 cd ../
-pytest tests/unit_tests --cov
+pytest
 
 # check lint rules (configured in .flake8)
 pipenv run flake8

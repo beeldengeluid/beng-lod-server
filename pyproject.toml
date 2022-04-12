@@ -1,2 +1,10 @@
 [tool.black]
 # we use all the defaults
+
+[tool.pytest.ini_options]
+testpaths = [
+  "src/tests/unit_tests",
+]
+addopts = [
+  "--cov",
+]

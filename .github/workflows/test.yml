@@ -17,8 +17,8 @@ jobs:
       run: pip install --user pipenv
     - name: Install dependencies (including dev-packages)
       run: pipenv install --three --dev --skip-lock
-    - name: Test with pytest
-      run: cd src && pipenv run pytest tests --cov
+    - name: Run tests
+      run: cd src && pipenv run pytest
     - name: Check lint rules
       run: pipenv run flake8
     - name: Check code style
