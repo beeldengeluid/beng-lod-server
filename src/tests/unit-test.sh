@@ -12,7 +12,6 @@ if [ ! -z "$USE_VENV" ] ; then
 	pipenv shell
 fi
 
-#Note: pytest MUST be run from the src directory because of the src/config.ini that is required for the grlc library...
 cd ../
 pytest tests/unit_tests --cov
 
