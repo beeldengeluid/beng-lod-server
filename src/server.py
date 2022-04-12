@@ -2,7 +2,6 @@ from flask import Flask, request, Response  # redirect, send_from_directory
 from flask_cors import CORS
 import os
 from apis import api
-from SchemaInMemory import SchemaInMemory
 from util.APIUtil import APIUtil
 from util.base_util import init_logger, validate_config
 
@@ -36,14 +35,6 @@ def get_active_profile():
 
 # TODO now the active profile is static and cannot be defined via the URL
 app.config["ACTIVE_PROFILE"] = get_active_profile()
-
-#
-# @app.before_first_request
-# def server_init():
-#     for p in app.config["PROFILES"]:
-#         if "prefix" in p and "schema" in p and p["schema"]:
-#             logger.debug(f"Loading profile {p['prefix']} in memory")
-#             p["sim"] = SchemaInMemory(profile=p)
 
 
 api.init_app(
