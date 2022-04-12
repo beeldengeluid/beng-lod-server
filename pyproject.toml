@@ -8,3 +8,8 @@ testpaths = [
 addopts = [
   "--cov",
 ]
+
+[tool.coverage.run]
+omit = [
+  "src/tests/*"
+]
