@@ -1,0 +1,2 @@
+[tool.black]
+# we use all the defaults
