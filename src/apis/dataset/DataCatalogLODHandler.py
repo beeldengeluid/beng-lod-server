@@ -29,7 +29,13 @@ class DataCatalogLODHandler:
         """When initialized, get the data file from /resource."""
         self.logger.info("Loading data catalogue")
         self._data_catalog = Graph()
-        self._data_catalog.parse(data_catalog_file, format=MimeType.TURTLE.value)
+        import git
+        import pathlib
+        repo = git.Repo('.', search_parent_directories=True)
+        git_src_dir = pathlib.Path(repo.working_tree_dir).joinpath('src')
+        data_catalog_unit_test_file = pathlib.Path(git_src_dir).joinpath(data_catalog_file).absolute().as_uri()
+
+        self._data_catalog.parse(data_catalog_unit_test_file, format=MimeType.TURTLE.value)
 
     """-------------NDE requirements validation----------------------"""
 
