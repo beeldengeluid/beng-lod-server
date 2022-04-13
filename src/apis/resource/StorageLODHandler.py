@@ -55,7 +55,7 @@ class StorageLODHandler:
 
         return APIUtil.toErrorResponse("internal_server_error")
 
-    def _prepare_storage_uri(self, storage_base_url : str, level : str, identifier : int):
+    def _prepare_storage_uri(self, storage_base_url: str, level: str, identifier: int):
         """Constructs valid Storage url from the config settings, the level (cat type) and the identifier.
                 <storage URL>/storage/<TYPE>/<id>
             When <TYPE> is 'scene' it needs to be replaced with 'logtrackitem' for the storage API.
@@ -73,10 +73,11 @@ class StorageLODHandler:
             return urlunparse(parts)
         return None
 
-    def _get_json_from_storage(self, url : str, use_file_logger : bool=False):
+    def _get_json_from_storage(self, url: str, use_file_logger: bool = False):
         """Retrieves a JSON object from the given Storage url
         Description: http://acc-app-bng-01.beeldengeluid.nl:8101/storage/doc
         :param url: the URI for the resource to get the data for.
+        :param use_file_logger: flag for using logger
         :returns: the data or None
         """
         try:
@@ -89,17 +90,20 @@ class StorageLODHandler:
             self.logger.exception("ConnectionError")
         except json.decoder.JSONDecodeError:
             self.logger.exception("JSONDecodeError")
-        except Exception:
-            self.logger.exception("Exception")
+        # except Exception:
+        #     self.logger.exception("Exception")
         return None
 
     def _log_json_to_file(self, json_data):
         with open("last_request.json", "w") as f:
             json.dump(json_data, f, indent=4)
 
-    def _storage_2_lod(self, url : str, return_format : str, use_file_logger : bool = False):
+    def _storage_2_lod(self, url: str, return_format: str, use_file_logger: bool = False):
         """Returns the record data from a URL, transformed to RDF, loaded in a Graph and
         serialized to target format.
+        :param url: requested url
+        :param return_format: required serialization format
+        :param use_file_logger: flag for using logger
         """
         # retrieve the record data in JSON from DM API
         json_data = self._get_json_from_storage(url, use_file_logger)
