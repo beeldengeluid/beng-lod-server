@@ -1,4 +1,3 @@
-# import logging
 from flask import current_app, request, Response
 from flask_restx import Namespace, Resource
 from apis.mime_type_util import parse_accept_header, MimeType, get_profile_by_uri

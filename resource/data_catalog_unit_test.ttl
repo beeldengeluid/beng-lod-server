@@ -1,0 +1,359 @@
+@prefix sdo: <https://schema.org/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0002> a sdo:DataDownload ;
+    sdo:description "HDT file voor de Beeld en Geluid DAAN catalogus in schema.org formaat"@nl ;
+    sdo:encodingFormat "application/vnd.hdt" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
+    sdo:name "Beeld en Geluid Catalogus als Open Data"@nl ;
+    sdo:usageInfo <http://www.rdfhdt.org/hdt-binary-format/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0005> a sdo:DataDownload ;
+    sdo:contentSize "1589" ;
+    sdo:contentUrl <http://panic.image.ntua.gr:9000/euscreenxl-core/oai?verb=ListRecords&set=1019&metadataPrefix=rdf> ;
+    sdo:description "Publicatie van Beeld en Geluid materiaal op EUScreen"@nl ;
+    sdo:encodingFormat "text/xml" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://creativecommons.org/licenses/by-sa/3.0/> ;
+    sdo:name "Beeld en Geluid op EUScreen"@nl ;
+    sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0011> a sdo:DataDownload ;
+    sdo:contentSize "2591" ;
+    sdo:contentUrl <https://soundcloud.com/beeldengeluid/sets> ;
+    sdo:encodingFormat "audio/wav" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:usageInfo <https://developers.soundcloud.com/docs/api/guide> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0001> a sdo:DataDownload ;
+    sdo:contentSize "2126454" ;
+    sdo:contentUrl <https://cat.apis.beeldengeluid.nl/sparql> ;
+    sdo:description "Bevraag de Beeld en Geluid media catalogus in schema.org formaat in SPARQL."@nl ;
+    sdo:encodingFormat "application/sparql-query" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
+    sdo:name "Beeld en Geluid Catalogus als Open Data"@nl ;
+    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0003> a sdo:DataDownload ;
+    sdo:contentSize "7092" ;
+    sdo:contentUrl <https://www.openbeelden.nl/feeds/oai/?verb=ListRecords&set=beeldengeluid&metadataPrefix=oai_oi> ;
+    sdo:description "Creative Commons licensed audiovisual heritage from the Netherlands Institute for Sound and Vision"@en ;
+    sdo:encodingFormat "text/xml" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
+    sdo:name "Beeld en Geluid op Open Beelden"@nl ;
+    sdo:usageInfo <https://www.openbeelden.nl/api/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0004> a sdo:DataDownload ;
+    sdo:contentSize "2371" ;
+    sdo:contentUrl <https://www.openbeelden.nl/feeds/oai/?verb=ListRecords&set=stichting_natuurbeelden&metadataPrefix=oai_oi> ;
+    sdo:description "www.natuurbeelden.nl"@nl ;
+    sdo:encodingFormat "text/xml" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://creativecommons.org/licenses/by-sa/3.0/> ;
+    sdo:name "Natuurbeelden op Open Beelden"@nl ;
+    sdo:usageInfo <https://www.openbeelden.nl/api/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0006> a sdo:DataDownload ;
+    sdo:contentSize "79" ;
+    sdo:contentUrl <https://soundcloud.com/beeldengeluid/sets/radio-herrijzend-nederland> ;
+    sdo:description "The collection of Broadcasts from Radio Herrijzend Nederland (Radio 'The Netherlands Revived') contains a selection of the radio broadcasts that were transmitted between 1944 and 1946. They were broadcasted by the military authorities from Eindhoven after its liberation in September 1944, to encourage and inform the people of the still occupied north of the Netherlands. After the liberation it continued to broadcast untill January 1946."@en ;
+    sdo:encodingFormat "audio/wav" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://creativecommons.org/publicdomain/mark/1.0/> ;
+    sdo:name "Radio Herrijzend Nederland op Soundcloud"@nl ;
+    sdo:usageInfo <https://developers.soundcloud.com/docs/api/guide> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0008> a sdo:DataDownload ;
+    sdo:contentSize "76" ;
+    sdo:contentUrl <https://commons.wikimedia.org/wiki/Category:Radio_broadcasts_by_Radio_Herrijzend_Nederland> ;
+    sdo:description "Radio uitzendingen Radio Herrijzend Nederland van Beeld en Geluid op Wikimedia Commons"@nl ;
+    sdo:encodingFormat "audio/wav" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://creativecommons.org/publicdomain/mark/1.0/> ;
+    sdo:name "Radio uitzendingen Radio Herrijzend Nederland van Beeld en Geluid op Wikimedia Commons"@nl ;
+    sdo:usageInfo <https://www.mediawiki.org/wiki/API:Tutorial> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0010> a sdo:DataDownload ;
+    sdo:contentSize "100" ;
+    sdo:contentUrl <https://www.openbeelden.nl/users/europeanasounds> ;
+    sdo:description "Selectie van Open Beelden videos die op Europeana Sounds te zien zijn."@nl ;
+    sdo:encodingFormat "text/html" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://creativecommons.org/publicdomain/mark/1.0/> ;
+    sdo:name "Europeana Sounds op Open Beelden"@nl ;
+    sdo:usageInfo <https://www.openbeelden.nl/api/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0013> a sdo:DataDownload ;
+    sdo:contentSize "375110" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:Persoonsnamen> ;
+    sdo:description "Person names from the Common Thesaurus Audiovisal Archives"@en,
+        "Persoonsnamenas uit de GTAA. Elke persoonsnaam, inclusief labels en notes, is een SKOS Concept."@nl ;
+    sdo:encodingFormat "text/xml" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA Persoonsnamen"@nl ;
+    sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0014> a sdo:DataDownload ;
+    sdo:contentSize "32484" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:Namen> ;
+    sdo:description "As met diverse soorten eigennamen van o.a. organisaties, muziekensembles, bevolkingsgroepen, oorlogen, verdragen, feest(dag)en, prijzen, producten, en titels van tijdschriften, boeken, films, radio- en televisieprogramma’s (bijvoorbeeld: 'KLM', 'Hindoestanen', 'Kerstmis', 'Golfoorlog', 'De aanslag'). Elke naam, inclusief labels en notes, is een SKOS Concept."@nl ;
+    sdo:encodingFormat "text/xml" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA Namen"@nl ;
+    sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0015> a sdo:DataDownload ;
+    sdo:contentSize "4144" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:Onderwerpen> ;
+    sdo:description "Onderwerpen uit de GTAA. Hierbij hoort de as Classificatie. Elk onderwerp, inclusief labels, notes en relaties, is een SKOS Concept."@nl ;
+    sdo:encodingFormat "text/xml" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA Onderwerpen"@nl ;
+    sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0016> a sdo:DataDownload ;
+    sdo:contentSize "136" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:Genre> ;
+    sdo:description "Genre informatie uit de GTAA. Elk genre, inclusief labels, notes en relaties, is een SKOS Concept."@nl ;
+    sdo:encodingFormat "text/xml" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA Genres"@nl ;
+    sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0017> a sdo:DataDownload ;
+    sdo:contentSize "14252" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:GeografischeNamen> ;
+    sdo:description "As met geografische namen in de GTAA. Elke geografische naam, inclusief labels en notes, is een SKOS Concept en is gegroepeerd in een ConceptScheme."@nl ;
+    sdo:encodingFormat "text/xml" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA Geografische namen"@nl ;
+    sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0018> a sdo:DataDownload ;
+    sdo:contentSize "99" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:Classificatie> ;
+    sdo:description "Classificatie-as uit de GTAA met hoofd- en subrubrieken bij de as Onderwerpen. Elke hoofd- en subrubriek is een SKOS Concept met labels, notes, onderlinge relaties en relaties met topconcepten uit Onderwerpen."@nl ;
+    sdo:encodingFormat "text/xml" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA Classificatie"@nl ;
+    sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0019> a sdo:DataDownload ;
+    sdo:contentSize "4765" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:OnderwerpenBenG> ;
+    sdo:description "As voor onderwerpstermen die slechts voor shots/clips/geluiden worden toegepast. Hierbij hoort de as Classificatie. Elk onderwerp, inclusief labels, notes en relaties, is een SKOS Concept."@nl ;
+    sdo:encodingFormat "text/xml" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA OnderwerpenBenG"@nl ;
+    sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0022> a sdo:DataDownload ;
+    sdo:contentSize "677" ;
+    sdo:contentUrl <https://euscreen.eu/series.html?id=EUS_A7EA1AAE8B1ACA16BA27220CCD8ECB9A&activeItem=EUS_001C5F5FD42207F46FBCFEF30EE80D94> ;
+    sdo:description "Open Images is an open media platform that offers online access to audiovisual archive material to stimulate creative reuse."@en,
+        "Open Beelden is een open mediaplatform dat toegang biedt tot audiovisuele collecties die eenvoudig hergebruikt kunnen worden."@nl ;
+    sdo:encodingFormat "text/html" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://creativecommons.org/licenses/by-sa/3.0/> ;
+    sdo:name "Open Beelden op EUScreen"@nl ;
+    sdo:usageInfo <https://euscreen.eu/about.html> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0026> a sdo:DataDownload ;
+    sdo:contentSize "375110" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
+    sdo:description "Person names from the Common Thesaurus Audiovisal Archives"@en,
+        "Persoonsnamenas uit de GTAA. Elke persoonsnaam, inclusief labels en notes, is een SKOS Concept."@nl ;
+    sdo:encodingFormat "application/sparql-query" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA Persoonsnamen"@nl ;
+    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0027> a sdo:DataDownload ;
+    sdo:contentSize "99" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
+    sdo:description "Classificatie-as uit de GTAA met hoofd- en subrubrieken bij de as Onderwerpen. Elke hoofd- en subrubriek is een SKOS Concept met labels, notes, onderlinge relaties en relaties met topconcepten uit Onderwerpen."@nl ;
+    sdo:encodingFormat "application/sparql-query" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA Classificatie"@nl ;
+    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0028> a sdo:DataDownload ;
+    sdo:contentSize "136" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
+    sdo:description "Genres en programmasoorten: deze termen geven een typering of aanduiding van de productie als geheel, ze verwijzen naar de vorm, het genre of het type programma (bijvoorbeeld: 'korte film', 'lifestyleprogramma', 'hoorspel', 'politieserie'). Elk genre, inclusief labels, notes en relaties, is een SKOS Concept."@nl ;
+    sdo:encodingFormat "application/sparql-query" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA Genres"@nl ;
+    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0029> a sdo:DataDownload ;
+    sdo:contentSize "14256" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
+    sdo:description "As met geografische namen in de GTAA. Bevat namen van steden, gemeenten, provincies, snelwegen, landen, enz. Elke geografische naam, inclusief labels en notes, is een SKOS Concept en is gegroepeerd in een ConceptScheme."@nl ;
+    sdo:encodingFormat "application/sparql-query" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA Geografische namen"@nl ;
+    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0030> a sdo:DataDownload ;
+    sdo:contentSize "32484" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
+    sdo:description "As met diverse soorten eigennamen van o.a. organisaties, muziekensembles, bevolkingsgroepen, oorlogen, verdragen, feest(dag)en, prijzen, producten, en titels van tijdschriften, boeken, films, radio- en televisieprogramma’s (bijvoorbeeld: 'KLM', 'Hindoestanen', 'Kerstmis', 'Golfoorlog', 'De aanslag'). Elke naam, inclusief labels en notes, is een SKOS Concept."@nl ;
+    sdo:encodingFormat "application/sparql-query" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA Namen"@nl ;
+    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0031> a sdo:DataDownload ;
+    sdo:contentSize "4144" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
+    sdo:description "Onderwerpen of wel begrippen (bijv. 'zwemmen', 'daklozen', 'binnenvaartschepen', 'audiovisuele archieven'). Hierbij hoort de as Classificatie. Elk onderwerp, inclusief labels, notes en relaties, is een SKOS Concept."@nl ;
+    sdo:encodingFormat "application/sparql-query" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA Onderwerpen"@nl ;
+    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0032> a sdo:DataDownload ;
+    sdo:contentSize "4767" ;
+    sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
+    sdo:description "As voor onderwerpstermen, bevat naast de begrippen uit de as Onderwerpen toegevoegde concepten voor specifiek beeld (shots en stockshots) en geluid. Voorbeelden: 'dorpsbeelden', 'blaffen', 'begroetingen', 'gapen', enz. Hierbij hoort de as Classificatie. Elk onderwerp, inclusief labels, notes en relaties, is een SKOS Concept."@nl ;
+    sdo:encodingFormat "application/sparql-query" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://opendatacommons.org/licenses/odbl/> ;
+    sdo:name "GTAA OnderwerpenBenG"@nl ;
+    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
+
+<http://data.beeldengeluid.nl/id/dataset/0001> a sdo:Dataset ;
+    sdo:creator <https://www.beeldengeluid.nl> ;
+    sdo:description "Metadata for the catalogue objects that are provided by Netherlands Institue for Sound and Vision."@en ;
+    sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0001> ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
+    sdo:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
+    sdo:mainEntityOfPage <https://www.beeldengeluid.nl/collectie> ;
+    sdo:name "Beeld en Geluid catalogus"@nl ;
+    sdo:publisher <https://www.beeldengeluid.nl> ;
+    sdo:temporalCoverage "1877/2021" .
+
+<http://data.beeldengeluid.nl/id/dataset/0002> a sdo:Dataset ;
+    sdo:creator <https://www.beeldengeluid.nl> ;
+    sdo:description "The Sound and Vision dataset on Open Images contains more than 7000 videos. It consists of Polygoon newsreels and some other films from the 20th century. The videos cover a broad range of Dutch (news) topics, such as art, culture, transportation, health, education, nature, politics, sports, pets, fashion and curiosa. The metadata is provided in Dutch and English. Open Images also contains datasets from other providers and content (mostly remixes) added by users. Access to the material on Open Images is provided under the Creative Commons licensing model. The Sound and Vision dataset on Open Images is downloadable via the Open Images OAI-PMH provider. The dataset is also available via the Europeana API."@en,
+        "Een verzameling van videomateriaal dat Beeld en Geluid onder een Creative Commons licentie vrijgeeft, of reeds in het Publiek Domein valt. De beeldengeluid dataset op Open Beelden bevat meer dan 7000 videos. Het bestaat uit Polygoon journaals en andere films uit de 20ste eeuw. De videos beslaan een breed scala van Nederlandse (nieuws) onderwerpen, zoals kunst, cultuur, transport, gezondheid, onderwijs, natuur, politiek, sport, huisdieren, mode en curiosa. De metadata zijn beschikbaar in het Nederlands en Engels. Open Beelden bevat ook datasets van andere leveranciers en ook content (remixes) toegevoegd door gebruikers. Toegang tot het materiaal op Open Beelden wordt verleend onder het creative Commons licentiemodel. De Beeld en Geluid dataset op Open Beelden is harvestable via de Open Beelden OAI-PMH data provider. De dataset is ook beschikbaar via de europeana API."@nl ;
+    sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0003>,
+        <http://data.beeldengeluid.nl/id/datadownload/0022> ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
+    sdo:keywords "Video; Open" ;
+    sdo:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
+    sdo:mainEntityOfPage <https://www.openbeelden.nl/users/beeldengeluid> ;
+    sdo:name "Open Beelden"@nl ;
+    sdo:publisher <https://www.beeldengeluid.nl> ;
+    sdo:temporalCoverage "1912/2018" .
+
+<http://data.beeldengeluid.nl/id/dataset/0003> a sdo:Dataset ;
+    sdo:description "The set contains raw footage of Dutch nature. This subset is part of a larger collection of video's from the project Natuurbeelden that has been made available under a Creative Commons license. "@en,
+        "Een verzameling van ruwe videoregistraties van Nederlandse flora en fauna onder een Creative Commons licentie, afkomstig van Stichting Natuurbeelden. "@nl ;
+    sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0004> ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
+    sdo:license <http://rightsstatements.org/vocab/UND/1.0/> ;
+    sdo:mainEntityOfPage <https://natuurbeelden.openbeelden.nl/> ;
+    sdo:name "Natuurbeelden"@nl ;
+    sdo:publisher <https://natuurbeelden.openbeelden.nl/> ;
+    sdo:temporalCoverage "1999/2020" .
+
+<http://data.beeldengeluid.nl/id/dataset/0007> a sdo:Dataset ;
+    sdo:description "According to Dutch law these recordings are in the Public Domain, and hence free for reuse by anyone."@en,
+        "The collection of broadcasts from Radio Herrijzend Nederland (Radio \"The Netherlands Revived\") contains a selection of the radio broadcasts that were transmitted between 1944 and 1946. They were broadcasted by the military authorities from Eindhoven after its liberation in September 1944, to encourage and inform the people of the still occupied north of the Netherlands. After the liberation it continued to broadcast untill January 1946."@en,
+        "The set can be accessed and downloaded via the Soundcloud API. But also on Wikimedia Commons, or through the Wikimedia Commons API."@en ;
+    sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0006> ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
+    sdo:keywords "Audio, Radio broadcasts, WWII" ;
+    sdo:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
+    sdo:mainEntityOfPage <https://soundcloud.com/beeldengeluid/sets/radio-herrijzend-nederland> ;
+    sdo:name "Radio Herrijzend Nederland"@nl ;
+    sdo:publisher <https://www.beeldengeluid.nl> ;
+    sdo:temporalCoverage "1944/1946" .
+
+<http://data.beeldengeluid.nl/id/dataset/0010> a sdo:Dataset ;
+    sdo:creator <https://www.beeldengeluid.nl> ;
+    sdo:description "Sound and Vision has teamed up with several other Dutch organizations that manage audiovisual cultural heritage to develop the Gemeenschappelijke Thesaurus voor Audiovisuele Archieven (Common Thesaurus for Audiovisual Archives, GTAA). The GTAA is used for efficient characterization of the content of audio-visual material from the archive with labels derived from a controlled and structured list of terms, a thesaurus."@en,
+        "Het Nederlands Instituut voor Beeld en Geluid heeft samen met andere Nederlandse organisaties die audiovisueel cultureel erfgoed beheren de Gemeenschappelijke Thesaurus voor Audiovisuele Archieven (GTAA) ontwikkeld. De GTAA wordt gebruikt voor het doeltreffend karakteriseren van de inhoud van audiovisueel materiaal uit het archief met labels afkomstig uit een gecontroleerde en gestructureerde lijst van termen, een thesaurus."@nl ;
+    sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0013>,
+        <http://data.beeldengeluid.nl/id/datadownload/0014>,
+        <http://data.beeldengeluid.nl/id/datadownload/0015>,
+        <http://data.beeldengeluid.nl/id/datadownload/0016>,
+        <http://data.beeldengeluid.nl/id/datadownload/0017>,
+        <http://data.beeldengeluid.nl/id/datadownload/0018>,
+        <http://data.beeldengeluid.nl/id/datadownload/0019>,
+        <http://data.beeldengeluid.nl/id/datadownload/0026>,
+        <http://data.beeldengeluid.nl/id/datadownload/0027>,
+        <http://data.beeldengeluid.nl/id/datadownload/0028>,
+        <http://data.beeldengeluid.nl/id/datadownload/0029>,
+        <http://data.beeldengeluid.nl/id/datadownload/0030>,
+        <http://data.beeldengeluid.nl/id/datadownload/0031>,
+        <http://data.beeldengeluid.nl/id/datadownload/0032> ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
+    sdo:license <http://opendatacommons.org/licenses/odbl/1.0/> ;
+    sdo:mainEntityOfPage <https://labs.beeldengeluid.nl/datasets/gtaa> ;
+    sdo:name "Common Thesaurus Audiovisual Archives"@en,
+        "GTAA (Gemeenschappelijke Thesaurus Audiovisuele Archieven)"@nl ;
+    sdo:publisher <https://www.beeldengeluid.nl> .
+
+<http://data.beeldengeluid.nl/id/dataset/0025> a sdo:Dataset ;
+    sdo:description "Open Beelden items die ook op Europeana Sounds zijn gepubliceerd."@nl ;
+    sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0010> ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
+    sdo:license <https://creativecommons.org/licenses/by-sa/3.0/> ;
+    sdo:mainEntityOfPage <https://www.europeana.eu/en/search?page=1&qf=PROVIDER%3A%22Europeana%20Sounds%22&qf=COUNTRY%3A%22Netherlands%22&query=%2A%3A%2A&view=grid> ;
+    sdo:name "Open Beelden op Europeana Sounds"@nl ;
+    sdo:publisher <https://www.beeldengeluid.nl> ;
+    sdo:temporalCoverage "1921/1974" .
+
+<https://natuurbeelden.openbeelden.nl/> a sdo:Organization ;
+    sdo:name "Stichting Natuurbeelden"@nl .
+
+<http://data.beeldengeluid.nl/id/datacatalog/0001> a sdo:DataCatalog ;
+    sdo:dataset <http://data.beeldengeluid.nl/id/dataset/0001>,
+        <http://data.beeldengeluid.nl/id/dataset/0002>,
+        <http://data.beeldengeluid.nl/id/dataset/0003>,
+        <http://data.beeldengeluid.nl/id/dataset/0005>,
+        <http://data.beeldengeluid.nl/id/dataset/0007>,
+        <http://data.beeldengeluid.nl/id/dataset/0010>,
+        <http://data.beeldengeluid.nl/id/dataset/0013>,
+        <http://data.beeldengeluid.nl/id/dataset/0024>,
+        <http://data.beeldengeluid.nl/id/dataset/0025>,
+        <http://data.beeldengeluid.nl/id/dataset/0026> ;
+    sdo:description "Alle open data beschikbaar gesteld door het Nederlands Instituut voor Beeld en Geluid."@nl ;
+    sdo:name "Open Data at NISV"@en,
+        "Open Data van Beeld en Geluid"@nl ;
+    sdo:publisher <https://www.beeldengeluid.nl> .
+
+<https://www.beeldengeluid.nl> a sdo:Organization ;
+    sdo:alternateName "Beeld en Geluid"@nl ;
+    sdo:name "Nederlands Instituut voor Beeld en Geluid"@nl ;
+    sdo:sameAs <http://www.openbeelden.nl/users/beeldengeluid>,
+        <http://www.wikidata.org/entity/Q1131877>,
+        <https://data.netwerkdigitaalerfgoed.nl/beeldengeluid>,
+        <https://data.overheid.nl/community/organization/beeld-en-geluid>,
+        <https://data.overheid.nl/community/organization/nlpo12345678>,
+        <https://grid.ac/institutes/grid.425952.d> .
+
