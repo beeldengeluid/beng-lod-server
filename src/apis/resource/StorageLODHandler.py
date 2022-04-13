@@ -57,8 +57,10 @@ class StorageLODHandler:
 
     def _prepare_storage_uri(self, storage_base_url: str, level: str, identifier: int):
         """Constructs valid Storage url from the config settings, the level (cat type) and the identifier.
-                <storage URL>/storage/<TYPE>/<id>
+                {storage_base_url}/storage/<TYPE>/<id>
             When <TYPE> is 'scene' it needs to be replaced with 'logtrackitem' for the storage API.
+            More information: {storage_base_url}/storage/doc
+        :param storage_base_url: server providing api services
         :param level: the cat type (program, series, season, scene)
         :param identifier: the DAAN id
         :returns: a proper URI for getting metadata from the DM API
@@ -75,7 +77,6 @@ class StorageLODHandler:
 
     def _get_json_from_storage(self, url: str, use_file_logger: bool = False):
         """Retrieves a JSON object from the given Storage url
-        Description: http://acc-app-bng-01.beeldengeluid.nl:8101/storage/doc
         :param url: the URI for the resource to get the data for.
         :param use_file_logger: flag for using logger
         :returns: the data or None
@@ -90,8 +91,8 @@ class StorageLODHandler:
             self.logger.exception("ConnectionError")
         except json.decoder.JSONDecodeError:
             self.logger.exception("JSONDecodeError")
-        # except Exception:
-        #     self.logger.exception("Exception")
+        except Exception:
+            self.logger.exception("Exception")
         return None
 
     def _log_json_to_file(self, json_data):
