@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block header %}
+    {% block title %}B&G LOD View{% endblock %}
+{% endblock %}
+
+{% block resource_lod_view %}
+<h2>
+    <div class="container-fluid">
+        <div class="row">
+        </div>
+      <div class="row">
+          <div class="col">
+              <a class="iri"
+                 title="&lt;{{resource_uri}}&gt;"
+                 href="{{resource_uri}}">&lt;{{resource_uri}}&gt;</a>
+          </div>
+            <div class="col">
+                {% for item in json_header %}
+                <a class="iri"
+                      title="&lt;{{item['o']}}&gt;"
+                      href="{{item['o']}}"
+                      style="text-align:right"
+                      target="_blank">&lt;{{item['o']}}&gt;</a>
+                {% endfor %}
+            </div>
+      </div>
+    </div>
+</h2>
+<div class="container">
+    {% for item in json_data %}
+      <div class="row">
+        <div class="col-sm">
+            <a class="iri"
+               title="&lt;{{item['p']}}&gt;"
+               href="{{item['p']}}">&lt;{{item['namespace']}}/<span style="font-weight:bold">{{item['property']}}</span>&gt;</a>
+        </div>
+          <div class="col-sm"
+               style="text-align:left;">
+            <a class="iri"
+               title="&lt;{{item['o']}}&gt;"
+               href="{{item['o']}}">&lt;{{item['o']}}&gt;</a>
+        </div>
+          <div class="col-sm"></div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

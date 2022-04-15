@@ -1,15 +1,70 @@
-from flask import current_app, request, Response
+import rdflib.plugins.parsers.jsonld
+from flask import current_app, request, Response, render_template, make_response
 from flask_restx import Namespace, Resource
 from apis.mime_type_util import parse_accept_header, MimeType, get_profile_by_uri
 import requests
 from requests.exceptions import ConnectionError
 from urllib.parse import urlparse, urlunparse
 from util.APIUtil import APIUtil
+from rdflib import Graph, URIRef
+from rdflib.namespace import RDF
+# import urlparse
 
 api = Namespace(
     "resource",
     description="Resources in RDF for Netherlands Institute for Sound and Vision.",
 )
+
+
+def get_lod_resource_from_rdf_store(resource_url):
+    """Given a resource URI, the data is retrieved from the SPARQL endpoint using a CONSTRUCT query.
+    :param resource_url: the resource URI to be retrieved.
+    :returns: the RDF data as a GRAPH
+    NOTE: Currently, only SDO modelled data in endpoint.
+    """
+    try:
+        sparql_endpoint = current_app.config.get("SPARQL_ENDPOINT")
+        query_construct = f"CONSTRUCT {{<{resource_url}> ?p ?o }} WHERE {{<{resource_url}> ?p ?o }}"
+        resp = requests.get(
+            sparql_endpoint, params={"query": query_construct}
+        )
+        assert (
+                resp.status_code == 200
+        ), "CONSTRUCT request to sparql server was not successful."
+        g = Graph()
+        g.parse(data=resp.text, format='xml')
+        return g
+
+    except ConnectionError as e:
+        print(str(e))
+    except AssertionError as e:
+        print(str(e))
+
+
+def get_lod_view_resource(resource_url):
+    """Handler that, given a URI, gets RDF from the SPARQL endpoint and generates an HTML page.
+    :param resource_url: The URI for the resource.
+    """
+    try:
+        rdf_graph = get_lod_resource_from_rdf_store(resource_url)
+        json_po = [
+            {
+                "namespace": f'{urlparse(str(p)).scheme}://{urlparse(str(p)).netloc}',
+                "property": urlparse(str(p)).path.split('/')[-1],
+                "p": str(p),
+                "o": str(o)
+            }
+            for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url))
+            if p != RDF.type
+        ]
+
+        json_header = [
+            {"o": str(o)}
+            for o in rdf_graph.objects(subject=URIRef(resource_url), predicate=URIRef(RDF.type))
+        ]
+        return render_template("resource.html", resource_uri=resource_url, json_header=json_header, json_data=json_po)
+    except Exception as e:
+        return str(e)
 
 
 def get_lod_resource(level, identifier, mime_type, accept_profile, app_config):
@@ -105,10 +160,17 @@ def prepare_lod_resource_uri(level, identifier):
 )
 class ResourceAPI(Resource):
     def get(self, identifier, cat_type="program"):
-        # logger = logging.getLogger(current_app.config["LOG_NAME"])
-        """ Get the RDF for the catalogue item. """
-        mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
+
         lod_url = prepare_lod_resource_uri(cat_type, identifier)
+
+        # shortcut for HTML (note that these are delevered from the RDF store, so no need to do is_public_resource
+        if 'html' in str(request.headers.get("Accept")):
+            headers = {
+                "Content-Type": 'text/html'
+            }
+            html_page = get_lod_view_resource(lod_url)
+            return make_response(html_page, 200)
+            # return APIUtil.toSuccessResponse(data=html_page, headers=headers)
 
         # only registered user can access all items
         auth_user = current_app.config.get("AUTH_USER")
@@ -129,6 +191,7 @@ class ResourceAPI(Resource):
                     "access_denied", "The resource can not be dereferenced."
                 )
 
+        mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
         if mime_type:
             # note we need to use empty params for the UI
             return get_lod_resource(
