@@ -32,7 +32,9 @@ class DataCatalogLODHandler:
         import pathlib
 
         repo = git.Repo(".", search_parent_directories=True)
-        git_src_dir = pathlib.Path(repo.working_tree_dir).joinpath("src")
+        git_src_dir = pathlib.Path(repo.working_tree_dir).joinpath(  # type: ignore #TODO working_tree_dir can be None
+            "src"
+        )
         data_catalog_unit_test_file = (
             pathlib.Path(git_src_dir).joinpath(data_catalog_file).absolute().as_uri()
         )

@@ -1,3 +1,5 @@
+from typing import Dict, List, TypedDict
+
 import json
 import re
 import numpy as np
@@ -303,6 +305,12 @@ def get_source_list(result):
     return ob_source_list
 
 
+class ObMatch(TypedDict):
+    content_links: List[str]
+    sources: List[str]
+    website: str
+
+
 if __name__ == "__main__":  # noqa: C901 #TODO
     print(sys.argv)
     __es = Elasticsearch(host=sys.argv[1], port=sys.argv[2])
@@ -310,7 +318,8 @@ if __name__ == "__main__":  # noqa: C901 #TODO
     daan_catalogue = "daan-catalogue-aggr"
     open_beelden_catalogue = "open-beelden-beeldengeluid"
 
-    matches = {}
+    # daan id's (from es) to openbeelden matches
+    matches: Dict[str, ObMatch] = {}
 
     query = {
         "_source": [
@@ -434,10 +443,11 @@ if __name__ == "__main__":  # noqa: C901 #TODO
                             matches[matched_id]["content_links"].append(ob_content_link)
                         matches[matched_id]["sources"].extend(ob_source_list)
                     else:
-                        matches[matched_id] = {}
-                        matches[matched_id]["content_links"] = [ob_content_link]
-                        matches[matched_id]["sources"] = ob_source_list
-                        matches[matched_id]["website"] = ob_website
+                        matches[matched_id] = {
+                            "content_links": [ob_content_link],
+                            "sources": ob_source_list,
+                            "website": ob_website,
+                        }
             else:
                 fails.append(ob_id)
             print(f"{count}")

@@ -176,7 +176,7 @@ def get_triples_for_blank_node_from_rdf_store(
     g2 = sparql_construct_query(sparql_endpoint, query_construct_bnodes_pref_labels)
 
     # ..and after that we merge the two together.
-    return g1 + g2
+    return g1 + g2 if (g1 and g2) else None
 
 
 def get_skosxl_label_triples_for_skos_concept_from_rdf_store(
@@ -221,6 +221,7 @@ def sparql_construct_query(sparql_endpoint: str, query: str) -> Optional[Graph]:
         return g
     except ConnectionError as e:
         print(str(e))
+        return None
 
 
 def json_header_from_rdf_graph(
@@ -233,12 +234,15 @@ def json_header_from_rdf_graph(
             {
                 "title": [
                     str(label)
-                    for label in rdf_graph[URIRef(resource_url) : SKOS.prefLabel]
+                    for label in rdf_graph.objects(URIRef(resource_url), SKOS.prefLabel)
                 ]
-                + [str(name) for name in rdf_graph[URIRef(resource_url) : SDO.name]]
                 + [
                     str(name)
-                    for name in rdf_graph[URIRef(resource_url) : DCTERMS.title]
+                    for name in rdf_graph.objects(URIRef(resource_url), SDO.name)
+                ]
+                + [
+                    str(name)
+                    for name in rdf_graph.objects(URIRef(resource_url), DCTERMS.title)
                 ],
                 "o": {
                     "uri": str(o),
@@ -277,13 +281,15 @@ def json_iri_iri_from_rdf_graph(
                     "uri": str(o),
                     "literal_form": [
                         str(lf)
-                        for lf in rdf_graph[o : URIRef(f"{SKOSXL_NS}literalForm")]
+                        for lf in rdf_graph.objects(
+                            o, URIRef(f"{SKOSXL_NS}literalForm")
+                        )
                     ],
                     "prefix": rdf_graph.compute_qname(o)[0],
                     "namespace": str(rdf_graph.compute_qname(o)[1]),
                     "property": rdf_graph.compute_qname(o)[2],
                     "pref_label": [
-                        str(label) for label in rdf_graph[o : SKOS.prefLabel]
+                        str(label) for label in rdf_graph.objects(o, SKOS.prefLabel)
                     ],
                 },
             }
@@ -380,7 +386,8 @@ def json_iri_bnode_from_rdf_graph(
                             "namespace": str(rdf_graph.compute_qname(bnode_obj)[1]),
                             "property": rdf_graph.compute_qname(bnode_obj)[2],
                             "pref_label": [
-                                str(pl) for pl in rdf_graph[bnode_obj : SKOS.prefLabel]
+                                str(pl)
+                                for pl in rdf_graph.objects(bnode_obj, SKOS.prefLabel)
                             ],
                         }
                         if isinstance(bnode_obj, URIRef)

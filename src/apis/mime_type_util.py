@@ -1,6 +1,6 @@
 import logging
 from enum import Enum
-from typing import Optional
+from typing import Optional, Tuple
 
 
 class MimeType(Enum):
@@ -11,20 +11,19 @@ class MimeType(Enum):
     N3 = "text/n3"
     JSON = "application/json"
 
-    def to_ld_format(self) -> Optional[str]:
-        if self == MimeType.JSON_LD:
+    def to_ld_format(self) -> str:
+        if self is MimeType.JSON_LD:
             return "json-ld"
-        elif self == MimeType.RDF_XML:
+        elif self is MimeType.RDF_XML:
             return "xml"
-        elif self == MimeType.TURTLE:
+        elif self is MimeType.TURTLE:
             return "ttl"
-        elif self == MimeType.N_TRIPLES:
+        elif self is MimeType.N_TRIPLES:
             return "nt11"
-        elif self == MimeType.N3:
+        elif self is MimeType.N3:
             return "n3"
-        elif self == MimeType.JSON:
+        elif self is MimeType.JSON:
             return "json-ld"
-        return None
 
 
 def accept_type_to_mime_type(accept_type: str) -> MimeType:
@@ -63,7 +62,7 @@ def get_profile_by_uri(profile_uri, app_config):
         return app_config["ACTIVE_PROFILE"]
 
 
-def parse_accept_header(accept_header: str) -> (MimeType, str):
+def parse_accept_header(accept_header: str) -> Tuple[MimeType, Optional[str]]:
     """Parses an Accept header for a request for RDF to the server. It returns the mime_type and profile.
     :param: accept_header: the Accept parameter from the HTTP request.
     :returns: mime_type, accept_profile. None if input parameter is missing.

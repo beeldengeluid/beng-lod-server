@@ -1,4 +1,5 @@
 from http import HTTPStatus
+from typing import Type
 
 from mockito import mock, unstub, verifyStubbedInvocationsAreUsed, when
 import pytest
@@ -99,9 +100,9 @@ def test_dependency(
     config_key: str,
     health_url: str,
     requests_response: requests.Response,
-    requests_exception: Exception,
+    requests_exception: Type[Exception],
     expected_dependency_health: DependencyHealth,
-    expected_exception: Exception,
+    expected_exception: Type[Exception],
 ):
     try:
         dependency = Dependency(config_key, health_url)

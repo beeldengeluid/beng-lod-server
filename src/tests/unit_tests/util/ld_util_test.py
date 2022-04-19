@@ -23,19 +23,18 @@ DUMMY_SPARQL_ENDPOINT = "http://sparql.beng.nl/sparql"
 DUMMY_URI_NISV_ORGANISATION = "https://www.beeldengeluid.nl/"  # see setting_example.py
 
 
-# noinspection PyTypeChecker
 @pytest.mark.parametrize(
     "resource_level, resource_id, beng_data_domain, resource_uri",
     [
-        (
-            level,  # program, series, season, scene, dataset, datacatalog, datadownload
-            DUMMY_RESOURCE_ID,
-            DUMMY_BENG_DATA_DOMAIN,
-            f"{DUMMY_BENG_DATA_DOMAIN}id/{level.value}/{DUMMY_RESOURCE_ID}",
-        )
-        for level in ResourceURILevel
-    ]
-    + [
+        *[
+            (
+                level,  # program, series, season, scene, dataset, datacatalog, datadownload
+                DUMMY_RESOURCE_ID,
+                DUMMY_BENG_DATA_DOMAIN,
+                f"{DUMMY_BENG_DATA_DOMAIN}id/{level.value}/{DUMMY_RESOURCE_ID}",
+            )
+            for level in ResourceURILevel
+        ],
         (
             ResourceURILevel.PROGRAM,
             DUMMY_RESOURCE_ID,
