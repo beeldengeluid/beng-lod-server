@@ -1,4 +1,4 @@
-import rdflib.plugins.parsers.jsonld
+# import rdflib.plugins.parsers.jsonld
 from flask import current_app, request, Response, render_template, make_response
 from flask_restx import Namespace, Resource
 from apis.mime_type_util import parse_accept_header, MimeType, get_profile_by_uri
@@ -7,13 +7,14 @@ from requests.exceptions import ConnectionError
 from urllib.parse import urlparse, urlunparse
 from util.APIUtil import APIUtil
 from rdflib import Graph, URIRef, Literal, BNode
-from rdflib.namespace import RDF, XSD
-# import urlparse
+from rdflib.namespace import RDF, XSD, SDO
 
 api = Namespace(
     "resource",
     description="Resources in RDF for Netherlands Institute for Sound and Vision.",
 )
+
+URI_NISV_ORGANISATION = 'https://www.beeldengeluid.nl/'
 
 
 def get_lod_resource_from_rdf_store(resource_url):
@@ -34,6 +35,7 @@ def get_lod_resource_from_rdf_store(resource_url):
         ), "CONSTRUCT request to sparql server was not successful."
         g = Graph()
         g.parse(data=resp.text, format='xml')
+        g.add((URIRef(resource_url), SDO.publisher, URIRef(URI_NISV_ORGANISATION)))
         return g
 
     except ConnectionError as e:
@@ -48,6 +50,7 @@ def get_lod_view_resource(resource_url):
     """
     try:
         rdf_graph = get_lod_resource_from_rdf_store(resource_url)
+        # TODO: generate serializations for xml, ntriples, json-ld and turtle.
         json_header = [
             {"o": str(o)}
             for o in rdf_graph.objects(subject=URIRef(resource_url), predicate=URIRef(RDF.type))

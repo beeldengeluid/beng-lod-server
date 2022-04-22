@@ -11,6 +11,7 @@ src: url('MuseoSans_500.otf');
 body {
   color:#0f238c;
   font-size:13px;
+  font-family:"MuseoSans300";
 }
 
 a {
@@ -35,7 +36,6 @@ hr {
 }
 
 h2 {
-    font-family:"MuseoSans300";
     background-color:#0f238c;
     font-size:15px;
     color:white;
@@ -44,7 +44,6 @@ h2 {
 }
 
 h2.container-fluid.row.col.iri {
-    font-family:"MuseoSans300";
     font-size:17px;
     text-align:left;
     font-weight:light;
