@@ -219,7 +219,7 @@ class DataCatalogLODHandler:
             return APIUtil.toSuccessResponse(json_string)
         return APIUtil.toErrorResponse("bad_request", "Invalid URI or return format")
 
-    def get_dataset(self, dataset_uri, mime_format=MimeType.JSON_LD.to_ld_format()):
+    def get_dataset(self, dataset_uri, mime_format="json-ld"):
         """Returns the data from the data catalog graph in requested serialization format.
         :param dataset_uri: the identifier for the dataset
         :param mime_format: the requested mime type for the graph data. Defaults to JSON-LD.
