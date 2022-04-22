@@ -50,10 +50,10 @@ def get_lod_view_resource(resource_url):
     """
     try:
         rdf_graph = get_lod_resource_from_rdf_store(resource_url)
-        # TODO: generate serializations for xml, ntriples, json-ld and turtle.
         json_header = [
             {"o": str(o)}
             for o in rdf_graph.objects(subject=URIRef(resource_url), predicate=URIRef(RDF.type))
+            if str(rdf_graph.compute_qname(o)[1]) == str(SDO)
         ]
         json_iri_iri = [
             {

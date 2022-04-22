@@ -12,6 +12,7 @@ body {
   color:#0f238c;
   font-size:13px;
   font-family:"MuseoSans300";
+  text-align:left;
 }
 
 a {
@@ -35,33 +36,28 @@ hr {
     padding: 10px;
 }
 
-h2 {
+#resource_header {
     background-color:#0f238c;
     font-size:15px;
     color:white;
     font-weight:light;
     height:150px;
+    padding:20px;
 }
 
 h2.container-fluid.row.col.iri {
     font-size:17px;
-    text-align:left;
-    font-weight:light;
-    color:#0f238c;
-}
-div.container-fluid.row.col-sm, div.container-fluid.row.col-md {
-    text-align:left;
 }
 
 #resource_footer {
-    background-color:#000000;
+    background-color:#212121;
     height:150px;
     color:white;
     padding:20px;
 }
 
 #logo_footer {
-    background-color:#000000;
+    background-color:#212121;
     padding: 10px;
 }
 

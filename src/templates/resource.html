@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block resource_lod_view_header %}
-<h2>
+<h2 id="resource_header">
     <div class="container-fluid">
         <div class="row" style="height:100px;"></div>
-      <div class="row">
+      <div class="row" style="height:200px;">
           <div class="col">
               <a class="iri"
                  title="&lt;{{resource_uri}}&gt;"
@@ -28,10 +28,9 @@
               {% endfor %}
           </div>
       </div>
-        <div class="row" style="height:50px;"></div>
+        <div class="row" style="padding:50px;"></div>
     </div>
 </h2>
-<div id="abstract" class="empty"></div>
 {% endblock %}
 
 {% block resource_lod_view %}
@@ -41,12 +40,12 @@
           <div class="col-sm">
             <a class="iri"
                title="&lt;{{item['p']}}&gt;"
-               style="text-align:left"
                href="{{item['p']}}"
                target="_blank">&lt;{{item['namespace']}}/<span style="font-weight:bold">{{item['property']}}</span>&gt;</a>
           </div>
-            <div class="col-md">{{item['o']}}</div>
-            <div class="col-sm">{{item['type_o']}}</div>
+            <div class="col-6">{{item['o']}}</div>
+            <div class="col-3"
+                 style="text-align:right;">{{item['type_o']}}</div>
       </div>
     <div class="row">
         <div class="col-sm"></div>
@@ -61,14 +60,13 @@
                href="{{item['p']}}"
                target="_blank">&lt;{{item['namespace']}}/<span style="font-weight:bold">{{item['property']}}</span>&gt;</a>
         </div>
-        <div class="col-md"
-             style="text-align:left;">
+        <div class="col-6">
             <a class="iri"
                title="&lt;{{item['o']}}&gt;"
                href="{{item['o']}}"
                target="_blank">&lt;{{item['o']}}&gt;</a>
         </div>
-        <div class="col-sm"></div>
+        <div class="col-3"></div>
     </div>
     <div class="row">
         <div class="col-sm"></div>
@@ -84,8 +82,8 @@
                target="_blank">&lt;{{item['namespace']}}/<span style="font-weight:bold">{{item['property']}}</span>&gt;</a>
         </div>
           {% for item in json_iri_bnode.o %}
-              <div class="col-md">&lt;{{item['prop']}}&gt;</div><hr/>
-              <div class="col-sm">{{item['obj']}}</div><hr/>
+              <div class="col-6">&lt;{{item['prop']}}&gt;</div>
+              <div class="col-3">{{item['obj']}}</div>
           {% endfor %}
     </div>
     <div class="row">
@@ -119,10 +117,10 @@
                 </p>
             <p>view as:
             <a class="iri"
-                 title="application/rdf+xml"
+                 title="application/ld+json"
                  style="color:white;font-size:100%"
                  href="{{resource_uri}}"
-                 target="_blank">xml</a>
+                 target="_blank">ld+json</a>
             </p>
         </div>
     </div>
