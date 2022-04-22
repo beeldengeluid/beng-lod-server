@@ -6,8 +6,8 @@ import requests
 from requests.exceptions import ConnectionError
 from urllib.parse import urlparse, urlunparse
 from util.APIUtil import APIUtil
-from rdflib import Graph, URIRef
-from rdflib.namespace import RDF
+from rdflib import Graph, URIRef, Literal, BNode
+from rdflib.namespace import RDF, XSD
 # import urlparse
 
 api = Namespace(
@@ -21,6 +21,7 @@ def get_lod_resource_from_rdf_store(resource_url):
     :param resource_url: the resource URI to be retrieved.
     :returns: the RDF data as a GRAPH
     NOTE: Currently, only SDO modelled data in endpoint.
+    # TODO: The CONSTRUCT doesn't include 'deeper' triples yet. No SKOS-XL triples, for example.
     """
     try:
         sparql_endpoint = current_app.config.get("SPARQL_ENDPOINT")
@@ -47,7 +48,11 @@ def get_lod_view_resource(resource_url):
     """
     try:
         rdf_graph = get_lod_resource_from_rdf_store(resource_url)
-        json_po = [
+        json_header = [
+            {"o": str(o)}
+            for o in rdf_graph.objects(subject=URIRef(resource_url), predicate=URIRef(RDF.type))
+        ]
+        json_iri_iri = [
             {
                 "namespace": f'{urlparse(str(p)).scheme}://{urlparse(str(p)).netloc}',
                 "property": urlparse(str(p)).path.split('/')[-1],
@@ -55,14 +60,47 @@ def get_lod_view_resource(resource_url):
                 "o": str(o)
             }
             for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url))
-            if p != RDF.type
+            if p != RDF.type and isinstance(o, URIRef)
+        ]
+        json_iri_lit = [
+            {
+                "namespace": f'{urlparse(str(p)).scheme}://{urlparse(str(p)).netloc}',
+                "property": urlparse(str(p)).path.split('/')[-1],
+                "p": str(p),
+                "o": str(o),
+                "type_o": str(o.datatype.n3(rdf_graph.namespace_manager))
+            }
+            for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url))
+            if p != RDF.type and isinstance(o, Literal)
         ]
 
-        json_header = [
-            {"o": str(o)}
-            for o in rdf_graph.objects(subject=URIRef(resource_url), predicate=URIRef(RDF.type))
-        ]
-        return render_template("resource.html", resource_uri=resource_url, json_header=json_header, json_data=json_po)
+        json_iri_bnode = []
+        for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url)):
+            if p != RDF.type and isinstance(o, BNode):
+                bnode_content = []
+                for (bnode_prop, bnode_obj) in rdf_graph.predicate_objects(subject=URIRef(o)):
+                    bnode_content.append(
+                        {
+                            "prop": str(bnode_prop),
+                            "obj": str(bnode_obj)
+                        }
+                    )
+                json_iri_bnode.append(
+                    {
+                        "namespace": f'{urlparse(str(p)).scheme}://{urlparse(str(p)).netloc}',
+                        "property": urlparse(str(p)).path.split('/')[-1],
+                        "p": str(p),
+                        "o": bnode_content
+                    }
+                )
+
+        return render_template("resource.html",
+                               resource_uri=resource_url,
+                               json_header=json_header,
+                               json_iri_iri=json_iri_iri,
+                               json_iri_lit=json_iri_lit,
+                               json_iri_bnode=json_iri_bnode
+                               )
     except Exception as e:
         return str(e)
 
@@ -170,6 +208,7 @@ class ResourceAPI(Resource):
             }
             html_page = get_lod_view_resource(lod_url)
             return make_response(html_page, 200)
+            # return Response(html_page, 200, headers=headers)
             # return APIUtil.toSuccessResponse(data=html_page, headers=headers)
 
         # only registered user can access all items
