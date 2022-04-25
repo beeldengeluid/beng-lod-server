@@ -4,7 +4,7 @@ from rdflib.namespace import RDF, SDO
 import requests
 from models.DAANRdfModel import ResourceURILevel
 from requests.exceptions import ConnectionError, MissingSchema
-from typing import Optional
+from typing import Optional, List
 import validators
 
 def generate_lod_resource_uri(level: ResourceURILevel, identifier: str, beng_data_domain: str) -> Optional[str]:
@@ -54,7 +54,9 @@ def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str, nis
         print(str(e))
     return None
 
-def json_header_from_rdf_graph(rdf_graph, resource_url):
+
+# Generates the data for the header in resource.html
+def json_header_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional[List[dict]]:
     try:
         return [
             {"o": str(o)}
@@ -63,9 +65,11 @@ def json_header_from_rdf_graph(rdf_graph, resource_url):
         ]
     except Exception:
         print("Error in json_header_from_rdf_graph")
-        return None
+    return None
 
-def json_iri_iri_from_rdf_graph(rdf_graph, resource_url):
+
+# Generates part of the LOD view data for resource.html
+def json_iri_iri_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional[List[dict]]:
     try: 
         return [
             {
@@ -79,9 +83,11 @@ def json_iri_iri_from_rdf_graph(rdf_graph, resource_url):
         ]
     except Exception:
         print("Error in json_iri_iri_from_rdf_graph")
-        return None
+    return None
 
-def json_iri_lit_from_rdf_graph(rdf_graph, resource_url):
+
+# Generates part of the LOD view data for resource.html
+def json_iri_lit_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional[List[dict]]:
     try:
         return [
             {
@@ -96,9 +102,11 @@ def json_iri_lit_from_rdf_graph(rdf_graph, resource_url):
         ]
     except Exception:
         print("Error in json_iri_iri_from_rdf_graph")
-        return None
+    return None
 
-def json_iri_bnode_from_rdf_graph(rdf_graph, resource_url):
+
+# Generates part of the LOD view data for resource.html
+def json_iri_bnode_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional[List[dict]]:
     json_iri_bnode = []
     try:
         for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url)):
@@ -122,7 +130,7 @@ def json_iri_bnode_from_rdf_graph(rdf_graph, resource_url):
         return json_iri_bnode
     except Exception:
         print("Error in json_iri_bnode_from_rdf_graph")
-        return None
+    return None
 
 
 def is_public_resource(resource_url, sparql_endpoint):

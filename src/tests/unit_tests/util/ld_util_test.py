@@ -1,13 +1,16 @@
 import pytest
+from rdflib.namespace import SDO, RDF
 import requests
 from requests.exceptions import ConnectionError
 from mockito import when, unstub, mock, verify, KWARGS
 from models.DAANRdfModel import ResourceURILevel
-from util.ld_util import generate_lod_resource_uri, get_lod_resource_from_rdf_store
+from util.ld_util import generate_lod_resource_uri, get_lod_resource_from_rdf_store, \
+    json_header_from_rdf_graph, json_iri_iri_from_rdf_graph, json_iri_lit_from_rdf_graph, \
+    json_iri_bnode_from_rdf_graph
 
 DUMMY_BENG_DATA_DOMAIN = "http://data.beeldengeluid.nl/"  # see setting_example.py
 DUMMY_RESOURCE_ID = "1234"
-DUMMY_RESOURCE_URI = f"{DUMMY_BENG_DATA_DOMAIN}id/scene/{DUMMY_RESOURCE_ID}"
+DUMMY_RESOURCE_URI = f"{DUMMY_BENG_DATA_DOMAIN}id/scene/{DUMMY_RESOURCE_ID}"  # must be used in scene_rdf_xml.xml!
 DUMMY_SPARQL_ENDPOINT = "http://sparql.beng.nl/sparql"
 DUMMY_URI_NISV_ORGANISATION = "https://www.beeldengeluid.nl/"  # see setting_example.py
 
@@ -65,29 +68,56 @@ def test_get_lod_resource_from_rdf_store(scene_rdf_xml, resource_url, sparql_end
     finally:
         unstub()
 
-def test_json_header_from_rdf_graph():
+
+def test_json_header_from_rdf_graph(scene_rdf_graph):
     try:
-        pass
+        ui_data = json_header_from_rdf_graph(scene_rdf_graph, DUMMY_RESOURCE_URI)
+        assert type(ui_data) == list
+        assert len(ui_data) == 1
+        assert "o" in ui_data[0]
+        assert ui_data[0]["o"] == f"{str(SDO)}Clip"  # only schema.org types are returned
     finally:
         unstub()
 
-def test_json_iri_iri_from_rdf_graph():
+
+def test_json_iri_iri_from_rdf_graph(scene_rdf_graph):
     try:
-        pass
+        ui_data = json_iri_iri_from_rdf_graph(scene_rdf_graph, DUMMY_RESOURCE_URI)
+        assert type(ui_data) == list
+        assert len(ui_data) == 2
+        for item in ui_data:
+            assert all(x in item for x in ["o", "p", "property", "namespace"])
+            assert item["p"].find(str(RDF)) == -1  # there should be no RDF:type resources
+            assert item["o"].find("http") != -1  # all objects should be IRIs
     finally:
         unstub()
 
-def test_json_iri_lit_from_rdf_graph():
+
+def test_json_iri_lit_from_rdf_graph(scene_rdf_graph):
     try:
-        pass
+        ui_data = json_iri_lit_from_rdf_graph(scene_rdf_graph, DUMMY_RESOURCE_URI)
+        assert type(ui_data) == list
+        assert len(ui_data) == 1
+        for item in ui_data:
+            assert all(x in item for x in ["o", "p", "property", "namespace", "type_o"])
+            assert item["p"].find(str(RDF)) == -1  # there should be no RDF:type resources
+            assert item["o"].find("http") == -1  # all objects should be Literals
     finally:
         unstub()
 
-def test_json_iri_bnode_from_rdf_graph():
+
+# TODO need another RDF/XML example that has blank node content to test better!
+def test_json_iri_bnode_from_rdf_graph(scene_rdf_graph):
     try:
-        pass
+        ui_data = json_iri_bnode_from_rdf_graph(scene_rdf_graph, DUMMY_RESOURCE_URI)
+        assert type(ui_data) == list
+        assert len(ui_data) == 1
+        for item in ui_data:
+            assert all(x in item for x in ["o", "p", "property", "namespace"])
+            assert item["o"] == []  # TODO in this example there is just an empty blank node...
     finally:
         unstub()
+
 
 def test_is_public_resource():
     try:

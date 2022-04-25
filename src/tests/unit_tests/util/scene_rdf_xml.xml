@@ -12,7 +12,7 @@
     xmlns:rdfs="&rdfs;"
     xmlns:xsd="&xsd;"
 >
-<rdf:Description rdf:about="http://data.beng.nl/id/scene/2101703020953254424">
+<rdf:Description rdf:about="http://data.beeldengeluid.nl/id/scene/1234">
   <rdf:type rdf:resource="&rdfs;Resource"/>
   <rdf:type rdf:resource="&ns1;Clip"/>
   <ns1:byArtist>
