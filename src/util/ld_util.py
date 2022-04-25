@@ -2,10 +2,12 @@ from urllib.parse import urlparse, urlunparse
 from rdflib import Graph, URIRef, Literal, BNode
 from rdflib.namespace import RDF, SDO
 import requests
+from models.DAANRdfModel import ResourceURILevel
 from requests.exceptions import ConnectionError
+from typing import Optional
 
 
-def generate_lod_resource_uri(level: str, identifier: str, beng_data_domain: str):
+def generate_lod_resource_uri(level: ResourceURILevel, identifier: str, beng_data_domain: str) -> Optional[str]:
     """Constructs valid url using the data domain, the level (cat type) and the identifier:
             {Beng data domain}/id/{cat_type}>/{identifier}
     :param level: the cat type
@@ -13,9 +15,11 @@ def generate_lod_resource_uri(level: str, identifier: str, beng_data_domain: str
     :param beng_data_domain: see BENG_DATA_DOMAIN in settings.py
     :returns: a proper URI as it should be listed in the LOD server.
     """
+    if type(level) != ResourceURILevel:
+        return None
     url_parts = urlparse(str(beng_data_domain))
-    if url_parts.netloc is not None:
-        path = "/".join(["id", level, str(identifier)])
+    if url_parts.netloc is not None and url_parts.netloc != "":
+        path = "/".join(["id", level.value, str(identifier)])
         parts = (url_parts.scheme, url_parts.netloc, path, "", "", "")
         return urlunparse(parts)
     else:

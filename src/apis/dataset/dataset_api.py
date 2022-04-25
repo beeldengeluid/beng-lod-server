@@ -2,6 +2,7 @@ from flask import current_app, request, Response
 from flask_restx import Namespace, Resource
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
 from apis.mime_type_util import parse_accept_header
+from models.DAANRdfModel import ResourceURILevel
 from util.ld_util import generate_lod_resource_uri
 
 api = Namespace(
@@ -36,7 +37,7 @@ class LODDatasetAPI(Resource):
         """
         mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
         dataset_uri = generate_lod_resource_uri(
-            "dataset",
+            ResourceURILevel.DATASET,
             number,
             current_app.config["BENG_DATA_DOMAIN"]
         )
@@ -78,7 +79,7 @@ class LODDataCatalogAPI(Resource):
         """
         mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
         data_catalog_uri = generate_lod_resource_uri(
-            "datacatalog",
+            ResourceURILevel.DATACATALOG,
             number,
             current_app.config["BENG_DATA_DOMAIN"], 
         )
@@ -118,7 +119,7 @@ class LODDataDownloadAPI(Resource):
         """Get the RDF for the DataDownload."""
         mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
         data_download_uri = generate_lod_resource_uri(
-            "datadownload",
+            ResourceURILevel.DATADOWNLOAD,
             number,
             current_app.config["BENG_DATA_DOMAIN"]
         )

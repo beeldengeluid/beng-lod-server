@@ -2,8 +2,8 @@
 from flask import current_app, request, Response, render_template, make_response
 from flask_restx import Namespace, Resource
 from apis.mime_type_util import parse_accept_header, MimeType, get_profile_by_uri
-from urllib.parse import urlparse, urlunparse
 from util.APIUtil import APIUtil
+from models.DAANRdfModel import ResourceURILevel
 from util.ld_util import generate_lod_resource_uri, is_public_resource, get_lod_resource_from_rdf_store, \
     json_header_from_rdf_graph, json_iri_iri_from_rdf_graph, json_iri_lit_from_rdf_graph, \
     json_iri_bnode_from_rdf_graph
@@ -30,12 +30,17 @@ api = Namespace(
 class ResourceAPI(Resource):
 
     def get(self, identifier, cat_type="program"):
-
-        lod_url = generate_lod_resource_uri(
-            cat_type, 
-            identifier,
-            current_app.config.get("BENG_DATA_DOMAIN")
-        )
+        lod_url = None
+        try:
+            lod_url = generate_lod_resource_uri(
+                ResourceURILevel(cat_type),
+                identifier,
+                current_app.config.get("BENG_DATA_DOMAIN")
+            )
+        except ValueError:
+            return APIUtil.toErrorResponse(
+                    "bad request", "Invalid resource level supplied"
+                )
 
         # shortcut for HTML (note that these are delivered from the RDF store, so no need to do is_public_resource
         if 'html' in str(request.headers.get("Accept")):
