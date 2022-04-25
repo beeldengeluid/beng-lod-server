@@ -2,7 +2,7 @@ from flask import current_app, request, Response
 from flask_restx import Namespace, Resource
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
 from apis.mime_type_util import parse_accept_header
-from util.ld_util import prepare_beng_uri
+from util.ld_util import generate_lod_resource_uri
 
 api = Namespace(
     "dataset",
@@ -35,9 +35,10 @@ class LODDatasetAPI(Resource):
         All triples for the Dataset and its DataDownloads are included.
         """
         mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
-        dataset_uri = prepare_beng_uri(
-            current_app.config["BENG_DATA_DOMAIN"], 
-            f"id/dataset/{number}"
+        dataset_uri = generate_lod_resource_uri(
+            "dataset",
+            number,
+            current_app.config["BENG_DATA_DOMAIN"]
         )
 
         resp, status_code, headers = DataCatalogLODHandler(
@@ -76,9 +77,10 @@ class LODDataCatalogAPI(Resource):
         All triples describing the DataCatalog and its Datasets are included.
         """
         mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
-        data_catalog_uri = prepare_beng_uri(
+        data_catalog_uri = generate_lod_resource_uri(
+            "datacatalog",
+            number,
             current_app.config["BENG_DATA_DOMAIN"], 
-            f"id/datacatalog/{number}"
         )
 
         resp, status_code, headers = DataCatalogLODHandler(
@@ -115,9 +117,10 @@ class LODDataDownloadAPI(Resource):
     def get(self, number=None):
         """Get the RDF for the DataDownload."""
         mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
-        data_download_uri = prepare_beng_uri(
-            current_app.config["BENG_DATA_DOMAIN"], 
-            f"id/datadownload/{number}"
+        data_download_uri = generate_lod_resource_uri(
+            "datadownload",
+            number,
+            current_app.config["BENG_DATA_DOMAIN"]
         )
 
         resp, status_code, headers = DataCatalogLODHandler(

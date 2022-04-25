@@ -1,10 +1,12 @@
 from mockito import when, unstub, mock, verify
 
-def test_prepare_beng_uri():
+
+def generate_lod_resource_uri():
     try:
         pass
     finally:
         unstub()
+
 
 def get_lod_resource_from_rdf_store():
     try:
@@ -37,12 +39,6 @@ def json_iri_bnode_from_rdf_graph():
         unstub()
 
 def is_public_resource():
-    try:
-        pass
-    finally:
-        unstub()
-
-def prepare_lod_resource_uri():
     try:
         pass
     finally:

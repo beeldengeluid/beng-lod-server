@@ -4,7 +4,7 @@ from flask_restx import Namespace, Resource
 from apis.mime_type_util import parse_accept_header, MimeType, get_profile_by_uri
 from urllib.parse import urlparse, urlunparse
 from util.APIUtil import APIUtil
-from util.ld_util import prepare_lod_resource_uri, is_public_resource, get_lod_resource_from_rdf_store, \
+from util.ld_util import generate_lod_resource_uri, is_public_resource, get_lod_resource_from_rdf_store, \
     json_header_from_rdf_graph, json_iri_iri_from_rdf_graph, json_iri_lit_from_rdf_graph, \
     json_iri_bnode_from_rdf_graph
 
@@ -31,7 +31,7 @@ class ResourceAPI(Resource):
 
     def get(self, identifier, cat_type="program"):
 
-        lod_url = prepare_lod_resource_uri(
+        lod_url = generate_lod_resource_uri(
             cat_type, 
             identifier,
             current_app.config.get("BENG_DATA_DOMAIN")
@@ -39,17 +39,12 @@ class ResourceAPI(Resource):
 
         # shortcut for HTML (note that these are delivered from the RDF store, so no need to do is_public_resource
         if 'html' in str(request.headers.get("Accept")):
-            headers = {
-                "Content-Type": 'text/html'
-            }
             html_page = self._get_lod_view_resource(
                 lod_url, 
                 current_app.config.get("SPARQL_ENDPOINT"),
                 current_app.config.get("URI_NISV_ORGANISATION")
             )
             return make_response(html_page, 200)
-            # return Response(html_page, 200, headers=headers)
-            # return APIUtil.toSuccessResponse(data=html_page, headers=headers)
 
         # only registered user can access all items
         auth_user = current_app.config.get("AUTH_USER")

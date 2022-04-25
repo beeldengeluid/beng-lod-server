@@ -4,11 +4,22 @@ from rdflib.namespace import RDF, SDO
 import requests
 from requests.exceptions import ConnectionError
 
-def prepare_beng_uri(beng_data_domain : str, path: str):
-    """Use the domain and the path given to construct a proper Beeld en Geluid URI."""
-    parts = urlparse(beng_data_domain)
-    new_parts = (parts.scheme, parts.netloc, path, None, None, None)
-    return urlunparse(new_parts)
+
+def generate_lod_resource_uri(level: str, identifier: str, beng_data_domain: str):
+    """Constructs valid url using the data domain, the level (cat type) and the identifier:
+            {Beng data domain}/id/{cat_type}>/{identifier}
+    :param level: the cat type
+    :param identifier: the DAAN id
+    :param beng_data_domain: see BENG_DATA_DOMAIN in settings.py
+    :returns: a proper URI as it should be listed in the LOD server.
+    """
+    url_parts = urlparse(str(beng_data_domain))
+    if url_parts.netloc is not None:
+        path = "/".join(["id", level, str(identifier)])
+        parts = (url_parts.scheme, url_parts.netloc, path, "", "", "")
+        return urlunparse(parts)
+    else:
+        return None
 
 
 def get_lod_resource_from_rdf_store(resource_url, sparql_endpoint, nisv_organisation_uri):
@@ -132,20 +143,3 @@ def is_public_resource(resource_url, sparql_endpoint):
         print(str(e))
     except Exception as e:
         print(str(e))
-
-
-def prepare_lod_resource_uri(level, identifier, beng_data_domain):
-    """Constructs valid url using the data domain, the level (cat type) and the identifier:
-            {Beng data domain}/id/{cat_type}>/{identifier}
-    :param level: the cat type
-    :param identifier: the DAAN id
-    :param beng_data_domain: see BENG_DATA_DOMAIN in settings.py
-    :returns: a proper URI as it should be listed in the LOD server.
-    """
-    url_parts = urlparse(str(beng_data_domain))
-    if url_parts.netloc is not None:
-        path = "/".join(["id", level, str(identifier)])
-        parts = (url_parts.scheme, url_parts.netloc, path, "", "", "")
-        return urlunparse(parts)
-    else:
-        return None
