@@ -3,9 +3,9 @@ from rdflib import Graph, URIRef, Literal, BNode
 from rdflib.namespace import RDF, SDO
 import requests
 from models.DAANRdfModel import ResourceURILevel
-from requests.exceptions import ConnectionError
+from requests.exceptions import ConnectionError, MissingSchema
 from typing import Optional
-
+import validators
 
 def generate_lod_resource_uri(level: ResourceURILevel, identifier: str, beng_data_domain: str) -> Optional[str]:
     """Constructs valid url using the data domain, the level (cat type) and the identifier:
@@ -26,30 +26,33 @@ def generate_lod_resource_uri(level: ResourceURILevel, identifier: str, beng_dat
         return None
 
 
-def get_lod_resource_from_rdf_store(resource_url, sparql_endpoint, nisv_organisation_uri):
+def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str, nisv_organisation_uri: str) -> Optional[Graph]:
     """Given a resource URI, the data is retrieved from the SPARQL endpoint using a CONSTRUCT query.
     :param resource_url: the resource URI to be retrieved.
     :returns: the RDF data as a GRAPH
     NOTE: Currently, only SDO modelled data in endpoint.
     # TODO: The CONSTRUCT doesn't include 'deeper' triples yet. No SKOS-XL triples, for example.
     """
+    if resource_url is None:
+        return None
+    if sparql_endpoint is None or validators.url(sparql_endpoint) is False:
+        return None
     try:
         query_construct = f"CONSTRUCT {{<{resource_url}> ?p ?o }} WHERE {{<{resource_url}> ?p ?o }}"
         resp = requests.get(
             sparql_endpoint, params={"query": query_construct}
         )
-        assert (
-                resp.status_code == 200
-        ), "CONSTRUCT request to sparql server was not successful."
-        g = Graph()
-        g.parse(data=resp.text, format='xml')
-        g.add((URIRef(resource_url), SDO.publisher, URIRef(nisv_organisation_uri)))
-        return g
+        if resp.status_code == 200:
+            g = Graph()
+            g.parse(data=resp.text, format='xml')
+            g.add((URIRef(resource_url), SDO.publisher, URIRef(nisv_organisation_uri)))
+            return g
+        else:
+            print("CONSTRUCT request to sparql server was not successful.")
 
     except ConnectionError as e:
         print(str(e))
-    except AssertionError as e:
-        print(str(e))
+    return None
 
 def json_header_from_rdf_graph(rdf_graph, resource_url):
     try:

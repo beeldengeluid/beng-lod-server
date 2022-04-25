@@ -62,7 +62,8 @@ def open_file():
     def return_contents_of_file(test_path, fn):
         full_path = os.path.join(os.path.dirname(test_path), fn)
         if os.path.exists(full_path):
-            return open(full_path)
+            with open(full_path) as f:
+                return f.read()
         return None
 
     return return_contents_of_file
