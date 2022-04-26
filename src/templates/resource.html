@@ -25,31 +25,31 @@
 <div class="container-fluid">
 	{% for item in json_iri_lit %}
 	<div class="row">
-		<div class="col-3 p-2">
+		<div class="col-3 py-2">
 			<a title="&lt;{{item['p']}}&gt;" href="{{item['p']}}" target="_blank">&lt;{{item['namespace']}}/<span class="fw-bold">{{item['property']}}</span>&gt;</a>
 		</div>
-		<div class="col-6 p-2 border-bottom">{{item['o']}}</div>
-		<div class="col-3 p-2 border-bottom text-end">{{item['type_o']}}</div>
+		<div class="col-6 py-2 border-bottom">{{item['o']}}</div>
+		<div class="col-3 py-2 border-bottom text-end">{{item['type_o']}}</div>
 	</div>
 	{% endfor %}
 	{% for item in json_iri_iri %}
 	<div class="row">
-		<div class="col-3 p-2">
+		<div class="col-3 py-2">
 			<a title="&lt;{{item['p']}}&gt;" href="{{item['p']}}" target="_blank">&lt;{{item['namespace']}}/<span class="fw-bold">{{item['property']}}</span>&gt;</a>
 		</div>
-		<div class="col-9 p-2 border-bottom">
+		<div class="col-9 py-2 border-bottom">
 			<a title="&lt;{{item['o']}}&gt;" href="{{item['o']}}" target="_blank">&lt;{{item['o']}}&gt;</a>
 		</div>
 	</div>
 	{% endfor %}
 	{% for item in json_iri_bnode %}
 	<div class="row">
-		<div class="col-3 p-2">
+		<div class="col-3 py-2">
 			<a title="&lt;{{item['p']}}&gt;" href="{{item['p']}}" target="_blank">&lt;{{item['namespace']}}/<span class="fw-bold">{{item['property']}}</span>&gt;</a>
 		</div>
 		{% for item in json_iri_bnode.o %}
-		<div class="col-6 p-2 border-bottom">&lt;{{item['prop']}}&gt;</div>
-		<div class="col-3 p-2 border-bottom">{{item['obj']}}</div>
+		<div class="col-6 py-2 border-bottom">&lt;{{item['prop']}}&gt;</div>
+		<div class="col-3 py-2 border-bottom">{{item['obj']}}</div>
 		{% endfor %}
 	</div>
 	{% endfor %}
