@@ -1,128 +1,83 @@
 {% extends "base.html" %}
 
 {% block header %}
-    {% block title %}B&G LOD View{% endblock %}
+{% block title %}B&G LOD View{% endblock %}
 {% endblock %}
 
 {% block resource_lod_view_header %}
-<h2 id="resource_header">
-    <div class="container-fluid">
-        <div class="row" style="height:100px;"></div>
-      <div class="row" style="height:200px;">
-          <div class="col">
-              <a class="iri"
-                 title="&lt;{{resource_uri}}&gt;"
-                 style="color:white;"
-                 href="{{resource_uri}}"
-                 target="_blank">&lt;{{resource_uri}}&gt;</a>
-          </div>
-          <div class="col-sm" style="text-align:right;">
-              {% for item in json_header %}
-              <p>
-                <a class="iri"
-                   title="&lt;{{item['o']}}&gt;"
-                   href="{{item['o']}}"
-                   style="color:white;font-size:13px;"
-                   target="_blank">&lt;{{item['o']}}&gt;</a>
-                  </p>
-              {% endfor %}
-          </div>
-      </div>
-        <div class="row" style="padding:50px;"></div>
-    </div>
-</h2>
+<header class="py-2 mb-2">
+	<div class="container-fluid">
+		<div class="row align-items-end">
+			<div class="col-6">
+				<a class="link-light" title="&lt;{{resource_uri}}&gt;" href="{{resource_uri}}" target="_blank">&lt;{{resource_uri}}&gt;</a>
+			</div>
+			<div class="col-6 text-end">
+				{% for item in json_header %}
+				<a class="link-light" title="&lt;{{item['o']}}&gt;" href="{{item['o']}}" target="_blank">&lt;{{item['o']}}&gt;</a><br>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</header>
 {% endblock %}
 
 {% block resource_lod_view %}
 <div class="container-fluid">
-    {% for item in json_iri_lit %}
-      <div class="row">
-          <div class="col-sm">
-            <a class="iri"
-               title="&lt;{{item['p']}}&gt;"
-               href="{{item['p']}}"
-               target="_blank">&lt;{{item['namespace']}}/<span style="font-weight:bold">{{item['property']}}</span>&gt;</a>
-          </div>
-            <div class="col-6">{{item['o']}}</div>
-            <div class="col-3"
-                 style="text-align:right;">{{item['type_o']}}</div>
-      </div>
-    <div class="row">
-        <div class="col-sm"></div>
-        <div class="col-9"><hr/></div>
-    </div>
-    {% endfor %}
-    {% for item in json_iri_iri %}
-      <div class="row">
-        <div class="col-sm">
-            <a class="iri"
-               title="&lt;{{item['p']}}&gt;"
-               href="{{item['p']}}"
-               target="_blank">&lt;{{item['namespace']}}/<span style="font-weight:bold">{{item['property']}}</span>&gt;</a>
-        </div>
-        <div class="col-6">
-            <a class="iri"
-               title="&lt;{{item['o']}}&gt;"
-               href="{{item['o']}}"
-               target="_blank">&lt;{{item['o']}}&gt;</a>
-        </div>
-        <div class="col-3"></div>
-    </div>
-    <div class="row">
-        <div class="col-sm"></div>
-        <div class="col-9"><hr/></div>
-    </div>
-    {% endfor %}
-    {% for item in json_iri_bnode %}
-      <div class="row">
-        <div class="col-sm">
-            <a class="iri"
-               title="&lt;{{item['p']}}&gt;"
-               href="{{item['p']}}"
-               target="_blank">&lt;{{item['namespace']}}/<span style="font-weight:bold">{{item['property']}}</span>&gt;</a>
-        </div>
-          {% for item in json_iri_bnode.o %}
-              <div class="col-6">&lt;{{item['prop']}}&gt;</div>
-              <div class="col-3">{{item['obj']}}</div>
-          {% endfor %}
-    </div>
-    <div class="row">
-        <div class="col-sm"></div>
-        <div class="col-9"><hr/></div>
-    </div>
-    {% endfor %}
+	{% for item in json_iri_lit %}
+	<div class="row">
+		<div class="col-3 p-2">
+			<a title="&lt;{{item['p']}}&gt;" href="{{item['p']}}" target="_blank">&lt;{{item['namespace']}}/<span class="fw-bold">{{item['property']}}</span>&gt;</a>
+		</div>
+		<div class="col-6 p-2 border-bottom">{{item['o']}}</div>
+		<div class="col-3 p-2 border-bottom text-end">{{item['type_o']}}</div>
+	</div>
+	{% endfor %}
+	{% for item in json_iri_iri %}
+	<div class="row">
+		<div class="col-3 p-2">
+			<a title="&lt;{{item['p']}}&gt;" href="{{item['p']}}" target="_blank">&lt;{{item['namespace']}}/<span class="fw-bold">{{item['property']}}</span>&gt;</a>
+		</div>
+		<div class="col-9 p-2 border-bottom">
+			<a title="&lt;{{item['o']}}&gt;" href="{{item['o']}}" target="_blank">&lt;{{item['o']}}&gt;</a>
+		</div>
+	</div>
+	{% endfor %}
+	{% for item in json_iri_bnode %}
+	<div class="row">
+		<div class="col-3 p-2">
+			<a title="&lt;{{item['p']}}&gt;" href="{{item['p']}}" target="_blank">&lt;{{item['namespace']}}/<span class="fw-bold">{{item['property']}}</span>&gt;</a>
+		</div>
+		{% for item in json_iri_bnode.o %}
+		<div class="col-6 p-2 border-bottom">&lt;{{item['prop']}}&gt;</div>
+		<div class="col-3 p-2 border-bottom">{{item['obj']}}</div>
+		{% endfor %}
+	</div>
+	{% endfor %}
 </div>
 <div id="bnodes" class="empty"></div>
 <div id="inverses"></div>
 <div id="lodCloud" class="empty"></div>
 {% endblock %}
+
 {% block resource_lod_view_footer %}
-<div class="container-fluid" id="resource_footer">
-    <div class="row">
-        <div class="col-8">
-            <div id="logo_footer">
-                <img src="{{url_for('static', filename='images/B&G_logo_RGB_liggend_RL_Blauw.png')}}"
-                     alt="B&G logo"
-                     style="width:142px;height:30px;"/>
-                <span id="logo_title_footer"><span style="font-weight:bold;">lod</span> view</span>
-            </div>
-        </div>
-        <div class="col-4">
-            <p>data from:
-                <a class="iri"
-                   title="https://cat.apis.beeldengeluid.nl/sparql"
-                   style="color:white;font-size:100%"
-                   href="https://cat.apis.beeldengeluid.nl/sparql"
-                   target="_blank">https://cat.apis.beeldengeluid.nl/sparql</a>
-                </p>
-            <p>view as:
-            <a class="iri"
-                 title="application/ld+json"
-                 style="color:white;font-size:100%"
-                 href="{{resource_uri}}"
-                 target="_blank">ld+json</a>
-            </p>
-        </div>
-    </div>
-</div>
+<footer class="py-2 text-white">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-8">
+				<nav class="navbar navbar-dark bg-transparent">
+					<span class="navbar-brand">
+						<img src="{{url_for('static', filename='images/B&G_logo_RGB_liggend_RL_Blauw.png')}}" alt="Beeld & Geluid logo" width="142" height="30" class="d-inline-block align-text-top">
+						<strong>lod</strong> view
+					</span>
+				</nav>
+			</div>
+			<div class="col-4">
+				<div class="py-2">
+					data from: <a class="text-white" title="https://cat.apis.beeldengeluid.nl/sparql" href="https://cat.apis.beeldengeluid.nl/sparql" target="_blank">https://cat.apis.beeldengeluid.nl/sparql</a><br>
+					view as: <a class="text-white" title="application/ld+json" href="{{resource_uri}}" target="_blank">ld+json</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
 {% endblock %}
