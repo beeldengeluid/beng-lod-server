@@ -3,6 +3,7 @@ import os.path
 import validators
 from pathlib import Path
 
+
 # returns the root of this repo by running "cd ../.." from this __file__ on
 def get_repo_root() -> str:
     return os.path.realpath(
