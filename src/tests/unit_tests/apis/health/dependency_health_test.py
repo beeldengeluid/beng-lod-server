@@ -17,17 +17,19 @@ from apis.health.DependencyHealth import Dependency, DependencyHealth
 
 
 @pytest.mark.parametrize(
-    "status_code, expected_is_ok", [
+    "status_code, expected_is_ok",
+    [
         # we expect ok for an ok http status
         (HTTPStatus.OK, True),
         # we don't expect ok for all http statuses other than OK
         *[
             (http_status.value, False)
-            for http_status in HTTPStatus if http_status != HTTPStatus.OK
+            for http_status in HTTPStatus
+            if http_status != HTTPStatus.OK
         ],
         # we don't expect ok for a missing status (e.g. due to connection error)
         (None, False),
-    ]
+    ],
 )
 def test_dependency_health_is_ok(status_code: HTTPStatus, expected_is_ok: bool):
     try:
@@ -49,10 +51,13 @@ TEST_HEALTH_URL = "https://example.com/health"
             (
                 TEST_CONFIG_KEY,
                 TEST_HEALTH_URL,
-                mock({"body": "", "status_code": http_status.value}, spec=requests.Response),
+                mock(
+                    {"body": "", "status_code": http_status.value},
+                    spec=requests.Response,
+                ),
                 None,
                 DependencyHealth(http_status.value),
-                None
+                None,
             )
             for http_status in HTTPStatus
         ],
@@ -108,13 +113,13 @@ def test_dependency(
 
         # test get_dependency_health
         if requests_exception:
-            when(apis.health.DependencyHealth.requests)\
-                .get(TEST_HEALTH_URL, timeout=health_timeout_sec)\
-                .thenRaise(requests_exception)
+            when(apis.health.DependencyHealth.requests).get(
+                TEST_HEALTH_URL, timeout=health_timeout_sec
+            ).thenRaise(requests_exception)
         else:
-            when(apis.health.DependencyHealth.requests)\
-                .get(TEST_HEALTH_URL, timeout=health_timeout_sec)\
-                .thenReturn(requests_response)
+            when(apis.health.DependencyHealth.requests).get(
+                TEST_HEALTH_URL, timeout=health_timeout_sec
+            ).thenReturn(requests_response)
         if expected_dependency_health:
             health = dependency.get_health(health_timeout_sec)
             assert health == expected_dependency_health

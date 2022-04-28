@@ -6,18 +6,19 @@ from pathlib import Path
 # returns the root of this repo by running "cd ../.." from this __file__ on
 def get_repo_root() -> str:
     return os.path.realpath(
-        os.path.join(
-            os.path.dirname(__file__), 
-            os.sep.join(['..', '..'])
-        )
+        os.path.join(os.path.dirname(__file__), os.sep.join(["..", ".."]))
     )
+
 
 # see https://stackoverflow.com/questions/52878999/adding-a-relative-path-to-an-absolute-path-in-python
 def relative_from_repo_root(path: str) -> str:
-    return os.path.normpath(os.path.join(
-        get_repo_root(),
-        path.replace("/", os.sep)  # POSIX path seperators also work on windows
-    ))
+    return os.path.normpath(
+        os.path.join(
+            get_repo_root(),
+            path.replace("/", os.sep),  # POSIX path seperators also work on windows
+        )
+    )
+
 
 def validate_config(config, validate_file_paths=True):
     file_paths_to_check = []
@@ -80,8 +81,12 @@ def validate_config(config, validate_file_paths=True):
         assert __check_setting(config, "SPARQL_ENDPOINT", str), "SPARQL_ENDPOINT"
         assert validators.url(config["SPARQL_ENDPOINT"]), "SPARQL_ENDPOINT invalid URL"
 
-        assert __check_setting(config, "SPARQL_ENDPOINT_HEALTH_URL", str), "SPARQL_ENDPOINT_HEALTH_URL"
-        assert validators.url(config["SPARQL_ENDPOINT_HEALTH_URL"]), "SPARQL_ENDPOINT_HEALTH_URL invalid URL"
+        assert __check_setting(
+            config, "SPARQL_ENDPOINT_HEALTH_URL", str
+        ), "SPARQL_ENDPOINT_HEALTH_URL"
+        assert validators.url(
+            config["SPARQL_ENDPOINT_HEALTH_URL"]
+        ), "SPARQL_ENDPOINT_HEALTH_URL invalid URL"
 
         assert __check_setting(config, "BENG_DATA_DOMAIN", str), "BENG_DATA_DOMAIN"
         assert validators.url(
@@ -91,7 +96,9 @@ def validate_config(config, validate_file_paths=True):
         assert __check_setting(config, "AUTH_USER", str), "AUTH_USER"
         assert __check_setting(config, "AUTH_PASSWORD", str), "AUTH_PASSWORD"
 
-        assert __check_setting(config, "HEALTH_TIMEOUT_SEC", float), "HEALTH_TIMEOUT_SEC"
+        assert __check_setting(
+            config, "HEALTH_TIMEOUT_SEC", float
+        ), "HEALTH_TIMEOUT_SEC"
 
         if validate_file_paths:
             assert __validate_file_paths(

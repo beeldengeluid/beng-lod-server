@@ -11,23 +11,14 @@ DUMMY_ID = 12345  # ID's are passed as an int (see the resource_api)
 DUMMY_STORAGE_URL = f"{DUMMY_STORAGE_BASE_URL}/storage/series/{DUMMY_ID}"
 DUMMY_STORAGE_DATA = {
     "id": "2101703040124290024",
-    "parents": [
-        {
-            "parent_type": "ITEM",
-            "parent_id": "2101608310097797221"
-        }
-    ],
-    "payload": {
-        "nisv.programid": {
-            "value": "PGM4011489"
-        }
-    },
+    "parents": [{"parent_type": "ITEM", "parent_id": "2101608310097797221"}],
+    "payload": {"nisv.programid": {"value": "PGM4011489"}},
     "aclGroups": [
         {
             "name": "NISV_ADMINISTRATOR",
             "read": "1",
             "write": "1",
-            "nameRead": "NISV_ADMINISTRATOR_1"
+            "nameRead": "NISV_ADMINISTRATOR_1",
         }
     ],
     "site_id": "LTI98960475_POS106992639",
@@ -41,25 +32,51 @@ DUMMY_STORAGE_DATA = {
     "logtrack_type": "scenedesc",
     "program_ref_id": "2101608140120072331",
     "internal_ref_id": "2101608310113256223",
-    "acl_hash": 581299796
+    "acl_hash": 581299796,
 }
+
 
 @pytest.mark.parametrize(
     "storage_base_url, level, identifier, storage_uri",
     [
-        (DUMMY_STORAGE_BASE_URL, "series", DUMMY_ID, f"{DUMMY_STORAGE_BASE_URL}/storage/series/{DUMMY_ID}"),
-        (DUMMY_STORAGE_BASE_URL, "season", DUMMY_ID, f"{DUMMY_STORAGE_BASE_URL}/storage/season/{DUMMY_ID}"),
-        (DUMMY_STORAGE_BASE_URL, "program", DUMMY_ID, f"{DUMMY_STORAGE_BASE_URL}/storage/program/{DUMMY_ID}"),
-        (DUMMY_STORAGE_BASE_URL, "scene", DUMMY_ID, f"{DUMMY_STORAGE_BASE_URL}/storage/logtrackitem/{DUMMY_ID}"),
+        (
+            DUMMY_STORAGE_BASE_URL,
+            "series",
+            DUMMY_ID,
+            f"{DUMMY_STORAGE_BASE_URL}/storage/series/{DUMMY_ID}",
+        ),
+        (
+            DUMMY_STORAGE_BASE_URL,
+            "season",
+            DUMMY_ID,
+            f"{DUMMY_STORAGE_BASE_URL}/storage/season/{DUMMY_ID}",
+        ),
+        (
+            DUMMY_STORAGE_BASE_URL,
+            "program",
+            DUMMY_ID,
+            f"{DUMMY_STORAGE_BASE_URL}/storage/program/{DUMMY_ID}",
+        ),
+        (
+            DUMMY_STORAGE_BASE_URL,
+            "scene",
+            DUMMY_ID,
+            f"{DUMMY_STORAGE_BASE_URL}/storage/logtrackitem/{DUMMY_ID}",
+        ),
         ("BROKEN_STORAGE_BASE_URL", "scene", DUMMY_ID, None),
     ],
 )
-def test_prepare_storage_uri(application_settings, storage_base_url, level, identifier, storage_uri):
+def test_prepare_storage_uri(
+    application_settings, storage_base_url, level, identifier, storage_uri
+):
     try:
         slh = StorageLODHandler(application_settings)
-        assert slh._prepare_storage_uri(storage_base_url, level, identifier) == storage_uri
+        assert (
+            slh._prepare_storage_uri(storage_base_url, level, identifier) == storage_uri
+        )
     finally:
         unstub()
+
 
 @pytest.mark.parametrize(
     "status_code, response_text, exception, expected_output",
@@ -70,12 +87,19 @@ def test_prepare_storage_uri(application_settings, storage_base_url, level, iden
         (403, None, None, None),
         (404, None, None, None),
         (200, "BROKEN JSON", None, None),  # broken JSON data will result in None
-        (200, None, ConnectionError, None),  # these exceptions are caught and result in None
+        (
+            200,
+            None,
+            ConnectionError,
+            None,
+        ),  # these exceptions are caught and result in None
         (200, None, json.decoder.JSONDecodeError, None),
         (200, None, Exception, None),
     ],
 )
-def test_get_json_from_storage(application_settings, status_code, response_text, exception, expected_output):
+def test_get_json_from_storage(
+    application_settings, status_code, response_text, exception, expected_output
+):
     try:
         slh = StorageLODHandler(application_settings)
 

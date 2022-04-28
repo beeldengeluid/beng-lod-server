@@ -30,11 +30,16 @@ class DataCatalogLODHandler:
         self._data_catalog = Graph()
         import git
         import pathlib
-        repo = git.Repo('.', search_parent_directories=True)
-        git_src_dir = pathlib.Path(repo.working_tree_dir).joinpath('src')
-        data_catalog_unit_test_file = pathlib.Path(git_src_dir).joinpath(data_catalog_file).absolute().as_uri()
 
-        self._data_catalog.parse(data_catalog_unit_test_file, format=MimeType.TURTLE.value)
+        repo = git.Repo(".", search_parent_directories=True)
+        git_src_dir = pathlib.Path(repo.working_tree_dir).joinpath("src")
+        data_catalog_unit_test_file = (
+            pathlib.Path(git_src_dir).joinpath(data_catalog_file).absolute().as_uri()
+        )
+
+        self._data_catalog.parse(
+            data_catalog_unit_test_file, format=MimeType.TURTLE.value
+        )
 
     """-------------NDE requirements validation----------------------"""
 

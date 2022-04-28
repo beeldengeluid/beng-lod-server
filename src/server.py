@@ -27,7 +27,7 @@ app.url_map.strict_slashes = False
 @app.before_request
 def clear_trailing():
     rp = request.path
-    if rp != '/' and rp.endswith('/'):
+    if rp != "/" and rp.endswith("/"):
         return redirect(rp[:-1])
 
 

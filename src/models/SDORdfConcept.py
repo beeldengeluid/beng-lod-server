@@ -67,7 +67,9 @@ class SDORdfConcept(BaseRdfConcept):
             )
 
         # add the publisher triple
-        self.graph.add((self.itemNode, SDO.publisher, URIRef(self._model.URI_NISV_ORGANISATION)))
+        self.graph.add(
+            (self.itemNode, SDO.publisher, URIRef(self._model.URI_NISV_ORGANISATION))
+        )
 
         # convert the record payload to RDF
         self.__payload_to_rdf(metadata["payload"], self.itemNode, self.classUri)
@@ -539,7 +541,12 @@ class SDORdfConcept(BaseRdfConcept):
                     self.graph.add((parent_node, URIRef(property_uri), role_node))
 
                     # add the PerformanceRole or Role type for the property.
-                    if URIRef(property_uri) in (SDO.byArtist, SDO.actor, SDO.contributor, SDO.creator):
+                    if URIRef(property_uri) in (
+                        SDO.byArtist,
+                        SDO.actor,
+                        SDO.contributor,
+                        SDO.creator,
+                    ):
                         self.graph.add((role_node, RDF.type, SDO.PerformanceRole))
                     elif URIRef(property_uri) in (SDO.productionCompany, SDO.mentions):
                         self.graph.add((role_node, RDF.type, SDO.Role))

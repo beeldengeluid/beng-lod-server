@@ -3,9 +3,14 @@ from flask_restx import Namespace, Resource
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
 from apis.mime_type_util import parse_accept_header
 from models.DAANRdfModel import ResourceURILevel
-from util.ld_util import generate_lod_resource_uri, get_lod_resource_from_rdf_store, \
-    json_header_from_rdf_graph, json_iri_iri_from_rdf_graph, json_iri_lit_from_rdf_graph, \
-    json_iri_bnode_from_rdf_graph
+from util.ld_util import (
+    generate_lod_resource_uri,
+    get_lod_resource_from_rdf_store,
+    json_header_from_rdf_graph,
+    json_iri_iri_from_rdf_graph,
+    json_iri_lit_from_rdf_graph,
+    json_iri_bnode_from_rdf_graph,
+)
 from util.APIUtil import APIUtil
 
 
@@ -18,24 +23,25 @@ api = Namespace(
 class LODDataAPI(Resource):
     """Class that implements the shared (core) functionality for the data catalog."""
 
-    def _get_lod_view_resource(self, resource_url: str, sparql_endpoint: str, nisv_organisation_uri: str):
+    def _get_lod_view_resource(
+        self, resource_url: str, sparql_endpoint: str, nisv_organisation_uri: str
+    ):
         """Handler that, given a URI, gets RDF from the SPARQL endpoint and generates an HTML page.
         :param resource_url: The URI for the resource.
         """
         rdf_graph = get_lod_resource_from_rdf_store(
-            resource_url,
-            sparql_endpoint,
-            nisv_organisation_uri
+            resource_url, sparql_endpoint, nisv_organisation_uri
         )
         if rdf_graph:
-            return render_template("resource.html",
-                                   resource_uri=resource_url,
-                                   json_header=json_header_from_rdf_graph(rdf_graph, resource_url),
-                                   json_iri_iri=json_iri_iri_from_rdf_graph(rdf_graph, resource_url),
-                                   json_iri_lit=json_iri_lit_from_rdf_graph(rdf_graph, resource_url),
-                                   json_iri_bnode=json_iri_bnode_from_rdf_graph(rdf_graph, resource_url),
-                                   nisv_sparql_endpoint=sparql_endpoint
-                                   )
+            return render_template(
+                "resource.html",
+                resource_uri=resource_url,
+                json_header=json_header_from_rdf_graph(rdf_graph, resource_url),
+                json_iri_iri=json_iri_iri_from_rdf_graph(rdf_graph, resource_url),
+                json_iri_lit=json_iri_lit_from_rdf_graph(rdf_graph, resource_url),
+                json_iri_bnode=json_iri_bnode_from_rdf_graph(rdf_graph, resource_url),
+                nisv_sparql_endpoint=sparql_endpoint,
+            )
         return None
 
 
@@ -66,23 +72,22 @@ class LODDatasetAPI(LODDataAPI):
         """
         mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
         dataset_uri = generate_lod_resource_uri(
-            ResourceURILevel.DATASET,
-            number,
-            current_app.config["BENG_DATA_DOMAIN"]
+            ResourceURILevel.DATASET, number, current_app.config["BENG_DATA_DOMAIN"]
         )
 
         # shortcut for HTML (note that these are delivered from the RDF store)
-        if 'html' in str(request.headers.get("Accept")):
+        if "html" in str(request.headers.get("Accept")):
             html_page = self._get_lod_view_resource(
                 dataset_uri,
                 current_app.config.get("SPARQL_ENDPOINT"),
-                current_app.config.get("URI_NISV_ORGANISATION")
+                current_app.config.get("URI_NISV_ORGANISATION"),
             )
             if html_page:
                 return make_response(html_page, 200)
             else:
                 return APIUtil.toErrorResponse(
-                    "internal_server_error", "Could not generate an HTML view for this resource"
+                    "internal_server_error",
+                    "Could not generate an HTML view for this resource",
                 )
 
         # other content
@@ -125,21 +130,22 @@ class LODDataCatalogAPI(LODDataAPI):
         data_catalog_uri = generate_lod_resource_uri(
             ResourceURILevel.DATACATALOG,
             number,
-            current_app.config["BENG_DATA_DOMAIN"], 
+            current_app.config["BENG_DATA_DOMAIN"],
         )
 
         # shortcut for HTML (note that these are delivered from the RDF store)
-        if 'html' in str(request.headers.get("Accept")):
+        if "html" in str(request.headers.get("Accept")):
             html_page = self._get_lod_view_resource(
                 data_catalog_uri,
                 current_app.config.get("SPARQL_ENDPOINT"),
-                current_app.config.get("URI_NISV_ORGANISATION")
+                current_app.config.get("URI_NISV_ORGANISATION"),
             )
             if html_page:
                 return make_response(html_page, 200)
             else:
                 return APIUtil.toErrorResponse(
-                    "internal_server_error", "Could not generate an HTML view for this resource"
+                    "internal_server_error",
+                    "Could not generate an HTML view for this resource",
                 )
 
         # other content
@@ -180,21 +186,22 @@ class LODDataDownloadAPI(LODDataAPI):
         data_download_uri = generate_lod_resource_uri(
             ResourceURILevel.DATADOWNLOAD,
             number,
-            current_app.config["BENG_DATA_DOMAIN"]
+            current_app.config["BENG_DATA_DOMAIN"],
         )
 
         # shortcut for HTML (note that these are delivered from the RDF store)
-        if 'html' in str(request.headers.get("Accept")):
+        if "html" in str(request.headers.get("Accept")):
             html_page = self._get_lod_view_resource(
                 data_download_uri,
                 current_app.config.get("SPARQL_ENDPOINT"),
-                current_app.config.get("URI_NISV_ORGANISATION")
+                current_app.config.get("URI_NISV_ORGANISATION"),
             )
             if html_page:
                 return make_response(html_page, 200)
             else:
                 return APIUtil.toErrorResponse(
-                    "internal_server_error", "Could not generate an HTML view for this resource"
+                    "internal_server_error",
+                    "Could not generate an HTML view for this resource",
                 )
 
         resp, status_code, headers = DataCatalogLODHandler(
