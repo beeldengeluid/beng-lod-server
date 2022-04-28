@@ -8,6 +8,7 @@ pytest = "*"
 pytest-cov = "*"
 mockito = "*"
 flake8 = "*"
+black = "*"
 
 [packages]
 lxml = "*"
