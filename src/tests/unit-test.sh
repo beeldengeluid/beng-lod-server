@@ -20,3 +20,6 @@ pipenv run flake8
 
 # check code style (configured in pyproject.toml)
 pipenv run black --check .
+
+# check type annotations (configured in pyproject.toml)
+pipenv run mypy .

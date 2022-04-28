@@ -13,3 +13,28 @@ addopts = [
 omit = [
   "src/tests/*"
 ]
+
+[tool.mypy]
+python_version = "3.8"
+
+[[tool.mypy.overrides]]
+module = [
+  "apis.*",
+  "config.*",
+  "elasticsearch",
+  "flask_cors",
+  "flask_restx",
+  "flask",
+  "git",
+  "importer.*",
+  "lxml.*",
+  "mockito",
+  "models.*",
+  "numpy",
+  "pytest",
+  "rdflib.*",
+  "requests.*",
+  "urllib3",
+  "validators.*",
+]
+ignore_missing_imports = true

@@ -23,3 +23,5 @@ jobs:
       run: pipenv run flake8
     - name: Check code style
       run: pipenv run black --check .
+    - name: Check type annotations
+      run: pipenv run mypy .
