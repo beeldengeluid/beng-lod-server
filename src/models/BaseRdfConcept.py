@@ -38,7 +38,9 @@ class BaseRdfConcept:
         return urlunparse(parts)
 
     # noinspection PyMethodMayBeStatic
-    def get_gpp_link(self, metadata, cat_type="PROGRAM", daan_id=None):
+    def get_gpp_link(  # noqa: C901 #TODO
+        self, metadata, cat_type="PROGRAM", daan_id=None
+    ):
         """Construct a URL for the item landing page in the general public portal.
         :param metadata: JSON metadata of the item to get daan id's
         :param cat_type: the catalogue type of the item

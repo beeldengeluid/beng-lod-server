@@ -89,7 +89,7 @@ def strip_string(text):
     return text
 
 
-def generate_candidate_queries(ob_source_list, result):
+def generate_candidate_queries(ob_source_list, result):  # noqa: C901 #TODO
     candidate_carrier_queries = []
     for ob_source in ob_source_list:
         candidate_carrier_queries.append(
@@ -303,7 +303,7 @@ def get_source_list(result):
     return ob_source_list
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # noqa: C901 #TODO
     print(sys.argv)
     __es = Elasticsearch(host=sys.argv[1], port=sys.argv[2])
 

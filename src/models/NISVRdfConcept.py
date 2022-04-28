@@ -69,7 +69,7 @@ class NISVRdfConcept(BaseRdfConcept):
             self.cache[cache_key] = nisv_scheme
             return nisv_scheme
 
-    def __payload_to_rdf(self, payload, parent_node, class_uri):
+    def __payload_to_rdf(self, payload, parent_node, class_uri):  # noqa: C901 #TODO
         """Converts the metadata described in payload (JSON) to RDF, and attaches it to the parentNode
         (e.g. the parentNode can be the identifier node for a program, and the payload the metadata describing
         that program.). Calls itself recursively to handle any classes in the metadata, e.g. the publication
@@ -199,7 +199,7 @@ class NISVRdfConcept(BaseRdfConcept):
                     )
         return
 
-    def __parent_to_rdf(self, metadata):
+    def __parent_to_rdf(self, metadata):  # noqa: C901 #TODO
         """Depending on the type of the child (e.g. program) retrieve the information about its
         parents from the metadata, link the child to the parents, and return the new instances and
         properties in the graph"""

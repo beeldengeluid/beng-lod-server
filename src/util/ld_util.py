@@ -258,7 +258,7 @@ def json_header_from_rdf_graph(
         print(f"Error in json_header_from_rdf_graph: {str(e)}")
         print(json_header)
     finally:
-        return json_header
+        return json_header  # noqa: B012 #TODO
 
 
 def json_iri_iri_from_rdf_graph(
@@ -317,7 +317,7 @@ def json_iri_iri_from_rdf_graph(
         print(f"Error in json_iri_iri_from_rdf_graph: {str(e)}")
         print(json_iri_iri)
     finally:
-        return json_iri_iri
+        return json_iri_iri  # noqa: B012 #TODO
 
 
 def json_iri_lit_from_rdf_graph(
@@ -355,7 +355,7 @@ def json_iri_lit_from_rdf_graph(
         print(f"Error in json_iri_lit_from_rdf_graph: {str(e)}")
         print(json_iri_lit)
     finally:
-        return json_iri_lit
+        return json_iri_lit  # noqa: B012 #TODO
 
 
 def json_iri_bnode_from_rdf_graph(
@@ -411,7 +411,7 @@ def json_iri_bnode_from_rdf_graph(
         print(json.dumps(json_iri_bnode, indent=4))
     finally:
         # print(json.dumps(json_iri_bnode, indent=4))
-        return json_iri_bnode
+        return json_iri_bnode  # noqa: B012 #TODO
 
 
 def is_public_resource(resource_url: str, sparql_endpoint: str) -> bool:
