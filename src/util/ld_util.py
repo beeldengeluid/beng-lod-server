@@ -1,16 +1,14 @@
 from urllib.parse import urlparse, urlunparse
 
-import lxml.etree
 from rdflib import Graph, URIRef, Literal, BNode, Namespace
-from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS, XSD
+from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS
 import requests
 import json
 from json.decoder import JSONDecodeError
 from models.DAANRdfModel import ResourceURILevel
-from requests.exceptions import ConnectionError, MissingSchema
+from requests.exceptions import ConnectionError
 from typing import Optional, List
 import validators
-from lxml import etree
 
 # declare namespaces
 SKOSXL_NS = "http://www.w3.org/2008/05/skos-xl#"

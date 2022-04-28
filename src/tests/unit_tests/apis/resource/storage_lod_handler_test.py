@@ -4,7 +4,6 @@ from requests.exceptions import ConnectionError
 import json
 from mockito import when, unstub, mock, verify
 from apis.resource.StorageLODHandler import StorageLODHandler
-from models.DAANJsonModel import ObjectType
 
 DUMMY_STORAGE_BASE_URL = "http://flexstore:1234"
 DUMMY_ID = 12345  # ID's are passed as an int (see the resource_api)

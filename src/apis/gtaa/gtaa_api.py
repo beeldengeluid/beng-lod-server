@@ -1,9 +1,8 @@
 from flask import current_app, request, Response, render_template, make_response
 from flask_restx import Namespace, Resource
-from apis.mime_type_util import parse_accept_header, MimeType, get_profile_by_uri
+from apis.mime_type_util import parse_accept_header, MimeType
 from util.APIUtil import APIUtil
 from util.ld_util import (
-    generate_lod_resource_uri,
     get_lod_resource_from_rdf_store,
     json_header_from_rdf_graph,
     json_iri_iri_from_rdf_graph,

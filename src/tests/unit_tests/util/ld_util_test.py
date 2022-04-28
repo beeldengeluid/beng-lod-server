@@ -1,5 +1,5 @@
 import pytest
-from rdflib.namespace import SDO, RDF, SKOS
+from rdflib.namespace import SDO, RDF
 import requests
 import json
 from json.decoder import JSONDecodeError

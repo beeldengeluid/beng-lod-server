@@ -1,4 +1,4 @@
-from flask import Flask, Response, redirect, request
+from flask import Flask, redirect, request
 from flask_cors import CORS
 from apis import api
 from util.base_util import init_logger, validate_config
