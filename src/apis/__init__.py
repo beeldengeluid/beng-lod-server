@@ -1,4 +1,5 @@
 from flask_restx import Api
+from .pong.pong_api import api as pong_api
 from .dataset.dataset_api import api as dataset_api
 from .resource.resource_api import api as resource_api
 
@@ -25,3 +26,6 @@ if "dataset" in enabled_endpoints:
 
 if "resource" in enabled_endpoints:
     api.add_namespace(resource_api, path="%s" % base_path)
+
+if "pong" in enabled_endpoints:
+    api.add_namespace(pong_api, path="%s" % base_path)
