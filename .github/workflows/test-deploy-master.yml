@@ -19,7 +19,7 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: 3.8
-    - name: Install pipenv with command
+    - name: Install pipenv
       run: pip install --user pipenv
     - name: Install dependencies (including dev-packages)
       run: pipenv install --three --dev --skip-lock
@@ -31,6 +31,7 @@ jobs:
         pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         pipenv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
   deploy:
     runs-on: [self-hosted]
     needs: test
