@@ -20,7 +20,7 @@ jobs:
       with:
         python-version: 3.8
     - name: Install pipenv
-      uses: dschep/install-pipenv-action@v1
+      run: pip install --user pipenv
     - name: Install dependencies (including dev-packages)
       run: pipenv install --three --dev --skip-lock
     - name: Test with pytest
