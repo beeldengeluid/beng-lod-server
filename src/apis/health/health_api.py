@@ -1,5 +1,5 @@
 import logging
-from typing import Tuple
+from typing import List, Tuple
 
 from flask import current_app
 from flask_restx import Namespace, Resource
@@ -15,7 +15,7 @@ api = Namespace(
 @api.hide
 @api.route("health")
 class Health(Resource):
-    def get(this):
+    def get(self):
         logging.info("Determining health of dependencies")
         health_timeout_sec = current_app.config["HEALTH_TIMEOUT_SEC"]
         dependencies = [
@@ -24,7 +24,7 @@ class Health(Resource):
                 current_app.config["SPARQL_ENDPOINT_HEALTH_URL"],
             )
         ]
-        dependency_health: Tuple[Dependency, DependencyHealth] = [
+        dependency_health: List[Tuple[Dependency, DependencyHealth]] = [
             (dependency, dependency.get_health(health_timeout_sec))
             for dependency in dependencies
         ]
