@@ -1,4 +1,3 @@
-# import rdflib.plugins.parsers.jsonld
 from flask import current_app, request, Response, render_template, make_response
 from flask_restx import Namespace, Resource
 from apis.mime_type_util import parse_accept_header, MimeType, get_profile_by_uri

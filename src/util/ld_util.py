@@ -9,6 +9,7 @@ from requests.exceptions import ConnectionError, MissingSchema
 from typing import Optional, List
 import validators
 
+
 def generate_lod_resource_uri(level: ResourceURILevel, identifier: str, beng_data_domain: str) -> Optional[str]:
     """Constructs valid url using the data domain, the level (cat type) and the identifier:
             {Beng data domain}/id/{cat_type}>/{identifier}
@@ -61,7 +62,11 @@ def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str, nis
 def json_header_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional[List[dict]]:
     try:
         return [
-            {"o": str(o)}
+            {
+                "o": str(o),
+                "namespace": f'{urlparse(str(o)).scheme}://{urlparse(str(o)).netloc}',
+                "property": urlparse(str(o)).path.split('/')[-1],
+            }
             for o in rdf_graph.objects(subject=URIRef(resource_url), predicate=URIRef(RDF.type))
             if str(rdf_graph.compute_qname(o)[1]) == str(SDO)
         ]

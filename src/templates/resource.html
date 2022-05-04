@@ -13,7 +13,7 @@
 			</div>
 			<div class="col-6 text-end">
 				{% for item in json_header %}
-				<a class="link-light" title="&lt;{{item['o']}}&gt;" href="{{item['o']}}" target="_blank">&lt;{{item['o']}}&gt;</a><br>
+				<a class="link-light" title="&lt;{{item['o']}}&gt;" href="{{item['o']}}" target="_blank">&lt;{{item['namespace']}}/<span class="fw-bold">{{item['property']}}</span>&gt;</a><br>
 				{% endfor %}
 			</div>
 		</div>
@@ -35,7 +35,7 @@
 	{% for item in json_iri_iri %}
 	<div class="row">
 		<div class="col-3 py-2">
-			<a title="&lt;{{item['p']}}&gt;" href="{{item['p']}}" target="_blank">&lt;{{item['namespace']}}/<span class="fw-bold">{{item['property']}}</span>&gt;</a>
+			<a title="&lt;{{item['p']}}&gt;" href="{{item['p']}}" target="_blank">{{item['namespace']}}/<span class="fw-bold">{{item['property']}}</span>&gt;</a>
 		</div>
 		<div class="col-9 py-2 border-bottom">
 			<a title="&lt;{{item['o']}}&gt;" href="{{item['o']}}" target="_blank">&lt;{{item['o']}}&gt;</a>
