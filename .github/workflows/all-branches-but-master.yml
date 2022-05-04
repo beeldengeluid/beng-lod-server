@@ -1,0 +1,11 @@
+on:
+  push:
+    branches-ignore:
+      - "master"
+    paths-ignore:
+      - README.md
+      - LICENSE
+
+jobs:
+  test:
+    uses: "./.github/workflows/test.yml"

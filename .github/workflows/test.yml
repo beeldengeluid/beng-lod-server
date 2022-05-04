@@ -1,16 +1,8 @@
-name: Test and lint all branches
-
 on:
-  push:
-    branches-ignore:
-      - "master"
-    paths-ignore:
-      - README.md
-      - LICENSE
+  workflow_call:
 
 jobs:
   test:
-
     runs-on: ubuntu-20.04
 
     steps:
