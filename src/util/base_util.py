@@ -52,6 +52,8 @@ def validate_config(config, validate_file_paths=True):
             assert ep in [
                 "dataset",
                 "resource",
+                "pong",
+                "health",
             ], "ENABLED_ENDPOINTS: invalid endpoint ID"
 
         assert __check_setting(
@@ -62,6 +64,9 @@ def validate_config(config, validate_file_paths=True):
         assert __check_setting(config, "SPARQL_ENDPOINT", str), "SPARQL_ENDPOINT"
         assert validators.url(config["SPARQL_ENDPOINT"]), "SPARQL_ENDPOINT invalid URL"
 
+        assert __check_setting(config, "SPARQL_ENDPOINT_HEALTH_URL", str), "SPARQL_ENDPOINT_HEALTH_URL"
+        assert validators.url(config["SPARQL_ENDPOINT_HEALTH_URL"]), "SPARQL_ENDPOINT_HEALTH_URL invalid URL"
+
         assert __check_setting(config, "BENG_DATA_DOMAIN", str), "BENG_DATA_DOMAIN"
         assert validators.url(
             config["BENG_DATA_DOMAIN"]
@@ -69,6 +74,8 @@ def validate_config(config, validate_file_paths=True):
 
         assert __check_setting(config, "AUTH_USER", str), "AUTH_USER"
         assert __check_setting(config, "AUTH_PASSWORD", str), "AUTH_PASSWORD"
+
+        assert __check_setting(config, "HEALTH_TIMEOUT_SEC", float), "HEALTH_TIMEOUT_SEC"
 
         if validate_file_paths:
             assert __validate_file_paths(

@@ -16,7 +16,7 @@ class Config(object):
 
     STORAGE_BASE_URL = "http://flexstore.beng.nl:1234"
 
-    ENABLED_ENDPOINTS = ["resource", "dataset"]  # allow all by default
+    ENABLED_ENDPOINTS = ["resource", "dataset", "pong", "health"]  # allow all by default
 
     # profiles determine which schema is used for the linked data
     PROFILES = [
@@ -45,6 +45,9 @@ class Config(object):
     BENG_DATA_DOMAIN = "http://data.beeldengeluid.nl/"
 
     SPARQL_ENDPOINT = "https://cat.apis.beeldengeluid.nl/sparql"
+    SPARQL_ENDPOINT_HEALTH_URL = "https://cat.apis.beeldengeluid.nl/sparql"
 
     AUTH_USER = "very_special"
     AUTH_PASSWORD = "nobody_knows"
+
+    HEALTH_TIMEOUT_SEC = 5.0
