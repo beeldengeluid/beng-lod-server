@@ -13,7 +13,7 @@
 			</div>
 			<div class="col-6 text-end">
 				{% for item in json_header %}
-				<a class="link-light" title="&lt;{{item['o']}}&gt;" href="{{item['o']}}" target="_blank">&lt;{{item['namespace']}}/<span class="fw-bold">{{item['property']}}</span>&gt;</a><br>
+				<a class="link-light" title="&lt;{{item['o']}}&gt;" href="{{item['o']}}" target="_blank">&lt;{{item['namespace']}}<span class="fw-bold">{{item['property']}}</span>&gt;</a><br>
 				{% endfor %}
 			</div>
 		</div>
@@ -26,7 +26,7 @@
 	{% for item in json_iri_lit %}
 	<div class="row">
 		<div class="col-3 py-2">
-			<a title="&lt;{{item['p']}}&gt;" href="{{item['p']}}" target="_blank">&lt;{{item['namespace']}}/<span class="fw-bold">{{item['property']}}</span>&gt;</a>
+			<a title="&lt;{{item['p']}}&gt;" href="{{item['p']}}" target="_blank">&lt;{{item['namespace']}}<span class="fw-bold">{{item['property']}}</span>&gt;</a>
 		</div>
 		<div class="col-6 py-2 border-bottom">{{item['o']}}</div>
 		<div class="col-3 py-2 border-bottom text-end">{{item['type_o']}}</div>
@@ -35,7 +35,7 @@
 	{% for item in json_iri_iri %}
 	<div class="row">
 		<div class="col-3 py-2">
-			<a title="&lt;{{item['p']}}&gt;" href="{{item['p']}}" target="_blank">{{item['namespace']}}/<span class="fw-bold">{{item['property']}}</span>&gt;</a>
+			<a title="&lt;{{item['p']}}&gt;" href="{{item['p']}}" target="_blank">{{item['namespace']}}<span class="fw-bold">{{item['property']}}</span>&gt;</a>
 		</div>
 		<div class="col-9 py-2 border-bottom">
 			<a title="&lt;{{item['o']}}&gt;" href="{{item['o']}}" target="_blank">&lt;{{item['o']}}&gt;</a>
@@ -45,12 +45,35 @@
 	{% for item in json_iri_bnode %}
 	<div class="row">
 		<div class="col-3 py-2">
-			<a title="&lt;{{item['p']}}&gt;" href="{{item['p']}}" target="_blank">&lt;{{item['namespace']}}/<span class="fw-bold">{{item['property']}}</span>&gt;</a>
+			<a title="&lt;{{item['p']}}&gt;" href="{{item['p']}}" target="_blank">&lt;{{item['namespace']}}<span class="fw-bold">{{item['property']}}</span>&gt;</a>
 		</div>
-		{% for item in json_iri_bnode.o %}
-		<div class="col-6 py-2 border-bottom">&lt;{{item['prop']}}&gt;</div>
-		<div class="col-3 py-2 border-bottom">{{item['obj']}}</div>
-		{% endfor %}
+		<div class="col-9 py-2 border-bottom">
+			{% for value in item.o %}
+				<div class="row">
+					{% set pred = value['pred'] %}
+					<div class="col py-2 border-bottom">
+						<a title="&lt;{{pred['uri']}}&gt;"
+						   href="{{pred['uri']}}"
+						   target="_blank">&lt;{{pred['namespace']}}<span class="fw-bold">{{pred['property']}}</span>&gt;</a>
+					</div>
+
+					<div class="col py-2 border-bottom">
+						{% if value.obj.uri is defined %}
+							{% if value['obj']['uri'].startswith('http://data.beeldengeluid.nl/gtaa/') %}
+								<a title="&lt;{{value['obj']['uri']}}&gt;"
+								   href="{{value['obj']['uri']}}"
+								   target="_blank">&lt;{{value['obj']['uri']}}&gt;</a>
+							{% else %}
+								<a title="&lt;{{value['obj']['uri']}}&gt;"
+								   href="{{value['obj']['uri']}}"
+								   target="_blank">&lt;{{value['obj']['namespace']}}<span class="fw-bold">{{value['obj']['property']}}</span>&gt;</a>
+							{% endif %}
+						{% else %}{{value['obj']}}
+						{% endif %}
+					</div>
+				</div>
+			{% endfor %}
+		</div>
 	</div>
 	{% endfor %}
 </div>
