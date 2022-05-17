@@ -2,7 +2,7 @@ from urllib.parse import urlparse, urlunparse
 
 import lxml.etree
 from rdflib import Graph, URIRef, Literal, BNode
-from rdflib.namespace import RDF, RDFS, SDO, split_uri
+from rdflib.namespace import RDF, RDFS, SDO, SKOS, split_uri
 import requests
 import json
 from json.decoder import JSONDecodeError
@@ -35,11 +35,11 @@ def generate_lod_resource_uri(level: ResourceURILevel, identifier: str, beng_dat
 def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str, nisv_organisation_uri: str) -> Optional[
     Graph]:
     """Given a resource URI, the data is retrieved from the SPARQL endpoint using a CONSTRUCT query.
+    Currently, only SDO modelled data in endpoint.
     :param resource_url: the resource URI to be retrieved.
-    :param sparql_endpoint: the SPARQL endpoint URL
-    :param nisv_organisation_uri: URI for the publishing organisation
-    :returns: the RDF data as a GRAPH (merged graph for core triples and bnode triples)
-    NOTE: Currently, only SDO modelled data in endpoint.
+    :param sparql_endpoint: the SPARQL endpoint URL.
+    :param nisv_organisation_uri: URI for the publishing organisation.
+    :returns: the RDF data as a GRAPH (merged graph for core triples and bnode triples).
     """
     if resource_url is None:
         return None
@@ -57,19 +57,22 @@ def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str, nis
             g1.parse(data=resp.text, format='xml')
             g1.add((URIRef(resource_url), SDO.publisher, URIRef(nisv_organisation_uri)))
         else:
-            print("CONSTRUCT request to sparql server was not successful.")
+            print(f"CONSTRUCT request to sparql server was not successful: {query_construct}")
 
         # then store the triples for the blank nodes in g2
         g2 = Graph()
-        query_construct_bnodes = f"CONSTRUCT {{ ?s ?p ?o . ?o ?y ?z }} WHERE {{ " \
-                                 f"VALUES ?s {{ <{resource_url}> }} ?s ?p ?o FILTER ISBLANK(?o) ?o ?y ?z }}"
+        # query_construct_bnodes = f"CONSTRUCT {{ ?s ?p ?o . ?o ?y ?z }} WHERE {{ " \
+        #                          f"VALUES ?s {{ <{resource_url}> }} ?s ?p ?o FILTER ISBLANK(?o) ?o ?y ?z }}"
+        query_construct_bnodes_pref_labels = f"CONSTRUCT {{ ?s ?p ?o . ?o ?y ?z . ?z skos:prefLabel ?pref_label }} " \
+                                             f"WHERE {{ VALUES ?s {{ <{resource_url}> }} ?s ?p ?o FILTER ISBLANK(?o) " \
+                                             f"?o ?y ?z . ?z skos:prefLabel ?pref_label }}"
         resp = requests.get(
-            sparql_endpoint, params={"query": query_construct_bnodes}
+            sparql_endpoint, params={"query": query_construct_bnodes_pref_labels}
         )
         if resp.status_code == 200:
             g2.parse(data=resp.text, format='xml')
         else:
-            print("CONSTRUCT request to sparql server was not successful.")
+            print(f"CONSTRUCT request to sparql server was not successful: {query_construct_bnodes_pref_labels}")
 
         g = g1 + g2  # the merged graphs
         return g
@@ -150,7 +153,9 @@ def json_iri_bnode_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Option
                         "obj": {
                             "namespace": split_uri(bnode_obj)[0],
                             "property": split_uri(bnode_obj)[1],
-                            "uri": str(bnode_obj)
+                            "uri": str(bnode_obj),
+                            # "pref_label": str(rdf_graph.preferredLabel(subject=bnode_obj)),
+                            "pref_label": [label for label in rdf_graph[bnode_obj: SKOS.prefLabel]]
                         }
                         if isinstance(bnode_obj, URIRef) else str(bnode_obj)
                     }

@@ -62,7 +62,7 @@
 							{% if value['obj']['uri'].startswith('http://data.beeldengeluid.nl/gtaa/') %}
 								<a title="&lt;{{value['obj']['uri']}}&gt;"
 								   href="{{value['obj']['uri']}}"
-								   target="_blank">&lt;{{value['obj']['uri']}}&gt;</a>
+								   target="_blank">{% for label in value['obj']['pref_label'] %}{{label}}{% endfor %}</a>
 							{% else %}
 								<a title="&lt;{{value['obj']['uri']}}&gt;"
 								   href="{{value['obj']['uri']}}"
