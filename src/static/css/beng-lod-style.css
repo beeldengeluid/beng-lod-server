@@ -24,8 +24,7 @@ header {
 
 header .row {
 	min-height: 150px;
-	font-size: 16px;
-    font-size: 1.125rem
+    font-size: 1.125rem;
 }
 
 footer {
