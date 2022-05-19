@@ -16,6 +16,8 @@ DUMMY_RESOURCE_URI = f"{DUMMY_BENG_DATA_DOMAIN}id/scene/{DUMMY_RESOURCE_ID}"  # 
 DUMMY_SPARQL_ENDPOINT = "http://sparql.beng.nl/sparql"
 DUMMY_URI_NISV_ORGANISATION = "https://www.beeldengeluid.nl/"  # see setting_example.py
 
+
+# noinspection PyTypeChecker
 @pytest.mark.parametrize(
     "resource_level, resource_id, beng_data_domain, resource_uri",
     [
@@ -64,7 +66,11 @@ def test_get_lod_resource_from_rdf_store(scene_rdf_xml, resource_url, sparql_end
             
         # requests.get is only called when there is a resource_url and sparql_endpoint
         if resource_url and sparql_endpoint:
-            verify(requests, times=1).get(sparql_endpoint, **KWARGS)
+            # but beware for the connection error, then only one request is fired
+            if raise_connection_error is True:
+                verify(requests, times=1).get(sparql_endpoint, **KWARGS)
+            else:
+                verify(requests, times=2).get(sparql_endpoint, **KWARGS)
         else:
             verify(requests, times=0).get(sparql_endpoint, **KWARGS)
     finally:
