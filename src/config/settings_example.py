@@ -43,6 +43,7 @@ class Config(object):
     DATA_CATALOG_FILE = "../resource/data_catalog_unit_test.ttl"  # copy to ../resource/data_catalog.ttl
 
     BENG_DATA_DOMAIN = "http://data.beeldengeluid.nl/"
+    URI_NISV_ORGANISATION = "https://www.beeldengeluid.nl/"
 
     SPARQL_ENDPOINT = "https://cat.apis.beeldengeluid.nl/sparql"
     SPARQL_ENDPOINT_HEALTH_URL = "https://cat.apis.beeldengeluid.nl/sparql"
