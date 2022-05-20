@@ -59,9 +59,6 @@ def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str,
 
         # add the publisher triple
         g.add((URIRef(resource_url), SDO.publisher, URIRef(nisv_organisation_uri)))
-        # DEBUG
-        for s, p, o in g.triples((None, None, None)):
-            print(f'{s}\t{p}\t{o}')
         return g
     except ConnectionError as e:
         print(str(e))
