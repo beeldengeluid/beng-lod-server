@@ -32,8 +32,8 @@ def generate_lod_resource_uri(level: ResourceURILevel, identifier: str, beng_dat
         return None
 
 
-def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str, nisv_organisation_uri: str) -> Optional[
-    Graph]:
+def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str,
+                                    nisv_organisation_uri: str) -> Optional[Graph]:
     """Given a resource URI, the data is retrieved from the SPARQL endpoint using a CONSTRUCT query.
     Currently, only SDO modelled data in endpoint.
     :param resource_url: the resource URI to be retrieved.
@@ -46,39 +46,69 @@ def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str, nis
     if sparql_endpoint is None or validators.url(sparql_endpoint) is False:
         return None
     try:
-        # first get triples that have not a blank node as object in g1
-        g1 = Graph()
-        query_construct = f"CONSTRUCT {{ ?s ?p ?o }} WHERE {{ " \
-                          f"VALUES ?s {{ <{resource_url}> }} ?s ?p ?o FILTER(!ISBLANK(?o)) }}"
-        resp = requests.get(
-            sparql_endpoint, params={"query": query_construct}
-        )
-        if resp.status_code == 200:
-            g1.parse(data=resp.text, format='xml')
-            g1.add((URIRef(resource_url), SDO.publisher, URIRef(nisv_organisation_uri)))
-        else:
-            print(f"CONSTRUCT request to sparql server was not successful: {query_construct}")
+        g1 = get_triples_for_lod_resource_from_rdf_store(resource_url, sparql_endpoint)
+        assert g1 is not None
 
-        # then store the triples for the blank nodes in g2
-        g2 = Graph()
-        # query_construct_bnodes = f"CONSTRUCT {{ ?s ?p ?o . ?o ?y ?z }} WHERE {{ " \
-        #                          f"VALUES ?s {{ <{resource_url}> }} ?s ?p ?o FILTER ISBLANK(?o) ?o ?y ?z }}"
-        query_construct_bnodes_pref_labels = f"CONSTRUCT {{ ?s ?p ?o . ?o ?y ?z . ?z skos:prefLabel ?pref_label }} " \
-                                             f"WHERE {{ VALUES ?s {{ <{resource_url}> }} ?s ?p ?o FILTER ISBLANK(?o) " \
-                                             f"?o ?y ?z . ?z skos:prefLabel ?pref_label }}"
-        resp = requests.get(
-            sparql_endpoint, params={"query": query_construct_bnodes_pref_labels}
-        )
-        if resp.status_code == 200:
-            g2.parse(data=resp.text, format='xml')
-        else:
-            print(f"CONSTRUCT request to sparql server was not successful: {query_construct_bnodes_pref_labels}")
+        g2 = get_preflabels_for_lod_resource_from_rdf_store(resource_url, sparql_endpoint)
+        assert g2 is not None
 
-        g = g1 + g2  # the merged graphs
+        g3 = get_triples_for_blank_node_from_rdf_store(resource_url, sparql_endpoint)
+        assert g3 is not None
+
+        g = g1 + g2 + g3
+
+        # add the publisher triple
+        g.add((URIRef(resource_url), SDO.publisher, URIRef(nisv_organisation_uri)))
         return g
     except ConnectionError as e:
         print(str(e))
+    except AssertionError as e:
+        print(str(e))
     return None
+
+
+def get_triples_for_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str) -> Optional[Graph]:
+    """Returns a graph with the triples for the LOD resource loaded. Using a construct query to get the triples
+     from the rdf store. To be used in association with the other functions that get triples for blank nodes."""
+    query_construct = f"CONSTRUCT {{ ?s ?p ?o }} WHERE {{ " \
+                      f"VALUES ?s {{ <{resource_url}> }} ?s ?p ?o FILTER(!ISBLANK(?o)) }}"
+    return sparql_construct_query(sparql_endpoint, query_construct)
+
+
+def get_preflabels_for_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str) -> Optional[Graph]:
+    """Gets the preflabels for the SKOS Concpets attached to the LOD resource from the rdf store.
+    """
+    query_construct_pref_labels = f"CONSTRUCT {{ ?s ?p ?o . ?o skos:prefLabel ?pref_label }}" \
+                                  f"WHERE {{ VALUES ?s {{ <{resource_url}> }} " \
+                                  f"?s ?p ?o FILTER (!ISBLANK(?o)) ?o skos:prefLabel ?pref_label"
+    return sparql_construct_query(sparql_endpoint, query_construct_pref_labels)
+
+
+def get_triples_for_blank_node_from_rdf_store(resource_url: str, sparql_endpoint: str) -> Optional[Graph]:
+    """Returns a grpah with triples for blank nodes attached the LOD resource including preflabels for the
+    SKOS Concepts from the rdf store.
+    """
+    query_construct_bnodes_pref_labels = f"CONSTRUCT {{ ?s ?p ?o . ?o ?y ?z . ?z skos:prefLabel ?pref_label }} " \
+                                         f"WHERE {{ VALUES ?s {{ <{resource_url}> }} ?s ?p ?o FILTER ISBLANK(?o) " \
+                                         f"?o ?y ?z . ?z skos:prefLabel ?pref_label }}"
+    return sparql_construct_query(sparql_endpoint, query_construct_bnodes_pref_labels)
+
+
+def sparql_construct_query(sparql_endpoint: str, query: str) -> Optional[Graph]:
+    """Sends a SPARQL CONSTRUCT query to the SPARQL endpoint and returns the result parsed into a Graph.
+    """
+    try:
+        g = Graph()
+        resp = requests.get(
+            sparql_endpoint, params={"query": query}
+        )
+        if resp.status_code == 200:
+            g.parse(data=resp.text, format='xml')
+        else:
+            print(f"CONSTRUCT request to sparql server was not successful: {query}")
+        return g
+    except ConnectionError as e:
+        print(str(e))
 
 
 def json_header_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional[List[dict]]:

@@ -66,11 +66,12 @@ def test_get_lod_resource_from_rdf_store(scene_rdf_xml, resource_url, sparql_end
             
         # requests.get is only called when there is a resource_url and sparql_endpoint
         if resource_url and sparql_endpoint:
-            # but beware for the connection error, then only one request is fired
+            # ...but beware for the connection error, then only one request is fired
             if raise_connection_error is True:
                 verify(requests, times=1).get(sparql_endpoint, **KWARGS)
             else:
-                verify(requests, times=2).get(sparql_endpoint, **KWARGS)
+                # ...otherwise three get requests will happen.
+                verify(requests, times=3).get(sparql_endpoint, **KWARGS)
         else:
             verify(requests, times=0).get(sparql_endpoint, **KWARGS)
     finally:
