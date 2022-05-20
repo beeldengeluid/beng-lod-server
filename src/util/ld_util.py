@@ -59,6 +59,9 @@ def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str,
 
         # add the publisher triple
         g.add((URIRef(resource_url), SDO.publisher, URIRef(nisv_organisation_uri)))
+        # DEBUG
+        for s, p, o in g.triples((None, None, None)):
+            print(f'{s}\t{p}\t{o}')
         return g
     except ConnectionError as e:
         print(str(e))
@@ -80,7 +83,7 @@ def get_preflabels_for_lod_resource_from_rdf_store(resource_url: str, sparql_end
     """
     query_construct_pref_labels = f"CONSTRUCT {{ ?s ?p ?o . ?o skos:prefLabel ?pref_label }}" \
                                   f"WHERE {{ VALUES ?s {{ <{resource_url}> }} " \
-                                  f"?s ?p ?o FILTER (!ISBLANK(?o)) ?o skos:prefLabel ?pref_label"
+                                  f"?s ?p ?o FILTER (!ISBLANK(?o)) ?o skos:prefLabel ?pref_label }}"
     return sparql_construct_query(sparql_endpoint, query_construct_pref_labels)
 
 
@@ -121,7 +124,7 @@ def json_header_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional[
                 "property": split_uri(o)[1],  # urlparse(str(o)).path.split('/')[-1],
             }
             for o in rdf_graph.objects(subject=URIRef(resource_url), predicate=URIRef(RDF.type))
-            if split_uri(o)[0] == str(SDO)
+            if split_uri(o)[0] in (str(SDO), str(SKOS))
         ]
     except Exception:
         print("Error in json_header_from_rdf_graph")
@@ -136,7 +139,8 @@ def json_iri_iri_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional
                 "namespace": split_uri(p)[0],
                 "property": split_uri(p)[1],
                 "p": str(p),
-                "o": str(o)
+                "o": str(o),
+                "o_pref_label": [label for label in rdf_graph[o: SKOS.prefLabel]]
             }
             for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url))
             if p != RDF.type and isinstance(o, URIRef)
