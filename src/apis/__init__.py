@@ -3,6 +3,7 @@ from .pong.pong_api import api as pong_api
 from .health.health_api import api as health_api
 from .dataset.dataset_api import api as dataset_api
 from .resource.resource_api import api as resource_api
+from .gtaa.gtaa_api import api as gtaa_api
 
 try:
     from config.settings import Config  # fails in unit test
@@ -27,6 +28,9 @@ if "dataset" in enabled_endpoints:
 
 if "resource" in enabled_endpoints:
     api.add_namespace(resource_api, path="%s" % base_path)
+
+if "gtaa" in enabled_endpoints:
+    api.add_namespace(gtaa_api, path="%s" % base_path)
 
 if "pong" in enabled_endpoints:
     api.add_namespace(pong_api, path="%s" % base_path)
