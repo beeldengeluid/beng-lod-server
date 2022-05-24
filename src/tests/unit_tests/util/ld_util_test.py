@@ -123,7 +123,7 @@ def test_json_iri_bnode_from_rdf_graph(scene_rdf_graph):
         assert type(ui_data) == list
         assert len(ui_data) == 1
         for item in ui_data:
-            assert all(x in item for x in ["o", "p", "property", "namespace"])
+            assert all(x in item for x in ["o", "p"])
             assert item["o"] == []  # TODO in this example there is just an empty blank node...
     finally:
         unstub()
