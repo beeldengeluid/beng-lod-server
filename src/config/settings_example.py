@@ -16,7 +16,7 @@ class Config(object):
 
     STORAGE_BASE_URL = "http://flexstore.beng.nl:1234"
 
-    ENABLED_ENDPOINTS = ["resource", "dataset", "pong", "health"]  # allow all by default
+    ENABLED_ENDPOINTS = ["resource", "dataset", "gtaa", "pong", "health"]  # allow all by default
 
     # profiles determine which schema is used for the linked data
     PROFILES = [

@@ -2,7 +2,7 @@ from urllib.parse import urlparse, urlunparse
 
 import lxml.etree
 from rdflib import Graph, URIRef, Literal, BNode
-from rdflib.namespace import RDF, RDFS, SDO, SKOS, split_uri
+from rdflib.namespace import RDF, RDFS, SDO, SKOS
 import requests
 import json
 from json.decoder import JSONDecodeError
@@ -59,6 +59,12 @@ def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str,
 
         # add the publisher triple
         g.add((URIRef(resource_url), SDO.publisher, URIRef(nisv_organisation_uri)))
+
+        # add the missing namespace
+        g.bind('skosxl', URIRef('http://www.w3.org/2008/05/skos-xl#'))
+        g.bind('justskos', URIRef('http://justskos.org/ns/core#'))
+        g.bind('gtaa', URIRef('http://data.beeldengeluid.nl/gtaa/'))
+
         return g
     except ConnectionError as e:
         print(str(e))
@@ -113,61 +119,88 @@ def sparql_construct_query(sparql_endpoint: str, query: str) -> Optional[Graph]:
 
 def json_header_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional[List[dict]]:
     """ Generates the data for the header in resource.html"""
+    json_header = []
     try:
-        return [
+        json_header = [
             {
-                "o": str(o),
-                "namespace": split_uri(o)[0],  # f'{urlparse(str(o)).scheme}://{urlparse(str(o)).netloc}',
-                "property": split_uri(o)[1],  # urlparse(str(o)).path.split('/')[-1],
+                "pref_label": [str(label) for label in rdf_graph[URIRef(resource_url): SKOS.prefLabel]],
+                "o": {
+                    "uri": str(o),
+                    "prefix": rdf_graph.compute_qname(o)[0],
+                    "namespace": str(rdf_graph.compute_qname(o)[1]),
+                    "property": rdf_graph.compute_qname(o)[2]
+                }
             }
             for o in rdf_graph.objects(subject=URIRef(resource_url), predicate=URIRef(RDF.type))
-            if split_uri(o)[0] in (str(SDO), str(SKOS))
+            if str(rdf_graph.compute_qname(o)[1]) in (str(SDO), str(SKOS))
         ]
-    except Exception:
-        print("Error in json_header_from_rdf_graph")
-    return None
+    except Exception as e:
+        print(f"Error in json_header_from_rdf_graph: {str(e)}")
+        print(json_header)
+    finally:
+        return json_header
 
 
-# Generates part of the LOD view data for resource.html
 def json_iri_iri_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional[List[dict]]:
+    """Generates part of the LOD view data for resource.html that with: (<uri> <uri> <uri>)"""
+    json_iri_iri = []
     try:
-        return [
+        json_iri_iri = [
             {
-                "namespace": split_uri(p)[0],
-                "property": split_uri(p)[1],
-                "p": str(p),
-                "o": str(o),
-                "o_pref_label": [label for label in rdf_graph[o: SKOS.prefLabel]]
+                "p": {
+                    "uri": str(p),
+                    "prefix": rdf_graph.compute_qname(p)[0],
+                    "namespace": str(rdf_graph.compute_qname(p)[1]),
+                    "property": rdf_graph.compute_qname(p)[2],
+                },
+                "o": {
+                    "uri": str(o),
+                    "pref_label": [label for label in rdf_graph[o: SKOS.prefLabel]]
+                }
             }
             for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url))
             if p != RDF.type and isinstance(o, URIRef)
         ]
-    except Exception:
-        print("Error in json_iri_iri_from_rdf_graph")
-    return None
+        return json_iri_iri
+    except Exception as e:
+        print(f"Error in json_iri_iri_from_rdf_graph: {str(e)}")
+        print(json_iri_iri)
+    finally:
+        return json_iri_iri
 
 
-# Generates part of the LOD view data for resource.html
 def json_iri_lit_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional[List[dict]]:
+    """ Generates part of the LOD view data for resource.html (<uri> <uri> literal)"""
+    json_iri_lit = []
     try:
-        return [
+        json_iri_lit = [
             {
-                "namespace": split_uri(p)[0],
-                "property": split_uri(p)[1],
-                "p": str(p),
-                "o": str(o),
-                "type_o": str(o.datatype.n3(rdf_graph.namespace_manager))
+                "p": {
+                    "uri": str(p),
+                    "prefix": rdf_graph.compute_qname(p)[0],
+                    "namespace": str(rdf_graph.compute_qname(p)[1]),
+                    "property": rdf_graph.compute_qname(p)[2]
+                },
+                "o": {
+                    "literal_value": str(o),
+                    "datatype": str(o.datatype) if o.datatype is not None else "",
+                    "datatype_prefix": rdf_graph.compute_qname(o.datatype)[0] if o.datatype is not None else "",
+                    "datatype_namespace": str(rdf_graph.compute_qname(o.datatype)[1]) if o.datatype is not None else "",
+                    "datatype_property": rdf_graph.compute_qname(o.datatype)[2] if o.datatype is not None else "",
+                }
             }
-            for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url))
-            if p != RDF.type and isinstance(o, Literal)
+            for p, o in rdf_graph.predicate_objects(subject=URIRef(resource_url))
+            if isinstance(o, Literal)
         ]
-    except Exception:
-        print("Error in json_iri_iri_from_rdf_graph")
-    return None
+    except Exception as e:
+        print(f"Error in json_iri_lit_from_rdf_graph: {str(e)}")
+        print(json_iri_lit)
+    finally:
+        return json_iri_lit
 
 
-# Generates part of the LOD view data for resource.html
 def json_iri_bnode_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional[List[dict]]:
+    """Generates part of the LOD view data for resource.html matching: (<uri> <uri> [bnode])"""
     json_iri_bnode = []
     try:
         for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url)):
@@ -175,36 +208,43 @@ def json_iri_bnode_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Option
                 bnode_content = [
                     {
                         "pred": {
-                            "namespace": split_uri(bnode_pred)[0],
-                            "property": split_uri(bnode_pred)[1],
-                            "uri": str(bnode_pred)
+                            "uri": str(bnode_pred),
+                            "prefix": rdf_graph.compute_qname(bnode_pred)[0],
+                            "namespace": str(rdf_graph.compute_qname(bnode_pred)[1]),
+                            "property": rdf_graph.compute_qname(bnode_pred)[2]
+
                         }
-                        if isinstance(bnode_pred, URIRef) else str(bnode_pred),
+                        if isinstance(bnode_pred, URIRef) else {"pred": str(bnode_pred)},
 
                         "obj": {
-                            "namespace": split_uri(bnode_obj)[0],
-                            "property": split_uri(bnode_obj)[1],
                             "uri": str(bnode_obj),
-                            # "pref_label": str(rdf_graph.preferredLabel(subject=bnode_obj)),
-                            "pref_label": [label for label in rdf_graph[bnode_obj: SKOS.prefLabel]]
+                            "prefix": rdf_graph.compute_qname(bnode_obj)[0],
+                            "namespace": str(rdf_graph.compute_qname(bnode_obj)[1]),
+                            "property": rdf_graph.compute_qname(bnode_obj)[2],
+                            "pref_label": [str(pl) for pl in rdf_graph[bnode_obj: SKOS.prefLabel]]
+
                         }
-                        if isinstance(bnode_obj, URIRef) else str(bnode_obj)
+                        if isinstance(bnode_obj, URIRef) else {"obj": str(bnode_obj)}
                     }
                     for (bnode_pred, bnode_obj) in rdf_graph.predicate_objects(subject=o)
                     if bnode_obj != RDFS.Resource
                 ]
                 json_iri_bnode.append(
                     {
-                        "namespace": split_uri(p)[0],
-                        "property": split_uri(p)[1],
-                        "p": str(p),
+                        "p": {
+                            "uri": str(p),
+                            "prefix": rdf_graph.compute_qname(p)[0],
+                            "namespace": str(rdf_graph.compute_qname(p)[1]),
+                            "property": rdf_graph.compute_qname(p)[2],
+                        },
                         "o": bnode_content
                     }
                 )
+    except Exception as e:
+        print(f"Error in json_iri_bnode_from_rdf_graph: {str(e)}")
+        print(json_iri_bnode)
+    finally:
         return json_iri_bnode
-    except Exception:
-        print("Error in json_iri_bnode_from_rdf_graph")
-    return None
 
 
 def is_public_resource(resource_url: str, sparql_endpoint: str) -> bool:
