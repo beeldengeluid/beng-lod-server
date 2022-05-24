@@ -17,15 +17,9 @@
 			<div class="col-6 text-end">
 				{% for item in json_header %}
 					{% if item.o.prefix|length %}
-						<a title="&lt;{{item.o.uri}}&gt;"
-						   href="{{item.o.uri}}"
-						   target="_blank"
-						   id="header_rdf_type">{{item.o.prefix}}:<span class="fw-bold">{{item.o.property}}</span></a>
+						<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank" id="header_rdf_type">{{item.o.prefix}}:<span class="fw-bold">{{item.o.property}}</span></a>
 					{% else %}
-						<a class="link-light"
-						   title="&lt;{{item.o.uri}}&gt;"
-						   href="{{item.o.uri}}"
-						   target="_blank">&lt;{{item.o.namespace}}<span class="fw-bold">{{item.o.property}}</span>&gt;</a><br>
+						<a class="link-light" title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">&lt;{{item.o.namespace}}<span class="fw-bold">{{item.o.property}}</span>&gt;</a><br>
 					{% endif %}
 				{% endfor %}
 			</div>
@@ -53,9 +47,7 @@
 		<div class="col-9 py-2 border-bottom">
 			{% if item.o.pref_label|length %}
 				{% if item.o.uri.startswith('http://data.beeldengeluid.nl/gtaa/') %}
-					<a title="&lt;{{item.o.uri}}&gt;"
-					   href="{{item.o.uri}}"
-					   target="_blank">{{ ((item|first).o.pref_label|first) }}</a>
+					<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{ ((item|first).o.pref_label|first) }}</a>
 				{% endif %}
 			{% else %}
 				<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">&lt;{{item.o.uri}}&gt;</a>
@@ -73,20 +65,14 @@
 <!--			{% for bnode in item.o %}-->
 				<div class="row">
 					<div class="col py-2 border-bottom">
-						<a title="&lt;{{bnode.pred.uri}}&gt;"
-						   href="{{bnode.pred.uri}}"
-						   target="_blank">{{bnode.pred.prefix}}:<span class="fw-bold">{{bnode.pred.property}}</span></a>
+						<a title="&lt;{{bnode.pred.uri}}&gt;" href="{{bnode.pred.uri}}" target="_blank">{{bnode.pred.prefix}}:<span class="fw-bold">{{bnode.pred.property}}</span></a>
 					</div>
 					<div class="col py-2 border-bottom">
 						{% if bnode.obj.uri is defined %}
 							{% if bnode.obj.uri.startswith('http://data.beeldengeluid.nl/gtaa/') %}
-								<a title="&lt;{{bnode.obj.uri}}&gt;"
-								   href="{{bnode.obj.uri}}"
-								   target="_blank">{{ bnode.obj.pref_label|first }}</a>
+								<a title="&lt;{{bnode.obj.uri}}&gt;" href="{{bnode.obj.uri}}" target="_blank">{{ bnode.obj.pref_label|first }}</a>
 							{% else %}
-								<a title="&lt;{{bnode.obj.uri}}&gt;"
-								   href="{{bnode.obj.uri}}"
-								   target="_blank">{{bnode.obj.prefix}}:<span class="fw-bold">{{bnode.obj.property}}</span></a>
+								<a title="&lt;{{bnode.obj.uri}}&gt;" href="{{bnode.obj.uri}}" target="_blank">{{bnode.obj.prefix}}:<span class="fw-bold">{{bnode.obj.property}}</span></a>
 							{% endif %}
 						{% else %}{{bnode.obj}}
 						{% endif %}
