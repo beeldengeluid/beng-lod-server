@@ -134,5 +134,6 @@ class ResourceAPI(Resource):
                 json_iri_iri=json_iri_iri_from_rdf_graph(rdf_graph, resource_url),
                 json_iri_lit=json_iri_lit_from_rdf_graph(rdf_graph, resource_url),
                 json_iri_bnode=json_iri_bnode_from_rdf_graph(rdf_graph, resource_url),
+                nisv_sparql_endpoint=sparql_endpoint
             )
         return None
