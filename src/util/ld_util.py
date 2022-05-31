@@ -1,7 +1,7 @@
 from urllib.parse import urlparse, urlunparse
 
 import lxml.etree
-from rdflib import Graph, URIRef, Literal, BNode
+from rdflib import Graph, URIRef, Literal, BNode, Namespace
 from rdflib.namespace import RDF, RDFS, SDO, SKOS
 import requests
 import json
@@ -11,6 +11,12 @@ from requests.exceptions import ConnectionError, MissingSchema
 from typing import Optional, List
 import validators
 from lxml import etree
+
+# declare namespaces
+SKOSXL_NS = "http://www.w3.org/2008/05/skos-xl#"
+SKOSXL = Namespace(URIRef(SKOSXL_NS))
+JUSTSKOS = Namespace(URIRef('http://justskos.org/ns/core#'))
+GTAA = Namespace(URIRef('http://data.beeldengeluid.nl/gtaa/'))
 
 
 def generate_lod_resource_uri(level: ResourceURILevel, identifier: str, beng_data_domain: str) -> Optional[str]:
@@ -55,15 +61,21 @@ def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str,
         g3 = get_triples_for_blank_node_from_rdf_store(resource_url, sparql_endpoint)
         assert g3 is not None
 
-        g = g1 + g2 + g3
+        # if SKOS concept get skos xl triples
+        if resource_url.startswith('http://data.beeldengeluid.nl/gtaa/'):
+            g4 = get_skosxl_label_triples_for_skos_concept_from_rdf_store(resource_url, sparql_endpoint)
+            g = g1 + g2 + g3 + g4
+        else:
+            g = g1 + g2 + g3
 
-        # add the publisher triple
-        g.add((URIRef(resource_url), SDO.publisher, URIRef(nisv_organisation_uri)))
+        # add the publisher triple (if not already present for teh resource)
+        if not g.triples((URIRef(resource_url), SDO.publisher, URIRef(nisv_organisation_uri))):
+            g.add((URIRef(resource_url), SDO.publisher, URIRef(nisv_organisation_uri)))
 
-        # add the missing namespace
-        g.bind('skosxl', URIRef('http://www.w3.org/2008/05/skos-xl#'))
-        g.bind('justskos', URIRef('http://justskos.org/ns/core#'))
-        g.bind('gtaa', URIRef('http://data.beeldengeluid.nl/gtaa/'))
+        # add the missing namespaces
+        g.bind('skosxl', SKOSXL)
+        g.bind('justskos', JUSTSKOS)
+        g.bind('gtaa', GTAA)
 
         return g
     except ConnectionError as e:
@@ -91,13 +103,25 @@ def get_preflabels_for_lod_resource_from_rdf_store(resource_url: str, sparql_end
 
 
 def get_triples_for_blank_node_from_rdf_store(resource_url: str, sparql_endpoint: str) -> Optional[Graph]:
-    """Returns a grpah with triples for blank nodes attached the LOD resource including preflabels for the
+    """Returns a graph with triples for blank nodes attached the LOD resource including preflabels for the
     SKOS Concepts from the rdf store.
     """
     query_construct_bnodes_pref_labels = f"CONSTRUCT {{ ?s ?p ?o . ?o ?y ?z . ?z skos:prefLabel ?pref_label }} " \
                                          f"WHERE {{ VALUES ?s {{ <{resource_url}> }} ?s ?p ?o FILTER ISBLANK(?o) " \
                                          f"?o ?y ?z . ?z skos:prefLabel ?pref_label }}"
     return sparql_construct_query(sparql_endpoint, query_construct_bnodes_pref_labels)
+
+
+def get_skosxl_label_triples_for_skos_concept_from_rdf_store(resource_url: str, sparql_endpoint: str) -> Optional[
+    Graph]:
+    """Returns a graph with triples for skos-xl labels for SKOS Concepts from the rdf store.
+    resource_url: a SKOS Concept.
+    """
+    query_construct_skos_xl_labels = f"PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> " \
+                                     f"CONSTRUCT {{ ?s ?skos_label ?y . ?y skosxl:literalForm ?literal_form . " \
+                                     f"?y a skosxl:Label }} WHERE {{ VALUES ?s {{ <{resource_url}> }} " \
+                                     f"?s ?skos_label ?y . ?y a skosxl:Label . ?y skosxl:literalForm ?literal_form }}"
+    return sparql_construct_query(sparql_endpoint, query_construct_skos_xl_labels)
 
 
 def sparql_construct_query(sparql_endpoint: str, query: str) -> Optional[Graph]:
@@ -145,6 +169,11 @@ def json_iri_iri_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional
     """Generates part of the LOD view data for resource.html that with: (<uri> <uri> <uri>)"""
     json_iri_iri = []
     try:
+        # DEBUG
+        for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url)):
+            [print(lf) for lf in rdf_graph.objects(subject=o,
+                                                 predicate=URIRef(f"{SKOSXL_NS}literalForm"))]
+
         json_iri_iri = [
             {
                 "p": {
@@ -155,13 +184,16 @@ def json_iri_iri_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional
                 },
                 "o": {
                     "uri": str(o),
-                    "pref_label": [label for label in rdf_graph[o: SKOS.prefLabel]]
+                    "literal_form": [str(lf) for lf in rdf_graph[o: URIRef(f"{SKOSXL_NS}literalForm")]],
+                    "prefix": rdf_graph.compute_qname(o)[0],
+                    "namespace": str(rdf_graph.compute_qname(o)[1]),
+                    "property": rdf_graph.compute_qname(o)[2],
+                    "pref_label": [str(label) for label in rdf_graph[o: SKOS.prefLabel]]
                 }
             }
             for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url))
             if p != RDF.type and isinstance(o, URIRef)
         ]
-        return json_iri_iri
     except Exception as e:
         print(f"Error in json_iri_iri_from_rdf_graph: {str(e)}")
         print(json_iri_iri)

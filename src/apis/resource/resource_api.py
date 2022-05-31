@@ -7,7 +7,6 @@ from util.ld_util import generate_lod_resource_uri, is_public_resource, get_lod_
     json_header_from_rdf_graph, json_iri_iri_from_rdf_graph, json_iri_lit_from_rdf_graph, \
     json_iri_bnode_from_rdf_graph
 
-
 api = Namespace(
     "resource",
     description="Resources in RDF for Netherlands Institute for Sound and Vision.",
@@ -38,13 +37,13 @@ class ResourceAPI(Resource):
             )
         except ValueError:
             return APIUtil.toErrorResponse(
-                    "bad request", "Invalid resource level supplied"
-                )
+                "bad request", "Invalid resource level supplied"
+            )
 
         # shortcut for HTML (note that these are delivered from the RDF store, so no need to do is_public_resource
         if 'html' in str(request.headers.get("Accept")):
             html_page = self._get_lod_view_resource(
-                lod_url, 
+                lod_url,
                 current_app.config.get("SPARQL_ENDPOINT"),
                 current_app.config.get("URI_NISV_ORGANISATION")
             )
@@ -60,10 +59,10 @@ class ResourceAPI(Resource):
         auth_pass = current_app.config.get("AUTH_PASSWORD")
         auth = request.authorization
         if (
-            auth is not None
-            and auth.type == "basic"
-            and auth.username == auth_user
-            and auth.password == auth_pass
+                auth is not None
+                and auth.type == "basic"
+                and auth.username == auth_user
+                and auth.password == auth_pass
         ):
             # no restrictions, bypass the check
             pass
@@ -123,17 +122,17 @@ class ResourceAPI(Resource):
         :param resource_url: The URI for the resource.
         """
         rdf_graph = get_lod_resource_from_rdf_store(
-            resource_url, 
-            sparql_endpoint, 
+            resource_url,
+            sparql_endpoint,
             nisv_organisation_uri
         )
-        if rdf_graph: 
+        if rdf_graph:
             return render_template("resource.html",
-                resource_uri=resource_url,
-                json_header=json_header_from_rdf_graph(rdf_graph, resource_url),
-                json_iri_iri=json_iri_iri_from_rdf_graph(rdf_graph, resource_url),
-                json_iri_lit=json_iri_lit_from_rdf_graph(rdf_graph, resource_url),
-                json_iri_bnode=json_iri_bnode_from_rdf_graph(rdf_graph, resource_url),
-                nisv_sparql_endpoint=sparql_endpoint
-            )
+                                   resource_uri=resource_url,
+                                   json_header=json_header_from_rdf_graph(rdf_graph, resource_url),
+                                   json_iri_iri=json_iri_iri_from_rdf_graph(rdf_graph, resource_url),
+                                   json_iri_lit=json_iri_lit_from_rdf_graph(rdf_graph, resource_url),
+                                   json_iri_bnode=json_iri_bnode_from_rdf_graph(rdf_graph, resource_url),
+                                   nisv_sparql_endpoint=sparql_endpoint
+                                   )
         return None

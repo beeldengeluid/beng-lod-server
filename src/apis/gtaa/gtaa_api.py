@@ -31,8 +31,6 @@ class GTAAAPI(Resource):
 
         gtaa_uri = f'{current_app.config.get("BENG_DATA_DOMAIN")}gtaa/{identifier}'
 
-        # TODO: check whether this is enough or do we need a specific function that gets the triples
-        #  from the THES named graph
         # TODO: add the parameter 'format' so that a return format can also be added as parameter to the URL,
         # instead of only allowing content negotiation by the accept http header. The rationale is that we
         # can't send a request from the lod-view with an accept header. It just isn't possible.
@@ -108,5 +106,6 @@ class GTAAAPI(Resource):
                                    json_iri_iri=json_iri_iri_from_rdf_graph(rdf_graph, resource_url),
                                    json_iri_lit=json_iri_lit_from_rdf_graph(rdf_graph, resource_url),
                                    json_iri_bnode=json_iri_bnode_from_rdf_graph(rdf_graph, resource_url),
+                                   nisv_sparql_endpoint=sparql_endpoint
                                    )
         return None
