@@ -17,7 +17,8 @@ SKOSXL_NS = "http://www.w3.org/2008/05/skos-xl#"
 SKOSXL = Namespace(URIRef(SKOSXL_NS))
 JUSTSKOS = Namespace(URIRef('http://justskos.org/ns/core#'))
 GTAA = Namespace(URIRef('http://data.beeldengeluid.nl/gtaa/'))
-
+RIGHTSSTATEMENTS_NS = 'http://rightsstatements.org/vocab/'
+# RIGHTSSTATEMENTS = Namespace(URIRef(RIGHTSSTATEMENTS_NS))
 
 def generate_lod_resource_uri(level: ResourceURILevel, identifier: str, beng_data_domain: str) -> Optional[str]:
     """Constructs valid url using the data domain, the level (cat type) and the identifier:
@@ -69,13 +70,17 @@ def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str,
             g = g1 + g2 + g3
 
         # add the publisher triple (if not already present for teh resource)
-        if not g.triples((URIRef(resource_url), SDO.publisher, URIRef(nisv_organisation_uri))):
+        publisher_present = False
+        for s, p, o in g.triples((URIRef(resource_url), SDO.publisher, URIRef(nisv_organisation_uri))):
+            publisher_present = True
+        if publisher_present is not True:
             g.add((URIRef(resource_url), SDO.publisher, URIRef(nisv_organisation_uri)))
 
         # add the missing namespaces
         g.bind('skosxl', SKOSXL)
         g.bind('justskos', JUSTSKOS)
         g.bind('gtaa', GTAA)
+        # g.bind('rs', RIGHTSSTATEMENTS)
 
         return g
     except ConnectionError as e:
@@ -169,11 +174,6 @@ def json_iri_iri_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional
     """Generates part of the LOD view data for resource.html that with: (<uri> <uri> <uri>)"""
     json_iri_iri = []
     try:
-        # DEBUG
-        for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url)):
-            [print(lf) for lf in rdf_graph.objects(subject=o,
-                                                 predicate=URIRef(f"{SKOSXL_NS}literalForm"))]
-
         json_iri_iri = [
             {
                 "p": {
@@ -192,8 +192,29 @@ def json_iri_iri_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional
                 }
             }
             for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url))
-            if p != RDF.type and isinstance(o, URIRef)
+            if p != RDF.type and isinstance(o, URIRef) and not str(o).endswith('/')
         ]
+        # URIs that end with a '/' can not be split by rdflib. Therefore we add them separately.
+        for p, o in rdf_graph.predicate_objects(subject=URIRef(resource_url)):
+            if isinstance(o, URIRef) and str(o).endswith('/'):
+                json_iri_iri += [
+                    {
+                        "p": {
+                            "uri": str(p),
+                            "prefix": rdf_graph.compute_qname(p)[0],
+                            "namespace": str(rdf_graph.compute_qname(p)[1]),
+                            "property": rdf_graph.compute_qname(p)[2],
+                        },
+                        "o": {
+                            "uri": str(o),
+                            "literal_form": [],
+                            "prefix": '',
+                            "namespace": '',
+                            "property": '',
+                            "pref_label": []
+                        }
+                    }
+                ]
     except Exception as e:
         print(f"Error in json_iri_iri_from_rdf_graph: {str(e)}")
         print(json_iri_iri)
