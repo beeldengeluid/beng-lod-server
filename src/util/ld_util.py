@@ -2,7 +2,7 @@ from urllib.parse import urlparse, urlunparse
 
 import lxml.etree
 from rdflib import Graph, URIRef, Literal, BNode, Namespace
-from rdflib.namespace import RDF, RDFS, SDO, SKOS
+from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS
 import requests
 import json
 from json.decoder import JSONDecodeError
@@ -150,8 +150,9 @@ def json_header_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional[
     try:
         json_header = [
             {
-                "pref_label": [str(label) for label in rdf_graph[URIRef(resource_url): SKOS.prefLabel]],
-                "sdo_name": [str(name) for name in rdf_graph[URIRef(resource_url): SDO.name]],
+                "title": [str(label) for label in rdf_graph[URIRef(resource_url): SKOS.prefLabel]]
+                + [str(name) for name in rdf_graph[URIRef(resource_url): SDO.name]]
+                + [str(name) for name in rdf_graph[URIRef(resource_url): DCTERMS.title]],
                 "o": {
                     "uri": str(o),
                     "prefix": rdf_graph.compute_qname(o)[0],
