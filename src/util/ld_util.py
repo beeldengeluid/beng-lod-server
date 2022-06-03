@@ -17,8 +17,7 @@ SKOSXL_NS = "http://www.w3.org/2008/05/skos-xl#"
 SKOSXL = Namespace(URIRef(SKOSXL_NS))
 JUSTSKOS = Namespace(URIRef('http://justskos.org/ns/core#'))
 GTAA = Namespace(URIRef('http://data.beeldengeluid.nl/gtaa/'))
-RIGHTSSTATEMENTS_NS = 'http://rightsstatements.org/vocab/'
-# RIGHTSSTATEMENTS = Namespace(URIRef(RIGHTSSTATEMENTS_NS))
+
 
 def generate_lod_resource_uri(level: ResourceURILevel, identifier: str, beng_data_domain: str) -> Optional[str]:
     """Constructs valid url using the data domain, the level (cat type) and the identifier:
@@ -80,7 +79,6 @@ def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str,
         g.bind('skosxl', SKOSXL)
         g.bind('justskos', JUSTSKOS)
         g.bind('gtaa', GTAA)
-        # g.bind('rs', RIGHTSSTATEMENTS)
 
         return g
     except ConnectionError as e:
@@ -153,6 +151,7 @@ def json_header_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional[
         json_header = [
             {
                 "pref_label": [str(label) for label in rdf_graph[URIRef(resource_url): SKOS.prefLabel]],
+                "sdo_name": [str(name) for name in rdf_graph[URIRef(resource_url): SDO.name]],
                 "o": {
                     "uri": str(o),
                     "prefix": rdf_graph.compute_qname(o)[0],
