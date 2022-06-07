@@ -68,7 +68,10 @@ def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str,
         else:
             g = g1 + g2 + g3
 
-        # add the publisher triple (if not already present for teh resource)
+        for s, p, o in g.triples((None, None, None)):
+            print(f"{s}\t{p}\t{o}")
+
+        # add the publisher triple (if not already present)
         publisher_present = False
         for s, p, o in g.triples((URIRef(resource_url), SDO.publisher, URIRef(nisv_organisation_uri))):
             publisher_present = True
@@ -254,9 +257,11 @@ def json_iri_lit_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional
 
 def json_iri_bnode_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional[List[dict]]:
     """Generates part of the LOD view data for resource.html matching: (<uri> <uri> [bnode])"""
+    # TODO: make sure that we also handle bnodes that have a type and a property with a value.
     json_iri_bnode = []
     try:
         for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url)):
+            # print(f"{p}\t{o}")
             if p != RDF.type and isinstance(o, BNode):
                 bnode_content = [
                     {
@@ -265,9 +270,7 @@ def json_iri_bnode_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Option
                             "prefix": rdf_graph.compute_qname(bnode_pred)[0],
                             "namespace": str(rdf_graph.compute_qname(bnode_pred)[1]),
                             "property": rdf_graph.compute_qname(bnode_pred)[2]
-
-                        }
-                        if isinstance(bnode_pred, URIRef) else {"pred": str(bnode_pred)},
+                        },
 
                         "obj": {
                             "uri": str(bnode_obj),
@@ -275,12 +278,10 @@ def json_iri_bnode_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Option
                             "namespace": str(rdf_graph.compute_qname(bnode_obj)[1]),
                             "property": rdf_graph.compute_qname(bnode_obj)[2],
                             "pref_label": [str(pl) for pl in rdf_graph[bnode_obj: SKOS.prefLabel]]
-
-                        }
-                        if isinstance(bnode_obj, URIRef) else {"obj": str(bnode_obj)}
+                        } if isinstance(bnode_obj, URIRef) else str(bnode_obj)
                     }
                     for (bnode_pred, bnode_obj) in rdf_graph.predicate_objects(subject=o)
-                    if bnode_obj != RDFS.Resource
+                    if bnode_obj != RDFS.Resource  # and bnode_pred.property != "associatedMedia"
                 ]
                 json_iri_bnode.append(
                     {
@@ -293,10 +294,12 @@ def json_iri_bnode_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Option
                         "o": bnode_content
                     }
                 )
+                # print(f"{p}\t{o}\t{bnode_content}")
     except Exception as e:
         print(f"Error in json_iri_bnode_from_rdf_graph: {str(e)}")
-        print(json_iri_bnode)
+        print(json.dumps(json_iri_bnode, indent=4))
     finally:
+        # print(json.dumps(json_iri_bnode, indent=4))
         return json_iri_bnode
 
 

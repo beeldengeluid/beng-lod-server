@@ -76,8 +76,7 @@
 			<a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">{{item.p.prefix}}:<span class="fw-bold">{{item.p.property}}</span></a>
 		</div>
 		<div class="col-9 py-2 border-bottom">
-<!--			<h3>{{item.o}}</h3>-->
-<!--			{% for bnode in item.o %}-->
+			{% for bnode in item.o %}
 				<div class="row">
 					<div class="col py-2 border-bottom">
 						<a title="&lt;{{bnode.pred.uri}}&gt;" href="{{bnode.pred.uri}}" target="_blank">{{bnode.pred.prefix}}:<span class="fw-bold">{{bnode.pred.property}}</span></a>
