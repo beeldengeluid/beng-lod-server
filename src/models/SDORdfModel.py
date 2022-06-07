@@ -7,6 +7,7 @@ NISV_SCHEMA_PREFIX = "nisv"
 SCHEMA_DOT_ORG_PREFIX = "sdo"
 NISV_DATA_PREFIX = "id"
 GTAA_NAMESPACE = "http://data.beeldengeluid.nl/gtaa/"
+URI_NISV_ORGANISATION = "https://www.beeldengeluid.nl/"
 
 # URIs for concepts in the schema
 PROGRAM = SCHEMA_DOT_ORG_NAMESPACE + "CreativeWork"

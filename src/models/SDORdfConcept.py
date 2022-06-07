@@ -8,7 +8,7 @@ from models.DAANJsonModel import (
     DAAN_PAYLOAD,
     ObjectType,
 )
-from rdflib.namespace import RDF, RDFS, SKOS, Namespace
+from rdflib.namespace import RDF, RDFS, SKOS, Namespace, SDO
 from rdflib import URIRef, Literal, BNode
 from util.APIUtil import APIUtil
 from models.BaseRdfConcept import BaseRdfConcept
@@ -65,6 +65,9 @@ class SDORdfConcept(BaseRdfConcept):
                     URIRef(website),
                 )
             )
+
+        # add the publisher triple
+        self.graph.add((self.itemNode, SDO.publisher, URIRef(self._model.URI_NISV_ORGANISATION)))
 
         # convert the record payload to RDF
         self.__payload_to_rdf(metadata["payload"], self.itemNode, self.classUri)
