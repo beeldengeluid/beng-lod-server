@@ -1,8 +1,6 @@
-from flask import Flask, request, Response  # redirect, send_from_directory
+from flask import Flask, Response  # redirect, send_from_directory
 from flask_cors import CORS
-import os
 from apis import api
-from util.APIUtil import APIUtil
 from util.base_util import init_logger, validate_config
 
 app = Flask(__name__)

@@ -1,4 +1,5 @@
 from rdflib.namespace import XSD
+from enum import Enum, unique
 
 NISV_SCHEMA_NAMESPACE = "http://data.rdlabs.beeldengeluid.nl/schema/"
 NISV_DATA_NAMESPACE = "http://data.rdlabs.beeldengeluid.nl/id/"
@@ -39,6 +40,7 @@ XSD_TYPES = [
     str(XSD.date),
 ]
 
+
 # URIs to use for different levels of DAAN records
 CLASS_URIS_FOR_DAAN_LEVELS = {
     "SERIES": SERIES,
@@ -47,3 +49,15 @@ CLASS_URIS_FOR_DAAN_LEVELS = {
     "LOGTRACKITEM": CLIP,
     "ITEM": CARRIER,
 }
+
+
+# Valid levels to be used to generate stable resource URIs from
+@unique
+class ResourceURILevel(Enum): 
+    PROGRAM = "program"
+    SERIES = "series"
+    SEASON = "season"
+    SCENE = "scene"
+    DATASET = "dataset"
+    DATACATALOG = "datacatalog"
+    DATADOWNLOAD = "datadownload"

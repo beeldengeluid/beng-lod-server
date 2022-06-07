@@ -67,6 +67,7 @@ def validate_config(config, validate_file_paths=True):
             assert ep in [
                 "dataset",
                 "resource",
+                "gtaa",
                 "pong",
                 "health",
             ], "ENABLED_ENDPOINTS: invalid endpoint ID"

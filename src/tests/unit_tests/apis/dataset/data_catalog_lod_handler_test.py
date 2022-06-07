@@ -3,7 +3,8 @@ import json
 from lxml import etree
 from mockito import when, unstub, verify
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
-from util.ld_util import prepare_beng_uri
+from util.ld_util import generate_lod_resource_uri
+from models.DAANRdfModel import ResourceURILevel
 from apis.mime_type_util import MimeType
 from rdflib.plugin import PluginException
 
@@ -13,9 +14,10 @@ from rdflib.plugin import PluginException
 # all unit tests assume the data, from said file, is loaded in memory
 DUMMY_BENG_DATA_DOMAIN = "http://data.beeldengeluid.nl/"
 DUMMY_DATASET_ID = "0001"
-DUMMY_DATASET_URI = prepare_beng_uri(
-    DUMMY_BENG_DATA_DOMAIN, 
-    f"id/dataset/{DUMMY_DATASET_ID}"
+DUMMY_DATASET_URI = generate_lod_resource_uri(
+    ResourceURILevel.DATASET,
+    DUMMY_DATASET_ID,
+    DUMMY_BENG_DATA_DOMAIN
 )
 XML_ENCODING_DECLARATION = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 

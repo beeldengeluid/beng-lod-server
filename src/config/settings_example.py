@@ -16,7 +16,7 @@ class Config(object):
 
     STORAGE_BASE_URL = "http://flexstore.beng.nl:1234"
 
-    ENABLED_ENDPOINTS = ["resource", "dataset", "pong", "health"]  # allow all by default
+    ENABLED_ENDPOINTS = ["resource", "dataset", "gtaa", "pong", "health"]  # allow all by default
 
     # profiles determine which schema is used for the linked data
     PROFILES = [
@@ -41,8 +41,9 @@ class Config(object):
     ]
 
     DATA_CATALOG_FILE = relative_from_repo_root("resource/data_catalog_unit_test.ttl")
-    print(DATA_CATALOG_FILE)
+    
     BENG_DATA_DOMAIN = "http://data.beeldengeluid.nl/"
+    URI_NISV_ORGANISATION = "https://www.beeldengeluid.nl/"
 
     SPARQL_ENDPOINT = "https://cat.apis.beeldengeluid.nl/sparql"
     SPARQL_ENDPOINT_HEALTH_URL = "https://cat.apis.beeldengeluid.nl/sparql"
