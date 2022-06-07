@@ -41,7 +41,7 @@ class Config(object):
     ]
 
     DATA_CATALOG_FILE = relative_from_repo_root("resource/data_catalog_unit_test.ttl")
-    print(DATA_CATALOG_FILE)
+    
     BENG_DATA_DOMAIN = "http://data.beeldengeluid.nl/"
     URI_NISV_ORGANISATION = "https://www.beeldengeluid.nl/"
 
