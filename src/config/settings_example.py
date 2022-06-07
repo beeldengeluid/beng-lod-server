@@ -1,8 +1,6 @@
-import os.path
-
 from apis.resource.DAANStorageLODHandler import DAANStorageLODHandler
 from apis.resource.SDOStorageLODHandler import SDOStorageLODHandler
-
+from util.base_util import relative_from_repo_root
 
 class Config(object):
     APP_HOST = "0.0.0.0"
@@ -11,8 +9,7 @@ class Config(object):
 
     DEBUG = True
 
-    ROOT_DIR = os.path.realpath(os.path.join(os.path.dirname(__file__), os.sep.join(['..', '..'])))
-    LOG_DIR = os.path.join(ROOT_DIR, "src", "resources", "log")  # should always work, log dir will be automatically created in your src/resources dir
+    LOG_DIR = relative_from_repo_root("resources/log")
     LOG_NAME = "beng-lod-server.log"
     LOG_LEVEL_CONSOLE = "DEBUG"  # Levels: DEBUG - INFO - WARNING - ERROR - CRITICAL
     LOG_LEVEL_FILE = "DEBUG"  # Levels: DEBUG - INFO - WARNING - ERROR - CRITICAL
@@ -27,24 +24,24 @@ class Config(object):
             "title": "NISV Catalogue schema",
             "uri": "http://data.rdlabs.beeldengeluid.nl/schema/",
             "prefix": "nisv",  # based on @prefix nisv: <http://data.rdlabs.beeldengeluid.nl/schema/> .
-            "schema": os.path.join(ROOT_DIR, "resource", "bengSchema.ttl"),
-            "mapping": os.path.join(ROOT_DIR, "resource", "daan-mapping-storage.ttl"),
+            "schema": relative_from_repo_root("resource/bengSchema.ttl"),
+            "mapping": relative_from_repo_root("resource/daan-mapping-storage.ttl"),
             "storage_handler": DAANStorageLODHandler,
         },
         {
             "title": "NISV Catalogue using schema.org ontology",
             "uri": "https://schema.org/",
             "prefix": "sdo",  # based on @prefix sdo: <https://schema.org/> .
-            "schema": os.path.join(ROOT_DIR, "resource", "schema-dot-org.ttl"),
-            "mapping": os.path.join(ROOT_DIR, "resource", "daan-mapping-schema-org.ttl"),
+            "schema": relative_from_repo_root("resource/schema-dot-org.ttl"),
+            "mapping": relative_from_repo_root("resource/daan-mapping-schema-org.ttl"),
             "storage_handler": SDOStorageLODHandler,
-            "ob_links": os.path.join(ROOT_DIR, "resource", "ob_link_matches.json"),
+            "ob_links": relative_from_repo_root("resource/ob_link_matches.json"),
             "default": True,  # this profile is loaded in memory by default
         },
     ]
 
-    DATA_CATALOG_FILE = os.path.join(ROOT_DIR, "resource", "data_catalog_unit_test.ttl")   # copy to ../resource/data_catalog.ttl
-
+    DATA_CATALOG_FILE = relative_from_repo_root("resource/data_catalog_unit_test.ttl")
+    print(DATA_CATALOG_FILE)
     BENG_DATA_DOMAIN = "http://data.beeldengeluid.nl/"
 
     SPARQL_ENDPOINT = "https://cat.apis.beeldengeluid.nl/sparql"
