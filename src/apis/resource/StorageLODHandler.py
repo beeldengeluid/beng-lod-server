@@ -5,6 +5,7 @@ from urllib.error import HTTPError
 from urllib.parse import urlparse, urlunparse
 import requests
 from requests.exceptions import ConnectionError
+from rdflib.namespace import SDO
 
 
 class StorageLODHandler:

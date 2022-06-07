@@ -1,8 +1,23 @@
 import logging
-import os
+import os.path
 import validators
 from pathlib import Path
 
+# returns the root of this repo by running "cd ../.." from this __file__ on
+def get_repo_root() -> str:
+    return os.path.realpath(
+        os.path.join(
+            os.path.dirname(__file__), 
+            os.sep.join(['..', '..'])
+        )
+    )
+
+# see https://stackoverflow.com/questions/52878999/adding-a-relative-path-to-an-absolute-path-in-python
+def relative_from_repo_root(path: str) -> str:
+    return os.path.normpath(os.path.join(
+        get_repo_root(),
+        path.replace("/", os.sep)  # POSIX path seperators also work on windows
+    ))
 
 def validate_config(config, validate_file_paths=True):
     file_paths_to_check = []
