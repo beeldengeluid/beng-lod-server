@@ -37,3 +37,10 @@ When the server is started correctly, you can checkout the OpenAPI specification
 ```sh
 curl -L -H "Accept: application/ld+json" http://127.0.0.1:5309/id/program/2101608130117680531
 ``` 
+
+By adding the data domain to your hosts.conf file you will be able to serve all items from your machine, as if it were the production server itself:
+```
+# reroute the domain for dev purposes
+	127.0.0.1       data.beeldengeluid.nl
+```
+This is especially convenient when you want to click items from the lod-view HTML pages.
