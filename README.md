@@ -1,7 +1,7 @@
 # beng-lod-server
 
 
-Works with Python >= 3.7
+Works with Python 3.8
 
 # prerequisites
 Get yourself the lovely [pipenv](https://docs.pipenv.org/en/latest/)
@@ -43,4 +43,8 @@ By adding the data domain to your hosts.conf file you will be able to serve all 
 # reroute the domain for dev purposes
 	127.0.0.1       data.beeldengeluid.nl
 ```
-This is especially convenient when you want to click items from the lod-view HTML pages.
+This is especially convenient when you want to click items from the lod-view HTML pages. One more thing you need to do for this is change the application port in your settings.py:
+```python
+    APP_PORT = 80
+```
+
