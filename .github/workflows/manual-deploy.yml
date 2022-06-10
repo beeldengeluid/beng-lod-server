@@ -1,0 +1,15 @@
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        type: choice
+        required: true
+        options:
+        - acc
+        - prd
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/deploy.yml
+    with:
+      target: ${{ inputs.target }}
