@@ -2,7 +2,7 @@ from urllib.parse import urlparse, urlunparse
 
 import lxml.etree
 from rdflib import Graph, URIRef, Literal, BNode, Namespace
-from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS
+from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS, XSD
 import requests
 import json
 from json.decoder import JSONDecodeError
@@ -102,6 +102,7 @@ def get_triples_for_lod_resource_from_rdf_store(resource_url: str, sparql_endpoi
 def get_preflabels_for_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str) -> Optional[Graph]:
     """Gets the preflabels for the SKOS Concpets attached to the LOD resource from the rdf store.
     """
+    # TODO: check whether we need these prefLabels or if we need to filter on named graph for thes
     query_construct_pref_labels = f"CONSTRUCT {{ ?s ?p ?o . ?o skos:prefLabel ?pref_label }}" \
                                   f"WHERE {{ VALUES ?s {{ <{resource_url}> }} " \
                                   f"?s ?p ?o FILTER (!ISBLANK(?o)) ?o skos:prefLabel ?pref_label }}"
@@ -109,13 +110,23 @@ def get_preflabels_for_lod_resource_from_rdf_store(resource_url: str, sparql_end
 
 
 def get_triples_for_blank_node_from_rdf_store(resource_url: str, sparql_endpoint: str) -> Optional[Graph]:
-    """Returns a graph with triples for blank nodes attached the LOD resource including preflabels for the
-    SKOS Concepts from the rdf store.
+    """Returns a graph with triples for blank nodes attached the LOD resource (including preflabels for the
+    SKOS Concepts from the rdf store). We need to do that with two separate queries, because ClioPatria doesn't
+    support CONSTRUCT queries with UNION.
     """
-    query_construct_bnodes_pref_labels = f"CONSTRUCT {{ ?s ?p ?o . ?o ?y ?z . ?z skos:prefLabel ?pref_label }} " \
-                                         f"WHERE {{ VALUES ?s {{ <{resource_url}> }} ?s ?p ?o FILTER ISBLANK(?o) " \
+    # first we get all the triples for the blank nodes...
+    query_construct_bnodes = f"CONSTRUCT {{ ?s ?p ?o . ?o ?y ?z }} WHERE {{ VALUES ?s {{ <{resource_url}> }} " \
+                             f"?s ?p ?o FILTER ISBLANK(?o) ?o ?y ?z }}"
+    g1 = sparql_construct_query(sparql_endpoint, query_construct_bnodes)
+
+    # .. then we get the preflabels for the concepts...
+    query_construct_bnodes_pref_labels = f"CONSTRUCT {{ ?z skos:prefLabel ?pref_label }} WHERE {{ " \
+                                         f"VALUES ?s {{ <{resource_url}> }} ?s ?p ?o FILTER ISBLANK(?o) " \
                                          f"?o ?y ?z . ?z skos:prefLabel ?pref_label }}"
-    return sparql_construct_query(sparql_endpoint, query_construct_bnodes_pref_labels)
+    g2 = sparql_construct_query(sparql_endpoint, query_construct_bnodes_pref_labels)
+
+    # ..and after that we merge the two together.
+    return g1 + g2
 
 
 def get_skosxl_label_triples_for_skos_concept_from_rdf_store(resource_url: str, sparql_endpoint: str) -> Optional[
@@ -123,6 +134,7 @@ def get_skosxl_label_triples_for_skos_concept_from_rdf_store(resource_url: str, 
     """Returns a graph with triples for skos-xl labels for SKOS Concepts from the rdf store.
     resource_url: a SKOS Concept.
     """
+    # TODO: use the thes named graph.  GRAPH {THESAURUS_NAMED_GRAPH} {}
     query_construct_skos_xl_labels = f"PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> " \
                                      f"CONSTRUCT {{ ?s ?skos_label ?y . ?y skosxl:literalForm ?literal_form . " \
                                      f"?y a skosxl:Label }} WHERE {{ VALUES ?s {{ <{resource_url}> }} " \
