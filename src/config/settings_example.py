@@ -48,6 +48,8 @@ class Config(object):
     SPARQL_ENDPOINT = "https://cat.apis.beeldengeluid.nl/sparql"
     SPARQL_ENDPOINT_HEALTH_URL = "https://cat.apis.beeldengeluid.nl/sparql"
 
+    NAMED_GRAPH_THESAURUS = "http://data.rdlabs.beeldengeluid.nl/thes/"
+
     AUTH_USER = "very_special"
     AUTH_PASSWORD = "nobody_knows"
 

@@ -22,7 +22,7 @@ api = Namespace(
     }
 )
 @api.route(
-    "gtaa/<identifier>/",
+    "gtaa/<identifier>",
     endpoint="gtaa_stuff",
 )
 class GTAAAPI(Resource):
@@ -42,7 +42,8 @@ class GTAAAPI(Resource):
             html_page = self._get_lod_view_gtaa(
                 gtaa_uri,
                 current_app.config.get("SPARQL_ENDPOINT"),
-                current_app.config.get("URI_NISV_ORGANISATION")
+                current_app.config.get("URI_NISV_ORGANISATION"),
+                current_app.config.get("NAMED_GRAPH_THESAURUS")
             )
             if html_page:
                 return make_response(html_page, 200)
@@ -55,19 +56,22 @@ class GTAAAPI(Resource):
         if mime_type:
             # note we need to use empty params for the UI
             return self._get_lod_gtaa(
-                gtaa_uri=gtaa_uri,
-                mime_type=mime_type,
-                sparql_endpoint=current_app.config.get("SPARQL_ENDPOINT"),
-                nisv_organisation_uri=current_app.config.get("URI_NISV_ORGANISATION")
+                gtaa_uri,
+                mime_type,
+                current_app.config.get("SPARQL_ENDPOINT"),
+                current_app.config.get("URI_NISV_ORGANISATION"),
+                current_app.config.get("NAMED_GRAPH_THESAURUS")
             )
         return Response("Error: No mime type detected...")
 
-    def _get_lod_gtaa(self, gtaa_uri: str, mime_type: str, sparql_endpoint: str, nisv_organisation_uri: str):
+    def _get_lod_gtaa(self, gtaa_uri: str, mime_type: str, sparql_endpoint: str, nisv_organisation_uri: str,
+                      thesaurus_named_graph: str):
         """ Generates the expected data based on the mime_type.
             :param gtaa_uri: the GTAA id.
             :param mime_type: the mime_type, or serialization the resource is requested in.
             :param sparql_endpoint: endpoint URL
             :param nisv_organisation_uri: URI for the publisher
+            :param thesaurus_named_graph: named grpah in the RDF store containing the GTAA triples
             :return: RDF data in a response object
         """
         mt = None
@@ -79,7 +83,8 @@ class GTAAAPI(Resource):
         rdf_graph = get_lod_resource_from_rdf_store(
             gtaa_uri,
             sparql_endpoint,
-            nisv_organisation_uri
+            nisv_organisation_uri,
+            named_graph=thesaurus_named_graph
         )
         if rdf_graph:
             # serialize using the mime_type
@@ -90,14 +95,16 @@ class GTAAAPI(Resource):
             return Response(resp, mimetype=mt.value, headers=headers)
         return None
 
-    def _get_lod_view_gtaa(self, resource_url: str, sparql_endpoint: str, nisv_organisation_uri: str):
+    def _get_lod_view_gtaa(self, resource_url: str, sparql_endpoint: str, nisv_organisation_uri: str,
+                           thesaurus_named_graph: str):
         """Handler that, given a URI, gets RDF from the SPARQL endpoint and generates an HTML page.
         :param resource_url: The URI for the resource.
         """
         rdf_graph = get_lod_resource_from_rdf_store(
             resource_url,
             sparql_endpoint,
-            nisv_organisation_uri
+            nisv_organisation_uri,
+            named_graph=thesaurus_named_graph
         )
         if rdf_graph:
             return render_template("resource.html",
