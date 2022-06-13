@@ -538,6 +538,12 @@ class SDORdfConcept(BaseRdfConcept):
                     # link the role node to the parent node
                     self.graph.add((parent_node, URIRef(property_uri), role_node))
 
+                    # add the PerformanceRole or Role type for the property.
+                    if URIRef(property_uri) in (SDO.byArtist, SDO.actor, SDO.contributor, SDO.creator):
+                        self.graph.add((role_node, RDF.type, SDO.PerformanceRole))
+                    elif URIRef(property_uri) in (SDO.productionCompany, SDO.mentions):
+                        self.graph.add((role_node, RDF.type, SDO.Role))
+
                     # link the concept node to the role node
                     self.graph.add((role_node, URIRef(property_uri), concept_node))
 
