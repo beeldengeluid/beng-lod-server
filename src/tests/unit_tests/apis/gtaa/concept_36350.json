@@ -1,0 +1,88 @@
+[
+  {
+    "@id": "http://data.beeldengeluid.nl/gtaa/36350/label/5754a777-ad22-432e-b1d0-d9e7a0815049",
+    "@type": [
+      "http://www.w3.org/2008/05/skos-xl#Label"
+    ],
+    "http://www.w3.org/2008/05/skos-xl#literalForm": [
+      {
+        "@language": "nl",
+        "@value": "Hoboken (België)"
+      }
+    ]
+  },
+  {
+    "@id": "http://data.beeldengeluid.nl/gtaa/36350",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://justskos.org/ns/core#qualifier": [
+      {
+        "@language": "nl",
+        "@value": "België"
+      }
+    ],
+    "http://justskos.org/ns/core#status": [
+      {
+        "@value": "approved"
+      }
+    ],
+    "http://purl.org/dc/terms/dateAccepted": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2007-11-23T16:15:07+00:00"
+      }
+    ],
+    "http://purl.org/dc/terms/dateAvailable": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2022-03-18T23:32:24+00:00"
+      }
+    ],
+    "http://purl.org/dc/terms/dateSubmitted": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2007-11-23T16:15:07+00:00"
+      }
+    ],
+    "http://purl.org/dc/terms/modified": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2021-09-08T09:12:38+00:00"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "http://data.beeldengeluid.nl/gtaa/GeografischeNamen"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#notation": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#long",
+        "@value": "36350"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@language": "nl",
+        "@value": "Hoboken (België)"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#scopeNote": [
+      {
+        "@language": "nl",
+        "@value": "plaats in district Antwerpen"
+      }
+    ],
+    "http://www.w3.org/2008/05/skos-xl#prefLabel": [
+      {
+        "@id": "http://data.beeldengeluid.nl/gtaa/36350/label/5754a777-ad22-432e-b1d0-d9e7a0815049"
+      }
+    ],
+    "https://schema.org/publisher": [
+      {
+        "@id": "https://www.beeldengeluid.nl/"
+      }
+    ]
+  }
+]
