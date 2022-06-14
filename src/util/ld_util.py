@@ -85,13 +85,13 @@ def get_lod_resource_from_rdf_store(
             g = g1 + g2 + g3
 
         # add the publisher triple (if not already present)
-        publisher_present = False
-        for s, p, o in g.triples(
-            (URIRef(resource_url), SDO.publisher, URIRef(nisv_organisation_uri))
-        ):
-            publisher_present = True
-        if publisher_present is not True:
-            g.add((URIRef(resource_url), SDO.publisher, URIRef(nisv_organisation_uri)))
+        publisher_triple = (
+            URIRef(resource_url),
+            SDO.publisher,
+            URIRef(nisv_organisation_uri),
+        )
+        if publisher_triple not in g:
+            g.add(publisher_triple)
 
         # add the missing namespaces
         g.bind("skosxl", SKOSXL)

@@ -128,13 +128,13 @@ def test_dependency(
                 dependency.get_health(health_timeout_sec)
             except expected_exception:
                 # we got the expected_exception
-                assert True
+                pass
             except Exception:
                 # we got an unexcpected exception
-                assert False
+                raise AssertionError()
         else:
             # this shouldn't happen, get_health() should return or raise
-            assert False
+            raise AssertionError()
 
     finally:
         verifyStubbedInvocationsAreUsed()
