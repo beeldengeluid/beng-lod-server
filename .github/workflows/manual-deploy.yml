@@ -1,9 +1,12 @@
+name: Manual deploy
+
 on:
   workflow_dispatch:
     inputs:
       target:
         type: choice
         required: true
+        default: 'prd'
         options:
         - acc
         - prd
