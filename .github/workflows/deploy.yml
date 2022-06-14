@@ -2,11 +2,8 @@ on:
   workflow_call:
     inputs:
       target:
-        type: choice
+        type: string
         required: true
-        options:
-        - acc
-        - prd
 
 jobs:
   deploy-acc:
