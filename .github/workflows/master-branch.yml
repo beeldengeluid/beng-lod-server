@@ -12,5 +12,6 @@ jobs:
 
   deploy-acc:
     uses: ./.github/workflows/deploy.yml
+    needs: [test]
     with:
       target: acc
