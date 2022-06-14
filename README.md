@@ -1,3 +1,4 @@
+[![Master branch](https://github.com/beeldengeluid/beng-lod-server/actions/workflows/master-branch.yml/badge.svg)](https://github.com/beeldengeluid/beng-lod-server/actions/workflows/master-branch.yml)
 # beng-lod-server
 
 
