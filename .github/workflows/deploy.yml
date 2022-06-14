@@ -1,0 +1,36 @@
+on:
+  workflow_call:
+    inputs:
+      target:
+        type: choice
+        required: true
+        options:
+        - acc
+        - prd
+
+jobs:
+  deploy-acc:
+    if: ${{ inputs.target == 'acc' }}
+    runs-on: [self-hosted]
+    steps:
+    - name: Update ansible
+      run: |
+        cd /opt/git/x-omgeving/ansible/
+        sudo git pull
+    - name: autodeploy to acc with ansible
+      run: |
+        cd /opt/git/x-omgeving/ansible/
+        ansible-playbook beng-lod-server.yml --extra-vars "env=acc app_version=master"
+
+  deploy-prd:
+    if: ${{ inputs.target == 'prd' }}
+    runs-on: [self-hosted, aws]
+    steps:
+    - name: Update ansible
+      run: |
+        cd /opt/git/x-omgeving/ansible/
+        sudo git pull
+    - name: autodeploy to aws with ansible
+      run: |
+        cd /opt/git/x-omgeving/ansible/
+        ansible-playbook beng-lod-server.yml  --extra-vars "env=odl app_version=master app_port=80"
