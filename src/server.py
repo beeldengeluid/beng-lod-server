@@ -1,4 +1,4 @@
-from flask import Flask, Response  # redirect, send_from_directory
+from flask import Flask, Response, redirect, request
 from flask_cors import CORS
 from apis import api
 from util.base_util import init_logger, validate_config
@@ -21,6 +21,15 @@ app.debug = app.config["DEBUG"]
 
 CORS(app)
 
+app.url_map.strict_slashes = False
+
+
+@app.before_request
+def clear_trailing():
+    rp = request.path
+    if rp != '/' and rp.endswith('/'):
+        return redirect(rp[:-1])
+
 
 def get_active_profile():
     def_profile = app.config["PROFILES"][0]
@@ -33,7 +42,6 @@ def get_active_profile():
 
 # TODO now the active profile is static and cannot be defined via the URL
 app.config["ACTIVE_PROFILE"] = get_active_profile()
-
 
 api.init_app(
     app,

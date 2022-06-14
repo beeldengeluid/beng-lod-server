@@ -2,7 +2,7 @@ from urllib.parse import urlparse, urlunparse
 
 import lxml.etree
 from rdflib import Graph, URIRef, Literal, BNode, Namespace
-from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS
+from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS, XSD
 import requests
 import json
 from json.decoder import JSONDecodeError
@@ -38,13 +38,14 @@ def generate_lod_resource_uri(level: ResourceURILevel, identifier: str, beng_dat
         return None
 
 
-def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str,
-                                    nisv_organisation_uri: str) -> Optional[Graph]:
+def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str, nisv_organisation_uri: str,
+                                    named_graph: str = '') -> Optional[Graph]:
     """Given a resource URI, the data is retrieved from the SPARQL endpoint using a CONSTRUCT query.
     Currently, only SDO modelled data in endpoint.
     :param resource_url: the resource URI to be retrieved.
     :param sparql_endpoint: the SPARQL endpoint URL.
     :param nisv_organisation_uri: URI for the publishing organisation.
+    :param named_graph: URI for the named graph in the SPARQL query.
     :returns: the RDF data as a GRAPH (merged graph for core triples and bnode triples).
     """
     if resource_url is None:
@@ -52,7 +53,7 @@ def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str,
     if sparql_endpoint is None or validators.url(sparql_endpoint) is False:
         return None
     try:
-        g1 = get_triples_for_lod_resource_from_rdf_store(resource_url, sparql_endpoint)
+        g1 = get_triples_for_lod_resource_from_rdf_store(resource_url, sparql_endpoint, named_graph=named_graph)
         assert g1 is not None
 
         g2 = get_preflabels_for_lod_resource_from_rdf_store(resource_url, sparql_endpoint)
@@ -61,15 +62,15 @@ def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str,
         g3 = get_triples_for_blank_node_from_rdf_store(resource_url, sparql_endpoint)
         assert g3 is not None
 
-        # if SKOS concept get skos xl triples
+        # for GTAA SKOS Concepts... get skos xl triples
         if resource_url.startswith('http://data.beeldengeluid.nl/gtaa/'):
             g4 = get_skosxl_label_triples_for_skos_concept_from_rdf_store(resource_url, sparql_endpoint)
-            g = g1 + g2 + g3 + g4
+            g5 = get_preflabel_for_gtaa_resource_from_rdf_store(resource_url,
+                                                                sparql_endpoint,
+                                                                thes_named_graph=named_graph)
+            g = g1 + g2 + g3 + g4 + g5
         else:
             g = g1 + g2 + g3
-
-        for s, p, o in g.triples((None, None, None)):
-            print(f"{s}\t{p}\t{o}")
 
         # add the publisher triple (if not already present)
         publisher_present = False
@@ -91,16 +92,24 @@ def get_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str,
     return None
 
 
-def get_triples_for_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str) -> Optional[Graph]:
+def get_triples_for_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str,
+                                                named_graph: str = '') -> Optional[Graph]:
     """Returns a graph with the triples for the LOD resource loaded. Using a construct query to get the triples
-     from the rdf store. To be used in association with the other functions that get triples for blank nodes."""
-    query_construct = f"CONSTRUCT {{ ?s ?p ?o }} WHERE {{ " \
-                      f"VALUES ?s {{ <{resource_url}> }} ?s ?p ?o FILTER(!ISBLANK(?o)) }}"
+     from the rdf store. To be used in association with the other functions that get triples for blank nodes.
+     Note that the named_graph parameter can prevent prefLabels from the catalogue data to end up in the thesaurus."""
+    if named_graph != '':
+        query_construct = f"CONSTRUCT {{ ?s ?p ?o }} WHERE {{ VALUES ?s {{ <{resource_url}> }} " \
+                          f"GRAPH <{named_graph}> {{ ?s ?p ?o FILTER(!ISBLANK(?o)) }} }}"
+    else:
+        query_construct = f"CONSTRUCT {{ ?s ?p ?o }} WHERE {{ VALUES ?s {{ <{resource_url}> }} " \
+                          f"?s ?p ?o FILTER(!ISBLANK(?o)) }}"
+
     return sparql_construct_query(sparql_endpoint, query_construct)
 
 
 def get_preflabels_for_lod_resource_from_rdf_store(resource_url: str, sparql_endpoint: str) -> Optional[Graph]:
-    """Gets the preflabels for the SKOS Concpets attached to the LOD resource from the rdf store.
+    """Gets the preflabels for the SKOS Concepts attached to the LOD resource from the rdf store.
+    Note: the resource itself is not a SKOS Concept
     """
     query_construct_pref_labels = f"CONSTRUCT {{ ?s ?p ?o . ?o skos:prefLabel ?pref_label }}" \
                                   f"WHERE {{ VALUES ?s {{ <{resource_url}> }} " \
@@ -108,25 +117,58 @@ def get_preflabels_for_lod_resource_from_rdf_store(resource_url: str, sparql_end
     return sparql_construct_query(sparql_endpoint, query_construct_pref_labels)
 
 
+def get_preflabel_for_gtaa_resource_from_rdf_store(resource_url: str, sparql_endpoint: str,
+                                                   thes_named_graph: str = '') -> Optional[Graph]:
+    """Gets the prefLabel, by using 'dumbing down' of the skos-xl prefLabel."""
+    query_construct_pref_label_dumbing_down = f"CONSTRUCT {{ ?s skos:prefLabel ?pref_label }} WHERE {{ " \
+                                              f"VALUES ?g {{<{thes_named_graph}> }} " \
+                                              f"VALUES ?s {{ <{resource_url}> }} " \
+                                              f"GRAPH ?g {{ ?s skosxl:prefLabel/skosxl:literalForm ?pref_label }} }}"
+    return sparql_construct_query(sparql_endpoint, query_construct_pref_label_dumbing_down)
+
+
 def get_triples_for_blank_node_from_rdf_store(resource_url: str, sparql_endpoint: str) -> Optional[Graph]:
-    """Returns a graph with triples for blank nodes attached the LOD resource including preflabels for the
-    SKOS Concepts from the rdf store.
+    """Returns a graph with triples for blank nodes attached the LOD resource (including preflabels for the
+    SKOS Concepts from the rdf store). We need to do that with two separate queries, because ClioPatria doesn't
+    support CONSTRUCT queries with UNION.
     """
-    query_construct_bnodes_pref_labels = f"CONSTRUCT {{ ?s ?p ?o . ?o ?y ?z . ?z skos:prefLabel ?pref_label }} " \
-                                         f"WHERE {{ VALUES ?s {{ <{resource_url}> }} ?s ?p ?o FILTER ISBLANK(?o) " \
+    # first we get all the triples for the blank nodes...
+    query_construct_bnodes = f"CONSTRUCT {{ ?s ?p ?o . ?o ?y ?z }} WHERE {{ VALUES ?s {{ <{resource_url}> }} " \
+                             f"?s ?p ?o FILTER ISBLANK(?o) ?o ?y ?z }}"
+    g1 = sparql_construct_query(sparql_endpoint, query_construct_bnodes)
+
+    # .. then we get the preflabels for the concepts...
+    query_construct_bnodes_pref_labels = f"CONSTRUCT {{ ?z skos:prefLabel ?pref_label }} WHERE {{ " \
+                                         f"VALUES ?s {{ <{resource_url}> }} ?s ?p ?o FILTER ISBLANK(?o) " \
                                          f"?o ?y ?z . ?z skos:prefLabel ?pref_label }}"
-    return sparql_construct_query(sparql_endpoint, query_construct_bnodes_pref_labels)
+    g2 = sparql_construct_query(sparql_endpoint, query_construct_bnodes_pref_labels)
+
+    # ..and after that we merge the two together.
+    return g1 + g2
 
 
-def get_skosxl_label_triples_for_skos_concept_from_rdf_store(resource_url: str, sparql_endpoint: str) -> Optional[
-    Graph]:
+def get_skosxl_label_triples_for_skos_concept_from_rdf_store(resource_url: str, sparql_endpoint: str,
+                                                             named_graph: str = '') -> Optional[Graph]:
     """Returns a graph with triples for skos-xl labels for SKOS Concepts from the rdf store.
-    resource_url: a SKOS Concept.
+    :param resource_url: URI of a SKOS Concept.
+    :param sparql_endpoint: the location of the RDF store.
+    :param named_graph: when the query needs to be filtered add the named_graph.
     """
-    query_construct_skos_xl_labels = f"PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> " \
-                                     f"CONSTRUCT {{ ?s ?skos_label ?y . ?y skosxl:literalForm ?literal_form . " \
-                                     f"?y a skosxl:Label }} WHERE {{ VALUES ?s {{ <{resource_url}> }} " \
-                                     f"?s ?skos_label ?y . ?y a skosxl:Label . ?y skosxl:literalForm ?literal_form }}"
+    if named_graph != '':
+        query_construct_skos_xl_labels = f"PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> " \
+                                         f"CONSTRUCT {{ ?s ?skos_label ?y . ?y skosxl:literalForm ?literal_form . " \
+                                         f"?y a skosxl:Label }} WHERE {{ " \
+                                         f"VALUES ?s {{ <{resource_url}> }} " \
+                                         f"VALUES ?g {{ <{named_graph}> }} " \
+                                         f"GRAPH ?g {{ ?s ?skos_label ?y . ?y a skosxl:Label . " \
+                                         f"?y skosxl:literalForm ?literal_form }} }}"
+    else:
+        query_construct_skos_xl_labels = f"PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> " \
+                                         f"CONSTRUCT {{ ?s ?skos_label ?y . ?y skosxl:literalForm ?literal_form . " \
+                                         f"?y a skosxl:Label }} WHERE {{ " \
+                                         f"VALUES ?s {{ <{resource_url}> }} " \
+                                         f"?s ?skos_label ?y . ?y a skosxl:Label . " \
+                                         f"?y skosxl:literalForm ?literal_form }}"
     return sparql_construct_query(sparql_endpoint, query_construct_skos_xl_labels)
 
 
@@ -154,8 +196,8 @@ def json_header_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional[
         json_header = [
             {
                 "title": [str(label) for label in rdf_graph[URIRef(resource_url): SKOS.prefLabel]]
-                + [str(name) for name in rdf_graph[URIRef(resource_url): SDO.name]]
-                + [str(name) for name in rdf_graph[URIRef(resource_url): DCTERMS.title]],
+                         + [str(name) for name in rdf_graph[URIRef(resource_url): SDO.name]]
+                         + [str(name) for name in rdf_graph[URIRef(resource_url): DCTERMS.title]],
                 "o": {
                     "uri": str(o),
                     "prefix": rdf_graph.compute_qname(o)[0],

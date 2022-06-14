@@ -71,8 +71,8 @@ def test_get_lod_resource_from_rdf_store(scene_rdf_xml, resource_url, sparql_end
             if raise_connection_error is True:
                 verify(requests, times=1).get(sparql_endpoint, **KWARGS)
             else:
-                # ...otherwise three get requests will happen.
-                verify(requests, times=3).get(sparql_endpoint, **KWARGS)
+                # ...otherwise four get requests will happen.
+                verify(requests, times=4).get(sparql_endpoint, **KWARGS)
         else:
             verify(requests, times=0).get(sparql_endpoint, **KWARGS)
     finally:
