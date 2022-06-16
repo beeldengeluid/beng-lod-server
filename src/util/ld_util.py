@@ -176,7 +176,7 @@ def get_triples_for_blank_node_from_rdf_store(
     g2 = sparql_construct_query(sparql_endpoint, query_construct_bnodes_pref_labels)
 
     # ..and after that we merge the two together.
-    return g1 + g2 if (g1 and g2) else None
+    return g1 + g2 if (g1 is not None and g2 is not None) else None
 
 
 def get_skosxl_label_triples_for_skos_concept_from_rdf_store(
