@@ -22,7 +22,6 @@ module = [
   "apis.*",
   "config.*",
   "elasticsearch",
-  "flask_cors",
   "flask_restx",
   "flask",
   "git",

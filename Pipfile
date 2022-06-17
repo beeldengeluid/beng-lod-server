@@ -12,6 +12,7 @@ black = "*"
 flake8-bugbear = "*"
 mypy = "*"
 types-requests = "*"
+types-flask-cors = "*"
 
 [packages]
 lxml = "*"
