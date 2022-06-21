@@ -4,18 +4,26 @@ from apis.mime_type_util import parse_quality_values, parse_accept_header, MimeT
 
 ACCEPT_HEADER_ALL = "*/*"
 ACCEPT_HEADER_BENG = 'application/ld+json,profile="https://schema.org/"'
-ACCEPT_HEADER_NDE = f"application/n-quads,application/trig;q=0.95,application/ld+json;q=0.9," \
-                    f"application/n-triples;q=0.8,text/turtle;q=0.6,application/rdf+xml;q=0.5," \
-                    f"application/jso5,text/n3;q=0.35,application/xml;q=0.3,text/xml;q=0.3," \
-                    f"image/svg+xml;q=0.3,text/html;q=0.2,application/xhtml+xml;q=0.18"
-ACCEPT_HEADER_FUJI = f"text/html, application/xhtml+xml, application/xml;q=0.5, text/xml;q=0.5, " \
-                     f"application/rdf+xml;q=0.5"
+ACCEPT_HEADER_NDE = (
+    f"application/n-quads,application/trig;q=0.95,application/ld+json;q=0.9,"
+    f"application/n-triples;q=0.8,text/turtle;q=0.6,application/rdf+xml;q=0.5,"
+    f"application/jso5,text/n3;q=0.35,application/xml;q=0.3,text/xml;q=0.3,"
+    f"image/svg+xml;q=0.3,text/html;q=0.2,application/xhtml+xml;q=0.18"
+)
+ACCEPT_HEADER_FUJI = (
+    f"text/html, application/xhtml+xml, application/xml;q=0.5, text/xml;q=0.5, "
+    f"application/rdf+xml;q=0.5"
+)
 ACCEPT_HEADER_SPEC_1 = f"text/plain; q=0.5, text/html,text/x-dvi; q=0.8, text/x-c"
 ACCEPT_HEADER_SPEC_2 = f"text/*, text/plain, text/plain;format=flowed, */*"
-ACCEPT_HEADER_SPEC_3 = f"text/*;q=0.3, text/plain;q=0.7, text/plain;format=flowed, " \
-                       f"text/plain;format=fixed;q=0.4, */*;q=0.5"
-ACCEPT_HEADER_CHROME = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng," \
-                       "*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+ACCEPT_HEADER_SPEC_3 = (
+    f"text/*;q=0.3, text/plain;q=0.7, text/plain;format=flowed, "
+    f"text/plain;format=fixed;q=0.4, */*;q=0.5"
+)
+ACCEPT_HEADER_CHROME = (
+    "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,"
+    "*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+)
 PROFILE_SDO = "https://schema.org/"
 
 
@@ -42,7 +50,13 @@ def test_parse_accept_header(accept_header, mime_type, profile):
 
 @pytest.mark.parametrize(
     "accept_header",
-    [ACCEPT_HEADER_ALL, ACCEPT_HEADER_BENG, ACCEPT_HEADER_NDE, ACCEPT_HEADER_FUJI, ACCEPT_HEADER_CHROME],
+    [
+        ACCEPT_HEADER_ALL,
+        ACCEPT_HEADER_BENG,
+        ACCEPT_HEADER_NDE,
+        ACCEPT_HEADER_FUJI,
+        ACCEPT_HEADER_CHROME,
+    ],
 )
 def test_parse_quality_values(accept_header):
     """Parse the accept header for the NDE dataset register."""

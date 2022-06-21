@@ -84,9 +84,12 @@ def parse_quality_values(accept_header_text: str) -> List[Tuple]:
           qvalue = ( "0" [ "." 0*3DIGIT ] )
                     / ( "1" [ "." 0*3("0") ] )
     """
-    media_range_parts = re.split(r',\s*', accept_header_text)
-    list_of_mr = [re.split(r';\s*q=', media_range) for media_range in media_range_parts]
-    l_accept = [(item[0], float(item[1])) if len(item) == 2 else (item[0], 1) for item in list_of_mr]
+    media_range_parts = re.split(r",\s*", accept_header_text)
+    list_of_mr = [re.split(r";\s*q=", media_range) for media_range in media_range_parts]
+    l_accept = [
+        (item[0], float(item[1])) if len(item) == 2 else (item[0], 1)
+        for item in list_of_mr
+    ]
 
     # TODO: handle the media range parameters, like  text/plain;format=flowed,
     # TODO: order based on specificity (more specific has higher priority
@@ -115,7 +118,7 @@ def parse_accept_header(accept_header: str) -> (MimeType, str):
         return mime_type, accept_profile
 
     # handle the profile (example: profile="https://schema.org/")
-    profile_param = re.split(r',profile=', accept_header, maxsplit=1)
+    profile_param = re.split(r",profile=", accept_header, maxsplit=1)
     if len(profile_param) == 2:
         accept_profile = profile_param[1].strip('"')
 
