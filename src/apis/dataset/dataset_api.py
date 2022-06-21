@@ -1,7 +1,7 @@
 from flask import current_app, request, Response, make_response, render_template
 from flask_restx import Namespace, Resource
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
-from apis.mime_type_util import parse_accept_header
+from apis.mime_type_util import parse_accept_header, MimeType
 from models.DAANRdfModel import ResourceURILevel
 from util.ld_util import (
     generate_lod_resource_uri,
