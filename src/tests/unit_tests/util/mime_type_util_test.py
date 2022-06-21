@@ -1,6 +1,6 @@
 import pytest
 from mockito import unstub
-from mime_type_util import parse_quality_values, parse_accept_header, MimeType
+from apis.mime_type_util import parse_quality_values, parse_accept_header, MimeType
 
 ACCEPT_HEADER_ALL = "*/*"
 ACCEPT_HEADER_BENG = 'application/ld+json,profile="https://schema.org/"'
