@@ -3,9 +3,15 @@ from flask_restx import Namespace, Resource
 from apis.mime_type_util import parse_accept_header, MimeType, get_profile_by_uri
 from util.APIUtil import APIUtil
 from models.DAANRdfModel import ResourceURILevel
-from util.ld_util import generate_lod_resource_uri, is_public_resource, get_lod_resource_from_rdf_store, \
-    json_header_from_rdf_graph, json_iri_iri_from_rdf_graph, json_iri_lit_from_rdf_graph, \
-    json_iri_bnode_from_rdf_graph
+from util.ld_util import (
+    generate_lod_resource_uri,
+    is_public_resource,
+    get_lod_resource_from_rdf_store,
+    json_header_from_rdf_graph,
+    json_iri_iri_from_rdf_graph,
+    json_iri_lit_from_rdf_graph,
+    json_iri_bnode_from_rdf_graph,
+)
 
 api = Namespace(
     "resource",
@@ -26,14 +32,13 @@ api = Namespace(
     endpoint="dereference",
 )
 class ResourceAPI(Resource):
-
     def get(self, identifier, cat_type="program"):
         lod_url = None
         try:
             lod_url = generate_lod_resource_uri(
                 ResourceURILevel(cat_type),
                 identifier,
-                current_app.config.get("BENG_DATA_DOMAIN")
+                current_app.config.get("BENG_DATA_DOMAIN"),
             )
         except ValueError:
             return APIUtil.toErrorResponse(
@@ -41,17 +46,18 @@ class ResourceAPI(Resource):
             )
 
         # shortcut for HTML (note that these are delivered from the RDF store, so no need to do is_public_resource
-        if 'html' in str(request.headers.get("Accept")):
+        if "html" in str(request.headers.get("Accept")):
             html_page = self._get_lod_view_resource(
                 lod_url,
                 current_app.config.get("SPARQL_ENDPOINT"),
-                current_app.config.get("URI_NISV_ORGANISATION")
+                current_app.config.get("URI_NISV_ORGANISATION"),
             )
             if html_page:
                 return make_response(html_page, 200)
             else:
                 return APIUtil.toErrorResponse(
-                    "internal_server_error", "Could not generate an HTML view for this resource"
+                    "internal_server_error",
+                    "Could not generate an HTML view for this resource",
                 )
 
         # only registered user can access all items
@@ -59,16 +65,18 @@ class ResourceAPI(Resource):
         auth_pass = current_app.config.get("AUTH_PASSWORD")
         auth = request.authorization
         if (
-                auth is not None
-                and auth.type == "basic"
-                and auth.username == auth_user
-                and auth.password == auth_pass
+            auth is not None
+            and auth.type == "basic"
+            and auth.username == auth_user
+            and auth.password == auth_pass
         ):
             # no restrictions, bypass the check
             pass
         else:
             # NOTE: this else clause is only there so we can download as lod-importer, but nobody else can.
-            if not is_public_resource(lod_url, current_app.config.get("SPARQL_ENDPOINT")):
+            if not is_public_resource(
+                lod_url, current_app.config.get("SPARQL_ENDPOINT")
+            ):
                 return APIUtil.toErrorResponse(
                     "access_denied", "The resource can not be dereferenced."
                 )
@@ -85,7 +93,9 @@ class ResourceAPI(Resource):
             )
         return Response("Error: No mime type detected...")
 
-    def _get_lod_resource(self, level, identifier, mime_type, accept_profile, app_config):
+    def _get_lod_resource(
+        self, level, identifier, mime_type, accept_profile, app_config
+    ):
         """ Generates the expected data based on the mime_type.
             :param level: meaning the catalogue type: 'program' (default), 'series', 'season', 'scene'.
             :param identifier: the DAAN id.
@@ -117,22 +127,23 @@ class ResourceAPI(Resource):
             return Response(resp, mimetype=mt.value, headers=headers)
         return Response(resp, status_code, headers=headers)
 
-    def _get_lod_view_resource(self, resource_url: str, sparql_endpoint: str, nisv_organisation_uri: str):
+    def _get_lod_view_resource(
+        self, resource_url: str, sparql_endpoint: str, nisv_organisation_uri: str
+    ):
         """Handler that, given a URI, gets RDF from the SPARQL endpoint and generates an HTML page.
         :param resource_url: The URI for the resource.
         """
         rdf_graph = get_lod_resource_from_rdf_store(
-            resource_url,
-            sparql_endpoint,
-            nisv_organisation_uri
+            resource_url, sparql_endpoint, nisv_organisation_uri
         )
         if rdf_graph:
-            return render_template("resource.html",
-                                   resource_uri=resource_url,
-                                   json_header=json_header_from_rdf_graph(rdf_graph, resource_url),
-                                   json_iri_iri=json_iri_iri_from_rdf_graph(rdf_graph, resource_url),
-                                   json_iri_lit=json_iri_lit_from_rdf_graph(rdf_graph, resource_url),
-                                   json_iri_bnode=json_iri_bnode_from_rdf_graph(rdf_graph, resource_url),
-                                   nisv_sparql_endpoint=sparql_endpoint
-                                   )
+            return render_template(
+                "resource.html",
+                resource_uri=resource_url,
+                json_header=json_header_from_rdf_graph(rdf_graph, resource_url),
+                json_iri_iri=json_iri_iri_from_rdf_graph(rdf_graph, resource_url),
+                json_iri_lit=json_iri_lit_from_rdf_graph(rdf_graph, resource_url),
+                json_iri_bnode=json_iri_bnode_from_rdf_graph(rdf_graph, resource_url),
+                nisv_sparql_endpoint=sparql_endpoint,
+            )
         return None

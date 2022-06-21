@@ -5,7 +5,6 @@ from urllib.error import HTTPError
 from urllib.parse import urlparse, urlunparse
 import requests
 from requests.exceptions import ConnectionError
-from rdflib.namespace import SDO
 
 
 class StorageLODHandler:
@@ -37,7 +36,9 @@ class StorageLODHandler:
         """
         use_file_logger = self.config.get("LOG_LEVEL_CONSOLE", None) == "DEBUG"
         try:
-            url = self._prepare_storage_uri(self.config.get("STORAGE_BASE_URL"), level, identifier)
+            url = self._prepare_storage_uri(
+                self.config.get("STORAGE_BASE_URL"), level, identifier
+            )
             data = self._storage_2_lod(url, return_format, use_file_logger)
             if data:
                 return APIUtil.toSuccessResponse(data)
@@ -100,7 +101,9 @@ class StorageLODHandler:
         with open("last_request.json", "w") as f:
             json.dump(json_data, f, indent=4)
 
-    def _storage_2_lod(self, url: str, return_format: str, use_file_logger: bool = False):
+    def _storage_2_lod(
+        self, url: str, return_format: str, use_file_logger: bool = False
+    ):
         """Returns the record data from a URL, transformed to RDF, loaded in a Graph and
         serialized to target format.
         :param url: requested url

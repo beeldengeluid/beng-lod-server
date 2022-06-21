@@ -11,7 +11,7 @@ from apis.mime_type_util import MimeType
 from apis.resource.SDOStorageLODHandler import SDOStorageLODHandler
 
 
-XML_ENCODING_DECLARATION = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+XML_ENCODING_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>'
 DUMMY_LEVEL = "program"
 SDO_PROFILE = "https://schema.org/"
 DUMMY_STORAGE_BASE_URL = "http://flexstore:1234"
@@ -19,23 +19,14 @@ DUMMY_ID = 12345  # ID's are passed as an int (see the resource_api)
 DUMMY_STORAGE_URL = f"{DUMMY_STORAGE_BASE_URL}/storage/series/{DUMMY_ID}"
 DUMMY_STORAGE_DATA = {
     "id": "2101703040124290024",
-    "parents": [
-        {
-            "parent_type": "ITEM",
-            "parent_id": "2101608310097797221"
-        }
-    ],
-    "payload": {
-        "nisv.programid": {
-            "value": "PGM4011489"
-        }
-    },
+    "parents": [{"parent_type": "ITEM", "parent_id": "2101608310097797221"}],
+    "payload": {"nisv.programid": {"value": "PGM4011489"}},
     "aclGroups": [
         {
             "name": "NISV_ADMINISTRATOR",
             "read": "1",
             "write": "1",
-            "nameRead": "NISV_ADMINISTRATOR_1"
+            "nameRead": "NISV_ADMINISTRATOR_1",
         }
     ],
     "site_id": "LTI98960475_POS106992639",
@@ -49,11 +40,13 @@ DUMMY_STORAGE_DATA = {
     "logtrack_type": "scenedesc",
     "program_ref_id": "2101608140120072331",
     "internal_ref_id": "2101608310113256223",
-    "acl_hash": 581299796
+    "acl_hash": 581299796,
 }
 
 DUMMY_STORAGE_DATA__UNSUPPORTED_LOGTRACK_TYPE = deepcopy(DUMMY_STORAGE_DATA)
-DUMMY_STORAGE_DATA__UNSUPPORTED_LOGTRACK_TYPE["logtrack_type"] = "unsupported logtrack type"
+DUMMY_STORAGE_DATA__UNSUPPORTED_LOGTRACK_TYPE[
+    "logtrack_type"
+] = "unsupported logtrack type"
 
 
 def test_get_storage_record__ob_scene_payload(application_settings, i_ob_scene_payload):
@@ -61,9 +54,9 @@ def test_get_storage_record__ob_scene_payload(application_settings, i_ob_scene_p
         profile = application_settings.get("ACTIVE_PROFILE")
         storage_base_url = application_settings.get("STORAGE_BASE_URL")
         sdo_handler = profile["storage_handler"](application_settings, profile)
-        when(sdo_handler)._prepare_storage_uri(storage_base_url, DUMMY_LEVEL, DUMMY_ID).thenReturn(
-            DUMMY_STORAGE_URL
-        )
+        when(sdo_handler)._prepare_storage_uri(
+            storage_base_url, DUMMY_LEVEL, DUMMY_ID
+        ).thenReturn(DUMMY_STORAGE_URL)
         when(sdo_handler)._get_json_from_storage(DUMMY_STORAGE_URL, True).thenReturn(
             i_ob_scene_payload
         )
@@ -106,7 +99,9 @@ def test_get_storage_record__ob_scene_payload(application_settings, i_ob_scene_p
         unstub()
 
 
-def test_get_storage_record__error_scene_payload(application_settings, i_error_scene_payload):
+def test_get_storage_record__error_scene_payload(
+    application_settings, i_error_scene_payload
+):
     try:
         profile = application_settings.get("ACTIVE_PROFILE")
         storage_base_url = application_settings.get("STORAGE_BASE_URL")
@@ -138,7 +133,9 @@ def test_get_storage_record__no_storage_data(application_settings):
         when(sdo_handler)._prepare_storage_uri(
             storage_base_url, "scene", "2101702260627885424"
         ).thenReturn(DUMMY_STORAGE_URL)
-        when(sdo_handler)._get_json_from_storage(DUMMY_STORAGE_URL, True).thenReturn(None)
+        when(sdo_handler)._get_json_from_storage(DUMMY_STORAGE_URL, True).thenReturn(
+            None
+        )
         mt = MimeType.JSON_LD
         resp, status_code, headers = sdo_handler.get_storage_record(
             "scene", "2101702260627885424", mt.to_ld_format()
@@ -150,13 +147,16 @@ def test_get_storage_record__no_storage_data(application_settings):
     finally:
         unstub()
 
+
 """
 ---------------------------------- PER FUNCTION UNIT TESTS --------------------------------
 """
 
+
 # TODO
 def test_get_storage_record(application_settings):
     pass
+
 
 @pytest.mark.parametrize(
     "storage_url, return_mime_type",
@@ -166,14 +166,16 @@ def test_get_storage_record(application_settings):
         (DUMMY_STORAGE_URL, MimeType.TURTLE),
         (DUMMY_STORAGE_URL, MimeType.N_TRIPLES),
         (DUMMY_STORAGE_URL, MimeType.N3),
-        (DUMMY_STORAGE_URL, MimeType.JSON)  # not supported by rdflib
+        (DUMMY_STORAGE_URL, MimeType.JSON),  # not supported by rdflib
     ],
 )
 def test_storage_2_lod(application_settings, storage_url, return_mime_type):
     try:
         profile = application_settings.get("ACTIVE_PROFILE")
         slh = SDOStorageLODHandler(application_settings, profile)
-        when(slh)._get_json_from_storage(storage_url, False).thenReturn(DUMMY_STORAGE_DATA)
+        when(slh)._get_json_from_storage(storage_url, False).thenReturn(
+            DUMMY_STORAGE_DATA
+        )
         serialized_data = slh._storage_2_lod(storage_url, return_mime_type.value)
         if return_mime_type == MimeType.JSON_LD:
             json_data = json.loads(serialized_data)
@@ -182,7 +184,9 @@ def test_storage_2_lod(application_settings, storage_url, return_mime_type):
         elif return_mime_type == MimeType.RDF_XML:
             assert type(serialized_data) == str
             assert XML_ENCODING_DECLARATION in serialized_data
-            root = etree.fromstring(serialized_data.replace(XML_ENCODING_DECLARATION, ""))
+            root = etree.fromstring(
+                serialized_data.replace(XML_ENCODING_DECLARATION, "")
+            )
             assert type(root) == etree._Element
         elif return_mime_type == MimeType.TURTLE:
             assert type(serialized_data) == str
@@ -194,6 +198,7 @@ def test_storage_2_lod(application_settings, storage_url, return_mime_type):
         assert return_mime_type == MimeType.JSON
     finally:
         unstub()
+
 
 @pytest.mark.parametrize(
     "storage_data, raised_exception",

@@ -28,3 +28,4 @@ resource/datacatalogfromspreadsheet-a5ccabb0919f.json
 /src/importer/graph_as_string.ttl
 /src/util/simple_test_script.py
 log
+.mypy_cache

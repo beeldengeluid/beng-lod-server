@@ -53,7 +53,7 @@ CLASS_URIS_FOR_DAAN_LEVELS = {
 
 # Valid levels to be used to generate stable resource URIs from
 @unique
-class ResourceURILevel(Enum): 
+class ResourceURILevel(Enum):
     PROGRAM = "program"
     SERIES = "series"
     SEASON = "season"

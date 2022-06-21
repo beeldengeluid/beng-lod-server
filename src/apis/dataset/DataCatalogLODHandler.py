@@ -30,11 +30,18 @@ class DataCatalogLODHandler:
         self._data_catalog = Graph()
         import git
         import pathlib
-        repo = git.Repo('.', search_parent_directories=True)
-        git_src_dir = pathlib.Path(repo.working_tree_dir).joinpath('src')
-        data_catalog_unit_test_file = pathlib.Path(git_src_dir).joinpath(data_catalog_file).absolute().as_uri()
 
-        self._data_catalog.parse(data_catalog_unit_test_file, format=MimeType.TURTLE.value)
+        repo = git.Repo(".", search_parent_directories=True)
+        git_src_dir = pathlib.Path(repo.working_tree_dir).joinpath(  # type: ignore #TODO working_tree_dir can be None
+            "src"
+        )
+        data_catalog_unit_test_file = (
+            pathlib.Path(git_src_dir).joinpath(data_catalog_file).absolute().as_uri()
+        )
+
+        self._data_catalog.parse(
+            data_catalog_unit_test_file, format=MimeType.TURTLE.value
+        )
 
     """-------------NDE requirements validation----------------------"""
 
@@ -214,7 +221,7 @@ class DataCatalogLODHandler:
             return APIUtil.toSuccessResponse(json_string)
         return APIUtil.toErrorResponse("bad_request", "Invalid URI or return format")
 
-    def get_dataset(self, dataset_uri, mime_format=MimeType.JSON_LD.to_ld_format()):
+    def get_dataset(self, dataset_uri, mime_format="json-ld"):
         """Returns the data from the data catalog graph in requested serialization format.
         :param dataset_uri: the identifier for the dataset
         :param mime_format: the requested mime type for the graph data. Defaults to JSON-LD.

@@ -4,10 +4,12 @@
 
 Works with Python 3.8
 
-# prerequisites
+# Prerequisites
 Get yourself the lovely [pipenv](https://docs.pipenv.org/en/latest/)
 
-From your command line run this from the repository root:
+
+From your command line run this from the repository root. When developing,
+append the `--dev` flag to install the development dependencies as well:
 
 ```sh
 pipenv install
@@ -31,13 +33,13 @@ cd src
 pipenv run python server.py
 ```
 
-When the server is started correctly, you can checkout the OpenAPI specification from your browser: 
+When the server is started correctly, you can checkout the OpenAPI specification from your browser:
 
-`http://127.0.0.1:5309/`, or you can get RDF directly, for example: 
+`http://127.0.0.1:5309/`, or you can get RDF directly, for example:
 
 ```sh
 curl -L -H "Accept: application/ld+json" http://127.0.0.1:5309/id/program/2101608130117680531
-``` 
+```
 
 By adding the data domain to your hosts.conf file you will be able to serve all items from your machine, as if it were the production server itself:
 ```
@@ -48,4 +50,3 @@ This is especially convenient when you want to click items from the lod-view HTM
 ```python
     APP_PORT = 80
 ```
-

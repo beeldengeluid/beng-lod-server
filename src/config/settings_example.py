@@ -2,6 +2,7 @@ from apis.resource.DAANStorageLODHandler import DAANStorageLODHandler
 from apis.resource.SDOStorageLODHandler import SDOStorageLODHandler
 from util.base_util import relative_from_repo_root
 
+
 class Config(object):
     APP_HOST = "0.0.0.0"
     APP_PORT = 5309
@@ -16,7 +17,13 @@ class Config(object):
 
     STORAGE_BASE_URL = "http://flexstore.beng.nl:1234"
 
-    ENABLED_ENDPOINTS = ["resource", "dataset", "gtaa", "pong", "health"]  # allow all by default
+    ENABLED_ENDPOINTS = [
+        "resource",
+        "dataset",
+        "gtaa",
+        "pong",
+        "health",
+    ]  # allow all by default
 
     # profiles determine which schema is used for the linked data
     PROFILES = [
@@ -41,7 +48,7 @@ class Config(object):
     ]
 
     DATA_CATALOG_FILE = relative_from_repo_root("resource/data_catalog_unit_test.ttl")
-    
+
     BENG_DATA_DOMAIN = "http://data.beeldengeluid.nl/"
     URI_NISV_ORGANISATION = "https://www.beeldengeluid.nl/"
 

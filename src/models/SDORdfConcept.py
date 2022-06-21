@@ -67,7 +67,9 @@ class SDORdfConcept(BaseRdfConcept):
             )
 
         # add the publisher triple
-        self.graph.add((self.itemNode, SDO.publisher, URIRef(self._model.URI_NISV_ORGANISATION)))
+        self.graph.add(
+            (self.itemNode, SDO.publisher, URIRef(self._model.URI_NISV_ORGANISATION))
+        )
 
         # convert the record payload to RDF
         self.__payload_to_rdf(metadata["payload"], self.itemNode, self.classUri)
@@ -76,7 +78,7 @@ class SDORdfConcept(BaseRdfConcept):
         self.__parent_to_rdf(metadata)
 
     # TODO: make a module for rights
-    def rights_to_license_uri(self, payload=None):
+    def rights_to_license_uri(self, payload=None):  # noqa: C901 #TODO
         """Analyse the metadata, return a proper CC license.
         This is an implementation of the rules in the beng-lod wiki page:
         https://github.com/beeldengeluid/beng-lod-server/wiki/Rights-and-licenses-for-NISV-open-data
@@ -406,7 +408,7 @@ class SDORdfConcept(BaseRdfConcept):
 
         return skos_concept_node
 
-    def __payload_to_rdf(self, payload, parent_node, class_uri):
+    def __payload_to_rdf(self, payload, parent_node, class_uri):  # noqa: C901 #TODO
         """Converts the metadata described in payload (json) to RDF, and attaches it to the parentNode
         (e.g. the parentNode can be the identifier node for a program, and the payload the metadata describing
         that program). Calls itself recursively to handle any classes in the metadata, e.g. the publication
@@ -539,7 +541,12 @@ class SDORdfConcept(BaseRdfConcept):
                     self.graph.add((parent_node, URIRef(property_uri), role_node))
 
                     # add the PerformanceRole or Role type for the property.
-                    if URIRef(property_uri) in (SDO.byArtist, SDO.actor, SDO.contributor, SDO.creator):
+                    if URIRef(property_uri) in (
+                        SDO.byArtist,
+                        SDO.actor,
+                        SDO.contributor,
+                        SDO.creator,
+                    ):
                         self.graph.add((role_node, RDF.type, SDO.PerformanceRole))
                     elif URIRef(property_uri) in (SDO.productionCompany, SDO.mentions):
                         self.graph.add((role_node, RDF.type, SDO.Role))
@@ -592,7 +599,7 @@ class SDORdfConcept(BaseRdfConcept):
 
         return
 
-    def __parent_to_rdf(self, metadata):
+    def __parent_to_rdf(self, metadata):  # noqa: C901 #TODO
         """Depending on the type of the child (e.g. program) retrieve the information about its
         parents from the metadata, link the child to the parents, and return the new instances and
         properties in the graph"""
