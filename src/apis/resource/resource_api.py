@@ -45,8 +45,9 @@ class ResourceAPI(Resource):
                 "bad request", "Invalid resource level supplied"
             )
 
-        # shortcut for HTML (note that these are delivered from the RDF store, so no need to do is_public_resource
-        if "html" in str(request.headers.get("Accept")):
+        mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
+        if mime_type is MimeType.HTML:
+            # note that data for HTML is requested from the RDF store, so no need to do is_public_resource
             html_page = self._get_lod_view_resource(
                 lod_url,
                 current_app.config.get("SPARQL_ENDPOINT"),
@@ -60,6 +61,7 @@ class ResourceAPI(Resource):
                     "Could not generate an HTML view for this resource",
                 )
 
+        # NOTE: in the future design we request from triples store so no basic auth is necessary
         # only registered user can access all items
         auth_user = current_app.config.get("AUTH_USER")
         auth_pass = current_app.config.get("AUTH_PASSWORD")
@@ -81,7 +83,6 @@ class ResourceAPI(Resource):
                     "access_denied", "The resource can not be dereferenced."
                 )
 
-        mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
         if mime_type:
             # note we need to use empty params for the UI
             return self._get_lod_resource(

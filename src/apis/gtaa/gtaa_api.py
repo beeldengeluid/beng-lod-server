@@ -39,9 +39,12 @@ class GTAAAPI(Resource):
         # can't send a request from the lod-view with an accept header. It just isn't possible.
         # The should not be shown when the json-ld, etc. formatted data is shown in the browser. It should list the
         # resource URI only. Still a coolURI
+        # NOTE that we can also add LD in the script tag. Perhaps, using something like Comunica client, we can
+        # laod the data in JS, and serialize the graph in the requested format. In that case we don't
+        # even need to add a parameter to the server.
 
-        # shortcut for HTML
-        if "html" in str(request.headers.get("Accept")):
+        mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
+        if mime_type is MimeType.HTML:
             html_page = self._get_lod_view_gtaa(
                 gtaa_uri,
                 current_app.config.get("SPARQL_ENDPOINT"),
@@ -56,7 +59,6 @@ class GTAAAPI(Resource):
                     "Could not generate an HTML view for this resource",
                 )
 
-        mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
         if mime_type:
             # note we need to use empty params for the UI
             return self._get_lod_gtaa(

@@ -1,6 +1,7 @@
 import logging
+import re
 from enum import Enum
-from typing import Optional, Tuple
+from typing import Optional, List, Tuple
 
 
 class MimeType(Enum):
@@ -10,8 +11,9 @@ class MimeType(Enum):
     N_TRIPLES = "application/n-triples"
     N3 = "text/n3"
     JSON = "application/json"
+    HTML = "text/html"
 
-    def to_ld_format(self) -> str:
+    def to_ld_format(self) -> Optional[str]:
         if self is MimeType.JSON_LD:
             return "json-ld"
         elif self is MimeType.RDF_XML:
@@ -24,6 +26,8 @@ class MimeType(Enum):
             return "n3"
         elif self is MimeType.JSON:
             return "json-ld"
+        elif self is MimeType.HTML:
+            return None
 
 
 def accept_type_to_mime_type(accept_type: str) -> MimeType:
@@ -62,8 +66,45 @@ def get_profile_by_uri(profile_uri, app_config):
         return app_config["ACTIVE_PROFILE"]
 
 
-def parse_accept_header(accept_header: str) -> Tuple[MimeType, Optional[str]]:
+def parse_quality_values(accept_header_text: str) -> List[Tuple]:
+    """This parses the Accept header and returns a list of media_type/quality_factor tuples.
+          Accept = #( media-range [ weight ] )
+
+            media-range    = ( "*/*"
+                             / ( type "/" "*" )
+                             / ( type "/" subtype )
+                           ) parameters
+
+        examples:
+            Accept: text/*, text/plain, text/plain;format=flowed, */*
+            Accept: text/*;q=0.3, text/plain;q=0.7, text/plain;format=flowed,
+                    text/plain;format=fixed;q=0.4, */*;q=0.5
+
+         weight = OWS ";" OWS "q=" qvalue
+          qvalue = ( "0" [ "." 0*3DIGIT ] )
+                    / ( "1" [ "." 0*3("0") ] )
+    """
+    media_range_parts = re.split(r',\s*', accept_header_text)
+    list_of_mr = [re.split(r';\s*q=', media_range) for media_range in media_range_parts]
+    l_accept = [(item[0], float(item[1])) if len(item) == 2 else (item[0], 1) for item in list_of_mr]
+
+    # TODO: handle the media range parameters, like  text/plain;format=flowed,
+    # TODO: order based on specificity (more specific has higher priority
+
+    l_accept.sort(key=lambda a: a[1], reverse=True)  # order based on quality
+
+    return l_accept
+
+
+def parse_accept_header(accept_header: str) -> (MimeType, str):
     """Parses an Accept header for a request for RDF to the server. It returns the mime_type and profile.
+
+    Profile negotiation (kind of a hack):
+    By definition (https://www.rfc-editor.org/rfc/rfc9110.html#name-accept), the accept header is a comma separated
+    list of media ranges. We assume that the profile is always the last part of the accept header, being the part
+    after the last comma that always starts with 'profile='. Because of this assumption we can split the entire
+    string at the commas and handle the profile as an exceptional case.
+
     :param: accept_header: the Accept parameter from the HTTP request.
     :returns: mime_type, accept_profile. None if input parameter is missing.
     """
@@ -73,18 +114,22 @@ def parse_accept_header(accept_header: str) -> Tuple[MimeType, Optional[str]]:
     if accept_header is None or accept_header == "*/*":
         return mime_type, accept_profile
 
-    if accept_header.find(";") != -1 and accept_header.find("profile") != -1:
-        temp = accept_header.split(";")
-        if len(temp) == 2:
-            try:
-                mime_type = MimeType(temp[0])
-            except ValueError as e:
-                logging.debug(str(e))
+    # handle the profile (example: profile="https://schema.org/")
+    profile_param = re.split(r',profile=', accept_header, maxsplit=1)
+    if len(profile_param) == 2:
+        accept_profile = profile_param[1].strip('"')
 
-            kv = temp[1].split("=")
-            if len(kv) > 1 and kv[0].strip() == "profile":
-                accept_profile = kv[1].replace('"', "")
-        return mime_type, accept_profile
+    # now continue without the profile part (when present).
+    accept_header = profile_param[0]
+
+    # parse the relative quality factor https://github.com/beeldengeluid/beng-lod-server/issues/215
+    media_ranges = parse_quality_values(accept_header)
+    for media_range in media_ranges:
+        try:
+            mime_type = MimeType(media_range[0])
+            return mime_type, accept_profile
+        except ValueError as e:
+            print(str(e))
 
     try:
         return MimeType(accept_header), accept_profile

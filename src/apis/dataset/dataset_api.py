@@ -133,8 +133,9 @@ class LODDataCatalogAPI(LODDataAPI):
             current_app.config["BENG_DATA_DOMAIN"],
         )
 
-        # shortcut for HTML (note that these are delivered from the RDF store)
-        if "html" in str(request.headers.get("Accept")):
+        mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
+        if mime_type is MimeType.HTML:
+            # note that data for HTML are delivered from the RDF store
             html_page = self._get_lod_view_resource(
                 data_catalog_uri,
                 current_app.config.get("SPARQL_ENDPOINT"),
