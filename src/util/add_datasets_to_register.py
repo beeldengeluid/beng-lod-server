@@ -25,7 +25,7 @@ def sparql_select_query(sparql_endpoint: str, query: str):
             return res_dict["results"]["bindings"]
 
 
-def validate_dataset(nde_validate_api: str, dataset_uri: str):
+def validate_dataset(nde_validate_api: str, dataset_uri: str) -> bool:
     """Use the API to valildate the dataset. Once validated it can be POSTED to the API."""
     try:
         headers = {
