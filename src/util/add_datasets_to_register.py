@@ -50,6 +50,7 @@ def validate_dataset(nde_validate_api: str, dataset_uri: str) -> bool:
             print(
                 f"NDE dataset register validate api was not successful: {resp.status_code}."
             )
+        return false
     except ConnectionError as e:
         print(str(e))
 
