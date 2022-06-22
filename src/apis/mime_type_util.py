@@ -1,7 +1,7 @@
 import logging
 import re
 from enum import Enum
-from typing import Optional, List, Tuple
+from typing import Optional
 
 
 class MimeType(Enum):
