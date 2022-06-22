@@ -66,7 +66,7 @@ def get_profile_by_uri(profile_uri, app_config):
         return app_config["ACTIVE_PROFILE"]
 
 
-def parse_quality_values(accept_header_text: str) -> List[Tuple]:
+def parse_quality_values(accept_header_text: str):
     """This parses the Accept header and returns a list of media_type/quality_factor tuples.
       Accept = #( media-range [ weight ] )
 
@@ -99,7 +99,7 @@ def parse_quality_values(accept_header_text: str) -> List[Tuple]:
     return l_accept
 
 
-def parse_accept_header(accept_header: str) -> (MimeType, str):
+def parse_accept_header(accept_header: str):
     """Parses an Accept header for a request for RDF to the server. It returns the mime_type and profile.
 
     Profile negotiation (kind of a hack):

@@ -91,6 +91,8 @@ class GTAAAPI(Resource):
             mt = MimeType(mime_type)
         except ValueError:
             mt = MimeType.JSON_LD
+        mt_ld_format = mt.to_ld_format()
+        ld_type = mt_ld_format if mt_ld_format is not None else "json-ld"
 
         rdf_graph = get_lod_resource_from_rdf_store(
             gtaa_uri,
@@ -100,7 +102,7 @@ class GTAAAPI(Resource):
         )
         if rdf_graph:
             # serialize using the mime_type
-            resp = rdf_graph.serialize(format=mt.to_ld_format())
+            resp = rdf_graph.serialize(format=ld_type)
             headers = {"Content-Type": mt.value}
             return Response(resp, mimetype=mt.value, headers=headers)
         return None
