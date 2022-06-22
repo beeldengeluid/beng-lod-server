@@ -37,6 +37,7 @@ def validate_dataset(nde_validate_api: str, dataset_uri: str) -> bool:
         if resp.status_code == 200:
             res_dict = json.loads(resp.text)
             print(json.dumps(res_dict, indent=4))
+            return true
         elif resp.status_code == 400:
             print(
                 "400: One or more dataset descriptions are invalid according to the Requirements for Datasets. "
