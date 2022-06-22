@@ -2,6 +2,7 @@ import requests
 from config.settings import Config
 from typing import List
 import json
+
 # from urllib.parse import urlunparse, urlparse
 
 

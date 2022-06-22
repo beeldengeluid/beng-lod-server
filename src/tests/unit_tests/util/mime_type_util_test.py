@@ -11,14 +11,10 @@ ACCEPT_HEADER_NDE = (
     "application/jso5,text/n3;q=0.35,application/xml;q=0.3,text/xml;q=0.3,"
     "image/svg+xml;q=0.3,text/html;q=0.2,application/xhtml+xml;q=0.18"
 )
-ACCEPT_HEADER_FUJI = (
-    "text/html, application/xhtml+xml, application/xml;q=0.5, text/xml;q=0.5, application/rdf+xml;q=0.5"
-)
+ACCEPT_HEADER_FUJI = "text/html, application/xhtml+xml, application/xml;q=0.5, text/xml;q=0.5, application/rdf+xml;q=0.5"
 ACCEPT_HEADER_SPEC_1 = "text/plain; q=0.5, text/html,text/x-dvi; q=0.8, text/x-c"
 ACCEPT_HEADER_SPEC_2 = "text/*, text/plain, text/plain;format=flowed, */*"
-ACCEPT_HEADER_SPEC_3 = (
-    "text/*;q=0.3, text/plain;q=0.7, text/plain;format=flowed, text/plain;format=fixed;q=0.4, */*;q=0.5"
-)
+ACCEPT_HEADER_SPEC_3 = "text/*;q=0.3, text/plain;q=0.7, text/plain;format=flowed, text/plain;format=fixed;q=0.4, */*;q=0.5"
 ACCEPT_HEADER_CHROME = (
     "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,"
     "*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
