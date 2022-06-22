@@ -2,13 +2,13 @@ import requests
 from config.settings import Config
 from typing import List
 import json
-from urllib.parse import urlunparse, urlparse
+# from urllib.parse import urlunparse, urlparse
 
 
 def get_datasets(sparql_endpoint: str) -> List[str]:
     """Given a sparql endpoint, get the data catalog and generate an URL list of datasets."""
     list_of_datasets = []
-    query = f"""SELECT ?dataset WHERE {{ ?s a sdo:DataCatalog . ?s sdo:dataset ?dataset }}"""
+    query = "SELECT ?dataset WHERE { ?s a sdo:DataCatalog . ?s sdo:dataset ?dataset }"
 
     for item in sparql_select_query(sparql_endpoint, query):
         if item.get("dataset") and item.get("dataset").get("value"):
@@ -75,8 +75,8 @@ if __name__ == "__main__":
     # validate_dataset(api_validate, nde_dataset)
 
     for dataset_uri in get_datasets(Config.SPARQL_ENDPOINT):
-        url_parts = urlparse(dataset_uri)
-        print(url_parts)
+        # url_parts = urlparse(dataset_uri)
+        # print(url_parts)
 
         print(f"Validating dataset: {dataset_uri}")
         validate_dataset(api_validate, dataset_uri)

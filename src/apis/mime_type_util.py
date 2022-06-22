@@ -68,21 +68,21 @@ def get_profile_by_uri(profile_uri, app_config):
 
 def parse_quality_values(accept_header_text: str) -> List[Tuple]:
     """This parses the Accept header and returns a list of media_type/quality_factor tuples.
-          Accept = #( media-range [ weight ] )
+      Accept = #( media-range [ weight ] )
 
-            media-range    = ( "*/*"
-                             / ( type "/" "*" )
-                             / ( type "/" subtype )
-                           ) parameters
+        media-range    = ( "*/*"
+                         / ( type "/" "*" )
+                         / ( type "/" subtype )
+                       ) parameters
 
-        examples:
-            Accept: text/*, text/plain, text/plain;format=flowed, */*
-            Accept: text/*;q=0.3, text/plain;q=0.7, text/plain;format=flowed,
-                    text/plain;format=fixed;q=0.4, */*;q=0.5
+    examples:
+        Accept: text/*, text/plain, text/plain;format=flowed, */*
+        Accept: text/*;q=0.3, text/plain;q=0.7, text/plain;format=flowed,
+                text/plain;format=fixed;q=0.4, */*;q=0.5
 
-         weight = OWS ";" OWS "q=" qvalue
-          qvalue = ( "0" [ "." 0*3DIGIT ] )
-                    / ( "1" [ "." 0*3("0") ] )
+     weight = OWS ";" OWS "q=" qvalue
+      qvalue = ( "0" [ "." 0*3DIGIT ] )
+                / ( "1" [ "." 0*3("0") ] )
     """
     media_range_parts = re.split(r",\s*", accept_header_text)
     list_of_mr = [re.split(r";\s*q=", media_range) for media_range in media_range_parts]
