@@ -12,8 +12,9 @@ if [ ! -z "$USE_VENV" ] ; then
 	pipenv shell
 fi
 
-cd ../
-pytest
+# tests, lint, black, typcheck from root of the repository
+cd ../../
+pipenv run pytest
 
 # check lint rules (configured in .flake8)
 pipenv run flake8

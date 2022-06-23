@@ -1,7 +1,7 @@
 from flask import current_app, request, Response, make_response, render_template
 from flask_restx import Namespace, Resource
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
-from apis.mime_type_util import parse_accept_header
+from apis.mime_type_util import MimeType
 from models.DAANRdfModel import ResourceURILevel
 from util.ld_util import (
     generate_lod_resource_uri,
@@ -70,13 +70,22 @@ class LODDatasetAPI(LODDataAPI):
         """Get the RDF for the Dataset, including its DataDownloads.
         All triples for the Dataset and its DataDownloads are included.
         """
-        mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
         dataset_uri = generate_lod_resource_uri(
             ResourceURILevel.DATASET, number, current_app.config["BENG_DATA_DOMAIN"]
         )
+        if not self.is_valid_dataset(dataset_uri):
+            return APIUtil.toErrorResponse("not_found", "The dataset can not be found.")
 
-        # shortcut for HTML (note that these are delivered from the RDF store)
-        if "html" in str(request.headers.get("Accept")):
+        lod_server_supported_mime_types = [mt.value for mt in MimeType]
+        best_match = request.accept_mimetypes.best_match(
+            lod_server_supported_mime_types
+        )
+        mime_type = MimeType.JSON_LD
+        if best_match is not None:
+            mime_type = MimeType(best_match)
+
+        if mime_type is MimeType.HTML:
+            # note that data for HTML are delivered from the RDF store
             html_page = self._get_lod_view_resource(
                 dataset_uri,
                 current_app.config.get("SPARQL_ENDPOINT"),
@@ -102,6 +111,12 @@ class LODDatasetAPI(LODDataAPI):
         # otherwise resp SHOULD be a json error message and thus the response can be returned like this
         return resp, status_code, headers
 
+    def is_valid_dataset(self, dataset_uri: str) -> bool:
+        is_valid = DataCatalogLODHandler(current_app.config).is_valid_dataset(
+            dataset_uri
+        )
+        return is_valid is True
+
 
 @api.doc(
     responses={
@@ -126,15 +141,26 @@ class LODDataCatalogAPI(LODDataAPI):
         """Get the RDF for the DataCatalog, including its Datasets.
         All triples describing the DataCatalog and its Datasets are included.
         """
-        mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
         data_catalog_uri = generate_lod_resource_uri(
             ResourceURILevel.DATACATALOG,
             number,
             current_app.config["BENG_DATA_DOMAIN"],
         )
+        if not self.is_valid_data_catalog(data_catalog_uri):
+            return APIUtil.toErrorResponse(
+                "not_found", "The DataCatalog can not be found."
+            )
 
-        # shortcut for HTML (note that these are delivered from the RDF store)
-        if "html" in str(request.headers.get("Accept")):
+        lod_server_supported_mime_types = [mt.value for mt in MimeType]
+        best_match = request.accept_mimetypes.best_match(
+            lod_server_supported_mime_types
+        )
+        mime_type = MimeType.JSON_LD
+        if best_match is not None:
+            mime_type = MimeType(best_match)
+
+        if mime_type is MimeType.HTML:
+            # note that data for HTML are delivered from the RDF store
             html_page = self._get_lod_view_resource(
                 data_catalog_uri,
                 current_app.config.get("SPARQL_ENDPOINT"),
@@ -160,6 +186,12 @@ class LODDataCatalogAPI(LODDataAPI):
         # otherwise resp SHOULD be a json error message and thus the response can be returned like this
         return resp, status_code, headers
 
+    def is_valid_data_catalog(self, data_catalog_uri: str) -> bool:
+        is_valid = DataCatalogLODHandler(current_app.config).is_valid_data_catalog(
+            data_catalog_uri
+        )
+        return is_valid is True
+
 
 @api.doc(
     responses={
@@ -182,15 +214,26 @@ class LODDataDownloadAPI(LODDataAPI):
     @api.response(404, "Resource does not exist error")
     def get(self, number=None):
         """Get the RDF for the DataDownload."""
-        mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
         data_download_uri = generate_lod_resource_uri(
             ResourceURILevel.DATADOWNLOAD,
             number,
             current_app.config["BENG_DATA_DOMAIN"],
         )
+        if not self.is_valid_data_download(data_download_uri):
+            return APIUtil.toErrorResponse(
+                "not_found", "The DataDownload can not be found."
+            )
 
-        # shortcut for HTML (note that these are delivered from the RDF store)
-        if "html" in str(request.headers.get("Accept")):
+        lod_server_supported_mime_types = [mt.value for mt in MimeType]
+        best_match = request.accept_mimetypes.best_match(
+            lod_server_supported_mime_types
+        )
+        mime_type = MimeType.JSON_LD
+        if best_match is not None:
+            mime_type = MimeType(best_match)
+
+        if mime_type is MimeType.HTML:
+            # note that data for HTML are delivered from the RDF store
             html_page = self._get_lod_view_resource(
                 data_download_uri,
                 current_app.config.get("SPARQL_ENDPOINT"),
@@ -214,3 +257,9 @@ class LODDataDownloadAPI(LODDataAPI):
 
         # otherwise resp SHOULD be a json error message and thus the response can be returned like this
         return resp, status_code, headers
+
+    def is_valid_data_download(self, data_download_uri: str) -> bool:
+        is_valid = DataCatalogLODHandler(current_app.config).is_valid_data_download(
+            data_download_uri
+        )
+        return is_valid is True

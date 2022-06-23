@@ -1,6 +1,5 @@
-import logging
 from enum import Enum
-from typing import Optional, Tuple
+from typing import Optional
 
 
 class MimeType(Enum):
@@ -10,8 +9,9 @@ class MimeType(Enum):
     N_TRIPLES = "application/n-triples"
     N3 = "text/n3"
     JSON = "application/json"
+    HTML = "text/html"
 
-    def to_ld_format(self) -> str:
+    def to_ld_format(self) -> Optional[str]:
         if self is MimeType.JSON_LD:
             return "json-ld"
         elif self is MimeType.RDF_XML:
@@ -24,6 +24,8 @@ class MimeType(Enum):
             return "n3"
         elif self is MimeType.JSON:
             return "json-ld"
+        elif self is MimeType.HTML:
+            return None
 
 
 def accept_type_to_mime_type(accept_type: str) -> MimeType:
@@ -60,34 +62,3 @@ def get_profile_by_uri(profile_uri, app_config):
             return p
     else:  # otherwise return the default profile
         return app_config["ACTIVE_PROFILE"]
-
-
-def parse_accept_header(accept_header: str) -> Tuple[MimeType, Optional[str]]:
-    """Parses an Accept header for a request for RDF to the server. It returns the mime_type and profile.
-    :param: accept_header: the Accept parameter from the HTTP request.
-    :returns: mime_type, accept_profile. None if input parameter is missing.
-    """
-    mime_type = MimeType.JSON_LD
-    accept_profile = None
-
-    if accept_header is None or accept_header == "*/*":
-        return mime_type, accept_profile
-
-    if accept_header.find(";") != -1 and accept_header.find("profile") != -1:
-        temp = accept_header.split(";")
-        if len(temp) == 2:
-            try:
-                mime_type = MimeType(temp[0])
-            except ValueError as e:
-                logging.debug(str(e))
-
-            kv = temp[1].split("=")
-            if len(kv) > 1 and kv[0].strip() == "profile":
-                accept_profile = kv[1].replace('"', "")
-        return mime_type, accept_profile
-
-    try:
-        return MimeType(accept_header), accept_profile
-    except ValueError as e:
-        logging.error(f"Accept header not a valid mimetype: {str(e)}")
-        return MimeType.JSON_LD, accept_profile
