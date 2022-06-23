@@ -70,6 +70,12 @@ class LODDatasetAPI(LODDataAPI):
         """Get the RDF for the Dataset, including its DataDownloads.
         All triples for the Dataset and its DataDownloads are included.
         """
+        dataset_uri = generate_lod_resource_uri(
+            ResourceURILevel.DATASET, number, current_app.config["BENG_DATA_DOMAIN"]
+        )
+        if not self.is_valid_dataset(dataset_uri):
+            return APIUtil.toErrorResponse("not_found", "The dataset can not be found.")
+
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
@@ -78,9 +84,6 @@ class LODDatasetAPI(LODDataAPI):
         if best_match is not None:
             mime_type = MimeType(best_match)
 
-        dataset_uri = generate_lod_resource_uri(
-            ResourceURILevel.DATASET, number, current_app.config["BENG_DATA_DOMAIN"]
-        )
         if mime_type is MimeType.HTML:
             # note that data for HTML are delivered from the RDF store
             html_page = self._get_lod_view_resource(
@@ -108,6 +111,12 @@ class LODDatasetAPI(LODDataAPI):
         # otherwise resp SHOULD be a json error message and thus the response can be returned like this
         return resp, status_code, headers
 
+    def is_valid_dataset(self, dataset_uri: str) -> bool:
+        is_valid = DataCatalogLODHandler(current_app.config).is_valid_dataset(
+            dataset_uri
+        )
+        return is_valid is True
+
 
 @api.doc(
     responses={
@@ -132,6 +141,16 @@ class LODDataCatalogAPI(LODDataAPI):
         """Get the RDF for the DataCatalog, including its Datasets.
         All triples describing the DataCatalog and its Datasets are included.
         """
+        data_catalog_uri = generate_lod_resource_uri(
+            ResourceURILevel.DATACATALOG,
+            number,
+            current_app.config["BENG_DATA_DOMAIN"],
+        )
+        if not self.is_valid_data_catalog(data_catalog_uri):
+            return APIUtil.toErrorResponse(
+                "not_found", "The DataCatalog can not be found."
+            )
+
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
@@ -139,11 +158,6 @@ class LODDataCatalogAPI(LODDataAPI):
         mime_type = MimeType.JSON_LD
         if best_match is not None:
             mime_type = MimeType(best_match)
-        data_catalog_uri = generate_lod_resource_uri(
-            ResourceURILevel.DATACATALOG,
-            number,
-            current_app.config["BENG_DATA_DOMAIN"],
-        )
 
         if mime_type is MimeType.HTML:
             # note that data for HTML are delivered from the RDF store
@@ -172,6 +186,12 @@ class LODDataCatalogAPI(LODDataAPI):
         # otherwise resp SHOULD be a json error message and thus the response can be returned like this
         return resp, status_code, headers
 
+    def is_valid_data_catalog(self, data_catalog_uri: str) -> bool:
+        is_valid = DataCatalogLODHandler(current_app.config).is_valid_data_catalog(
+            data_catalog_uri
+        )
+        return is_valid is True
+
 
 @api.doc(
     responses={
@@ -194,6 +214,16 @@ class LODDataDownloadAPI(LODDataAPI):
     @api.response(404, "Resource does not exist error")
     def get(self, number=None):
         """Get the RDF for the DataDownload."""
+        data_download_uri = generate_lod_resource_uri(
+            ResourceURILevel.DATADOWNLOAD,
+            number,
+            current_app.config["BENG_DATA_DOMAIN"],
+        )
+        if not self.is_valid_data_download(data_download_uri):
+            return APIUtil.toErrorResponse(
+                "not_found", "The DataDownload can not be found."
+            )
+
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
@@ -201,11 +231,6 @@ class LODDataDownloadAPI(LODDataAPI):
         mime_type = MimeType.JSON_LD
         if best_match is not None:
             mime_type = MimeType(best_match)
-        data_download_uri = generate_lod_resource_uri(
-            ResourceURILevel.DATADOWNLOAD,
-            number,
-            current_app.config["BENG_DATA_DOMAIN"],
-        )
 
         if mime_type is MimeType.HTML:
             # note that data for HTML are delivered from the RDF store
@@ -232,3 +257,9 @@ class LODDataDownloadAPI(LODDataAPI):
 
         # otherwise resp SHOULD be a json error message and thus the response can be returned like this
         return resp, status_code, headers
+
+    def is_valid_data_download(self, data_download_uri: str) -> bool:
+        is_valid = DataCatalogLODHandler(current_app.config).is_valid_data_download(
+            data_download_uri
+        )
+        return is_valid is True
