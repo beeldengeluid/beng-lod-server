@@ -1,6 +1,6 @@
 from flask import current_app, request, Response, render_template, make_response
 from flask_restx import Namespace, Resource
-from apis.mime_type_util import parse_accept_header, MimeType
+from apis.mime_type_util import MimeType
 from util.APIUtil import APIUtil
 from util.ld_util import (
     get_lod_resource_from_rdf_store,
@@ -40,10 +40,17 @@ class GTAAAPI(Resource):
         # The should not be shown when the json-ld, etc. formatted data is shown in the browser. It should list the
         # resource URI only. Still a coolURI
         # NOTE that we can also add LD in the script tag. Perhaps, using something like Comunica client, we can
-        # laod the data in JS, and serialize the graph in the requested format. In that case we don't
+        # load the data in JS, and serialize the graph in the requested format. In that case we don't
         # even need to add a parameter to the server.
 
-        mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
+        lod_server_supported_mime_types = [mt.value for mt in MimeType]
+        best_match = request.accept_mimetypes.best_match(
+            lod_server_supported_mime_types
+        )
+        mime_type = MimeType.JSON_LD
+        if best_match is not None:
+            mime_type = MimeType(best_match)
+
         if mime_type is MimeType.HTML:
             html_page = self._get_lod_view_gtaa(
                 gtaa_uri,
@@ -73,7 +80,7 @@ class GTAAAPI(Resource):
     def _get_lod_gtaa(
         self,
         gtaa_uri: str,
-        mime_type: str,
+        mime_type: MimeType,
         sparql_endpoint: str,
         nisv_organisation_uri: str,
         thesaurus_named_graph: str,
@@ -86,12 +93,7 @@ class GTAAAPI(Resource):
         :param thesaurus_named_graph: named grpah in the RDF store containing the GTAA triples
         :return: RDF data in a response object
         """
-        mt = None
-        try:
-            mt = MimeType(mime_type)
-        except ValueError:
-            mt = MimeType.JSON_LD
-        mt_ld_format = mt.to_ld_format()
+        mt_ld_format = mime_type.to_ld_format()
         ld_type = mt_ld_format if mt_ld_format is not None else "json-ld"
 
         rdf_graph = get_lod_resource_from_rdf_store(
@@ -103,8 +105,8 @@ class GTAAAPI(Resource):
         if rdf_graph:
             # serialize using the mime_type
             resp = rdf_graph.serialize(format=ld_type)
-            headers = {"Content-Type": mt.value}
-            return Response(resp, mimetype=mt.value, headers=headers)
+            headers = {"Content-Type": mime_type.value}
+            return Response(resp, mimetype=mime_type.value, headers=headers)
         return None
 
     def _get_lod_view_gtaa(

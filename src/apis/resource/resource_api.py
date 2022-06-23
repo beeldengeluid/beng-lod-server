@@ -1,6 +1,6 @@
 from flask import current_app, request, Response, render_template, make_response
 from flask_restx import Namespace, Resource
-from apis.mime_type_util import parse_accept_header, MimeType, get_profile_by_uri
+from apis.mime_type_util import MimeType, get_profile_by_uri
 from util.APIUtil import APIUtil
 from models.DAANRdfModel import ResourceURILevel
 from util.ld_util import (
@@ -45,7 +45,15 @@ class ResourceAPI(Resource):
                 "bad request", "Invalid resource level supplied"
             )
 
-        mime_type, accept_profile = parse_accept_header(request.headers.get("Accept"))
+        lod_server_supported_mime_types = [mt.value for mt in MimeType]
+        best_match = request.accept_mimetypes.best_match(
+            lod_server_supported_mime_types
+        )
+        mime_type = MimeType.JSON_LD
+        if best_match is not None:
+            mime_type = MimeType(best_match)
+        accept_profile = request.headers.get("Accept-Profile")
+
         if mime_type is MimeType.HTML:
             # note that data for HTML is requested from the RDF store, so no need to do is_public_resource
             html_page = self._get_lod_view_resource(
@@ -120,11 +128,10 @@ class ResourceAPI(Resource):
         ).get_storage_record(level, identifier, mt.to_ld_format())
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:
-            content_type = mt.value
-            if headers.get("Content-Type") is not None:
-                content_type = headers.get("Content-Type")
-            profile_param = "=".join(["profile", '"{}"'.format(profile["schema"])])
-            headers["Content-Type"] = ";".join([content_type, profile_param])
+            headers = {"Content-Type": mt.value}
+            if profile.get("uri") is not None:
+                content_profile = profile.get("uri")
+                headers["Content-Profile"] = content_profile
             return Response(resp, mimetype=mt.value, headers=headers)
         return Response(resp, status_code, headers=headers)
 
