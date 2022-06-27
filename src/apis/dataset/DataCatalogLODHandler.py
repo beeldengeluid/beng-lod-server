@@ -111,7 +111,11 @@ class DataCatalogLODHandler:
         #             - a publisher
         #             - at least one dataset
         """
-        has_iri = (URIRef(data_catalog_id), RDF.type, SDO.DataCatalog) in self._data_catalog
+        has_iri = (
+            URIRef(data_catalog_id),
+            RDF.type,
+            SDO.DataCatalog,
+        ) in self._data_catalog
         has_name = (URIRef(data_catalog_id), SDO.name, None) in self._data_catalog
         has_publisher = (
             URIRef(data_catalog_id),
