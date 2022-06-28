@@ -568,11 +568,11 @@
         },
         "mockito": {
             "hashes": [
-                "sha256:a3c1e0dd49f159b2484c1bbf223b1b5911c3889e6c99f7ca50d1c0a86db5d7bd",
-                "sha256:b1f4246e5fd2af1ca44c3405d7a2b2928a68ddfd02e055490874b998c8ac440e"
+                "sha256:73a375047ad38c8f0bfc1a6849c98d6ff215986bb173fee50449b94692d872f7",
+                "sha256:98245376285773230734f26498658b1dc045ad3be13421f508c71a5c76957bc1"
             ],
             "index": "pypi",
-            "version": "==1.3.1"
+            "version": "==1.3.3"
         },
         "mypy": {
             "hashes": [
