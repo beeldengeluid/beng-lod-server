@@ -6,7 +6,6 @@ on:
       target:
         type: choice
         required: true
-        default: 'prd'
         options:
         - acc
         - prd
