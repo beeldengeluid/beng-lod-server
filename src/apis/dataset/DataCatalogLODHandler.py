@@ -43,11 +43,12 @@ class DataCatalogLODHandler:
 
     def is_valid_data_download(self, data_download_id):
         """Checks whether the data download has the minimal required information.
-        #         - A DataDownload has a minimal definition:
-        #             - contentUrl
-        #             - encodingFormat
-        #             - what about the @id?
-        #             - usageInfo (If the distribution is non-standard API)
+
+        A DataDownload has a minimal definition:
+          - contentUrl
+          - encodingFormat
+          - what about the @id? #TODO
+          - usageInfo (if the distribution is non-standard API)
         """
         has_content_url = (
             URIRef(data_download_id),
@@ -71,14 +72,15 @@ class DataCatalogLODHandler:
 
     def is_valid_dataset(self, dataset_id):
         """Checks whether the dataset qualifies according to the NDE requirements for datasets.
-        #         - A Dataset MUST have at least:
-        #             - an IRI
-        #             - a name
-        #             - a license IRI
-        #
-        #             SHOULD have:
-        #             - a publisher
-        #             - (at least one) distribution
+
+        A Dataset MUST have:
+          - an IRI
+          - a name
+          - a license IRI
+
+        and it SHOULD have:
+          - a publisher
+          - at least one distribution
         """
         has_iri = (URIRef(dataset_id), RDF.type, SDO.Dataset) in self._data_catalog
         has_name = (URIRef(dataset_id), SDO.name, None) in self._data_catalog
@@ -101,11 +103,12 @@ class DataCatalogLODHandler:
 
     def is_valid_data_catalog(self, data_catalog_id):
         """Checks if the data catalog has at least got the minimal required properties.
-        #         - The DataCatalog has at least:
-        #             - an IRI
-        #             - a name
-        #             - a publisher
-        #             - at least one dataset
+
+        The DataCatalog has at least:
+          - an IRI
+          - a name
+          - a publisher
+          - at least one dataset
         """
         has_iri = (
             URIRef(data_catalog_id),
@@ -126,9 +129,10 @@ class DataCatalogLODHandler:
 
     def is_valid_organization(self, organization_id):
         """Validates whether the Organization has the minimal required properties.
-        #         - An Organization as publisher has at least:
-        #             - an IRI
-        #             - a name
+
+        An Organization as publisher has at least:
+          - an IRI
+          - a name
         """
         has_iri = (
             URIRef(organization_id),
