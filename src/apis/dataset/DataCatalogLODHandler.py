@@ -16,28 +16,14 @@ class DataCatalogLODHandler:
     def __init__(self, config):
         self.config = config
         self.logger = logging.getLogger(config["LOG_NAME"])
-        self._data_catalog = None
-        self._init_data_catalog(config["DATA_CATALOG_FILE"])
+        self._data_catalog = self._parse_catalog_file(config["DATA_CATALOG_FILE"])
 
     # TODO: implement caching suitable for this function
-    def _init_data_catalog(self, data_catalog_file: str):
-        """When initialized, get the data file from /resource."""
-        self.logger.info("Loading data catalogue")
-        self._data_catalog = Graph()
-        import git
-        import pathlib
-
-        repo = git.Repo(".", search_parent_directories=True)
-        git_src_dir = pathlib.Path(repo.working_tree_dir).joinpath(  # type: ignore #TODO working_tree_dir can be None
-            "src"
-        )
-        data_catalog_unit_test_file = (
-            pathlib.Path(git_src_dir).joinpath(data_catalog_file).absolute().as_uri()
-        )
-
-        self._data_catalog.parse(
-            data_catalog_unit_test_file, format=MimeType.TURTLE.value
-        )
+    def _parse_catalog_file(self, path: str) -> Graph:
+        """Parse catalog file (turtle) and return graph of results'"""
+        self.logger.info(f"Loading data catalogue from '{path}'")
+        graph = Graph().parse(path, format=MimeType.TURTLE.value)
+        return graph
 
     """-------------NDE requirements validation----------------------"""
 

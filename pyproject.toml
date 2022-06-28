@@ -24,7 +24,6 @@ module = [
   "elasticsearch",
   "flask_restx",
   "flask",
-  "git",
   "importer.*",
   "lxml.*",
   "mockito",
