@@ -6,9 +6,10 @@ on:
       selected_target:
         type: choice
         required: true
+        default: prd
         options:
-        - "acc"
-        - "prd"
+        - acc
+        - prd
 
 jobs:
   deploy:
