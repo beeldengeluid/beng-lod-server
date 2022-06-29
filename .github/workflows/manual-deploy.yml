@@ -14,4 +14,4 @@ jobs:
   deploy:
     uses: ./.github/workflows/deploy.yml
     with:
-      target: ${{ inputs.target }}
+      target: ${{ format('{0}', inputs.target) }}
