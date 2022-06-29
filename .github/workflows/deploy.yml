@@ -8,12 +8,6 @@ on:
         required: true
 
 jobs:
-  echo:
-    runs-on: ubuntu-latest
-    steps:
-      - name: echo
-        run: echo ${{ inputs.target }}
-
   deploy-acc:
     if: ${{ inputs.target == 'acc' }}
     runs-on: [self-hosted]

@@ -1,14 +1,26 @@
 name: Manual deploy
 
+# *warning*
+# due to a bug on GitHub's side, inputs on this workflow
+# are not passed correctly to the deploy workflow, see:
+# https://github.com/actions/runner/issues/1976
+# 
+# our workaround:
+# - use different input names between this workflow and the reusable
+#   workflows it calls (selected_target vs. target)
+# - don't use inputs.* but github.event.inputs.* to access input
+#   passed to this workflow
+
 on:
   workflow_dispatch:
     inputs:
       selected_target:
         type: choice
         required: true
+        default: prd
         options:
-        - "acc"
-        - "prd"
+        - acc
+        - prd
 
 jobs:
   deploy:
