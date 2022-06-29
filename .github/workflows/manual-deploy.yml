@@ -14,4 +14,4 @@ jobs:
   deploy:
     uses: ./.github/workflows/deploy.yml
     with:
-      target: ${{ github.events.inputs.target) }}
+      target: ${{ github.events.inputs.target }}
