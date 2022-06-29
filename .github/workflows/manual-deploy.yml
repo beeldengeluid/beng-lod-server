@@ -19,4 +19,4 @@ jobs:
   deploy:
     uses: ./.github/workflows/deploy.yml
     with:
-      target: ${{ join(inputs.target) }}
+      target: "acc"
