@@ -352,7 +352,7 @@
     sdo:inLanguage "nl-NL" ;
     sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
     sdo:license <http://rightsstatements.org/vocab/UND/1.0/> ;
-    sdo:mainEntityOfPage <https://natuurbeelden.openbeelden.nl/> ;
+    sdo:mainEntityOfPage <https://natuurbeelden.openbeelden.nl/media> ;
     sdo:name "Natuurbeelden"@nl ;
     sdo:publisher <https://natuurbeelden.openbeelden.nl/> ;
     sdo:temporalCoverage "1999/2020" .
@@ -426,7 +426,7 @@
     sdo:publisher <https://www.beeldengeluid.nl> .
 
 <http://data.beeldengeluid.nl/id/dataset/0013> a sdo:Dataset ;
-    sdo:creator <https://wiki.beeldengeluid.nl/index.php/Filmdienst_der_NSB> ;
+    sdo:creator <http://www.wikidata.org/entity/Q94482770> ;
     sdo:description "Het relatief nieuwe medium film was van groot belang in de propagandamachine van de NSB. Dit wordt duidelijk aan de hand van de NSB-filmcollectie die Beeld en Geluid in samenwerking met het Netwerk Oorlogsbronnen online beschikbaar stelt binnen het project WO2 Open Data Depot."@nl ;
     sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0020>,
         <http://data.beeldengeluid.nl/id/datadownload/0021> ;
@@ -461,7 +461,6 @@
     sdo:temporalCoverage "1921/1974" .
 
 <http://data.beeldengeluid.nl/id/dataset/0026> a sdo:Dataset ;
-    sdo:dateModified "2020" ;
     sdo:description "Deze dataset beschikt over de laatste linked data versie van het muziekweb. Hier vind je een linked data view waarin alle albums van het muziekweb zijn weergegeven."@nl,
         "Muziekweb is de muziekbibliotheek van Nederland. Ons doel is om muziek en de informatie over muziek voor iedereen laagdrempelig aan te bieden. Muziekweb heeft sinds 1961 een collectie opgebouwd van 600.000 cd’s, 300.000 lp’s en 30.000 muziek-dvd’s (dat is samen goed voor zo'n zeven miljoen tracks!). De site is een bron van informatie over muziek die de afgelopen vijftig jaar in Nederland is uitgebracht, en een ideale plek om meer muziek te leren kennen."@nl ;
     sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0025> ;
@@ -472,12 +471,16 @@
     sdo:name "Muziekweb"@nl ;
     sdo:publisher <https://www.muziekweb.nl/> .
 
-<https://www.muziekweb.nl/> a sdo:Organization ;
-    sdo:name "Muziekweb"@nl ;
-    sdo:sameAs <http://www.wikidata.org/entity/Q18088607> .
+<http://www.wikidata.org/entity/Q94482770> a sdo:Organization ;
+    sdo:name "Filmdienst der NSB"@nl ;
+    sdo:sameAs <https://wiki.beeldengeluid.nl/index.php/Filmdienst_der_NSB> .
 
 <https://natuurbeelden.openbeelden.nl/> a sdo:Organization ;
     sdo:name "Stichting Natuurbeelden"@nl .
+
+<https://www.muziekweb.nl/> a sdo:Organization ;
+    sdo:name "Muziekweb"@nl ;
+    sdo:sameAs <http://www.wikidata.org/entity/Q18088607> .
 
 <http://data.beeldengeluid.nl/id/datacatalog/0001> a sdo:DataCatalog ;
     sdo:dataset <http://data.beeldengeluid.nl/id/dataset/0001>,
