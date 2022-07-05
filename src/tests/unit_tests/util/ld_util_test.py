@@ -1,4 +1,8 @@
 import pytest
+
+# note:
+# the following SDO import generates a warning, see
+# https://github.com/RDFLib/rdflib/issues/1830
 from rdflib.namespace import SDO, RDF
 from rdflib import Graph
 import requests
