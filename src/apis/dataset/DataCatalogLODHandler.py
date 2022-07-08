@@ -255,6 +255,11 @@ class DataCatalogLODHandler:
             for triple in self.triples_organization(organization_id=organization_id):
                 g.add(triple)
 
+            # FIX #240 if the dataset has a creator, add the creator organization as well
+            creator_id = self.get_creator_for_dataset(dataset_id=dataset_uri)
+            for triple in self.triples_organization(organization_id=creator_id):
+                g.add(triple)
+
         json_string = g.serialize(
             format=mime_format,
             auto_compact=True,
@@ -328,3 +333,7 @@ class DataCatalogLODHandler:
     def get_organization_for_dataset(self, dataset_id):
         """Return the URI for the organization that is the publisher of the Dataset."""
         return self._data_catalog.value(URIRef(dataset_id), SDO.publisher)
+
+    def get_creator_for_dataset(self, dataset_id):
+        """Return the URI for the Organization that is the creator of the Dataset."""
+        return self._data_catalog.value(URIRef(dataset_id), SDO.creator)
