@@ -27,7 +27,6 @@ numpy = "*"
 elasticsearch = "~=7.17"
 flask = "*"
 validators = "*"
-gitpython = "*"
 
 [requires]
 python_version = "3.8"

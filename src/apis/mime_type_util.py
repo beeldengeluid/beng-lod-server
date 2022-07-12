@@ -28,34 +28,6 @@ class MimeType(Enum):
             return None
 
 
-def accept_type_to_mime_type(accept_type: str) -> MimeType:
-    mt = MimeType.RDF_XML
-    if accept_type.find("rdf+xml") != -1:
-        mt = MimeType.RDF_XML
-    elif accept_type.find("json+ld") != -1:
-        mt = MimeType.JSON_LD
-    elif accept_type.find("ld+json") != -1:
-        mt = MimeType.JSON_LD
-    elif accept_type.find("json-ld") != -1:
-        mt = MimeType.JSON_LD
-    elif accept_type.find("json") != -1:
-        mt = MimeType.JSON_LD
-    elif accept_type.find("turtle") != -1:
-        mt = MimeType.TURTLE
-    elif accept_type.find("n3") != -1:
-        mt = MimeType.N3
-    elif accept_type.find("nt11") != -1:
-        mt = MimeType.N_TRIPLES
-    return mt
-
-
-def ld_to_mimetype_map():
-    ld_to_mt = {}
-    for mt in MimeType:
-        ld_to_mt[mt.to_ld_format()] = mt
-    return ld_to_mt
-
-
 def get_profile_by_uri(profile_uri, app_config):
     for p in app_config["PROFILES"]:
         if p["uri"] == profile_uri:

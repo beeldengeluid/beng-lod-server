@@ -34,15 +34,6 @@ class GTAAAPI(Resource):
 
         gtaa_uri = f'{current_app.config.get("BENG_DATA_DOMAIN")}gtaa/{identifier}'
 
-        # TODO: add the parameter 'format' so that a return format can also be added as parameter to the URL,
-        # instead of only allowing content negotiation by the accept http header. The rationale is that we
-        # can't send a request from the lod-view with an accept header. It just isn't possible.
-        # The should not be shown when the json-ld, etc. formatted data is shown in the browser. It should list the
-        # resource URI only. Still a coolURI
-        # NOTE that we can also add LD in the script tag. Perhaps, using something like Comunica client, we can
-        # load the data in JS, and serialize the graph in the requested format. In that case we don't
-        # even need to add a parameter to the server.
-
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
