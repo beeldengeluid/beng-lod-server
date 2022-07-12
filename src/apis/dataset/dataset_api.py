@@ -154,9 +154,7 @@ class LODDataCatalogAPI(LODDataAPI):
 
         # check if data catalog is valid
         if self.is_valid_data_catalog(data_catalog_uri) is False:
-            return APIUtil.toErrorResponse(
-                "bad_request", "Invalid DataCatalog"
-            )
+            return APIUtil.toErrorResponse("bad_request", "Invalid DataCatalog")
 
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(

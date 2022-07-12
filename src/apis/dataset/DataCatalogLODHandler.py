@@ -96,12 +96,14 @@ class DataCatalogLODHandler:
           - a publisher
           - at least one dataset
         """
-        has_iri = (
-            URIRef(data_catalog_id),
-            RDF.type,
-            SDO.DataCatalog,
-        ) in self._data_catalog
-        has_name = (URIRef(data_catalog_id), SDO.name, None) in self._data_catalog
+        # has_iri = (
+        #     URIRef(data_catalog_id),
+        #     RDF.type,
+        #     SDO.DataCatalog,
+        # ) in self._data_catalog
+        has_iri = self.is_data_catalog(data_catalog_id)
+        # has_name = (URIRef(data_catalog_id), SDO.name, None) in self._data_catalog
+        has_name = self.has_name(data_catalog_id)
         has_publisher = (
             URIRef(data_catalog_id),
             SDO.publisher,
@@ -120,20 +122,26 @@ class DataCatalogLODHandler:
           - an IRI
           - a name
         """
-        has_iri = (
-            URIRef(organization_id),
-            RDF.type,
-            SDO.Organization,
-        ) in self._data_catalog
-        has_name = (URIRef(organization_id), SDO.name, None) in self._data_catalog
+        if organization_id is None:
+            return False
+        has_iri = self.is_organization(URIRef(organization_id))
+        has_name = self.has_name(organization_id)
         if has_iri and has_name:
             return True
         return False
 
     """------------LOD Handler functions---------------"""
 
+    def has_name(self, some_uri: str) -> bool:
+        """Check whether the resource has a name."""
+        if some_uri is None:
+            return False
+        return (URIRef(some_uri), SDO.name, None) in self._data_catalog
+
     def is_data_download(self, data_download_id: str) -> bool:
         """Check if data download exists."""
+        if data_download_id is None:
+            return False
         return (
             URIRef(data_download_id),
             RDF.type,
@@ -164,6 +172,8 @@ class DataCatalogLODHandler:
 
     def is_data_catalog(self, data_catalog_uri: str) -> bool:
         """Check if data catalog exists"""
+        if data_catalog_uri is None:
+            return False
         return (
             URIRef(data_catalog_uri),
             RDF.type,
@@ -198,6 +208,8 @@ class DataCatalogLODHandler:
 
     def is_dataset(self, dataset_uri: str) -> bool:
         """Check if dataset exists"""
+        if dataset_uri is None:
+            return False
         return (
             URIRef(dataset_uri),
             RDF.type,
