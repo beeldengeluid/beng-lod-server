@@ -1,4 +1,4 @@
-from flask import current_app, request, make_response, render_template
+from flask import current_app, request, make_response, render_template, Response
 from flask_restx import Namespace, Resource
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
 from apis.mime_type_util import MimeType
@@ -109,7 +109,7 @@ class LODDatasetAPI(LODDataAPI):
             dataset_uri, mime_format=mime_type.to_ld_format()
         )
         if res_string:
-            return APIUtil.toSuccessResponse(res_string)
+            return Response(res_string, mimetype=mime_type.value)
         return APIUtil.toErrorResponse("bad_request", "Invalid URI or return format")
 
     def is_dataset(self, dataset_uri: str) -> bool:
@@ -183,9 +183,8 @@ class LODDataCatalogAPI(LODDataAPI):
         res_string = DataCatalogLODHandler(current_app.config).get_data_catalog(
             data_catalog_uri, mime_format=mime_type.to_ld_format()
         )
-
         if res_string:
-            return APIUtil.toSuccessResponse(res_string)
+            return Response(res_string, mimetype=mime_type.value)
         return APIUtil.toErrorResponse("bad_request", "Invalid URI or return format")
 
     def is_data_catalog(self, data_catalog_uri: str) -> bool:
@@ -259,7 +258,7 @@ class LODDataDownloadAPI(LODDataAPI):
             data_download_uri, mime_format=mime_type.to_ld_format()
         )
         if res_string:
-            return APIUtil.toSuccessResponse(res_string)
+            return Response(res_string, mimetype=mime_type.value)
         return APIUtil.toErrorResponse("bad_request", "Invalid URI or return format")
 
     def is_data_download(self, data_download_uri: str) -> bool:

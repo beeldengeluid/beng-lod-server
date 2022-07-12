@@ -279,23 +279,30 @@ class DataCatalogLODHandler:
 
     def get_datasets_for_data_catalog(self, data_catalog_id: str) -> List:
         """Return a list of dataset_id's that are a dataset for the data datalog."""
-        list_of_datasets = []
-        for dataset_obj in self._data_catalog.objects(
-            URIRef(data_catalog_id), SDO.dataset
-        ):
-            if self.is_valid_dataset(dataset_obj):
-                list_of_datasets.append(dataset_obj)
-        return list_of_datasets
+        # list_of_datasets = []
+        # for dataset_obj in self._data_catalog.objects(
+        #     URIRef(data_catalog_id), SDO.dataset
+        # ):
+        #     if self.is_valid_dataset(str(dataset_obj)):
+        #         list_of_datasets.append(str(dataset_obj))
+        # return list_of_datasets
+        return [
+            str(dataset_obj)
+            for dataset_obj in self._data_catalog.objects(
+                URIRef(data_catalog_id), SDO.dataset
+            )
+            if self.is_valid_dataset(str(dataset_obj))
+        ]
 
-    def get_data_downloads_for_dataset(self, dataset_id: str) -> List[URIRef]:
+    def get_data_downloads_for_dataset(self, dataset_id: str) -> List:
         """Return a list of data_downloads_id's that are a distribution of the dataset."""
-        list_of_distributions = []
-        for data_download_obj in self._data_catalog.objects(
-            URIRef(dataset_id), SDO.distribution
-        ):
-            if self.is_valid_data_download(data_download_obj):
-                list_of_distributions.append(data_download_obj)
-        return list_of_distributions
+        return [
+            data_download_obj
+            for data_download_obj in self._data_catalog.objects(
+                URIRef(dataset_id), SDO.distribution
+            )
+            if self.is_valid_data_download(str(data_download_obj))
+        ]
 
     def get_publisher_for_data_catalog(
         self, data_catalog_id: URIRef
