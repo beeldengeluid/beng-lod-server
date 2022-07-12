@@ -27,7 +27,7 @@ class DataCatalogLODHandler:
 
     """-------------NDE requirements validation----------------------"""
 
-    def is_valid_data_download(self, data_download_id):
+    def is_valid_data_download(self, data_download_id: str) -> bool:
         """Checks whether the data download has the minimal required information.
 
         A DataDownload has a minimal definition:
@@ -56,7 +56,7 @@ class DataCatalogLODHandler:
             return True
         return False
 
-    def is_valid_dataset(self, dataset_id: str):
+    def is_valid_dataset(self, dataset_id: str) -> bool:
         """Checks whether the dataset qualifies according to the NDE requirements for datasets.
 
         A Dataset MUST have:
@@ -113,7 +113,7 @@ class DataCatalogLODHandler:
             return True
         return False
 
-    def is_valid_organization(self, organization_id):
+    def is_valid_organization(self, organization_id: str) -> bool:
         """Validates whether the Organization has the minimal required properties.
 
         An Organization as publisher has at least:

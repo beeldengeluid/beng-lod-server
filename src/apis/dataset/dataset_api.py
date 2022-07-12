@@ -74,7 +74,7 @@ class LODDatasetAPI(LODDataAPI):
             ResourceURILevel.DATASET, number, current_app.config["BENG_DATA_DOMAIN"]
         )
         # check if resource exists
-        if self.is_dataset() is False:
+        if self.is_dataset(dataset_uri) is False:
             return APIUtil.toErrorResponse("not_found")
 
         # check if dataset is valid
@@ -155,7 +155,7 @@ class LODDataCatalogAPI(LODDataAPI):
         # check if data catalog is valid
         if self.is_valid_data_catalog(data_catalog_uri) is False:
             return APIUtil.toErrorResponse(
-                "bad_request", f"Invalid DataCatalog: {data_catalog_uri}"
+                "bad_request", "Invalid DataCatalog"
             )
 
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
