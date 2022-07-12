@@ -1,4 +1,4 @@
-from flask import current_app, request, Response, make_response, render_template
+from flask import current_app, request, make_response, render_template
 from flask_restx import Namespace, Resource
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
 from apis.mime_type_util import MimeType
@@ -73,8 +73,13 @@ class LODDatasetAPI(LODDataAPI):
         dataset_uri = generate_lod_resource_uri(
             ResourceURILevel.DATASET, number, current_app.config["BENG_DATA_DOMAIN"]
         )
-        if not self.is_valid_dataset(dataset_uri):
-            return APIUtil.toErrorResponse("not_found", "The dataset can not be found.")
+        # check if resource exists
+        if self.is_dataset() is False:
+            return APIUtil.toErrorResponse("not_found")
+
+        # check if dataset is valid
+        if self.is_valid_dataset(dataset_uri) is False:
+            return APIUtil.toErrorResponse("bad_request", "Invalid Dataset")
 
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(
@@ -99,23 +104,19 @@ class LODDatasetAPI(LODDataAPI):
                     "Could not generate an HTML view for this resource",
                 )
 
-        # other content
-        resp, status_code, headers = DataCatalogLODHandler(
-            current_app.config
-        ).get_dataset(dataset_uri, mime_format=mime_type.to_ld_format())
+        # other content formats
+        res_string = DataCatalogLODHandler(current_app.config).get_dataset(
+            dataset_uri, mime_format=mime_type.to_ld_format()
+        )
+        if res_string:
+            return APIUtil.toSuccessResponse(res_string)
+        return APIUtil.toErrorResponse("bad_request", "Invalid URI or return format")
 
-        # make sure to apply the correct mimetype for valid responses
-        if status_code == 200:
-            return Response(resp, mimetype=mime_type.value, headers=headers)
-
-        # otherwise resp SHOULD be a json error message and thus the response can be returned like this
-        return resp, status_code, headers
+    def is_dataset(self, dataset_uri: str) -> bool:
+        return DataCatalogLODHandler(current_app.config).is_dataset(dataset_uri)
 
     def is_valid_dataset(self, dataset_uri: str) -> bool:
-        is_valid = DataCatalogLODHandler(current_app.config).is_valid_dataset(
-            dataset_uri
-        )
-        return is_valid is True
+        return DataCatalogLODHandler(current_app.config).is_valid_dataset(dataset_uri)
 
 
 @api.doc(
@@ -146,9 +147,15 @@ class LODDataCatalogAPI(LODDataAPI):
             number,
             current_app.config["BENG_DATA_DOMAIN"],
         )
-        if not self.is_valid_data_catalog(data_catalog_uri):
+
+        # check if resource exists
+        if self.is_data_catalog(data_catalog_uri) is False:
+            return APIUtil.toErrorResponse("not_found")
+
+        # check if data catalog is valid
+        if self.is_valid_data_catalog(data_catalog_uri) is False:
             return APIUtil.toErrorResponse(
-                "not_found", "The DataCatalog can not be found."
+                "bad_request", f"Invalid DataCatalog: {data_catalog_uri}"
             )
 
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
@@ -174,23 +181,24 @@ class LODDataCatalogAPI(LODDataAPI):
                     "Could not generate an HTML view for this resource",
                 )
 
-        # other content
-        resp, status_code, headers = DataCatalogLODHandler(
-            current_app.config
-        ).get_data_catalog(data_catalog_uri, mime_format=mime_type.to_ld_format())
+        # other mime types
+        res_string = DataCatalogLODHandler(current_app.config).get_data_catalog(
+            data_catalog_uri, mime_format=mime_type.to_ld_format()
+        )
 
-        # make sure to apply the correct mimetype for valid responses
-        if status_code == 200:
-            return Response(resp, mimetype=mime_type.value, headers=headers)
+        if res_string:
+            return APIUtil.toSuccessResponse(res_string)
+        return APIUtil.toErrorResponse("bad_request", "Invalid URI or return format")
 
-        # otherwise resp SHOULD be a json error message and thus the response can be returned like this
-        return resp, status_code, headers
-
-    def is_valid_data_catalog(self, data_catalog_uri: str) -> bool:
-        is_valid = DataCatalogLODHandler(current_app.config).is_valid_data_catalog(
+    def is_data_catalog(self, data_catalog_uri: str) -> bool:
+        return DataCatalogLODHandler(current_app.config).is_data_catalog(
             data_catalog_uri
         )
-        return is_valid is True
+
+    def is_valid_data_catalog(self, data_catalog_uri: str) -> bool:
+        return DataCatalogLODHandler(current_app.config).is_valid_data_catalog(
+            data_catalog_uri
+        )
 
 
 @api.doc(
@@ -219,10 +227,11 @@ class LODDataDownloadAPI(LODDataAPI):
             number,
             current_app.config["BENG_DATA_DOMAIN"],
         )
+        if self.is_data_download(data_download_uri) is False:
+            return APIUtil.toErrorResponse("not_found")
+
         if not self.is_valid_data_download(data_download_uri):
-            return APIUtil.toErrorResponse(
-                "not_found", "The DataDownload can not be found."
-            )
+            return APIUtil.toErrorResponse("bad_request", "Invalid DataDownload")
 
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(
@@ -247,19 +256,20 @@ class LODDataDownloadAPI(LODDataAPI):
                     "Could not generate an HTML view for this resource",
                 )
 
-        resp, status_code, headers = DataCatalogLODHandler(
-            current_app.config
-        ).get_data_download(data_download_uri, mime_format=mime_type.to_ld_format())
+        # other return formats
+        res_string = DataCatalogLODHandler(current_app.config).get_data_download(
+            data_download_uri, mime_format=mime_type.to_ld_format()
+        )
+        if res_string:
+            return APIUtil.toSuccessResponse(res_string)
+        return APIUtil.toErrorResponse("bad_request", "Invalid URI or return format")
 
-        # make sure to apply the correct mimetype for valid responses
-        if status_code == 200:
-            return Response(resp, mimetype=mime_type.value, headers=headers)
-
-        # otherwise resp SHOULD be a json error message and thus the response can be returned like this
-        return resp, status_code, headers
-
-    def is_valid_data_download(self, data_download_uri: str) -> bool:
-        is_valid = DataCatalogLODHandler(current_app.config).is_valid_data_download(
+    def is_data_download(self, data_download_uri: str) -> bool:
+        return DataCatalogLODHandler(current_app.config).is_data_download(
             data_download_uri
         )
-        return is_valid is True
+
+    def is_valid_data_download(self, data_download_uri: str) -> bool:
+        return DataCatalogLODHandler(current_app.config).is_valid_data_download(
+            data_download_uri
+        )
