@@ -68,21 +68,12 @@ class DataCatalogLODHandler:
           - a publisher
           - at least one distribution
         """
-        has_iri = (URIRef(dataset_id), RDF.type, SDO.Dataset) in self._data_catalog
-        has_name = (URIRef(dataset_id), SDO.name, None) in self._data_catalog
-        has_license_iri = (URIRef(dataset_id), SDO.license, None) in self._data_catalog
-        has_publisher = (URIRef(dataset_id), SDO.publisher, None) in self._data_catalog
-        has_distribution = (
-            URIRef(dataset_id),
-            SDO.distribution,
-            None,
-        ) in self._data_catalog
         if (
-            has_iri
-            and has_name
-            and has_license_iri
-            and has_publisher
-            and has_distribution
+            self.is_dataset(dataset_id)
+            and self.has_name(dataset_id)
+            and self.has_license(dataset_id)
+            and self.has_publisher(dataset_id)
+            and self.has_distribution(dataset_id)
         ):
             return True
         return False
@@ -96,19 +87,9 @@ class DataCatalogLODHandler:
           - a publisher
           - at least one dataset
         """
-        # has_iri = (
-        #     URIRef(data_catalog_id),
-        #     RDF.type,
-        #     SDO.DataCatalog,
-        # ) in self._data_catalog
         has_iri = self.is_data_catalog(data_catalog_id)
-        # has_name = (URIRef(data_catalog_id), SDO.name, None) in self._data_catalog
         has_name = self.has_name(data_catalog_id)
-        has_publisher = (
-            URIRef(data_catalog_id),
-            SDO.publisher,
-            None,
-        ) in self._data_catalog
+        has_publisher = self.has_publisher(data_catalog_id)
         has_dataset = (URIRef(data_catalog_id), SDO.dataset, None) in self._data_catalog
 
         if has_iri and has_name and has_publisher and has_dataset:
@@ -122,21 +103,57 @@ class DataCatalogLODHandler:
           - an IRI
           - a name
         """
-        if organization_id is None:
-            return False
         has_iri = self.is_organization(URIRef(organization_id))
         has_name = self.has_name(organization_id)
         if has_iri and has_name:
             return True
         return False
 
-    """------------LOD Handler functions---------------"""
-
     def has_name(self, some_uri: str) -> bool:
         """Check whether the resource has a name."""
         if some_uri is None:
             return False
         return (URIRef(some_uri), SDO.name, None) in self._data_catalog
+
+    def has_license(self, dataset_id: str) -> bool:
+        """Check whether the dataset has a proper license."""
+        if dataset_id is None:
+            return False
+        return (URIRef(dataset_id), SDO.license, None) in self._data_catalog
+
+    def has_publisher(self, resource_id: str) -> bool:
+        """Check whether the resource has a publisher."""
+        if resource_id is None:
+            return False
+        return (URIRef(resource_id), SDO.publisher, None) in self._data_catalog
+
+    def has_distribution(self, dataset_id: str) -> bool:
+        """Check whether the dataset has a distribution."""
+        if dataset_id is None:
+            return False
+        return (URIRef(dataset_id), SDO.distribution, None) in self._data_catalog
+
+    def has_content_url(self, data_download_id: str) -> bool:
+        """Check whether the data download has a content URL."""
+        if data_download_id is None:
+            return False
+        return (URIRef(data_download_id), SDO.contentUrl, None) in self._data_catalog
+
+    def has_encoding_format(self, data_download_id: str) -> bool:
+        """Check whether the data download has an encoding format."""
+        if data_download_id is None:
+            return False
+        return (
+            URIRef(data_download_id),
+            SDO.encodingFormat,
+            None,
+        ) in self._data_catalog
+
+    def has_usage_info(self, data_download_id: str) -> bool:
+        """Check whether the data download has usage info."""
+        if data_download_id is None:
+            return False
+        return (URIRef(data_download_id), SDO.usageInfo, None) in self._data_catalog
 
     def is_data_download(self, data_download_id: str) -> bool:
         """Check if data download exists."""
@@ -147,6 +164,8 @@ class DataCatalogLODHandler:
             RDF.type,
             SDO.DataDownload,
         ) in self._data_catalog
+
+    """------------LOD Handler functions---------------"""
 
     def get_data_download(
         self, data_download_id: str, mime_format: str = "json-ld"
@@ -200,11 +219,10 @@ class DataCatalogLODHandler:
             g += self.get_dataset_triples(URIRef(dataset_uri))
 
         # now serialize the collected triples in the requested format
-        res_string = g.serialize(
+        return g.serialize(
             format=mime_format,
             auto_compact=True,
         )
-        return res_string
 
     def is_dataset(self, dataset_uri: str) -> bool:
         """Check if dataset exists"""
@@ -227,11 +245,7 @@ class DataCatalogLODHandler:
         # add triples for the dataset
         g += self.get_dataset_triples(URIRef(dataset_uri))
 
-        res_string = g.serialize(
-            format=mime_format,
-            auto_compact=True,
-        )
-        return res_string
+        return g.serialize(format=mime_format, auto_compact=True)
 
     """------------Triples filters---------------"""
 
@@ -278,14 +292,7 @@ class DataCatalogLODHandler:
     """------------- get aggregates ------------------"""
 
     def get_datasets_for_data_catalog(self, data_catalog_id: str) -> List:
-        """Return a list of dataset_id's that are a dataset for the data datalog."""
-        # list_of_datasets = []
-        # for dataset_obj in self._data_catalog.objects(
-        #     URIRef(data_catalog_id), SDO.dataset
-        # ):
-        #     if self.is_valid_dataset(str(dataset_obj)):
-        #         list_of_datasets.append(str(dataset_obj))
-        # return list_of_datasets
+        """Return a list of dataset_id's that are in the data datalog."""
         return [
             str(dataset_obj)
             for dataset_obj in self._data_catalog.objects(
@@ -295,7 +302,7 @@ class DataCatalogLODHandler:
         ]
 
     def get_data_downloads_for_dataset(self, dataset_id: str) -> List:
-        """Return a list of data_downloads_id's that are a distribution of the dataset."""
+        """Return a list of data_downloads_id's that are in the dataset."""
         return [
             data_download_obj
             for data_download_obj in self._data_catalog.objects(
@@ -312,13 +319,15 @@ class DataCatalogLODHandler:
 
     def is_organization(self, organization_id: URIRef) -> bool:
         """Check whether organization exists in data catalog."""
+        if organization_id is None:
+            return False
         return (organization_id, RDF.type, SDO.Organization) in self._data_catalog
 
     def get_organization_triples(self, organization_id: URIRef) -> Graph:
         """Returns a Graph with the triples for the organization."""
         g = Graph()
         g.bind("sdo", SDO)
-        if organization_id is None or self.is_organization(organization_id) is False:
+        if self.is_organization(organization_id) is False:
             return g
         for triple in self._data_catalog.triples((organization_id, None, None)):
             g.add(triple)
