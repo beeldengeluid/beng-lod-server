@@ -7,7 +7,7 @@ from rdflib.exceptions import ParserError
 ERROR_RESPONSES = {
     "access_denied": {"msg": "Access denied", "code": 403},
     "bad_request": {
-        "msg": "Bad request, please provide the correct parameters",
+        "msg": "Bad request",
         "code": 400,
     },
     "not_found": {"msg": "Resource not found", "code": 404},
