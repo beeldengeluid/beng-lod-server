@@ -32,6 +32,9 @@ api = Namespace(
     endpoint="dereference",
 )
 class ResourceAPI(Resource):
+    """Serve the RDF for the media catalog resources in the format that was requested."""
+
+    @api.produces([mt.value for mt in MimeType])
     def get(self, identifier, cat_type="program"):
         lod_url = None
         try:
