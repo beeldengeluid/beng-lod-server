@@ -64,8 +64,7 @@ class LODDataAPI(Resource):
 )
 class LODDatasetAPI(LODDataAPI):
     """Serve the RDF for the dataset in the format that was requested. A dataset contains distributions."""
-
-    @api.response(404, "Resource does not exist error")
+    @api.produces([mt.value for mt in MimeType])
     def get(self, number=None):
         """Get the RDF for the Dataset, including its DataDownloads.
         All triples for the Dataset and its DataDownloads are included.
@@ -137,7 +136,7 @@ class LODDatasetAPI(LODDataAPI):
     }
 )
 class LODDataCatalogAPI(LODDataAPI):
-    @api.response(404, "Resource does not exist error")
+    @api.produces([mt.value for mt in MimeType])
     def get(self, number=None):
         """Get the RDF for the DataCatalog, including its Datasets.
         All triples describing the DataCatalog and its Datasets are included.
@@ -216,7 +215,7 @@ class LODDataCatalogAPI(LODDataAPI):
     }
 )
 class LODDataDownloadAPI(LODDataAPI):
-    @api.response(404, "Resource does not exist error")
+    @api.produces([mt.value for mt in MimeType])
     def get(self, number=None):
         """Get the RDF for the DataDownload."""
         data_download_uri = generate_lod_resource_uri(
