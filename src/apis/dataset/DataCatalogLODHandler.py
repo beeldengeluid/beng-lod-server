@@ -31,28 +31,17 @@ class DataCatalogLODHandler:
         """Checks whether the data download has the minimal required information.
 
         A DataDownload has a minimal definition:
+          - an IRI
           - contentUrl
           - encodingFormat
-          - what about the @id? #TODO
           - usageInfo (if the distribution is non-standard API)
         """
-        has_content_url = (
-            URIRef(data_download_id),
-            SDO.contentUrl,
-            None,
-        ) in self._data_catalog
-        has_encoding_format = (
-            URIRef(data_download_id),
-            SDO.encodingFormat,
-            None,
-        ) in self._data_catalog
-        has_usage_info = (
-            URIRef(data_download_id),
-            SDO.usageInfo,
-            None,
-        ) in self._data_catalog
-
-        if has_content_url and has_encoding_format and has_usage_info:
+        if (
+            self.is_data_download(data_download_id)
+            and self.has_content_url(data_download_id)
+            and self.has_encoding_format(data_download_id)
+            and self.has_usage_info(data_download_id)
+        ):
             return True
         return False
 
@@ -87,12 +76,12 @@ class DataCatalogLODHandler:
           - a publisher
           - at least one dataset
         """
-        has_iri = self.is_data_catalog(data_catalog_id)
-        has_name = self.has_name(data_catalog_id)
-        has_publisher = self.has_publisher(data_catalog_id)
-        has_dataset = (URIRef(data_catalog_id), SDO.dataset, None) in self._data_catalog
-
-        if has_iri and has_name and has_publisher and has_dataset:
+        if (
+            self.is_data_catalog(data_catalog_id)
+            and self.has_name(data_catalog_id)
+            and self.has_publisher(data_catalog_id)
+            and self.has_dataset(data_catalog_id)
+        ):
             return True
         return False
 
@@ -103,9 +92,9 @@ class DataCatalogLODHandler:
           - an IRI
           - a name
         """
-        has_iri = self.is_organization(URIRef(organization_id))
-        has_name = self.has_name(organization_id)
-        if has_iri and has_name:
+        if self.is_organization(URIRef(organization_id)) and self.has_name(
+            organization_id
+        ):
             return True
         return False
 
@@ -165,6 +154,12 @@ class DataCatalogLODHandler:
             SDO.DataDownload,
         ) in self._data_catalog
 
+    def has_dataset(self, data_catalog_id: str) -> bool:
+        """Check whether the data catalog has a dataset."""
+        if data_catalog_id is None:
+            return False
+        return (URIRef(data_catalog_id), SDO.dataset, None) in self._data_catalog
+
     """------------LOD Handler functions---------------"""
 
     def get_data_download(
@@ -183,11 +178,7 @@ class DataCatalogLODHandler:
             g.add(triple)
 
         # now return the collected triples in the requested format
-        res_string = g.serialize(
-            format=mime_format,
-            auto_compact=True,
-        )
-        return res_string
+        return g.serialize(format=mime_format, auto_compact=True)
 
     def is_data_catalog(self, data_catalog_uri: str) -> bool:
         """Check if data catalog exists"""
