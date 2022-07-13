@@ -64,6 +64,7 @@ class LODDataAPI(Resource):
 )
 class LODDatasetAPI(LODDataAPI):
     """Serve the RDF for the dataset in the format that was requested. A dataset contains distributions."""
+
     @api.produces([mt.value for mt in MimeType])
     def get(self, number=None):
         """Get the RDF for the Dataset, including its DataDownloads.
@@ -136,6 +137,8 @@ class LODDatasetAPI(LODDataAPI):
     }
 )
 class LODDataCatalogAPI(LODDataAPI):
+    """Serve the RDF for the data catalog in the format that was requested. A data catalog contains datasets."""
+
     @api.produces([mt.value for mt in MimeType])
     def get(self, number=None):
         """Get the RDF for the DataCatalog, including its Datasets.
@@ -215,6 +218,8 @@ class LODDataCatalogAPI(LODDataAPI):
     }
 )
 class LODDataDownloadAPI(LODDataAPI):
+    """Serve the RDF for the data downloads in the format that was requested."""
+
     @api.produces([mt.value for mt in MimeType])
     def get(self, number=None):
         """Get the RDF for the DataDownload."""
