@@ -48,7 +48,7 @@
 <http://data.beeldengeluid.nl/id/datadownload/0033> a sdo:DataDownload ;
     sdo:contentSize "174" ;
     sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
-    sdo:description "Genres in use for EYE film museum."@nl ;
+    sdo:description "Genres in use for EYE film museum."@en ;
     sdo:encodingFormat "application/sparql-query" ;
     sdo:inLanguage "nl-NL" ;
     sdo:license <https://opendatacommons.org/licenses/odbl/> ;
@@ -98,7 +98,7 @@
 <http://data.beeldengeluid.nl/id/datadownload/0008> a sdo:DataDownload ;
     sdo:contentSize "76" ;
     sdo:contentUrl <https://commons.wikimedia.org/wiki/Category:Radio_broadcasts_by_Radio_Herrijzend_Nederland> ;
-    sdo:description "Radio uitzendingen Radio Herrijzend Nederland van Beeld en Geluid op Wikimedia Commons"@nl ;
+    sdo:description "Radio uitzendingen Radio Herrijzend Nederland van Beeld en Geluid op Wikimedia Commons."@nl ;
     sdo:encodingFormat "audio/wav" ;
     sdo:inLanguage "nl-NL" ;
     sdo:license <https://creativecommons.org/publicdomain/mark/1.0/> ;
@@ -128,8 +128,7 @@
 <http://data.beeldengeluid.nl/id/datadownload/0013> a sdo:DataDownload ;
     sdo:contentSize "375110" ;
     sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_rdf_xl&set=beng:gtaa:Persoonsnamen> ;
-    sdo:description "Person names from the Common Thesaurus Audiovisal Archives"@en,
-        "Persoonsnamenas uit de GTAA. Elke persoonsnaam, inclusief labels en notes, is een SKOS Concept."@nl ;
+    sdo:description "Persoonsnamenas uit de GTAA. Elke persoonsnaam, inclusief labels en notes, is een SKOS Concept."@nl ;
     sdo:encodingFormat "text/xml" ;
     sdo:inLanguage "nl-NL" ;
     sdo:license <https://opendatacommons.org/licenses/odbl/> ;
@@ -198,9 +197,7 @@
 
 <http://data.beeldengeluid.nl/id/datadownload/0020> a sdo:DataDownload ;
     sdo:contentUrl <https://commons.wikimedia.org/wiki/Category:Films_by_Filmdienst_der_NSB> ;
-    sdo:description "Diese Kategorie enthält Material, das von der Nationaal-Socialistische Beweging (NSB) in den Niederlanden produziert wurde. Diese Videos sind möglicherweise als fehlerhaft, einseitig, propagandistisch oder sonstwie aus heutiger Sicht unpassend einzustufen."@de,
-        "This category contains material produced by the NSB, the National Socialist Movement in the Netherlands. As such, these videos and their metadata might reflect erroneous, biased or politically extreme ideas."@en,
-        "Deze categorie bevat materiaal dat is geproduceerd door de NSB, de Nationaal-Socialistische Beweging. Deze video's kunnen daardoor onjuiste, eenzijdige en politiek extreme ideeën bevatten."@nl ;
+    sdo:description "Deze categorie bevat materiaal dat is geproduceerd door de NSB, de Nationaal-Socialistische Beweging. Deze video's kunnen daardoor onjuiste, eenzijdige en politiek extreme ideeën bevatten."@nl ;
     sdo:encodingFormat "video/webm" ;
     sdo:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
     sdo:name "Category:Films by Filmdienst der NSB"@nl ;
@@ -217,8 +214,7 @@
 <http://data.beeldengeluid.nl/id/datadownload/0022> a sdo:DataDownload ;
     sdo:contentSize "677" ;
     sdo:contentUrl <https://euscreen.eu/series.html?id=EUS_A7EA1AAE8B1ACA16BA27220CCD8ECB9A&activeItem=EUS_001C5F5FD42207F46FBCFEF30EE80D94> ;
-    sdo:description "Open Images is an open media platform that offers online access to audiovisual archive material to stimulate creative reuse."@en,
-        "Open Beelden is een open mediaplatform dat toegang biedt tot audiovisuele collecties die eenvoudig hergebruikt kunnen worden."@nl ;
+    sdo:description "Open Beelden is een open mediaplatform dat toegang biedt tot audiovisuele collecties die eenvoudig hergebruikt kunnen worden."@nl ;
     sdo:encodingFormat "text/html" ;
     sdo:inLanguage "nl-NL" ;
     sdo:license <https://creativecommons.org/licenses/by-sa/3.0/> ;
@@ -228,8 +224,7 @@
 <http://data.beeldengeluid.nl/id/datadownload/0023> a sdo:DataDownload ;
     sdo:contentSize "910" ;
     sdo:contentUrl <https://euscreen.eu/series.html?id=EUS_513F04B47411BCDD8C80532EE577FAC4&activeItem=EUS_003399A7DB2D2A6B14313EF963DE4421> ;
-    sdo:description "Daily talkshow with Frits Barend and Henk van Dorp. Regular guest is columnist Jan Mulder. Guests sit together at a table and respond to each discussion topic."@en,
-        "Actuele dagelijkse talkshow van Frits Barend en Henk van Dorp. Vaste gast is columnist Jan Mulder. De gasten zitten gezamenlijk aan tafel en reageren op elkaars gespreksonderwerpen."@nl ;
+    sdo:description "Actuele dagelijkse talkshow van Frits Barend en Henk van Dorp. Vaste gast is columnist Jan Mulder. De gasten zitten gezamenlijk aan tafel en reageren op elkaars gespreksonderwerpen."@nl ;
     sdo:encodingFormat "text/html" ;
     sdo:inLanguage "nl-NL" ;
     sdo:license <http://rightsstatements.org/vocab/InC/1.0/> ;
@@ -239,7 +234,6 @@
 <http://data.beeldengeluid.nl/id/datadownload/0025> a sdo:DataDownload ;
     sdo:contentSize "930000" ;
     sdo:contentUrl <https://api.data.muziekweb.nl/datasets/MuziekwebOrganization/Muziekweb/services/Muziekweb/sparql> ;
-    sdo:dateModified "2020" ;
     sdo:description "Bevraag Muziekweb via SPARQL."@nl ;
     sdo:encodingFormat "application/sparql-query" ;
     sdo:inLanguage "nl-NL" ;
@@ -250,8 +244,7 @@
 <http://data.beeldengeluid.nl/id/datadownload/0026> a sdo:DataDownload ;
     sdo:contentSize "375110" ;
     sdo:contentUrl <https://gtaa.apis.beeldengeluid.nl/sparql> ;
-    sdo:description "Person names from the Common Thesaurus Audiovisal Archives"@en,
-        "Persoonsnamenas uit de GTAA. Elke persoonsnaam, inclusief labels en notes, is een SKOS Concept."@nl ;
+    sdo:description "Persoonsnamenas uit de GTAA. Elke persoonsnaam, inclusief labels en notes, is een SKOS Concept."@nl ;
     sdo:encodingFormat "application/sparql-query" ;
     sdo:inLanguage "nl-NL" ;
     sdo:license <https://opendatacommons.org/licenses/odbl/> ;
@@ -332,8 +325,7 @@
 
 <http://data.beeldengeluid.nl/id/dataset/0002> a sdo:Dataset ;
     sdo:creator <https://www.beeldengeluid.nl> ;
-    sdo:description "The Sound and Vision dataset on Open Images contains more than 7000 videos. It consists of Polygoon newsreels and some other films from the 20th century. The videos cover a broad range of Dutch (news) topics, such as art, culture, transportation, health, education, nature, politics, sports, pets, fashion and curiosa. The metadata is provided in Dutch and English. Open Images also contains datasets from other providers and content (mostly remixes) added by users. Access to the material on Open Images is provided under the Creative Commons licensing model. The Sound and Vision dataset on Open Images is downloadable via the Open Images OAI-PMH provider. The dataset is also available via the Europeana API."@en,
-        "Een verzameling van videomateriaal dat Beeld en Geluid onder een Creative Commons licentie vrijgeeft, of reeds in het Publiek Domein valt. De beeldengeluid dataset op Open Beelden bevat meer dan 7000 videos. Het bestaat uit Polygoon journaals en andere films uit de 20ste eeuw. De videos beslaan een breed scala van Nederlandse (nieuws) onderwerpen, zoals kunst, cultuur, transport, gezondheid, onderwijs, natuur, politiek, sport, huisdieren, mode en curiosa. De metadata zijn beschikbaar in het Nederlands en Engels. Open Beelden bevat ook datasets van andere leveranciers en ook content (remixes) toegevoegd door gebruikers. Toegang tot het materiaal op Open Beelden wordt verleend onder het creative Commons licentiemodel. De Beeld en Geluid dataset op Open Beelden is harvestable via de Open Beelden OAI-PMH data provider. De dataset is ook beschikbaar via de europeana API."@nl ;
+    sdo:description "Een verzameling van videomateriaal dat Beeld en Geluid onder een Creative Commons licentie vrijgeeft, of reeds in het Publiek Domein valt. De beeldengeluid dataset op Open Beelden bevat meer dan 7000 videos. Het bestaat uit Polygoon journaals en andere films uit de 20ste eeuw. De videos beslaan een breed scala van Nederlandse (nieuws) onderwerpen, zoals kunst, cultuur, transport, gezondheid, onderwijs, natuur, politiek, sport, huisdieren, mode en curiosa. De metadata zijn beschikbaar in het Nederlands en Engels. Open Beelden bevat ook datasets van andere leveranciers en ook content (remixes) toegevoegd door gebruikers. Toegang tot het materiaal op Open Beelden wordt verleend onder het creative Commons licentiemodel. De Beeld en Geluid dataset op Open Beelden is harvestable via de Open Beelden OAI-PMH data provider. De dataset is ook beschikbaar via de europeana API."@nl ;
     sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0003>,
         <http://data.beeldengeluid.nl/id/datadownload/0022> ;
     sdo:inLanguage "nl-NL" ;
@@ -346,8 +338,7 @@
     sdo:temporalCoverage "1912/2018" .
 
 <http://data.beeldengeluid.nl/id/dataset/0003> a sdo:Dataset ;
-    sdo:description "The set contains raw footage of Dutch nature. This subset is part of a larger collection of video's from the project Natuurbeelden that has been made available under a Creative Commons license. "@en,
-        "Een verzameling van ruwe videoregistraties van Nederlandse flora en fauna onder een Creative Commons licentie, afkomstig van Stichting Natuurbeelden. "@nl ;
+    sdo:description "Een verzameling van ruwe videoregistraties van Nederlandse flora en fauna onder een Creative Commons licentie, afkomstig van Stichting Natuurbeelden. "@nl ;
     sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0004> ;
     sdo:inLanguage "nl-NL" ;
     sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
@@ -358,9 +349,7 @@
     sdo:temporalCoverage "1999/2020" .
 
 <http://data.beeldengeluid.nl/id/dataset/0005> a sdo:Dataset ;
-    sdo:description "According to Dutch law these recordings are in the Public Domain, and hence free for reuse by anyone."@en,
-        "The collection Radio De Brandaris contains radio broadcasts that were transmitted between 1944 and 1946 by Radio de Brandaris. The broadcasts of Radio De Brandaris were meant for Dutch allied seafarers and other ships from Holland. On July 10th, 1941 Radio De Brandaris began transmitting alongside Radio Oranje. In the beginning of november 1942 Radio de Brandaris became part of Radio Oranje."@en,
-        "The set can be accessed and downloaded via the Soundcloud API. But also on Wikimedia Commons, or through the Wikimedia Commons API. "@en ;
+    sdo:description "The collection Radio De Brandaris contains radio broadcasts that were transmitted between 1944 and 1946 by Radio de Brandaris. The broadcasts of Radio De Brandaris were meant for Dutch allied seafarers and other ships from Holland. On July 10th, 1941 Radio De Brandaris began transmitting alongside Radio Oranje. In the beginning of november 1942 Radio de Brandaris became part of Radio Oranje. According to Dutch law these recordings are in the Public Domain, and hence free for reuse by anyone. The set can be accessed and downloaded via the Soundcloud API. But also on Wikimedia Commons, or through the Wikimedia Commons API. "@en ;
     sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0012> ;
     sdo:inLanguage "nl-NL" ;
     sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
@@ -372,9 +361,7 @@
     sdo:temporalCoverage "1941/1942" .
 
 <http://data.beeldengeluid.nl/id/dataset/0006> a sdo:Dataset ;
-    sdo:description "According to Dutch law these recordings are in the Public Domain, and hence free for reuse by anyone."@en,
-        "The collection of broadcasts from Radio Oranje (Radio Orange) contains a selection of the radio broadcasts that were transmitted between 1940 and 1945. They were broadcasts created by the Dutch Government in exile in London, transmitted to encourage and inform the people of the Netherlands whilst under occupation."@en,
-        "The set can be accessed and downloaded via the Soundcloud API. But also on Wikimedia Commons, or through the Wikimedia Commons API."@en ;
+    sdo:description "The collection of broadcasts from Radio Oranje (Radio Orange) contains a selection of the radio broadcasts that were transmitted between 1940 and 1945. They were broadcasts created by the Dutch Government in exile in London, transmitted to encourage and inform the people of the Netherlands whilst under occupation. According to Dutch law these recordings are in the Public Domain, and hence free for reuse by anyone. The set can be accessed and downloaded via the Soundcloud API. But also on Wikimedia Commons, or through the Wikimedia Commons API."@en ;
     sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0008> ;
     sdo:inLanguage "nl-NL" ;
     sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
@@ -386,9 +373,7 @@
     sdo:temporalCoverage "1940/1945" .
 
 <http://data.beeldengeluid.nl/id/dataset/0007> a sdo:Dataset ;
-    sdo:description "According to Dutch law these recordings are in the Public Domain, and hence free for reuse by anyone."@en,
-        "The collection of broadcasts from Radio Herrijzend Nederland (Radio \"The Netherlands Revived\") contains a selection of the radio broadcasts that were transmitted between 1944 and 1946. They were broadcasted by the military authorities from Eindhoven after its liberation in September 1944, to encourage and inform the people of the still occupied north of the Netherlands. After the liberation it continued to broadcast untill January 1946."@en,
-        "The set can be accessed and downloaded via the Soundcloud API. But also on Wikimedia Commons, or through the Wikimedia Commons API."@en ;
+    sdo:description "The collection of broadcasts from Radio Herrijzend Nederland (Radio \"The Netherlands Revived\") contains a selection of the radio broadcasts that were transmitted between 1944 and 1946. They were broadcasted by the military authorities from Eindhoven after its liberation in September 1944, to encourage and inform the people of the still occupied north of the Netherlands. After the liberation it continued to broadcast untill January 1946. According to Dutch law these recordings are in the Public Domain, and hence free for reuse by anyone. The set can be accessed and downloaded via the Soundcloud API. But also on Wikimedia Commons, or through the Wikimedia Commons API."@en ;
     sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0006> ;
     sdo:inLanguage "nl-NL" ;
     sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
@@ -401,8 +386,7 @@
 
 <http://data.beeldengeluid.nl/id/dataset/0010> a sdo:Dataset ;
     sdo:creator <https://www.beeldengeluid.nl> ;
-    sdo:description "Sound and Vision has teamed up with several other Dutch organizations that manage audiovisual cultural heritage to develop the Gemeenschappelijke Thesaurus voor Audiovisuele Archieven (Common Thesaurus for Audiovisual Archives, GTAA). The GTAA is used for efficient characterization of the content of audio-visual material from the archive with labels derived from a controlled and structured list of terms, a thesaurus."@en,
-        "Het Nederlands Instituut voor Beeld en Geluid heeft samen met andere Nederlandse organisaties die audiovisueel cultureel erfgoed beheren de Gemeenschappelijke Thesaurus voor Audiovisuele Archieven (GTAA) ontwikkeld. De GTAA wordt gebruikt voor het doeltreffend karakteriseren van de inhoud van audiovisueel materiaal uit het archief met labels afkomstig uit een gecontroleerde en gestructureerde lijst van termen, een thesaurus."@nl ;
+    sdo:description "Het Nederlands Instituut voor Beeld en Geluid heeft samen met andere Nederlandse organisaties die audiovisueel cultureel erfgoed beheren de Gemeenschappelijke Thesaurus voor Audiovisuele Archieven (GTAA) ontwikkeld. De GTAA wordt gebruikt voor het doeltreffend karakteriseren van de inhoud van audiovisueel materiaal uit het archief met labels afkomstig uit een gecontroleerde en gestructureerde lijst van termen, een thesaurus."@nl ;
     sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0013>,
         <http://data.beeldengeluid.nl/id/datadownload/0014>,
         <http://data.beeldengeluid.nl/id/datadownload/0015>,
@@ -421,8 +405,7 @@
     sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
     sdo:license <http://opendatacommons.org/licenses/odbl/1.0/> ;
     sdo:mainEntityOfPage <https://labs.beeldengeluid.nl/datasets/gtaa> ;
-    sdo:name "Common Thesaurus Audiovisual Archives"@en,
-        "GTAA (Gemeenschappelijke Thesaurus Audiovisuele Archieven)"@nl ;
+    sdo:name "GTAA (Gemeenschappelijke Thesaurus Audiovisuele Archieven)"@nl ;
     sdo:publisher <https://www.beeldengeluid.nl> .
 
 <http://data.beeldengeluid.nl/id/dataset/0013> a sdo:Dataset ;
@@ -461,8 +444,7 @@
     sdo:temporalCoverage "1921/1974" .
 
 <http://data.beeldengeluid.nl/id/dataset/0026> a sdo:Dataset ;
-    sdo:description "Deze dataset beschikt over de laatste linked data versie van het muziekweb. Hier vind je een linked data view waarin alle albums van het muziekweb zijn weergegeven."@nl,
-        "Muziekweb is de muziekbibliotheek van Nederland. Ons doel is om muziek en de informatie over muziek voor iedereen laagdrempelig aan te bieden. Muziekweb heeft sinds 1961 een collectie opgebouwd van 600.000 cd’s, 300.000 lp’s en 30.000 muziek-dvd’s (dat is samen goed voor zo'n zeven miljoen tracks!). De site is een bron van informatie over muziek die de afgelopen vijftig jaar in Nederland is uitgebracht, en een ideale plek om meer muziek te leren kennen."@nl ;
+    sdo:description "Muziekweb is de muziekbibliotheek van Nederland. Ons doel is om muziek en de informatie over muziek voor iedereen laagdrempelig aan te bieden. Muziekweb heeft sinds 1961 een collectie opgebouwd van 600.000 cd’s, 300.000 lp’s en 30.000 muziek-dvd’s (dat is samen goed voor zo'n zeven miljoen tracks!). De site is een bron van informatie over muziek die de afgelopen vijftig jaar in Nederland is uitgebracht, en een ideale plek om meer muziek te leren kennen. Deze dataset beschikt over de laatste linked data versie van het muziekweb. Hier vind je een linked data view waarin alle albums van het muziekweb zijn weergegeven."@nl ;
     sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0025> ;
     sdo:inLanguage "nl-NL" ;
     sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
@@ -495,8 +477,7 @@
         <http://data.beeldengeluid.nl/id/dataset/0025>,
         <http://data.beeldengeluid.nl/id/dataset/0026> ;
     sdo:description "Alle open data beschikbaar gesteld door het Nederlands Instituut voor Beeld en Geluid."@nl ;
-    sdo:name "Open Data at NISV"@en,
-        "Open Data van Beeld en Geluid"@nl ;
+    sdo:name "Open Data van Beeld en Geluid"@nl ;
     sdo:publisher <https://www.beeldengeluid.nl> .
 
 <https://www.beeldengeluid.nl> a sdo:Organization ;
