@@ -30,6 +30,9 @@ api = Namespace(
     endpoint="gtaa_stuff",
 )
 class GTAAAPI(Resource):
+    """Serve the RDF for the GTAA SKOS Concepts in the format that was requested."""
+
+    @api.produces([mt.value for mt in MimeType])
     def get(self, identifier):
 
         gtaa_uri = f'{current_app.config.get("BENG_DATA_DOMAIN")}gtaa/{identifier}'
