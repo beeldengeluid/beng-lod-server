@@ -338,6 +338,7 @@
     sdo:temporalCoverage "1912/2018" .
 
 <http://data.beeldengeluid.nl/id/dataset/0003> a sdo:Dataset ;
+    sdo:creator <https://natuurbeelden.openbeelden.nl/> ;
     sdo:description "Een verzameling van ruwe videoregistraties van Nederlandse flora en fauna onder een Creative Commons licentie, afkomstig van Stichting Natuurbeelden. "@nl ;
     sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0004> ;
     sdo:inLanguage "nl-NL" ;
@@ -345,7 +346,7 @@
     sdo:license <http://rightsstatements.org/vocab/UND/1.0/> ;
     sdo:mainEntityOfPage <https://natuurbeelden.openbeelden.nl/media> ;
     sdo:name "Natuurbeelden"@nl ;
-    sdo:publisher <https://natuurbeelden.openbeelden.nl/> ;
+    sdo:publisher <https://www.beeldengeluid.nl> ;
     sdo:temporalCoverage "1999/2020" .
 
 <http://data.beeldengeluid.nl/id/dataset/0005> a sdo:Dataset ;
@@ -444,6 +445,7 @@
     sdo:temporalCoverage "1921/1974" .
 
 <http://data.beeldengeluid.nl/id/dataset/0026> a sdo:Dataset ;
+    sdo:creator <https://www.muziekweb.nl/> ;
     sdo:description "Muziekweb is de muziekbibliotheek van Nederland. Ons doel is om muziek en de informatie over muziek voor iedereen laagdrempelig aan te bieden. Muziekweb heeft sinds 1961 een collectie opgebouwd van 600.000 cd’s, 300.000 lp’s en 30.000 muziek-dvd’s (dat is samen goed voor zo'n zeven miljoen tracks!). De site is een bron van informatie over muziek die de afgelopen vijftig jaar in Nederland is uitgebracht, en een ideale plek om meer muziek te leren kennen. Deze dataset beschikt over de laatste linked data versie van het muziekweb. Hier vind je een linked data view waarin alle albums van het muziekweb zijn weergegeven."@nl ;
     sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0025> ;
     sdo:inLanguage "nl-NL" ;
@@ -451,7 +453,7 @@
     sdo:license <https://opendatacommons.org/licenses/by/> ;
     sdo:mainEntityOfPage <https://data.muziekweb.nl/> ;
     sdo:name "Muziekweb"@nl ;
-    sdo:publisher <https://www.muziekweb.nl/> .
+    sdo:publisher <https://www.beeldengeluid.nl> .
 
 <http://www.wikidata.org/entity/Q94482770> a sdo:Organization ;
     sdo:name "Filmdienst der NSB"@nl ;
