@@ -1,9 +1,3 @@
-from lxml import etree
-from lxml.etree import XMLSyntaxError
-import json
-from rdflib import Graph
-from rdflib.exceptions import ParserError
-
 ERROR_RESPONSES = {
     "access_denied": {"msg": "Access denied", "code": 403},
     "bad_request": {
@@ -76,29 +70,3 @@ class APIUtil:
     @staticmethod
     def getSuccessMessage(msg, data):
         return {"success": msg, "data": data}
-
-    @staticmethod
-    def isValidJSON(data):
-        try:
-            json.loads(data)
-        except ValueError:
-            return False
-        return True
-
-    @staticmethod
-    def isValidXML(data):
-        try:
-            etree.fromstring(data)
-        except XMLSyntaxError:
-            return False
-        return True
-
-    @staticmethod
-    def isValidRDF(data, format=None):
-        try:
-            graph = Graph()
-            graph.parse(data=data, format=format)
-        except ParserError as exc:
-            print(exc)
-            return False
-        return True
