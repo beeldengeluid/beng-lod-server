@@ -22,7 +22,7 @@ requests = "*"
 rdflib = "~=6.1.0"
 numpy = "*"
 elasticsearch = "~=7.17"
-flask = "~=2.1.0"
+flask = "~=2.2.2"
 validators = "*"
 
 [requires]
