@@ -106,7 +106,7 @@ def get_lod_resource_from_rdf_store(
 
 def get_triples_for_lod_resource_from_rdf_store(
     resource_url: str, sparql_endpoint: str, named_graph: str = ""
-) -> Optional[Graph]:
+) -> Graph:
     """Returns a graph with the triples for the LOD resource loaded. Using a construct query to get the triples
     from the rdf store. To be used in association with the other functions that get triples for blank nodes.
     Note that the named_graph parameter can prevent prefLabels from the catalogue data to end up in the thesaurus."""
@@ -126,7 +126,7 @@ def get_triples_for_lod_resource_from_rdf_store(
 
 def get_preflabels_for_lod_resource_from_rdf_store(
     resource_url: str, sparql_endpoint: str
-) -> Optional[Graph]:
+) -> Graph:
     """Gets the preflabels for the SKOS Concepts attached to the LOD resource from the rdf store.
     Note: the resource itself is not a SKOS Concept
     """
@@ -140,7 +140,7 @@ def get_preflabels_for_lod_resource_from_rdf_store(
 
 def get_preflabel_for_gtaa_resource_from_rdf_store(
     resource_url: str, sparql_endpoint: str, thes_named_graph: str = ""
-) -> Optional[Graph]:
+) -> Graph:
     """Gets the prefLabel, by using 'dumbing down' of the skos-xl prefLabel."""
     query_construct_pref_label_dumbing_down = (
         f"CONSTRUCT {{ ?s skos:prefLabel ?pref_label }} WHERE {{ "
@@ -176,12 +176,12 @@ def get_triples_for_blank_node_from_rdf_store(
     g2 = sparql_construct_query(sparql_endpoint, query_construct_bnodes_pref_labels)
 
     # ..and after that we merge the two together.
-    return g1 + g2 if (g1 is not None and g2 is not None) else None
+    return g1 + g2
 
 
 def get_skosxl_label_triples_for_skos_concept_from_rdf_store(
     resource_url: str, sparql_endpoint: str, named_graph: str = ""
-) -> Optional[Graph]:
+) -> Graph:
     """Returns a graph with triples for skos-xl labels for SKOS Concepts from the rdf store.
     :param resource_url: URI of a SKOS Concept.
     :param sparql_endpoint: the location of the RDF store.
@@ -209,19 +209,19 @@ def get_skosxl_label_triples_for_skos_concept_from_rdf_store(
     return sparql_construct_query(sparql_endpoint, query_construct_skos_xl_labels)
 
 
-def sparql_construct_query(sparql_endpoint: str, query: str) -> Optional[Graph]:
+def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
     """Sends a SPARQL CONSTRUCT query to the SPARQL endpoint and returns the result parsed into a Graph."""
+    g = Graph()
     try:
-        g = Graph()
         resp = requests.get(sparql_endpoint, params={"query": query})
         if resp.status_code == 200:
             g.parse(data=resp.text, format="xml")
         else:
             print(f"CONSTRUCT request to sparql server was not successful: {query}")
-        return g
     except ConnectionError as e:
         print(str(e))
-        return None
+
+    return g
 
 
 def json_header_from_rdf_graph(

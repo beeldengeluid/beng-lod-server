@@ -1,6 +1,6 @@
 @prefix : <http://www.semanticweb.org/mwigham/ontologies/2019/8/untitled-ontology-54#> .
 @prefix nisv: <http://data.rdlabs.beeldengeluid.nl/schema/> .
-@prefix schema: <https://schema.org/> .
+@prefix sdo: <https://schema.org/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
