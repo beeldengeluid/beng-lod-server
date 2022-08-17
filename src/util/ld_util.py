@@ -60,15 +60,15 @@ def get_lod_resource_from_rdf_store(
         g1 = get_triples_for_lod_resource_from_rdf_store(
             resource_url, sparql_endpoint, named_graph=named_graph
         )
-        assert g1 is not None
+        # assert g1 is not None
 
         g2 = get_preflabels_for_lod_resource_from_rdf_store(
             resource_url, sparql_endpoint
         )
-        assert g2 is not None
+        # assert g2 is not None
 
         g3 = get_triples_for_blank_node_from_rdf_store(resource_url, sparql_endpoint)
-        assert g3 is not None
+        # assert g3 is not None
 
         # for GTAA SKOS Concepts... get skos xl triples
         if resource_url.startswith("http://data.beeldengeluid.nl/gtaa/"):
@@ -82,19 +82,21 @@ def get_lod_resource_from_rdf_store(
         else:
             g = g1 + g2 + g3
 
-        # add the publisher triple (if not already present)
-        publisher_triple = (
-            URIRef(resource_url),
-            SDO.publisher,
-            URIRef(nisv_organisation_uri),
-        )
-        if publisher_triple not in g:
-            g.add(publisher_triple)
+        # the case where there are triples from sparql endpoint
+        if len(g) != 0:
+            # add the publisher triple (if not already present)
+            publisher_triple = (
+                URIRef(resource_url),
+                SDO.publisher,
+                URIRef(nisv_organisation_uri),
+            )
+            if publisher_triple not in g:
+                g.add(publisher_triple)
 
-        # add the missing namespaces
-        g.bind("skosxl", SKOSXL)
-        g.bind("justskos", JUSTSKOS)
-        g.bind("gtaa", GTAA)
+            # add the missing namespaces
+            g.bind("skosxl", SKOSXL)
+            g.bind("justskos", JUSTSKOS)
+            g.bind("gtaa", GTAA)
 
         return g
     except ConnectionError as e:
@@ -155,7 +157,7 @@ def get_preflabel_for_gtaa_resource_from_rdf_store(
 
 def get_triples_for_blank_node_from_rdf_store(
     resource_url: str, sparql_endpoint: str
-) -> Optional[Graph]:
+) -> Graph:
     """Returns a graph with triples for blank nodes attached the LOD resource (including preflabels for the
     SKOS Concepts from the rdf store). We need to do that with two separate queries, because ClioPatria doesn't
     support CONSTRUCT queries with UNION.
