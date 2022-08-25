@@ -15,7 +15,11 @@ from importer.DAANSchemaImporter import DAANSchemaImporter
 
 
 class NISVRdfConcept(BaseRdfConcept):
-    """Class to represent an NISV concept in RDF, with functions to create the RDF in a graph from the JSON payload."""
+    """Class to represent an NISV catalog object with RDF using NISV schema.
+    The class can be instantiated from the JSON payload provided by
+    the NISV Direct Access Metadata API.
+
+    """
 
     def __init__(self, metadata, concept_type, profile, logger, cache):
         super().__init__(profile, logger, model=DAANRdfModel)
