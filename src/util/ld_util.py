@@ -60,15 +60,10 @@ def get_lod_resource_from_rdf_store(
         g1 = get_triples_for_lod_resource_from_rdf_store(
             resource_url, sparql_endpoint, named_graph=named_graph
         )
-        # assert g1 is not None
-
         g2 = get_preflabels_for_lod_resource_from_rdf_store(
             resource_url, sparql_endpoint
         )
-        # assert g2 is not None
-
         g3 = get_triples_for_blank_node_from_rdf_store(resource_url, sparql_endpoint)
-        # assert g3 is not None
 
         # for GTAA SKOS Concepts... get skos xl triples
         if resource_url.startswith("http://data.beeldengeluid.nl/gtaa/"):
@@ -100,8 +95,6 @@ def get_lod_resource_from_rdf_store(
 
         return g
     except ConnectionError as e:
-        print(str(e))
-    except AssertionError as e:
         print(str(e))
     return None
 
@@ -212,7 +205,8 @@ def get_skosxl_label_triples_for_skos_concept_from_rdf_store(
 
 
 def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
-    """Sends a SPARQL CONSTRUCT query to the SPARQL endpoint and returns the result parsed into a Graph."""
+    """Sends a SPARQL CONSTRUCT query to the SPARQL endpoint and returns the result parsed into a Graph.
+    raises a ConnectionError when the sparql endpoint can not be reached."""
     g = Graph()
     try:
         resp = requests.get(sparql_endpoint, params={"query": query})
@@ -220,8 +214,8 @@ def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
             g.parse(data=resp.text, format="xml")
         else:
             print(f"CONSTRUCT request to sparql server was not successful: {query}")
-    except ConnectionError as e:
-        print(str(e))
+    except ConnectionError:
+        raise
 
     return g
 
