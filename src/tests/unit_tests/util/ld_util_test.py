@@ -118,8 +118,11 @@ def test_get_lod_resource_from_rdf_store(
 
         # requests.get is only called when there is a resource_url and sparql_endpoint
         if resource_url and sparql_endpoint:
-            # sparql_construct is called 4 times for catalog object and 6 times for GTAA object
-            verify(requests, atleast=4).get(sparql_endpoint, **KWARGS)
+            if raise_connection_error is True:
+                verify(requests, atleast=1).get(sparql_endpoint, **KWARGS)
+            else:
+                # sparql_construct is called 4 times for catalog object and 6 times for GTAA object
+                verify(requests, atleast=4).get(sparql_endpoint, **KWARGS)
         else:
             verify(requests, times=0).get(sparql_endpoint, **KWARGS)
     finally:
