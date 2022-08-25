@@ -110,9 +110,6 @@ def test_get_lod_resource_from_rdf_store(
         # returns a Graph object when successful, otherwise returns None
         if success:
             assert isinstance(lod_graph, Graph)
-        elif raise_connection_error is True:
-            assert isinstance(lod_graph, Graph)
-            assert len(lod_graph) == 0
         else:
             assert lod_graph is None
 
