@@ -1,12 +1,11 @@
 from urllib.parse import urlparse, urlunparse
-
 from rdflib import Graph, URIRef, Literal, BNode, Namespace
 from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS
 import requests
 import json
 from json.decoder import JSONDecodeError
 from models.DAANRdfModel import ResourceURILevel
-from requests.exceptions import ConnectionError
+from requests.exceptions import ConnectionError, HTTPError
 from typing import Optional, List
 import validators
 
@@ -208,15 +207,10 @@ def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
     """Sends a SPARQL CONSTRUCT query to the SPARQL endpoint and returns the result parsed into a Graph.
     raises a ConnectionError when the sparql endpoint can not be reached."""
     g = Graph()
-    try:
-        resp = requests.get(sparql_endpoint, params={"query": query})
-        if resp.status_code == 200:
-            g.parse(data=resp.text, format="xml")
-        else:
-            print(f"CONSTRUCT request to sparql server was not successful: {query}")
-    except ConnectionError:
-        raise
-
+    resp = requests.get(sparql_endpoint, params={"query": query})
+    resp.raise_for_status()
+    if resp.status_code == 200:
+        g.parse(data=resp.text, format="xml")
     return g
 
 
