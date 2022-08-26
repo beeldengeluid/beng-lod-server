@@ -95,6 +95,8 @@ def get_lod_resource_from_rdf_store(
         return g
     except ConnectionError as e:
         print(str(e))
+    except HTTPError as e:
+        print(str(e))
     return None
 
 
@@ -205,7 +207,8 @@ def get_skosxl_label_triples_for_skos_concept_from_rdf_store(
 
 def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
     """Sends a SPARQL CONSTRUCT query to the SPARQL endpoint and returns the result parsed into a Graph.
-    raises a ConnectionError when the sparql endpoint can not be reached."""
+    raises a ConnectionError when the sparql endpoint can not be reached, or
+    raises an HTTPError when the request was not successful."""
     g = Graph()
     resp = requests.get(sparql_endpoint, params={"query": query})
     resp.raise_for_status()
