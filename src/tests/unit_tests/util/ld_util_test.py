@@ -1,5 +1,6 @@
 import pytest
 from rdflib.namespace import SDO, RDF
+from rdflib import Graph
 import requests
 import json
 from json.decoder import JSONDecodeError
@@ -108,18 +109,17 @@ def test_get_lod_resource_from_rdf_store(
 
         # returns a Graph object when successful, otherwise returns None
         if success:
-            assert lod_graph is not None
+            assert isinstance(lod_graph, Graph)
         else:
             assert lod_graph is None
 
         # requests.get is only called when there is a resource_url and sparql_endpoint
         if resource_url and sparql_endpoint:
-            # ...but beware for the connection error, then only one request is fired
             if raise_connection_error is True:
-                verify(requests, times=1).get(sparql_endpoint, **KWARGS)
+                verify(requests, atleast=1).get(sparql_endpoint, **KWARGS)
             else:
-                # ...otherwise four get requests will happen.
-                verify(requests, times=4).get(sparql_endpoint, **KWARGS)
+                # sparql_construct is called 4 times for catalog object and 6 times for GTAA object
+                verify(requests, atleast=4).get(sparql_endpoint, **KWARGS)
         else:
             verify(requests, times=0).get(sparql_endpoint, **KWARGS)
     finally:
