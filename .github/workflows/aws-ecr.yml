@@ -1,0 +1,72 @@
+on:
+  push:
+    branches:
+      - "main"
+      - "master"
+    paths-ignore:
+      - ./*.yml
+      - README.md
+      - LICENSE
+      - codemeta.json
+
+name: Deploy to Amazon ECR
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Install pipenv
+      uses: dschep/install-pipenv-action@v1
+    - name: Install dependencies (including dev-packages)
+      run: pipenv install -d
+    - name: Show installed packages
+      run: pipenv graph
+    - name: Test with pytest
+      run: pipenv run pytest src/tests/unit_tests --cov
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings
+        pipenv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=88 --statistics --extend-ignore=E203,E501 --select=C,E,F,W,B,B950
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+    needs: test
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-1
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Get lowercase repo name
+      id: repoName
+      run: echo "::set-output name=reponame::$(echo ${{github.repository}} | cut -d '/' -f 2 | tr '[:upper:]' '[:lower:]')"
+    - name: Get short SHA
+      id: sha
+      run: echo "::set-output name=sha7::$(echo ${GITHUB_SHA} | cut -c1-7)"
+
+    - name: Build, tag, and push image to private Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      run: |
+        docker build -t $ECR_REGISTRY/${{ steps.repoName.outputs.reponame }}:${{ steps.sha.outputs.sha7 }} -t $ECR_REGISTRY/${{ steps.repoName.outputs.reponame }}:latest .
+        docker push $ECR_REGISTRY/${{ steps.repoName.outputs.reponame }} --all-tags
