@@ -12,6 +12,11 @@ jobs:
   test:
     uses: ./.github/workflows/test.yml
 
+jobs:
+  push-to-registry:
+    uses: ./.github/workflows/aws-ecr.yml
+    secrets: inherit
+
   deploy-acc:
     uses: ./.github/workflows/deploy.yml
     needs: [test]
