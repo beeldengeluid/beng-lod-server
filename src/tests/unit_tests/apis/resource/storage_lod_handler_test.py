@@ -35,6 +35,15 @@ DUMMY_STORAGE_DATA = {
 }
 
 
+@pytest.fixture(scope="function")
+def storage_lod_handler(application_settings):
+    yield StorageLODHandler(application_settings)
+
+
+def test_init(storage_lod_handler):
+    assert isinstance(storage_lod_handler, StorageLODHandler)
+
+
 @pytest.mark.parametrize(
     "storage_base_url, level, identifier, storage_uri",
     [
@@ -66,12 +75,14 @@ DUMMY_STORAGE_DATA = {
     ],
 )
 def test_prepare_storage_uri(
-    application_settings, storage_base_url, level, identifier, storage_uri
+    storage_lod_handler, storage_base_url, level, identifier, storage_uri
 ):
     try:
-        slh = StorageLODHandler(application_settings)
         assert (
-            slh._prepare_storage_uri(storage_base_url, level, identifier) == storage_uri
+            storage_lod_handler._prepare_storage_uri(
+                storage_base_url, level, identifier
+            )
+            == storage_uri
         )
     finally:
         unstub()
@@ -97,17 +108,18 @@ def test_prepare_storage_uri(
     ],
 )
 def test_get_json_from_storage(
-    application_settings, status_code, response_text, exception, expected_output
+    storage_lod_handler, status_code, response_text, exception, expected_output
 ):
     try:
-        slh = StorageLODHandler(application_settings)
-
         response = mock({"status_code": status_code, "text": response_text})
         if exception is None:
             when(requests).get(DUMMY_STORAGE_URL).thenReturn(response)
         else:
             when(requests).get(DUMMY_STORAGE_URL).thenRaise(exception)
-        assert slh._get_json_from_storage(DUMMY_STORAGE_URL) == expected_output
+        assert (
+            storage_lod_handler._get_json_from_storage(DUMMY_STORAGE_URL)
+            == expected_output
+        )
         verify(requests, times=1).get(DUMMY_STORAGE_URL)
     finally:
         unstub()

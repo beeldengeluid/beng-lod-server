@@ -1,7 +1,6 @@
 import pytest
 import json
 from lxml import etree
-from mockito import unstub, verifyStubbedInvocationsAreUsed
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
 from util.ld_util import generate_lod_resource_uri
 from models.DAANRdfModel import ResourceURILevel
@@ -34,12 +33,12 @@ XML_ENCODING_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>'
 
 
 @pytest.fixture
-def data_catalog_handler(application_settings) -> DataCatalogLODHandler:
-    try:
-        yield DataCatalogLODHandler(application_settings)
-    finally:
-        verifyStubbedInvocationsAreUsed()
-        unstub()
+def data_catalog_lod_handler(application_settings) -> DataCatalogLODHandler:
+    yield DataCatalogLODHandler(application_settings)
+
+
+def test_init(data_catalog_lod_handler):
+    assert isinstance(data_catalog_lod_handler, DataCatalogLODHandler)
 
 
 # TODO: test data in resp
@@ -55,10 +54,10 @@ def data_catalog_handler(application_settings) -> DataCatalogLODHandler:
         (DUMMY_DATA_CATALOG_URI, "application/phony_mime_type"),
     ],
 )
-def test_get_data_catalog(data_catalog_handler, data_catalog_uri, mime_type):
+def test_get_data_catalog(data_catalog_lod_handler, data_catalog_uri, mime_type):
     try:
         # call get_data_catalog to test results
-        resp = data_catalog_handler.get_data_catalog(data_catalog_uri, mime_type)
+        resp = data_catalog_lod_handler.get_data_catalog(data_catalog_uri, mime_type)
 
         assert type(resp) == str  # TODO: use type annotations instead
 
@@ -90,10 +89,10 @@ def test_get_data_catalog(data_catalog_handler, data_catalog_uri, mime_type):
         (DUMMY_DATA_DOWNLOAD_URI, "application/phony_mime_type"),
     ],
 )
-def test_get_data_download(data_catalog_handler, data_download_uri, mime_type):
+def test_get_data_download(data_catalog_lod_handler, data_download_uri, mime_type):
     try:
         # call get_data_download to test results
-        resp = data_catalog_handler.get_data_download(data_download_uri, mime_type)
+        resp = data_catalog_lod_handler.get_data_download(data_download_uri, mime_type)
 
         assert type(resp) == str  # TODO: use type annotations instead
 
@@ -125,10 +124,10 @@ def test_get_data_download(data_catalog_handler, data_download_uri, mime_type):
         (DUMMY_DATASET_URI, "application/phony_mime_type"),
     ],
 )
-def test_get_dataset(data_catalog_handler, dataset_uri, mime_type):
+def test_get_dataset(data_catalog_lod_handler, dataset_uri, mime_type):
     try:
         # call get_dataset to test results
-        resp = data_catalog_handler.get_dataset(dataset_uri, mime_type)
+        resp = data_catalog_lod_handler.get_dataset(dataset_uri, mime_type)
 
         # test if result is expected
         assert type(resp) == str  # TODO: use type annotations instead

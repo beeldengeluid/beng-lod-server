@@ -16,8 +16,9 @@ from importer.DAANSchemaImporter import DAANSchemaImporter
 
 
 class SDORdfConcept(BaseRdfConcept):
-    """Class to represent an NISV catalog object in RDF.
-    It uses functions to create the RDF in a graph using the JSON payload from the Direct Access Metadata API.
+    """Class to represent an NISV catalog object with RDF using SDO schema.
+    The class can be instantiated from the JSON payload provided by
+    the NISV Direct Access Metadata API.
 
     """
 

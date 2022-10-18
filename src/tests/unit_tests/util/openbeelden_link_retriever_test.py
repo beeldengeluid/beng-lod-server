@@ -1,5 +1,7 @@
 import json
+
 import pytest
+
 from util import OpenBeeldenLinkRetriever as ob
 
 

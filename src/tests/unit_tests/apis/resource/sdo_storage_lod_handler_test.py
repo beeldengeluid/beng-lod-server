@@ -153,8 +153,18 @@ def test_get_storage_record__no_storage_data(application_settings):
 """
 
 
+@pytest.fixture(scope="function")
+def sdo_storage_lod_handler(application_settings):
+    active_profile = application_settings.get("ACTIVE_PROFILE")
+    yield SDOStorageLODHandler(application_settings, active_profile)
+
+
+def test_init(sdo_storage_lod_handler):
+    assert isinstance(sdo_storage_lod_handler, SDOStorageLODHandler)
+
+
 # TODO
-def test_get_storage_record(application_settings):
+def test_get_storage_record(sdo_storage_lod_handler):
     pass
 
 
@@ -169,14 +179,14 @@ def test_get_storage_record(application_settings):
         (DUMMY_STORAGE_URL, MimeType.JSON),  # not supported by rdflib
     ],
 )
-def test_storage_2_lod(application_settings, storage_url, return_mime_type):
+def test_storage_2_lod(sdo_storage_lod_handler, storage_url, return_mime_type):
     try:
-        profile = application_settings.get("ACTIVE_PROFILE")
-        slh = SDOStorageLODHandler(application_settings, profile)
-        when(slh)._get_json_from_storage(storage_url, False).thenReturn(
-            DUMMY_STORAGE_DATA
+        when(sdo_storage_lod_handler)._get_json_from_storage(
+            storage_url, False
+        ).thenReturn(DUMMY_STORAGE_DATA)
+        serialized_data = sdo_storage_lod_handler._storage_2_lod(
+            storage_url, return_mime_type.value
         )
-        serialized_data = slh._storage_2_lod(storage_url, return_mime_type.value)
         if return_mime_type == MimeType.JSON_LD:
             json_data = json.loads(serialized_data)
             assert type(serialized_data) == str
@@ -207,11 +217,9 @@ def test_storage_2_lod(application_settings, storage_url, return_mime_type):
         (DUMMY_STORAGE_DATA__UNSUPPORTED_LOGTRACK_TYPE, ValueError),
     ],
 )
-def test_transform_json_to_rdf(application_settings, storage_data, raised_exception):
+def test_transform_json_to_rdf(sdo_storage_lod_handler, storage_data, raised_exception):
     try:
-        profile = application_settings.get("ACTIVE_PROFILE")
-        slh = SDOStorageLODHandler(application_settings, profile)
-        concept = slh._transform_json_to_rdf(storage_data)
+        concept = sdo_storage_lod_handler._transform_json_to_rdf(storage_data)
         if raised_exception is None:
             assert type(concept) == SDORdfConcept
     except ValueError:

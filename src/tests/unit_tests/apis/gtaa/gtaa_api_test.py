@@ -1,12 +1,4 @@
-# import pytest
-# import json
-# from lxml import etree
-# from mockito import when, unstub, verify, mock
-# from util.ld_util import get_lod_resource_from_rdf_store
-# from apis.mime_type_util import parse_accept_header, MimeType
-# from rdflib.plugin import PluginException
-# from apis.gtaa.gtaa_api import GTAAAPI
-# from rdflib import Graph
+from apis.gtaa.gtaa_api import GTAAAPI
 
 # DUMMY_GTAA_IDENTIFIER = 123456
 # DUMMY_MIMETYPE = "text/txet"
@@ -15,6 +7,11 @@
 # DUMMY_ORGANISATION = "http://www.doordeplee.nl/"
 # DUMMY_PROFILE = "https://heelcomplexallemaal.nl/"
 # DUMMY_GTAA_URI = "http://data.beeldengeluid.nl/gtaa/123456"
+
+
+def test_init():
+    gtaa_api = GTAAAPI()
+    assert isinstance(gtaa_api, GTAAAPI)
 
 
 # @pytest.mark.parametrize(
