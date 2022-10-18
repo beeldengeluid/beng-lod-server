@@ -17,6 +17,12 @@ import apis.health.DependencyHealth
 from apis.health.DependencyHealth import Dependency, DependencyHealth
 
 
+@pytest.mark.parametrize("status_code", HTTPStatus)
+def test_init(status_code):
+    dependency_health = DependencyHealth(status_code)
+    assert isinstance(dependency_health, DependencyHealth)
+
+
 @pytest.mark.parametrize(
     "status_code, expected_is_ok",
     [

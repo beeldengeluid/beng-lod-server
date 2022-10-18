@@ -42,6 +42,10 @@ def data_catalog_lod_handler(application_settings) -> DataCatalogLODHandler:
         unstub()
 
 
+def test_init(data_catalog_lod_handler):
+    assert isinstance(data_catalog_lod_handler, DataCatalogLODHandler)
+
+
 # TODO: test data in resp
 @pytest.mark.parametrize(
     "data_catalog_uri, mime_type",
