@@ -7,7 +7,7 @@ verify_ssl = true
 pytest = "*"
 pytest-cov = "*"
 mockito = "*"
-flake8 = "~=4.0"
+flake8 = "~=5.0"
 black = "*"
 flake8-bugbear = "*"
 mypy = "*"
