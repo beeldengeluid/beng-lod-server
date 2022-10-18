@@ -10,7 +10,7 @@ on:
 jobs:
   deploy-acc:
     if: ${{ inputs.target == 'acc' }}
-    runs-on: [self-hosted]
+    runs-on: [self-hosted, lechiffre]
     steps:
     - name: Update ansible
       run: |
