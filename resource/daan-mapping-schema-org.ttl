@@ -303,7 +303,8 @@ xsd:date rdf:type rdfs:Datatype .
 ###<http://data.rdlabs.beeldengeluid.nl/schema/hasLink> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.link, nisv.link,link.url" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasMaterialType
+###  https://schema.org/material  NB: where material type is an electronic type, we interpret this relation using sdo:associatedMedia, so sdo:material
+### does not appear in the output RDF. For other types of material, e.g. paper, then it does
 <https://schema.org/material> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.materialtype, resolved_value" .
 
 

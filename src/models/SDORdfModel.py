@@ -1,45 +1,44 @@
-from rdflib.namespace import XSD
+from rdflib.namespace import XSD, SDO
 
-NISV_SCHEMA_NAMESPACE = "http://data.rdlabs.beeldengeluid.nl/schema/"
-SCHEMA_DOT_ORG_NAMESPACE = "https://schema.org/"
-NISV_DATA_NAMESPACE = "http://data.beeldengeluid.nl/id/"
-NISV_SCHEMA_PREFIX = "nisv"
-SCHEMA_DOT_ORG_PREFIX = "sdo"
-NISV_DATA_PREFIX = "id"
 GTAA_NAMESPACE = "http://data.beeldengeluid.nl/gtaa/"
+NISV_DATA_NAMESPACE = "http://data.beeldengeluid.nl/id/"
+NISV_DATA_PREFIX = "id"
+NISV_SCHEMA_NAMESPACE = "http://data.rdlabs.beeldengeluid.nl/schema/"
+NISV_SCHEMA_PREFIX = "nisv"
 URI_NISV_ORGANISATION = "https://www.beeldengeluid.nl/"
 
 # URIs for concepts in the schema
-PROGRAM = SCHEMA_DOT_ORG_NAMESPACE + "CreativeWork"
-SEASON = SCHEMA_DOT_ORG_NAMESPACE + "CreativeWorkSeason"
-SERIES = SCHEMA_DOT_ORG_NAMESPACE + "CreativeWorkSeries"
-CARRIER = SCHEMA_DOT_ORG_NAMESPACE + "MediaObject"
-THING = SCHEMA_DOT_ORG_NAMESPACE + "Thing"
-PERSON = SCHEMA_DOT_ORG_NAMESPACE + "Person"
-ORGANIZATION = SCHEMA_DOT_ORG_NAMESPACE + "Organization"
-CLIP = SCHEMA_DOT_ORG_NAMESPACE + "Clip"
-AUDIO = SCHEMA_DOT_ORG_NAMESPACE + "AudioObject"
-VIDEO = SCHEMA_DOT_ORG_NAMESPACE + "VideoObject"
-PHOTO = SCHEMA_DOT_ORG_NAMESPACE + "ImageObject"
+AUDIO = SDO.AudioObject
+CARRIER = SDO.MediaObject
+CLIP = SDO.Clip
+ORGANIZATION = SDO.Organization
+PERSON = SDO.Person
+PHOTO = SDO.ImageObject
+PROGRAM = SDO.CreativeWork
+SEASON = SDO.CreativeWorkSeason
+SERIES = SDO.CreativeWorkSeries
+THING = SDO.Thing
+VIDEO = SDO.VideoObject
 
 # URIS for relations in the schema
+ADDITIONAL_TYPE = SDO.additionalType
+CONDITIONS_OF_ACCESS = SDO.conditionsOfAccess
+HAS_ASSOCIATED_MEDIA = SDO.associatedMedia
+HAS_CLIP = SDO.hasPart
+HAS_CONTENT_URL = SDO.contentUrl
 HAS_DAAN_PATH = NISV_SCHEMA_NAMESPACE + "hasDaanPath"
-IS_CARRIER_OF = SCHEMA_DOT_ORG_NAMESPACE + "associatedMedia"
-HAS_ENCODING_FORMAT = SCHEMA_DOT_ORG_NAMESPACE + "encodingFormat"
-IS_PART_OF_SERIES = SCHEMA_DOT_ORG_NAMESPACE + "partOfSeries"
-IS_PART_OF_SEASON = SCHEMA_DOT_ORG_NAMESPACE + "partOfSeason"
-HAS_CLIP = SCHEMA_DOT_ORG_NAMESPACE + "hasPart"
-MENTIONS = SCHEMA_DOT_ORG_NAMESPACE + "mentions"
-ADDITIONAL_TYPE = SCHEMA_DOT_ORG_NAMESPACE + "additionalType"
-URL = SCHEMA_DOT_ORG_NAMESPACE + "url"
-CONDITIONS_OF_ACCESS = SCHEMA_DOT_ORG_NAMESPACE + "conditionsOfAccess"
-LICENSE = SCHEMA_DOT_ORG_NAMESPACE + "license"
+HAS_ENCODING_FORMAT = SDO.encodingFormat
+HAS_MATERIAL_TYPE = SDO.material
+HAS_PUBLISHER = SDO.publisher
+IS_CARRIER_OF = SDO.associatedMedia
+IS_MAIN_ENTITY_OF_PAGE = SDO.mainEntityOfPage
+IS_PART_OF_SEASON = SDO.partOfSeason
+IS_PART_OF_SERIES = SDO.partOfSeries
+LICENSE = SDO.license
+MENTIONS = SDO.mentions
+URL = SDO.url
 # TODO work out how to handle this, is no equivalent property
-# IS_PART_OF_PROGRAM = SCHEMA_DOT_ORG_NAMESPACE + "isPartOfProgram"
-HAS_ASSOCIATED_MEDIA = SCHEMA_DOT_ORG_NAMESPACE + "associatedMedia"
-HAS_CONTENT_URL = SCHEMA_DOT_ORG_NAMESPACE + "contentUrl"
-IS_MAIN_ENTITY_OF_PAGE = SCHEMA_DOT_ORG_NAMESPACE + "mainEntityOfPage"
-HAS_MATERIAL_TYPE = SCHEMA_DOT_ORG_NAMESPACE + "material"
+# IS_PART_OF_PROGRAM = ??
 
 XSD_TYPES = [
     str(XSD.string),
@@ -52,6 +51,15 @@ XSD_TYPES = [
 ]
 
 ROLE_TYPES = [PERSON, ORGANIZATION]
+
+ASSOCIATED_ROLES_FOR_PROPERTIES = {
+    SDO.byArtist: SDO.PerformanceRole,
+    SDO.actor: SDO.PerformanceRole,
+    SDO.contributor: SDO.PerformanceRole,
+    SDO.creator: SDO.PerformanceRole,
+    SDO.productionCompany: SDO.Role,
+    SDO.mentions: SDO.Role
+}
 
 # URIs to use for different levels of DAAN records
 CLASS_URIS_FOR_DAAN_LEVELS = {

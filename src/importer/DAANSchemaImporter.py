@@ -1,5 +1,5 @@
 import logging
-from rdflib import Graph
+from rdflib import Graph, URIRef
 from models.DAANRdfModel import HAS_DAAN_PATH
 
 """
@@ -25,7 +25,7 @@ class DAANSchemaImporter:
         # assert self._propertiesWithoutDomain, 'ERROR in DAANSchemaImporter: The properties were not loaded.'
         if not self._propertiesWithoutDomain:
             # things should work when there are nog properties without domain. Thus, just a warning in the log.
-            logging.warning("DAANSchemaImporter: The properties were not loaded.")
+            logging.warning("DAANSchemaImporter: The properties without domain were not loaded.")
 
         self._classes = {}
         self._load_classes()
@@ -90,7 +90,7 @@ class DAANSchemaImporter:
         self._classes = {}  # reset the classes member variable
         for row in class_result:
             class_uri = str(row[0])
-            self._classes[class_uri] = self.get_class_info(class_uri)
+            self._classes[URIRef(class_uri)] = self.get_class_info(class_uri)
 
     def get_properties_for_class(self, class_uri):
         """get properties belonging to this class (that have this class, or a superclass of this class, as their domain)"""

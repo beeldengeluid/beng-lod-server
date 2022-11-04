@@ -52,7 +52,7 @@ class StorageLODHandler:
         except HTTPError as e:
             self.logger.debug("HTTPError caused 404")
             return APIUtil.toErrorResponse("not_found", e)
-        except Exception:
+        except Exception as e:
             self.logger.exception("Exception")
 
         return APIUtil.toErrorResponse("internal_server_error")

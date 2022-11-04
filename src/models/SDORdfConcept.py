@@ -35,7 +35,7 @@ class SDORdfConcept(BaseRdfConcept):
         )
 
         self.graph.namespace_manager.bind(
-            "sdo", Namespace(self._model.SCHEMA_DOT_ORG_NAMESPACE)
+            "sdo", SDO._NS
         )
         # create a node for the record
         self.itemNode = URIRef(self.get_uri(concept_type, metadata["id"]))
@@ -69,7 +69,7 @@ class SDORdfConcept(BaseRdfConcept):
 
         # add the publisher triple
         self.graph.add(
-            (self.itemNode, SDO.publisher, URIRef(self._model.URI_NISV_ORGANISATION))
+            (self.itemNode, SDORdfModel.HAS_PUBLISHER, URIRef(self._model.URI_NISV_ORGANISATION))
         )
 
         # convert the record payload to RDF
@@ -425,8 +425,8 @@ class SDORdfConcept(BaseRdfConcept):
         properties = self._classes[class_uri]["properties"]
 
         # retrieve metadata for each relevant property
-        for property_uri, property_description in properties.items():
-
+        for property_uri_string, property_description in properties.items():
+            property_uri = URIRef(property_uri_string)
             # try each possible path for the property until find some metadata
             property_payload = []
             used_paths = []
@@ -541,16 +541,9 @@ class SDORdfConcept(BaseRdfConcept):
                     # link the role node to the parent node
                     self.graph.add((parent_node, URIRef(property_uri), role_node))
 
-                    # add the PerformanceRole or Role type for the property.
-                    if URIRef(property_uri) in (
-                        SDO.byArtist,
-                        SDO.actor,
-                        SDO.contributor,
-                        SDO.creator,
-                    ):
-                        self.graph.add((role_node, RDF.type, SDO.PerformanceRole))
-                    elif URIRef(property_uri) in (SDO.productionCompany, SDO.mentions):
-                        self.graph.add((role_node, RDF.type, SDO.Role))
+                    # add the appropriate role type for the property.
+                    if URIRef(property_uri) in SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES:
+                        self.graph.add((role_node, RDF.type, SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES[URIRef(property_uri)]))
 
                     # link the concept node to the role node
                     self.graph.add((role_node, URIRef(property_uri), concept_node))
@@ -579,9 +572,17 @@ class SDORdfConcept(BaseRdfConcept):
                             )
                         )
 
-                    self.graph.add(
-                        (parent_node, URIRef(property_uri), concept_node)
-                    )  # link it to the parent
+                    # create a blank node for the role
+                    role_node = BNode()
+                    # link the role node to the parent node
+                    self.graph.add((parent_node, URIRef(property_uri), role_node))
+
+                    # add the appropriate role type for the property.
+                    if URIRef(property_uri) in SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES:
+                        self.graph.add((role_node, RDF.type, SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES[URIRef(property_uri)]))
+
+                    # link the concept node to the role node
+                    self.graph.add((role_node, URIRef(property_uri), concept_node))
 
                 else:
                     # we have a class as range
