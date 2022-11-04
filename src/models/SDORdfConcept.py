@@ -8,7 +8,7 @@ from models.DAANJsonModel import (
     DAAN_PAYLOAD,
     ObjectType,
 )
-from rdflib.namespace import RDF, RDFS, SKOS, Namespace, SDO
+from rdflib.namespace import RDF, RDFS, SKOS, SDO
 from rdflib import URIRef, Literal, BNode
 from util.APIUtil import APIUtil
 from models.BaseRdfConcept import BaseRdfConcept
