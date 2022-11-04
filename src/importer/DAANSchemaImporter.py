@@ -25,7 +25,9 @@ class DAANSchemaImporter:
         # assert self._propertiesWithoutDomain, 'ERROR in DAANSchemaImporter: The properties were not loaded.'
         if not self._propertiesWithoutDomain:
             # things should work when there are nog properties without domain. Thus, just a warning in the log.
-            logging.warning("DAANSchemaImporter: The properties without domain were not loaded.")
+            logging.warning(
+                "DAANSchemaImporter: The properties without domain were not loaded."
+            )
 
         self._classes = {}
         self._load_classes()

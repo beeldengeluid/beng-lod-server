@@ -34,9 +34,7 @@ class SDORdfConcept(BaseRdfConcept):
             "internal_server_error", err_msg
         )
 
-        self.graph.namespace_manager.bind(
-            "sdo", SDO._NS
-        )
+        self.graph.namespace_manager.bind("sdo", SDO._NS)
         # create a node for the record
         self.itemNode = URIRef(self.get_uri(concept_type, metadata["id"]))
 
@@ -69,7 +67,11 @@ class SDORdfConcept(BaseRdfConcept):
 
         # add the publisher triple
         self.graph.add(
-            (self.itemNode, SDORdfModel.HAS_PUBLISHER, URIRef(self._model.URI_NISV_ORGANISATION))
+            (
+                self.itemNode,
+                SDORdfModel.HAS_PUBLISHER,
+                URIRef(self._model.URI_NISV_ORGANISATION),
+            )
         )
 
         # convert the record payload to RDF
@@ -542,8 +544,19 @@ class SDORdfConcept(BaseRdfConcept):
                     self.graph.add((parent_node, URIRef(property_uri), role_node))
 
                     # add the appropriate role type for the property.
-                    if URIRef(property_uri) in SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES:
-                        self.graph.add((role_node, RDF.type, SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES[URIRef(property_uri)]))
+                    if (
+                        URIRef(property_uri)
+                        in SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES
+                    ):
+                        self.graph.add(
+                            (
+                                role_node,
+                                RDF.type,
+                                SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES[
+                                    URIRef(property_uri)
+                                ],
+                            )
+                        )
 
                     # link the concept node to the role node
                     self.graph.add((role_node, URIRef(property_uri), concept_node))
@@ -578,8 +591,19 @@ class SDORdfConcept(BaseRdfConcept):
                     self.graph.add((parent_node, URIRef(property_uri), role_node))
 
                     # add the appropriate role type for the property.
-                    if URIRef(property_uri) in SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES:
-                        self.graph.add((role_node, RDF.type, SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES[URIRef(property_uri)]))
+                    if (
+                        URIRef(property_uri)
+                        in SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES
+                    ):
+                        self.graph.add(
+                            (
+                                role_node,
+                                RDF.type,
+                                SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES[
+                                    URIRef(property_uri)
+                                ],
+                            )
+                        )
 
                     # link the concept node to the role node
                     self.graph.add((role_node, URIRef(property_uri), concept_node))

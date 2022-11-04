@@ -58,7 +58,7 @@ ASSOCIATED_ROLES_FOR_PROPERTIES = {
     SDO.contributor: SDO.PerformanceRole,
     SDO.creator: SDO.PerformanceRole,
     SDO.productionCompany: SDO.Role,
-    SDO.mentions: SDO.Role
+    SDO.mentions: SDO.Role,
 }
 
 # URIs to use for different levels of DAAN records
