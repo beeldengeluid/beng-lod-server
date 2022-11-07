@@ -60,4 +60,9 @@ class Config(object):
     AUTH_USER = "very_special"
     AUTH_PASSWORD = "nobody_knows"
 
+    GTAA_SERVICE_LAYER_SPARQL_ENDPOINT = "https://gtaa.apis.beeldengeluid.nl/sparql"
+    GTAA_SERVICE_LAYER_SPARQL_ENDPOINT_HEALTH_URL = "https://gtaa.apis.beeldengeluid.nl/sparql"
+    GTAA_SERVICE_ACCOUNT = "a_registered_user"
+    GTAA_SERVICE_ACCOUNT_PASSWORD = "some_unique_key"
+
     HEALTH_TIMEOUT_SEC = 5.0
