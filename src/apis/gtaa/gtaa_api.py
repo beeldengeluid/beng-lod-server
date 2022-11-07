@@ -48,7 +48,7 @@ class GTAAAPI(Resource):
         if mime_type is MimeType.HTML:
             html_page = self._get_lod_view_gtaa(
                 gtaa_uri,
-                current_app.config.get("SPARQL_ENDPOINT"),
+                current_app.config.get("GTAA_SERVICE_LAYER_SPARQL_ENDPOINT"),
                 current_app.config.get("URI_NISV_ORGANISATION"),
                 current_app.config.get("NAMED_GRAPH_THESAURUS"),
             )
@@ -65,7 +65,7 @@ class GTAAAPI(Resource):
             return self._get_lod_gtaa(
                 gtaa_uri,
                 mime_type,
-                current_app.config.get("SPARQL_ENDPOINT"),
+                current_app.config.get("GTAA_SERVICE_LAYER_SPARQL_ENDPOINT"),
                 current_app.config.get("URI_NISV_ORGANISATION"),
                 current_app.config.get("NAMED_GRAPH_THESAURUS"),
             )

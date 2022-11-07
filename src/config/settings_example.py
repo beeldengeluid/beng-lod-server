@@ -60,9 +60,8 @@ class Config(object):
     AUTH_USER = "very_special"
     AUTH_PASSWORD = "nobody_knows"
 
-    GTAA_SERVICE_LAYER_SPARQL_ENDPOINT = "https://gtaa.apis.beeldengeluid.nl/sparql"
-    GTAA_SERVICE_LAYER_SPARQL_ENDPOINT_HEALTH_URL = "https://gtaa.apis.beeldengeluid.nl/sparql"
-    GTAA_SERVICE_ACCOUNT = "a_registered_user"
-    GTAA_SERVICE_ACCOUNT_PASSWORD = "some_unique_key"
+    # NOTE: when pointing to the GTAA service layer endpoint the setting 'NAMED_GRAPH_THESAURUS' must be empty ""
+    GTAA_SERVICE_LAYER_SPARQL_ENDPOINT = "https://cat.apis.beeldengeluid.nl/sparql"
+    GTAA_SERVICE_LAYER_SPARQL_ENDPOINT_HEALTH_URL = "https://cat.apis.beeldengeluid.nl/sparql"
 
     HEALTH_TIMEOUT_SEC = 5.0
