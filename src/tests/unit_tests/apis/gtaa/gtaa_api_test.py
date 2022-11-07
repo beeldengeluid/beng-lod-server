@@ -1,10 +1,12 @@
 from apis.gtaa.gtaa_api import GTAAAPI
-import pytest
-from mockito import when, unstub, mock
-from apis.mime_type_util import MimeType
-import json
-from rdflib import Graph
-import requests
+
+# import pytest
+# from mockito import when, unstub, mock
+# from apis.mime_type_util import MimeType
+
+# import json
+# from rdflib import Graph
+# import requests
 
 DUMMY_GTAA_IDENTIFIER = 123456
 # DUMMY_MIMETYPE = "text/txet"
@@ -47,7 +49,7 @@ def test_init():
 #         assert resp.status_code == 200
 #         assert type(resp) == str
 #         g = Graph()
-#         g.parse(resp, format=mime_type)        
+#         g.parse(resp, format=mime_type)
 #     # except PluginException:
 #     #     assert mime_type == "application/phony_mime_type"
 #     finally:

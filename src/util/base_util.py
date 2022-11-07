@@ -101,8 +101,12 @@ def validate_config(config, validate_file_paths=True):
             config, "HEALTH_TIMEOUT_SEC", float
         ), "HEALTH_TIMEOUT_SEC"
 
-        assert __check_setting(config, "GTAA_SERVICE_LAYER_SPARQL_ENDPOINT", str), "GTAA_SERVICE_LAYER_SPARQL_ENDPOINT"
-        assert validators.url(config["GTAA_SERVICE_LAYER_SPARQL_ENDPOINT"]), "GTAA_SERVICE_LAYER_SPARQL_ENDPOINT invalid URL"
+        assert __check_setting(
+            config, "GTAA_SERVICE_LAYER_SPARQL_ENDPOINT", str
+        ), "GTAA_SERVICE_LAYER_SPARQL_ENDPOINT"
+        assert validators.url(
+            config["GTAA_SERVICE_LAYER_SPARQL_ENDPOINT"]
+        ), "GTAA_SERVICE_LAYER_SPARQL_ENDPOINT invalid URL"
 
         assert __check_setting(
             config, "GTAA_SERVICE_LAYER_SPARQL_ENDPOINT_HEALTH_URL", str

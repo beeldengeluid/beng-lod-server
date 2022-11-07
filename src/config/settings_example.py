@@ -62,6 +62,8 @@ class Config(object):
 
     # NOTE: when pointing to the GTAA service layer endpoint the setting 'NAMED_GRAPH_THESAURUS' must be empty ""
     GTAA_SERVICE_LAYER_SPARQL_ENDPOINT = "https://cat.apis.beeldengeluid.nl/sparql"
-    GTAA_SERVICE_LAYER_SPARQL_ENDPOINT_HEALTH_URL = "https://cat.apis.beeldengeluid.nl/sparql"
+    GTAA_SERVICE_LAYER_SPARQL_ENDPOINT_HEALTH_URL = (
+        "https://cat.apis.beeldengeluid.nl/sparql"
+    )
 
     HEALTH_TIMEOUT_SEC = 5.0

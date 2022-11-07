@@ -143,14 +143,14 @@ def get_preflabel_for_gtaa_resource_from_rdf_store(
             f"CONSTRUCT {{ ?s skos:prefLabel ?pref_label }} WHERE {{ "
             f"VALUES ?g {{<{thes_named_graph}> }} "
             f"VALUES ?s {{ <{resource_url}> }} "
-            f"GRAPH ?g {{ ?s skosxl:prefLabel/skosxl:literalForm ?pref_label }} }}" 
-        ) 
+            f"GRAPH ?g {{ ?s skosxl:prefLabel/skosxl:literalForm ?pref_label }} }}"
+        )
     else:
         query_construct_pref_label_dumbing_down = (
-        f"CONSTRUCT {{ ?s skos:prefLabel ?pref_label }} WHERE {{ "
-        f"VALUES ?s {{ <{resource_url}> }} "
-        f"GRAPH ?g {{ ?s skosxl:prefLabel/skosxl:literalForm ?pref_label }} }}" 
-    )
+            f"CONSTRUCT {{ ?s skos:prefLabel ?pref_label }} WHERE {{ "
+            f"VALUES ?s {{ <{resource_url}> }} "
+            f"GRAPH ?g {{ ?s skosxl:prefLabel/skosxl:literalForm ?pref_label }} }}"
+        )
     return sparql_construct_query(
         sparql_endpoint, query_construct_pref_label_dumbing_down
     )
