@@ -38,9 +38,7 @@ def test_init():
 #         api = GTAAAPI()
 #         resp = mock({"status_code": 200, "text": i_get_gtaa_concept})
 #         when(api).get(gtaa_uri).thenReturn(resp)
-
 #         # when(requests).get(sparql_endpoint, **KWARGS).thenReturn(resp)
-
 #         # when(ld_util).get_lod_resource_from_rdf_store(  DUMMY_GTAA_URI,
 #         #                                                 DUMMY_SPARQL_ENDPOINT,
 #         #                                                 DUMMY_ORGANISATION,
@@ -48,7 +46,6 @@ def test_init():
 #         resp = api.get(gtaa_uri)
 #         assert resp.status_code == 200
 #         assert type(resp) == str
-
 #         g = Graph()
 #         g.parse(resp, format=mime_type)        
 #     # except PluginException:
