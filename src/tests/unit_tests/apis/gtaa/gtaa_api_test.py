@@ -1,10 +1,10 @@
 from apis.gtaa.gtaa_api import GTAAAPI
-import util.ld_util as ld_util
 import pytest
-from mockito import when, unstub
+from mockito import when, unstub, mock
 from apis.mime_type_util import MimeType
 import json
 from rdflib import Graph
+import requests
 
 DUMMY_GTAA_IDENTIFIER = 123456
 # DUMMY_MIMETYPE = "text/txet"
@@ -36,10 +36,15 @@ def test_init():
 #     # when the LOD resource is dereferenced, check the data
 #     try:
 #         api = GTAAAPI()
-#         when(ld_util).get_lod_resource_from_rdf_store(  DUMMY_GTAA_URI,
-#                                                         DUMMY_SPARQL_ENDPOINT,
-#                                                         DUMMY_ORGANISATION,
-#                                                         DUMMY_NAMED_GRAPH).thenReturn(i_get_gtaa_concept)
+#         resp = mock({"status_code": 200, "text": i_get_gtaa_concept})
+#         when(api).get(gtaa_uri).thenReturn(resp)
+
+#         # when(requests).get(sparql_endpoint, **KWARGS).thenReturn(resp)
+
+#         # when(ld_util).get_lod_resource_from_rdf_store(  DUMMY_GTAA_URI,
+#         #                                                 DUMMY_SPARQL_ENDPOINT,
+#         #                                                 DUMMY_ORGANISATION,
+#         #                                                 DUMMY_NAMED_GRAPH).thenReturn(i_get_gtaa_concept)
 #         resp = api.get(gtaa_uri)
 #         assert resp.status_code == 200
 #         assert type(resp) == str
