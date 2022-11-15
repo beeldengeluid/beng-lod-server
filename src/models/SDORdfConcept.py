@@ -17,6 +17,7 @@ from importer.DAANSchemaImporter import DAANSchemaImporter
 
 logger = logging.getLogger()
 
+
 class SDORdfConcept(BaseRdfConcept):
     """Class to represent an NISV catalog object with RDF using SDO schema.
     The class can be instantiated from the JSON payload provided by

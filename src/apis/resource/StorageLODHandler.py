@@ -8,6 +8,7 @@ from requests.exceptions import ConnectionError
 
 logger = logging.getLogger()
 
+
 class StorageLODHandler:
     """Base class for a LOD Handler that either serves NISV schema data, or
     schema.org. Other formats can get their own handler.

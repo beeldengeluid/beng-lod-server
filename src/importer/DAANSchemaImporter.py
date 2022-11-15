@@ -11,6 +11,7 @@ Importer for the RDFS schema definition based on the DAAN CMS.
 
 logger = logging.getLogger()
 
+
 class DAANSchemaImporter:
     def __init__(self, schema_file, mapping_file):
         self._graph = Graph()

@@ -7,6 +7,7 @@ from urllib.parse import urlparse, urlunparse
 
 logger = logging.getLogger()
 
+
 class BaseRdfConcept:
     """Class to represent an NISV catalog object in RDF.
     It uses functions to create the RDF in a graph using the JSON payload from the Direct Access Metadata API.
@@ -52,7 +53,7 @@ class BaseRdfConcept:
         url_parts = urlparse("https://zoeken.beeldengeluid.nl/")
         parents = metadata.get("parents")
 
-        if cat_type.upper() == "SEASON" and not parents in (None, []):
+        if cat_type.upper() == "SEASON" and parents not in (None, []):
             series_urn = None
             if isinstance(parents, list):
                 if parents[0].get("parent_type") == "SERIES":
