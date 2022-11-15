@@ -6,6 +6,7 @@ from urllib.parse import urlparse, urlunparse
 import requests
 from requests.exceptions import ConnectionError
 
+logger = logging.getLogger()
 
 class StorageLODHandler:
     """Base class for a LOD Handler that either serves NISV schema data, or
@@ -15,7 +16,6 @@ class StorageLODHandler:
 
     def __init__(self, config):
         self.config = config
-        self.logger = logging.getLogger(self.config["LOG_NAME"])
 
     def get_profile(self, profile_uri):
         profile = None
@@ -47,13 +47,13 @@ class StorageLODHandler:
             )
 
         except ValueError as e:
-            self.logger.debug("ValueError caused 400")
+            logger.error("ValueError caused 400")
             return APIUtil.toErrorResponse("bad_request", e)
         except HTTPError as e:
-            self.logger.debug("HTTPError caused 404")
+            logger.error("HTTPError caused 404")
             return APIUtil.toErrorResponse("not_found", e)
         except Exception:
-            self.logger.exception("Exception")
+            logger.exception("Exception")
 
         return APIUtil.toErrorResponse("internal_server_error")
 
@@ -90,11 +90,11 @@ class StorageLODHandler:
                     self._log_json_to_file(resp.text)
                 return json.loads(resp.text)
         except ConnectionError:
-            self.logger.exception("ConnectionError")
+            logger.exception("ConnectionError")
         except json.decoder.JSONDecodeError:
-            self.logger.exception("JSONDecodeError")
+            logger.exception("JSONDecodeError")
         except Exception:
-            self.logger.exception("Exception")
+            logger.exception("Exception")
         return None
 
     def _log_json_to_file(self, json_data):

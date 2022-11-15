@@ -1,3 +1,4 @@
+import logging
 from flask import current_app, request, Response, render_template, make_response
 from flask_restx import Namespace, Resource
 from apis.mime_type_util import MimeType, get_profile_by_uri
@@ -12,6 +13,8 @@ from util.ld_util import (
     json_iri_lit_from_rdf_graph,
     json_iri_bnode_from_rdf_graph,
 )
+
+logger = logging.getLogger()
 
 api = Namespace(
     "resource",
@@ -44,6 +47,7 @@ class ResourceAPI(Resource):
                 current_app.config.get("BENG_DATA_DOMAIN"),
             )
         except ValueError:
+            logger.error("Invalid resource level supplied")
             return APIUtil.toErrorResponse(
                 "bad request", "Invalid resource level supplied"
             )
@@ -67,6 +71,9 @@ class ResourceAPI(Resource):
             if html_page:
                 return make_response(html_page, 200)
             else:
+                logger.error(
+                    "Could not generate an HTML view for this resource",
+                )
                 return APIUtil.toErrorResponse(
                     "internal_server_error",
                     "Could not generate an HTML view for this resource",
@@ -84,9 +91,13 @@ class ResourceAPI(Resource):
             and auth.password == auth_pass
         ):
             # no restrictions, bypass the check
+            logger.debug("credentials provided. no restrictions, bypass the check.")
             pass
         else:
             # NOTE: this else clause is only there so we can download as lod-importer, but nobody else can.
+            logger.debug(
+                "No valid credentials provided. Only public resources, available in the triple store, are returned."
+            )
             if not is_public_resource(
                 lod_url, current_app.config.get("SPARQL_ENDPOINT")
             ):
@@ -96,6 +107,7 @@ class ResourceAPI(Resource):
 
         if mime_type:
             # note we need to use empty params for the UI
+            logger.debug("Returning the requested data.")
             return self._get_lod_resource(
                 level=cat_type,
                 identifier=identifier,
@@ -103,6 +115,7 @@ class ResourceAPI(Resource):
                 accept_profile=accept_profile,
                 app_config=current_app.config,
             )
+        logger.error("Error, because no mime type was given.")
         return Response("Error: No mime type detected...")
 
     def _get_lod_resource(
@@ -122,20 +135,33 @@ class ResourceAPI(Resource):
         try:
             mt = MimeType(mime_type)
         except ValueError:
+            logger.debug(
+                "Given mime type cannot be used. Fall back to default mime type."
+            )
             mt = MimeType.JSON_LD
 
         profile = get_profile_by_uri(accept_profile, app_config)
-
+        profile_prefix = profile["prefix"]
+        logger.debug(
+            f"Getting requested resource from the flex store using profile '{profile_prefix}'."
+        )
         resp, status_code, headers = profile["storage_handler"](
             app_config, profile
         ).get_storage_record(level, identifier, mt.to_ld_format())
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:
+            logger.debug("Valid response from the flex data store.")
             headers = {"Content-Type": mt.value}
             if profile.get("uri") is not None:
                 content_profile = profile.get("uri")
                 headers["Content-Profile"] = content_profile
+            logger.debug(
+                "Return requested data in the required serialization format and profile."
+            )
             return Response(resp, mimetype=mt.value, headers=headers)
+        logger.debug(
+            f"Something wrong with response from the flex data store: {status_code}"
+        )
         return Response(resp, status_code, headers=headers)
 
     def _get_lod_view_resource(
@@ -144,10 +170,17 @@ class ResourceAPI(Resource):
         """Handler that, given a URI, gets RDF from the SPARQL endpoint and generates an HTML page.
         :param resource_url: The URI for the resource.
         """
+        logger.debug(
+            "Getting the graph for the requested resource from the triple store."
+        )
         rdf_graph = get_lod_resource_from_rdf_store(
             resource_url, sparql_endpoint, nisv_organisation_uri
         )
         if rdf_graph:
+            logger.debug(
+                f"A valid graph ({len(rdf_graph)} triples) was retrieved from the RDF store.",
+                "Returning a rendered HTML template 'resource.html'.",
+            )
             return render_template(
                 "resource.html",
                 resource_uri=resource_url,
