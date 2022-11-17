@@ -50,7 +50,7 @@ class StorageLODHandler:
             logger.error("ValueError caused 400")
             return APIUtil.toErrorResponse("bad_request", e)
         except HTTPError as e:
-            status_code = e.response.status_code 
+            status_code = e.response.status_code
             if status_code == 403:
                 logger.error(f"{status_code} {e}")
                 return APIUtil.toErrorResponse("access_denied", e)
