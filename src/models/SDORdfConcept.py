@@ -76,7 +76,8 @@ class SDORdfConcept(BaseRdfConcept):
         )
 
         # convert the record payload to RDF
-        self.__payload_to_rdf(metadata["payload"], self.itemNode, self.classUri)
+        if metadata.get("payload") is not None:
+            self.__payload_to_rdf(metadata["payload"], self.itemNode, self.classUri)
 
         # create RDF relations with the parents of the record
         self.__parent_to_rdf(metadata)
