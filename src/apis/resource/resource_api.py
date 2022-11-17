@@ -143,11 +143,13 @@ class ResourceAPI(Resource):
         profile = get_profile_by_uri(accept_profile, app_config)
         profile_prefix = profile["prefix"]
         logger.debug(
-            f"Getting requested resource from the flex store using profile '{profile_prefix}'."
+            f"Getting requested resource with level: '{level}' and '{identifier}' from the flex store using profile '{profile_prefix}'."
         )
+
         resp, status_code, headers = profile["storage_handler"](
             app_config, profile
         ).get_storage_record(level, identifier, mt.to_ld_format())
+
         # make sure to apply the correct mimetype for valid responses
         if status_code == 200:
             logger.debug("Valid response from the flex data store.")
@@ -159,10 +161,17 @@ class ResourceAPI(Resource):
                 "Return requested data in the required serialization format and profile."
             )
             return Response(resp, mimetype=mt.value, headers=headers)
-        logger.debug(
-            f"Something wrong with response from the flex data store: {status_code}"
-        )
-        return Response(resp, status_code, headers=headers)
+        elif status_code == 403:
+            logger.error(f"{status_code} {resp}")
+            return APIUtil.toErrorResponse("access_denied")
+        elif status_code == 404:
+            logger.error(f"{status_code} {resp}")
+            return APIUtil.toErrorResponse("not_found")
+        else:
+            logger.debug(
+                f"Something wrong with response from the flex data store: {status_code}"
+            )
+            return Response(resp, status_code, headers=headers)
 
     def _get_lod_view_resource(
         self, resource_url: str, sparql_endpoint: str, nisv_organisation_uri: str
