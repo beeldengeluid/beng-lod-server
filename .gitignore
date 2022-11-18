@@ -29,3 +29,4 @@ resource/datacatalogfromspreadsheet-a5ccabb0919f.json
 /src/util/simple_test_script.py
 log
 .mypy_cache
+last_request.json
