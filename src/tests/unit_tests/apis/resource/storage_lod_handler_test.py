@@ -93,7 +93,7 @@ def test_prepare_storage_uri(
     [
         (200, json.dumps(DUMMY_STORAGE_DATA), None, DUMMY_STORAGE_DATA),  # happy flow
         # any non-200 will be raised
-        # (500, None, None, None),  
+        # (500, None, None, None),
         # (400, None, None, None),
         # (403, None, None, None),
         # (404, None, None, None),
