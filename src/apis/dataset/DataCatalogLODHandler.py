@@ -4,6 +4,7 @@ from rdflib import Graph
 from rdflib.namespace import RDF, SDO
 from apis.mime_type_util import MimeType
 from typing import List, Optional
+from util.ld_util import sparql_construct_query
 
 
 class DataCatalogLODHandler:
@@ -16,14 +17,29 @@ class DataCatalogLODHandler:
     def __init__(self, config):
         self.config = config
         self.logger = logging.getLogger(config["LOG_NAME"])
-        self._data_catalog = self._parse_catalog_file(config["DATA_CATALOG_FILE"])
+        self.cache = config["GLOBAL_CACHE"]
+        sparql_endpoint = self.config.get("SPARQL_ENDPOINT")
+        self._data_catalog = self._get_data_catalog_from_store(sparql_endpoint)
 
-    # TODO: implement caching suitable for this function
-    def _parse_catalog_file(self, path: str) -> Graph:
-        """Parse catalog file (turtle) and return graph of results'"""
-        self.logger.info(f"Loading data catalogue from '{path}'")
-        graph = Graph().parse(path, format=MimeType.TURTLE.value)
-        return graph
+    def _get_data_catalog_from_store(
+        self, sparql_endpoint: str, cache_key: str = "data_catalog", minutes: int = 240
+    ) -> Graph:
+        """Get data catalog triples from the rdf store and return graph"""
+        if cache_key in self.cache:
+            self.logger.debug(f"GOT THE {cache_key} FROM CACHE")
+            return self.cache[cache_key]
+        else:
+            self.logger.debug(f"NO {cache_key} FOUND IN CACHE")
+            self.logger.info(f"Getting data catalog triples from '{sparql_endpoint}'")
+            construct_query = (
+                "CONSTRUCT {{ ?sub ?pred ?obj }} "
+                "WHERE {{ VALUES ?g {{ <http://data.rdlabs.beeldengeluid.nl/datacatalog/> }} "
+                "GRAPH ?g {{ ?sub ?pred ?obj }} }}"
+            )
+            self.logger.debug(f"Sending query '{construct_query}'")
+            graph = sparql_construct_query(sparql_endpoint, construct_query)
+            self.cache[cache_key] = graph
+            return graph
 
     """-------------NDE requirements validation----------------------"""
 
