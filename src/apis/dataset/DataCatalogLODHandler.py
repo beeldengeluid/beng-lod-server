@@ -7,6 +7,7 @@ from typing import List, Optional
 from util.ld_util import sparql_construct_query
 from datetime import datetime, timedelta
 
+
 class DataCatalogLODHandler:
     """Handles requests from the beng-lod server for data catalogs, datasets, datadownloads.
     The only data model/ontology this data is available in is schema.org. In contrast with the resource
@@ -19,17 +20,19 @@ class DataCatalogLODHandler:
         self.logger = logging.getLogger(config["LOG_NAME"])
         self.cache = config["GLOBAL_CACHE"]
         sparql_endpoint = self.config.get("SPARQL_ENDPOINT")
-        self._data_catalog = self._get_data_catalog_from_store(sparql_endpoint, minutes = 60)
+        self._data_catalog = self._get_data_catalog_from_store(sparql_endpoint)
 
     def _get_data_catalog_from_store(
-        self, sparql_endpoint: str, cache_key: str = "data_catalog", minutes: int = 240
+        self, sparql_endpoint: str, cache_key: str = "data_catalog", minutes: int = 60
     ) -> Graph:
         """Get data catalog triples from the rdf store and return graph. Simple caching
         is enabled as well as a simple expiration mechanism for the cache."""
         cache_key_expiration = f"{cache_key}_expiration"
         if cache_key_expiration in self.cache:
             if datetime.utcnow() >= self.cache[cache_key_expiration]:
-                self.logger.debug(f"The cache for {cache_key} is expired. Emptying cache.")
+                self.logger.debug(
+                    f"The cache for {cache_key} is expired. Emptying cache."
+                )
                 del self.cache[cache_key]
                 del self.cache[cache_key_expiration]
 
@@ -49,7 +52,9 @@ class DataCatalogLODHandler:
             self.logger.debug(f"Added cache for {cache_key}.")
             cache_lifetime = timedelta(minutes=minutes)
             self.cache[cache_key_expiration] = datetime.utcnow() + cache_lifetime
-            self.logger.debug(f"Set expiration for '{cache_key}': {str(self.cache[cache_key_expiration])}.")
+            self.logger.debug(
+                f"Set expiration for '{cache_key}': {str(self.cache[cache_key_expiration])}."
+            )
             return graph
 
     """-------------NDE requirements validation----------------------"""
