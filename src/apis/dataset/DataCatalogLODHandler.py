@@ -23,7 +23,7 @@ class DataCatalogLODHandler:
         self._data_catalog = self._get_data_catalog_from_store(sparql_endpoint)
 
     def _get_data_catalog_from_store(
-        self, sparql_endpoint: str, cache_key: str = "data_catalog", minutes: int = 60
+        self, sparql_endpoint: str, cache_key: str = "data_catalog", minutes: int = 0
     ) -> Graph:
         """Get data catalog triples from the rdf store and return graph. Simple caching
         is enabled as well as a simple expiration mechanism for the cache."""
