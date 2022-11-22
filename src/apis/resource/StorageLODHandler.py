@@ -1,10 +1,11 @@
 import logging
 from util.APIUtil import APIUtil
 import json
-from urllib.error import HTTPError
 from urllib.parse import urlparse, urlunparse
 import requests
-from requests.exceptions import ConnectionError
+from requests.exceptions import ConnectionError, HTTPError
+
+logger = logging.getLogger()
 
 
 class StorageLODHandler:
@@ -15,7 +16,6 @@ class StorageLODHandler:
 
     def __init__(self, config):
         self.config = config
-        self.logger = logging.getLogger(self.config["LOG_NAME"])
 
     def get_profile(self, profile_uri):
         profile = None
@@ -47,15 +47,19 @@ class StorageLODHandler:
             )
 
         except ValueError as e:
-            self.logger.debug("ValueError caused 400")
+            logger.error("ValueError caused 400")
             return APIUtil.toErrorResponse("bad_request", e)
         except HTTPError as e:
-            self.logger.debug("HTTPError caused 404")
-            return APIUtil.toErrorResponse("not_found", e)
+            status_code = e.response.status_code
+            if status_code == 403:
+                logger.error(f"{status_code} {e}")
+                return APIUtil.toErrorResponse("access_denied", e)
+            if status_code == 404:
+                logger.error(f"{status_code} {e}")
+                return APIUtil.toErrorResponse("not_found", e)
         except Exception:
-            self.logger.exception("Exception")
-
-        return APIUtil.toErrorResponse("internal_server_error")
+            logger.exception("Exception")
+            return APIUtil.toErrorResponse("internal_server_error")
 
     def _prepare_storage_uri(self, storage_base_url: str, level: str, identifier: int):
         """Constructs valid Storage url from the config settings, the level (cat type) and the identifier.
@@ -85,16 +89,16 @@ class StorageLODHandler:
         """
         try:
             resp = requests.get(url)
+            resp.raise_for_status()
             if resp.status_code == 200:
                 if use_file_logger:
                     self._log_json_to_file(resp.text)
                 return json.loads(resp.text)
-        except ConnectionError:
-            self.logger.exception("ConnectionError")
+        except ConnectionError as e:
+            logger.exception(f"ConnectionError: {e}")
         except json.decoder.JSONDecodeError:
-            self.logger.exception("JSONDecodeError")
-        except Exception:
-            self.logger.exception("Exception")
+            logger.exception("JSONDecodeError")
+
         return None
 
     def _log_json_to_file(self, json_data):
@@ -105,14 +109,16 @@ class StorageLODHandler:
         self, url: str, return_format: str, use_file_logger: bool = False
     ):
         """Returns the record data from a URL, transformed to RDF, loaded in a Graph and
-        serialized to target format.
+        serialized to target format. When no data could be retrieved None is returned.
         :param url: requested url
         :param return_format: required serialization format
         :param use_file_logger: flag for using logger
         """
         # retrieve the record data in JSON from DM API
         json_data = self._get_json_from_storage(url, use_file_logger)
-        assert isinstance(json_data, dict), "No valid results from the flex store."
+        if json_data is None:
+            return None
+        # assert isinstance(json_data, dict), "No valid results from the flex store."
 
         # transform the JSON to RDF
         result_object = self._transform_json_to_rdf(json_data)

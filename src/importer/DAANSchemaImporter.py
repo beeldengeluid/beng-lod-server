@@ -9,18 +9,19 @@ to retrieve these from the DAAN OAI-PMH
 Importer for the RDFS schema definition based on the DAAN CMS.
 """
 
+logger = logging.getLogger()
+
 
 class DAANSchemaImporter:
-    def __init__(self, schema_file, mapping_file, logger):
-        self.logger = logger
+    def __init__(self, schema_file, mapping_file):
         self._graph = Graph()
-        self.logger.info(f"Parsing schema file: {schema_file}")
+        logger.info(f"Parsing schema file: {schema_file}")
         self._graph.parse(schema_file, format="turtle")
-        self.logger.info(f"Parsing mapping file: {mapping_file}")
+        logger.info(f"Parsing mapping file: {mapping_file}")
         self._graph.parse(mapping_file, format="turtle")
         self._propertiesWithoutDomain = {}
         self._load_properties_without_domain()
-        self.logger.debug(self._propertiesWithoutDomain)
+        logger.debug(self._propertiesWithoutDomain)
 
         # assert self._propertiesWithoutDomain, 'ERROR in DAANSchemaImporter: The properties were not loaded.'
         if not self._propertiesWithoutDomain:

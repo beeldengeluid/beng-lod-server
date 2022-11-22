@@ -1,7 +1,10 @@
+import sys
+import logging
+from util.base_util import LOG_FORMAT
 from flask import Flask, redirect, request
 from flask_cors import CORS
 from apis import api
-from util.base_util import init_logger, validate_config
+from util.base_util import validate_config
 
 app = Flask(__name__)
 
@@ -11,7 +14,15 @@ app.config["CORS_HEADERS"] = "Content-Type"
 app.config["RESTPLUS_VALIDATE"] = False
 app.config["GLOBAL_CACHE"] = {}  # just put the cache in here
 
-logger = init_logger(app)
+# logger = init_logger(app)
+# initialises the root logger
+logging.basicConfig(
+    level=logging.DEBUG,
+    stream=sys.stdout,  # configure a stream handler only for now (single handler)
+    format=LOG_FORMAT,
+)
+logger = logging.getLogger()
+
 
 if not validate_config(app.config):
     logger.error("Invalid config, quitting")

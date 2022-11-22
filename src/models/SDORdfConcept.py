@@ -1,3 +1,4 @@
+import logging
 import json
 import models.SDORdfModel as SDORdfModel
 from models.DAANJsonModel import (
@@ -14,6 +15,8 @@ from util.APIUtil import APIUtil
 from models.BaseRdfConcept import BaseRdfConcept
 from importer.DAANSchemaImporter import DAANSchemaImporter
 
+logger = logging.getLogger()
+
 
 class SDORdfConcept(BaseRdfConcept):
     """Class to represent an NISV catalog object with RDF using SDO schema.
@@ -22,8 +25,8 @@ class SDORdfConcept(BaseRdfConcept):
 
     """
 
-    def __init__(self, metadata, concept_type, profile, logger, cache):
-        super().__init__(profile, logger, model=SDORdfModel)
+    def __init__(self, metadata, concept_type, profile, cache):
+        super().__init__(profile, model=SDORdfModel)
         self.cache = cache
         self._schema = self.get_scheme()
         self._classes = self._schema.get_classes()
@@ -73,7 +76,8 @@ class SDORdfConcept(BaseRdfConcept):
         )
 
         # convert the record payload to RDF
-        self.__payload_to_rdf(metadata["payload"], self.itemNode, self.classUri)
+        if metadata.get("payload") is not None:
+            self.__payload_to_rdf(metadata["payload"], self.itemNode, self.classUri)
 
         # create RDF relations with the parents of the record
         self.__parent_to_rdf(metadata)
@@ -237,12 +241,12 @@ class SDORdfConcept(BaseRdfConcept):
     # use a simple in-memory cache
     def get_scheme(self, cache_key="sdo_scheme"):
         if cache_key in self.cache:
-            self.logger.debug("GOT THE sdo_scheme FROM CACHE")
+            logger.debug("GOT THE sdo_scheme FROM CACHE")
             return self.cache[cache_key]
         else:
-            self.logger.debug("NO sdo_scheme FOUND IN CACHE")
+            logger.debug("NO sdo_scheme FOUND IN CACHE")
             sdo_scheme = DAANSchemaImporter(
-                self.profile["schema"], self.profile["mapping"], self.logger
+                self.profile["schema"], self.profile["mapping"]
             )
             self.cache[cache_key] = sdo_scheme
             return sdo_scheme
@@ -250,10 +254,10 @@ class SDORdfConcept(BaseRdfConcept):
     # use a simple in-memory cache
     def get_information_directory(self, cache_key="ob_links"):
         if cache_key in self.cache:
-            self.logger.debug("GOT THE ob_links FROM CACHE")
+            logger.debug("GOT THE ob_links FROM CACHE")
             return self.cache[cache_key]
         else:
-            self.logger.debug("NO ob_links FOUND IN CACHE")
+            logger.debug("NO ob_links FOUND IN CACHE")
             with open(self.profile["ob_links"]) as ob_information_file:
                 ob_data = json.load(ob_information_file)
                 self.cache[cache_key] = ob_data

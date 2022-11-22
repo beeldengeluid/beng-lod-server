@@ -1,3 +1,4 @@
+import logging
 from urllib.parse import urlparse, urlunparse
 from rdflib import Graph, URIRef, Literal, BNode, Namespace
 from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS
@@ -8,6 +9,8 @@ from models.DAANRdfModel import ResourceURILevel
 from requests.exceptions import ConnectionError, HTTPError
 from typing import Optional, List
 import validators
+
+logger = logging.getLogger()
 
 # declare namespaces
 SKOSXL_NS = "http://www.w3.org/2008/05/skos-xl#"
@@ -94,9 +97,9 @@ def get_lod_resource_from_rdf_store(
 
         return g
     except ConnectionError as e:
-        print(str(e))
+        logger.debug(str(e))
     except HTTPError as e:
-        print(str(e))
+        logger.debug(str(e))
     return None
 
 
@@ -250,8 +253,8 @@ def json_header_from_rdf_graph(
             if str(rdf_graph.compute_qname(o)[1]) in (str(SDO), str(SKOS))
         ]
     except Exception as e:
-        print(f"Error in json_header_from_rdf_graph: {str(e)}")
-        print(json_header)
+        logger.exception(f"Error in json_header_from_rdf_graph: {str(e)}")
+        logger.error(json_header)
     finally:
         return json_header  # noqa: B012 #TODO
 
@@ -311,8 +314,8 @@ def json_iri_iri_from_rdf_graph(
                     }
                 ]
     except Exception as e:
-        print(f"Error in json_iri_iri_from_rdf_graph: {str(e)}")
-        print(json_iri_iri)
+        logger.exception(f"Error in json_iri_iri_from_rdf_graph: {str(e)}")
+        logger.error(json_iri_iri)
     finally:
         return json_iri_iri  # noqa: B012 #TODO
 
@@ -349,8 +352,8 @@ def json_iri_lit_from_rdf_graph(
             if isinstance(o, Literal)
         ]
     except Exception as e:
-        print(f"Error in json_iri_lit_from_rdf_graph: {str(e)}")
-        print(json_iri_lit)
+        logger.exception(f"Error in json_iri_lit_from_rdf_graph: {str(e)}")
+        logger.error(json_iri_lit)
     finally:
         return json_iri_lit  # noqa: B012 #TODO
 
@@ -405,8 +408,8 @@ def json_iri_bnode_from_rdf_graph(
                 )
                 # print(f"{p}\t{o}\t{bnode_content}")
     except Exception as e:
-        print(f"Error in json_iri_bnode_from_rdf_graph: {str(e)}")
-        print(json.dumps(json_iri_bnode, indent=4))
+        logger.exception(f"Error in json_iri_bnode_from_rdf_graph: {str(e)}")
+        logger.error(json.dumps(json_iri_bnode, indent=4))
     finally:
         # print(json.dumps(json_iri_bnode, indent=4))
         return json_iri_bnode  # noqa: B012 #TODO
@@ -433,10 +436,10 @@ def is_public_resource(resource_url: str, sparql_endpoint: str) -> bool:
         )
         if resp.status_code == 200:
             json_data = json.loads(resp.text)
-            print(json_data)
+            logger.debug(json_data)
             return json_data.get("boolean", False) is True
     except ConnectionError as e:
-        print(str(e))
+        logger.exception(str(e))
     except JSONDecodeError as e:
-        print(str(e))
+        logger.exception(str(e))
     return False
