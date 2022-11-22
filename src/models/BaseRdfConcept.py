@@ -65,11 +65,12 @@ class BaseRdfConcept:
                     parent_id = parents.get("parent_id")
                     series_urn = f"urn:vme:default:series:{parent_id}"
 
-            path = None
-            if series_urn is not None:
-                season_urn = f"urn:vme:default:season:{daan_id}"
-                path = "/".join(["series", series_urn, season_urn])
-                return None  # seasons without series do not have a GPP landing page
+            # seasons without series do not have a GPP landing page
+            if series_urn is None:
+                return None
+
+            season_urn = f"urn:vme:default:season:{daan_id}"
+            path = "/".join(["series", series_urn, season_urn])
             parts = (url_parts.scheme, url_parts.netloc, path, "", "", "")
             return urlunparse(parts)
 
