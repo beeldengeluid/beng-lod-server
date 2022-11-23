@@ -1,5 +1,10 @@
+import logging
+
 from models.DAANJsonModel import DAAN_TYPE, ObjectType, isSceneDescription
 from apis.resource.StorageLODHandler import StorageLODHandler
+
+
+logger = logging.getLogger()
 
 
 class DAANStorageLODHandler(StorageLODHandler):
@@ -20,7 +25,7 @@ class DAANStorageLODHandler(StorageLODHandler):
         self.cache = config["GLOBAL_CACHE"]
 
     def _transform_json_to_rdf(self, json_obj):
-        self.logger.debug("Transform json to RDF (DAAN model)")
+        logger.debug("Transform json to RDF (DAAN model)")
         """ Transforms the json to RDF using the schema mapping.
             This method is an override for the base class.
         """
@@ -38,4 +43,4 @@ class DAANStorageLODHandler(StorageLODHandler):
         # Note: this class is imported here, because otherwise a circular dependency is created
         from models.NISVRdfConcept import NISVRdfConcept
 
-        return NISVRdfConcept(json_obj, cat_type, self.profile, self.logger, self.cache)
+        return NISVRdfConcept(json_obj, cat_type, self.profile, self.cache)
