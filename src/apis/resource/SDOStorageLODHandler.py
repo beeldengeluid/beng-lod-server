@@ -27,6 +27,7 @@ class SDOStorageLODHandler(StorageLODHandler):
         if cat_type == ObjectType.LOGTRACKITEM.value:
             logtrack_type = json_obj["logtrack_type"]
             if not isSceneDescription(logtrack_type):
+                logger.error(f"Cannot retrieve data for a logtrack item of type {logtrack_type}. Must be of type 'scenedesc'")
                 raise ValueError(
                     f"Cannot retrieve data for a logtrack item of type {logtrack_type}. Must be of type 'scenedesc'"
                 )

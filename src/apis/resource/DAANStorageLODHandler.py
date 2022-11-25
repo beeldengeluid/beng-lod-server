@@ -36,9 +36,9 @@ class DAANStorageLODHandler(StorageLODHandler):
         if cat_type == ObjectType.LOGTRACKITEM.value:
             logtrack_type = json_obj["logtrack_type"]
             if not isSceneDescription(logtrack_type):
+                logger.error(f"Cannot retrieve data for a logtrack item of type {logtrack_type}, must be of type scenedesc")
                 raise ValueError(
-                    "Cannot retrieve data for a logtrack item of type %s, must be of type scenedesc"
-                    % logtrack_type
+                    f"Cannot retrieve data for a logtrack item of type {logtrack_type}, must be of type scenedesc"
                 )
         # Note: this class is imported here, because otherwise a circular dependency is created
         from models.NISVRdfConcept import NISVRdfConcept
