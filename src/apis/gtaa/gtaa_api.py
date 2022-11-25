@@ -67,7 +67,9 @@ class GTAAAPI(Resource):
 
         if mime_type:
             # note we need to use empty params for the UI
-            logger.info(f"Getting the RDF in proper serialization format for GTAA resource: {gtaa_uri}.")
+            logger.info(
+                f"Getting the RDF in proper serialization format for GTAA resource: {gtaa_uri}."
+            )
             return self._get_lod_gtaa(
                 gtaa_uri,
                 mime_type,
@@ -75,7 +77,7 @@ class GTAAAPI(Resource):
                 current_app.config.get("URI_NISV_ORGANISATION"),
                 current_app.config.get("NAMED_GRAPH_THESAURUS"),
             )
-        logger.error(f"Not a proper mime type in the request.")
+        logger.error("Not a proper mime type in the request.")
         return Response("Error: No mime type detected...")
 
     def _get_lod_gtaa(
@@ -108,7 +110,9 @@ class GTAAAPI(Resource):
             resp = rdf_graph.serialize(format=ld_type)
             headers = {"Content-Type": mime_type.value}
             return Response(resp, mimetype=mime_type.value, headers=headers)
-        logger.error(f"Could not get the data for GTAA resource {gtaa_uri} from triple store at {sparql_endpoint}.")
+        logger.error(
+            f"Could not get the data for GTAA resource {gtaa_uri} from triple store at {sparql_endpoint}."
+        )
         return None
 
     def _get_lod_view_gtaa(
@@ -137,5 +141,7 @@ class GTAAAPI(Resource):
                 json_iri_bnode=json_iri_bnode_from_rdf_graph(rdf_graph, resource_url),
                 nisv_sparql_endpoint=sparql_endpoint,
             )
-        logger.error(f"Could not get the data for GTAA resource {resource_url} from triple store at {sparql_endpoint}.")
+        logger.error(
+            f"Could not get the data for GTAA resource {resource_url} from triple store at {sparql_endpoint}."
+        )
         return None

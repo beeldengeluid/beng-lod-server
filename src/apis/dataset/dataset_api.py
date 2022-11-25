@@ -191,20 +191,26 @@ class LODDataCatalogAPI(LODDataAPI):
             if html_page:
                 return make_response(html_page, 200)
             else:
-                logger.error(f"Could not generate proper HTML page for data catalog: {data_catalog_uri}.")
+                logger.error(
+                    f"Could not generate proper HTML page for data catalog: {data_catalog_uri}."
+                )
                 return APIUtil.toErrorResponse(
                     "internal_server_error",
                     "Could not generate an HTML view for this resource",
                 )
 
         # other mime types
-        logger.info(f"Getting the RDF in proper serialization format for data catalog: {data_catalog_uri}.")
+        logger.info(
+            f"Getting the RDF in proper serialization format for data catalog: {data_catalog_uri}."
+        )
         res_string = DataCatalogLODHandler(current_app.config).get_data_catalog(
             data_catalog_uri, mime_format=mime_type.to_ld_format()
         )
         if res_string:
             return Response(res_string, mimetype=mime_type.value)
-        logger.error(f"Error in fetching the serialization for data catalog: {data_catalog_uri}.")
+        logger.error(
+            f"Error in fetching the serialization for data catalog: {data_catalog_uri}."
+        )
         return APIUtil.toErrorResponse("bad_request", "Invalid URI or return format")
 
     def is_data_catalog(self, data_catalog_uri: str) -> bool:
@@ -273,20 +279,26 @@ class LODDataDownloadAPI(LODDataAPI):
             if html_page:
                 return make_response(html_page, 200)
             else:
-                logger.info(f"Could not generate HTML page for data download: {data_download_uri}.")
+                logger.info(
+                    f"Could not generate HTML page for data download: {data_download_uri}."
+                )
                 return APIUtil.toErrorResponse(
                     "internal_server_error",
                     "Could not generate an HTML view for this resource",
                 )
 
         # other return formats
-        logger.info(f"Getting the RDF in proper serialization format for data download: {data_download_uri}.")
+        logger.info(
+            f"Getting the RDF in proper serialization format for data download: {data_download_uri}."
+        )
         res_string = DataCatalogLODHandler(current_app.config).get_data_download(
             data_download_uri, mime_format=mime_type.to_ld_format()
         )
         if res_string:
             return Response(res_string, mimetype=mime_type.value)
-        logger.error(f"Error in fetching the serialization for data download: {data_download_uri}.")
+        logger.error(
+            f"Error in fetching the serialization for data download: {data_download_uri}."
+        )
         return APIUtil.toErrorResponse("bad_request", "Invalid URI or return format")
 
     def is_data_download(self, data_download_uri: str) -> bool:
