@@ -53,20 +53,22 @@ class BaseRdfConcept:
         url_parts = urlparse("https://zoeken.beeldengeluid.nl/")
         parents = metadata.get("parents")
 
-        if cat_type.upper() == "SEASON" and parents not in (None, []):
+        if cat_type.upper() == "SEASON":
             series_urn = None
-            if isinstance(parents, list):
-                if parents[0].get("parent_type") == "SERIES":
-                    parent_id = parents[0].get("parent_id")
-                    series_urn = f"urn:vme:default:series:{parent_id}"
+            if parents not in (None, []):
+                if isinstance(parents, list):
+                    if parents[0].get("parent_type") == "SERIES":
+                        parent_id = parents[0].get("parent_id")
+                        series_urn = f"urn:vme:default:series:{parent_id}"
 
-            elif isinstance(parents, dict):
-                if parents.get("parent_type") == "SERIES":
-                    parent_id = parents.get("parent_id")
-                    series_urn = f"urn:vme:default:series:{parent_id}"
+                elif isinstance(parents, dict):
+                    if parents.get("parent_type") == "SERIES":
+                        parent_id = parents.get("parent_id")
+                        series_urn = f"urn:vme:default:series:{parent_id}"
 
             # seasons without series do not have a GPP landing page
             if series_urn is None:
+                logger.info(f"Can not generate a proper GPP URL. No series URN.")
                 return None
 
             season_urn = f"urn:vme:default:season:{daan_id}"
@@ -77,22 +79,29 @@ class BaseRdfConcept:
         if cat_type.upper() == "LOGTRACKITEM" and parents is not None:
             # Find the program it belongs to
             program_urn = None
-            program_ref_id = metadata.get("program_ref_id")
-            if program_ref_id is not None:
-                program_urn = f"urn:vme:default:program:{program_ref_id}"
+            if parents not in (None, []):
+                program_ref_id = metadata.get("program_ref_id")
+                if program_ref_id is not None:
+                    program_urn = f"urn:vme:default:program:{program_ref_id}"
+                if program_urn is None:
+                    logger.info(f"Can not generate a proper GPP URL. No program URN.")
+                    return None
 
-            # find the asset
-            asset_urn = None
-            if isinstance(parents, list):
-                if parents[0].get("parent_type") == "ITEM":
-                    parent_id = parents[0].get("parent_id")
-                    asset_urn = f"urn:vme:default:asset:{parent_id}"
+                # find the asset
+                asset_urn = None
+                if isinstance(parents, list):
+                    if parents[0].get("parent_type") == "ITEM":
+                        parent_id = parents[0].get("parent_id")
+                        asset_urn = f"urn:vme:default:asset:{parent_id}"
 
-            elif isinstance(parents, dict):
-                if parents.get("parent_type") == "ITEM":
-                    parent_id = parents.get("parent_id")
-                    asset_urn = f"urn:vme:default:asset:{parent_id}"
-
+                elif isinstance(parents, dict):
+                    if parents.get("parent_type") == "ITEM":
+                        parent_id = parents.get("parent_id")
+                        asset_urn = f"urn:vme:default:asset:{parent_id}"
+                if asset_urn is None:
+                    logger.info(f"Can not generate a proper GPP URL. No asset URN.")
+                    return None
+                
             # define the segment
             segment_urn = f"urn:vme:default:logtrackitem:{daan_id}"
 
@@ -103,6 +112,7 @@ class BaseRdfConcept:
             return urlunparse(parts)
 
         # DEFAULT CASE (PROGRAM, SERIES)
+        logger.info(f"Generate default GPP URL for {cat_type}.")
         return f"https://zoeken.beeldengeluid.nl/{cat_type.lower()}/urn:vme:default:{cat_type.lower()}:{daan_id}"
 
     def get_classes(self):
