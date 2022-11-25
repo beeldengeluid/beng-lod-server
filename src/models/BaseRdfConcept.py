@@ -68,7 +68,7 @@ class BaseRdfConcept:
 
             # seasons without series do not have a GPP landing page
             if series_urn is None:
-                logger.info(f"Can not generate a proper GPP URL. No series URN.")
+                logger.info("Can not generate a proper GPP URL. No series URN.")
                 return None
 
             season_urn = f"urn:vme:default:season:{daan_id}"
@@ -84,7 +84,7 @@ class BaseRdfConcept:
                 if program_ref_id is not None:
                     program_urn = f"urn:vme:default:program:{program_ref_id}"
                 if program_urn is None:
-                    logger.info(f"Can not generate a proper GPP URL. No program URN.")
+                    logger.info("Can not generate a proper GPP URL. No program URN.")
                     return None
 
                 # find the asset
@@ -99,9 +99,9 @@ class BaseRdfConcept:
                         parent_id = parents.get("parent_id")
                         asset_urn = f"urn:vme:default:asset:{parent_id}"
                 if asset_urn is None:
-                    logger.info(f"Can not generate a proper GPP URL. No asset URN.")
+                    logger.info("Can not generate a proper GPP URL. No asset URN.")
                     return None
-                
+
             # define the segment
             segment_urn = f"urn:vme:default:logtrackitem:{daan_id}"
 
