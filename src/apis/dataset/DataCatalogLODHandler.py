@@ -6,6 +6,9 @@ from apis.mime_type_util import MimeType
 from typing import List, Optional
 
 
+logger = logging.getLogger()
+
+
 class DataCatalogLODHandler:
     """Handles requests from the beng-lod server for data catalogs, datasets, datadownloads.
     The only data model/ontology this data is available in is schema.org. In contrast with the resource
@@ -15,13 +18,12 @@ class DataCatalogLODHandler:
 
     def __init__(self, config):
         self.config = config
-        self.logger = logging.getLogger(config["LOG_NAME"])
         self._data_catalog = self._parse_catalog_file(config["DATA_CATALOG_FILE"])
 
     # TODO: implement caching suitable for this function
     def _parse_catalog_file(self, path: str) -> Graph:
         """Parse catalog file (turtle) and return graph of results'"""
-        self.logger.info(f"Loading data catalogue from '{path}'")
+        logger.info(f"Loading data catalogue from '{path}'")
         graph = Graph().parse(path, format=MimeType.TURTLE.value)
         return graph
 

@@ -1,3 +1,4 @@
+import logging
 from flask import current_app, request, Response, render_template, make_response
 from flask_restx import Namespace, Resource
 from apis.mime_type_util import MimeType
@@ -9,6 +10,10 @@ from util.ld_util import (
     json_iri_lit_from_rdf_graph,
     json_iri_bnode_from_rdf_graph,
 )
+
+
+logger = logging.getLogger()
+
 
 api = Namespace(
     "gtaa",
@@ -34,9 +39,7 @@ class GTAAAPI(Resource):
 
     @api.produces([mt.value for mt in MimeType])
     def get(self, identifier):
-
         gtaa_uri = f'{current_app.config.get("BENG_DATA_DOMAIN")}gtaa/{identifier}'
-
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
@@ -46,6 +49,7 @@ class GTAAAPI(Resource):
             mime_type = MimeType(best_match)
 
         if mime_type is MimeType.HTML:
+            logger.info(f"Generating HTML page for resource {gtaa_uri}.")
             html_page = self._get_lod_view_gtaa(
                 gtaa_uri,
                 current_app.config.get("SPARQL_ENDPOINT"),
@@ -55,6 +59,7 @@ class GTAAAPI(Resource):
             if html_page:
                 return make_response(html_page, 200)
             else:
+                logger.error(f"Could not generate HTML page for resource {gtaa_uri}.")
                 return APIUtil.toErrorResponse(
                     "internal_server_error",
                     "Could not generate an HTML view for this resource",
@@ -62,6 +67,9 @@ class GTAAAPI(Resource):
 
         if mime_type:
             # note we need to use empty params for the UI
+            logger.info(
+                f"Getting the RDF in proper serialization format for GTAA resource: {gtaa_uri}."
+            )
             return self._get_lod_gtaa(
                 gtaa_uri,
                 mime_type,
@@ -69,6 +77,7 @@ class GTAAAPI(Resource):
                 current_app.config.get("URI_NISV_ORGANISATION"),
                 current_app.config.get("NAMED_GRAPH_THESAURUS"),
             )
+        logger.error("Not a proper mime type in the request.")
         return Response("Error: No mime type detected...")
 
     def _get_lod_gtaa(
@@ -101,6 +110,9 @@ class GTAAAPI(Resource):
             resp = rdf_graph.serialize(format=ld_type)
             headers = {"Content-Type": mime_type.value}
             return Response(resp, mimetype=mime_type.value, headers=headers)
+        logger.error(
+            f"Could not get the data for GTAA resource {gtaa_uri} from triple store at {sparql_endpoint}."
+        )
         return None
 
     def _get_lod_view_gtaa(
@@ -129,4 +141,7 @@ class GTAAAPI(Resource):
                 json_iri_bnode=json_iri_bnode_from_rdf_graph(rdf_graph, resource_url),
                 nisv_sparql_endpoint=sparql_endpoint,
             )
+        logger.error(
+            f"Could not get the data for GTAA resource {resource_url} from triple store at {sparql_endpoint}."
+        )
         return None

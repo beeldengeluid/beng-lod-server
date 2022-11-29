@@ -1,3 +1,5 @@
+import logging
+
 import models.DAANRdfModel as DAANRdfModel
 from models.DAANJsonModel import (
     DAAN_PROGRAM_ID,
@@ -14,6 +16,9 @@ from models.BaseRdfConcept import BaseRdfConcept
 from importer.DAANSchemaImporter import DAANSchemaImporter
 
 
+logger = logging.getLogger()
+
+
 class NISVRdfConcept(BaseRdfConcept):
     """Class to represent an NISV catalog object with RDF using NISV schema.
     The class can be instantiated from the JSON payload provided by
@@ -21,8 +26,8 @@ class NISVRdfConcept(BaseRdfConcept):
 
     """
 
-    def __init__(self, metadata, concept_type, profile, logger, cache):
-        super().__init__(profile, logger, model=DAANRdfModel)
+    def __init__(self, metadata, concept_type, profile, cache):
+        super().__init__(profile, model=DAANRdfModel)
         # self.graph.namespace_manager.bind(self._model.NISV_DATA_PREFIX,
         # use a default namespace
         self.cache = cache
@@ -63,12 +68,12 @@ class NISVRdfConcept(BaseRdfConcept):
     # use a simple in-memory cache
     def get_scheme(self, cache_key="nisv_scheme"):
         if cache_key in self.cache:
-            self.logger.debug("GOT THE nisv_scheme FROM CACHE")
+            logger.debug("GOT THE nisv_scheme FROM CACHE")
             return self.cache[cache_key]
         else:
-            self.logger.debug("NO nisv_scheme FOUND IN CACHE")
+            logger.debug("NO nisv_scheme FOUND IN CACHE")
             nisv_scheme = DAANSchemaImporter(
-                self.profile["schema"], self.profile["mapping"], self.logger
+                self.profile["schema"], self.profile["mapping"]
             )
             self.cache[cache_key] = nisv_scheme
             return nisv_scheme
