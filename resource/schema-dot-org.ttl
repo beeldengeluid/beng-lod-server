@@ -25,42 +25,33 @@ sdo:about rdf:type rdf:Property ;
                 rdfs:domain sdo:Thing ;
                 rdfs:range sdo:Thing .
 
-#################################################################
-#    Data properties
-#################################################################
-
-###  https://schema.org/about
-sdo:about rdf:type rdf:Property ;
-                rdfs:domain sdo:Thing ;
-                rdfs:range sdo:Thing .
-
-###  https://schema.org/name
-sdo:name rdf:type rdf:Property ;
-                rdfs:domain sdo:Thing ;
-                rdfs:range xsd:string .
-
-###  https://schema.org/description
-sdo:description rdf:type rdf:Property ;
-                rdfs:domain sdo:Thing ;
-                rdfs:range xsd:string .
-
-###  https://schema.org/duration
-sdo:duration rdf:type rdf:Property ;
-                rdfs:domain sdo:Thing ;
-                rdfs:range xsd:string .
-
-###  https://schema.org/datePublished
-sdo:datePublished rdf:type rdf:Property ;
-                rdfs:domain sdo:Thing ;
-                rdfs:range xsd:string .
-
-###  https://schema.org/keywords
-sdo:keywords rdf:type rdf:Property ;
-                rdfs:domain sdo:Thing ;
-                rdfs:range xsd:string .
-
 ###  https://schema.org/actor
 sdo:actor rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range sdo:Person .
+
+###  https://schema.org/additionalType
+sdo:additionalType rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range sdo:URL .
+
+###  https://schema.org/associatedMedia
+sdo:associatedMedia rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range sdo:MediaObject.
+
+###  https://schema.org/byArtist - used for performers
+sdo:byArtist rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range sdo:Person .
+
+###  https://schema.org/contentUrl
+sdo:contentUrl rdf:type rdf:Property ;
+                rdfs:domain sdo:MediaObject ;
+                rdfs:range sdo:URL .
+
+###  https://schema.org/contributor - used for guests
+sdo:contributor rdf:type rdf:Property ;
                 rdfs:domain sdo:Thing ;
                 rdfs:range sdo:Person .
 
@@ -69,87 +60,121 @@ sdo:creator rdf:type rdf:Property ;
                 rdfs:domain sdo:Thing ;
                 rdfs:range sdo:Person .
 
-###  https://schema.org/mentions - used for persons and corporations
-sdo:mentions rdf:type rdf:Property ;
+###  https://schema.org/genre
+sdo:genre rdf:type rdf:Property ;
                 rdfs:domain sdo:Thing ;
                 rdfs:range sdo:Thing .
 
-###  https://schema.org/byArtist - used for performers
-sdo:byArtist rdf:type rdf:Property ;
-                rdfs:domain sdo:Thing ;
-                rdfs:range sdo:Person .
-
-###  https://schema.org/contributor - used for guests
-sdo:contributor rdf:type rdf:Property ;
-                rdfs:domain sdo:Thing ;
-                rdfs:range sdo:Person .
-
-###  https://schema.org/productionCompany
-sdo:productionCompany rdf:type rdf:Property ;
-                rdfs:domain sdo:Thing ;
-                rdfs:range sdo:Organization .
+###  https://schema.org/hasPart
+sdo:hasPart rdf:type rdf:Property ;
+                rdfs:domain sdo:CreativeWork ;
+                rdfs:range sdo:Clip .
 
 ###  https://schema.org/location
 sdo:location rdf:type rdf:Property ;
                 rdfs:domain sdo:Thing ;
                 rdfs:range sdo:Place .
 
-###  https://schema.org/genre
-sdo:genre rdf:type rdf:Property ;
+###  https://schema.org/mainEntityOfPage
+sdo:mainEntityOfPage rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range sdo:URL .
+
+###  https://schema.org/mentions - used for persons and corporations
+sdo:mentions rdf:type rdf:Property ;
                 rdfs:domain sdo:Thing ;
                 rdfs:range sdo:Thing .
+
+###  https://schema.org/partOfSeason
+sdo:partOfSeason rdf:type rdf:Property ;
+                rdfs:domain sdo:CreativeWork ;
+                rdfs:range sdo:CreativeWorkSeason .
+
+###  https://schema.org/partOfSeries
+sdo:partOfSeries rdf:type rdf:Property ;
+                rdfs:domain sdo:CreativeWork ;
+                rdfs:domain sdo:CreativeWorkSeason ;
+                rdfs:range sdo:CreativeWorkSeries .
+
+###  https://schema.org/productionCompany
+sdo:productionCompany rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range sdo:Organization .
+
+###  https://schema.org/publisher
+sdo:publisher rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range sdo:Thing .  # can be Person or Organization for us
+
+###  https://schema.org/url
+sdo:url rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range sdo:URL .
+
+#################################################################
+#    Data properties
+#################################################################
 
 ###  https://schema.org/conditionsOfAccess
 sdo:conditionsOfAccess rdf:type rdf:Property ;
                 rdfs:domain sdo:CreativeWork ;
                 rdfs:range xsd:string .
 
+######  https://schema.org/description  - NB: currently unmapped as descriptions are under copyright
+###sdo:description rdf:type rdf:Property ;
+###                rdfs:domain sdo:Thing ;
+###                rdfs:range xsd:string .
+
+###  https://schema.org/datePublished
+sdo:datePublished rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range xsd:string .
+
+###  https://schema.org/duration
+sdo:duration rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range xsd:string .
+
+###  https://schema.org/encodingFormat
+sdo:encodingFormat rdf:type rdf:Property ;
+                rdfs:domain sdo:MediaObject;
+                rdfs:range xsd:string .
+
+###  https://schema.org/keywords
+sdo:keywords rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range xsd:string .
+
 ###  https://schema.org/license
 sdo:license rdf:type rdf:Property ;
                 rdfs:domain sdo:CreativeWork ;
-                rdfs:range sdo:URL .
+                rdfs:range xsd:string .
 
 ###  https://schema.org/material
 sdo:material rdf:type rdf:Property ;
                 rdfs:domain sdo:CreativeWork ;
                 rdfs:range xsd:string .
 
+###  https://schema.org/name
+sdo:name rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range xsd:string .
+
 #################################################################
 #    Classes
 #################################################################
-
-###  https://schema.org/Thing
-sdo:Thing rdf:type rdfs:Class ;
-    sdo:additionalType skos:Concept.
-
-###  https://schema.org/MediaObject
-sdo:MediaObject rdf:type rdfs:Class ;
-             rdfs:subClassOf sdo:Thing .
 
 ###  https://schema.org/AudioObject
 sdo:AudioObject rdf:type rdfs:Class ;
              rdfs:subClassOf sdo:MediaObject .
 
-###  https://schema.org/VideoObject
-sdo:VideoObject rdf:type rdfs:Class ;
-             rdfs:subClassOf sdo:MediaObject .
-
-###  https://schema.org/ImageObject
-sdo:ImageObject rdf:type rdfs:Class ;
-             rdfs:subClassOf sdo:MediaObject .
-
-###  https://schema.org/Place
-sdo:Place rdf:type rdfs:Class ;
-             rdfs:subClassOf sdo:Thing ;
-             sdo:additionalType skos:Concept .
+###  https://schema.org/Clip
+sdo:Clip rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:CreativeWork .
 
 ###  https://schema.org/CreativeWork
 sdo:CreativeWork rdf:type rdfs:Class ;
              rdfs:subClassOf sdo:Thing .
-
-###  https://schema.org/Clip
-sdo:Clip rdf:type rdfs:Class ;
-             rdfs:subClassOf sdo:CreativeWork .
 
 ###  https://schema.org/CreativeWorkSeason
 sdo:CreativeWorkSeason rdf:type rdfs:Class ;
@@ -159,6 +184,45 @@ sdo:CreativeWorkSeason rdf:type rdfs:Class ;
 sdo:CreativeWorkSeries rdf:type rdfs:Class ;
              rdfs:subClassOf sdo:CreativeWork .
 
+###  https://schema.org/ImageObject
+sdo:ImageObject rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:MediaObject .
+
+###  https://schema.org/MediaObject
+sdo:MediaObject rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:Thing .
+
+###  https://schema.org/Organization
+sdo:Organization rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:Thing ;
+             sdo:additionalType skos:Concept .
+
+###  https://schema.org/PerformanceRole
+sdo:PerformanceRole rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:Role .
+
+###  https://schema.org/Person
+sdo:Person rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:Thing ;
+             sdo:additionalType skos:Concept .
+
+###  https://schema.org/Place
+sdo:Place rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:Thing ;
+             sdo:additionalType skos:Concept .
+
+###  https://schema.org/Role
+sdo:Role rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:Thing .
+
+###  https://schema.org/Thing
+sdo:Thing rdf:type rdfs:Class ;
+    sdo:additionalType skos:Concept.
+
 ###  https://schema.org/URL
 sdo:URL rdf:type rdfs:Class ;
     rdfs:subClassOf sdo:Text .
+
+###  https://schema.org/VideoObject
+sdo:VideoObject rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:MediaObject .
