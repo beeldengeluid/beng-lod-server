@@ -8,20 +8,25 @@ from .gtaa.gtaa_api import api as gtaa_api
 
 
 logger = logging.getLogger(__name__)
+use_prod_config = True
+
 
 try:
-    from config.settings import Config as conf  # fails in unit test
+    from config.settings import Config as prod_conf  # fails in unit test
 except ImportError:
-    from config.settings_example import Config as example_conf
+    use_prod_config = False
+    from config.settings_example import Config as test_conf
 
 apiVersion = "v0.3"
 base_path = "/"
-
 api = Api(version=apiVersion)
+enabled_endpoints = []
 
 try:
-    c = conf if conf is not None else example_conf
-    enabled_endpoints = c.ENABLED_ENDPOINTS
+    if use_prod_config:
+        enabled_endpoints = prod_conf.ENABLED_ENDPOINTS
+    else:
+        enabled_endpoints = test_conf.ENABLED_ENDPOINTS
 except AttributeError:
     logger.warning(
         "Misconfiguration, please add ENABLED_ENDPOINTS, now disallowing all endpoints"
