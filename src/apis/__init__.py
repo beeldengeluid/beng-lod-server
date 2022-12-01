@@ -1,14 +1,18 @@
 from flask_restx import Api
+import logging
 from .pong.pong_api import api as pong_api
 from .health.health_api import api as health_api
 from .dataset.dataset_api import api as dataset_api
 from .resource.resource_api import api as resource_api
 from .gtaa.gtaa_api import api as gtaa_api
 
+
+logger = logging.getLogger(__name__)
+
 try:
-    from config.settings import Config  # fails in unit test
+    from config.settings import Config as conf  # fails in unit test
 except ImportError:
-    from config.settings_example import Config
+    from config.settings_example import Config as example_conf
 
 apiVersion = "v0.3"
 base_path = "/"
@@ -16,9 +20,10 @@ base_path = "/"
 api = Api(version=apiVersion)
 
 try:
-    enabled_endpoints = Config.ENABLED_ENDPOINTS
+    c = conf if conf is not None else example_conf
+    enabled_endpoints = c.ENABLED_ENDPOINTS
 except AttributeError:
-    print(
+    logger.warning(
         "Misconfiguration, please add ENABLED_ENDPOINTS, now disallowing all endpoints"
     )
     enabled_endpoints = []

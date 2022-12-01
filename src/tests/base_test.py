@@ -2,7 +2,7 @@ import os
 from util.base_util import validate_config
 
 """
-Tests everything related to the validity of the application settings (config/settings.py)
+Tests everything related to the validity of the application settings (config/settings_example.py)
 """
 
 

@@ -1,6 +1,7 @@
 import pytest
 import json
 from lxml import etree
+from typing import Generator
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
 from util.ld_util import generate_lod_resource_uri
 from models.DAANRdfModel import ResourceURILevel
@@ -33,7 +34,7 @@ XML_ENCODING_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>'
 
 
 @pytest.fixture
-def data_catalog_lod_handler(application_settings) -> DataCatalogLODHandler:
+def data_catalog_lod_handler(application_settings) -> Generator:
     yield DataCatalogLODHandler(application_settings)
 
 
