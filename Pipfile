@@ -22,9 +22,7 @@ requests = "*"
 rdflib = "~=6.2.0"
 numpy = "*"
 elasticsearch = "~=7.17"
-flask = "~=2.1.0"
 validators = "*"
-werkzeug = "<2.2.0"
 
 [requires]
 python_version = "3.8"
