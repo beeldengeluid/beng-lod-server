@@ -1,5 +1,8 @@
+import logging
 from models.DAANJsonModel import DAAN_TYPE, ObjectType, isSceneDescription
 from apis.resource.StorageLODHandler import StorageLODHandler
+
+logger = logging.getLogger()
 
 
 class SDOStorageLODHandler(StorageLODHandler):
@@ -14,7 +17,7 @@ class SDOStorageLODHandler(StorageLODHandler):
         self.cache = config["GLOBAL_CACHE"]
 
     def _transform_json_to_rdf(self, json_obj):
-        self.logger.debug("Transform json to RDF (SDO)")
+        logger.debug("Transform json to RDF (SDO)")
         """ Transforms JSON data from the flex Direct Access Metadata API to schema.org
         """
         # get the type - series, season etc.
@@ -24,6 +27,9 @@ class SDOStorageLODHandler(StorageLODHandler):
         if cat_type == ObjectType.LOGTRACKITEM.value:
             logtrack_type = json_obj["logtrack_type"]
             if not isSceneDescription(logtrack_type):
+                logger.error(
+                    f"Cannot retrieve data for a logtrack item of type {logtrack_type}. Must be of type 'scenedesc'"
+                )
                 raise ValueError(
                     f"Cannot retrieve data for a logtrack item of type {logtrack_type}. Must be of type 'scenedesc'"
                 )
@@ -31,4 +37,4 @@ class SDOStorageLODHandler(StorageLODHandler):
         # Note that this is import is here on purpose and not at the top, to prevent circular dependency to happen
         from models.SDORdfConcept import SDORdfConcept
 
-        return SDORdfConcept(json_obj, cat_type, self.profile, self.logger, self.cache)
+        return SDORdfConcept(json_obj, cat_type, self.profile, self.cache)

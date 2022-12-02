@@ -57,7 +57,7 @@ def test_get_storage_record__ob_scene_payload(application_settings, i_ob_scene_p
         when(sdo_handler)._prepare_storage_uri(
             storage_base_url, DUMMY_LEVEL, DUMMY_ID
         ).thenReturn(DUMMY_STORAGE_URL)
-        when(sdo_handler)._get_json_from_storage(DUMMY_STORAGE_URL, True).thenReturn(
+        when(sdo_handler)._get_json_from_storage(DUMMY_STORAGE_URL).thenReturn(
             i_ob_scene_payload
         )
         mt = MimeType.JSON_LD
@@ -109,7 +109,7 @@ def test_get_storage_record__error_scene_payload(
         when(sdo_handler)._prepare_storage_uri(
             storage_base_url, "scene", "2101702260627885424"
         ).thenReturn(DUMMY_STORAGE_URL)
-        when(sdo_handler)._get_json_from_storage(DUMMY_STORAGE_URL, True).thenReturn(
+        when(sdo_handler)._get_json_from_storage(DUMMY_STORAGE_URL).thenReturn(
             i_error_scene_payload
         )
         mt = MimeType.JSON_LD
@@ -133,9 +133,7 @@ def test_get_storage_record__no_storage_data(application_settings):
         when(sdo_handler)._prepare_storage_uri(
             storage_base_url, "scene", "2101702260627885424"
         ).thenReturn(DUMMY_STORAGE_URL)
-        when(sdo_handler)._get_json_from_storage(DUMMY_STORAGE_URL, True).thenReturn(
-            None
-        )
+        when(sdo_handler)._get_json_from_storage(DUMMY_STORAGE_URL).thenReturn(None)
         mt = MimeType.JSON_LD
         resp, status_code, headers = sdo_handler.get_storage_record(
             "scene", "2101702260627885424", mt.to_ld_format()
@@ -181,9 +179,9 @@ def test_get_storage_record(sdo_storage_lod_handler):
 )
 def test_storage_2_lod(sdo_storage_lod_handler, storage_url, return_mime_type):
     try:
-        when(sdo_storage_lod_handler)._get_json_from_storage(
-            storage_url, False
-        ).thenReturn(DUMMY_STORAGE_DATA)
+        when(sdo_storage_lod_handler)._get_json_from_storage(storage_url).thenReturn(
+            DUMMY_STORAGE_DATA
+        )
         serialized_data = sdo_storage_lod_handler._storage_2_lod(
             storage_url, return_mime_type.value
         )

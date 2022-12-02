@@ -1,10 +1,11 @@
 import logging
 from util.APIUtil import APIUtil
 import json
-from urllib.error import HTTPError
 from urllib.parse import urlparse, urlunparse
 import requests
-from requests.exceptions import ConnectionError
+from requests.exceptions import ConnectionError, HTTPError
+
+logger = logging.getLogger()
 
 
 class StorageLODHandler:
@@ -15,7 +16,6 @@ class StorageLODHandler:
 
     def __init__(self, config):
         self.config = config
-        self.logger = logging.getLogger(self.config["LOG_NAME"])
 
     def get_profile(self, profile_uri):
         profile = None
@@ -34,28 +34,32 @@ class StorageLODHandler:
         :param return_format: the Accept type, like 'text/turtle, etc.'
         :returns: a response object
         """
-        use_file_logger = self.config.get("LOG_LEVEL_CONSOLE", None) == "DEBUG"
         try:
             url = self._prepare_storage_uri(
                 self.config.get("STORAGE_BASE_URL"), level, identifier
             )
-            data = self._storage_2_lod(url, return_format, use_file_logger)
+            data = self._storage_2_lod(url, return_format)
             if data:
                 return APIUtil.toSuccessResponse(data)
+            logger.error(f"Could not get data from the flex store for {url}.")
             return APIUtil.toErrorResponse(
                 "bad_request", "That return format is not supported"
             )
 
         except ValueError as e:
-            self.logger.debug("ValueError caused 400")
+            logger.exception("ValueError caused 400.")
             return APIUtil.toErrorResponse("bad_request", e)
         except HTTPError as e:
-            self.logger.debug("HTTPError caused 404")
-            return APIUtil.toErrorResponse("not_found", e)
+            status_code = e.response.status_code
+            if status_code == 403:
+                logger.exception(f"Acces denied for {url}.")
+                return APIUtil.toErrorResponse("access_denied", e)
+            if status_code == 404:
+                logger.exception(f"Not found for {url}.")
+                return APIUtil.toErrorResponse("not_found", e)
         except Exception:
-            self.logger.exception("Exception")
-
-        return APIUtil.toErrorResponse("internal_server_error")
+            logger.exception("Exception")
+            return APIUtil.toErrorResponse("internal_server_error")
 
     def _prepare_storage_uri(self, storage_base_url: str, level: str, identifier: int):
         """Constructs valid Storage url from the config settings, the level (cat type) and the identifier.
@@ -77,42 +81,37 @@ class StorageLODHandler:
             return urlunparse(parts)
         return None
 
-    def _get_json_from_storage(self, url: str, use_file_logger: bool = False):
+    def _get_json_from_storage(self, url: str):
         """Retrieves a JSON object from the given Storage url
         :param url: the URI for the resource to get the data for.
-        :param use_file_logger: flag for using logger
         :returns: the data or None
         """
         try:
+            logger.info(f"Get data from the flex store for {url}.")
             resp = requests.get(url)
+            resp.raise_for_status()
             if resp.status_code == 200:
-                if use_file_logger:
-                    self._log_json_to_file(resp.text)
+                logger.debug(resp.text)
                 return json.loads(resp.text)
-        except ConnectionError:
-            self.logger.exception("ConnectionError")
-        except json.decoder.JSONDecodeError:
-            self.logger.exception("JSONDecodeError")
-        except Exception:
-            self.logger.exception("Exception")
+        except ConnectionError as e:
+            logger.exception(f"ConnectionError: {str(e)}")
+        except json.decoder.JSONDecodeError as e:
+            logger.exception(f"JSONDecodeError {str(e)}")
+
+        logger.error(f"Not a proper response from the flex store for {url}.")
         return None
 
-    def _log_json_to_file(self, json_data):
-        with open("last_request.json", "w") as f:
-            json.dump(json_data, f, indent=4)
-
-    def _storage_2_lod(
-        self, url: str, return_format: str, use_file_logger: bool = False
-    ):
+    def _storage_2_lod(self, url: str, return_format: str):
         """Returns the record data from a URL, transformed to RDF, loaded in a Graph and
-        serialized to target format.
+        serialized to target format. When no data could be retrieved None is returned.
         :param url: requested url
         :param return_format: required serialization format
-        :param use_file_logger: flag for using logger
         """
         # retrieve the record data in JSON from DM API
-        json_data = self._get_json_from_storage(url, use_file_logger)
-        assert isinstance(json_data, dict), "No valid results from the flex store."
+        json_data = self._get_json_from_storage(url)
+        if json_data is None:
+            logger.error(f"Could not get JSON data from the flex store for {url}.")
+            return None
 
         # transform the JSON to RDF
         result_object = self._transform_json_to_rdf(json_data)

@@ -92,10 +92,11 @@ def test_prepare_storage_uri(
     "status_code, response_text, exception, expected_output",
     [
         (200, json.dumps(DUMMY_STORAGE_DATA), None, DUMMY_STORAGE_DATA),  # happy flow
-        (500, None, None, None),  # any non-200 will receive None
-        (400, None, None, None),
-        (403, None, None, None),
-        (404, None, None, None),
+        # any non-200 will be raised
+        # (500, None, None, None),
+        # (400, None, None, None),
+        # (403, None, None, None),
+        # (404, None, None, None),
         (200, "BROKEN JSON", None, None),  # broken JSON data will result in None
         (
             200,
@@ -103,8 +104,7 @@ def test_prepare_storage_uri(
             ConnectionError,
             None,
         ),  # these exceptions are caught and result in None
-        (200, None, json.decoder.JSONDecodeError, None),
-        (200, None, Exception, None),
+        (200, None, json.decoder.JSONDecodeError("bla", "{}", 0), None),
     ],
 )
 def test_get_json_from_storage(

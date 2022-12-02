@@ -1,8 +1,11 @@
+import logging
 from rdflib import Graph
 from rdflib.namespace import SKOS, Namespace
 from rdflib.plugin import PluginException
 from util.APIUtil import APIUtil
 from urllib.parse import urlparse, urlunparse
+
+logger = logging.getLogger()
 
 
 class BaseRdfConcept:
@@ -10,9 +13,8 @@ class BaseRdfConcept:
     It uses functions to create the RDF in a graph using the JSON payload from the Direct Access Metadata API.
     """
 
-    def __init__(self, profile, logger, model=None):
+    def __init__(self, profile, model=None):
         self.profile = profile
-        self.logger = logger
         if "schema" not in self.profile or "mapping" not in self.profile:
             raise APIUtil.raiseDescriptiveValueError(
                 "internal_server_error", "Schema or mapping file not specified"
@@ -51,7 +53,7 @@ class BaseRdfConcept:
         url_parts = urlparse("https://zoeken.beeldengeluid.nl/")
         parents = metadata.get("parents")
 
-        if cat_type.upper() == "SEASON" and parents is not None:
+        if cat_type.upper() == "SEASON" and parents not in (None, []):
             series_urn = None
             if isinstance(parents, list):
                 if parents[0].get("parent_type") == "SERIES":
@@ -63,10 +65,12 @@ class BaseRdfConcept:
                     parent_id = parents.get("parent_id")
                     series_urn = f"urn:vme:default:series:{parent_id}"
 
-            path = None
-            if series_urn is not None:
-                season_urn = f"urn:vme:default:season:{daan_id}"
-                path = "/".join(["series", series_urn, season_urn])
+            # seasons without series do not have a GPP landing page
+            if series_urn is None:
+                return None
+
+            season_urn = f"urn:vme:default:season:{daan_id}"
+            path = "/".join(["series", series_urn, season_urn])
             parts = (url_parts.scheme, url_parts.netloc, path, "", "", "")
             return urlunparse(parts)
 
@@ -154,5 +158,5 @@ class BaseRdfConcept:
                 auto_compact=True,
             )
         except PluginException:
-            self.logger.exception("PluginException")
+            logger.exception("PluginException")
             raise
