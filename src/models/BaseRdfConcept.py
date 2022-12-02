@@ -40,9 +40,7 @@ class BaseRdfConcept:
         return urlunparse(parts)
 
     # noinspection PyMethodMayBeStatic
-    def get_gpp_link(  # noqa: C901 #TODO
-        self, metadata, cat_type="PROGRAM", daan_id=None
-    ):
+    def get_gpp_link(self, metadata, cat_type, daan_id):
         """Construct a URL for the item landing page in the general public portal.
         :param metadata: JSON metadata of the item to get daan id's
         :param cat_type: the catalogue type of the item
@@ -50,70 +48,87 @@ class BaseRdfConcept:
         :returns: the contructed URL for the landing page
         Example: https://zoeken.beeldengeluid.nl/program/urn:vme:default:program:2101810040249483931
         """
-        url_parts = urlparse("https://zoeken.beeldengeluid.nl/")
-        parents = metadata.get("parents")
+        # to get the gpp link we need to find a path on the following base_url
+        gpp_base_url = "https://zoeken.beeldengeluid.nl/"
 
-        if cat_type.upper() == "SEASON":
-            series_urn = None
-            if parents not in (None, []):
-                if isinstance(parents, list):
-                    if parents[0].get("parent_type") == "SERIES":
-                        parent_id = parents[0].get("parent_id")
-                        series_urn = f"urn:vme:default:series:{parent_id}"
+        # for some items, the path depends on information of its parents.
+        # get (a possibly empty) list of parents here.
+        if isinstance(metadata.get("parents"), dict):
+            parents = [metadata.get("parents")]
+        elif isinstance(metadata.get("parents"), list):
+            parents = metadata.get("parents")
+        else:
+            parents = []
 
-                elif isinstance(parents, dict):
-                    if parents.get("parent_type") == "SERIES":
-                        parent_id = parents.get("parent_id")
-                        series_urn = f"urn:vme:default:series:{parent_id}"
-
-            # seasons without series do not have a GPP landing page
-            if series_urn is None:
-                logger.info("Can not generate a proper GPP URL. No series URN.")
-                return None
-
+        # now get the path to add to the gpp_base_url, set missing or invalid parts to None.
+        if cat_type == "PROGRAM":
+            program_urn = f"urn:vme:default:program:{daan_id}"
+            path_parts = ["program", program_urn]
+        elif cat_type == "SERIES":
+            series_urn = f"urn:vme:default:series:{daan_id}"
+            path_parts = ["series", series_urn]
+        elif cat_type == "SEASON":
             season_urn = f"urn:vme:default:season:{daan_id}"
-            path = "/".join(["series", series_urn, season_urn])
-            parts = (url_parts.scheme, url_parts.netloc, path, "", "", "")
-            return urlunparse(parts)
 
-        if cat_type.upper() == "LOGTRACKITEM" and parents is not None:
-            # Find the program it belongs to
-            program_urn = None
-            if parents not in (None, []):
-                program_ref_id = metadata.get("program_ref_id")
-                if program_ref_id is not None:
-                    program_urn = f"urn:vme:default:program:{program_ref_id}"
-                if program_urn is None:
-                    logger.info("Can not generate a proper GPP URL. No program URN.")
-                    return None
-
-                # find the asset
-                asset_urn = None
-                if isinstance(parents, list):
-                    if parents[0].get("parent_type") == "ITEM":
-                        parent_id = parents[0].get("parent_id")
-                        asset_urn = f"urn:vme:default:asset:{parent_id}"
-
-                elif isinstance(parents, dict):
-                    if parents.get("parent_type") == "ITEM":
-                        parent_id = parents.get("parent_id")
-                        asset_urn = f"urn:vme:default:asset:{parent_id}"
-                if asset_urn is None:
-                    logger.info("Can not generate a proper GPP URL. No asset URN.")
-                    return None
-
-            # define the segment
-            segment_urn = f"urn:vme:default:logtrackitem:{daan_id}"
-
-            path = "/".join(
-                ["program", program_urn, "asset", asset_urn, "segment", segment_urn]
+            # get urn for parent series or None
+            series_ids = [
+                parent.get("parent_id")
+                for parent in parents
+                if parent.get("parent_type") == "SERIES"
+            ]
+            series_id = series_ids[0] if len(series_ids) > 0 else None
+            series_urn = (
+                f"urn:vme:default:series:{series_id}" if series_id is not None else None
             )
-            parts = (url_parts.scheme, url_parts.netloc, path, "", "", "")
-            return urlunparse(parts)
 
-        # DEFAULT CASE (PROGRAM, SERIES)
-        logger.info(f"Generate default GPP URL for {cat_type}.")
-        return f"https://zoeken.beeldengeluid.nl/{cat_type.lower()}/urn:vme:default:{cat_type.lower()}:{daan_id}"
+            # combine the urns into a path
+            path_parts = ["series", series_urn, season_urn]
+        elif cat_type == "LOGTRACKITEM":
+            logtrackitem_urn = f"urn:vme:default:logtrackitem:{daan_id}"
+
+            # get urn for parent program or None
+            program_ref_id = metadata.get("program_ref_id")
+            program_urn = (
+                f"urn:vme:default:program:{program_ref_id}"
+                if program_ref_id is not None
+                else None
+            )
+            # get urn for parent asset or None
+            items_ids = [
+                parent.get("parent_id")
+                for parent in parents
+                if parent.get("parent_type") == "ITEM"
+            ]
+            item_id = items_ids[0] if len(items_ids) > 0 else None
+            asset_urn = (
+                f"urn:vme:default:asset:{item_id}" if item_id is not None else None
+            )
+
+            # combine the urns into a path
+            path_parts = [
+                "program",
+                program_urn,
+                "asset",
+                asset_urn,
+                "segment",
+                logtrackitem_urn,
+            ]
+        else:
+            path_parts = []
+
+        # combine the gpp_base_url with the path parts we derived if they are valid.
+        if len(path_parts) > 0 and None not in path_parts:
+            gpp_base = urlparse(gpp_base_url)
+            gpp_link = urlunparse(
+                (gpp_base.scheme, gpp_base.netloc, "/".join(path_parts), "", "", "")
+            )
+        else:
+            logging.error(
+                "cannot get gpp_link for daan_id '%s', cat_type '%s'. got to path parts '%s'"
+                % (daan_id, cat_type, path_parts)
+            )
+            gpp_link = None
+        return gpp_link
 
     def get_classes(self):
         if self._schema is not None:
