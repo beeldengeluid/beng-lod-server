@@ -77,10 +77,10 @@ def validate_config(config, validate_file_paths=True):
                 "health",
             ], "ENABLED_ENDPOINTS: invalid endpoint ID"
 
-        assert __check_setting(
-            config, "DATA_CATALOG_FILE", str
-        ), "DATA_CATALOG_FILE"  # check valid path
-        file_paths_to_check.append(config["DATA_CATALOG_FILE"])
+        assert __check_setting(config, "DATA_CATALOG_GRAPH", str), "DATA_CATALOG_GRAPH"
+        assert validators.url(
+            config["DATA_CATALOG_GRAPH"]
+        ), "DATA_CATALOG_GRAPH invalid URL"
 
         assert __check_setting(config, "SPARQL_ENDPOINT", str), "SPARQL_ENDPOINT"
         assert validators.url(config["SPARQL_ENDPOINT"]), "SPARQL_ENDPOINT invalid URL"

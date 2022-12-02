@@ -1,12 +1,11 @@
 import logging
-from rdflib import URIRef
-from rdflib import Graph
-from rdflib.namespace import RDF, SDO
-from apis.mime_type_util import MimeType
 from typing import List, Optional
-from util.ld_util import sparql_construct_query
-from datetime import datetime, timedelta
 
+from rdflib import Graph, URIRef
+from rdflib.namespace import RDF, SDO
+
+from apis.mime_type_util import MimeType
+from util.ld_util import sparql_construct_query
 
 logger = logging.getLogger()
 
@@ -19,43 +18,25 @@ class DataCatalogLODHandler:
     """
 
     def __init__(self, config):
-        self.config = config
-        self.cache = config["GLOBAL_CACHE"]
-        sparql_endpoint = self.config.get("SPARQL_ENDPOINT")
-        self._data_catalog = self._get_data_catalog_from_store(sparql_endpoint)
+        self._data_catalog = self._get_data_catalog_from_store(
+            config["SPARQL_ENDPOINT"], config["DATA_CATALOG_GRAPH"]
+        )
 
-    def _get_data_catalog_from_store(
-        self, sparql_endpoint: str, cache_key: str = "data_catalog", minutes: int = 0
-    ) -> Graph:
-        """Get data catalog triples from the rdf store and return graph. Simple caching
-        is enabled as well as a simple expiration mechanism for the cache."""
-        cache_key_expiration = f"{cache_key}_expiration"
-        if cache_key_expiration in self.cache:
-            if datetime.utcnow() >= self.cache[cache_key_expiration]:
-                logger.debug(f"The cache for {cache_key} is expired. Emptying cache.")
-                del self.cache[cache_key]
-                del self.cache[cache_key_expiration]
-
-        if cache_key in self.cache:
-            logger.debug(f"GOT THE {cache_key} FROM CACHE")
-            return self.cache[cache_key]
-        else:
-            logger.debug(f"NO {cache_key} FOUND IN CACHE")
-            logger.info(f"Getting data catalog triples from '{sparql_endpoint}'")
-            construct_query = (
-                "CONSTRUCT { ?sub ?pred ?obj } WHERE { "
-                "GRAPH <http://data.rdlabs.beeldengeluid.nl/datacatalog/> { ?sub ?pred ?obj } }"
-            )
-            logger.debug(f"Sending query '{construct_query}'")
-            graph = sparql_construct_query(sparql_endpoint, construct_query)
-            self.cache[cache_key] = graph
-            logger.debug(f"Added cache for {cache_key}.")
-            cache_lifetime = timedelta(minutes=minutes)
-            self.cache[cache_key_expiration] = datetime.utcnow() + cache_lifetime
-            logger.debug(
-                f"Set expiration for '{cache_key}': {str(self.cache[cache_key_expiration])}."
-            )
-            return graph
+    def _get_data_catalog_from_store(self, sparql_endpoint, catalog_graph) -> Graph:
+        """Get data catalog triples from the sparql endpoint."""
+        logger.info(f"Getting data catalog triples from '{sparql_endpoint}'")
+        query = (
+            """
+            CONSTRUCT { ?sub ?pred ?obj }
+            WHERE {
+                GRAPH <%s> { ?sub ?pred ?obj }
+            }
+        """
+            % catalog_graph
+        )
+        logger.debug(f"Sending query '{query}'")
+        graph = sparql_construct_query(sparql_endpoint, query)
+        return graph
 
     """-------------NDE requirements validation----------------------"""
 
