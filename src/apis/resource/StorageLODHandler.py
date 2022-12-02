@@ -1,6 +1,7 @@
 import logging
 from util.APIUtil import APIUtil
 import json
+from json.decoder import JSONDecodeError
 from urllib.parse import urlparse, urlunparse
 import requests
 from requests.exceptions import ConnectionError, HTTPError
@@ -93,10 +94,8 @@ class StorageLODHandler:
             if resp.status_code == 200:
                 logger.debug(resp.text)
                 return json.loads(resp.text)
-        except ConnectionError as e:
-            logger.exception(f"ConnectionError: {str(e)}")
-        except json.decoder.JSONDecodeError as e:
-            logger.exception(f"JSONDecodeError {str(e)}")
+        except (ConnectionError, JSONDecodeError):
+            logger.exception(f"Cannot get json for '{url}'")
 
         logger.error(f"Not a proper response from the flex store for {url}.")
         return None
