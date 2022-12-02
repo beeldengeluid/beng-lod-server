@@ -52,15 +52,8 @@ def validate_config(config, validate_file_paths=True):
             assert __check_setting(p, "ob_links", str, True), "PROFILE.ob_links"
             assert __check_setting(p, "default", bool, True), "PROFILE.default"
 
-        assert __check_setting(config, "LOG_DIR", str), "LOG_DIR"  # check file path
-
-        assert __check_setting(config, "LOG_NAME", str), "LOG_NAME"
-
-        assert __check_setting(config, "LOG_LEVEL_CONSOLE", str), "LOG_LEVEL_CONSOLE"
-        assert __check_log_level(config["LOG_LEVEL_CONSOLE"])
-
-        assert __check_setting(config, "LOG_LEVEL_FILE", str), "LOG_LEVEL_FILE"
-        assert __check_log_level(config["LOG_LEVEL_FILE"])
+        assert __check_setting(config, "LOG_LEVEL", str), "LOG_LEVEL"
+        assert __check_log_level(config["LOG_LEVEL"])
 
         assert __check_setting(config, "STORAGE_BASE_URL", str), "STORAGE_BASE_URL"
         assert validators.url(
@@ -108,9 +101,6 @@ def validate_config(config, validate_file_paths=True):
             assert __validate_file_paths(
                 file_paths_to_check
             ), "invalid  paths in configuration"
-            assert __validate_parent_dir(
-                config["LOG_DIR"]
-            ), "LOG_DIR parent dir does not exist"
 
     except AssertionError as e:
         print(f"Configuration error: {str(e)}")

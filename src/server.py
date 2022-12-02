@@ -17,7 +17,7 @@ app.config["GLOBAL_CACHE"] = {}  # just put the cache in here
 # logger = init_logger(app)
 # initialises the root logger
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=app.config["LOG_LEVEL"],
     stream=sys.stdout,  # configure a stream handler only for now (single handler)
     format=LOG_FORMAT,
 )

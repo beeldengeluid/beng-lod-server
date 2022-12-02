@@ -10,10 +10,7 @@ class Config(object):
 
     DEBUG = True
 
-    LOG_DIR = relative_from_repo_root("resources/log")
-    LOG_NAME = "beng-lod-server.log"
-    LOG_LEVEL_CONSOLE = "DEBUG"  # Levels: DEBUG - INFO - WARNING - ERROR - CRITICAL
-    LOG_LEVEL_FILE = "DEBUG"  # Levels: DEBUG - INFO - WARNING - ERROR - CRITICAL
+    LOG_LEVEL = "DEBUG"  # Levels: DEBUG - INFO - WARNING - ERROR - CRITICAL
 
     STORAGE_BASE_URL = "http://flexstore.beng.nl:1234"
 
