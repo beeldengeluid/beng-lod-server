@@ -26,14 +26,10 @@ class DataCatalogLODHandler:
         """Get data catalog triples from the sparql endpoint."""
         logger.info(f"Getting data catalog triples from '{sparql_endpoint}'")
         query = (
-            """
-            CONSTRUCT { ?sub ?pred ?obj }
-            WHERE {
-                GRAPH <%s> { ?sub ?pred ?obj }
-            }
-        """
+            "CONSTRUCT { ?sub ?pred ?obj } WHERE { GRAPH <%s> { ?sub ?pred ?obj } }"
             % catalog_graph
         )
+
         logger.debug(f"Sending query '{query}'")
         graph = sparql_construct_query(sparql_endpoint, query)
         return graph
