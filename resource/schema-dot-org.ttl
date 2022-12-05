@@ -35,6 +35,11 @@ sdo:additionalType rdf:type rdf:Property ;
                 rdfs:domain sdo:Thing ;
                 rdfs:range sdo:URL .
 
+###  https://schema.org/alternativeHeadline
+sdo:alternativeHeadline rdf:type rdf:Property ;
+                rdfs:domain sdo:CreativeWork ;
+                rdfs:range xsd:string .
+
 ###  https://schema.org/associatedMedia
 sdo:associatedMedia rdf:type rdf:Property ;
                 rdfs:domain sdo:Thing ;
@@ -70,10 +75,25 @@ sdo:hasPart rdf:type rdf:Property ;
                 rdfs:domain sdo:CreativeWork ;
                 rdfs:range sdo:Clip .
 
+###  https://schema.org/identifier
+sdo:identifier rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range xsd:string .
+
+###  https://schema.org/inLanguage
+sdo:inLanguage rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range xsd:string .
+
 ###  https://schema.org/location
 sdo:location rdf:type rdf:Property ;
                 rdfs:domain sdo:Thing ;
                 rdfs:range sdo:Place .
+
+###  https://schema.org/locationCreated  # used for recording location
+sdo:locationCreated rdf:type rdf:Property ;
+                rdfs:domain sdo:Thing ;
+                rdfs:range xsd:string .  # according to sdo this should be sdo:Place, but we only have a string for now
 
 ###  https://schema.org/mainEntityOfPage
 sdo:mainEntityOfPage rdf:type rdf:Property ;
@@ -105,6 +125,21 @@ sdo:productionCompany rdf:type rdf:Property ;
 sdo:publisher rdf:type rdf:Property ;
                 rdfs:domain sdo:Thing ;
                 rdfs:range sdo:Thing .  # can be Person or Organization for us
+
+###  https://schema.org/provider  # used for broadcaster
+sdo:provider rdf:type rdf:Property ;
+                rdfs:domain sdo:CreativeWork ;
+                rdfs:range sdo:Organization .
+
+###  https://schema.org/recordedAt  # used for event
+sdo:recordedAt rdf:type rdf:Property ;
+                rdfs:domain sdo:CreativeWork ;
+                rdfs:range xsd:string .  # we only have a name for the event, no ID
+
+###  https://schema.org/roleName
+sdo:roleName rdf:type rdf:Property ;
+                rdfs:domain sdo:Role ;
+                rdfs:range xsd:string .
 
 ###  https://schema.org/url
 sdo:url rdf:type rdf:Property ;
