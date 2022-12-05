@@ -71,7 +71,7 @@ def test_get_storage_record__ob_scene_payload(application_settings, i_ob_scene_p
         g.parse(data=resp, format=mt.to_ld_format())
 
         # test for number of triples
-        assert len(g) == 36
+        assert len(g) == 31
 
         # test for existence of some triples
         type_triple = (
