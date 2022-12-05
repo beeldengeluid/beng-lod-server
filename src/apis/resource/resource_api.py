@@ -193,8 +193,8 @@ class ResourceAPI(Resource):
         )
         if rdf_graph:
             logger.info(
-                f"A valid graph ({len(rdf_graph)} triples) was retrieved from the RDF store.",
-                "Returning a rendered HTML template 'resource.html'.",
+                f"A valid graph ({len(rdf_graph)} triples) was retrieved from the RDF store. "
+                "Returning a rendered HTML template 'resource.html'."
             )
             return render_template(
                 "resource.html",
