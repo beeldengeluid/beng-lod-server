@@ -357,9 +357,7 @@ class SDORdfConcept(BaseRdfConcept):
                     )
                 )
 
-    def __get_role(
-            self, used_path, payload
-    ):
+    def __get_role(self, used_path, payload):
         """Searches in the concept_metadata for a role. If one is found, returns it, otherwise returns None"""
 
         # look two steps higher to get all the metadata of the thesaurus item
@@ -533,7 +531,10 @@ class SDORdfConcept(BaseRdfConcept):
                         )
                     )
 
-                elif property_description["range"] in self._model.XSD_TYPES and property_uri != self._model.IDENTIFIER:
+                elif (
+                    property_description["range"] in self._model.XSD_TYPES
+                    and property_uri != self._model.IDENTIFIER
+                ):
                     # add the new payload as the value
                     self.graph.add(
                         (
@@ -580,8 +581,9 @@ class SDORdfConcept(BaseRdfConcept):
 
                     if role:
                         # add it to the role node
-                        self.graph.add((role_node, self._model.ROLE_NAME,
-                                        Literal(role, lang="nl")))
+                        self.graph.add(
+                            (role_node, self._model.ROLE_NAME, Literal(role, lang="nl"))
+                        )
 
                     # add the appropriate role type for the property.
                     if (
@@ -601,9 +603,10 @@ class SDORdfConcept(BaseRdfConcept):
                     # link the concept node to the role node
                     self.graph.add((role_node, URIRef(property_uri), concept_node))
 
-                elif ("additionalType" in property_description and property_description[
-                    "additionalType"
-                ] == str(SKOS.Concept)) or URIRef(property_uri) == self._model.IDENTIFIER:
+                elif (
+                    "additionalType" in property_description
+                    and property_description["additionalType"] == str(SKOS.Concept)
+                ) or URIRef(property_uri) == self._model.IDENTIFIER:
                     # In these cases, we have a class as range, but only a simple value in DAAN, as we want
                     # to model a label from DAAN with a skos:Concept in the RDF
                     # create a node for the skos concept
@@ -635,7 +638,9 @@ class SDORdfConcept(BaseRdfConcept):
                                 )
                             )
                     else:
-                        self.graph.add((parent_node, URIRef(property_uri), concept_node))
+                        self.graph.add(
+                            (parent_node, URIRef(property_uri), concept_node)
+                        )
 
                 else:
                     # we have a class as range
