@@ -32,7 +32,7 @@ class NISVRdfConcept(BaseRdfConcept):
         # use a default namespace
         self.cache = cache
         self.graph.namespace_manager.bind(
-            "sdo", Namespace(self._model.NISV_SCHEMA_NAMESPACE)
+            "nisv", Namespace(self._model.NISV_SCHEMA_NAMESPACE)
         )
         self.profile = profile
         if "schema" not in self.profile or "mapping" not in self.profile:
