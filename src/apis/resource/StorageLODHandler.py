@@ -88,11 +88,11 @@ class StorageLODHandler:
         :returns: the data or None
         """
         try:
-            logger.info(f"Get data from the flex store for {url}.")
+            logger.info(f"Getting data from the flex store for '{url}'.")
             resp = requests.get(url)
             resp.raise_for_status()
             if resp.status_code == 200:
-                logger.debug(resp.text)
+                logger.info(f"Succesfully got data from flex store for '{url}'")
                 return json.loads(resp.text)
         except (ConnectionError, JSONDecodeError):
             logger.exception(f"Cannot get json for '{url}'")
