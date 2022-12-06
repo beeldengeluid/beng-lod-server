@@ -88,13 +88,15 @@ class SDORdfConcept(BaseRdfConcept):
             return None
 
         # get the necessary metadata values to determine the right statuses
-        rights_license = self._get_metadata_value(payload, "nisv.rightslicense")
+        rights_license = BaseRdfConcept._get_metadata_value(
+            payload, "nisv.rightslicense"
+        )
         status = rights_license.get("resolved_value")
-        iprcombined = self._get_metadata_value(payload, "nisv.iprcombined")
+        iprcombined = BaseRdfConcept._get_metadata_value(payload, "nisv.iprcombined")
         iprc = (
             iprcombined.get("resolved_value") if isinstance(iprcombined, dict) else None
         )
-        ethicalprivatecombined = self._get_metadata_value(
+        ethicalprivatecombined = BaseRdfConcept._get_metadata_value(
             payload, "nisv.ethicalprivatecombined"
         )
         epc = (
@@ -102,7 +104,7 @@ class SDORdfConcept(BaseRdfConcept):
             if isinstance(ethicalprivatecombined, dict)
             else None
         )
-        collection_group_list = self._get_metadata_value(
+        collection_group_list = BaseRdfConcept._get_metadata_value(
             payload, "nisv.collectionsgroup"
         )
         collection_group = ""
@@ -118,7 +120,9 @@ class SDORdfConcept(BaseRdfConcept):
                 else None
             )
 
-        license_condition = self._get_metadata_value(payload, "nisv.licensecondition")
+        license_condition = BaseRdfConcept._get_metadata_value(
+            payload, "nisv.licensecondition"
+        )
         cc_value = (
             license_condition.get("resolved_value")
             if isinstance(license_condition, dict)
@@ -359,7 +363,8 @@ class SDORdfConcept(BaseRdfConcept):
                     )
                 )
 
-    def __get_role(self, used_path: str, payload: dict):
+    @staticmethod
+    def _get_role(used_path: str, payload: dict):
         """Searches in the concept_metadata for a role. If one is found, returns it, otherwise returns None
         :param used_path - the path in the json that was used to find the name of the entity for which we are trying
         to find a role
@@ -369,17 +374,28 @@ class SDORdfConcept(BaseRdfConcept):
         # look two steps higher to get all the metadata of the thesaurus item
         concept_metadata = []
         role_field = ""
-        if "," in used_path:
-            class_path = ",".join(used_path.split(",")[:-2])
-            concept_metadata = self._get_metadata_value(payload, class_path)
+        if "," not in used_path:
+            logger.debug(
+                f"Path {used_path} has no higher levels, cannot search for Role"
+            )
+            return None
 
-            # the value could be a list, so make sure it always is so can treat everything the same way
-            if type(concept_metadata) is not list:
-                concept_metadata = [concept_metadata]
+        path_parts = used_path.split(",")
+
+        if len(path_parts) < 3:
+            logger.debug(f"Path {used_path} is not long enough, cannot search for Role")
+            return None
+
+        class_path = ",".join(path_parts[:-2])
+        concept_metadata = BaseRdfConcept._get_metadata_value(payload, class_path)
+
+        # the value could be a list, so make sure it always is so can treat everything the same way
+        if type(concept_metadata) is not list:
+            concept_metadata = [concept_metadata]
 
         # in flexstore, fields have prefixes. E.g. 'crew.name' and 'crew.role'.  To get the role field, we take
         # the name field and replace 'name' with 'role
-        name_metadata_field = used_path.split(",")[-2].strip()
+        name_metadata_field = path_parts[-2].strip()
         if "name" in name_metadata_field:
             role_field = name_metadata_field.replace("name", "role")
 
@@ -401,7 +417,7 @@ class SDORdfConcept(BaseRdfConcept):
         concept_metadata = []
         if "," in used_path:
             class_path = ",".join(used_path.split(",")[:-1])
-            concept_metadata = self._get_metadata_value(payload, class_path)
+            concept_metadata = BaseRdfConcept._get_metadata_value(payload, class_path)
 
             # the value could be a list, so make sure it always is so can treat everything the same way
             if type(concept_metadata) is not list:
@@ -469,7 +485,7 @@ class SDORdfConcept(BaseRdfConcept):
             property_payload = []
             used_paths = []
             for path in property_description["paths"]:
-                new_payload = self._get_metadata_value(payload, path)
+                new_payload = BaseRdfConcept._get_metadata_value(payload, path)
                 if new_payload:
                     if type(new_payload) is list:
                         for payload_item in new_payload:
@@ -583,7 +599,7 @@ class SDORdfConcept(BaseRdfConcept):
                     self.graph.add((parent_node, URIRef(property_uri), role_node))
 
                     # try to get more detailed role information
-                    role = self.__get_role(used_path, payload)
+                    role = SDORdfConcept._get_role(payload, used_path)
 
                     if role:
                         # add it to the role node

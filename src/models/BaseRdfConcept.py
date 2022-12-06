@@ -135,8 +135,8 @@ class BaseRdfConcept:
             return self._schema.get_classes()
         return None
 
-    # noinspection PyMethodMayBeStatic
-    def _get_metadata_value(self, metadata, metadata_field):
+    @staticmethod
+    def _get_metadata_value(metadata, metadata_field):
         """Gets the value of the metadata field from the JSON metadata.
         :param: metadata: JSON metadata
         :param: metadata_field, the name of the field to retrieve the value for.

@@ -102,7 +102,7 @@ class NISVRdfConcept(BaseRdfConcept):
             new_payload = None
             used_path = None
             for path in rdfProperty["paths"]:
-                new_payload = self._get_metadata_value(payload, path)
+                new_payload = BaseRdfConcept._get_metadata_value(payload, path)
                 used_path = path
                 if new_payload:
                     break
@@ -137,7 +137,9 @@ class NISVRdfConcept(BaseRdfConcept):
                     concept_metadata = []
                     if "," in used_path:
                         class_path = ",".join(used_path.split(",")[:-1])
-                        concept_metadata = self._get_metadata_value(payload, class_path)
+                        concept_metadata = BaseRdfConcept._get_metadata_value(
+                            payload, class_path
+                        )
 
                         # the value could be a list, so make sure it always is so can treat everything the same way
                         if type(concept_metadata) is not list:
