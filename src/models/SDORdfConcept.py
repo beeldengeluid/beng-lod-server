@@ -359,8 +359,12 @@ class SDORdfConcept(BaseRdfConcept):
                     )
                 )
 
-    def __get_role(self, used_path, payload):
-        """Searches in the concept_metadata for a role. If one is found, returns it, otherwise returns None"""
+    def __get_role(self, used_path: str, payload: dict):
+        """Searches in the concept_metadata for a role. If one is found, returns it, otherwise returns None
+        :param used_path - the path in the json that was used to find the name of the entity for which we are trying
+        to find a role
+        :param payload - the metadata of the series/season/program/scene description
+        :returns the role name (string), or None if no role is found"""
 
         # look two steps higher to get all the metadata of the thesaurus item
         concept_metadata = []
