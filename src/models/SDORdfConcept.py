@@ -657,6 +657,10 @@ class SDORdfConcept(BaseRdfConcept):
                                     Literal(new_payload_item, lang="nl"),
                                 )
                             )
+                            # link to the parent with the property uri
+                            self.graph.add(
+                                (parent_node, URIRef(property_uri), concept_node)
+                            )
                     else:
                         self.graph.add(
                             (parent_node, URIRef(property_uri), concept_node)
