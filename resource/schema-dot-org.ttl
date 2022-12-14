@@ -93,7 +93,7 @@ sdo:location rdf:type rdf:Property ;
 ###  https://schema.org/locationCreated  # used for recording location
 sdo:locationCreated rdf:type rdf:Property ;
                 rdfs:domain sdo:Thing ;
-                rdfs:range xsd:string .  # according to sdo this should be sdo:Place, but we only have a string for now
+                rdfs:range sdo:Place .
 
 ###  https://schema.org/mainEntityOfPage
 sdo:mainEntityOfPage rdf:type rdf:Property ;
@@ -134,7 +134,7 @@ sdo:provider rdf:type rdf:Property ;
 ###  https://schema.org/recordedAt  # used for event
 sdo:recordedAt rdf:type rdf:Property ;
                 rdfs:domain sdo:CreativeWork ;
-                rdfs:range xsd:string .  # we only have a name for the event, no ID
+                rdfs:range sdo:Event .
 
 ###  https://schema.org/roleName
 sdo:roleName rdf:type rdf:Property ;
@@ -218,6 +218,11 @@ sdo:CreativeWorkSeason rdf:type rdfs:Class ;
 ###  https://schema.org/CreativeWorkSeries
 sdo:CreativeWorkSeries rdf:type rdfs:Class ;
              rdfs:subClassOf sdo:CreativeWork .
+
+###  https://schema.org/Event
+sdo:Event rdf:type rdfs:Class ;
+             rdfs:subClassOf sdo:Thing ;
+             sdo:additionalType skos:Concept .
 
 ###  https://schema.org/ImageObject
 sdo:ImageObject rdf:type rdfs:Class ;
