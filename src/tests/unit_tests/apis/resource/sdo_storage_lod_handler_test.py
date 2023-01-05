@@ -4,7 +4,7 @@ from copy import deepcopy
 from lxml import etree
 from mockito import when, unstub
 from rdflib import Graph, URIRef
-from rdflib.namespace import RDF
+from rdflib.namespace import RDF, SDO
 from rdflib.plugin import PluginException
 from models.SDORdfConcept import SDORdfConcept
 from apis.mime_type_util import MimeType
@@ -71,26 +71,28 @@ def test_get_storage_record__ob_scene_payload(application_settings, i_ob_scene_p
         g.parse(data=resp, format=mt.to_ld_format())
 
         # test for number of triples
-        assert len(g) == 31
+        assert len(g) == 36
 
         # test for existence of some triples
         type_triple = (
             URIRef("http://data.beeldengeluid.nl/id/scene/2101703040124290024"),
             RDF.type,
-            URIRef("https://schema.org/Clip"),
+            SDO.Clip,
         )
         assert type_triple in g
 
         license_triple = (
             URIRef("http://data.beeldengeluid.nl/id/scene/2101703040124290024"),
-            URIRef("https://schema.org/license"),
+            SDO.license,
             URIRef("http://rightsstatements.org/vocab/CNE/1.0/"),
         )
+        print(license_triple)
+        print(g)
         assert license_triple in g
 
         ob_uri_triple = (
             URIRef("http://data.beeldengeluid.nl/id/scene/2101703040124290024"),
-            URIRef("https://schema.org/mainEntityOfPage"),
+            SDO.mainEntityOfPage,
             URIRef("https://www.openbeelden.nl/media/1253547"),
         )
         assert ob_uri_triple in g
