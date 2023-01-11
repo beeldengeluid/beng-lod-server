@@ -187,23 +187,16 @@ def test_storage_2_lod(sdo_storage_lod_handler, storage_url, return_mime_type):
         serialized_data = sdo_storage_lod_handler._storage_2_lod(
             storage_url, return_mime_type.value
         )
+        assert type(serialized_data) == str
         if return_mime_type == MimeType.JSON_LD:
             json_data = json.loads(serialized_data)
-            assert type(serialized_data) == str
             assert type(json_data) == dict
         elif return_mime_type == MimeType.RDF_XML:
-            assert type(serialized_data) == str
             assert XML_ENCODING_DECLARATION in serialized_data
             root = etree.fromstring(
                 serialized_data.replace(XML_ENCODING_DECLARATION, "")
             )
             assert type(root) == etree._Element
-        elif return_mime_type == MimeType.TURTLE:
-            assert type(serialized_data) == str
-        elif return_mime_type == MimeType.N_TRIPLES:
-            assert type(serialized_data) == str
-        elif return_mime_type == MimeType.N3:
-            assert type(serialized_data) == str
     except PluginException:  # MimeType.JSON is not supported by rdflib
         assert return_mime_type == MimeType.JSON
     finally:
