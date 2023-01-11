@@ -27,7 +27,6 @@ module = [
   "flask_restx",
   "flask",
   "importer.*",
-  "lxml.*",
   "mockito",
   "models.*",
   "numpy",
