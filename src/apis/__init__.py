@@ -8,7 +8,7 @@ from .gtaa.gtaa_api import api as gtaa_api
 try:
     from config.settings import Config  # fails in unit test
 except ImportError:
-    from config.settings_example import Config
+    from config.settings_example import Config  # type: ignore
 
 apiVersion = "v0.3"
 base_path = "/"

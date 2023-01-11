@@ -33,7 +33,7 @@ XML_ENCODING_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>'
 
 
 @pytest.fixture
-def data_catalog_lod_handler(application_settings) -> DataCatalogLODHandler:
+def data_catalog_lod_handler(application_settings):
     yield DataCatalogLODHandler(application_settings)
 
 
