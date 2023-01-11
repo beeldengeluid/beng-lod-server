@@ -9,7 +9,7 @@ select =
     # B950: bugbear max-linelength warning
     # as suggested in the black docs
     # https://github.com/psf/black/blob/d038a24ca200da9dacc1dcb05090c9e5b45b7869/docs/the_black_code_style/current_style.md#line-length
-    B950,
+    # B950,
 
     # C: currently only C901, mccabe code complexity
     C,
@@ -24,6 +24,11 @@ select =
     W,
 
 extend-ignore =
+    # B950: bugbear max-linelength warning
+    # this was supposed to be selected (see above) but wasn't in practice.
+    # disable it for now to avoid reformatting the whole project.
+    B950,
+
     # E203: pycodestyle's "whitespace before ',', ';' or ':'" error
     # ignored as suggested in the black docs
     # https://github.com/psf/black/blob/d038a24ca200da9dacc1dcb05090c9e5b45b7869/docs/the_black_code_style/current_style.md#slices
