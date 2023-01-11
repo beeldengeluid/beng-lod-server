@@ -1,7 +1,5 @@
 import pytest
-import json
 from copy import deepcopy
-from lxml import etree
 from mockito import when, unstub
 from rdflib import Graph, URIRef
 from rdflib.namespace import RDF, SDO
@@ -11,7 +9,6 @@ from apis.mime_type_util import MimeType
 from apis.resource.SDOStorageLODHandler import SDOStorageLODHandler
 
 
-XML_ENCODING_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>'
 DUMMY_LEVEL = "program"
 SDO_PROFILE = "https://schema.org/"
 DUMMY_STORAGE_BASE_URL = "http://flexstore:1234"
@@ -188,15 +185,9 @@ def test_storage_2_lod(sdo_storage_lod_handler, storage_url, return_mime_type):
             storage_url, return_mime_type.value
         )
         assert type(serialized_data) == str
-        if return_mime_type == MimeType.JSON_LD:
-            json_data = json.loads(serialized_data)
-            assert type(json_data) == dict
-        elif return_mime_type == MimeType.RDF_XML:
-            assert XML_ENCODING_DECLARATION in serialized_data
-            root = etree.fromstring(
-                serialized_data.replace(XML_ENCODING_DECLARATION, "")
-            )
-            assert type(root) == etree._Element
+
+        # test deserialisation (includes json, xml parsing)
+        Graph().parse(data=serialized_data, format=return_mime_type.value)
     except PluginException:  # MimeType.JSON is not supported by rdflib
         assert return_mime_type == MimeType.JSON
     finally:
