@@ -15,7 +15,7 @@ types-requests = "==2.28.11.7"
 types-flask-cors = "==3.0.10"
 
 [packages]
-lxml = "==4.9.1"
+lxml = "==4.9.2"
 Flask-Cors = "==3.0.10"
 requests = "==2.28.1"
 rdflib = "==6.2.0"
