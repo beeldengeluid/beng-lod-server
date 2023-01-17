@@ -12,7 +12,7 @@ black = "==22.12.0"
 flake8-bugbear = "==22.12.6"
 mypy = "==0.991"
 types-requests = "==2.28.11.7"
-types-flask-cors = "==3.0.10"
+types-flask-cors = "==3.0.10.1"
 
 [packages]
 lxml = "==4.9.1"
