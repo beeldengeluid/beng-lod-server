@@ -517,8 +517,7 @@ class SDORdfConcept(BaseRdfConcept):
                         )
                     )
                 elif (
-                    property_description["range"] in self._model.ROLE_TYPES
-                    or property_uri == self._model.MENTIONS
+                    property_uri in SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES
                 ):
                     # In these cases, we have a person or organisation linked via a role,
                     # so we first need to create a node for the  person or organisation
@@ -547,20 +546,16 @@ class SDORdfConcept(BaseRdfConcept):
                     # link the role node to the parent node
                     self.graph.add((parent_node, URIRef(property_uri), role_node))
 
-                    # add the appropriate role type for the property.
-                    if (
-                        URIRef(property_uri)
-                        in SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES
-                    ):
-                        self.graph.add(
-                            (
-                                role_node,
-                                RDF.type,
-                                SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES[
-                                    URIRef(property_uri)
-                                ],
-                            )
+                    # add the appropriate role type
+                    self.graph.add(
+                        (
+                            role_node,
+                            RDF.type,
+                            SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES[
+                                URIRef(property_uri)
+                            ],
                         )
+                    )
 
                     # link the concept node to the role node
                     self.graph.add((role_node, URIRef(property_uri), concept_node))
@@ -589,28 +584,7 @@ class SDORdfConcept(BaseRdfConcept):
                             )
                         )
 
-                    # create a blank node for the role
-                    role_node = BNode()
-                    # link the role node to the parent node
-                    self.graph.add((parent_node, URIRef(property_uri), role_node))
-
-                    # add the appropriate role type for the property.
-                    if (
-                        URIRef(property_uri)
-                        in SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES
-                    ):
-                        self.graph.add(
-                            (
-                                role_node,
-                                RDF.type,
-                                SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES[
-                                    URIRef(property_uri)
-                                ],
-                            )
-                        )
-
-                    # link the concept node to the role node
-                    self.graph.add((role_node, URIRef(property_uri), concept_node))
+                    self.graph.add((parent_node, URIRef(property_uri), concept_node))
 
                 else:
                     # we have a class as range
