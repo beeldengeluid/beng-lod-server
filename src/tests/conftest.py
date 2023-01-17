@@ -4,6 +4,9 @@ import os
 import pytest
 from lxml import etree
 
+from apis.resource import DAANStorageLODHandler, SDOStorageLODHandler
+from util.base_util import relative_from_repo_root
+
 
 def get_active_profile(app):
     def_profile = app.config["PROFILES"][0]
@@ -172,3 +175,31 @@ def generic_client(http_test_client, flask_test_client):
                 return http_test_client.get(path)
 
     return GenericClient()
+
+
+@pytest.fixture(scope="function")
+def sdo_rdf_profile():
+    profile = {
+        "title": "NISV Catalogue using schema.org ontology",
+        "uri": "https://schema.org/",
+        "prefix": "sdo",  # based on @prefix sdo: <https://schema.org/> .
+        "schema": relative_from_repo_root("resource/schema-dot-org.ttl"),
+        "mapping": relative_from_repo_root("resource/daan-mapping-schema-org.ttl"),
+        "storage_handler": SDOStorageLODHandler,
+        "ob_links": relative_from_repo_root("resource/ob_link_matches.json"),
+        "default": True,  # this profile is loaded in memory by default
+    }
+    yield profile
+
+
+@pytest.fixture(scope="function")
+def nisv_rdf_profile():
+    profile = {
+        "title": "NISV Catalogue schema",
+        "uri": "http://data.rdlabs.beeldengeluid.nl/schema/",
+        "prefix": "nisv",  # based on @prefix nisv: <http://data.rdlabs.beeldengeluid.nl/schema/> .
+        "schema": relative_from_repo_root("resource/bengSchema.ttl"),
+        "mapping": relative_from_repo_root("resource/daan-mapping-storage.ttl"),
+        "storage_handler": DAANStorageLODHandler,
+    }
+    yield profile
