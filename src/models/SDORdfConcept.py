@@ -1,3 +1,4 @@
+from typing import Optional
 import logging
 import json
 import models.SDORdfModel as SDORdfModel
@@ -364,7 +365,7 @@ class SDORdfConcept(BaseRdfConcept):
                 )
 
     @staticmethod
-    def _get_role(used_path: str, payload: dict):
+    def _get_role(used_path: str, payload: dict) -> Optional[str]:
         """Searches in the concept_metadata for a role. If one is found, returns it, otherwise returns None
         :param used_path - the path in the json that was used to find the name of the entity for which we are trying
         to find a role
