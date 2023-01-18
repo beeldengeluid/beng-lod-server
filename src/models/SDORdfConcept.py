@@ -9,6 +9,7 @@ from models.DAANJsonModel import (
     DAAN_PAYLOAD,
     ObjectType,
 )
+import validators
 from rdflib.namespace import RDF, RDFS, SKOS, SDO
 from rdflib import URIRef, Literal, BNode
 from util.APIUtil import APIUtil
@@ -30,7 +31,7 @@ class SDORdfConcept(BaseRdfConcept):
         self.cache = cache
         self._schema = self.get_scheme()
         self._classes = self._schema.get_classes()
-        self.information_dictionary = self.get_information_directory()
+        self.open_beelden_matches = self.get_open_beelden_matches()
 
         err_msg = "Error while loading the schema classes and properties"
         assert self._classes is not None, APIUtil.raiseDescriptiveValueError(
@@ -54,19 +55,10 @@ class SDORdfConcept(BaseRdfConcept):
                 (self.itemNode, URIRef(self._model.URL), URIRef(self.landing_page))
             )
 
-        # add links from Open Beelden, via media objects
-        links, website = self.get_open_beelden_information(metadata["id"])
-        if links is not None:
-            for link in links:
-                self.__add_media_object(link)
-        if website is not None:
-            self.graph.add(
-                (
-                    self.itemNode,
-                    URIRef(self._model.IS_MAIN_ENTITY_OF_PAGE),
-                    URIRef(website),
-                )
-            )
+        # add the open beelden links if we have a match
+        open_beelden_match = self.open_beelden_matches.get(metadata["id"])
+        if open_beelden_match is not None:
+            self.__add_open_beelden_links(open_beelden_match)
 
         # add the publisher triple
         self.graph.add(
@@ -254,7 +246,7 @@ class SDORdfConcept(BaseRdfConcept):
             return sdo_scheme
 
     # use a simple in-memory cache
-    def get_information_directory(self, cache_key="ob_links"):
+    def get_open_beelden_matches(self, cache_key="ob_links"):
         if cache_key in self.cache:
             logger.debug("GOT THE ob_links FROM CACHE")
             return self.cache[cache_key]
@@ -265,13 +257,23 @@ class SDORdfConcept(BaseRdfConcept):
                 self.cache[cache_key] = ob_data
                 return ob_data
 
-    def get_open_beelden_information(self, item_id):
-        links = None
-        website = None
-        if item_id in self.information_dictionary:
-            links = self.information_dictionary[item_id]["content_links"]
-            website = self.information_dictionary[item_id]["website"]
-        return links, website
+    def __add_open_beelden_links(self, open_beelden_match):
+        # add triple pointing to website
+        website = open_beelden_match.get("website", "")
+        if validators.url(website):
+            self.graph.add(
+                (
+                    self.itemNode,
+                    URIRef(self._model.IS_MAIN_ENTITY_OF_PAGE),
+                    URIRef(website),
+                )
+            )
+
+        # add content links
+        content_links = open_beelden_match.get("content_links", [])
+        for content_link in content_links:
+            if validators.url(content_link):
+                self.__add_media_object(content_link)
 
     def __add_media_object(self, content_url):
         """Adds a media object to the RDF item, and links it to the content_url via the media object"""
