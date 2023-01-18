@@ -11,6 +11,5 @@ def nisv_rdf_concept(i_dmapi_program, nisv_rdf_profile):
     yield NISVRdfConcept(metadata, content_type, nisv_rdf_profile, cache)
 
 
-@pytest.mark.xfail(reason="bug needs to be fixed first (#347)")
 def test_init(nisv_rdf_concept):
     assert isinstance(nisv_rdf_concept, NISVRdfConcept)
