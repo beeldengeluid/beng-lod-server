@@ -2,7 +2,6 @@ from flask import Flask
 import json
 import os
 import pytest
-from lxml import etree
 
 from apis.resource import DAANStorageLODHandler, SDOStorageLODHandler
 from util.base_util import relative_from_repo_root
@@ -70,19 +69,6 @@ def open_file():
         return None
 
     return return_contents_of_file
-
-
-@pytest.fixture(scope="module")
-def etree_parse_doc():
-    """Returns the ElementTree resulting form parsing the XML document."""
-
-    def parse(test_path, fn):
-        full_path = os.path.join(os.path.dirname(test_path), fn)
-        if os.path.exists(full_path):
-            return etree.parse(full_path)
-        return None
-
-    return parse
 
 
 """------------------------ APPLICATION SETTINGS (VALID) ----------------------"""

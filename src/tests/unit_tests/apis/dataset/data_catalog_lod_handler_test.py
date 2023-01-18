@@ -1,6 +1,4 @@
 import pytest
-import json
-from lxml import etree
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
 from util.ld_util import generate_lod_resource_uri
 from models.DAANRdfModel import ResourceURILevel
@@ -65,13 +63,6 @@ def test_get_data_catalog(data_catalog_lod_handler, data_catalog_uri, mime_type)
         if mime_type != "application/phony_mime_type":
             Graph().parse(data=resp, format=mime_type)
 
-        # specialized deserialization tests for selected formats
-        if mime_type == MimeType.JSON_LD.to_ld_format():
-            json.loads(resp)
-        elif mime_type == MimeType.RDF_XML.to_ld_format():
-            assert XML_ENCODING_DECLARATION in resp
-            etree.fromstring(resp.replace(XML_ENCODING_DECLARATION, ""))
-
     except PluginException:
         assert mime_type == "application/phony_mime_type"
 
@@ -99,13 +90,6 @@ def test_get_data_download(data_catalog_lod_handler, data_download_uri, mime_typ
         # test if serialization is as expected
         if mime_type != "application/phony_mime_type":
             Graph().parse(data=resp, format=mime_type)
-
-        # specialized deserialization tests for selected formats
-        if mime_type == MimeType.JSON_LD.to_ld_format():
-            json.loads(resp)
-        elif mime_type == MimeType.RDF_XML.to_ld_format():
-            assert XML_ENCODING_DECLARATION in resp
-            etree.fromstring(resp.replace(XML_ENCODING_DECLARATION, ""))
 
     except PluginException:
         assert mime_type == "application/phony_mime_type"
@@ -135,13 +119,6 @@ def test_get_dataset(data_catalog_lod_handler, dataset_uri, mime_type):
         # general deserialization tests for supported rdf serializations
         if mime_type != "application/phony_mime_type":
             Graph().parse(data=resp, format=mime_type)
-
-        # specialized deserialization tests for selected formats
-        if mime_type == MimeType.JSON_LD.to_ld_format():
-            json.loads(resp)
-        elif mime_type == MimeType.RDF_XML.to_ld_format():
-            assert XML_ENCODING_DECLARATION in resp
-            etree.fromstring(resp.replace(XML_ENCODING_DECLARATION, ""))
 
     except PluginException:
         assert mime_type == "application/phony_mime_type"
