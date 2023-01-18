@@ -549,9 +549,7 @@ class SDORdfConcept(BaseRdfConcept):
                         (
                             role_node,
                             RDF.type,
-                            SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES[
-                                property_uri
-                            ],
+                            SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES[property_uri],
                         )
                     )
 
