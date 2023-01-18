@@ -516,9 +516,7 @@ class SDORdfConcept(BaseRdfConcept):
                             ),
                         )
                     )
-                elif (
-                    property_uri in SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES
-                ):
+                elif property_uri in SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES:
                     # In these cases, we have a person or organisation linked via a role,
                     # so we first need to create a node for the  person or organisation
                     # then we need to create a node for the role
