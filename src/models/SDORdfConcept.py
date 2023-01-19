@@ -470,7 +470,7 @@ class SDORdfConcept(BaseRdfConcept):
                             self.graph.add(
                                 (
                                     parent_node,
-                                    URIRef(property_uri),
+                                    property_uri,
                                     Literal(media_material),
                                 )
                             )
@@ -483,7 +483,7 @@ class SDORdfConcept(BaseRdfConcept):
                         if license_url is not None:
                             # add the URI for the rights statement or license
                             self.graph.add(
-                                (parent_node, URIRef(property_uri), URIRef(license_url))
+                                (parent_node, property_uri, URIRef(license_url))
                             )
                     except NotImplementedError as e:
                         print(str(e))
@@ -500,7 +500,7 @@ class SDORdfConcept(BaseRdfConcept):
                     self.graph.add(
                         (
                             parent_node,
-                            URIRef(property_uri),
+                            property_uri,
                             Literal(
                                 access_text, datatype=property_description["range"]
                             ),
@@ -512,16 +512,13 @@ class SDORdfConcept(BaseRdfConcept):
                     self.graph.add(
                         (
                             parent_node,
-                            URIRef(property_uri),
+                            property_uri,
                             Literal(
                                 new_payload_item, datatype=property_description["range"]
                             ),
                         )
                     )
-                elif (
-                    property_description["range"] in self._model.ROLE_TYPES
-                    or property_uri == self._model.MENTIONS
-                ):
+                elif property_uri in SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES:
                     # In these cases, we have a person or organisation linked via a role,
                     # so we first need to create a node for the  person or organisation
                     # then we need to create a node for the role
@@ -547,25 +544,19 @@ class SDORdfConcept(BaseRdfConcept):
                     # create a blank node for the role
                     role_node = BNode()
                     # link the role node to the parent node
-                    self.graph.add((parent_node, URIRef(property_uri), role_node))
+                    self.graph.add((parent_node, property_uri, role_node))
 
-                    # add the appropriate role type for the property.
-                    if (
-                        URIRef(property_uri)
-                        in SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES
-                    ):
-                        self.graph.add(
-                            (
-                                role_node,
-                                RDF.type,
-                                SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES[
-                                    URIRef(property_uri)
-                                ],
-                            )
+                    # add the appropriate role type
+                    self.graph.add(
+                        (
+                            role_node,
+                            RDF.type,
+                            SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES[property_uri],
                         )
+                    )
 
                     # link the concept node to the role node
-                    self.graph.add((role_node, URIRef(property_uri), concept_node))
+                    self.graph.add((role_node, property_uri, concept_node))
 
                 elif "additionalType" in property_description and property_description[
                     "additionalType"
@@ -591,28 +582,7 @@ class SDORdfConcept(BaseRdfConcept):
                             )
                         )
 
-                    # create a blank node for the role
-                    role_node = BNode()
-                    # link the role node to the parent node
-                    self.graph.add((parent_node, URIRef(property_uri), role_node))
-
-                    # add the appropriate role type for the property.
-                    if (
-                        URIRef(property_uri)
-                        in SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES
-                    ):
-                        self.graph.add(
-                            (
-                                role_node,
-                                RDF.type,
-                                SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES[
-                                    URIRef(property_uri)
-                                ],
-                            )
-                        )
-
-                    # link the concept node to the role node
-                    self.graph.add((role_node, URIRef(property_uri), concept_node))
+                    self.graph.add((parent_node, property_uri, concept_node))
 
                 else:
                     # we have a class as range
@@ -622,7 +592,7 @@ class SDORdfConcept(BaseRdfConcept):
                         (blank_node, RDF.type, URIRef(property_description["range"]))
                     )
                     self.graph.add(
-                        (parent_node, URIRef(property_uri), blank_node)
+                        (parent_node, property_uri, blank_node)
                     )  # link it to the parent
                     # and call the function again to handle the properties for the class
                     self.__payload_to_rdf(
