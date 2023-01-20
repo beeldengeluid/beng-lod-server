@@ -309,8 +309,8 @@ xsd:date rdf:type rdfs:Datatype .
 ### does not appear in the output RDF. For other types of material, e.g. paper, then it does
 <https://schema.org/material> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.materialtype, resolved_value" .
 
-###  https://schema.org/identifier - used for thesaurus title
-<https://schema.org/identifier> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.thesaurustitle, resolved_value" .
+###  https://schema.org/identifier - used for thesaurus title. NOT IN USE AT PRESENT AS WE ARE LOOKING FOR A BETTER SCHEMA.ORG PROPERTY TO MODEL THIS
+###<https://schema.org/identifier> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.thesaurustitle, resolved_value" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasMetadataStatus
