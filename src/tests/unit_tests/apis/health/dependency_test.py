@@ -41,7 +41,7 @@ def test_init():
                 {"body": "", "status_code": http_status.value},
                 spec=requests.Response,
             ),
-            DependencyHealth(http_status.value),
+            DependencyHealth(http_status),
         )
         for http_status in HTTPStatus
     ],

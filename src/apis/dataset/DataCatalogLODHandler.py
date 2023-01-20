@@ -1,10 +1,11 @@
 import logging
-from rdflib import URIRef
-from rdflib import Graph
-from rdflib.namespace import RDF, SDO
-from apis.mime_type_util import MimeType
 from typing import List, Optional
 
+from rdflib import Graph, URIRef
+from rdflib.namespace import RDF, SDO
+
+from apis.mime_type_util import MimeType
+from util.ld_util import sparql_construct_query
 
 logger = logging.getLogger()
 
@@ -17,14 +18,20 @@ class DataCatalogLODHandler:
     """
 
     def __init__(self, config):
-        self.config = config
-        self._data_catalog = self._parse_catalog_file(config["DATA_CATALOG_FILE"])
+        self._data_catalog = self._get_data_catalog_from_store(
+            config["SPARQL_ENDPOINT"], config["DATA_CATALOG_GRAPH"]
+        )
 
-    # TODO: implement caching suitable for this function
-    def _parse_catalog_file(self, path: str) -> Graph:
-        """Parse catalog file (turtle) and return graph of results'"""
-        logger.info(f"Loading data catalogue from '{path}'")
-        graph = Graph().parse(path, format=MimeType.TURTLE.value)
+    def _get_data_catalog_from_store(self, sparql_endpoint, catalog_graph) -> Graph:
+        """Get data catalog triples from the sparql endpoint."""
+        logger.info(f"Getting data catalog triples from '{sparql_endpoint}'")
+        query = (
+            "CONSTRUCT { ?sub ?pred ?obj } WHERE { GRAPH <%s> { ?sub ?pred ?obj } }"
+            % catalog_graph
+        )
+
+        logger.debug(f"Sending query '{query}'")
+        graph = sparql_construct_query(sparql_endpoint, query)
         return graph
 
     """-------------NDE requirements validation----------------------"""

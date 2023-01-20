@@ -1,0 +1,191 @@
+{
+  "_index": "flexdatastore-program_1.0.3-snapshot",
+  "_type": "entry",
+  "_id": "2101606230008608731",
+  "_version": 1,
+  "found": true,
+  "_source": {
+    "id": "2101606230008608731",
+    "parents": [
+      {
+        "parent_type": "SERIES",
+        "parent_id": "2101606220007577931"
+      }
+    ],
+    "payload": {
+      "nisv.title": {
+        "value": "Memisa Inzamelingsaktie - Auto"
+      },
+      "nisv.seriestitle": {
+        "value": "STER RECLAME"
+      },
+      "nisv.category": {
+        "value": "commercials",
+        "origin": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-category/commercials",
+        "resolved_value": "commercials"
+      },
+      "nisv.materialtype": {
+        "value": "video",
+        "origin": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-pgmmaterialtype/video",
+        "resolved_value": "video"
+      },
+      "nisv.sourcecatalogue": {
+        "value": "2626566",
+        "origin": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC27/2626566",
+        "resolved_value": "Database STER"
+      },
+      "nisv.sourceid": {
+        "value": "17500AC"
+      },
+      "nisv.length": {
+        "value": "25000"
+      },
+      "nisv.strlength": {
+        "value": "0:00:25"
+      },
+      "nisv.culturalheritage": {
+        "value": "1897253",
+        "origin": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC44/1897253",
+        "resolved_value": "B"
+      },
+      "nisv.productioncompany": [
+        {
+          "productioncompany.name": {
+            "value": "307467",
+            "origin": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE37/307467",
+            "resolved_value": null
+          },
+          "productioncompany.role": {
+            "value": "2611137",
+            "origin": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC17/2611137",
+            "resolved_value": "adverteerder"
+          }
+        }
+      ],
+      "nisv.rightslicense": {
+        "value": "3",
+        "origin": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-arlicense/3",
+        "resolved_value": "License check"
+      },
+      "nisv.corporation": [
+        {
+          "corporation.name": {
+            "value": "61308",
+            "origin": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE25/61308",
+            "resolved_value": "Memisa"
+          }
+        }
+      ],
+      "nisv.subjectterm": [
+        {
+          "subjectterm.name": {
+            "value": "27813",
+            "origin": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE23/27813",
+            "resolved_value": "voorlichting"
+          }
+        }
+      ],
+      "nisv.annotation": {
+        "value": "STER-nummer: 17500AC\nSTER Reviewdatum: 05-09-1995\nProductcategorie: 70-1-3 Overheid, Institutioneel - Overheidsreclame - charitatieve instellingen"
+      },
+      "nisv.summaryshort": {
+        "value": "Reclamespot voor product Memisa"
+      },
+      "nisv.currentbroadcaster": [
+        {
+          "currentbroadcaster.broadcaster": {
+            "value": "209330",
+            "origin": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE30/209330",
+            "resolved_value": "STER"
+          }
+        }
+      ],
+      "nisv.publication": [
+        {
+          "publication.distributionchannel": {
+            "value": "79",
+            "origin": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC1/79",
+            "resolved_value": "televisie"
+          },
+          "publication.begindate": {
+            "value": "1995-09-07"
+          },
+          "publication.type": {
+            "value": "78",
+            "origin": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC3/78",
+            "resolved_value": "uitzending"
+          },
+          "publication.origbroadcastorg": {
+            "value": "STER"
+          },
+          "publication.broadcastorg": {
+            "value": "209330",
+            "origin": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE30/209330",
+            "resolved_value": "STER"
+          },
+          "publication.annotation": {
+            "value": "datum van eerste uitzending"
+          }
+        }
+      ],
+      "nisv.tasklist": [
+        {
+          "tasklist.id": {
+            "value": "5130043"
+          },
+          "tasklist.depth": {
+            "value": "111144",
+            "origin": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC34/111144",
+            "resolved_value": "niet geautoriseerd"
+          },
+          "tasklist.status": {
+            "value": "12",
+            "origin": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-taskliststatus/12",
+            "resolved_value": "Niet beschikbaar"
+          },
+          "tasklist.intention": {
+            "value": "1",
+            "origin": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-intention/1",
+            "resolved_value": "Professioneel"
+          }
+        }
+      ],
+      "nisv.suitableformuseum": {
+        "value": "false"
+      },
+      "nisv.metadatastatus": {
+        "value": "approved",
+        "origin": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-metadatastatus/approved",
+        "resolved_value": "Approved"
+      },
+      "nisv.tenant": {
+        "value": "tenant_NISV",
+        "origin": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-tenants/tenant_NISV",
+        "resolved_value": "Beeld En Geluid"
+      },
+      "nisv.sourcedescription": {
+        "value": "<Reclame_Aanlevering><CommercialSet><Digitaal>nee</Digitaal><Commercial><ProductId>17500</ProductId><CommId>AC</CommId><CommLength>25</CommLength><CommDescr>Auto</CommDescr><CommDescrLg>Auto</CommDescrLg><CommCreationDate>1995-09-05</CommCreationDate><FirstTransmissionDate>1995-09-08</FirstTransmissionDate><ProductDescrS2>Memisa Inzamelingsaktie</ProductDescrS2><BrandDescrLg>Memisa</BrandDescrLg><ContactDescrLg>St Memisa Medicus Mundi</ContactDescrLg><ContactDescrLg2 /><ProdcatDescr>70-1-3 Overheid, Institutioneel - Overheidsreclame - charitatieve instellingen</ProdcatDescr><ProdSubcatDescr>Overheid, Institutioneel - Overheidsreclame</ProdSubcatDescr><Ook /><BeginEind /><Omruil /><Afschermen>nee</Afschermen></Commercial></CommercialSet></Reclame_Aanlevering>"
+      }
+    },
+    "aclGroups": [
+      {
+        "name": "Administrators",
+        "read": "1",
+        "write": "1",
+        "admin": null
+      },
+      {
+        "name": "Users",
+        "read": "1",
+        "write": "1",
+        "admin": null
+      }
+    ],
+    "site_id": "PGM4375319",
+    "date_created": 1420575085000,
+    "date_last_updated": 1466670887931,
+    "payload_model": "https://vapp2011.mam.beeldengeluid.nl/api/metadata/form/nisv-tv-radio-program/r1",
+    "viz_type": "PROGRAM",
+    "acl_hash": -730875585
+  }
+}

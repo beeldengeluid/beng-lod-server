@@ -32,7 +32,7 @@ class NISVRdfConcept(BaseRdfConcept):
         # use a default namespace
         self.cache = cache
         self.graph.namespace_manager.bind(
-            "sdo", Namespace(self._model.NISV_SCHEMA_NAMESPACE)
+            "nisv", Namespace(self._model.NISV_SCHEMA_NAMESPACE)
         )
         self.profile = profile
         if "schema" not in self.profile or "mapping" not in self.profile:
@@ -60,7 +60,7 @@ class NISVRdfConcept(BaseRdfConcept):
         self.graph.add((self.itemNode, RDF.type, URIRef(self.classUri)))
 
         # convert the record payload to RDF
-        self.__payload_to_rdf(metadata["payload"], self.itemNode, self.classUri)
+        self.__payload_to_rdf(metadata["payload"], self.itemNode, URIRef(self.classUri))
 
         # create RDF relations with the parents of the record
         self.__parent_to_rdf(metadata)
@@ -206,7 +206,7 @@ class NISVRdfConcept(BaseRdfConcept):
                     )  # link it to the parent
                     # and call the function again to handle the properties for the class
                     self.__payload_to_rdf(
-                        newPayloadItem, blank_node, rdfProperty["range"]
+                        newPayloadItem, blank_node, URIRef(rdfProperty["range"])
                     )
         return
 
