@@ -19,7 +19,7 @@ jobs:
     - name: autodeploy to acc with ansible
       run: |
         cd /opt/git/x-omgeving/ansible/
-        ansible-playbook beng-lod-server.yml --extra-vars "env=acc app_version=master"
+        ansible-playbook beng-lod-server.yml --extra-vars "env=acc app_version=main"
 
   deploy-prd:
     if: ${{ inputs.target == 'prd' }}
@@ -32,4 +32,4 @@ jobs:
     - name: autodeploy to aws with ansible
       run: |
         cd /opt/git/x-omgeving/ansible/
-        ansible-playbook beng-lod-server.yml  --extra-vars "env=odl app_version=master app_port=80"
+        ansible-playbook beng-lod-server.yml  --extra-vars "env=odl app_version=main app_port=80"
