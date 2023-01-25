@@ -3,7 +3,7 @@ name: All branches but master
 on:
   push:
     branches-ignore:
-      - "master"
+      - "main"
     paths-ignore:
       - README.md
       - LICENSE
