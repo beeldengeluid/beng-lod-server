@@ -1,9 +1,9 @@
-name: Master branch
+name: Main branch
 
 on:
   push:
     branches:
-      - "master"
+      - "main"
     paths-ignore:
       - README.md
       - LICENSE
