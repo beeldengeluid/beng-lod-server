@@ -1,4 +1,4 @@
-[![Master branch](https://github.com/beeldengeluid/beng-lod-server/actions/workflows/master-branch.yml/badge.svg)](https://github.com/beeldengeluid/beng-lod-server/actions/workflows/master-branch.yml)  [![Manual deploy](https://github.com/beeldengeluid/beng-lod-server/actions/workflows/manual-deploy.yml/badge.svg)](https://github.com/beeldengeluid/beng-lod-server/actions/workflows/manual-deploy.yml)
+[![Main branch](https://github.com/beeldengeluid/beng-lod-server/actions/workflows/main-branch.yml/badge.svg)](https://github.com/beeldengeluid/beng-lod-server/actions/workflows/main-branch.yml)  [![Manual deploy](https://github.com/beeldengeluid/beng-lod-server/actions/workflows/manual-deploy.yml/badge.svg)](https://github.com/beeldengeluid/beng-lod-server/actions/workflows/manual-deploy.yml)
 # beng-lod-server
 
 
