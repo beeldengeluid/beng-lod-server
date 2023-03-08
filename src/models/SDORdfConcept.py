@@ -568,10 +568,6 @@ class SDORdfConcept(BaseRdfConcept):
                             ),
                         )
                     )
-                elif (
-                    URIRef(property_description["range"]) in self._model.ROLE_TYPES
-                    or property_uri == self._model.MENTIONS
-                ):
                 elif property_uri in SDORdfModel.ASSOCIATED_ROLES_FOR_PROPERTIES:
                     # In these cases, we have a person or organisation linked via a role,
                     # so we first need to create a node for the  person or organisation
@@ -623,7 +619,6 @@ class SDORdfConcept(BaseRdfConcept):
                                 ],
                             )
                         )
-                    )
 
                     # link the concept node to the role node
                     self.graph.add((role_node, property_uri, concept_node))
