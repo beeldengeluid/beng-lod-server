@@ -97,9 +97,9 @@ def get_lod_resource_from_rdf_store(
 
         return g
     except ConnectionError as e:
-        logger.debug(str(e))
+        logger.exception(e)
     except HTTPError as e:
-        logger.debug(str(e))
+        logger.exception(e)
     return None
 
 
