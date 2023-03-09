@@ -591,6 +591,15 @@ class SDORdfConcept(BaseRdfConcept):
                             )
                         )
 
+                        # set the rdf type of the property
+                        self.graph.add(
+                            (
+                                concept_node,
+                                RDF.type,
+                                URIRef(property_description["range"])
+                            )
+                        )
+
                     # create a blank node for the role
                     role_node = BNode()
                     # link the role node to the parent node
@@ -657,6 +666,16 @@ class SDORdfConcept(BaseRdfConcept):
                                     Literal(new_payload_item, lang="nl"),
                                 )
                             )
+
+                            # set the rdf type of the property
+                            self.graph.add(
+                                (
+                                    concept_node,
+                                    RDF.type,
+                                    URIRef(property_description["range"])
+                                )
+                            )
+
                             # link to the parent with the property uri
                             self.graph.add(
                                 (parent_node, URIRef(property_uri), concept_node)

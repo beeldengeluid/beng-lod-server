@@ -58,7 +58,7 @@ ASSOCIATED_ROLES_FOR_PROPERTIES = {
     SDO.byArtist: SDO.PerformanceRole,
     SDO.actor: SDO.PerformanceRole,
     SDO.contributor: SDO.PerformanceRole,
-    SDO.creator: SDO.PerformanceRole,
+    SDO.creator: SDO.Role,
     SDO.productionCompany: SDO.Role,
     SDO.mentions: SDO.Role,
 }
