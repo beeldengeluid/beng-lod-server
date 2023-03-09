@@ -108,7 +108,8 @@ def get_triples_for_lod_resource_from_rdf_store(
 ) -> Graph:
     """Returns a graph with the triples for the LOD resource loaded. Using a construct query to get the triples
     from the rdf store. To be used in association with the other functions that get triples for blank nodes.
-    Note that the named_graph parameter can prevent prefLabels from the catalogue data to end up in the thesaurus."""
+    Note that the named_graph parameter can prevent prefLabels from the catalogue data to end up in the thesaurus.
+    """
     if named_graph != "":
         query_construct = (
             f"CONSTRUCT {{ ?s ?p ?o }} WHERE {{ VALUES ?s {{ <{resource_url}> }} "
@@ -365,7 +366,7 @@ def json_iri_bnode_from_rdf_graph(
     # TODO: make sure that we also handle bnodes that have a type and a property with a value.
     json_iri_bnode = []
     try:
-        for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url)):
+        for p, o in rdf_graph.predicate_objects(subject=URIRef(resource_url)):
             # print(f"{p}\t{o}")
             if p != RDF.type and isinstance(o, BNode):
                 bnode_content = [

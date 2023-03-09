@@ -28,5 +28,6 @@ def i_error_scene_payload(load_json_file):
 @pytest.fixture()
 def i_program_payload_material_type(load_json_file):
     """Checks whether the payload contains the 'material type' information.
-    Returns payload metadata for Open Beelden item from Flex data store in JSON format."""
+    Returns payload metadata for Open Beelden item from Flex data store in JSON format.
+    """
     return load_json_file(__file__, "payload_program_2101608170156857531.json")

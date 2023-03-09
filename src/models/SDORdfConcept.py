@@ -411,7 +411,8 @@ class SDORdfConcept(BaseRdfConcept):
     ):
         """Searches in the concept_metadata for a thesaurus concept. If one is found, creates a node for it and
         adds the concept_label as its label, then links it to the parent_node, using the property_uri, and
-        sets its type to the range and additionalType values in the property_description"""
+        sets its type to the range and additionalType values in the property_description
+        """
         skos_concept_node = None
 
         # look one step higher to get all the metadata of the thesaurus item
@@ -596,7 +597,7 @@ class SDORdfConcept(BaseRdfConcept):
                             (
                                 concept_node,
                                 RDF.type,
-                                URIRef(property_description["range"])
+                                URIRef(property_description["range"]),
                             )
                         )
 
@@ -672,7 +673,7 @@ class SDORdfConcept(BaseRdfConcept):
                                 (
                                     concept_node,
                                     RDF.type,
-                                    URIRef(property_description["range"])
+                                    URIRef(property_description["range"]),
                                 )
                             )
 

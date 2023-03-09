@@ -97,7 +97,6 @@ class NISVRdfConcept(BaseRdfConcept):
 
         # retrieve metadata for each relevant property
         for prop_uri, rdfProperty in properties.items():
-
             # try each possible path for the property until find some metadata
             new_payload = None
             used_path = None
