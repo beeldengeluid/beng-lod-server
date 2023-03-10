@@ -58,7 +58,7 @@ xsd:date rdf:type rdfs:Datatype .
 
 
 ###  https://schema.org/genre
-<https://schema.org/genre> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.genre, genre.name, resolved_value" .
+<https://schema.org/genre> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.genre, genre.name, resolved_value", "nisv.musicgenre, musicgenre.name, resolved_value" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasLanguage
@@ -72,6 +72,9 @@ xsd:date rdf:type rdfs:Datatype .
 ###  https://schema.org/location
 <https://schema.org/location> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.geographical, geographical.name, resolved_value" .
 
+
+###  https://schema.org/locationCreated
+<https://schema.org/locationCreated> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath>  "nisv.recordinglocation, recordinglocation.name, value" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasMusicStyle
@@ -119,8 +122,8 @@ xsd:date rdf:type rdfs:Datatype .
 <https://schema.org/contributor> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.guest, guest.name, resolved_value" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasSubTitle
-###<http://data.rdlabs.beeldengeluid.nl/schema/hasSubTitle> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.alttitle, nisv.alttitle" .
+###  https://schema.org/alternativeHeadline
+<https://schema.org/alternativeHeadline> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.alttitle, alttitle.name, value" .
 
 
 ###  https://schema.org/about
@@ -133,8 +136,8 @@ xsd:date rdf:type rdfs:Datatype .
 ###<http://data.rdlabs.beeldengeluid.nl/schema/hasClassification> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.classification, nisv.classification" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasCurrentBroadcaster
-###<http://data.rdlabs.beeldengeluid.nl/schema/hasCurrentBroadcaster> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.currentbroadcaster, nisv.currentbroadcaster, currentbroadcaster.broadcaster, resolved_value" .
+###  https://schema.org/provider
+<https://schema.org/provider> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.currentbroadcaster, currentbroadcaster.broadcaster, resolved_value" .
 
 ### https://schema.org/Thing
 #################################################################
@@ -302,10 +305,12 @@ xsd:date rdf:type rdfs:Datatype .
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasLink
 ###<http://data.rdlabs.beeldengeluid.nl/schema/hasLink> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.link, nisv.link,link.url" .
 
-
 ###  https://schema.org/material  NB: where material type is an electronic type, we interpret this relation using sdo:associatedMedia, so sdo:material
 ### does not appear in the output RDF. For other types of material, e.g. paper, then it does
 <https://schema.org/material> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.materialtype, resolved_value" .
+
+###  https://schema.org/identifier - used for thesaurus title. NOT IN USE AT PRESENT AS WE ARE LOOKING FOR A BETTER SCHEMA.ORG PROPERTY TO MODEL THIS
+###<https://schema.org/identifier> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.thesaurustitle, resolved_value" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasMetadataStatus
@@ -328,8 +333,8 @@ xsd:date rdf:type rdfs:Datatype .
 ###<http://data.rdlabs.beeldengeluid.nl/schema/hasNumberOfEpisodes> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.numepisodes, value" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasOccasion
-###<http://data.rdlabs.beeldengeluid.nl/schema/hasOccasion> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.event, value" .
+###  https://schema.org/recordedAt
+<https://schema.org/recordedAt> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.event, value" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasPhysicalDimensions
@@ -425,8 +430,8 @@ xsd:date rdf:type rdfs:Datatype .
 ###<http://data.rdlabs.beeldengeluid.nl/schema/hasTitleType> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.titletype, resolved_value" .
 
 
-###  http://data.rdlabs.beeldengeluid.nl/schema/hasUse
-###<http://data.rdlabs.beeldengeluid.nl/schema/hasUse> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "language.use, resolved_value" .
+###  https://schema.org/inLanguage
+<https://schema.org/inLanguage> <http://data.rdlabs.beeldengeluid.nl/schema/hasDaanPath> "nisv.language, language.name, resolved_value" .
 
 
 ###  http://data.rdlabs.beeldengeluid.nl/schema/hasWeekNumber

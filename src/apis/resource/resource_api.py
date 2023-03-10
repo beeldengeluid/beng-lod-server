@@ -104,7 +104,7 @@ class ResourceAPI(Resource):
             if not is_public_resource(
                 lod_url, current_app.config.get("SPARQL_ENDPOINT")
             ):
-                logger.error("The resource is not publicly available: {lod_url}.")
+                logger.error(f"The resource is not publicly available: {lod_url}.")
                 return APIUtil.toErrorResponse(
                     "access_denied", "The resource can not be dereferenced."
                 )
