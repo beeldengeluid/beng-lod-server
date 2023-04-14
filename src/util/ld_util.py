@@ -253,11 +253,10 @@ def json_header_from_rdf_graph(
             )
             if str(rdf_graph.compute_qname(o)[1]) in (str(SDO), str(SKOS))
         ]
+        return json_header
     except Exception as e:
         logger.exception(f"Error in json_header_from_rdf_graph: {str(e)}")
         logger.error(json_header)
-    finally:
-        return json_header  # noqa: B012 #TODO
 
 
 def json_iri_iri_from_rdf_graph(
@@ -314,11 +313,10 @@ def json_iri_iri_from_rdf_graph(
                         },
                     }
                 ]
+        return json_iri_iri
     except Exception as e:
         logger.exception(f"Error in json_iri_iri_from_rdf_graph: {str(e)}")
         logger.error(json_iri_iri)
-    finally:
-        return json_iri_iri  # noqa: B012 #TODO
 
 
 def json_iri_lit_from_rdf_graph(
@@ -352,11 +350,10 @@ def json_iri_lit_from_rdf_graph(
             for p, o in rdf_graph.predicate_objects(subject=URIRef(resource_url))
             if isinstance(o, Literal)
         ]
+        return json_iri_lit
     except Exception as e:
         logger.exception(f"Error in json_iri_lit_from_rdf_graph: {str(e)}")
         logger.error(json_iri_lit)
-    finally:
-        return json_iri_lit  # noqa: B012 #TODO
 
 
 def json_iri_bnode_from_rdf_graph(
@@ -408,12 +405,11 @@ def json_iri_bnode_from_rdf_graph(
                     }
                 )
                 # print(f"{p}\t{o}\t{bnode_content}")
+        # print(json.dumps(json_iri_bnode, indent=4))
+        return json_iri_bnode
     except Exception as e:
         logger.exception(f"Error in json_iri_bnode_from_rdf_graph: {str(e)}")
         logger.error(json.dumps(json_iri_bnode, indent=4))
-    finally:
-        # print(json.dumps(json_iri_bnode, indent=4))
-        return json_iri_bnode  # noqa: B012 #TODO
 
 
 def is_public_resource(resource_url: str, sparql_endpoint: str) -> bool:
