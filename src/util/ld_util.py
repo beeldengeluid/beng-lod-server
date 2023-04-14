@@ -257,7 +257,7 @@ def json_header_from_rdf_graph(
     except Exception as e:
         logger.exception(f"Error in json_header_from_rdf_graph: {str(e)}")
         logger.error(json_header)
-    return
+    return json_header
 
 
 def json_iri_iri_from_rdf_graph(
@@ -318,7 +318,7 @@ def json_iri_iri_from_rdf_graph(
     except Exception as e:
         logger.exception(f"Error in json_iri_iri_from_rdf_graph: {str(e)}")
         logger.error(json_iri_iri)
-    return
+    return json_iri_iri
 
 
 def json_iri_lit_from_rdf_graph(
@@ -356,7 +356,7 @@ def json_iri_lit_from_rdf_graph(
     except Exception as e:
         logger.exception(f"Error in json_iri_lit_from_rdf_graph: {str(e)}")
         logger.error(json_iri_lit)
-    return
+    return json_iri_lit
 
 
 def json_iri_bnode_from_rdf_graph(
@@ -413,7 +413,7 @@ def json_iri_bnode_from_rdf_graph(
     except Exception as e:
         logger.exception(f"Error in json_iri_bnode_from_rdf_graph: {str(e)}")
         logger.error(json.dumps(json_iri_bnode, indent=4))
-    return
+    return json_iri_bnode
 
 
 def is_public_resource(resource_url: str, sparql_endpoint: str) -> bool:
