@@ -54,7 +54,6 @@ class GTAAAPI(Resource):
                 gtaa_uri,
                 current_app.config.get("SPARQL_ENDPOINT"),
                 current_app.config.get("URI_NISV_ORGANISATION"),
-                current_app.config.get("NAMED_GRAPH_THESAURUS"),
             )
             if html_page:
                 return make_response(html_page, 200)
@@ -75,7 +74,6 @@ class GTAAAPI(Resource):
                 mime_type,
                 current_app.config.get("SPARQL_ENDPOINT"),
                 current_app.config.get("URI_NISV_ORGANISATION"),
-                current_app.config.get("NAMED_GRAPH_THESAURUS"),
             )
         logger.error("Not a proper mime type in the request.")
         return Response("Error: No mime type detected...")
@@ -86,24 +84,19 @@ class GTAAAPI(Resource):
         mime_type: MimeType,
         sparql_endpoint: str,
         nisv_organisation_uri: str,
-        thesaurus_named_graph: str,
     ):
         """Generates the expected data based on the mime_type.
         :param gtaa_uri: the GTAA id.
         :param mime_type: the mime_type, or serialization the resource is requested in.
         :param sparql_endpoint: endpoint URL
         :param nisv_organisation_uri: URI for the publisher
-        :param thesaurus_named_graph: named grpah in the RDF store containing the GTAA triples
         :return: RDF data in a response object
         """
         mt_ld_format = mime_type.to_ld_format()
         ld_type = mt_ld_format if mt_ld_format is not None else "json-ld"
 
         rdf_graph = get_lod_resource_from_rdf_store(
-            gtaa_uri,
-            sparql_endpoint,
-            nisv_organisation_uri,
-            named_graph=thesaurus_named_graph,
+            gtaa_uri, sparql_endpoint, nisv_organisation_uri
         )
         if rdf_graph:
             # serialize using the mime_type
@@ -116,20 +109,13 @@ class GTAAAPI(Resource):
         return None
 
     def _get_lod_view_gtaa(
-        self,
-        resource_url: str,
-        sparql_endpoint: str,
-        nisv_organisation_uri: str,
-        thesaurus_named_graph: str,
+        self, resource_url: str, sparql_endpoint: str, nisv_organisation_uri: str
     ):
         """Handler that, given a URI, gets RDF from the SPARQL endpoint and generates an HTML page.
         :param resource_url: The URI for the resource.
         """
         rdf_graph = get_lod_resource_from_rdf_store(
-            resource_url,
-            sparql_endpoint,
-            nisv_organisation_uri,
-            named_graph=thesaurus_named_graph,
+            resource_url, sparql_endpoint, nisv_organisation_uri
         )
         if rdf_graph:
             return render_template(
