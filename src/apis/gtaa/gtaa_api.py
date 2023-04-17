@@ -74,7 +74,6 @@ class GTAAAPI(Resource):
                 mime_type,
                 current_app.config.get("SPARQL_ENDPOINT"),
                 current_app.config.get("URI_NISV_ORGANISATION"),
-                current_app.config.get("NAMED_GRAPH_THESAURUS"),
             )
         logger.error("Not a proper mime type in the request.")
         return Response("Error: No mime type detected...")
