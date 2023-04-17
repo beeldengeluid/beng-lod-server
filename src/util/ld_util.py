@@ -15,8 +15,9 @@ logger = logging.getLogger()
 # declare namespaces
 SKOSXL_NS = "http://www.w3.org/2008/05/skos-xl#"
 SKOSXL = Namespace(URIRef(SKOSXL_NS))
-JUSTSKOS = Namespace(URIRef("http://justskos.org/ns/core#"))
 GTAA = Namespace(URIRef("http://data.beeldengeluid.nl/gtaa/"))
+SDOTORG = "https://schema.org/"
+BENGTHES = "http://data.beeldengeluid.nl/schema/thes#"
 
 
 def generate_lod_resource_uri(
@@ -59,25 +60,22 @@ def get_lod_resource_from_rdf_store(
     if sparql_endpoint is None or validators.url(sparql_endpoint) is False:
         return None
     try:
-        g1 = get_triples_for_lod_resource_from_rdf_store(
+        g = get_triples_for_lod_resource_from_rdf_store(
             resource_url, sparql_endpoint, named_graph=named_graph
         )
-        g2 = get_preflabels_for_lod_resource_from_rdf_store(
+        g += get_preflabels_for_lod_resource_from_rdf_store(
             resource_url, sparql_endpoint
         )
-        g3 = get_triples_for_blank_node_from_rdf_store(resource_url, sparql_endpoint)
+        g += get_triples_for_blank_node_from_rdf_store(resource_url, sparql_endpoint)
 
         # for GTAA SKOS Concepts... get skos xl triples
         if resource_url.startswith("http://data.beeldengeluid.nl/gtaa/"):
-            g4 = get_skosxl_label_triples_for_skos_concept_from_rdf_store(
+            g += get_skosxl_label_triples_for_skos_concept_from_rdf_store(
                 resource_url, sparql_endpoint
             )
-            g5 = get_preflabel_for_gtaa_resource_from_rdf_store(
+            g += get_preflabel_for_gtaa_resource_from_rdf_store(
                 resource_url, sparql_endpoint, thes_named_graph=named_graph
             )
-            g = g1 + g2 + g3 + g4 + g5
-        else:
-            g = g1 + g2 + g3
 
         # the case where there are triples from sparql endpoint
         if len(g) != 0:
@@ -90,10 +88,11 @@ def get_lod_resource_from_rdf_store(
             if publisher_triple not in g:
                 g.add(publisher_triple)
 
-            # add the missing namespaces
-            g.bind("skosxl", SKOSXL)
-            g.bind("justskos", JUSTSKOS)
-            g.bind("gtaa", GTAA)
+        # add the missing namespaces
+        g.bind("skosxl", SKOSXL)
+        g.bind("gtaa", GTAA)
+        g.bind("sdo", SDOTORG)
+        g.bind("bengthes", BENGTHES)
 
         return g
     except ConnectionError as e:
@@ -165,7 +164,7 @@ def get_triples_for_blank_node_from_rdf_store(
         f"CONSTRUCT {{ ?s ?p ?o . ?o ?y ?z }} WHERE {{ VALUES ?s {{ <{resource_url}> }} "
         f"?s ?p ?o FILTER ISBLANK(?o) ?o ?y ?z }}"
     )
-    g1 = sparql_construct_query(sparql_endpoint, query_construct_bnodes)
+    g = sparql_construct_query(sparql_endpoint, query_construct_bnodes)
 
     # .. then we get the preflabels for the concepts...
     query_construct_bnodes_pref_labels = (
@@ -173,10 +172,9 @@ def get_triples_for_blank_node_from_rdf_store(
         f"VALUES ?s {{ <{resource_url}> }} ?s ?p ?o FILTER ISBLANK(?o) "
         f"?o ?y ?z . ?z skos:prefLabel ?pref_label }}"
     )
-    g2 = sparql_construct_query(sparql_endpoint, query_construct_bnodes_pref_labels)
+    g += sparql_construct_query(sparql_endpoint, query_construct_bnodes_pref_labels)
 
-    # ..and after that we merge the two together.
-    return g1 + g2
+    return g
 
 
 def get_skosxl_label_triples_for_skos_concept_from_rdf_store(
