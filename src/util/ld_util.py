@@ -18,6 +18,7 @@ SKOSXL = Namespace(URIRef(SKOSXL_NS))
 GTAA = Namespace(URIRef("http://data.beeldengeluid.nl/gtaa/"))
 SDOTORG = "https://schema.org/"
 BENGTHES = "http://data.beeldengeluid.nl/schema/thes#"
+WIKIDATA = "http://www.wikidata.org/entity/"
 
 
 def generate_lod_resource_uri(
@@ -45,14 +46,12 @@ def get_lod_resource_from_rdf_store(
     resource_url: str,
     sparql_endpoint: str,
     nisv_organisation_uri: str,
-    named_graph: str = "",
 ) -> Optional[Graph]:
     """Given a resource URI, the data is retrieved from the SPARQL endpoint using a CONSTRUCT query.
     Currently, only SDO modelled data in endpoint.
     :param resource_url: the resource URI to be retrieved.
     :param sparql_endpoint: the SPARQL endpoint URL.
     :param nisv_organisation_uri: URI for the publishing organisation.
-    :param named_graph: URI for the named graph in the SPARQL query.
     :returns: the RDF data as a GRAPH (merged graph for core triples and bnode triples).
     """
     if resource_url is None:
@@ -60,9 +59,7 @@ def get_lod_resource_from_rdf_store(
     if sparql_endpoint is None or validators.url(sparql_endpoint) is False:
         return None
     try:
-        g = get_triples_for_lod_resource_from_rdf_store(
-            resource_url, sparql_endpoint, named_graph=named_graph
-        )
+        g = get_triples_for_lod_resource_from_rdf_store(resource_url, sparql_endpoint)
         g += get_preflabels_for_lod_resource_from_rdf_store(
             resource_url, sparql_endpoint
         )
@@ -74,7 +71,7 @@ def get_lod_resource_from_rdf_store(
                 resource_url, sparql_endpoint
             )
             g += get_preflabel_for_gtaa_resource_from_rdf_store(
-                resource_url, sparql_endpoint, thes_named_graph=named_graph
+                resource_url, sparql_endpoint
             )
 
         # the case where there are triples from sparql endpoint
@@ -93,6 +90,7 @@ def get_lod_resource_from_rdf_store(
         g.bind("gtaa", GTAA)
         g.bind("sdo", SDOTORG)
         g.bind("bengthes", BENGTHES)
+        g.bind("wd", WIKIDATA)
 
         return g
     except ConnectionError as e:
@@ -103,22 +101,23 @@ def get_lod_resource_from_rdf_store(
 
 
 def get_triples_for_lod_resource_from_rdf_store(
-    resource_url: str, sparql_endpoint: str, named_graph: str = ""
+    resource_url: str, sparql_endpoint: str  # , named_graph: str = ""
 ) -> Graph:
-    """Returns a graph with the triples for the LOD resource loaded. Using a construct query to get the triples
-    from the rdf store. To be used in association with the other functions that get triples for blank nodes.
-    Note that the named_graph parameter can prevent prefLabels from the catalogue data to end up in the thesaurus.
+    """Returns a graph with the triples for the LOD resource loaded, using a construct
+    query to get the triples from the rdf store.
+    To be used in association with the other functions that get triples for blank nodes.
     """
-    if named_graph != "":
-        query_construct = (
-            f"CONSTRUCT {{ ?s ?p ?o }} WHERE {{ VALUES ?s {{ <{resource_url}> }} "
-            f"GRAPH <{named_graph}> {{ ?s ?p ?o FILTER(!ISBLANK(?o)) }} }}"
-        )
-    else:
-        query_construct = (
-            f"CONSTRUCT {{ ?s ?p ?o }} WHERE {{ VALUES ?s {{ <{resource_url}> }} "
-            f"?s ?p ?o FILTER(!ISBLANK(?o)) }}"
-        )
+    # if named_graph != "":
+    #     query_construct = (
+    #         f"CONSTRUCT {{ ?s ?p ?o }} "
+    #         f"WHERE {{ VALUES ?s {{ <{resource_url}> }} "
+    #         f"GRAPH <{named_graph}> {{ ?s ?p ?o FILTER(!ISBLANK(?o)) }} }}"
+    #     )
+    # else:
+    query_construct = (
+        f"CONSTRUCT {{ ?s ?p ?o }} WHERE {{ VALUES ?s {{ <{resource_url}> }} "
+        f"?s ?p ?o FILTER(!ISBLANK(?o)) }}"
+    )
 
     return sparql_construct_query(sparql_endpoint, query_construct)
 
@@ -138,12 +137,11 @@ def get_preflabels_for_lod_resource_from_rdf_store(
 
 
 def get_preflabel_for_gtaa_resource_from_rdf_store(
-    resource_url: str, sparql_endpoint: str, thes_named_graph: str = ""
+    resource_url: str, sparql_endpoint: str
 ) -> Graph:
     """Gets the prefLabel, by using 'dumbing down' of the skos-xl prefLabel."""
     query_construct_pref_label_dumbing_down = (
         f"CONSTRUCT {{ ?s skos:prefLabel ?pref_label }} WHERE {{ "
-        f"VALUES ?g {{<{thes_named_graph}> }} "
         f"VALUES ?s {{ <{resource_url}> }} "
         f"GRAPH ?g {{ ?s skosxl:prefLabel/skosxl:literalForm ?pref_label }} }}"
     )
