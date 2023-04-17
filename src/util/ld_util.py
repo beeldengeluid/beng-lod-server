@@ -101,19 +101,12 @@ def get_lod_resource_from_rdf_store(
 
 
 def get_triples_for_lod_resource_from_rdf_store(
-    resource_url: str, sparql_endpoint: str  # , named_graph: str = ""
+    resource_url: str, sparql_endpoint: str
 ) -> Graph:
     """Returns a graph with the triples for the LOD resource loaded, using a construct
     query to get the triples from the rdf store.
     To be used in association with the other functions that get triples for blank nodes.
     """
-    # if named_graph != "":
-    #     query_construct = (
-    #         f"CONSTRUCT {{ ?s ?p ?o }} "
-    #         f"WHERE {{ VALUES ?s {{ <{resource_url}> }} "
-    #         f"GRAPH <{named_graph}> {{ ?s ?p ?o FILTER(!ISBLANK(?o)) }} }}"
-    #     )
-    # else:
     query_construct = (
         f"CONSTRUCT {{ ?s ?p ?o }} WHERE {{ VALUES ?s {{ <{resource_url}> }} "
         f"?s ?p ?o FILTER(!ISBLANK(?o)) }}"
@@ -178,32 +171,20 @@ def get_triples_for_blank_node_from_rdf_store(
 
 
 def get_skosxl_label_triples_for_skos_concept_from_rdf_store(
-    resource_url: str, sparql_endpoint: str, named_graph: str = ""
+    resource_url: str, sparql_endpoint: str
 ) -> Graph:
     """Returns a graph with triples for skos-xl labels for SKOS Concepts from the rdf store.
     :param resource_url: URI of a SKOS Concept.
     :param sparql_endpoint: the location of the RDF store.
-    :param named_graph: when the query needs to be filtered add the named_graph.
     """
-    if named_graph != "":
-        query_construct_skos_xl_labels = (
-            f"PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> "
-            f"CONSTRUCT {{ ?s ?skos_label ?y . ?y skosxl:literalForm ?literal_form . "
-            f"?y a skosxl:Label }} WHERE {{ "
-            f"VALUES ?s {{ <{resource_url}> }} "
-            f"VALUES ?g {{ <{named_graph}> }} "
-            f"GRAPH ?g {{ ?s ?skos_label ?y . ?y a skosxl:Label . "
-            f"?y skosxl:literalForm ?literal_form }} }}"
-        )
-    else:
-        query_construct_skos_xl_labels = (
-            f"PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> "
-            f"CONSTRUCT {{ ?s ?skos_label ?y . ?y skosxl:literalForm ?literal_form . "
-            f"?y a skosxl:Label }} WHERE {{ "
-            f"VALUES ?s {{ <{resource_url}> }} "
-            f"?s ?skos_label ?y . ?y a skosxl:Label . "
-            f"?y skosxl:literalForm ?literal_form }}"
-        )
+    query_construct_skos_xl_labels = (
+        f"PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> "
+        f"CONSTRUCT {{ ?s ?skos_label ?y . ?y skosxl:literalForm ?literal_form . "
+        f"?y a skosxl:Label }} WHERE {{ "
+        f"VALUES ?s {{ <{resource_url}> }} "
+        f"?s ?skos_label ?y . ?y a skosxl:Label . "
+        f"?y skosxl:literalForm ?literal_form }}"
+    )
     return sparql_construct_query(sparql_endpoint, query_construct_skos_xl_labels)
 
 
