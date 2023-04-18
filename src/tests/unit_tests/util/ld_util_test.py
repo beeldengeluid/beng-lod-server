@@ -130,6 +130,36 @@ def test_get_lod_resource_from_rdf_store(
         unstub()
 
 
+@pytest.mark.parametrize(
+    "resource_url,sparql_endpoint,nisv_organisation_uri",
+    [
+        (
+            DUMMY_RESOURCE_URI,
+            DUMMY_SPARQL_ENDPOINT,
+            DUMMY_URI_NISV_ORGANISATION,
+        ),
+    ],
+)
+def test_get_lod_get_lod_resource_from_rdf_store_connection_error(
+    resource_url,
+    sparql_endpoint,
+    nisv_organisation_uri,
+):
+    # with pytest.raises(ConnectionError):
+    try:
+        when(requests).get(sparql_endpoint, **KWARGS).thenRaise(ConnectionError)
+        lod_graph = get_lod_resource_from_rdf_store(
+            resource_url, sparql_endpoint, nisv_organisation_uri
+        )
+        assert lod_graph is None
+
+        # requests.get is only called when there is a resource_url and sparql_endpoint
+        if resource_url and sparql_endpoint:
+            verify(requests, atleast=1).get(sparql_endpoint, **KWARGS)
+    finally:
+        unstub()
+
+
 def test_json_header_from_rdf_graph(scene_rdf_graph):
     try:
         ui_data = json_header_from_rdf_graph(scene_rdf_graph, DUMMY_RESOURCE_URI)
