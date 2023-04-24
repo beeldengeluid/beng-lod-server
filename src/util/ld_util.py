@@ -64,6 +64,7 @@ def get_lod_resource_from_rdf_store(
             resource_url, sparql_endpoint
         )
         g += get_triples_for_blank_node_from_rdf_store(resource_url, sparql_endpoint)
+        g += get_label_for_parent(resource_url, sparql_endpoint)
 
         # for GTAA SKOS Concepts... get skos xl triples
         if resource_url.startswith("http://data.beeldengeluid.nl/gtaa/"):
@@ -188,6 +189,30 @@ def get_skosxl_label_triples_for_skos_concept_from_rdf_store(
     return sparql_construct_query(sparql_endpoint, query_construct_skos_xl_labels)
 
 
+def get_label_for_parent(resource_uri: str, sparql_endpoint: str) -> Graph:
+    """Returns a graph with the triple for the label/title of the parent object."""
+    query_construct_labels_for_parent = (
+        f"CONSTRUCT {{ ?o sdo:name ?parent_name }}"
+        f"WHERE {{ <{resource_uri}> (sdo:partOfSeries|sdo:partOfSeason) ?o FILTER(!ISBLANK(?o)) "
+        f"OPTIONAL {{ ?o sdo:name ?o_name }}"
+        f'BIND( COALESCE( IF(?o_name, ?o_name, 1/0), "UNTITLED"^^xsd:string )'
+        f" AS ?parent_name)}}"
+    )
+    return sparql_construct_query(sparql_endpoint, query_construct_labels_for_parent)
+
+
+def get_label_for_has_part(resource_uri: str, sparql_endpoint: str) -> Graph:
+    """Returns a graph with the triples for the label/title for sdo:hasPart"""
+    query_construct_labels_for_has_part = (
+        f"CONSTRUCT {{ ?o sdo:name ?part_name }}"
+        f"WHERE {{ ?{resource_uri} sdo:hasPart ?o FILTER(!ISBLANK(?o)) "
+        f"OPTIONAL {{ ?o sdo:name ?o_name }}"
+        f'BIND( COALESCE( IF(?o_name, ?o_name, 1/0), "UNTITLED"^^xsd:string )'
+        f" AS ?part_name)}}"
+    )
+    return sparql_construct_query(sparql_endpoint, query_construct_labels_for_has_part)
+
+
 def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
     """Sends a SPARQL CONSTRUCT query to the SPARQL endpoint and returns the result parsed into a Graph.
     raises a ConnectionError when the sparql endpoint can not be reached, or
@@ -266,6 +291,9 @@ def json_iri_iri_from_rdf_graph(
                     "property": rdf_graph.compute_qname(o)[2],
                     "pref_label": [
                         str(label) for label in rdf_graph.objects(o, SKOS.prefLabel)
+                    ],
+                    "parent_label": [
+                        str(label) for label in rdf_graph.objects(o, SDO.name)
                     ],
                 },
             }
