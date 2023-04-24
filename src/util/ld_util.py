@@ -60,11 +60,14 @@ def get_lod_resource_from_rdf_store(
         return None
     try:
         g = get_triples_for_lod_resource_from_rdf_store(resource_url, sparql_endpoint)
+        g += get_triple_for_is_part_of_relation(resource_url, sparql_endpoint)
         g += get_preflabels_for_lod_resource_from_rdf_store(
             resource_url, sparql_endpoint
         )
         g += get_triples_for_blank_node_from_rdf_store(resource_url, sparql_endpoint)
         g += get_label_for_parent(resource_url, sparql_endpoint)
+        g += get_label_for_has_part(resource_url, sparql_endpoint)
+        g += get_label_for_is_part_of_program(resource_url, sparql_endpoint)
 
         # for GTAA SKOS Concepts... get skos xl triples
         if resource_url.startswith("http://data.beeldengeluid.nl/gtaa/"):
@@ -189,6 +192,34 @@ def get_skosxl_label_triples_for_skos_concept_from_rdf_store(
     return sparql_construct_query(sparql_endpoint, query_construct_skos_xl_labels)
 
 
+def get_triple_for_is_part_of_relation(
+    resource_uri: str, sparql_endpoint: str
+) -> Graph:
+    """Only applicable for sdo:Clip. Adds the sdo:isPartOf relation, making it possible
+    to refer back (upwards) to the program from a scene.
+    Note: Only the inverse of this relation is available in the triple store.
+    """
+    query_construct_triple_for_part_of = (
+        f"CONSTRUCT {{  ?clip sdo:isPartOf ?program }}"
+        f"WHERE {{ VALUES ?clip {{<{resource_uri}>}} ?program sdo:hasPart ?clip }}"
+    )
+    return sparql_construct_query(sparql_endpoint, query_construct_triple_for_part_of)
+
+
+def get_label_for_is_part_of_program(resource_uri: str, sparql_endpoint: str) -> Graph:
+    """Returns a graph with the triple for the label/title for the program
+    that a scene is part of with sdo:isPartOf relation.
+    """
+    query_construct_label_for_program = (
+        f"CONSTRUCT {{ ?program sdo:name ?program_name }}"
+        f"WHERE {{ ?program sdo:hasPart <{resource_uri}> "
+        f"OPTIONAL {{ ?program sdo:name ?p_name }}"
+        f'BIND( COALESCE( IF(?p_name, ?p_name, 1/0), "UNTITLED"^^xsd:string )'
+        f" AS ?program_name)}}"
+    )
+    return sparql_construct_query(sparql_endpoint, query_construct_label_for_program)
+
+
 def get_label_for_parent(resource_uri: str, sparql_endpoint: str) -> Graph:
     """Returns a graph with the triple for the label/title of the parent object."""
     query_construct_labels_for_parent = (
@@ -205,7 +236,7 @@ def get_label_for_has_part(resource_uri: str, sparql_endpoint: str) -> Graph:
     """Returns a graph with the triples for the label/title for sdo:hasPart"""
     query_construct_labels_for_has_part = (
         f"CONSTRUCT {{ ?o sdo:name ?part_name }}"
-        f"WHERE {{ ?{resource_uri} sdo:hasPart ?o FILTER(!ISBLANK(?o)) "
+        f"WHERE {{ <{resource_uri}> sdo:hasPart ?o FILTER(!ISBLANK(?o)) "
         f"OPTIONAL {{ ?o sdo:name ?o_name }}"
         f'BIND( COALESCE( IF(?o_name, ?o_name, 1/0), "UNTITLED"^^xsd:string )'
         f" AS ?part_name)}}"
@@ -293,6 +324,9 @@ def json_iri_iri_from_rdf_graph(
                         str(label) for label in rdf_graph.objects(o, SKOS.prefLabel)
                     ],
                     "parent_label": [
+                        str(label) for label in rdf_graph.objects(o, SDO.name)
+                    ],
+                    "part_label": [
                         str(label) for label in rdf_graph.objects(o, SDO.name)
                     ],
                 },
