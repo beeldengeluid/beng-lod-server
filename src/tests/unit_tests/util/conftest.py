@@ -26,3 +26,9 @@ def program_rdf_graph_with_bnodes(program_json_ld):
     g = Graph()
     g.parse(data=program_json_ld, format="json-ld")
     return g
+
+
+@pytest.fixture()
+def program_rdf_xml(open_file):
+    """Returns an example RDF/XML of a program"""
+    return open_file(__file__, "sparql_response_program_2101712160234752431.xml")
