@@ -19,6 +19,7 @@ GTAA = Namespace(URIRef("http://data.beeldengeluid.nl/gtaa/"))
 SDOTORG = "https://schema.org/"
 BENGTHES = "http://data.beeldengeluid.nl/schema/thes#"
 WIKIDATA = "http://www.wikidata.org/entity/"
+SKOS_NS = "http://www.w3.org/2004/02/skos/core#"
 
 
 def generate_lod_resource_uri(
@@ -59,7 +60,9 @@ def get_lod_resource_from_rdf_store(
     if sparql_endpoint is None or validators.url(sparql_endpoint) is False:
         return None
     try:
-        g = get_triples_for_lod_resource_from_rdf_store(resource_url, sparql_endpoint)
+        g = Graph(bind_namespaces="core")
+
+        g += get_triples_for_lod_resource_from_rdf_store(resource_url, sparql_endpoint)
         g += get_preflabels_for_lod_resource_from_rdf_store(
             resource_url, sparql_endpoint
         )
@@ -91,6 +94,7 @@ def get_lod_resource_from_rdf_store(
         g.bind("sdo", SDOTORG)
         g.bind("bengthes", BENGTHES)
         g.bind("wd", WIKIDATA)
+        g.bind("skos", SKOS_NS)
 
         return g
     except ConnectionError as e:
@@ -186,6 +190,18 @@ def get_skosxl_label_triples_for_skos_concept_from_rdf_store(
         f"?y skosxl:literalForm ?literal_form }}"
     )
     return sparql_construct_query(sparql_endpoint, query_construct_skos_xl_labels)
+
+
+def json_ld_structured_data_for_resource(rdf_graph: Graph, resource_url: str) -> str:
+    """Returns a serialized graph in JSON_LD format with triples for the resource.
+    :param rdf_graph: Graph object containing the triples.
+    :param resource_url: the main resource for which the structured data is returned.
+    """
+    return rdf_graph.serialize(
+        format="json-ld",
+        context={k: v for k, v in rdf_graph.namespaces()},
+        auto_compact=True,
+    )
 
 
 def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
