@@ -222,15 +222,15 @@ def json_header_from_rdf_graph(
                 ],
                 "o": {
                     "uri": str(o),
-                    "prefix": rdf_graph.compute_qname(o)[0],
-                    "namespace": str(rdf_graph.compute_qname(o)[1]),
-                    "property": rdf_graph.compute_qname(o)[2],
+                    "prefix": rdf_graph.compute_qname(str(o))[0],
+                    "namespace": str(rdf_graph.compute_qname(str(o))[1]),
+                    "property": rdf_graph.compute_qname(str(o))[2],
                 },
             }
             for o in rdf_graph.objects(
                 subject=URIRef(resource_url), predicate=URIRef(RDF.type)
             )
-            if str(rdf_graph.compute_qname(o)[1]) in (str(SDO), str(SKOS))
+            if str(rdf_graph.compute_qname(str(o))[1]) in (str(SDO), str(SKOS))
         ]
         return json_header
     except Exception as e:
@@ -261,9 +261,9 @@ def json_iri_iri_from_rdf_graph(
                             o, URIRef(f"{SKOSXL_NS}literalForm")
                         )
                     ],
-                    "prefix": rdf_graph.compute_qname(o)[0],
-                    "namespace": str(rdf_graph.compute_qname(o)[1]),
-                    "property": rdf_graph.compute_qname(o)[2],
+                    "prefix": rdf_graph.compute_qname(str(o))[0],
+                    "namespace": str(rdf_graph.compute_qname(str(o))[1]),
+                    "property": rdf_graph.compute_qname(str(o))[2],
                     "pref_label": [
                         str(label) for label in rdf_graph.objects(o, SKOS.prefLabel)
                     ],
@@ -317,13 +317,15 @@ def json_iri_lit_from_rdf_graph(
                 "o": {
                     "literal_value": str(o),
                     "datatype": str(o.datatype) if o.datatype is not None else "",
-                    "datatype_prefix": rdf_graph.compute_qname(o.datatype)[0]
+                    "datatype_prefix": rdf_graph.compute_qname(str(o.datatype))[0]
                     if o.datatype is not None
                     else "",
-                    "datatype_namespace": str(rdf_graph.compute_qname(o.datatype)[1])
+                    "datatype_namespace": str(
+                        rdf_graph.compute_qname(str(o.datatype))[1]
+                    )
                     if o.datatype is not None
                     else "",
-                    "datatype_property": rdf_graph.compute_qname(o.datatype)[2]
+                    "datatype_property": rdf_graph.compute_qname(str(o.datatype))[2]
                     if o.datatype is not None
                     else "",
                 },
