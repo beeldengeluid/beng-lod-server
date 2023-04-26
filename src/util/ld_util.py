@@ -249,9 +249,9 @@ def json_iri_iri_from_rdf_graph(
             {
                 "p": {
                     "uri": str(p),
-                    "prefix": rdf_graph.compute_qname(p)[0],
-                    "namespace": str(rdf_graph.compute_qname(p)[1]),
-                    "property": rdf_graph.compute_qname(p)[2],
+                    "prefix": rdf_graph.compute_qname(str(p))[0],
+                    "namespace": str(rdf_graph.compute_qname(str(p))[1]),
+                    "property": rdf_graph.compute_qname(str(p))[2],
                 },
                 "o": {
                     "uri": str(o),
@@ -279,9 +279,9 @@ def json_iri_iri_from_rdf_graph(
                     {
                         "p": {
                             "uri": str(p),
-                            "prefix": rdf_graph.compute_qname(p)[0],
-                            "namespace": str(rdf_graph.compute_qname(p)[1]),
-                            "property": rdf_graph.compute_qname(p)[2],
+                            "prefix": rdf_graph.compute_qname(str(p))[0],
+                            "namespace": str(rdf_graph.compute_qname(str(p))[1]),
+                            "property": rdf_graph.compute_qname(str(p))[2],
                         },
                         "o": {
                             "uri": str(o),
@@ -310,9 +310,9 @@ def json_iri_lit_from_rdf_graph(
             {
                 "p": {
                     "uri": str(p),
-                    "prefix": rdf_graph.compute_qname(p)[0],
-                    "namespace": str(rdf_graph.compute_qname(p)[1]),
-                    "property": rdf_graph.compute_qname(p)[2],
+                    "prefix": rdf_graph.compute_qname(str(p))[0],
+                    "namespace": str(rdf_graph.compute_qname(str(p))[1]),
+                    "property": rdf_graph.compute_qname(str(p))[2],
                 },
                 "o": {
                     "literal_value": str(o),
@@ -381,9 +381,9 @@ def json_iri_bnode_from_rdf_graph(
                     {
                         "p": {
                             "uri": str(p),
-                            "prefix": rdf_graph.compute_qname(p)[0],
-                            "namespace": str(rdf_graph.compute_qname(p)[1]),
-                            "property": rdf_graph.compute_qname(p)[2],
+                            "prefix": rdf_graph.compute_qname(str(p))[0],
+                            "namespace": str(rdf_graph.compute_qname(str(p))[1]),
+                            "property": rdf_graph.compute_qname(str(p))[2],
                         },
                         "o": bnode_content,
                     }
