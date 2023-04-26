@@ -354,15 +354,19 @@ def json_iri_bnode_from_rdf_graph(
                     {
                         "pred": {
                             "uri": str(bnode_pred),
-                            "prefix": rdf_graph.compute_qname(bnode_pred)[0],
-                            "namespace": str(rdf_graph.compute_qname(bnode_pred)[1]),
-                            "property": rdf_graph.compute_qname(bnode_pred)[2],
+                            "prefix": rdf_graph.compute_qname(str(bnode_pred))[0],
+                            "namespace": str(
+                                rdf_graph.compute_qname(str(bnode_pred))[1]
+                            ),
+                            "property": rdf_graph.compute_qname(str(bnode_pred))[2],
                         },
                         "obj": {
                             "uri": str(bnode_obj),
-                            "prefix": rdf_graph.compute_qname(bnode_obj)[0],
-                            "namespace": str(rdf_graph.compute_qname(bnode_obj)[1]),
-                            "property": rdf_graph.compute_qname(bnode_obj)[2],
+                            "prefix": rdf_graph.compute_qname(str(bnode_obj))[0],
+                            "namespace": str(
+                                rdf_graph.compute_qname(str(bnode_obj))[1]
+                            ),
+                            "property": rdf_graph.compute_qname(str(bnode_obj))[2],
                             "pref_label": [
                                 str(pl)
                                 for pl in rdf_graph.objects(bnode_obj, SKOS.prefLabel)
