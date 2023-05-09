@@ -224,9 +224,9 @@ def get_label_for_parent(resource_uri: str, sparql_endpoint: str) -> Graph:
     """Returns a graph with the triple for the label/title of the parent object."""
     query_construct_labels_for_parent = (
         f"CONSTRUCT {{ ?o sdo:name ?parent_name }}"
-        f"WHERE {{ <{resource_uri}> (sdo:partOfSeries|sdo:partOfSeason) ?o FILTER(!ISBLANK(?o)) "
+        f"WHERE {{ <{resource_uri}> (sdo:partOfSeries|sdo:partOfSeason|sdo:includedInDataCatalog|^sdo:distribution) ?o FILTER(!ISBLANK(?o)) "
         f"OPTIONAL {{ ?o sdo:name ?o_name }}"
-        f'BIND( COALESCE( IF(?o_name, ?o_name, 1/0), "UNTITLED"^^xsd:string )'
+        f'BIND( COALESCE( IF(STR(?o_name), STR(?o_name), 1/0), "UNTITLED"^^xsd:string )'
         f" AS ?parent_name)}}"
     )
     return sparql_construct_query(sparql_endpoint, query_construct_labels_for_parent)
@@ -236,9 +236,9 @@ def get_label_for_has_part(resource_uri: str, sparql_endpoint: str) -> Graph:
     """Returns a graph with the triples for the label/title for sdo:hasPart"""
     query_construct_labels_for_has_part = (
         f"CONSTRUCT {{ ?o sdo:name ?part_name }}"
-        f"WHERE {{ <{resource_uri}> sdo:hasPart ?o FILTER(!ISBLANK(?o)) "
+        f"WHERE {{ <{resource_uri}> (sdo:hasPart|sdo:dataset|sdo:distribution) ?o FILTER(!ISBLANK(?o)) "
         f"OPTIONAL {{ ?o sdo:name ?o_name }}"
-        f'BIND( COALESCE( IF(?o_name, ?o_name, 1/0), "UNTITLED"^^xsd:string )'
+        f'BIND( COALESCE( IF(STR(?o_name), STR(?o_name), 1/0), "UNTITLED"^^xsd:string )'
         f" AS ?part_name)}}"
     )
     return sparql_construct_query(sparql_endpoint, query_construct_labels_for_has_part)

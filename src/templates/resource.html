@@ -71,10 +71,12 @@
 			{% elif item.p.uri == 'https://schema.org/license' %}
 			<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.uri}}</a>
 			{% elif item.p.uri == 'https://schema.org/partOfSeason' or item.p.uri == 'https://schema.org/partOfSeries'
-			or item.p.uri == 'https://schema.org/isPartOf'
+			or item.p.uri == 'https://schema.org/isPartOf' or item.p.uri == 'https://schema.org/includedInDataCatalog'
+			or item.p.uri == 'https://schema.org/distribution'
 			%}
 			<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.parent_label|first}}</a>
-			{% elif item.p.uri == 'https://schema.org/hasPart'%}
+			{% elif item.p.uri == 'https://schema.org/hasPart' or item.p.uri == 'https://schema.org/distribution' or
+			item.p.uri == 'https://schema.org/dataset' %}
 			<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.part_label|first}}</a>
 			{% elif 'data.beeldengeluid.nl/id/' in item.o.uri or 'zoeken.beeldengeluid' in item.o.uri or
 			'www.beeldengeluid'in item.o.uri or 'apis.beeldengeluid' in item.o.uri or item.o.uri|last == '/' %}
