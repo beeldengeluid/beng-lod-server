@@ -122,10 +122,9 @@ def get_triples_for_lod_resource_from_rdf_store(
 def get_preflabels_for_lod_resource_from_rdf_store(
     resource_url: str, sparql_endpoint: str
 ) -> Graph:
-    """Gets the preflabels for the SKOS Concepts attached to the LOD resource.
+    """Gets the preflabels for the SKOS Concepts linked to the LOD resource.
     The labels are derived from the SKOSXL labels in the thesaurus graph in the
     RDF store. Acquiring preferred labels this way, is referred to as 'dumbing down'.
-    Note: the resource itself is not a SKOS Concept.
     """
     query_construct_pref_labels = (
         f"CONSTRUCT {{ ?s ?p ?o . ?o skos:prefLabel ?pref_label }}"
