@@ -10,6 +10,7 @@
 		<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/beng-lod-style.css')}}">
 		<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 		<title>{% block title %}{% endblock %} - Beeld en Geluid</title>
+		<script type="application/ld+json">{% block structured_data %}{% endblock %}</script>
 	</head>
 	<body>
 		<nav class="navbar navbar-light bg-white">
