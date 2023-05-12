@@ -257,6 +257,7 @@ def json_ld_structured_data_for_resource(rdf_graph: Graph, resource_url: str) ->
         auto_compact=True,
     )
 
+
 def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
     """Sends a SPARQL CONSTRUCT query to the SPARQL endpoint and returns the result parsed into a Graph.
     raises a ConnectionError when the sparql endpoint can not be reached, or
