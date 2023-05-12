@@ -11,22 +11,19 @@
 		<div class="row align-items-end">
 			<div class="col-6">
 				{% if (json_header|first) is defined %}
-				{% if (json_header|first).title %}
-				<h1>{{ ((json_header|first).title|first) }}</h1>
+					{% if (json_header|first).title %}
+						<h1>{{ ((json_header|first).title|first) }}</h1>
+					{% endif %}
 				{% endif %}
-				{% endif %}
-				<a class="link-light" title="&lt;{{resource_uri}}&gt;" href="{{resource_uri}}"
-					target="_blank">&lt;{{resource_uri}}&gt;</a>
+				<a class="link-light" title="&lt;{{resource_uri}}&gt;" href="{{resource_uri}}" target="_blank">&lt;{{resource_uri}}&gt;</a>
 			</div>
 			<div class="col-6 text-end">
 				{% for item in json_header %}
-				{% if item.o.prefix|length %}
-				<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank"
-					id="header_rdf_type">{{item.o.prefix}}:<span class="fw-bold">{{item.o.property}}</span></a>
-				{% else %}
-				<a class="link-light" title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}"
-					target="_blank">&lt;{{item.o.namespace}}<span class="fw-bold">{{item.o.property}}</span>&gt;</a><br>
-				{% endif %}
+					{% if item.o.prefix|length %}
+						<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank" id="header_rdf_type">{{item.o.prefix}}:<span class="fw-bold">{{item.o.property}}</span></a>
+					{% else %}
+						<a class="link-light" title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">&lt;{{item.o.namespace}}<span class="fw-bold">{{item.o.property}}</span>&gt;</a><br>
+					{% endif %}
 				{% endfor %}
 			</div>
 		</div>
@@ -39,44 +36,37 @@
 	{% for item in json_iri_lit %}
 	<div class="row">
 		<div class="col-3 py-2">
-			<a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">{{item.p.prefix}}:<span
-					class="fw-bold">{{item.p.property}}</span></a>
+			<a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">{{item.p.prefix}}:<span class="fw-bold">{{item.p.property}}</span></a>
 		</div>
 		<div class="col-6 py-2 border-bottom">{{item.o.literal_value}}</div>
 		{% if item.o.datatype|length %}
-		<div class="col-3 py-2 border-bottom text-end">{{item.o.datatype_prefix}}:<span
-				class="fw-bold">{{item.o.datatype_property}}</span></div>
+			<div class="col-3 py-2 border-bottom text-end">{{item.o.datatype_prefix}}:<span class="fw-bold">{{item.o.datatype_property}}</span></div>
 		{% endif %}
 	</div>
 	{% endfor %}
 	{% for item in json_iri_iri %}
 	<div class="row">
 		<div class="col-3 py-2">
-			<a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">{{item.p.prefix}}:<span
-					class="fw-bold">{{item.p.property}}</span></a>
+			<a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">{{item.p.prefix}}:<span class="fw-bold">{{item.p.property}}</span></a>
 		</div>
 		<div class="col-9 py-2 border-bottom">
 			{% if item.o.pref_label|length %}
-			{% if item.o.uri.startswith('http://data.beeldengeluid.nl/gtaa/') %}
-			<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{ item.o.pref_label|first }}</a>
-			{% endif %}
+				{% if item.o.uri.startswith('http://data.beeldengeluid.nl/gtaa/') %}
+					<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{ item.o.pref_label|first }}</a>
+				{% endif %}
 			{% elif item.o.literal_form|length %}
-			<div class="row">
-				<div class="col py-2 border-bottom">
-					<a title="&lt;http://www.w3.org/2008/05/skos-xl#literalForm&gt;"
-						href="http://www.w3.org/2008/05/skos-xl#literalForm" target="_blank">skosxl:<span
-							class="fw-bold">literalForm</span></a>
+				<div class="row">
+					<div class="col py-2 border-bottom">
+						<a title="&lt;http://www.w3.org/2008/05/skos-xl#literalForm&gt;" href="http://www.w3.org/2008/05/skos-xl#literalForm" target="_blank">skosxl:<span class="fw-bold">literalForm</span></a>
+					</div>
+					<div class="col py-2 border-bottom">{{item.o.literal_form|first}}</div>
 				</div>
-				<div class="col py-2 border-bottom">{{item.o.literal_form|first}}</div>
-			</div>
 			{% elif item.p.uri == 'https://schema.org/license' %}
-			<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.uri}}</a>
-			{% elif 'data.beeldengeluid.nl/id/' in item.o.uri or 'zoeken.beeldengeluid' in item.o.uri or
-			'www.beeldengeluid'in item.o.uri or 'apis.beeldengeluid' in item.o.uri or item.o.uri|last == '/' %}
-			<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.uri}}</a>
+				<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.uri}}</a>
+			{% elif 'data.beeldengeluid.nl/id/' in item.o.uri or 'zoeken.beeldengeluid' in item.o.uri or 'www.beeldengeluid'in item.o.uri or 'apis.beeldengeluid' in item.o.uri or item.o.uri|last == '/' %}
+				<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.uri}}</a>
 			{% else %}
-			<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.prefix}}:<span
-					class="fw-bold">{{item.o.property}}</span></a>
+				<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.prefix}}:<span class="fw-bold">{{item.o.property}}</span></a>
 			{% endif %}
 		</div>
 	</div>
@@ -84,29 +74,25 @@
 	{% for item in json_iri_bnode %}
 	<div class="row">
 		<div class="col-3 py-2">
-			<a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">{{item.p.prefix}}:<span
-					class="fw-bold">{{item.p.property}}</span></a>
+			<a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">{{item.p.prefix}}:<span class="fw-bold">{{item.p.property}}</span></a>
 		</div>
 		<div class="col-9 py-2 border-bottom">
 			{% for bnode in item.o %}
-			<div class="row">
-				<div class="col py-2 border-bottom">
-					<a title="&lt;{{bnode.pred.uri}}&gt;" href="{{bnode.pred.uri}}"
-						target="_blank">{{bnode.pred.prefix}}:<span class="fw-bold">{{bnode.pred.property}}</span></a>
+				<div class="row">
+					<div class="col py-2 border-bottom">
+						<a title="&lt;{{bnode.pred.uri}}&gt;" href="{{bnode.pred.uri}}" target="_blank">{{bnode.pred.prefix}}:<span class="fw-bold">{{bnode.pred.property}}</span></a>
+					</div>
+					<div class="col py-2 border-bottom">
+						{% if bnode.obj.uri is defined %}
+							{% if bnode.obj.uri.startswith('http://data.beeldengeluid.nl/gtaa/') %}
+								<a title="&lt;{{bnode.obj.uri}}&gt;" href="{{bnode.obj.uri}}" target="_blank">{{ bnode.obj.pref_label|first }}</a>
+							{% else %}
+								<a title="&lt;{{bnode.obj.uri}}&gt;" href="{{bnode.obj.uri}}" target="_blank">{{bnode.obj.prefix}}:<span class="fw-bold">{{bnode.obj.property}}</span></a>
+							{% endif %}
+						{% else %}{{bnode.obj}}
+						{% endif %}
+					</div>
 				</div>
-				<div class="col py-2 border-bottom">
-					{% if bnode.obj.uri is defined %}
-					{% if bnode.obj.uri.startswith('http://data.beeldengeluid.nl/gtaa/') %}
-					<a title="&lt;{{bnode.obj.uri}}&gt;" href="{{bnode.obj.uri}}" target="_blank">{{
-						bnode.obj.pref_label|first }}</a>
-					{% else %}
-					<a title="&lt;{{bnode.obj.uri}}&gt;" href="{{bnode.obj.uri}}"
-						target="_blank">{{bnode.obj.prefix}}:<span class="fw-bold">{{bnode.obj.property}}</span></a>
-					{% endif %}
-					{% else %}{{bnode.obj}}
-					{% endif %}
-				</div>
-			</div>
 			{% endfor %}
 		</div>
 	</div>
@@ -124,17 +110,15 @@
 			<div class="col-8">
 				<nav class="navbar navbar-dark bg-transparent">
 					<span class="navbar-brand">
-						<img src="{{url_for('static', filename='images/B&G_logo_RGB_liggend_RL_Blauw.svg')}}"
-							alt="Beeld & Geluid logo" width="142" height="30" class="d-inline-block align-text-top">
+						<img src="{{url_for('static', filename='images/B&G_logo_RGB_liggend_RL_Blauw.svg')}}" alt="Beeld & Geluid logo" width="142" height="30" class="d-inline-block align-text-top">
 						<strong>lod</strong> view
 					</span>
 				</nav>
 			</div>
 			<div class="col-4">
 				<div class="py-2">
-					data from: <a class="text-white" title="{{ nisv_sparql_endpoint }}"
-						href="{{ nisv_sparql_endpoint }}" target="_blank">{{ nisv_sparql_endpoint }}</a><br>
-					<!--					view as: <a class="text-white" title="application/ld+json" href="{{resource_uri}}" target="_blank">ld+json</a>-->
+					data from: <a class="text-white" title="{{ nisv_sparql_endpoint }}" href="{{ nisv_sparql_endpoint }}" target="_blank">{{ nisv_sparql_endpoint }}</a><br>
+<!--					view as: <a class="text-white" title="application/ld+json" href="{{resource_uri}}" target="_blank">ld+json</a>-->
 				</div>
 			</div>
 		</div>
