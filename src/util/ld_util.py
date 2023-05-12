@@ -222,15 +222,15 @@ def json_header_from_rdf_graph(
                 ],
                 "o": {
                     "uri": str(o),
-                    "prefix": rdf_graph.compute_qname(o)[0],
-                    "namespace": str(rdf_graph.compute_qname(o)[1]),
-                    "property": rdf_graph.compute_qname(o)[2],
+                    "prefix": rdf_graph.compute_qname(str(o))[0],
+                    "namespace": str(rdf_graph.compute_qname(str(o))[1]),
+                    "property": rdf_graph.compute_qname(str(o))[2],
                 },
             }
             for o in rdf_graph.objects(
                 subject=URIRef(resource_url), predicate=URIRef(RDF.type)
             )
-            if str(rdf_graph.compute_qname(o)[1]) in (str(SDO), str(SKOS))
+            if str(rdf_graph.compute_qname(str(o))[1]) in (str(SDO), str(SKOS))
         ]
         return json_header
     except Exception as e:
@@ -249,9 +249,9 @@ def json_iri_iri_from_rdf_graph(
             {
                 "p": {
                     "uri": str(p),
-                    "prefix": rdf_graph.compute_qname(p)[0],
-                    "namespace": str(rdf_graph.compute_qname(p)[1]),
-                    "property": rdf_graph.compute_qname(p)[2],
+                    "prefix": rdf_graph.compute_qname(str(p))[0],
+                    "namespace": str(rdf_graph.compute_qname(str(p))[1]),
+                    "property": rdf_graph.compute_qname(str(p))[2],
                 },
                 "o": {
                     "uri": str(o),
@@ -261,9 +261,9 @@ def json_iri_iri_from_rdf_graph(
                             o, URIRef(f"{SKOSXL_NS}literalForm")
                         )
                     ],
-                    "prefix": rdf_graph.compute_qname(o)[0],
-                    "namespace": str(rdf_graph.compute_qname(o)[1]),
-                    "property": rdf_graph.compute_qname(o)[2],
+                    "prefix": rdf_graph.compute_qname(str(o))[0],
+                    "namespace": str(rdf_graph.compute_qname(str(o))[1]),
+                    "property": rdf_graph.compute_qname(str(o))[2],
                     "pref_label": [
                         str(label) for label in rdf_graph.objects(o, SKOS.prefLabel)
                     ],
@@ -279,9 +279,9 @@ def json_iri_iri_from_rdf_graph(
                     {
                         "p": {
                             "uri": str(p),
-                            "prefix": rdf_graph.compute_qname(p)[0],
-                            "namespace": str(rdf_graph.compute_qname(p)[1]),
-                            "property": rdf_graph.compute_qname(p)[2],
+                            "prefix": rdf_graph.compute_qname(str(p))[0],
+                            "namespace": str(rdf_graph.compute_qname(str(p))[1]),
+                            "property": rdf_graph.compute_qname(str(p))[2],
                         },
                         "o": {
                             "uri": str(o),
@@ -310,20 +310,22 @@ def json_iri_lit_from_rdf_graph(
             {
                 "p": {
                     "uri": str(p),
-                    "prefix": rdf_graph.compute_qname(p)[0],
-                    "namespace": str(rdf_graph.compute_qname(p)[1]),
-                    "property": rdf_graph.compute_qname(p)[2],
+                    "prefix": rdf_graph.compute_qname(str(p))[0],
+                    "namespace": str(rdf_graph.compute_qname(str(p))[1]),
+                    "property": rdf_graph.compute_qname(str(p))[2],
                 },
                 "o": {
                     "literal_value": str(o),
                     "datatype": str(o.datatype) if o.datatype is not None else "",
-                    "datatype_prefix": rdf_graph.compute_qname(o.datatype)[0]
+                    "datatype_prefix": rdf_graph.compute_qname(str(o.datatype))[0]
                     if o.datatype is not None
                     else "",
-                    "datatype_namespace": str(rdf_graph.compute_qname(o.datatype)[1])
+                    "datatype_namespace": str(
+                        rdf_graph.compute_qname(str(o.datatype))[1]
+                    )
                     if o.datatype is not None
                     else "",
-                    "datatype_property": rdf_graph.compute_qname(o.datatype)[2]
+                    "datatype_property": rdf_graph.compute_qname(str(o.datatype))[2]
                     if o.datatype is not None
                     else "",
                 },
@@ -352,15 +354,19 @@ def json_iri_bnode_from_rdf_graph(
                     {
                         "pred": {
                             "uri": str(bnode_pred),
-                            "prefix": rdf_graph.compute_qname(bnode_pred)[0],
-                            "namespace": str(rdf_graph.compute_qname(bnode_pred)[1]),
-                            "property": rdf_graph.compute_qname(bnode_pred)[2],
+                            "prefix": rdf_graph.compute_qname(str(bnode_pred))[0],
+                            "namespace": str(
+                                rdf_graph.compute_qname(str(bnode_pred))[1]
+                            ),
+                            "property": rdf_graph.compute_qname(str(bnode_pred))[2],
                         },
                         "obj": {
                             "uri": str(bnode_obj),
-                            "prefix": rdf_graph.compute_qname(bnode_obj)[0],
-                            "namespace": str(rdf_graph.compute_qname(bnode_obj)[1]),
-                            "property": rdf_graph.compute_qname(bnode_obj)[2],
+                            "prefix": rdf_graph.compute_qname(str(bnode_obj))[0],
+                            "namespace": str(
+                                rdf_graph.compute_qname(str(bnode_obj))[1]
+                            ),
+                            "property": rdf_graph.compute_qname(str(bnode_obj))[2],
                             "pref_label": [
                                 str(pl)
                                 for pl in rdf_graph.objects(bnode_obj, SKOS.prefLabel)
@@ -379,9 +385,9 @@ def json_iri_bnode_from_rdf_graph(
                     {
                         "p": {
                             "uri": str(p),
-                            "prefix": rdf_graph.compute_qname(p)[0],
-                            "namespace": str(rdf_graph.compute_qname(p)[1]),
-                            "property": rdf_graph.compute_qname(p)[2],
+                            "prefix": rdf_graph.compute_qname(str(p))[0],
+                            "namespace": str(rdf_graph.compute_qname(str(p))[1]),
+                            "property": rdf_graph.compute_qname(str(p))[2],
                         },
                         "o": bnode_content,
                     }
