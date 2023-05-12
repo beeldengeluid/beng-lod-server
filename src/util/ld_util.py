@@ -20,6 +20,7 @@ SDOTORG = "https://schema.org/"
 BENGTHES = "http://data.beeldengeluid.nl/schema/thes#"
 WIKIDATA = "http://www.wikidata.org/entity/"
 SKOS_NS = "http://www.w3.org/2004/02/skos/core#"
+DCTERMS_NS = "http://purl.org/dc/terms/"
 
 
 def generate_lod_resource_uri(
@@ -98,6 +99,7 @@ def get_lod_resource_from_rdf_store(
         g.bind("bengthes", BENGTHES)
         g.bind("wd", WIKIDATA)
         g.bind("skos", SKOS_NS)
+        g.bind("dcterms", DCTERMS_NS)
 
         return g
     except ConnectionError as e:
