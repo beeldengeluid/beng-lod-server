@@ -199,7 +199,7 @@ def json_ld_structured_data_for_resource(rdf_graph: Graph, resource_url: str) ->
     """
     return rdf_graph.serialize(
         format="json-ld",
-        context={k: v for k, v in rdf_graph.namespaces()},
+        context=dict(rdf_graph.namespaces()),
         auto_compact=True,
     )
 
