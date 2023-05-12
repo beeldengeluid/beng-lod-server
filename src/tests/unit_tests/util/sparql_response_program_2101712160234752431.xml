@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE rdf:RDF><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:sdo="https://schema.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+<rdf:Description rdf:about="http://data.beeldengeluid.nl/id/program/2101712160234752431">
+  <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Resource"/>
+  <rdf:type rdf:resource="https://schema.org/CreativeWork"/>
+  <sdo:alternativeHeadline rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The Treble Spankers</sdo:alternativeHeadline>
+  <sdo:datePublished rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1996-02-03</sdo:datePublished>
+  <sdo:keywords rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The Treble Spenkers</sdo:keywords>
+  <sdo:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2 Meter Sessie</sdo:name>
+  <sdo:partOfSeason rdf:resource="http://data.beeldengeluid.nl/id/season/2101608040028849131"/>
+  <sdo:provider rdf:resource="http://data.beeldengeluid.nl/gtaa/209341"/>
+  <sdo:publisher rdf:resource="https://www.beeldengeluid.nl/"/>
+  <sdo:url rdf:resource="https://zoeken.beeldengeluid.nl/program/urn:vme:default:program:2101712160234752431"/>
+</rdf:Description>
+
+</rdf:RDF>
