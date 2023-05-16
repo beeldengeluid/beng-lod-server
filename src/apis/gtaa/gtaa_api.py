@@ -5,6 +5,7 @@ from apis.mime_type_util import MimeType
 from util.APIUtil import APIUtil
 from util.ld_util import (
     get_lod_resource_from_rdf_store,
+    json_ld_structured_data_for_resource,
     json_header_from_rdf_graph,
     json_iri_iri_from_rdf_graph,
     json_iri_lit_from_rdf_graph,
@@ -121,6 +122,9 @@ class GTAAAPI(Resource):
             return render_template(
                 "resource.html",
                 resource_uri=resource_url,
+                structured_data=json_ld_structured_data_for_resource(
+                    rdf_graph, resource_url
+                ),
                 json_header=json_header_from_rdf_graph(rdf_graph, resource_url),
                 json_iri_iri=json_iri_iri_from_rdf_graph(rdf_graph, resource_url),
                 json_iri_lit=json_iri_lit_from_rdf_graph(rdf_graph, resource_url),

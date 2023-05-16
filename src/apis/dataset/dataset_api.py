@@ -7,6 +7,7 @@ from models.DAANRdfModel import ResourceURILevel
 from util.ld_util import (
     generate_lod_resource_uri,
     get_lod_resource_from_rdf_store,
+    json_ld_structured_data_for_resource,
     json_header_from_rdf_graph,
     json_iri_iri_from_rdf_graph,
     json_iri_lit_from_rdf_graph,
@@ -42,6 +43,9 @@ class LODDataAPI(Resource):
             return render_template(
                 "resource.html",
                 resource_uri=resource_url,
+                structured_data=json_ld_structured_data_for_resource(
+                    rdf_graph, resource_url
+                ),
                 json_header=json_header_from_rdf_graph(rdf_graph, resource_url),
                 json_iri_iri=json_iri_iri_from_rdf_graph(rdf_graph, resource_url),
                 json_iri_lit=json_iri_lit_from_rdf_graph(rdf_graph, resource_url),
