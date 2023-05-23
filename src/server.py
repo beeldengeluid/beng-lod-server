@@ -1,7 +1,7 @@
 import sys
 import logging
 from util.base_util import LOG_FORMAT
-from flask import Flask, redirect, request
+from flask import Flask
 from flask_cors import CORS
 from apis import api
 from util.base_util import validate_config
@@ -33,13 +33,6 @@ app.debug = app.config["DEBUG"]
 CORS(app)
 
 app.url_map.strict_slashes = False
-
-
-@app.before_request
-def clear_trailing():
-    rp = request.path
-    if rp != "/" and rp.endswith("/"):
-        return redirect(rp[:-1])
 
 
 def get_active_profile():
