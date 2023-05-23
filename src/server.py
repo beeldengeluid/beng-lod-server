@@ -1,6 +1,6 @@
 import sys
 import logging
-import re
+# import re
 from util.base_util import LOG_FORMAT
 from flask import Flask, redirect, request
 from flask_cors import CORS
@@ -36,15 +36,15 @@ CORS(app)
 app.url_map.strict_slashes = False
 
 
-@app.before_request
-def clear_trailing():
-    rp = request.path
-    pattern = "^/(id|gtaa)/?(.*)$"
-    match = re.fullmatch(pattern, rp)
-    if match is None:
-        return "Page not found", 404
-    if rp != "/" and rp.endswith("/"):
-        return redirect(rp[:-1])
+# @app.before_request
+# def clear_trailing():
+#     rp = request.path
+#     pattern = "^/(id|gtaa)/?(.*)$"
+#     match = re.fullmatch(pattern, rp)
+#     if match is None:
+#         return "Page not found", 404
+#     if rp != "/" and rp.endswith("/"):
+#         return redirect(rp[:-1])
 
 
 def get_active_profile():
