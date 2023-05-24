@@ -118,7 +118,7 @@ def get_triples_for_lod_resource_from_rdf_store(
     """
     query_construct = (
         f"CONSTRUCT {{ ?s ?p ?o }} WHERE {{ VALUES ?s {{ <{resource_url}> }} "
-        f"?s ?p ?o FILTER(!ISBLANK(?o)) }}"
+        f"?s ?p ?o FILTER(!ISBLANK(?o)) FILTER(?p != skos:prefLabel)}}"
     )
 
     return sparql_construct_query(sparql_endpoint, query_construct)
