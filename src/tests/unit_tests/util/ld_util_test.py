@@ -300,10 +300,7 @@ def test_json_iri_bnode_from_rdf_graph(program_rdf_graph_with_bnodes):
                             ]
                         )
                     if isinstance(bnode_content, Literal):
-                        assert all(
-                            x in bnode_content["obj"]
-                            for x in ["label"]
-                        )                   
+                        assert all(x in bnode_content["obj"] for x in ["label"])
 
     finally:
         unstub()
