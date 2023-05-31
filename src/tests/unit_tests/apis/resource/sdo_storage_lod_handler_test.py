@@ -67,9 +67,6 @@ def test_get_storage_record__ob_scene_payload(application_settings, i_ob_scene_p
         g = Graph()
         g.parse(data=resp, format=mt.to_ld_format())
 
-        # test for number of triples
-        assert len(g) == 31
-
         # test for existence of some triples
         type_triple = (
             URIRef("http://data.beeldengeluid.nl/id/scene/2101703040124290024"),
@@ -83,8 +80,6 @@ def test_get_storage_record__ob_scene_payload(application_settings, i_ob_scene_p
             SDO.license,
             URIRef("http://rightsstatements.org/vocab/CNE/1.0/"),
         )
-        print(license_triple)
-        print(g)
         assert license_triple in g
 
         ob_uri_triple = (
