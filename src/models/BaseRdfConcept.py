@@ -24,7 +24,7 @@ class BaseRdfConcept:
         self._classes = None
         self.itemNode = None
         self.classUri = None
-        self.graph = Graph()
+        self.graph = Graph(bind_namespaces="core")
         self.graph.namespace_manager.bind("skos", SKOS)
         self.graph.namespace_manager.bind("gtaa", Namespace(self._model.GTAA_NAMESPACE))
 

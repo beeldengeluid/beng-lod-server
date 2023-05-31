@@ -23,7 +23,7 @@
 						<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank" id="header_rdf_type">{{item.o.prefix}}:<span class="fw-bold">{{item.o.property}}</span></a>
 					{% else %}
 						<a class="link-light" title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">&lt;{{item.o.namespace}}<span class="fw-bold">{{item.o.property}}</span>&gt;</a><br>
-					{% endif %}
+					{% endif %}	
 				{% endfor %}
 			</div>
 		</div>
@@ -59,7 +59,7 @@
 					<div class="col py-2 border-bottom">
 						<a title="&lt;http://www.w3.org/2008/05/skos-xl#literalForm&gt;" href="http://www.w3.org/2008/05/skos-xl#literalForm" target="_blank">skosxl:<span class="fw-bold">literalForm</span></a>
 					</div>
-					<div class="col py-2 border-bottom">{{item.o.literal_form|first}}</div>
+					<div class="col py-2 border-bottom">{{ item.o.literal_form|first }}</div>
 				</div>
 			{% elif item.p.uri == 'https://schema.org/license' %}
 				<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.uri}}</a>
@@ -86,16 +86,18 @@
 					<div class="col py-2 border-bottom">
 						<a title="&lt;{{bnode.pred.uri}}&gt;" href="{{bnode.pred.uri}}" target="_blank">{{bnode.pred.prefix}}:<span class="fw-bold">{{bnode.pred.property}}</span></a>
 					</div>
-					<div class="col py-2 border-bottom">
-						{% if bnode.obj.uri is defined %}
-							{% if bnode.obj.uri.startswith('http://data.beeldengeluid.nl/gtaa/') %}
-								<a title="&lt;{{bnode.obj.uri}}&gt;" href="{{bnode.obj.uri}}" target="_blank">{{ bnode.obj.pref_label|first }}</a>
+					{% if bnode.obj.uri is defined %}
+						<div class="col py-2 border-bottom">
+							{% if bnode.obj.uri.startswith('http://data.beeldengeluid.nl/gtaa/') and bnode.obj.pref_label|length %}
+								<a title="&lt;{{bnode.obj.uri}}&gt;" href="{{bnode.obj.uri}}" target="_blank">{{bnode.obj.pref_label|first}}</a>
 							{% else %}
 								<a title="&lt;{{bnode.obj.uri}}&gt;" href="{{bnode.obj.uri}}" target="_blank">{{bnode.obj.prefix}}:<span class="fw-bold">{{bnode.obj.property}}</span></a>
 							{% endif %}
-						{% else %}{{bnode.obj}}
-						{% endif %}
-					</div>
+						</div>
+					{% endif %}
+					{% if bnode.obj.label is defined and bnode.obj.label|length %}
+						<div class="col-6 py-2 border-bottom">{{bnode.obj.label}}</div>
+					{% endif %}
 				</div>
 			{% endfor %}
 		</div>

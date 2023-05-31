@@ -21,6 +21,7 @@ BENGTHES = "http://data.beeldengeluid.nl/schema/thes#"
 WIKIDATA = "http://www.wikidata.org/entity/"
 SKOS_NS = "http://www.w3.org/2004/02/skos/core#"
 DCTERMS_NS = "http://purl.org/dc/terms/"
+DISCOGS = "https://api.discogs.com/artists/"
 
 
 def generate_lod_resource_uri(
@@ -100,6 +101,7 @@ def get_lod_resource_from_rdf_store(
         g.bind("wd", WIKIDATA)
         g.bind("skos", SKOS_NS)
         g.bind("dcterms", DCTERMS_NS)
+        g.bind("discogs", DISCOGS)
 
         return g
     except ConnectionError as e:
@@ -118,7 +120,7 @@ def get_triples_for_lod_resource_from_rdf_store(
     """
     query_construct = (
         f"CONSTRUCT {{ ?s ?p ?o }} WHERE {{ VALUES ?s {{ <{resource_url}> }} "
-        f"?s ?p ?o FILTER(!ISBLANK(?o)) FILTER(?p != skos:prefLabel)}}"
+        f"?s ?p ?o FILTER(!ISBLANK(?o)) FILTER(?p != skos:prefLabel) FILTER(?p != dcterms:dateAvailable)}}"
     )
 
     return sparql_construct_query(sparql_endpoint, query_construct)
@@ -156,9 +158,10 @@ def get_preflabel_for_gtaa_resource_from_rdf_store(
 def get_triples_for_blank_node_from_rdf_store(
     resource_url: str, sparql_endpoint: str
 ) -> Graph:
-    """Returns a graph with triples for blank nodes attached the LOD resource (including preflabels for the
-    SKOS Concepts from the rdf store). We need to do that with two separate queries, because ClioPatria doesn't
-    support CONSTRUCT queries with UNION.
+    """Returns a graph with triples for blank nodes attached the LOD resource
+    (including preflabels for the SKOS Concepts from the rdf store). We need
+    to do that with two separate queries, because ClioPatria doesn't support
+    CONSTRUCT queries with UNION.
     """
     # first we get all the triples for the blank nodes...
     query_construct_bnodes = (
@@ -283,6 +286,7 @@ def json_header_from_rdf_graph(
                 "title": [
                     str(label)
                     for label in rdf_graph.objects(URIRef(resource_url), SKOS.prefLabel)
+                    if label.language == "nl"
                 ]
                 + [
                     str(name)
@@ -328,7 +332,7 @@ def json_iri_iri_from_rdf_graph(
                 "o": {
                     "uri": str(o),
                     "literal_form": [
-                        str(lf)
+                        f"{str(lf)} @{lf.language}"
                         for lf in rdf_graph.objects(
                             o, URIRef(f"{SKOSXL_NS}literalForm")
                         )
@@ -337,7 +341,9 @@ def json_iri_iri_from_rdf_graph(
                     "namespace": str(rdf_graph.compute_qname(str(o))[1]),
                     "property": rdf_graph.compute_qname(str(o))[2],
                     "pref_label": [
-                        str(label) for label in rdf_graph.objects(o, SKOS.prefLabel)
+                        str(label)
+                        for label in rdf_graph.objects(o, SKOS.prefLabel)
+                        if label.language == "nl"
                     ],
                     "parent_label": [
                         str(label) for label in rdf_graph.objects(o, SDO.name)
@@ -393,7 +399,9 @@ def json_iri_lit_from_rdf_graph(
                     "property": rdf_graph.compute_qname(str(p))[2],
                 },
                 "o": {
-                    "literal_value": str(o),
+                    "literal_value": f"{str(o)} @{o.language}"
+                    if o.language
+                    else f"{str(o)}",
                     "datatype": str(o.datatype) if o.datatype is not None else "",
                     "datatype_prefix": rdf_graph.compute_qname(str(o.datatype))[0]
                     if o.datatype is not None
@@ -426,7 +434,6 @@ def json_iri_bnode_from_rdf_graph(
     json_iri_bnode = []
     try:
         for p, o in rdf_graph.predicate_objects(subject=URIRef(resource_url)):
-            # print(f"{p}\t{o}")
             if p != RDF.type and isinstance(o, BNode):
                 bnode_content = [
                     {
@@ -446,11 +453,17 @@ def json_iri_bnode_from_rdf_graph(
                             ),
                             "property": rdf_graph.compute_qname(str(bnode_obj))[2],
                             "pref_label": [
-                                str(pl)
+                                f"{str(pl)} @{pl.language}"
                                 for pl in rdf_graph.objects(bnode_obj, SKOS.prefLabel)
                             ],
                         }
                         if isinstance(bnode_obj, URIRef)
+                        else {
+                            "label": f"{str(bnode_obj)} @{bnode_obj.language}"
+                            if bnode_obj.language
+                            else f"{str(bnode_obj)}"
+                        }
+                        if isinstance(bnode_obj, Literal)
                         else str(bnode_obj),
                     }
                     for (bnode_pred, bnode_obj) in rdf_graph.predicate_objects(
@@ -470,8 +483,6 @@ def json_iri_bnode_from_rdf_graph(
                         "o": bnode_content,
                     }
                 )
-                # print(f"{p}\t{o}\t{bnode_content}")
-        # print(json.dumps(json_iri_bnode, indent=4))
         return json_iri_bnode
     except Exception as e:
         logger.exception(f"Error in json_iri_bnode_from_rdf_graph: {str(e)}")
