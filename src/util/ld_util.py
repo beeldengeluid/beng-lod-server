@@ -286,7 +286,7 @@ def json_header_from_rdf_graph(
                 "title": [
                     str(label)
                     for label in rdf_graph.objects(URIRef(resource_url), SKOS.prefLabel)
-                    if label.language == "nl"
+                    if Literal(label).language == "nl"
                 ]
                 + [
                     str(name)
@@ -332,7 +332,7 @@ def json_iri_iri_from_rdf_graph(
                 "o": {
                     "uri": str(o),
                     "literal_form": [
-                        f"{str(lf)} @{lf.language}"
+                        f"{str(lf)} @{Literal(lf).language}"
                         for lf in rdf_graph.objects(
                             o, URIRef(f"{SKOSXL_NS}literalForm")
                         )
@@ -343,7 +343,7 @@ def json_iri_iri_from_rdf_graph(
                     "pref_label": [
                         str(label)
                         for label in rdf_graph.objects(o, SKOS.prefLabel)
-                        if label.language == "nl"
+                        if Literal(label).language == "nl"
                     ],
                     "parent_label": [
                         str(label) for label in rdf_graph.objects(o, SDO.name)
@@ -453,7 +453,7 @@ def json_iri_bnode_from_rdf_graph(
                             ),
                             "property": rdf_graph.compute_qname(str(bnode_obj))[2],
                             "pref_label": [
-                                f"{str(pl)} @{pl.language}"
+                                f"{str(pl)} @{Literal(pl).language}"
                                 for pl in rdf_graph.objects(bnode_obj, SKOS.prefLabel)
                             ],
                         }
