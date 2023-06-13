@@ -454,13 +454,14 @@ class SDORdfConcept(BaseRdfConcept):
                         )
                     )
 
-                    self.graph.add(
-                        (
-                            skos_concept_node,
-                            SKOS.prefLabel,
-                            Literal(concept_label, lang="nl"),
-                        )
-                    )
+                    # CANNOT DO THIS, because the flex store doesn't provide language attributes
+                    # self.graph.add(
+                    #     (
+                    #         skos_concept_node,
+                    #         SKOS.prefLabel,
+                    #         Literal(concept_label, lang="nl"),
+                    #     )
+                    # )
                     break
 
         return skos_concept_node

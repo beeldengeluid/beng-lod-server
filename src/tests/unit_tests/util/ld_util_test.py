@@ -4,7 +4,7 @@ import pytest
 # the following SDO import generates a warning, see
 # https://github.com/RDFLib/rdflib/issues/1830
 
-from rdflib import Graph
+from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import SDO, RDF
 from rdflib.compare import to_isomorphic
 import requests
@@ -288,16 +288,19 @@ def test_json_iri_bnode_from_rdf_graph(program_rdf_graph_with_bnodes):
                     bnode_content["obj"], dict
                 )
                 if isinstance(bnode_content["obj"], dict):
-                    assert all(
-                        x in bnode_content["obj"]
-                        for x in [
-                            "uri",
-                            "prefix",
-                            "namespace",
-                            "property",
-                            "pref_label",
-                        ]
-                    )
+                    if isinstance(bnode_content, URIRef):
+                        assert all(
+                            x in bnode_content["obj"]
+                            for x in [
+                                "uri",
+                                "prefix",
+                                "namespace",
+                                "property",
+                                "pref_label",
+                            ]
+                        )
+                    if isinstance(bnode_content, Literal):
+                        assert all(x in bnode_content["obj"] for x in ["label"])
 
     finally:
         unstub()
