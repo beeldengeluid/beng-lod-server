@@ -13,7 +13,6 @@ jobs:
     uses: ./.github/workflows/test.yml
 
   push-to-registry:
-    # if: ${{ false }} # until aws-ecr push works
     uses: ./.github/workflows/ghcr.yml
     secrets: inherit
 
