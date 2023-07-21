@@ -40,6 +40,7 @@ class Config(object):
             "mapping": relative_from_repo_root("resource/daan-mapping-schema-org.ttl"),
             "storage_handler": SDOStorageLODHandler,
             "ob_links": relative_from_repo_root("resource/ob_link_matches.json"),
+            "roles": relative_from_repo_root("resource/music_roles.csv"),
             "default": True,  # this profile is loaded in memory by default
         },
     ]
