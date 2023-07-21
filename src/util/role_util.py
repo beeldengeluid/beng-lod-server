@@ -5,7 +5,7 @@ from typing import List
 
 def parse_role_label(role_label: str, separators: List[str]):
     """Parses the role label by splitting on a number of possible separators.
-    Note that the resulting strings are not stripped of whitespace, as 
+    Note that the resulting strings are not stripped of whitespace, as
     this is not necessary for later processing
     :param role_string the string containing one or more roles
     :param separators a list of the possible separators
@@ -32,7 +32,10 @@ def match_role(role_strings: List[str], possible_role_groups: List[List[str]]):
         for role_string in role_strings:
             possible_matches_for_string = []
             for possible_role in possible_role_group:
-                if check_word_in_string(possible_role, role_string) and possible_role not in possible_matches_for_string:  
+                if (
+                    check_word_in_string(possible_role, role_string)
+                    and possible_role not in possible_matches_for_string
+                ):
                     possible_matches_for_string.append(possible_role)
             # if multiple matches
             if len(possible_matches_for_string) > 1:
@@ -43,10 +46,11 @@ def match_role(role_strings: List[str], possible_role_groups: List[List[str]]):
                 # check if the other matches exist in addition to the longest
                 string_without_longest = role_string.replace(longest_match, "")
                 for other_possible_role in possible_matches_for_string:
-                    if check_word_in_string(other_possible_role, string_without_longest):
+                    if check_word_in_string(
+                        other_possible_role, string_without_longest
+                    ):
                         matched_roles.append(other_possible_role)
-            else: 
+            else:
                 matched_roles.extend(possible_matches_for_string)
 
     return list(set(matched_roles))  # remove duplicates
-
