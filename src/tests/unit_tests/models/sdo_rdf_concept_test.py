@@ -113,47 +113,55 @@ def test_create_role_groups():
     [
         ("", []),
         ("something", []),
-        ("dummy", [("um-id-1", "um 1")]),
-        ("another dummy", [("wd-id-3", "WD 3"), ("um-id-3", "um 3")]),
-        ("test", [("wd-id-1", "WD 1")]),
-        ("test test", [("wd-id-1", "WD 1")]),
-        ("trial", [("wd-id-2", "WD 2"), ("um-id-2", "um 2")]),
+        ("dummy", [("um-id-1", "um 1", "um-type-1")]),
+        ("another dummy", [("wd-id-3", "WD 3", ""), ("um-id-3", "um 3", "um-type-3")]),
+        ("test", [("wd-id-1", "WD 1", "wd-type-1")]),
+        ("test test", [("wd-id-1", "WD 1", "wd-type-1")]),
+        ("trial", [("wd-id-2", "WD 2", "wd-type-2"), ("um-id-2", "um 2", "um-type-2")]),
         (
             "dummy, trial",
-            [("um-id-1", "um 1"), ("wd-id-2", "WD 2"), ("um-id-2", "um 2")],
+            [("um-id-1", "um 1", "um-type-1"), ("wd-id-2", "WD 2", "wd-type-2"), ("um-id-2", "um 2", "um-type-2")],
         ),
-        ("trial/test", [("wd-id-1", "WD 1"), ("wd-id-2", "WD 2"), ("um-id-2", "um 2")]),
+        ("trial/test", [("wd-id-1", "WD 1", "wd-type-1"), ("wd-id-2", "WD 2", "wd-type-2"), ("um-id-2", "um 2", "um-type-2")]),
         (
             "dummy and another dummy",
-            [("wd-id-3", "WD 3"), ("um-id-3", "um 3"), ("um-id-1", "um 1")],
+            [("wd-id-3", "WD 3", ""), ("um-id-3", "um 3", "um-type-3"), ("um-id-1", "um 1", "um-type-1")],
         ),
     ],
 )
-def test_get_role_uris_and_labels(role_string, expected_result, sdo_rdf_concept):
+def test_get_matching_role_information(role_string, expected_result, sdo_rdf_concept):
     dummy_mapping = {
         "dummy": {
             "wikidata_identifier": "",
             "wikidata_label": "",
+            "wikidata_type": "",
             "um_identifier": "um-id-1",
             "um_label": "um 1",
+            "um_type": "um-type-1",
         },
         "test": {
             "wikidata_identifier": "wd-id-1",
             "wikidata_label": "WD 1",
+            "wikidata_type": "wd-type-1",
             "um_identifier": "",
             "um_label": "",
+            "um_type": "",
         },
         "trial": {
             "wikidata_identifier": "wd-id-2",
             "wikidata_label": "WD 2",
+            "wikidata_type": "wd-type-2",
             "um_identifier": "um-id-2",
             "um_label": "um 2",
+            "um_type": "um-type-2",
         },
         "another dummy": {
             "wikidata_identifier": "wd-id-3",
             "wikidata_label": "WD 3",
+            "wikidata_type": "",
             "um_identifier": "um-id-3",
             "um_label": "um 3",
+            "um_type": "um-type-3",
         },
     }
 
@@ -162,8 +170,8 @@ def test_get_role_uris_and_labels(role_string, expected_result, sdo_rdf_concept)
     with when(sdo_rdf_concept).get_role_data().thenReturn(
         {"groups": dummy_groups, "mapping": dummy_mapping}
     ):
-        result_uris_and_labels = sdo_rdf_concept.get_role_uris_and_labels(role_string)
-        for result_uri_and_label in result_uris_and_labels:
-            assert result_uri_and_label in expected_result
-        for result_uri_and_label in expected_result:
-            assert result_uri_and_label in result_uris_and_labels
+        result_information_list = sdo_rdf_concept.get_matching_role_information(role_string)
+        for result_information in result_information_list:
+            assert result_information in expected_result
+        for result_information in expected_result:
+            assert result_information in result_information_list

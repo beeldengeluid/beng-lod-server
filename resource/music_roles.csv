@@ -1,431 +1,430 @@
-Role,Wikidata identifier,Wikidata label,UM identifier,UM label
-actrice,http://www.wikidata.org/entity/Q21169216,actrice,,
-arrangeur,http://www.wikidata.org/entity/Q1643514,arrangeur,,
-bandleider,http://www.wikidata.org/entity/Q806349,orkestleider,,
-bewerker,http://www.wikidata.org/entity/Q1643514,arrangeur,,
-camera,http://www.wikidata.org/entity/Q1208175,cameraman,,
-choreografie,http://www.wikidata.org/entity/Q2490358,choreograaf,,
-componist,http://www.wikidata.org/entity/Q36834,componist,,
-concertmeester,http://www.wikidata.org/entity/Q691031,concertmeester,,
-dirigent,http://www.wikidata.org/entity/Q158852,dirigent,,
-dj,http://www.wikidata.org/entity/Q130857,diskjockey,,
-geluid,http://www.wikidata.org/entity/Q128124,geluidsingenieur,,
-geluidstechnicus,http://www.wikidata.org/entity/Q2442329,toontechnicus,,
-instrumentalist,http://www.wikidata.org/entity/Q1278335,instrumentalist,,
-interviewer,http://www.wikidata.org/entity/Q46034607,interviewer,,
-koordirigent,http://www.wikidata.org/entity/Q1076502,koordirigent,,
-montage,http://www.wikidata.org/entity/Q239298,montage,,
-muziekproducer,http://www.wikidata.org/entity/Q183945,muziekproducent,,
-muziekregie,http://www.wikidata.org/entity/Q986888,audiografisch directeur,,
-muzikant,http://www.wikidata.org/entity/Q639669,muzikant,,
-opdrachtgever,http://www.wikidata.org/entity/Q760086,opdrachtgever,,
-poppenspeler,http://www.wikidata.org/entity/Q2629392,poppenspeler,,
-presentatie,http://www.wikidata.org/entity/Q604733,presentatie,,
-presentatrice,http://www.wikidata.org/entity/Q13590141,presentator,,
-producent,http://www.wikidata.org/entity/Q183945,muziekproducent,,
-producer,http://www.wikidata.org/entity/Q183945,muziekproducent,,
-productie,http://www.wikidata.org/entity/Q183945,muziekproducent,,
-programmamaker,http://www.wikidata.org/entity/Q2548714,programmamaker,,
-programmamedewerker,http://www.wikidata.org/entity/Q703534,werknemer,,
-programmatechnicus,http://www.wikidata.org/entity/Q2442329,toontechnicus,,
-redactie,http://www.wikidata.org/entity/Q876864,redacteur,,
-regie,http://www.wikidata.org/entity/Q3455803,regisseur,,
-regisseur,http://www.wikidata.org/entity/Q3455803,regisseur,,
-tekstbewerker,http://www.wikidata.org/entity/Q1607826,tekstbewerker,,
-vertaler,http://www.wikidata.org/entity/Q333634,vertaler,,
-tekstschrijver,http://www.wikidata.org/entity/Q14466416,tekstschrijver,,
-uitvoerende,http://www.wikidata.org/entity/Q713200,uitvoerend kunstenaar,,
-verslaggever,http://www.wikidata.org/entity/Q42909,verslaggever,,
-alt,http://www.wikidata.org/entity/Q6983813,alt,https://data.muziekschatten.nl/som/um55,Alt
-bariton,http://www.wikidata.org/entity/Q31687,bariton,https://data.muziekschatten.nl/som/um206,Bariton
-bas,http://www.wikidata.org/entity/Q27911,bas,https://data.muziekschatten.nl/som/um231,Bas
-bas-bariton,http://www.wikidata.org/entity/Q810480,bass-bariton,,
-countertenor,http://www.wikidata.org/entity/Q223166,contratenor,https://data.muziekschatten.nl/som/um625,Countertenor
-jongenssopraan,http://www.wikidata.org/entity/Q1376492,jongenssopraan,https://data.muziekschatten.nl/som/um1339,Jongenssopraan
-kinderstem,http://www.wikidata.org/entity/,,https://data.muziekschatten.nl/som/um1491,Kinderstem
-mezzosopraan,http://www.wikidata.org/entity/Q186506,mezzosopraan,https://data.muziekschatten.nl/som/um1836,Mezzosopraan
-sopraan,http://www.wikidata.org/entity/Q30903,sopraan,https://data.muziekschatten.nl/som/um2531,Sopraan
-tenor,http://www.wikidata.org/entity/Q27914,tenor,https://data.muziekschatten.nl/som/um2732,Tenor
-achtergrondzang,http://www.wikidata.org/entity/Q798487,achtergrondzanger,,
-acteur,http://www.wikidata.org/entity/Q33999,acteur,,
-artiest,http://www.wikidata.org/entity/Q713200,uitvoerend kunstenaar,,
-beats,http://www.wikidata.org/entity/Q4087517,beatmaker,,
-blad omslaan,http://www.wikidata.org/entity/Q1289565,bladomslaander,,
-countryartiest,http://www.wikidata.org/entity/Q66763670,country musician,,
-dans,http://www.wikidata.org/entity/Q11639,dans,,
-dichter,http://www.wikidata.org/entity/Q49757,dichter,,
-gespr.tekst,http://www.wikidata.org/entity/Q110374796,spoken text,,
-handgeklap,http://www.wikidata.org/entity/Q1574776,klappen,,
-jodelen,http://www.wikidata.org/entity/Q41923,jodelen,,
-morele steun,http://www.wikidata.org/entity/Q16999179,Moral support,,
-rap,http://www.wikidata.org/entity/Q1369991,toasting,,
-rapping,http://www.wikidata.org/entity/Q6010,rap,,
-sprechgesang,http://www.wikidata.org/entity/Q1500983,Spreekkoor,,
-spreekrol,http://www.wikidata.org/entity/Q1312022,speaking role,,
-spreekstem,http://www.wikidata.org/entity/Q106875005,speaker,,
-spreker,http://www.wikidata.org/entity/Q106875005,speaker,,
-stem,http://www.wikidata.org/entity/Q106875005,speaker,,
-tekst,http://www.wikidata.org/entity/Q822146,liedtekstschrijver,,
-verteller,http://www.wikidata.org/entity/Q755070,verteller,,
-voordracht,http://www.wikidata.org/entity/Q23037330,declamator,,
-zang,http://www.wikidata.org/entity/Q27939,zangkunst,,
-band,http://www.wikidata.org/entity/Q215380,muziekgroep,https://data.muziekschatten.nl/som/um2185,Popgroep
-gemengd koor,http://www.wikidata.org/entity/Q3276909,Gemengd koor,https://data.muziekschatten.nl/som/um4567,Gemengd koor
-jeugdkoor,http://www.wikidata.org/entity/Q591250,youth choir,https://data.muziekschatten.nl/som/um1487,Kinderkoor
-jongenskoor,http://www.wikidata.org/entity/Q1776834,knapenkoor,https://data.muziekschatten.nl/som/um1338,Jongenskoor
-jongerenkoor,http://www.wikidata.org/entity/Q591250,youth choir,,
-kinderkoor,http://www.wikidata.org/entity/Q1753063,kinderkoor,https://data.muziekschatten.nl/som/um1487,Kinderkoor
-koor,http://www.wikidata.org/entity/Q131186,koor,https://data.muziekschatten.nl/som/um1568,Koor
-koperensemble,http://www.wikidata.org/entity/Q3244156,brassband,,
-mannenkoor,http://www.wikidata.org/entity/Q1684352,mannenkoor,https://data.muziekschatten.nl/som/um1763,Mannenkoor
-meisjeskoor,http://www.wikidata.org/entity/Q53869202,girls' choir,,
-popgroep,http://www.wikidata.org/entity/Q2491498,popgroep,https://data.muziekschatten.nl/som/um2185,Popgroep
-rockband,http://www.wikidata.org/entity/Q5741069,rockband,,
-vrouwenkoor,http://www.wikidata.org/entity/Q1451652,vrouwenkoor,https://data.muziekschatten.nl/som/um3004,Vrouwenkoor
-accordeon,http://www.wikidata.org/entity/Q79838,accordeon,https://data.muziekschatten.nl/som/um9,Accordeon
-akadinda,http://www.wikidata.org/entity/Q415058,Akadinda,,
-akoestisch bas,http://www.wikidata.org/entity/Q424017,akoestische basgitaar,,
-alpenhoorn,http://www.wikidata.org/entity/Q685206,alpenhoorn,https://data.muziekschatten.nl/som/um54,Alpenhoorn
-alt viool,http://www.wikidata.org/entity/Q80284,altviool,,
-altblokfluit,http://www.wikidata.org/entity/Q15791824,altblokfluit,https://data.muziekschatten.nl/som/um57,Altblokfluit
-altfluit,http://www.wikidata.org/entity/Q544352,Altfluit,https://data.muziekschatten.nl/som/um68,Altfluit
-althobo,http://www.wikidata.org/entity/Q185041,althobo,https://data.muziekschatten.nl/som/um75,Althobo
-altivool,http://www.wikidata.org/entity/Q80284,altviool,,
-altsax,http://www.wikidata.org/entity/Q445275,altsaxofoon,,
-altsaxofoon,http://www.wikidata.org/entity/Q445275,altsaxofoon,https://data.muziekschatten.nl/som/um88,Altsaxofoon
-alttrombone,http://www.wikidata.org/entity/Q1829398,Alttrombone,https://data.muziekschatten.nl/som/um99,Alttrombone
-altviol,http://www.wikidata.org/entity/Q80284,altviool,,
-altviool,http://www.wikidata.org/entity/Q80284,altviool,https://data.muziekschatten.nl/som/um102,Altviool
-altviool barok,http://www.wikidata.org/entity/Q80284,altviool,,
-altviool elektr.,http://www.wikidata.org/entity/Q80284,altviool,,
-ardin,http://www.wikidata.org/entity/Q6532301,ardin,https://data.muziekschatten.nl/som/um129,Ardin
-arpeggione,http://www.wikidata.org/entity/Q638182,Arpeggione,https://data.muziekschatten.nl/som/um135,Arpeggione
-baglama,http://www.wikidata.org/entity/Q717773,bağlama,https://data.muziekschatten.nl/som/um160,Baglama
-bajan,http://www.wikidata.org/entity/Q804099,bajan,,
-balafoon,http://www.wikidata.org/entity/Q789141,balafoon,https://data.muziekschatten.nl/som/um165,Balafoon
-bamboefluit,http://www.wikidata.org/entity/Q54820129,bamboefluit,https://data.muziekschatten.nl/som/um175,Bamboefluit
-bandoneon,http://www.wikidata.org/entity/Q215032,bandoneon,https://data.muziekschatten.nl/som/um182,Bandoneon
-banjo,http://www.wikidata.org/entity/Q258896,banjo,https://data.muziekschatten.nl/som/um195,Banjo
-bansri,http://www.wikidata.org/entity/Q960389,bansuri,,
-baritongitaar,http://www.wikidata.org/entity/Q64038,baritongitaar,,
-baritonsaxofoon,http://www.wikidata.org/entity/Q808218,baritonsaxofoon,https://data.muziekschatten.nl/som/um213,Baritonsaxofoon
-barokgitaar,http://www.wikidata.org/entity/Q748119,Baroque guitar,https://data.muziekschatten.nl/som/um224,Barokgitaar
-barokharp,http://www.wikidata.org/entity/Q47369,harp,,
-barokhobo,http://www.wikidata.org/entity/Q8377,hobo,,
-barokviool,http://www.wikidata.org/entity/Q808578,Barokviool,https://data.muziekschatten.nl/som/um228,Barokviool
-baryton,http://www.wikidata.org/entity/Q521151,barytone,https://data.muziekschatten.nl/som/um229,Baryton
-basfluit,http://www.wikidata.org/entity/Q266675,Basfluit,https://data.muziekschatten.nl/som/um242,Basfluit
-basgamba,http://www.wikidata.org/entity/Q51446928,viola da gamba,https://data.muziekschatten.nl/som/um245,Basgamba
-basgitaar,http://www.wikidata.org/entity/Q46185,basgitaar,https://data.muziekschatten.nl/som/um247,Basgitaar
-basklarinet,http://www.wikidata.org/entity/Q8345,basklarinet,https://data.muziekschatten.nl/som/um254,Basklarinet
-bass,http://www.wikidata.org/entity/Q810447,basinstrument,,
-basset-klarinet,http://www.wikidata.org/entity/Q810511,bassetklarinet,,
-bassethoorn,http://www.wikidata.org/entity/Q810515,bassethoorn,https://data.muziekschatten.nl/som/um274,Bassethoorn
-bassetklarinet,http://www.wikidata.org/entity/Q810511,bassetklarinet,https://data.muziekschatten.nl/som/um276,Bassetklarinet
-bastrombone,http://www.wikidata.org/entity/Q13194854,bastrombone,https://data.muziekschatten.nl/som/um282,Bastrombone
-bastuba,http://www.wikidata.org/entity/Q131168,tuba,https://data.muziekschatten.nl/som/um286,Bastuba
-basuri,http://www.wikidata.org/entity/Q960389,bansuri,https://data.muziekschatten.nl/som/um289,Basuri
-basvedel,http://www.wikidata.org/entity/Q843679,vedel,,
-bawu,http://www.wikidata.org/entity/Q812043,Bawu,https://data.muziekschatten.nl/som/um295,Bawu
-bekkens,http://www.wikidata.org/entity/Q190172,bekken,https://data.muziekschatten.nl/som/um308,Bekkens (set) - familie
-bellen,http://www.wikidata.org/entity/Q101401,klok (bel),https://data.muziekschatten.nl/som/um313,Bellen (set)
-bendir,http://www.wikidata.org/entity/Q816793,adjun,https://data.muziekschatten.nl/som/um316,Bendir
-biwa,http://www.wikidata.org/entity/Q829729,biwa,https://data.muziekschatten.nl/som/um343,Biwa
-blaasinstrumenten,http://www.wikidata.org/entity/Q173453,blaasinstrument,,
-blazers,http://www.wikidata.org/entity/Q173453,blaasinstrument,,
-blokfluit,http://www.wikidata.org/entity/Q187851,blokfluit,https://data.muziekschatten.nl/som/um361,Blokfluit - familie
-blokfluit alt,http://www.wikidata.org/entity/Q15791824,altblokfluit,,
-blokfluit bas,http://www.wikidata.org/entity/Q3353648,basblokfluit,,
-blokfluit sopraan,http://www.wikidata.org/entity/Q1823258,sopraanblokfluit,,
-blokfluit tenor,http://www.wikidata.org/entity/Q2037451,Tenorblokfluit,,
-blokluit,http://www.wikidata.org/entity/Q187851,blokfluit,,
-bongo's,http://www.wikidata.org/entity/Q243998,bongo,https://data.muziekschatten.nl/som/um391,Bongo's
-bouzouki,http://www.wikidata.org/entity/Q322675,bouzouki,https://data.muziekschatten.nl/som/um400,Bouzouki
-bugel,http://www.wikidata.org/entity/Q382616,bugel,https://data.muziekschatten.nl/som/um423,Bugel
-buisklokken,http://www.wikidata.org/entity/Q178812,buisklokken,https://data.muziekschatten.nl/som/um428,Buisklokken (set)
-caja,http://www.wikidata.org/entity/Q208421,kleine trom,https://data.muziekschatten.nl/som/um442,Caja
-cajon,http://www.wikidata.org/entity/Q748455,cajón,https://data.muziekschatten.nl/som/um443,CajÃ³n
-carillon,http://www.wikidata.org/entity/Q505174,beiaard,https://data.muziekschatten.nl/som/um843,Elektrisch carillon
-castagnetten,http://www.wikidata.org/entity/Q183932,castagnetten,https://data.muziekschatten.nl/som/um460,Castagnetten
-celesta,http://www.wikidata.org/entity/Q320341,celesta,https://data.muziekschatten.nl/som/um469,Celesta
-cello,http://www.wikidata.org/entity/Q8371,cello,https://data.muziekschatten.nl/som/um472,Cello
-cello barok,http://www.wikidata.org/entity/Q8371,cello,,
-cello elektr.,http://www.wikidata.org/entity/Q713574,Electric cello,,
-chang go,http://www.wikidata.org/entity/Q1062015,janggu,,
-chitarra battente,http://www.wikidata.org/entity/Q2297117,chitarra battente,https://data.muziekschatten.nl/som/um519,Chitarra battente
-chitarrone,http://www.wikidata.org/entity/Q2216381,Chitarrone,https://data.muziekschatten.nl/som/um520,Chitarrone
-chitende,http://www.wikidata.org/entity/,,https://data.muziekschatten.nl/som/um521,Chitende
-cimbaal,http://www.wikidata.org/entity/Q8374,cimbalom,https://data.muziekschatten.nl/som/um307,Bekken - familie
-cimbalom,http://www.wikidata.org/entity/Q8374,cimbalom,https://data.muziekschatten.nl/som/um541,Cimbalom
-cister,http://www.wikidata.org/entity/Q1093290,citter,https://data.muziekschatten.nl/som/um550,Cister
-citer,http://www.wikidata.org/entity/Q76239,citer,https://data.muziekschatten.nl/som/um552,Citer
-clarino,http://www.wikidata.org/entity/Q943488,klaroen,,
-clavecimbel,http://www.wikidata.org/entity/Q81982,klavecimbel,,
-clavichord,http://www.wikidata.org/entity/Q191823,klavichord,https://data.muziekschatten.nl/som/um1529,Klavichord
-clavicytherium,http://www.wikidata.org/entity/Q1746064,clavicytherium,https://data.muziekschatten.nl/som/um1528,Klavecytherium
-clavinet,http://www.wikidata.org/entity/Q1099153,clavinet,,
-claviorganum,http://www.wikidata.org/entity/Q1099112,claviorganum,https://data.muziekschatten.nl/som/um574,Claviorganum
-concertina,http://www.wikidata.org/entity/Q593050,concertina,https://data.muziekschatten.nl/som/um584,Concertina
-conga's,http://www.wikidata.org/entity/Q270200,Conga,,
-congas,http://www.wikidata.org/entity/Q270200,Conga,https://data.muziekschatten.nl/som/um589,Conga
-contrabas,http://www.wikidata.org/entity/Q80019,contrabas,https://data.muziekschatten.nl/som/um597,Contrabas
-contrabasklarinet,http://www.wikidata.org/entity/Q2731509,contrabass clarinet,https://data.muziekschatten.nl/som/um606,Contrabasklarinet
-contrafagot,http://www.wikidata.org/entity/Q83513,contrafagot,https://data.muziekschatten.nl/som/um615,Contrafagot
-cornet,http://www.wikidata.org/entity/Q202027,kornet,https://data.muziekschatten.nl/som/um1579,Kornet
-corno da caccia,http://www.wikidata.org/entity/Q1134216,corno da caccia,https://data.muziekschatten.nl/som/um1319,Jachthoorn
-cymbaal,http://www.wikidata.org/entity/Q8374,cimbalom,https://data.muziekschatten.nl/som/um307,Bekken - familie
-cymbalom,http://www.wikidata.org/entity/Q8374,cimbalom,,
-daf,http://www.wikidata.org/entity/Q11084057,daf,https://data.muziekschatten.nl/som/um650,Daf
-dan co,http://www.wikidata.org/entity/Q8079925,đàn nhị,https://data.muziekschatten.nl/som/um663,Dan co
-dan nguyet,http://www.wikidata.org/entity/Q8079924,đàn nguyệt,https://data.muziekschatten.nl/som/um669,Dan nguyet
-dan tranh,http://www.wikidata.org/entity/Q342234,đàn tranh,https://data.muziekschatten.nl/som/um674,Dan tranh
-darabukka,http://www.wikidata.org/entity/Q319154,darbuka,https://data.muziekschatten.nl/som/um683,Darabukka
-dholak,http://www.wikidata.org/entity/Q936590,Dholak,https://data.muziekschatten.nl/som/um703,Dholak
-didgeridoo,http://www.wikidata.org/entity/Q189388,didgeridoo,https://data.muziekschatten.nl/som/um712,Didgeridoo
-djembe,http://www.wikidata.org/entity/Q537750,djembé,https://data.muziekschatten.nl/som/um732,DjembÃ©
-doedelzak,http://www.wikidata.org/entity/Q8347,doedelzak,https://data.muziekschatten.nl/som/um740,Doedelzak
-dombak,http://www.wikidata.org/entity/Q3574843,tonbak,,
-draailier,http://www.wikidata.org/entity/Q207821,draailier,https://data.muziekschatten.nl/som/um763,Draailier
-draaiorgel,http://www.wikidata.org/entity/Q1256576,draaiorgel,https://data.muziekschatten.nl/som/um766,Draaiorgel
-draaitafels,http://www.wikidata.org/entity/Q7112808,grammofoon,,
-drums,http://www.wikidata.org/entity/Q128309,drumstel,,
-duduk,http://www.wikidata.org/entity/Q737917,doedoek,https://data.muziekschatten.nl/som/um795,Duduk
-dulcimer,http://www.wikidata.org/entity/Q341663,hakkebord,,
-eenmansorkest,http://www.wikidata.org/entity/Q1304271,eenmansorkest,,
-elektr.orgel,http://www.wikidata.org/entity/Q1327327,elektronisch orgel,,
-elektrische bas,http://www.wikidata.org/entity/Q64166304,elektrische basgitaar,,
-elektrische gitaar,http://www.wikidata.org/entity/Q78987,elektrische gitaar,https://data.muziekschatten.nl/som/um846,Elektrische gitaar
-elektronica,http://www.wikidata.org/entity/Q1327500,elektronisch muziekinstrument,https://data.muziekschatten.nl/som/um1683,Live elektronica
-erhu,http://www.wikidata.org/entity/Q726306,Erhu,https://data.muziekschatten.nl/som/um959,Erhu
-eufonium,http://www.wikidata.org/entity/Q131168,tuba,,
-fagot,http://www.wikidata.org/entity/Q159998,fagot,https://data.muziekschatten.nl/som/um973,Fagot
-fagot barok,http://www.wikidata.org/entity/Q159998,fagot,,
-fairlight computer,http://www.wikidata.org/entity/Q512222,Fairlight CMI,,
-fender rhodes,http://www.wikidata.org/entity/Q743659,Rhodes,,
-flageolet,http://www.wikidata.org/entity/Q1001877,flageolet,https://data.muziekschatten.nl/som/um995,Flageolet
-fluit,http://www.wikidata.org/entity/Q11405,fluit,https://data.muziekschatten.nl/som/um1007,Fluit
-fluit renaissance,http://www.wikidata.org/entity/Q11405,fluit,,
-fortepiano,http://www.wikidata.org/entity/Q1521313,fortepiano,https://data.muziekschatten.nl/som/um1031,Fortepiano
-gadulka,http://www.wikidata.org/entity/Q1078965,gdulka,https://data.muziekschatten.nl/som/um1046,Gadulka
-gaita,http://www.wikidata.org/entity/Q2313828,gaita,https://data.muziekschatten.nl/som/um1047,Gaita
-gamba,http://www.wikidata.org/entity/Q40125,viola da gamba,https://data.muziekschatten.nl/som/um2980,Viole da gamba
-ghata,http://www.wikidata.org/entity/Q859091,ghatam,https://data.muziekschatten.nl/som/um1091,Ghata
-gimbri,http://www.wikidata.org/entity/Q1431454,gimbri,,
-gitaar,http://www.wikidata.org/entity/Q6607,gitaar,https://data.muziekschatten.nl/som/um1105,Gitaar
-gitaar barok,http://www.wikidata.org/entity/Q6607,gitaar,,
-gitaar renaissance,http://www.wikidata.org/entity/Q6607,gitaar,,
-gitaar romantisch,http://www.wikidata.org/entity/Q2902353,Romantic guitar,,
-gittern,http://www.wikidata.org/entity/Q516397,gittern,https://data.muziekschatten.nl/som/um1113,Gittern
-glasharmonica,http://www.wikidata.org/entity/Q917571,glasharmonica,https://data.muziekschatten.nl/som/um1115,Glasharmonica
-gong,http://www.wikidata.org/entity/Q208320,gong,https://data.muziekschatten.nl/som/um1132,Gong
-guan,http://www.wikidata.org/entity/Q675382,guanzi,https://data.muziekschatten.nl/som/um1156,Guan
-guembri,http://www.wikidata.org/entity/Q1431454,gimbri,,
-hammondorgel,http://www.wikidata.org/entity/Q105891,Hammondorgel,https://data.muziekschatten.nl/som/um1186,Hammondorgel
-harmonium,http://www.wikidata.org/entity/Q12460259,harmonium,https://data.muziekschatten.nl/som/um1202,Harmonium
-harp,http://www.wikidata.org/entity/Q47369,harp,https://data.muziekschatten.nl/som/um1206,Harp
-harp barok,http://www.wikidata.org/entity/Q47369,harp,,
-harp middeleeuwen,http://www.wikidata.org/entity/Q104869689,Medieval harp,,
-heckelfoon,http://www.wikidata.org/entity/Q1571002,Heckelfoon,https://data.muziekschatten.nl/som/um1223,Heckelfoon
-hobo,http://www.wikidata.org/entity/Q8377,hobo,https://data.muziekschatten.nl/som/um1240,Hobo
-hobo barok,http://www.wikidata.org/entity/Q8377,hobo,,
-hoorn,http://www.wikidata.org/entity/Q163759,hoorn,https://data.muziekschatten.nl/som/um1253,Hoorn
-hulusi,http://www.wikidata.org/entity/Q1478007,hulusi,,
-imzad,http://www.wikidata.org/entity/Q389949,imzad,https://data.muziekschatten.nl/som/um1313,Imzad
-instruments,http://www.wikidata.org/entity/Q34379,muziekinstrument,,
-kabinetorgel,http://www.wikidata.org/entity/Q2371434,Kabinetorgel,https://data.muziekschatten.nl/som/um1356,Kabinetorgel
-kabosa,http://www.wikidata.org/entity/Q2895785,Kabosy,,
-kabosy,http://www.wikidata.org/entity/Q2895785,Kabosy,,
-kalebas,http://www.wikidata.org/entity/Q978694,Calabash,,
-kalimba,http://www.wikidata.org/entity/Q1467960,Duimpiano,https://data.muziekschatten.nl/som/um801,Duimpiano
-kamanche,http://www.wikidata.org/entity/Q290951,kamancheh,https://data.muziekschatten.nl/som/um1387,Kamanche
-kamancheh,http://www.wikidata.org/entity/Q290951,kamancheh,,
-kanjira,http://www.wikidata.org/entity/Q7997355,Kanjira,https://data.muziekschatten.nl/som/um1397,Kanjira
-karnal,http://www.wikidata.org/entity/Q19671148,karnal,,
-kaval,http://www.wikidata.org/entity/Q178374,kaval,https://data.muziekschatten.nl/som/um1421,Kaval
-kayamb,http://www.wikidata.org/entity/Q497224,Kayamb,,
-kemence,http://www.wikidata.org/entity/Q10969818,Kemençhe,https://data.muziekschatten.nl/som/um1435,KemenÃ§e
-kerkklokken,http://www.wikidata.org/entity/Q3500690,kerkklok,,
-keyboard,http://www.wikidata.org/entity/Q1343007,keyboard,https://data.muziekschatten.nl/som/um848,Elektrische piano
-keyboards,http://www.wikidata.org/entity/Q1343007,keyboard,,
-kistorgel,http://www.wikidata.org/entity/Q18088112,Kistorgel,,
-klarinet,http://www.wikidata.org/entity/Q8343,klarinet,https://data.muziekschatten.nl/som/um1510,Klarinet
-klarinet elektr.,http://www.wikidata.org/entity/Q8343,klarinet,,
-klavecimbel,http://www.wikidata.org/entity/Q81982,klavecimbel,https://data.muziekschatten.nl/som/um1523,Klavecimbel
-kleine harp,http://www.wikidata.org/entity/Q47369,harp,,
-kleine trom,http://www.wikidata.org/entity/Q208421,kleine trom,https://data.muziekschatten.nl/som/um1535,Kleine trom
-klokkenspel,http://www.wikidata.org/entity/Q626035,glockenspiel,https://data.muziekschatten.nl/som/um1119,Glockenspiel
-koororgel,http://www.wikidata.org/entity/Q7315415,koororgel,,
-kora,http://www.wikidata.org/entity/Q585969,kora,https://data.muziekschatten.nl/som/um1577,Kora
-koto,http://www.wikidata.org/entity/Q289037,koto,https://data.muziekschatten.nl/som/um1586,Koto
-kouxian,http://www.wikidata.org/entity/Q6434803,kouxian,,
-kromhoorn,http://www.wikidata.org/entity/Q930367,kromhoorn,https://data.muziekschatten.nl/som/um1599,Kromhoorn
-kudum,http://www.wikidata.org/entity/Q6441836,Kudüm,,
-kunstfluiten,http://www.wikidata.org/entity/Q1792566,kunstfluiter,https://data.muziekschatten.nl/som/um1622,Kunstfluiten
-kunstfluiter,http://www.wikidata.org/entity/Q1792566,kunstfluiter,,
-lead gitaar,http://www.wikidata.org/entity/Q61046048,leadgitaar,,
-lier,http://www.wikidata.org/entity/Q201129,lier,https://data.muziekschatten.nl/som/um1665,Lier
-long string instrument,http://www.wikidata.org/entity/Q6673527,Long string instrument,,
-luit,http://www.wikidata.org/entity/Q180733,luit,https://data.muziekschatten.nl/som/um1700,Luit
-luit barok,http://www.wikidata.org/entity/Q180733,luit,,
-luit renaissance,http://www.wikidata.org/entity/Q180733,luit,,
-lutheal,http://www.wikidata.org/entity/Q450578,luthéal,https://data.muziekschatten.nl/som/um1723,Lutheal
-lyra,http://www.wikidata.org/entity/Q500568,Lyra,https://data.muziekschatten.nl/som/um1724,Lyra
-lyra viol,http://www.wikidata.org/entity/Q3560362,lyra viol,,
-mandoline,http://www.wikidata.org/entity/Q302497,mandoline,https://data.muziekschatten.nl/som/um1752,Mandoline
-maracas,http://www.wikidata.org/entity/Q39777,maracas,https://data.muziekschatten.nl/som/um1771,Maracas
-marimba,http://www.wikidata.org/entity/Q220971,marimba,https://data.muziekschatten.nl/som/um1772,Marimba
-mbira,http://www.wikidata.org/entity/Q1467960,Duimpiano,https://data.muziekschatten.nl/som/um801,Duimpiano
-melodica,http://www.wikidata.org/entity/Q512191,melodica,https://data.muziekschatten.nl/som/um1819,Melodica
-metronomen,http://www.wikidata.org/entity/Q156424,metronoom,https://data.muziekschatten.nl/som/um1832,Metronomen
-mohan veena,http://www.wikidata.org/entity/Q6893623,Mohan veena,,
-molo,http://www.wikidata.org/entity/Q118898940,Molo,https://data.muziekschatten.nl/som/um1869,Molo
-mondharmonica,http://www.wikidata.org/entity/Q51290,mondharmonica,https://data.muziekschatten.nl/som/um1872,Mondharmonica
-mondharp,http://www.wikidata.org/entity/Q185003,mondharp,https://data.muziekschatten.nl/som/um1878,Mondharp
-mrdanga,http://www.wikidata.org/entity/Q744831,Mridangam,https://data.muziekschatten.nl/som/um1470,Khol
-nagara,http://www.wikidata.org/entity/Q2510552,nagara,https://data.muziekschatten.nl/som/um1919,Nagara
-nagasvaram,http://www.wikidata.org/entity/Q1611652,Nadaswaram,https://data.muziekschatten.nl/som/um1920,Nagasvaram
-natuurhoorn,http://www.wikidata.org/entity/Q1757829,natuurhoorn,https://data.muziekschatten.nl/som/um1937,Natuurhoorn
-nay,http://www.wikidata.org/entity/Q743836,ney,https://data.muziekschatten.nl/som/um1940,Nay
-ngoni,http://www.wikidata.org/entity/Q1703491,ngoni,,
-oboe d'amore,http://www.wikidata.org/entity/Q8380,oboe d'amore,https://data.muziekschatten.nl/som/um2001,Oboe d'amore
-oboe da caccia,http://www.wikidata.org/entity/Q1760274,jachthobo,https://data.muziekschatten.nl/som/um1999,Oboe da caccia
-ondes martenot,http://www.wikidata.org/entity/Q862501,Ondes-Martenot,https://data.muziekschatten.nl/som/um2023,Ondes martenot
-orgel,http://www.wikidata.org/entity/Q1444,orgel,https://data.muziekschatten.nl/som/um2042,Orgel
-orgelpositief,http://www.wikidata.org/entity/Q1930186,positief,,
-oud,http://www.wikidata.org/entity/Q191000,oed,https://data.muziekschatten.nl/som/um2014,Oed
-pakhawaj,http://www.wikidata.org/entity/Q2046658,Pakhavaj,,
-panfluit,http://www.wikidata.org/entity/Q218802,panfluit,https://data.muziekschatten.nl/som/um2080,Panfluit
-pansfluit,http://www.wikidata.org/entity/Q218802,panfluit,,
-pauken,http://www.wikidata.org/entity/Q189737,pauk,https://data.muziekschatten.nl/som/um2101,Pauken (set)
-perc,http://www.wikidata.org/entity/Q1661583,percussie,,
-percussie,http://www.wikidata.org/entity/Q1661583,percussie,,
-percussion,http://www.wikidata.org/entity/Q1661583,percussie,https://data.muziekschatten.nl/som/um2460,Slagwerk
-piano,http://www.wikidata.org/entity/Q5994,piano,https://data.muziekschatten.nl/som/um2127,Piano
-piano elektr.,http://www.wikidata.org/entity/Q3503387,electronic piano,,
-piano geprepareerd,http://www.wikidata.org/entity/Q754186,geprepareerde piano,,
-pianoforte,http://www.wikidata.org/entity/Q1521313,fortepiano,https://data.muziekschatten.nl/som/um1031,Fortepiano
-pianola,http://www.wikidata.org/entity/Q593995,pianola,https://data.muziekschatten.nl/som/um2137,Pianola
-piccolo,http://www.wikidata.org/entity/Q83509,piccolo,https://data.muziekschatten.nl/som/um2147,Piccolo
-piccolo-cello,http://www.wikidata.org/entity/Q836224,Violoncello piccolo,,
-piccolotrompet,http://www.wikidata.org/entity/Q1569742,piccolo trumpet,,
-pipa,http://www.wikidata.org/entity/Q6685124,pipa,https://data.muziekschatten.nl/som/um2166,Pipa
-portatief,http://www.wikidata.org/entity/Q1806700,portatief,https://data.muziekschatten.nl/som/um2187,Portatief
-portugese gitaar,http://www.wikidata.org/entity/Q585289,Portugese gitaar,https://data.muziekschatten.nl/som/um2188,Portugese gitaar
-posthoorn,http://www.wikidata.org/entity/Q996531,posthoorn,https://data.muziekschatten.nl/som/um2190,Posthoorn
-qin,http://www.wikidata.org/entity/Q723720,guqin,https://data.muziekschatten.nl/som/um2216,Qin
-rabab,http://www.wikidata.org/entity/Q1640934,rubab,https://data.muziekschatten.nl/som/um2230,Rabab
-ratel,http://www.wikidata.org/entity/Q954753,ratel,https://data.muziekschatten.nl/som/um2243,Ratel
-regaal,http://www.wikidata.org/entity/Q930827,regaal,https://data.muziekschatten.nl/som/um2251,Regaal
-reyong,http://www.wikidata.org/entity/Q6415141,Reyong,,
-rommelpot,http://www.wikidata.org/entity/Q9097454,rommelpot,https://data.muziekschatten.nl/som/um2273,Rommelpot
-sahnai,http://www.wikidata.org/entity/Q847911,shehnai,https://data.muziekschatten.nl/som/um2289,Sahnai
-sampler,http://www.wikidata.org/entity/Q320002,sampler,https://data.muziekschatten.nl/som/um2305,Sampler
-santur,http://www.wikidata.org/entity/Q2912399,santoor,https://data.muziekschatten.nl/som/um2319,Santur
-sarangi,http://www.wikidata.org/entity/Q608650,sarangi,https://data.muziekschatten.nl/som/um2325,Sarangi
-sarod,http://www.wikidata.org/entity/Q687406,sarod,https://data.muziekschatten.nl/som/um2330,Sarod
-saxofoon,http://www.wikidata.org/entity/Q9798,saxofoon,https://data.muziekschatten.nl/som/um2346,Saxofoon - familie
-saxofoon alt,http://www.wikidata.org/entity/Q445275,altsaxofoon,,
-saxofoon bariton,http://www.wikidata.org/entity/Q808218,baritonsaxofoon,,
-saxofoon bas,http://www.wikidata.org/entity/Q810551,bassaxofoon,,
-saxofoon sopraan,http://www.wikidata.org/entity/Q1463985,sopraansaxofoon,,
-saxofoon sopranino,http://www.wikidata.org/entity/Q656922,sopraninosaxofoon,,
-saxofoon tenor,http://www.wikidata.org/entity/Q1414932,tenorsaxofoon,,
-saz,http://www.wikidata.org/entity/Q717773,bağlama,https://data.muziekschatten.nl/som/um2358,Saz
-schalmei,http://www.wikidata.org/entity/Q677921,schalmei,https://data.muziekschatten.nl/som/um2360,Schalmei
-schelphoorn,http://www.wikidata.org/entity/Q2606377,schelphoorn,https://data.muziekschatten.nl/som/um2366,Schelphoorn
-serinette,http://www.wikidata.org/entity/Q201654,Serinette,https://data.muziekschatten.nl/som/um2390,Serinette
-serpent,http://www.wikidata.org/entity/Q742168,serpent,https://data.muziekschatten.nl/som/um2392,Serpent
-sgra-snyan,http://www.wikidata.org/entity/Q1255766,Dramyen,https://data.muziekschatten.nl/som/um2401,Sgra-snyan
-shakuhachi,http://www.wikidata.org/entity/Q524526,shakuhachi,https://data.muziekschatten.nl/som/um2406,Shakuhachi
-sheng,http://www.wikidata.org/entity/Q849052,sheng,https://data.muziekschatten.nl/som/um2414,Sheng
-shrutibox,http://www.wikidata.org/entity/Q487818,Shruti box,,
-sitar,http://www.wikidata.org/entity/Q229205,sitar,https://data.muziekschatten.nl/som/um2449,Sitar
-slagwerk,http://www.wikidata.org/entity/Q133163,slaginstrument,https://data.muziekschatten.nl/som/um2460,Slagwerk
-slagwerk elektr.,http://www.wikidata.org/entity/Q133163,slaginstrument,,
-sokou,http://www.wikidata.org/entity/Q3869301,njarka,,
-song lang,http://www.wikidata.org/entity/Q7561115,Song loan,,
-sopraansaxofoon,http://www.wikidata.org/entity/Q1463985,sopraansaxofoon,https://data.muziekschatten.nl/som/um2544,Sopraansaxofoon
-soukou,http://www.wikidata.org/entity/Q3869301,njarka,,
-sousafoon,http://www.wikidata.org/entity/Q499387,sousafoon,https://data.muziekschatten.nl/som/um2569,Sousafoon
-speelgoed,http://www.wikidata.org/entity/Q11422,speelgoed,,
-spinet,http://www.wikidata.org/entity/Q623941,spinet,https://data.muziekschatten.nl/som/um2576,Spinet
-steel guitar,http://www.wikidata.org/entity/Q2617520,steel guitar,https://data.muziekschatten.nl/som/um2594,Steelgitaar
-stemmen,http://www.wikidata.org/entity/Q17172850,stem,,
-strijkers,http://www.wikidata.org/entity/Q192096,strijkinstrument,,
-sur-na,http://www.wikidata.org/entity/Q825246,sorna,,
-surbahar,http://www.wikidata.org/entity/Q980383,surbahar,https://data.muziekschatten.nl/som/um2623,Surbahar
-surmandal,http://www.wikidata.org/entity/Q627110,Swarmandal,https://data.muziekschatten.nl/som/um2626,Surmandal
-swaramandala,http://www.wikidata.org/entity/Q627110,Swarmandal,,
-synthesizer,http://www.wikidata.org/entity/Q163829,synthesizer,https://data.muziekschatten.nl/som/um2650,Synthesizer
-synths,http://www.wikidata.org/entity/Q163829,synthesizer,,
-tabla,http://www.wikidata.org/entity/Q213100,tabla,https://data.muziekschatten.nl/som/um2654,Tabla
-tabla tarang,http://www.wikidata.org/entity/Q2386534,tabla tarang,https://data.muziekschatten.nl/som/um2655,Tabla tarang
-tama,http://www.wikidata.org/entity/Q1321104,tama,https://data.muziekschatten.nl/som/um2672,Tama
-tamboeryn,http://www.wikidata.org/entity/Q193666,tamboerijn,,
-tambura,http://www.wikidata.org/entity/Q508805,tambura,https://data.muziekschatten.nl/som/um2685,Tambura
-tanbur,http://www.wikidata.org/entity/Q3424319,tanbur,https://data.muziekschatten.nl/som/um2693,Tanbur
-tangentenvleugel,http://www.wikidata.org/entity/Q454862,tangent piano,https://data.muziekschatten.nl/som/um2695,Tangentenvleugel
-tar,http://www.wikidata.org/entity/Q203861,tar,https://data.muziekschatten.nl/som/um2709,Tar
-taragato,http://www.wikidata.org/entity/Q736874,taragot,,
-tarpo,http://www.wikidata.org/entity/Q2394517,tarpu,,
-tbol,http://www.wikidata.org/entity/Q2382928,t´bol,,
-tenorhoorn,http://www.wikidata.org/entity/Q745478,tenorhoorn,https://data.muziekschatten.nl/som/um2748,Tenorhoorn
-tenorsax,http://www.wikidata.org/entity/Q1414932,tenorsaxofoon,,
-tenorsaxofoon,http://www.wikidata.org/entity/Q1414932,tenorsaxofoon,https://data.muziekschatten.nl/som/um2754,Tenorsaxofoon
-tensax,http://www.wikidata.org/entity/Q1414932,tenorsaxofoon,,
-theorbe,http://www.wikidata.org/entity/Q840920,teorbe,https://data.muziekschatten.nl/som/um2773,Theorbe
-theremin,http://www.wikidata.org/entity/Q207691,theremin,https://data.muziekschatten.nl/som/um2774,Theremin
-timbales,http://www.wikidata.org/entity/Q379248,timbales,https://data.muziekschatten.nl/som/um2787,Timbales (set)
-toetsen,http://www.wikidata.org/entity/Q1343007,keyboard,,
-tombak,http://www.wikidata.org/entity/Q3574843,tonbak,,
-traverso,http://www.wikidata.org/entity/Q2626629,Traverso,https://data.muziekschatten.nl/som/um2838,Traverso
-tres,http://www.wikidata.org/entity/Q139727,Cubaanse tres,https://data.muziekschatten.nl/som/um638,Cubaanse tres
-triangel,http://www.wikidata.org/entity/Q201735,triangel,https://data.muziekschatten.nl/som/um2840,Triangel
-trom,http://www.wikidata.org/entity/Q11404,trommel,,
-trombone,http://www.wikidata.org/entity/Q8350,trombone,https://data.muziekschatten.nl/som/um2855,Trombone
-trombone elektr.,http://www.wikidata.org/entity/Q8350,trombone,,
-trommel,http://www.wikidata.org/entity/Q11404,trommel,kleine trom,Trommel
-trompet,http://www.wikidata.org/entity/Q8338,trompet,https://data.muziekschatten.nl/som/um2868,Trompet
-trompet barok,http://www.wikidata.org/entity/Q808574,baroque trumpet,,
-tuba,http://www.wikidata.org/entity/Q131168,tuba,https://data.muziekschatten.nl/som/um2893,Tuba
-ud,http://www.wikidata.org/entity/Q191000,oed,https://data.muziekschatten.nl/som/um2014,Oed
-ukelele,http://www.wikidata.org/entity/Q61285,ukelele,https://data.muziekschatten.nl/som/um2936,Ukelele - familie
-vedel,http://www.wikidata.org/entity/Q843679,vedel,https://data.muziekschatten.nl/som/um2952,Vedel
-ventieltrombone,http://www.wikidata.org/entity/Q3444092,ventieltrombone,https://data.muziekschatten.nl/som/um2955,Ventieltrombone
-vibrafoon,http://www.wikidata.org/entity/Q206987,vibrafoon,https://data.muziekschatten.nl/som/um2959,Vibrafoon
-vihuela,http://www.wikidata.org/entity/Q751884,vihuela,https://data.muziekschatten.nl/som/um2963,Vihuela
-vina,http://www.wikidata.org/entity/Q959769,vina,https://data.muziekschatten.nl/som/um2965,Vina
-viola caipira,http://www.wikidata.org/entity/Q7933058,viola caipira,,
-viola d'amore,http://www.wikidata.org/entity/Q742180,viola d'amore,https://data.muziekschatten.nl/som/um2972,Viola d'amore
-viola da braccio,http://www.wikidata.org/entity/Q570544,viola da braccio,https://data.muziekschatten.nl/som/um290,Basviool
-viola da gamba,http://www.wikidata.org/entity/Q40125,viola da gamba,https://data.muziekschatten.nl/som/um2969,Viola da gamba - familie
-viola da gambla,http://www.wikidata.org/entity/Q40125,viola da gamba,,
-violone,http://www.wikidata.org/entity/Q667047,violone,https://data.muziekschatten.nl/som/um2984,Violone
-violophone,http://www.wikidata.org/entity/Q615941,Violofoon,,
-viool,http://www.wikidata.org/entity/Q8355,viool,https://data.muziekschatten.nl/som/um2985,Viool
-viool barok,http://www.wikidata.org/entity/Q808578,Barokviool,,
-viool elektr.,http://www.wikidata.org/entity/Q685663,electric violin,,
-virginaal,http://www.wikidata.org/entity/Q922337,virginaal,https://data.muziekschatten.nl/som/um2997,Virginaal
-xylofoon,http://www.wikidata.org/entity/Q165666,xylofoon,https://data.muziekschatten.nl/som/um3060,Xylofoon
-xylorimba,http://www.wikidata.org/entity/Q845193,xylorimba,https://data.muziekschatten.nl/som/um3061,Xylorimba
-zarb,http://www.wikidata.org/entity/Q3574843,tonbak,https://data.muziekschatten.nl/som/um3095,Zarb
-zheng,http://www.wikidata.org/entity/Q726303,guzheng,https://data.muziekschatten.nl/som/um3099,Zheng
-zingende zaag,http://www.wikidata.org/entity/Q1144761,zingende zaag,https://data.muziekschatten.nl/som/um3105,Zingende zaag
-zink,http://www.wikidata.org/entity/Q204638,zink,https://data.muziekschatten.nl/som/um3106,Zink
-,http://www.wikidata.org/entity/,,142,
-bassist,http://www.wikidata.org/entity/Q584301,bassist,,
-bassiste,http://www.wikidata.org/entity/Q584301,bassist,,
-cellist,http://www.wikidata.org/entity/Q13219637,cellist,,
-drummer,http://www.wikidata.org/entity/Q386854,drummer,,
-gitarist,http://www.wikidata.org/entity/Q855091,gitarist,,
-jazzgitarist,http://www.wikidata.org/entity/Q6168364,jazzgitarist,,
-mc,http://www.wikidata.org/entity/Q497240,master of ceremony,,
-pianist,http://www.wikidata.org/entity/Q486748,pianist,,
-rapper,http://www.wikidata.org/entity/Q2252262,rapper,,
-saxofonist,http://www.wikidata.org/entity/Q12800682,saxofonist,,
-trombonist,http://www.wikidata.org/entity/Q544972,trombonist,,
-"trombonist, jazz",http://www.wikidata.org/entity/Q63565256,jazztrombonist,,
-trompettist,http://www.wikidata.org/entity/Q12377274,trompettist,,
-violist,http://www.wikidata.org/entity/Q1259917,violist,,
-zanger,http://www.wikidata.org/entity/Q177220,zanger,,
-zangeres,http://www.wikidata.org/entity/Q177220,zanger,,
+Role,Wikidata identifier,Wikidata label,Wikidata type,UM identifier,UM label,UM type
+actrice,http://www.wikidata.org/entity/Q21169216,actrice,https://www.wikidata.org/wiki/Q28640,,,
+arrangeur,http://www.wikidata.org/entity/Q1643514,arrangeur,https://www.wikidata.org/wiki/Q28640,,,
+bandleider,http://www.wikidata.org/entity/Q806349,orkestleider,https://www.wikidata.org/wiki/Q28640,,,
+bewerker,http://www.wikidata.org/entity/Q1643514,arrangeur,https://www.wikidata.org/wiki/Q28640,,,
+camera,http://www.wikidata.org/entity/Q1208175,cameraman,https://www.wikidata.org/wiki/Q28640,,,
+choreografie,http://www.wikidata.org/entity/Q2490358,choreograaf,https://www.wikidata.org/wiki/Q28640,,,
+componist,http://www.wikidata.org/entity/Q36834,componist,https://www.wikidata.org/wiki/Q28640,,,
+concertmeester,http://www.wikidata.org/entity/Q691031,concertmeester,https://www.wikidata.org/wiki/Q28640,,,
+dirigent,http://www.wikidata.org/entity/Q158852,dirigent,https://www.wikidata.org/wiki/Q28640,,,
+dj,http://www.wikidata.org/entity/Q130857,diskjockey,https://www.wikidata.org/wiki/Q28640,,,
+geluid,http://www.wikidata.org/entity/Q128124,geluidsingenieur,https://www.wikidata.org/wiki/Q28640,,,
+geluidstechnicus,http://www.wikidata.org/entity/Q2442329,toontechnicus,https://www.wikidata.org/wiki/Q28640,,,
+instrumentalist,http://www.wikidata.org/entity/Q1278335,instrumentalist,https://www.wikidata.org/wiki/Q28640,,,
+interviewer,http://www.wikidata.org/entity/Q46034607,interviewer,https://www.wikidata.org/wiki/Q28640,,,
+koordirigent,http://www.wikidata.org/entity/Q1076502,koordirigent,https://www.wikidata.org/wiki/Q28640,,,
+montage,http://www.wikidata.org/entity/Q239298,montage,https://www.wikidata.org/wiki/Q28640,,,
+muziekproducer,http://www.wikidata.org/entity/Q183945,muziekproducent,https://www.wikidata.org/wiki/Q28640,,,
+muziekregie,http://www.wikidata.org/entity/Q986888,audiografisch directeur,https://www.wikidata.org/wiki/Q28640,,,
+muzikant,http://www.wikidata.org/entity/Q639669,muzikant,https://www.wikidata.org/wiki/Q28640,,,
+opdrachtgever,http://www.wikidata.org/entity/Q760086,opdrachtgever,https://www.wikidata.org/wiki/Q28640,,,
+poppenspeler,http://www.wikidata.org/entity/Q2629392,poppenspeler,https://www.wikidata.org/wiki/Q28640,,,
+presentatie,http://www.wikidata.org/entity/Q604733,presentatie,https://www.wikidata.org/wiki/Q28640,,,
+presentatrice,http://www.wikidata.org/entity/Q13590141,presentator,https://www.wikidata.org/wiki/Q28640,,,
+producent,http://www.wikidata.org/entity/Q183945,muziekproducent,https://www.wikidata.org/wiki/Q28640,,,
+producer,http://www.wikidata.org/entity/Q183945,muziekproducent,https://www.wikidata.org/wiki/Q28640,,,
+productie,http://www.wikidata.org/entity/Q183945,muziekproducent,https://www.wikidata.org/wiki/Q28640,,,
+programmamaker,http://www.wikidata.org/entity/Q2548714,programmamaker,https://www.wikidata.org/wiki/Q28640,,,
+programmamedewerker,http://www.wikidata.org/entity/Q703534,werknemer,https://www.wikidata.org/wiki/Q28640,,,
+programmatechnicus,http://www.wikidata.org/entity/Q2442329,toontechnicus,https://www.wikidata.org/wiki/Q28640,,,
+redactie,http://www.wikidata.org/entity/Q876864,redacteur,https://www.wikidata.org/wiki/Q28640,,,
+regie,http://www.wikidata.org/entity/Q3455803,regisseur,https://www.wikidata.org/wiki/Q28640,,,
+regisseur,http://www.wikidata.org/entity/Q3455803,regisseur,https://www.wikidata.org/wiki/Q28640,,,
+tekstbewerker,http://www.wikidata.org/entity/Q1607826,tekstbewerker,https://www.wikidata.org/wiki/Q28640,,,
+vertaler,http://www.wikidata.org/entity/Q333634,vertaler,https://www.wikidata.org/wiki/Q28640,,,
+tekstschrijver,http://www.wikidata.org/entity/Q14466416,tekstschrijver,https://www.wikidata.org/wiki/Q28640,,,
+uitvoerende,http://www.wikidata.org/entity/Q713200,uitvoerend kunstenaar,https://www.wikidata.org/wiki/Q28640,,,
+verslaggever,http://www.wikidata.org/entity/Q42909,verslaggever,https://www.wikidata.org/wiki/Q28640,,,
+alt,http://www.wikidata.org/entity/Q6983813,alt,https://www.wikidata.org/wiki/Q1063547,https://data.muziekschatten.nl/som/um55,Alt,https://data.muziekschatten.nl/som/Stem
+bariton,http://www.wikidata.org/entity/Q31687,bariton,https://www.wikidata.org/wiki/Q1063547,https://data.muziekschatten.nl/som/um206,Bariton,https://data.muziekschatten.nl/som/Stem
+bas,http://www.wikidata.org/entity/Q27911,bas,https://www.wikidata.org/wiki/Q1063547,https://data.muziekschatten.nl/som/um231,Bas,https://data.muziekschatten.nl/som/Stem
+bas-bariton,http://www.wikidata.org/entity/Q810480,bass-bariton,https://www.wikidata.org/wiki/Q1063547,,,
+countertenor,http://www.wikidata.org/entity/Q223166,contratenor,https://www.wikidata.org/wiki/Q1063547,https://data.muziekschatten.nl/som/um625,Countertenor,https://data.muziekschatten.nl/som/Stem
+jongenssopraan,http://www.wikidata.org/entity/Q1376492,jongenssopraan,https://www.wikidata.org/wiki/Q1063547,https://data.muziekschatten.nl/som/um1339,Jongenssopraan,https://data.muziekschatten.nl/som/Stem
+kinderstem,http://www.wikidata.org/entity/,,https://www.wikidata.org/wiki/Q1063547,https://data.muziekschatten.nl/som/um1491,Kinderstem,https://data.muziekschatten.nl/som/Stem
+mezzosopraan,http://www.wikidata.org/entity/Q186506,mezzosopraan,https://www.wikidata.org/wiki/Q1063547,https://data.muziekschatten.nl/som/um1836,Mezzosopraan,https://data.muziekschatten.nl/som/Stem
+sopraan,http://www.wikidata.org/entity/Q30903,sopraan,https://www.wikidata.org/wiki/Q1063547,https://data.muziekschatten.nl/som/um2531,Sopraan,https://data.muziekschatten.nl/som/Stem
+tenor,http://www.wikidata.org/entity/Q27914,tenor,https://www.wikidata.org/wiki/Q1063547,https://data.muziekschatten.nl/som/um2732,Tenor,https://data.muziekschatten.nl/som/Stem
+achtergrondzang,http://www.wikidata.org/entity/Q798487,achtergrondzanger,https://www.wikidata.org/wiki/Q28640,,,
+acteur,http://www.wikidata.org/entity/Q33999,acteur,https://www.wikidata.org/wiki/Q28640,,,
+artiest,http://www.wikidata.org/entity/Q713200,uitvoerend kunstenaar,https://www.wikidata.org/wiki/Q28640,,,
+beats,http://www.wikidata.org/entity/Q4087517,beatmaker,https://www.wikidata.org/wiki/Q28640,,,
+blad omslaan,http://www.wikidata.org/entity/Q1289565,bladomslaander,https://www.wikidata.org/wiki/Q28640,,,
+countryartiest,http://www.wikidata.org/entity/Q66763670,country musician,https://www.wikidata.org/wiki/Q28640,,,
+dans,http://www.wikidata.org/entity/Q11639,dans,,,,
+dichter,http://www.wikidata.org/entity/Q49757,dichter,https://www.wikidata.org/wiki/Q28640,,,
+gespr.tekst,http://www.wikidata.org/entity/Q110374796,spoken text,,,,
+handgeklap,http://www.wikidata.org/entity/Q1574776,klappen,,,,
+jodelen,http://www.wikidata.org/entity/Q41923,jodelen,,,,
+morele steun,http://www.wikidata.org/entity/Q16999179,Moral support,,,,
+rap,http://www.wikidata.org/entity/Q1369991,toasting,,,,
+rapping,http://www.wikidata.org/entity/Q6010,rap,,,,
+sprechgesang,http://www.wikidata.org/entity/Q1500983,Spreekkoor,,,,
+spreekrol,http://www.wikidata.org/entity/Q1312022,speaking role,,,,
+spreekstem,http://www.wikidata.org/entity/Q106875005,speaker,,,,
+spreker,http://www.wikidata.org/entity/Q106875005,speaker,,,,
+stem,http://www.wikidata.org/entity/Q106875005,speaker,,,,
+tekst,http://www.wikidata.org/entity/Q822146,liedtekstschrijver,,,,
+verteller,http://www.wikidata.org/entity/Q755070,verteller,https://www.wikidata.org/wiki/Q28640,,,
+voordracht,http://www.wikidata.org/entity/Q23037330,declamator,,,,
+zang,http://www.wikidata.org/entity/Q27939,zangkunst,,,,
+band,http://www.wikidata.org/entity/Q215380,muziekgroep,https://www.wikidata.org/wiki/Q105756498,https://data.muziekschatten.nl/som/um2185,Popgroep,https://data.muziekschatten.nl/som/Ensemble
+gemengd koor,http://www.wikidata.org/entity/Q3276909,Gemengd koor,https://www.wikidata.org/wiki/Q105756498,https://data.muziekschatten.nl/som/um4567,Gemengd koor,https://data.muziekschatten.nl/som/Ensemble
+jeugdkoor,http://www.wikidata.org/entity/Q591250,youth choir,https://www.wikidata.org/wiki/Q105756498,https://data.muziekschatten.nl/som/um1487,Kinderkoor,https://data.muziekschatten.nl/som/Ensemble
+jongenskoor,http://www.wikidata.org/entity/Q1776834,knapenkoor,https://www.wikidata.org/wiki/Q105756498,https://data.muziekschatten.nl/som/um1338,Jongenskoor,https://data.muziekschatten.nl/som/Ensemble
+jongerenkoor,http://www.wikidata.org/entity/Q591250,youth choir,https://www.wikidata.org/wiki/Q105756498,,,
+kinderkoor,http://www.wikidata.org/entity/Q1753063,kinderkoor,https://www.wikidata.org/wiki/Q105756498,https://data.muziekschatten.nl/som/um1487,Kinderkoor,https://data.muziekschatten.nl/som/Ensemble
+koor,http://www.wikidata.org/entity/Q131186,koor,https://www.wikidata.org/wiki/Q105756498,https://data.muziekschatten.nl/som/um1568,Koor,https://data.muziekschatten.nl/som/Ensemble
+koperensemble,http://www.wikidata.org/entity/Q3244156,brassband,https://www.wikidata.org/wiki/Q105756498,,,
+mannenkoor,http://www.wikidata.org/entity/Q1684352,mannenkoor,https://www.wikidata.org/wiki/Q105756498,https://data.muziekschatten.nl/som/um1763,Mannenkoor,https://data.muziekschatten.nl/som/Ensemble
+meisjeskoor,http://www.wikidata.org/entity/Q53869202,girls' choir,https://www.wikidata.org/wiki/Q105756498,,,
+popgroep,http://www.wikidata.org/entity/Q2491498,popgroep,https://www.wikidata.org/wiki/Q105756498,https://data.muziekschatten.nl/som/um2185,Popgroep,https://data.muziekschatten.nl/som/Ensemble
+rockband,http://www.wikidata.org/entity/Q5741069,rockband,https://www.wikidata.org/wiki/Q105756498,,,
+vrouwenkoor,http://www.wikidata.org/entity/Q1451652,vrouwenkoor,https://www.wikidata.org/wiki/Q105756498,https://data.muziekschatten.nl/som/um3004,Vrouwenkoor,https://data.muziekschatten.nl/som/Ensemble
+accordeon,http://www.wikidata.org/entity/Q79838,accordeon,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um9,Accordeon,https://data.muziekschatten.nl/som/Instrument
+akadinda,http://www.wikidata.org/entity/Q415058,Akadinda,https://www.wikidata.org/wiki/Q34379,,,
+akoestisch bas,http://www.wikidata.org/entity/Q424017,akoestische basgitaar,https://www.wikidata.org/wiki/Q34379,,,
+alpenhoorn,http://www.wikidata.org/entity/Q685206,alpenhoorn,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um54,Alpenhoorn,https://data.muziekschatten.nl/som/Instrument
+alt viool,http://www.wikidata.org/entity/Q80284,altviool,https://www.wikidata.org/wiki/Q34379,,,
+altblokfluit,http://www.wikidata.org/entity/Q15791824,altblokfluit,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um57,Altblokfluit,https://data.muziekschatten.nl/som/Instrument
+altfluit,http://www.wikidata.org/entity/Q544352,Altfluit,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um68,Altfluit,https://data.muziekschatten.nl/som/Instrument
+althobo,http://www.wikidata.org/entity/Q185041,althobo,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um75,Althobo,https://data.muziekschatten.nl/som/Instrument
+altivool,http://www.wikidata.org/entity/Q80284,altviool,https://www.wikidata.org/wiki/Q34379,,,
+altsax,http://www.wikidata.org/entity/Q445275,altsaxofoon,https://www.wikidata.org/wiki/Q34379,,,
+altsaxofoon,http://www.wikidata.org/entity/Q445275,altsaxofoon,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um88,Altsaxofoon,https://data.muziekschatten.nl/som/Instrument
+alttrombone,http://www.wikidata.org/entity/Q1829398,Alttrombone,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um99,Alttrombone,https://data.muziekschatten.nl/som/Instrument
+altviol,http://www.wikidata.org/entity/Q80284,altviool,https://www.wikidata.org/wiki/Q34379,,,
+altviool,http://www.wikidata.org/entity/Q80284,altviool,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um102,Altviool,https://data.muziekschatten.nl/som/Instrument
+altviool barok,http://www.wikidata.org/entity/Q80284,altviool,https://www.wikidata.org/wiki/Q34379,,,
+altviool elektr.,http://www.wikidata.org/entity/Q80284,altviool,https://www.wikidata.org/wiki/Q34379,,,
+ardin,http://www.wikidata.org/entity/Q6532301,ardin,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um129,Ardin,https://data.muziekschatten.nl/som/Instrument
+arpeggione,http://www.wikidata.org/entity/Q638182,Arpeggione,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um135,Arpeggione,https://data.muziekschatten.nl/som/Instrument
+baglama,http://www.wikidata.org/entity/Q717773,bağlama,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um160,Baglama,https://data.muziekschatten.nl/som/Instrument
+bajan,http://www.wikidata.org/entity/Q804099,bajan,https://www.wikidata.org/wiki/Q34379,,,
+balafoon,http://www.wikidata.org/entity/Q789141,balafoon,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um165,Balafoon,https://data.muziekschatten.nl/som/Instrument
+bamboefluit,http://www.wikidata.org/entity/Q54820129,bamboefluit,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um175,Bamboefluit,https://data.muziekschatten.nl/som/Instrument
+bandoneon,http://www.wikidata.org/entity/Q215032,bandoneon,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um182,Bandoneon,https://data.muziekschatten.nl/som/Instrument
+banjo,http://www.wikidata.org/entity/Q258896,banjo,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um195,Banjo,https://data.muziekschatten.nl/som/Instrument
+bansri,http://www.wikidata.org/entity/Q960389,bansuri,https://www.wikidata.org/wiki/Q34379,,,
+baritongitaar,http://www.wikidata.org/entity/Q64038,baritongitaar,https://www.wikidata.org/wiki/Q34379,,,
+baritonsaxofoon,http://www.wikidata.org/entity/Q808218,baritonsaxofoon,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um213,Baritonsaxofoon,https://data.muziekschatten.nl/som/Instrument
+barokgitaar,http://www.wikidata.org/entity/Q748119,Baroque guitar,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um224,Barokgitaar,https://data.muziekschatten.nl/som/Instrument
+barokharp,http://www.wikidata.org/entity/Q47369,harp,https://www.wikidata.org/wiki/Q34379,,,
+barokhobo,http://www.wikidata.org/entity/Q8377,hobo,https://www.wikidata.org/wiki/Q34379,,,
+barokviool,http://www.wikidata.org/entity/Q808578,Barokviool,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um228,Barokviool,https://data.muziekschatten.nl/som/Instrument
+baryton,http://www.wikidata.org/entity/Q521151,barytone,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um229,Baryton,https://data.muziekschatten.nl/som/Instrument
+basfluit,http://www.wikidata.org/entity/Q266675,Basfluit,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um242,Basfluit,https://data.muziekschatten.nl/som/Instrument
+basgamba,http://www.wikidata.org/entity/Q51446928,viola da gamba,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um245,Basgamba,https://data.muziekschatten.nl/som/Instrument
+basgitaar,http://www.wikidata.org/entity/Q46185,basgitaar,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um247,Basgitaar,https://data.muziekschatten.nl/som/Instrument
+basklarinet,http://www.wikidata.org/entity/Q8345,basklarinet,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um254,Basklarinet,https://data.muziekschatten.nl/som/Instrument
+bass,http://www.wikidata.org/entity/Q810447,basinstrument,https://www.wikidata.org/wiki/Q34379,,,
+basset-klarinet,http://www.wikidata.org/entity/Q810511,bassetklarinet,https://www.wikidata.org/wiki/Q34379,,,
+bassethoorn,http://www.wikidata.org/entity/Q810515,bassethoorn,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um274,Bassethoorn,https://data.muziekschatten.nl/som/Instrument
+bassetklarinet,http://www.wikidata.org/entity/Q810511,bassetklarinet,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um276,Bassetklarinet,https://data.muziekschatten.nl/som/Instrument
+bastrombone,http://www.wikidata.org/entity/Q13194854,bastrombone,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um282,Bastrombone,https://data.muziekschatten.nl/som/Instrument
+bastuba,http://www.wikidata.org/entity/Q131168,tuba,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um286,Bastuba,https://data.muziekschatten.nl/som/Instrument
+basuri,http://www.wikidata.org/entity/Q960389,bansuri,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um289,Basuri,https://data.muziekschatten.nl/som/Instrument
+basvedel,http://www.wikidata.org/entity/Q843679,vedel,https://www.wikidata.org/wiki/Q34379,,,
+bawu,http://www.wikidata.org/entity/Q812043,Bawu,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um295,Bawu,https://data.muziekschatten.nl/som/Instrument
+bekkens,http://www.wikidata.org/entity/Q190172,bekken,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um308,Bekkens (set) - familie,https://data.muziekschatten.nl/som/Instrument
+bellen,http://www.wikidata.org/entity/Q101401,klok (bel),https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um313,Bellen (set),https://data.muziekschatten.nl/som/Instrument
+bendir,http://www.wikidata.org/entity/Q816793,adjun,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um316,Bendir,https://data.muziekschatten.nl/som/Instrument
+biwa,http://www.wikidata.org/entity/Q829729,biwa,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um343,Biwa,https://data.muziekschatten.nl/som/Instrument
+blaasinstrumenten,http://www.wikidata.org/entity/Q173453,blaasinstrument,https://www.wikidata.org/wiki/Q34379,,,
+blazers,http://www.wikidata.org/entity/Q173453,blaasinstrument,https://www.wikidata.org/wiki/Q34379,,,
+blokfluit,http://www.wikidata.org/entity/Q187851,blokfluit,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um361,Blokfluit - familie,https://data.muziekschatten.nl/som/Instrument
+blokfluit alt,http://www.wikidata.org/entity/Q15791824,altblokfluit,https://www.wikidata.org/wiki/Q34379,,,
+blokfluit bas,http://www.wikidata.org/entity/Q3353648,basblokfluit,https://www.wikidata.org/wiki/Q34379,,,
+blokfluit sopraan,http://www.wikidata.org/entity/Q1823258,sopraanblokfluit,https://www.wikidata.org/wiki/Q34379,,,
+blokfluit tenor,http://www.wikidata.org/entity/Q2037451,Tenorblokfluit,https://www.wikidata.org/wiki/Q34379,,,
+blokluit,http://www.wikidata.org/entity/Q187851,blokfluit,https://www.wikidata.org/wiki/Q34379,,,
+bongo's,http://www.wikidata.org/entity/Q243998,bongo,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um391,Bongo's,https://data.muziekschatten.nl/som/Instrument
+bouzouki,http://www.wikidata.org/entity/Q322675,bouzouki,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um400,Bouzouki,https://data.muziekschatten.nl/som/Instrument
+bugel,http://www.wikidata.org/entity/Q382616,bugel,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um423,Bugel,https://data.muziekschatten.nl/som/Instrument
+buisklokken,http://www.wikidata.org/entity/Q178812,buisklokken,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um428,Buisklokken (set),https://data.muziekschatten.nl/som/Instrument
+caja,http://www.wikidata.org/entity/Q208421,kleine trom,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um442,Caja,https://data.muziekschatten.nl/som/Instrument
+cajon,http://www.wikidata.org/entity/Q748455,cajón,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um443,CajÃ³n,https://data.muziekschatten.nl/som/Instrument
+carillon,http://www.wikidata.org/entity/Q505174,beiaard,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um843,Elektrisch carillon,https://data.muziekschatten.nl/som/Instrument
+castagnetten,http://www.wikidata.org/entity/Q183932,castagnetten,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um460,Castagnetten,https://data.muziekschatten.nl/som/Instrument
+celesta,http://www.wikidata.org/entity/Q320341,celesta,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um469,Celesta,https://data.muziekschatten.nl/som/Instrument
+cello,http://www.wikidata.org/entity/Q8371,cello,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um472,Cello,https://data.muziekschatten.nl/som/Instrument
+cello barok,http://www.wikidata.org/entity/Q8371,cello,https://www.wikidata.org/wiki/Q34379,,,
+cello elektr.,http://www.wikidata.org/entity/Q713574,Electric cello,https://www.wikidata.org/wiki/Q34379,,,
+chang go,http://www.wikidata.org/entity/Q1062015,janggu,https://www.wikidata.org/wiki/Q34379,,,
+chitarra battente,http://www.wikidata.org/entity/Q2297117,chitarra battente,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um519,Chitarra battente,https://data.muziekschatten.nl/som/Instrument
+chitarrone,http://www.wikidata.org/entity/Q2216381,Chitarrone,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um520,Chitarrone,https://data.muziekschatten.nl/som/Instrument
+chitende,http://www.wikidata.org/entity/,,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um521,Chitende,https://data.muziekschatten.nl/som/Instrument
+cimbaal,http://www.wikidata.org/entity/Q8374,cimbalom,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um307,Bekken - familie,https://data.muziekschatten.nl/som/Instrument
+cimbalom,http://www.wikidata.org/entity/Q8374,cimbalom,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um541,Cimbalom,https://data.muziekschatten.nl/som/Instrument
+cister,http://www.wikidata.org/entity/Q1093290,citter,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um550,Cister,https://data.muziekschatten.nl/som/Instrument
+citer,http://www.wikidata.org/entity/Q76239,citer,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um552,Citer,https://data.muziekschatten.nl/som/Instrument
+clarino,http://www.wikidata.org/entity/Q943488,klaroen,https://www.wikidata.org/wiki/Q34379,,,
+clavecimbel,http://www.wikidata.org/entity/Q81982,klavecimbel,https://www.wikidata.org/wiki/Q34379,,,
+clavichord,http://www.wikidata.org/entity/Q191823,klavichord,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1529,Klavichord,https://data.muziekschatten.nl/som/Instrument
+clavicytherium,http://www.wikidata.org/entity/Q1746064,clavicytherium,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1528,Klavecytherium,https://data.muziekschatten.nl/som/Instrument
+clavinet,http://www.wikidata.org/entity/Q1099153,clavinet,https://www.wikidata.org/wiki/Q34379,,,
+claviorganum,http://www.wikidata.org/entity/Q1099112,claviorganum,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um574,Claviorganum,https://data.muziekschatten.nl/som/Instrument
+concertina,http://www.wikidata.org/entity/Q593050,concertina,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um584,Concertina,https://data.muziekschatten.nl/som/Instrument
+conga's,http://www.wikidata.org/entity/Q270200,Conga,https://www.wikidata.org/wiki/Q34379,,,
+congas,http://www.wikidata.org/entity/Q270200,Conga,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um589,Conga,https://data.muziekschatten.nl/som/Instrument
+contrabas,http://www.wikidata.org/entity/Q80019,contrabas,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um597,Contrabas,https://data.muziekschatten.nl/som/Instrument
+contrabasklarinet,http://www.wikidata.org/entity/Q2731509,contrabass clarinet,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um606,Contrabasklarinet,https://data.muziekschatten.nl/som/Instrument
+contrafagot,http://www.wikidata.org/entity/Q83513,contrafagot,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um615,Contrafagot,https://data.muziekschatten.nl/som/Instrument
+cornet,http://www.wikidata.org/entity/Q202027,kornet,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1579,Kornet,https://data.muziekschatten.nl/som/Instrument
+corno da caccia,http://www.wikidata.org/entity/Q1134216,corno da caccia,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1319,Jachthoorn,https://data.muziekschatten.nl/som/Instrument
+cymbaal,http://www.wikidata.org/entity/Q8374,cimbalom,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um307,Bekken - familie,https://data.muziekschatten.nl/som/Instrument
+cymbalom,http://www.wikidata.org/entity/Q8374,cimbalom,https://www.wikidata.org/wiki/Q34379,,,
+daf,http://www.wikidata.org/entity/Q11084057,daf,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um650,Daf,https://data.muziekschatten.nl/som/Instrument
+dan co,http://www.wikidata.org/entity/Q8079925,đàn nhị,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um663,Dan co,https://data.muziekschatten.nl/som/Instrument
+dan nguyet,http://www.wikidata.org/entity/Q8079924,đàn nguyệt,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um669,Dan nguyet,https://data.muziekschatten.nl/som/Instrument
+dan tranh,http://www.wikidata.org/entity/Q342234,đàn tranh,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um674,Dan tranh,https://data.muziekschatten.nl/som/Instrument
+darabukka,http://www.wikidata.org/entity/Q319154,darbuka,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um683,Darabukka,https://data.muziekschatten.nl/som/Instrument
+dholak,http://www.wikidata.org/entity/Q936590,Dholak,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um703,Dholak,https://data.muziekschatten.nl/som/Instrument
+didgeridoo,http://www.wikidata.org/entity/Q189388,didgeridoo,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um712,Didgeridoo,https://data.muziekschatten.nl/som/Instrument
+djembe,http://www.wikidata.org/entity/Q537750,djembé,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um732,DjembÃ©,https://data.muziekschatten.nl/som/Instrument
+doedelzak,http://www.wikidata.org/entity/Q8347,doedelzak,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um740,Doedelzak,https://data.muziekschatten.nl/som/Instrument
+dombak,http://www.wikidata.org/entity/Q3574843,tonbak,https://www.wikidata.org/wiki/Q34379,,,
+draailier,http://www.wikidata.org/entity/Q207821,draailier,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um763,Draailier,https://data.muziekschatten.nl/som/Instrument
+draaiorgel,http://www.wikidata.org/entity/Q1256576,draaiorgel,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um766,Draaiorgel,https://data.muziekschatten.nl/som/Instrument
+draaitafels,http://www.wikidata.org/entity/Q7112808,grammofoon,https://www.wikidata.org/wiki/Q34379,,,
+drums,http://www.wikidata.org/entity/Q128309,drumstel,https://www.wikidata.org/wiki/Q34379,,,
+duduk,http://www.wikidata.org/entity/Q737917,doedoek,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um795,Duduk,https://data.muziekschatten.nl/som/Instrument
+dulcimer,http://www.wikidata.org/entity/Q341663,hakkebord,https://www.wikidata.org/wiki/Q34379,,,
+eenmansorkest,http://www.wikidata.org/entity/Q1304271,eenmansorkest,https://www.wikidata.org/wiki/Q34379,,,
+elektr.orgel,http://www.wikidata.org/entity/Q1327327,elektronisch orgel,https://www.wikidata.org/wiki/Q34379,,,
+elektrische bas,http://www.wikidata.org/entity/Q64166304,elektrische basgitaar,https://www.wikidata.org/wiki/Q34379,,,
+elektrische gitaar,http://www.wikidata.org/entity/Q78987,elektrische gitaar,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um846,Elektrische gitaar,https://data.muziekschatten.nl/som/Instrument
+elektronica,http://www.wikidata.org/entity/Q1327500,elektronisch muziekinstrument,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1683,Live elektronica,https://data.muziekschatten.nl/som/Instrument
+erhu,http://www.wikidata.org/entity/Q726306,Erhu,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um959,Erhu,https://data.muziekschatten.nl/som/Instrument
+eufonium,http://www.wikidata.org/entity/Q131168,tuba,https://www.wikidata.org/wiki/Q34379,,,
+fagot,http://www.wikidata.org/entity/Q159998,fagot,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um973,Fagot,https://data.muziekschatten.nl/som/Instrument
+fagot barok,http://www.wikidata.org/entity/Q159998,fagot,https://www.wikidata.org/wiki/Q34379,,,
+fairlight computer,http://www.wikidata.org/entity/Q512222,Fairlight CMI,https://www.wikidata.org/wiki/Q34379,,,
+fender rhodes,http://www.wikidata.org/entity/Q743659,Rhodes,https://www.wikidata.org/wiki/Q34379,,,
+flageolet,http://www.wikidata.org/entity/Q1001877,flageolet,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um995,Flageolet,https://data.muziekschatten.nl/som/Instrument
+fluit,http://www.wikidata.org/entity/Q11405,fluit,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1007,Fluit,https://data.muziekschatten.nl/som/Instrument
+fluit renaissance,http://www.wikidata.org/entity/Q11405,fluit,https://www.wikidata.org/wiki/Q34379,,,
+fortepiano,http://www.wikidata.org/entity/Q1521313,fortepiano,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1031,Fortepiano,https://data.muziekschatten.nl/som/Instrument
+gadulka,http://www.wikidata.org/entity/Q1078965,gdulka,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1046,Gadulka,https://data.muziekschatten.nl/som/Instrument
+gaita,http://www.wikidata.org/entity/Q2313828,gaita,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1047,Gaita,https://data.muziekschatten.nl/som/Instrument
+gamba,http://www.wikidata.org/entity/Q40125,viola da gamba,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2980,Viole da gamba,https://data.muziekschatten.nl/som/Instrument
+ghata,http://www.wikidata.org/entity/Q859091,ghatam,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1091,Ghata,https://data.muziekschatten.nl/som/Instrument
+gimbri,http://www.wikidata.org/entity/Q1431454,gimbri,https://www.wikidata.org/wiki/Q34379,,,
+gitaar,http://www.wikidata.org/entity/Q6607,gitaar,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1105,Gitaar,https://data.muziekschatten.nl/som/Instrument
+gitaar barok,http://www.wikidata.org/entity/Q6607,gitaar,https://www.wikidata.org/wiki/Q34379,,,
+gitaar renaissance,http://www.wikidata.org/entity/Q6607,gitaar,https://www.wikidata.org/wiki/Q34379,,,
+gitaar romantisch,http://www.wikidata.org/entity/Q2902353,Romantic guitar,https://www.wikidata.org/wiki/Q34379,,,
+gittern,http://www.wikidata.org/entity/Q516397,gittern,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1113,Gittern,https://data.muziekschatten.nl/som/Instrument
+glasharmonica,http://www.wikidata.org/entity/Q917571,glasharmonica,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1115,Glasharmonica,https://data.muziekschatten.nl/som/Instrument
+gong,http://www.wikidata.org/entity/Q208320,gong,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1132,Gong,https://data.muziekschatten.nl/som/Instrument
+guan,http://www.wikidata.org/entity/Q675382,guanzi,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1156,Guan,https://data.muziekschatten.nl/som/Instrument
+guembri,http://www.wikidata.org/entity/Q1431454,gimbri,https://www.wikidata.org/wiki/Q34379,,,
+hammondorgel,http://www.wikidata.org/entity/Q105891,Hammondorgel,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1186,Hammondorgel,https://data.muziekschatten.nl/som/Instrument
+harmonium,http://www.wikidata.org/entity/Q12460259,harmonium,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1202,Harmonium,https://data.muziekschatten.nl/som/Instrument
+harp,http://www.wikidata.org/entity/Q47369,harp,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1206,Harp,https://data.muziekschatten.nl/som/Instrument
+harp barok,http://www.wikidata.org/entity/Q47369,harp,https://www.wikidata.org/wiki/Q34379,,,
+harp middeleeuwen,http://www.wikidata.org/entity/Q104869689,Medieval harp,https://www.wikidata.org/wiki/Q34379,,,
+heckelfoon,http://www.wikidata.org/entity/Q1571002,Heckelfoon,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1223,Heckelfoon,https://data.muziekschatten.nl/som/Instrument
+hobo,http://www.wikidata.org/entity/Q8377,hobo,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1240,Hobo,https://data.muziekschatten.nl/som/Instrument
+hobo barok,http://www.wikidata.org/entity/Q8377,hobo,https://www.wikidata.org/wiki/Q34379,,,
+hoorn,http://www.wikidata.org/entity/Q163759,hoorn,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1253,Hoorn,https://data.muziekschatten.nl/som/Instrument
+hulusi,http://www.wikidata.org/entity/Q1478007,hulusi,https://www.wikidata.org/wiki/Q34379,,,
+imzad,http://www.wikidata.org/entity/Q389949,imzad,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1313,Imzad,https://data.muziekschatten.nl/som/Instrument
+instruments,http://www.wikidata.org/entity/Q34379,muziekinstrument,https://www.wikidata.org/wiki/Q34379,,,
+kabinetorgel,http://www.wikidata.org/entity/Q2371434,Kabinetorgel,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1356,Kabinetorgel,https://data.muziekschatten.nl/som/Instrument
+kabosa,http://www.wikidata.org/entity/Q2895785,Kabosy,https://www.wikidata.org/wiki/Q34379,,,
+kabosy,http://www.wikidata.org/entity/Q2895785,Kabosy,https://www.wikidata.org/wiki/Q34379,,,
+kalebas,http://www.wikidata.org/entity/Q978694,Calabash,https://www.wikidata.org/wiki/Q34379,,,
+kalimba,http://www.wikidata.org/entity/Q1467960,Duimpiano,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um801,Duimpiano,https://data.muziekschatten.nl/som/Instrument
+kamanche,http://www.wikidata.org/entity/Q290951,kamancheh,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1387,Kamanche,https://data.muziekschatten.nl/som/Instrument
+kamancheh,http://www.wikidata.org/entity/Q290951,kamancheh,https://www.wikidata.org/wiki/Q34379,,,
+kanjira,http://www.wikidata.org/entity/Q7997355,Kanjira,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1397,Kanjira,https://data.muziekschatten.nl/som/Instrument
+karnal,http://www.wikidata.org/entity/Q19671148,karnal,https://www.wikidata.org/wiki/Q34379,,,
+kaval,http://www.wikidata.org/entity/Q178374,kaval,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1421,Kaval,https://data.muziekschatten.nl/som/Instrument
+kayamb,http://www.wikidata.org/entity/Q497224,Kayamb,https://www.wikidata.org/wiki/Q34379,,,
+kemence,http://www.wikidata.org/entity/Q10969818,Kemençhe,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1435,KemenÃ§e,https://data.muziekschatten.nl/som/Instrument
+kerkklokken,http://www.wikidata.org/entity/Q3500690,kerkklok,https://www.wikidata.org/wiki/Q34379,,,
+keyboard,http://www.wikidata.org/entity/Q1343007,keyboard,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um848,Elektrische piano,https://data.muziekschatten.nl/som/Instrument
+keyboards,http://www.wikidata.org/entity/Q1343007,keyboard,https://www.wikidata.org/wiki/Q34379,,,
+kistorgel,http://www.wikidata.org/entity/Q18088112,Kistorgel,https://www.wikidata.org/wiki/Q34379,,,
+klarinet,http://www.wikidata.org/entity/Q8343,klarinet,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1510,Klarinet,https://data.muziekschatten.nl/som/Instrument
+klarinet elektr.,http://www.wikidata.org/entity/Q8343,klarinet,https://www.wikidata.org/wiki/Q34379,,,
+klavecimbel,http://www.wikidata.org/entity/Q81982,klavecimbel,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1523,Klavecimbel,https://data.muziekschatten.nl/som/Instrument
+kleine harp,http://www.wikidata.org/entity/Q47369,harp,https://www.wikidata.org/wiki/Q34379,,,
+kleine trom,http://www.wikidata.org/entity/Q208421,kleine trom,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1535,Kleine trom,https://data.muziekschatten.nl/som/Instrument
+klokkenspel,http://www.wikidata.org/entity/Q626035,glockenspiel,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1119,Glockenspiel,https://data.muziekschatten.nl/som/Instrument
+koororgel,http://www.wikidata.org/entity/Q7315415,koororgel,https://www.wikidata.org/wiki/Q34379,,,
+kora,http://www.wikidata.org/entity/Q585969,kora,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1577,Kora,https://data.muziekschatten.nl/som/Instrument
+koto,http://www.wikidata.org/entity/Q289037,koto,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1586,Koto,https://data.muziekschatten.nl/som/Instrument
+kouxian,http://www.wikidata.org/entity/Q6434803,kouxian,https://www.wikidata.org/wiki/Q34379,,,
+kromhoorn,http://www.wikidata.org/entity/Q930367,kromhoorn,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1599,Kromhoorn,https://data.muziekschatten.nl/som/Instrument
+kudum,http://www.wikidata.org/entity/Q6441836,Kudüm,https://www.wikidata.org/wiki/Q34379,,,
+kunstfluiten,http://www.wikidata.org/entity/Q1792566,kunstfluiter,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1622,Kunstfluiten,https://data.muziekschatten.nl/som/Instrument
+kunstfluiter,http://www.wikidata.org/entity/Q1792566,kunstfluiter,https://www.wikidata.org/wiki/Q34379,,,
+lead gitaar,http://www.wikidata.org/entity/Q61046048,leadgitaar,https://www.wikidata.org/wiki/Q34379,,,
+lier,http://www.wikidata.org/entity/Q201129,lier,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1665,Lier,https://data.muziekschatten.nl/som/Instrument
+long string instrument,http://www.wikidata.org/entity/Q6673527,Long string instrument,https://www.wikidata.org/wiki/Q34379,,,
+luit,http://www.wikidata.org/entity/Q180733,luit,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1700,Luit,https://data.muziekschatten.nl/som/Instrument
+luit barok,http://www.wikidata.org/entity/Q180733,luit,https://www.wikidata.org/wiki/Q34379,,,
+luit renaissance,http://www.wikidata.org/entity/Q180733,luit,https://www.wikidata.org/wiki/Q34379,,,
+lutheal,http://www.wikidata.org/entity/Q450578,luthéal,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1723,Lutheal,https://data.muziekschatten.nl/som/Instrument
+lyra,http://www.wikidata.org/entity/Q500568,Lyra,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1724,Lyra,https://data.muziekschatten.nl/som/Instrument
+lyra viol,http://www.wikidata.org/entity/Q3560362,lyra viol,https://www.wikidata.org/wiki/Q34379,,,
+mandoline,http://www.wikidata.org/entity/Q302497,mandoline,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1752,Mandoline,https://data.muziekschatten.nl/som/Instrument
+maracas,http://www.wikidata.org/entity/Q39777,maracas,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1771,Maracas,https://data.muziekschatten.nl/som/Instrument
+marimba,http://www.wikidata.org/entity/Q220971,marimba,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1772,Marimba,https://data.muziekschatten.nl/som/Instrument
+mbira,http://www.wikidata.org/entity/Q1467960,Duimpiano,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um801,Duimpiano,https://data.muziekschatten.nl/som/Instrument
+melodica,http://www.wikidata.org/entity/Q512191,melodica,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1819,Melodica,https://data.muziekschatten.nl/som/Instrument
+metronomen,http://www.wikidata.org/entity/Q156424,metronoom,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1832,Metronomen,https://data.muziekschatten.nl/som/Instrument
+mohan veena,http://www.wikidata.org/entity/Q6893623,Mohan veena,https://www.wikidata.org/wiki/Q34379,,,
+molo,http://www.wikidata.org/entity/Q118898940,Molo,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1869,Molo,https://data.muziekschatten.nl/som/Instrument
+mondharmonica,http://www.wikidata.org/entity/Q51290,mondharmonica,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1872,Mondharmonica,https://data.muziekschatten.nl/som/Instrument
+mondharp,http://www.wikidata.org/entity/Q185003,mondharp,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1878,Mondharp,https://data.muziekschatten.nl/som/Instrument
+mrdanga,http://www.wikidata.org/entity/Q744831,Mridangam,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1470,Khol,https://data.muziekschatten.nl/som/Instrument
+nagara,http://www.wikidata.org/entity/Q2510552,nagara,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1919,Nagara,https://data.muziekschatten.nl/som/Instrument
+nagasvaram,http://www.wikidata.org/entity/Q1611652,Nadaswaram,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1920,Nagasvaram,https://data.muziekschatten.nl/som/Instrument
+natuurhoorn,http://www.wikidata.org/entity/Q1757829,natuurhoorn,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1937,Natuurhoorn,https://data.muziekschatten.nl/som/Instrument
+nay,http://www.wikidata.org/entity/Q743836,ney,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1940,Nay,https://data.muziekschatten.nl/som/Instrument
+ngoni,http://www.wikidata.org/entity/Q1703491,ngoni,https://www.wikidata.org/wiki/Q34379,,,
+oboe d'amore,http://www.wikidata.org/entity/Q8380,oboe d'amore,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2001,Oboe d'amore,https://data.muziekschatten.nl/som/Instrument
+oboe da caccia,http://www.wikidata.org/entity/Q1760274,jachthobo,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1999,Oboe da caccia,https://data.muziekschatten.nl/som/Instrument
+ondes martenot,http://www.wikidata.org/entity/Q862501,Ondes-Martenot,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2023,Ondes martenot,https://data.muziekschatten.nl/som/Instrument
+orgel,http://www.wikidata.org/entity/Q1444,orgel,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2042,Orgel,https://data.muziekschatten.nl/som/Instrument
+orgelpositief,http://www.wikidata.org/entity/Q1930186,positief,https://www.wikidata.org/wiki/Q34379,,,
+oud,http://www.wikidata.org/entity/Q191000,oed,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2014,Oed,https://data.muziekschatten.nl/som/Instrument
+pakhawaj,http://www.wikidata.org/entity/Q2046658,Pakhavaj,https://www.wikidata.org/wiki/Q34379,,,
+panfluit,http://www.wikidata.org/entity/Q218802,panfluit,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2080,Panfluit,https://data.muziekschatten.nl/som/Instrument
+pansfluit,http://www.wikidata.org/entity/Q218802,panfluit,https://www.wikidata.org/wiki/Q34379,,,
+pauken,http://www.wikidata.org/entity/Q189737,pauk,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2101,Pauken (set),https://data.muziekschatten.nl/som/Instrument
+perc,http://www.wikidata.org/entity/Q1661583,percussie,https://www.wikidata.org/wiki/Q34379,,,
+percussie,http://www.wikidata.org/entity/Q1661583,percussie,https://www.wikidata.org/wiki/Q34379,,,
+percussion,http://www.wikidata.org/entity/Q1661583,percussie,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2460,Slagwerk,https://data.muziekschatten.nl/som/Instrument
+piano,http://www.wikidata.org/entity/Q5994,piano,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2127,Piano,https://data.muziekschatten.nl/som/Instrument
+piano elektr.,http://www.wikidata.org/entity/Q3503387,electronic piano,https://www.wikidata.org/wiki/Q34379,,,
+piano geprepareerd,http://www.wikidata.org/entity/Q754186,geprepareerde piano,https://www.wikidata.org/wiki/Q34379,,,
+pianoforte,http://www.wikidata.org/entity/Q1521313,fortepiano,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um1031,Fortepiano,https://data.muziekschatten.nl/som/Instrument
+pianola,http://www.wikidata.org/entity/Q593995,pianola,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2137,Pianola,https://data.muziekschatten.nl/som/Instrument
+piccolo,http://www.wikidata.org/entity/Q83509,piccolo,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2147,Piccolo,https://data.muziekschatten.nl/som/Instrument
+piccolo-cello,http://www.wikidata.org/entity/Q836224,Violoncello piccolo,https://www.wikidata.org/wiki/Q34379,,,
+piccolotrompet,http://www.wikidata.org/entity/Q1569742,piccolo trumpet,https://www.wikidata.org/wiki/Q34379,,,
+pipa,http://www.wikidata.org/entity/Q6685124,pipa,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2166,Pipa,https://data.muziekschatten.nl/som/Instrument
+portatief,http://www.wikidata.org/entity/Q1806700,portatief,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2187,Portatief,https://data.muziekschatten.nl/som/Instrument
+portugese gitaar,http://www.wikidata.org/entity/Q585289,Portugese gitaar,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2188,Portugese gitaar,https://data.muziekschatten.nl/som/Instrument
+posthoorn,http://www.wikidata.org/entity/Q996531,posthoorn,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2190,Posthoorn,https://data.muziekschatten.nl/som/Instrument
+qin,http://www.wikidata.org/entity/Q723720,guqin,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2216,Qin,https://data.muziekschatten.nl/som/Instrument
+rabab,http://www.wikidata.org/entity/Q1640934,rubab,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2230,Rabab,https://data.muziekschatten.nl/som/Instrument
+ratel,http://www.wikidata.org/entity/Q954753,ratel,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2243,Ratel,https://data.muziekschatten.nl/som/Instrument
+regaal,http://www.wikidata.org/entity/Q930827,regaal,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2251,Regaal,https://data.muziekschatten.nl/som/Instrument
+reyong,http://www.wikidata.org/entity/Q6415141,Reyong,https://www.wikidata.org/wiki/Q34379,,,
+rommelpot,http://www.wikidata.org/entity/Q9097454,rommelpot,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2273,Rommelpot,https://data.muziekschatten.nl/som/Instrument
+sahnai,http://www.wikidata.org/entity/Q847911,shehnai,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2289,Sahnai,https://data.muziekschatten.nl/som/Instrument
+sampler,http://www.wikidata.org/entity/Q320002,sampler,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2305,Sampler,https://data.muziekschatten.nl/som/Instrument
+santur,http://www.wikidata.org/entity/Q2912399,santoor,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2319,Santur,https://data.muziekschatten.nl/som/Instrument
+sarangi,http://www.wikidata.org/entity/Q608650,sarangi,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2325,Sarangi,https://data.muziekschatten.nl/som/Instrument
+sarod,http://www.wikidata.org/entity/Q687406,sarod,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2330,Sarod,https://data.muziekschatten.nl/som/Instrument
+saxofoon,http://www.wikidata.org/entity/Q9798,saxofoon,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2346,Saxofoon - familie,https://data.muziekschatten.nl/som/Instrument
+saxofoon alt,http://www.wikidata.org/entity/Q445275,altsaxofoon,https://www.wikidata.org/wiki/Q34379,,,
+saxofoon bariton,http://www.wikidata.org/entity/Q808218,baritonsaxofoon,https://www.wikidata.org/wiki/Q34379,,,
+saxofoon bas,http://www.wikidata.org/entity/Q810551,bassaxofoon,https://www.wikidata.org/wiki/Q34379,,,
+saxofoon sopraan,http://www.wikidata.org/entity/Q1463985,sopraansaxofoon,https://www.wikidata.org/wiki/Q34379,,,
+saxofoon sopranino,http://www.wikidata.org/entity/Q656922,sopraninosaxofoon,https://www.wikidata.org/wiki/Q34379,,,
+saxofoon tenor,http://www.wikidata.org/entity/Q1414932,tenorsaxofoon,https://www.wikidata.org/wiki/Q34379,,,
+saz,http://www.wikidata.org/entity/Q717773,bağlama,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2358,Saz,https://data.muziekschatten.nl/som/Instrument
+schalmei,http://www.wikidata.org/entity/Q677921,schalmei,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2360,Schalmei,https://data.muziekschatten.nl/som/Instrument
+schelphoorn,http://www.wikidata.org/entity/Q2606377,schelphoorn,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2366,Schelphoorn,https://data.muziekschatten.nl/som/Instrument
+serinette,http://www.wikidata.org/entity/Q201654,Serinette,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2390,Serinette,https://data.muziekschatten.nl/som/Instrument
+serpent,http://www.wikidata.org/entity/Q742168,serpent,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2392,Serpent,https://data.muziekschatten.nl/som/Instrument
+sgra-snyan,http://www.wikidata.org/entity/Q1255766,Dramyen,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2401,Sgra-snyan,https://data.muziekschatten.nl/som/Instrument
+shakuhachi,http://www.wikidata.org/entity/Q524526,shakuhachi,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2406,Shakuhachi,https://data.muziekschatten.nl/som/Instrument
+sheng,http://www.wikidata.org/entity/Q849052,sheng,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2414,Sheng,https://data.muziekschatten.nl/som/Instrument
+shrutibox,http://www.wikidata.org/entity/Q487818,Shruti box,https://www.wikidata.org/wiki/Q34379,,,
+sitar,http://www.wikidata.org/entity/Q229205,sitar,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2449,Sitar,https://data.muziekschatten.nl/som/Instrument
+slagwerk,http://www.wikidata.org/entity/Q133163,slaginstrument,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2460,Slagwerk,https://data.muziekschatten.nl/som/Instrument
+slagwerk elektr.,http://www.wikidata.org/entity/Q133163,slaginstrument,https://www.wikidata.org/wiki/Q34379,,,
+sokou,http://www.wikidata.org/entity/Q3869301,njarka,https://www.wikidata.org/wiki/Q34379,,,
+song lang,http://www.wikidata.org/entity/Q7561115,Song loan,https://www.wikidata.org/wiki/Q34379,,,
+sopraansaxofoon,http://www.wikidata.org/entity/Q1463985,sopraansaxofoon,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2544,Sopraansaxofoon,https://data.muziekschatten.nl/som/Instrument
+soukou,http://www.wikidata.org/entity/Q3869301,njarka,https://www.wikidata.org/wiki/Q34379,,,
+sousafoon,http://www.wikidata.org/entity/Q499387,sousafoon,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2569,Sousafoon,https://data.muziekschatten.nl/som/Instrument
+speelgoed,http://www.wikidata.org/entity/Q11422,speelgoed,https://www.wikidata.org/wiki/Q34379,,,
+spinet,http://www.wikidata.org/entity/Q623941,spinet,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2576,Spinet,https://data.muziekschatten.nl/som/Instrument
+steel guitar,http://www.wikidata.org/entity/Q2617520,steel guitar,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2594,Steelgitaar,https://data.muziekschatten.nl/som/Instrument
+stemmen,http://www.wikidata.org/entity/Q17172850,stem,https://www.wikidata.org/wiki/Q34379,,,
+strijkers,http://www.wikidata.org/entity/Q192096,strijkinstrument,https://www.wikidata.org/wiki/Q34379,,,
+sur-na,http://www.wikidata.org/entity/Q825246,sorna,https://www.wikidata.org/wiki/Q34379,,,
+surbahar,http://www.wikidata.org/entity/Q980383,surbahar,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2623,Surbahar,https://data.muziekschatten.nl/som/Instrument
+surmandal,http://www.wikidata.org/entity/Q627110,Swarmandal,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2626,Surmandal,https://data.muziekschatten.nl/som/Instrument
+swaramandala,http://www.wikidata.org/entity/Q627110,Swarmandal,https://www.wikidata.org/wiki/Q34379,,,
+synthesizer,http://www.wikidata.org/entity/Q163829,synthesizer,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2650,Synthesizer,https://data.muziekschatten.nl/som/Instrument
+synths,http://www.wikidata.org/entity/Q163829,synthesizer,https://www.wikidata.org/wiki/Q34379,,,
+tabla,http://www.wikidata.org/entity/Q213100,tabla,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2654,Tabla,https://data.muziekschatten.nl/som/Instrument
+tabla tarang,http://www.wikidata.org/entity/Q2386534,tabla tarang,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2655,Tabla tarang,https://data.muziekschatten.nl/som/Instrument
+tama,http://www.wikidata.org/entity/Q1321104,tama,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2672,Tama,https://data.muziekschatten.nl/som/Instrument
+tamboeryn,http://www.wikidata.org/entity/Q193666,tamboerijn,https://www.wikidata.org/wiki/Q34379,,,
+tambura,http://www.wikidata.org/entity/Q508805,tambura,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2685,Tambura,https://data.muziekschatten.nl/som/Instrument
+tanbur,http://www.wikidata.org/entity/Q3424319,tanbur,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2693,Tanbur,https://data.muziekschatten.nl/som/Instrument
+tangentenvleugel,http://www.wikidata.org/entity/Q454862,tangent piano,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2695,Tangentenvleugel,https://data.muziekschatten.nl/som/Instrument
+tar,http://www.wikidata.org/entity/Q203861,tar,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2709,Tar,https://data.muziekschatten.nl/som/Instrument
+taragato,http://www.wikidata.org/entity/Q736874,taragot,https://www.wikidata.org/wiki/Q34379,,,
+tarpo,http://www.wikidata.org/entity/Q2394517,tarpu,https://www.wikidata.org/wiki/Q34379,,,
+tbol,http://www.wikidata.org/entity/Q2382928,t´bol,https://www.wikidata.org/wiki/Q34379,,,
+tenorhoorn,http://www.wikidata.org/entity/Q745478,tenorhoorn,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2748,Tenorhoorn,https://data.muziekschatten.nl/som/Instrument
+tenorsax,http://www.wikidata.org/entity/Q1414932,tenorsaxofoon,https://www.wikidata.org/wiki/Q34379,,,
+tenorsaxofoon,http://www.wikidata.org/entity/Q1414932,tenorsaxofoon,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2754,Tenorsaxofoon,https://data.muziekschatten.nl/som/Instrument
+tensax,http://www.wikidata.org/entity/Q1414932,tenorsaxofoon,https://www.wikidata.org/wiki/Q34379,,,
+theorbe,http://www.wikidata.org/entity/Q840920,teorbe,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2773,Theorbe,https://data.muziekschatten.nl/som/Instrument
+theremin,http://www.wikidata.org/entity/Q207691,theremin,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2774,Theremin,https://data.muziekschatten.nl/som/Instrument
+timbales,http://www.wikidata.org/entity/Q379248,timbales,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2787,Timbales (set),https://data.muziekschatten.nl/som/Instrument
+toetsen,http://www.wikidata.org/entity/Q1343007,keyboard,https://www.wikidata.org/wiki/Q34379,,,
+tombak,http://www.wikidata.org/entity/Q3574843,tonbak,https://www.wikidata.org/wiki/Q34379,,,
+traverso,http://www.wikidata.org/entity/Q2626629,Traverso,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2838,Traverso,https://data.muziekschatten.nl/som/Instrument
+tres,http://www.wikidata.org/entity/Q139727,Cubaanse tres,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um638,Cubaanse tres,https://data.muziekschatten.nl/som/Instrument
+triangel,http://www.wikidata.org/entity/Q201735,triangel,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2840,Triangel,https://data.muziekschatten.nl/som/Instrument
+trom,http://www.wikidata.org/entity/Q11404,trommel,https://www.wikidata.org/wiki/Q34379,,,
+trombone,http://www.wikidata.org/entity/Q8350,trombone,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2855,Trombone,https://data.muziekschatten.nl/som/Instrument
+trombone elektr.,http://www.wikidata.org/entity/Q8350,trombone,https://www.wikidata.org/wiki/Q34379,,,
+trommel,http://www.wikidata.org/entity/Q11404,trommel,https://www.wikidata.org/wiki/Q34379,kleine trom,Trommel,https://data.muziekschatten.nl/som/Instrument
+trompet,http://www.wikidata.org/entity/Q8338,trompet,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2868,Trompet,https://data.muziekschatten.nl/som/Instrument
+trompet barok,http://www.wikidata.org/entity/Q808574,baroque trumpet,https://www.wikidata.org/wiki/Q34379,,,
+tuba,http://www.wikidata.org/entity/Q131168,tuba,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2893,Tuba,https://data.muziekschatten.nl/som/Instrument
+ud,http://www.wikidata.org/entity/Q191000,oed,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2014,Oed,https://data.muziekschatten.nl/som/Instrument
+ukelele,http://www.wikidata.org/entity/Q61285,ukelele,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2936,Ukelele - familie,https://data.muziekschatten.nl/som/Instrument
+vedel,http://www.wikidata.org/entity/Q843679,vedel,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2952,Vedel,https://data.muziekschatten.nl/som/Instrument
+ventieltrombone,http://www.wikidata.org/entity/Q3444092,ventieltrombone,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2955,Ventieltrombone,https://data.muziekschatten.nl/som/Instrument
+vibrafoon,http://www.wikidata.org/entity/Q206987,vibrafoon,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2959,Vibrafoon,https://data.muziekschatten.nl/som/Instrument
+vihuela,http://www.wikidata.org/entity/Q751884,vihuela,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2963,Vihuela,https://data.muziekschatten.nl/som/Instrument
+vina,http://www.wikidata.org/entity/Q959769,vina,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2965,Vina,https://data.muziekschatten.nl/som/Instrument
+viola caipira,http://www.wikidata.org/entity/Q7933058,viola caipira,https://www.wikidata.org/wiki/Q34379,,,
+viola d'amore,http://www.wikidata.org/entity/Q742180,viola d'amore,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2972,Viola d'amore,https://data.muziekschatten.nl/som/Instrument
+viola da braccio,http://www.wikidata.org/entity/Q570544,viola da braccio,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um290,Basviool,https://data.muziekschatten.nl/som/Instrument
+viola da gamba,http://www.wikidata.org/entity/Q40125,viola da gamba,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2969,Viola da gamba - familie,https://data.muziekschatten.nl/som/Instrument
+viola da gambla,http://www.wikidata.org/entity/Q40125,viola da gamba,https://www.wikidata.org/wiki/Q34379,,,
+violone,http://www.wikidata.org/entity/Q667047,violone,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2984,Violone,https://data.muziekschatten.nl/som/Instrument
+violophone,http://www.wikidata.org/entity/Q615941,Violofoon,https://www.wikidata.org/wiki/Q34379,,,
+viool,http://www.wikidata.org/entity/Q8355,viool,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2985,Viool,https://data.muziekschatten.nl/som/Instrument
+viool barok,http://www.wikidata.org/entity/Q808578,Barokviool,https://www.wikidata.org/wiki/Q34379,,,
+viool elektr.,http://www.wikidata.org/entity/Q685663,electric violin,https://www.wikidata.org/wiki/Q34379,,,
+virginaal,http://www.wikidata.org/entity/Q922337,virginaal,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um2997,Virginaal,https://data.muziekschatten.nl/som/Instrument
+xylofoon,http://www.wikidata.org/entity/Q165666,xylofoon,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um3060,Xylofoon,https://data.muziekschatten.nl/som/Instrument
+xylorimba,http://www.wikidata.org/entity/Q845193,xylorimba,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um3061,Xylorimba,https://data.muziekschatten.nl/som/Instrument
+zarb,http://www.wikidata.org/entity/Q3574843,tonbak,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um3095,Zarb,https://data.muziekschatten.nl/som/Instrument
+zheng,http://www.wikidata.org/entity/Q726303,guzheng,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um3099,Zheng,https://data.muziekschatten.nl/som/Instrument
+zingende zaag,http://www.wikidata.org/entity/Q1144761,zingende zaag,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um3105,Zingende zaag,https://data.muziekschatten.nl/som/Instrument
+zink,http://www.wikidata.org/entity/Q204638,zink,https://www.wikidata.org/wiki/Q34379,https://data.muziekschatten.nl/som/um3106,Zink,https://data.muziekschatten.nl/som/Instrument
+bassist,http://www.wikidata.org/entity/Q584301,bassist,https://www.wikidata.org/wiki/Q28640,,,
+bassiste,http://www.wikidata.org/entity/Q584301,bassist,https://www.wikidata.org/wiki/Q28640,,,
+cellist,http://www.wikidata.org/entity/Q13219637,cellist,https://www.wikidata.org/wiki/Q28640,,,
+drummer,http://www.wikidata.org/entity/Q386854,drummer,https://www.wikidata.org/wiki/Q28640,,,
+gitarist,http://www.wikidata.org/entity/Q855091,gitarist,https://www.wikidata.org/wiki/Q28640,,,
+jazzgitarist,http://www.wikidata.org/entity/Q6168364,jazzgitarist,https://www.wikidata.org/wiki/Q28640,,,
+mc,http://www.wikidata.org/entity/Q497240,master of ceremony,https://www.wikidata.org/wiki/Q28640,,,
+pianist,http://www.wikidata.org/entity/Q486748,pianist,https://www.wikidata.org/wiki/Q28640,,,
+rapper,http://www.wikidata.org/entity/Q2252262,rapper,https://www.wikidata.org/wiki/Q28640,,,
+saxofonist,http://www.wikidata.org/entity/Q12800682,saxofonist,https://www.wikidata.org/wiki/Q28640,,,
+trombonist,http://www.wikidata.org/entity/Q544972,trombonist,https://www.wikidata.org/wiki/Q28640,,,
+trombonist, jazz,http://www.wikidata.org/entity/Q63565256,https://www.wikidata.org/wiki/Q28640,jazztrombonist,,
+trompettist,http://www.wikidata.org/entity/Q12377274,trompettist,https://www.wikidata.org/wiki/Q28640,,,
+violist,http://www.wikidata.org/entity/Q1259917,violist,https://www.wikidata.org/wiki/Q28640,,,
+zanger,http://www.wikidata.org/entity/Q177220,zanger,https://www.wikidata.org/wiki/Q28640,,,
+zangeres,http://www.wikidata.org/entity/Q177220,zanger,https://www.wikidata.org/wiki/Q28640,,,

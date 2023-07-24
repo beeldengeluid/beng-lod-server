@@ -267,32 +267,35 @@ class SDORdfConcept(BaseRdfConcept):
                 self.cache[cache_key] = ob_data
                 return ob_data
 
-    def get_role_uris_and_labels(self, role_name: str):
-        """Gets suitable role URIs based on the content of the role_name, which
+    def get_matching_role_information(self, role_name: str):
+        """Gets information about suitable roles based on the 
+        content of the role_name, which
         may contain multiple roles
         :param role_name - the value of the role name metadata field
-        :returns a list of matching URIs and their labels"""
+        :returns a list of matching URIs and their labels and types"""
         role_strings = parse_role_label(role_name, ["/", ",", "\+"])
         role_data = self.get_role_data()
         matched_roles = match_role(role_strings, role_data["groups"])
-        role_uris_and_labels = []
+        role_information_list = []
         for matched_role in matched_roles:
             if role_data["mapping"][matched_role]["wikidata_identifier"]:
-                role_uris_and_labels.append(
+                role_information_list.append(
                     (
                         role_data["mapping"][matched_role]["wikidata_identifier"],
                         role_data["mapping"][matched_role]["wikidata_label"],
+                        role_data["mapping"][matched_role]["wikidata_type"],
                     )
                 )
             if role_data["mapping"][matched_role]["um_identifier"]:
-                role_uris_and_labels.append(
+                role_information_list.append(
                     (
                         role_data["mapping"][matched_role]["um_identifier"],
                         role_data["mapping"][matched_role]["um_label"],
+                        role_data["mapping"][matched_role]["um_type"],
                     )
                 )
 
-        return role_uris_and_labels
+        return role_information_list
 
     @staticmethod
     def create_role_groups(role_data: Dict[str, Dict[str, str]]):
@@ -349,8 +352,10 @@ class SDORdfConcept(BaseRdfConcept):
                             mapping[row[0]] = {
                                 "wikidata_identifier": row[1],
                                 "wikidata_label": row[2],
-                                "um_identifier": row[3],
-                                "um_label": row[4],
+                                "wikidata_type": row[3],
+                                "um_identifier": row[4],
+                                "um_label": row[5],
+                                "um_type": row[6],
                             }
                     role_groups = SDORdfConcept.create_role_groups(mapping)
 
@@ -720,11 +725,11 @@ class SDORdfConcept(BaseRdfConcept):
                         # for creator (includes crew) or performance roles
                         if property_uri == SDO.byArtist or property_uri == SDO.creator:
                             # try to get uris
-                            role_uris_and_labels = self.get_role_uris_and_labels(role)
+                            role_information_list = self.get_matching_role_information(role)
 
-                            if role_uris_and_labels:
-                                for role_uri_and_label in role_uris_and_labels:
-                                    role_uri_node = URIRef(role_uri_and_label[0])
+                            if role_information_list:
+                                for role_information in role_information_list:
+                                    role_uri_node = URIRef(role_information[0])
                                     # add the URI
                                     self.graph.add(
                                         (
@@ -733,14 +738,24 @@ class SDORdfConcept(BaseRdfConcept):
                                             role_uri_node,
                                         )
                                     )
-                                    # add its label
-                                    self.graph.add(
-                                        (
-                                            role_uri_node,
-                                            RDFS.label,
-                                            Literal(role_uri_and_label[1], lang="nl"),
+                                    # add its label, if present
+                                    if role_information[1]:
+                                        self.graph.add(
+                                            (
+                                                role_uri_node,
+                                                RDFS.label,
+                                                Literal(role_information[1], lang="nl"),
+                                            )
                                         )
-                                    )
+                                    # add its type, if present
+                                    if role_information[2]:
+                                        self.graph.add(
+                                            (
+                                                role_uri_node,
+                                                RDF.type,
+                                                URIRef(role_information[2]),
+                                            )
+                                        )
 
                             else:
                                 # we only have text, add it to the role node as a literal
