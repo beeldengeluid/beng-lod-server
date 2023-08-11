@@ -268,12 +268,11 @@ class SDORdfConcept(BaseRdfConcept):
                 return ob_data
 
     def get_matching_role_information(self, role_name: str):
-        """Gets information about suitable roles based on the 
-        content of the role_name, which
-        may contain multiple roles
+        """Gets information about suitable roles based on the
+        content of the role_name, which may contain multiple roles
         :param role_name - the value of the role name metadata field
         :returns a list of matching URIs and their labels and types"""
-        role_strings = parse_role_label(role_name, ["/", ",", "\+"])
+        role_strings = parse_role_label(role_name, ["/", ",", r"\+"])
         role_data = self.get_role_data()
         matched_roles = match_role(role_strings, role_data["groups"])
         role_information_list = []
