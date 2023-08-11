@@ -15,7 +15,7 @@ from util import role_util
     ],
 )
 def test_parse_role_label(label, expected_result):
-    result = role_util.parse_role_label(label, ["/", ",", "\+"])
+    result = role_util.parse_role_label(label, ["/", ",", r"\+"])
 
     assert result == expected_result
 
