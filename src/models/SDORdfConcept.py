@@ -724,7 +724,9 @@ class SDORdfConcept(BaseRdfConcept):
                         # for creator (includes crew) or performance roles
                         if property_uri == SDO.byArtist or property_uri == SDO.creator:
                             # try to get uris
-                            role_information_list = self.get_matching_role_information(role)
+                            role_information_list = self.get_matching_role_information(
+                                role
+                            )
 
                             if role_information_list:
                                 for role_information in role_information_list:

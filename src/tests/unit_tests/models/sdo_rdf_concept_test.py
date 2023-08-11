@@ -120,12 +120,27 @@ def test_create_role_groups():
         ("trial", [("wd-id-2", "WD 2", "wd-type-2"), ("um-id-2", "um 2", "um-type-2")]),
         (
             "dummy, trial",
-            [("um-id-1", "um 1", "um-type-1"), ("wd-id-2", "WD 2", "wd-type-2"), ("um-id-2", "um 2", "um-type-2")],
+            [
+                ("um-id-1", "um 1", "um-type-1"),
+                ("wd-id-2", "WD 2", "wd-type-2"),
+                ("um-id-2", "um 2", "um-type-2"),
+            ],
         ),
-        ("trial/test", [("wd-id-1", "WD 1", "wd-type-1"), ("wd-id-2", "WD 2", "wd-type-2"), ("um-id-2", "um 2", "um-type-2")]),
+        (
+            "trial/test",
+            [
+                ("wd-id-1", "WD 1", "wd-type-1"),
+                ("wd-id-2", "WD 2", "wd-type-2"),
+                ("um-id-2", "um 2", "um-type-2"),
+            ],
+        ),
         (
             "dummy and another dummy",
-            [("wd-id-3", "WD 3", ""), ("um-id-3", "um 3", "um-type-3"), ("um-id-1", "um 1", "um-type-1")],
+            [
+                ("wd-id-3", "WD 3", ""),
+                ("um-id-3", "um 3", "um-type-3"),
+                ("um-id-1", "um 1", "um-type-1"),
+            ],
         ),
     ],
 )
@@ -170,7 +185,9 @@ def test_get_matching_role_information(role_string, expected_result, sdo_rdf_con
     with when(sdo_rdf_concept).get_role_data().thenReturn(
         {"groups": dummy_groups, "mapping": dummy_mapping}
     ):
-        result_information_list = sdo_rdf_concept.get_matching_role_information(role_string)
+        result_information_list = sdo_rdf_concept.get_matching_role_information(
+            role_string
+        )
         for result_information in result_information_list:
             assert result_information in expected_result
         for result_information in expected_result:
