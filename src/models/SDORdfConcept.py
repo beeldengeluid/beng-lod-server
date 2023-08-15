@@ -1,7 +1,15 @@
-from typing import Optional
-import logging
+import csv
 import json
+import logging
+import validators
+from rdflib.namespace import RDF, RDFS, SKOS, SDO
+from rdflib import URIRef, Literal, BNode
+from typing import Dict, Optional
+
 import models.SDORdfModel as SDORdfModel
+
+from importer.DAANSchemaImporter import DAANSchemaImporter
+from models.BaseRdfConcept import BaseRdfConcept
 from models.DAANJsonModel import (
     DAAN_PROGRAM_ID,
     DAAN_PARENT,
@@ -10,12 +18,8 @@ from models.DAANJsonModel import (
     DAAN_PAYLOAD,
     ObjectType,
 )
-import validators
-from rdflib.namespace import RDF, RDFS, SKOS, SDO
-from rdflib import URIRef, Literal, BNode
 from util.APIUtil import APIUtil
-from models.BaseRdfConcept import BaseRdfConcept
-from importer.DAANSchemaImporter import DAANSchemaImporter
+from util.role_util import parse_role_label, match_role
 
 logger = logging.getLogger()
 
@@ -262,6 +266,104 @@ class SDORdfConcept(BaseRdfConcept):
                 self.cache[cache_key] = ob_data
                 return ob_data
 
+    def get_matching_role_information(self, role_name: str):
+        """Gets information about suitable roles based on the
+        content of the role_name, which may contain multiple roles
+        :param role_name - the value of the role name metadata field
+        :returns a list of matching URIs and their labels and types"""
+        role_strings = parse_role_label(role_name, ["/", ",", r"\+"])
+        role_data = self.get_role_data()
+        matched_roles = match_role(role_strings, role_data["groups"])
+        role_information_list = []
+        for matched_role in matched_roles:
+            if role_data["mapping"][matched_role]["wikidata_identifier"]:
+                role_information_list.append(
+                    (
+                        role_data["mapping"][matched_role]["wikidata_identifier"],
+                        role_data["mapping"][matched_role]["wikidata_label"],
+                        role_data["mapping"][matched_role]["wikidata_type"],
+                    )
+                )
+            if role_data["mapping"][matched_role]["um_identifier"]:
+                role_information_list.append(
+                    (
+                        role_data["mapping"][matched_role]["um_identifier"],
+                        role_data["mapping"][matched_role]["um_label"],
+                        role_data["mapping"][matched_role]["um_type"],
+                    )
+                )
+
+        return role_information_list
+
+    @staticmethod
+    def create_role_groups(role_data: Dict[str, Dict[str, str]]):
+        """Given the role data, create a list of role groups that contain
+        the same basic role
+        :param role_data a dict of the role_data, with role string as key,
+        and as value a dict of the various identifiers and labels the role is mapped to
+        :returns a list of lists for the group labels"""
+        # get all single words
+        base_roles = [role for role in role_data if " " not in role]
+        role_groups = []
+
+        # now get only base roles that aren't contained in another role
+        simplest_base_roles = []
+        for base_role in base_roles:
+            simplest = True
+            for other_base_role in base_roles:
+                if other_base_role == base_role:
+                    continue
+                if other_base_role in base_role:
+                    simplest = False
+                    break
+            if simplest:
+                simplest_base_roles.append(base_role)
+
+        # group all roles containing those words
+        group_members = []
+        for base_role in simplest_base_roles:
+            role_group = [
+                role for role in role_data if base_role.lower() in role.lower()
+            ]
+            group_members.extend(role_group)
+            role_groups.append(role_group)
+
+        return role_groups
+
+    # use a simple in-memory cache
+    def get_role_data(self, cache_key="roles"):
+        if cache_key in self.cache:
+            logger.debug("GOT THE roles FROM CACHE")
+            return self.cache[cache_key]
+        else:
+            logger.debug("NO roles FOUND IN CACHE")
+            if "roles" in self.profile:
+                with open(self.profile["roles"]) as role_information_file:
+                    csv_reader = csv.reader(role_information_file)
+                    mapping = {}
+                    header = True
+                    for row in csv_reader:
+                        if header:
+                            header = False
+                            continue
+                        if row[0]:
+                            mapping[row[0]] = {
+                                "wikidata_identifier": row[1],
+                                "wikidata_label": row[2],
+                                "wikidata_type": row[3],
+                                "um_identifier": row[4],
+                                "um_label": row[5],
+                                "um_type": row[6],
+                            }
+                    role_groups = SDORdfConcept.create_role_groups(mapping)
+
+                    role_data = {"groups": role_groups, "mapping": mapping}
+
+                    self.cache[cache_key] = role_data
+                    return role_data
+            else:
+                return {}
+
     def __add_open_beelden_links(self, open_beelden_match):
         # add triple pointing to website
         website = open_beelden_match.get("website", "")
@@ -365,11 +467,12 @@ class SDORdfConcept(BaseRdfConcept):
                 )
 
     @staticmethod
-    def _get_role(used_path: str, payload: dict) -> Optional[str]:
+    def _get_role(used_path: str, payload: dict, subject_name: str) -> Optional[str]:
         """Searches in the concept_metadata for a role. If one is found, returns it, otherwise returns None
         :param used_path - the path in the json that was used to find the name of the entity for which we are trying
         to find a role
         :param payload - the metadata of the series/season/program/scene description
+        :param subject_name - the name of the entity we are looking for a role for
         :returns the role name (string), or None if no role is found"""
 
         # look two steps higher to get all the metadata of the thesaurus item
@@ -401,8 +504,14 @@ class SDORdfConcept(BaseRdfConcept):
             role_field = name_metadata_field.replace("name", "role")
 
         for concept in concept_metadata:
-            if role_field in concept and "resolved_value" in concept[role_field]:
-                return concept[role_field]["resolved_value"]
+            if (
+                concept[name_metadata_field][path_parts[-1].strip()] == subject_name
+            ):  # check we have the right subject
+                if role_field in concept:
+                    if "resolved_value" in concept[role_field]:
+                        return concept[role_field]["resolved_value"]
+                    elif "value" in concept[role_field]:
+                        return concept[role_field]["value"]
 
         return None
 
@@ -608,13 +717,67 @@ class SDORdfConcept(BaseRdfConcept):
                     self.graph.add((parent_node, property_uri, role_node))
 
                     # try to get more detailed role information
-                    role = SDORdfConcept._get_role(payload, used_path)
+                    role = SDORdfConcept._get_role(used_path, payload, new_payload_item)
 
                     if role:
-                        # add it to the role node
-                        self.graph.add(
-                            (role_node, self._model.ROLE_NAME, Literal(role, lang="nl"))
-                        )
+                        # for creator (includes crew) or performance roles
+                        if property_uri == SDO.byArtist or property_uri == SDO.creator:
+                            # try to get uris
+                            role_information_list = self.get_matching_role_information(
+                                role
+                            )
+
+                            if role_information_list:
+                                for role_information in role_information_list:
+                                    role_uri_node = URIRef(role_information[0])
+                                    # add the URI
+                                    self.graph.add(
+                                        (
+                                            role_node,
+                                            self._model.ROLE_NAME,
+                                            role_uri_node,
+                                        )
+                                    )
+                                    # add its label, if present
+                                    if role_information[1]:
+                                        self.graph.add(
+                                            (
+                                                role_uri_node,
+                                                RDFS.label,
+                                                Literal(role_information[1], lang="nl"),
+                                            )
+                                        )
+                                    # add its type, if present
+                                    if role_information[2]:
+                                        self.graph.add(
+                                            (
+                                                role_uri_node,
+                                                RDF.type,
+                                                URIRef(role_information[2]),
+                                            )
+                                        )
+
+                            else:
+                                # we only have text, add it to the role node as a literal
+                                self.graph.add(
+                                    (
+                                        role_node,
+                                        self._model.ROLE_NAME,
+                                        Literal(role, lang="nl"),
+                                    )
+                                )
+
+                        else:
+                            # we don't try to find a URI for other role types as we currently
+                            # only have mappings for music and production roles.
+                            # we just add the text to the role node as a literal
+                            self.graph.add(
+                                (
+                                    role_node,
+                                    self._model.ROLE_NAME,
+                                    Literal(role, lang="nl"),
+                                )
+                            )
 
                     # add the appropriate role type for the property.
                     if (
