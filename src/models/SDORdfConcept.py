@@ -1,16 +1,7 @@
 import csv
-import csv
 import json
 import logging
 import validators
-
-from rdflib.namespace import RDF, RDFS, SKOS, SDO
-from rdflib import URIRef, Literal, BNode
-from typing import Dict, Optional
-
-import logging
-import validators
-
 from rdflib.namespace import RDF, RDFS, SKOS, SDO
 from rdflib import URIRef, Literal, BNode
 from typing import Dict, Optional
