@@ -474,7 +474,9 @@ class SDORdfConcept(BaseRdfConcept):
         :param payload - the metadata of the series/season/program/scene description
         :param subject_name - the name of the entity we are looking for a role for
         :returns the role name (string), or None if no role is found"""
-
+        # print(used_path, subject_name)
+        # with open("payload_series_2101608030022634031.json", "wt") as f:
+        #     json.dump(payload, f, indent=4)
         # look two steps higher to get all the metadata of the thesaurus item
         if "," not in used_path:
             logger.debug(
@@ -494,7 +496,10 @@ class SDORdfConcept(BaseRdfConcept):
 
         for concept in concept_metadata:
             # flex store field name starts with 'nisv.'
-            field_basename = class_path.split("nisv.")[1]
+            field_parts = class_path.split("nisv.")
+            if len(field_parts) != 2:
+                return None
+            field_basename = field_parts[1]
             if field_basename in (
                 "creator",
                 "crew",
@@ -510,8 +515,10 @@ class SDORdfConcept(BaseRdfConcept):
                     and concept[field_name][name_value_field] == subject_name
                 ):  # check we have the right subject
                     if "resolved_value" in concept[field_role]:
+                        # print(concept[field_role]["resolved_value"])
                         return concept[field_role]["resolved_value"]
                     elif "value" in concept[field_role]:
+                        # print(concept[field_role]["value"])
                         return concept[field_role]["value"]
         return None
 

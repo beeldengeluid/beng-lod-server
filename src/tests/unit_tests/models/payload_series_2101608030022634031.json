@@ -1,0 +1,351 @@
+{
+    "nisv.metadatastatus": {
+        "value": "approved",
+        "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-metadatastatus/approved",
+        "resolved_value": "Approved"
+    },
+    "nisv.title": {
+        "value": "IK MIK LORELAND"
+    },
+    "nisv.heritagerule": {
+        "value": "1897253",
+        "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC44/1897253",
+        "resolved_value": "B"
+    },
+    "nisv.summaryshort": {
+        "value": "Serie programma's voor kinderen over de avonturen van het meisje Mik, afkomstig uit Loria, waarin letters, woorden en begrippen uitgelegd worden, afgewisseld met tekenfilmpjes en liedjes. Ze wordt hierbij gevolgd door Karbonkel.\nPoppenspelers: Krishna Borgers, Simon van Leeuwen, Catherine van Woerden, Ren\u00e9e Menschaar.\nPoppen: Karen van Holst Pellekaan.\nM.m.v. kinderen Theaterschool Purmerend."
+    },
+    "nisv.tags": [
+        {
+            "tags.name": {
+                "value": "Ministerie van WVC"
+            },
+            "tags.provenance": {
+                "value": "nisv.productioncompany/productioncompany.name"
+            },
+            "tags.thesaurus": {
+                "value": "THE37"
+            },
+            "tags.role": {
+                "value": "subsidiegever"
+            }
+        }
+    ],
+    "nisv.crew": [
+        {
+            "crew.name": {
+                "value": "249704",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/249704",
+                "resolved_value": "Fredriks, Ineke"
+            },
+            "crew.role": {
+                "value": "71",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC16/71",
+                "resolved_value": "scenario"
+            }
+        },
+        {
+            "crew.name": {
+                "value": "249704",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/249704",
+                "resolved_value": "Fredriks, Ineke"
+            },
+            "crew.role": {
+                "value": "61",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC16/61",
+                "resolved_value": "eindredactie"
+            }
+        },
+        {
+            "crew.name": {
+                "value": "249629",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/249629",
+                "resolved_value": "Goverde, Walter"
+            },
+            "crew.role": {
+                "value": "69",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC16/69",
+                "resolved_value": "regie"
+            }
+        },
+        {
+            "crew.name": {
+                "value": "243079",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/243079",
+                "resolved_value": "Dieleman, Dorine"
+            },
+            "crew.role": {
+                "value": "67",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC16/67",
+                "resolved_value": "productie"
+            }
+        },
+        {
+            "crew.name": {
+                "value": "246928",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/246928",
+                "resolved_value": "Meelis-Voorma, Tonny"
+            },
+            "crew.role": {
+                "value": "68",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC16/68",
+                "resolved_value": "redactie"
+            }
+        },
+        {
+            "crew.name": {
+                "value": "246327",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/246327",
+                "resolved_value": "Rooij, Veronic van"
+            },
+            "crew.role": {
+                "value": "68",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC16/68",
+                "resolved_value": "redactie"
+            }
+        },
+        {
+            "crew.name": {
+                "value": "242563",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/242563",
+                "resolved_value": "Tubergen, Teun"
+            },
+            "crew.role": {
+                "value": "1903754",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC16/1903754",
+                "resolved_value": "animatie"
+            }
+        },
+        {
+            "crew.name": {
+                "value": "242563",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/242563",
+                "resolved_value": "Tubergen, Teun"
+            },
+            "crew.role": {
+                "value": "1892872",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC16/1892872",
+                "resolved_value": "art-director"
+            }
+        },
+        {
+            "crew.role": {
+                "value": "1892872",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC16/1892872",
+                "resolved_value": "art-director"
+            }
+        },
+        {
+            "crew.role": {
+                "value": "1903754",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC16/1903754",
+                "resolved_value": "animatie"
+            }
+        },
+        {
+            "crew.name": {
+                "value": "81117",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/81117",
+                "resolved_value": "Bemmel, Wouter van"
+            },
+            "crew.role": {
+                "value": "64",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC16/64",
+                "resolved_value": "muziek"
+            }
+        },
+        {
+            "crew.name": {
+                "value": "251094",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/251094",
+                "resolved_value": "Teenstra, Dirk"
+            },
+            "crew.role": {
+                "value": "58",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC16/58",
+                "resolved_value": "camera"
+            }
+        }
+    ],
+    "nisv.cast": [
+        {
+            "cast.actor": {
+                "value": "128584",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/128584",
+                "resolved_value": "Macrander, Marjolein"
+            },
+            "cast.character": {
+                "value": "Mik"
+            }
+        }
+    ],
+    "nisv.productioncompany": [
+        {
+            "productioncompany.name": {
+                "value": "30651",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE37/30651",
+                "resolved_value": "CoBO Fonds"
+            },
+            "productioncompany.role": {
+                "value": "77",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC17/77",
+                "resolved_value": "subsidiegever"
+            }
+        },
+        {
+            "productioncompany.name": {
+                "value": "30884",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE37/30884",
+                "resolved_value": "NOT"
+            },
+            "productioncompany.role": {
+                "value": "75",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC17/75",
+                "resolved_value": "producent"
+            }
+        },
+        {
+            "productioncompany.name": {
+                "value": "30591",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE37/30591",
+                "resolved_value": "BRTN"
+            },
+            "productioncompany.role": {
+                "value": "75",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC17/75",
+                "resolved_value": "producent"
+            }
+        }
+    ],
+    "nisv.partofcatalogue": {
+        "value": "111149",
+        "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC35/111149",
+        "resolved_value": "Bewegend beeld - TV - Publieke omroep - Overige programma's"
+    },
+    "nisv.tasklist": [
+        {
+            "tasklist.id": {
+                "value": "292136"
+            },
+            "tasklist.status": {
+                "value": "5",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-taskliststatus/5",
+                "resolved_value": "Goedgekeurd"
+            },
+            "tasklist.intention": {
+                "value": "1",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-intention/1",
+                "resolved_value": "Professioneel"
+            }
+        }
+    ],
+    "nisv.metadatastatushidden": {
+        "value": "approved",
+        "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-metadatastatus/approved",
+        "resolved_value": "Approved"
+    },
+    "nisv.rightslicense": {
+        "value": "3",
+        "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-arlicense/3",
+        "resolved_value": "License check"
+    },
+    "nisv.person": [
+        {
+            "person.name": {
+                "value": "242563",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/242563",
+                "resolved_value": "Tubergen, Teun"
+            }
+        },
+        {
+            "person.name": {
+                "value": "246327",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/246327",
+                "resolved_value": "Rooij, Veronic van"
+            }
+        },
+        {
+            "person.name": {
+                "value": "246928",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/246928",
+                "resolved_value": "Meelis-Voorma, Tonny"
+            }
+        },
+        {
+            "person.name": {
+                "value": "249629",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/249629",
+                "resolved_value": "Goverde, Walter"
+            }
+        },
+        {
+            "person.name": {
+                "value": "243079",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/243079",
+                "resolved_value": "Dieleman, Dorine"
+            }
+        },
+        {
+            "person.name": {
+                "value": "128584",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/128584",
+                "resolved_value": "Macrander, Marjolein"
+            }
+        },
+        {
+            "person.name": {
+                "value": "251094",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/251094",
+                "resolved_value": "Teenstra, Dirk"
+            }
+        },
+        {
+            "person.name": {
+                "value": "249704",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/249704",
+                "resolved_value": "Fredriks, Ineke"
+            }
+        },
+        {
+            "person.name": {
+                "value": "81117",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/81117",
+                "resolved_value": "Bemmel, Wouter van"
+            }
+        }
+    ],
+    "nisv.targetaudience": [
+        {
+            "targetaudience.name": {
+                "value": "209533",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE18/209533",
+                "resolved_value": "kinderen"
+            }
+        }
+    ],
+    "nisv.subjectterm": [
+        {
+            "subjectterm.name": {
+                "value": "26168",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE23/26168",
+                "resolved_value": "lezen"
+            }
+        }
+    ],
+    "nisv.genre": [
+        {
+            "genre.name": {
+                "value": "30271",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE19/30271",
+                "resolved_value": "poppenspel"
+            }
+        },
+        {
+            "genre.name": {
+                "value": "30137",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE19/30137",
+                "resolved_value": "educatie"
+            }
+        }
+    ]
+}

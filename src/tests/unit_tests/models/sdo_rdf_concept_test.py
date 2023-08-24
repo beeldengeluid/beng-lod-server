@@ -69,6 +69,76 @@ def test_get_role(used_path, concept_name, expected_result):
     assert SDORdfConcept._get_role(used_path, payload, concept_name) == expected_result
 
 
+@pytest.mark.parametrize(
+    ("used_path, subject_name, expected_result"),
+    [
+        ("nisv.crew, crew.name, resolved_value", "Braber, Gerrit den", "presentatie"),
+        ("nisv.crew, crew.name, resolved_value", "Lanting, John", "presentatie"),
+        ("nisv.crew, crew.name, resolved_value", "Peters, Pauline", "productie"),
+        ("nisv.corporation, corporation.name, resolved_value", "Broeker Veiling", None),
+        (
+            "nisv.corporation, corporation.name, resolved_value",
+            "Jeugd Rode Kruis",
+            None,
+        ),
+    ],
+)
+def test_get_role_program_2101606230008608731(
+    used_path, payload_program_2101606230008608731_json, subject_name, expected_result
+):
+    assert (
+        SDORdfConcept._get_role(
+            used_path, payload_program_2101606230008608731_json, subject_name
+        )
+        == expected_result
+    )
+
+
+@pytest.mark.parametrize(
+    ("used_path, subject_name, expected_result"),
+    [
+        ("nisv.cast, cast.actor, resolved_value", "Macrander, Marjolein", None),
+        ("nisv.crew, crew.name, resolved_value", "Fredriks, Ineke", "scenario"),
+        ("nisv.crew, crew.name, resolved_value", "Goverde, Walter", "regie"),
+        ("nisv.crew, crew.name, resolved_value", "Dieleman, Dorine", "productie"),
+        ("nisv.crew, crew.name, resolved_value", "Meelis-Voorma, Tonny", "redactie"),
+        ("nisv.crew, crew.name, resolved_value", "Rooij, Veronic van", "redactie"),
+        ("nisv.crew, crew.name, resolved_value", "Tubergen, Teun", "animatie"),
+        ("nisv.crew, crew.name, resolved_value", "Bemmel, Wouter van", "muziek"),
+        ("nisv.crew, crew.name, resolved_value", "Teenstra, Dirk", "camera"),
+        ("nisv.person, person.name, resolved_value", "Tubergen, Teun", None),
+        ("nisv.person, person.name, resolved_value", "Rooij, Veronic van", None),
+        ("nisv.person, person.name, resolved_value", "Meelis-Voorma, Tonny", None),
+        ("nisv.person, person.name, resolved_value", "Goverde, WalterTonny", None),
+        ("nisv.person, person.name, resolved_value", "Dieleman, Dorine", None),
+        ("nisv.person, person.name, resolved_value", "Macrander, Marjolein", None),
+        ("nisv.person, person.name, resolved_value", "Teenstra, Dirk", None),
+        ("nisv.person, person.name, resolved_value", "Fredriks, Ineke", None),
+        ("nisv.person, person.name, resolved_value", "Bemmel, Wouter van", None),
+        (
+            "nisv.productioncompany, productioncompany.name, resolved_value",
+            "CoBO Fonds",
+            None,
+        ),
+        ("nisv.productioncompany, productioncompany.name, resolved_value", "NOT", None),
+        (
+            "nisv.productioncompany, productioncompany.name, resolved_value",
+            "BRTN",
+            None,
+        ),
+    ],
+)
+def test_get_role_series_2101608030022634031(
+    used_path, payload_series_2101608030022634031_json, subject_name, expected_result
+):
+    assert (
+        SDORdfConcept._get_role(
+            used_path, payload_series_2101608030022634031_json, subject_name
+        )
+        == expected_result
+    )
+
+
 def test_init(sdo_rdf_concept):
     assert isinstance(sdo_rdf_concept, SDORdfConcept)
 
