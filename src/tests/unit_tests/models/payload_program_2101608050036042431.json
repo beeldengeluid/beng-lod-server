@@ -1,0 +1,301 @@
+{
+    "nisv.metadatastatus": {
+        "value": "approved",
+        "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-metadatastatus/approved",
+        "resolved_value": "Approved"
+    },
+    "nisv.title": {
+        "value": "OUD EN NIEUW IN DE VEILING"
+    },
+    "nisv.sortdate": {
+        "value": "1981-12-31"
+    },
+    "nisv.strlength": {
+        "value": "0:00:00"
+    },
+    "nisv.lengthannotation": {
+        "value": "Avail: 121'35\""
+    },
+    "nisv.summaryshort": {
+        "value": "Programma ter gelegenheid van de jaarwisseling, waarin\nfragmenten van amusementsprogramma's van de diverse omroepen\nzgn geveild worden in de Broeker Veiling te Broek op Langedijk\nvoor een bijzonder doel: oliebollen, appelflappen en andere\nlekkernijen voor diverse kindertehuizen, aan te wijzen door\nhet Jeugd Rode Kruis. Artiesten en bekende Nederlanders\nbezoeken de kijkdag of bieden mee. Suppoost kijkdag: John\nLanting. Veilingmeester: Gerrit den Braber."
+    },
+    "nisv.summary": {
+        "value": "DUPES KIJKDAG zw/w en kleur: \nCaroline Kaart, 1971; Ramses Shaffy, 1967; Hadimassa, 1971;\nConny Vandenbos, 1965; John Lantings Theater van de Lach,\n1980; Robert Kreis, 1981; Martine Bijl, 1967; John Woodhouse,\n1972; Gerard Cox en Frans Halsema, 1975; Willy en Willeke\nAlberti, 1969; Corrie van Gorp, 1965; Ad\u00e8le Bloemendaal, 1969;\nLenny Kuhr, 1969; Jan Fillekers en Henk vd Horst, 1975; Herman\nvan Veen 1978; Ton van Duinhoven, Annemarie Oster en Berend\nBoudewijn, 1971; Liesbeth List, Ramses Shaffy en Louis van\nDijk, 1967. \nDUPES VEILING zw/w en kleur: \nJohnny en Rijk, 1964; Paul van Vliet, 1981; Tom Manders, \"Bij\nDorus op schoot\", 1968; Herman van Veen, 1978; Gerard Cox en\nFrans Halsema, 1975; Wim Sonneveld, Corrie van Gorp en Willem\nNijholt, 1976."
+    },
+    "nisv.subjectterm": [
+        {
+            "subjectterm.name": {
+                "value": "28728",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE23/28728",
+                "resolved_value": "televisieprogramma's"
+            }
+        },
+        {
+            "subjectterm.name": {
+                "value": "27209",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE23/27209",
+                "resolved_value": "veilingen"
+            }
+        },
+        {
+            "subjectterm.name": {
+                "value": "26002",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE23/26002",
+                "resolved_value": "jaarwisselingen"
+            }
+        }
+    ],
+    "nisv.geographical": [
+        {
+            "geographical.name": {
+                "value": "33037",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE26/33037",
+                "resolved_value": "Broek op Langedijk"
+            }
+        },
+        {
+            "geographical.name": {
+                "value": "39742",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE26/39742",
+                "resolved_value": "Nederland"
+            }
+        }
+    ],
+    "nisv.crew": [
+        {
+            "crew.name": {
+                "value": "85439",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/85439",
+                "resolved_value": "Braber, Gerrit den"
+            },
+            "crew.role": {
+                "value": "2608029",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC16/2608029",
+                "resolved_value": "presentatie"
+            }
+        },
+        {
+            "crew.name": {
+                "value": "1320590",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/1320590"
+            },
+            "crew.role": {
+                "value": "69",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC16/69",
+                "resolved_value": "regie"
+            }
+        },
+        {
+            "crew.name": {
+                "value": "124209",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/124209",
+                "resolved_value": "Lanting, John"
+            },
+            "crew.role": {
+                "value": "2608029",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC16/2608029",
+                "resolved_value": "presentatie"
+            }
+        },
+        {
+            "crew.name": {
+                "value": "245394",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE22/245394",
+                "resolved_value": "Peters, Pauline"
+            },
+            "crew.role": {
+                "value": "67",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC16/67",
+                "resolved_value": "productie"
+            }
+        }
+    ],
+    "nisv.category": {
+        "value": "other",
+        "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-category/other",
+        "resolved_value": "other"
+    },
+    "nisv.rightslicense": {
+        "value": "3",
+        "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-arlicense/3",
+        "resolved_value": "License check"
+    },
+    "nisv.publishings": [
+        {
+            "publishings.presentlyshared": {
+                "value": "true"
+            },
+            "publishings.note": {
+                "value": "Added by batch ACL job"
+            },
+            "publishings.publishing": {
+                "value": "NISVMPP",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-publishingpoints/NISVMPP",
+                "resolved_value": "NISV @MPP"
+            }
+        },
+        {
+            "publishings.presentlyshared": {
+                "value": "true"
+            },
+            "publishings.note": {
+                "value": "Added by batch ACL job"
+            },
+            "publishings.publishing": {
+                "value": "GPP",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-publishingpoints/GPP",
+                "resolved_value": "GPP"
+            }
+        },
+        {
+            "publishings.publishing": {
+                "value": "MLPMPP",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-publishingpoints/MLPMPP",
+                "resolved_value": "MLP @MPP"
+            },
+            "publishings.presentlyshared": {
+                "value": "true"
+            },
+            "publishings.determinationdate": {
+                "value": "2023-03-24"
+            }
+        }
+    ],
+    "nisv.publication": [
+        {
+            "publication.distributionchannel": {
+                "value": "79",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC1/79",
+                "resolved_value": "televisie"
+            },
+            "publication.begindate": {
+                "value": "1981-12-31"
+            },
+            "publication.type": {
+                "value": "78",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC3/78",
+                "resolved_value": "uitzending"
+            },
+            "publication.technicalannotation": {
+                "value": "Materiaal: Kleur"
+            },
+            "publication.origbroadcastorg": {
+                "value": "NOS"
+            },
+            "publication.broadcastorg": {
+                "value": "209284",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE30/209284",
+                "resolved_value": "NOS"
+            }
+        }
+    ],
+    "nisv.materialtype": {
+        "value": "video",
+        "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-pgmmaterialtype/video",
+        "resolved_value": "video"
+    },
+    "nisv.colour": {
+        "value": "2869512",
+        "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC13/2869512",
+        "resolved_value": "Kleur"
+    },
+    "nisv.sourcecatalogue": {
+        "value": "6",
+        "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~DIC27/6",
+        "resolved_value": "Televisie Programma"
+    },
+    "nisv.sourceid": {
+        "value": "99985"
+    },
+    "nisv.suitableformuseum": {
+        "value": "false"
+    },
+    "nisv.collectionsgroup": [
+        {
+            "collectionsgroup.dir": {
+                "value": "50000",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/directory/collections-group/50000",
+                "resolved_value": "Publieke omroepen",
+                "nisv.collectionsname": {
+                    "value": "Publieke omroepen"
+                }
+            }
+        }
+    ],
+    "nisv.tenant": {
+        "value": "tenant_NISV",
+        "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-tenants/tenant_NISV",
+        "resolved_value": "Beeld En Geluid"
+    },
+    "nisv.annotation": {
+        "value": "TD45520/V17837 TC: 00:02:00-01:04:08\nTD45531/V17838 TC: 00:02:00-01:01:27"
+    },
+    "nisv.tasklist": [
+        {
+            "tasklist.id": {
+                "value": "156709"
+            },
+            "tasklist.status": {
+                "value": "5",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-taskliststatus/5",
+                "resolved_value": "Goedgekeurd"
+            },
+            "tasklist.intention": {
+                "value": "1",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-intention/1",
+                "resolved_value": "Professioneel"
+            }
+        }
+    ],
+    "nisv.usedfootage": {
+        "value": "dupes: AVRO, KRO, NCRV, TROS, VARA, VPRO"
+    },
+    "nisv.sourcedescription": {
+        "value": "DOCID:           99985\nCOLLECTIE:       Televisie Programma\nTITEL:           OUD EN NIEUW IN DE VEILING\nZENDGEMACHTIGDE: NOS\nUITZENDDATUM:    1981-12-31\nTIJDSDUUR:       121'35\"\nDRAGERNUMMER:    TD45520 {DIGI-BETA}\n                 TD45531 {DIGI-BETA}\n                 V17837 {VHS}\n                 V17838 {VHS}\nBRON:            dupes: AVRO, KRO, NCRV, TROS, VARA, VPRO\nSAMENVATTING:    Programma ter gelegenheid van de jaarwisseling, waarin\n                 fragmenten van amusementsprogramma's van de diverse omroepen\n                 zgn geveild worden in de Broeker Veiling te Broek op Langedijk\n                 voor een bijzonder doel: oliebollen, appelflappen en andere\n                 lekkernijen voor diverse kindertehuizen, aan te wijzen door\n                 het Jeugd Rode Kruis. Artiesten en bekende Nederlanders\n                 bezoeken de kijkdag of bieden mee. Suppoost kijkdag: John\n                 Lanting. Veilingmeester: Gerrit den Braber.\nGENRE:           NADER TE BEPALEN\nTREFWOORDEN:     jaarwisseling; televisieprogramma's; veilingen\nNAMEN:           Broeker Veiling; Jeugd Rode Kruis\nLOCATIES:        Broek op Langedijk; Nederland\nMAKER-FUNCTIE:   Braber, Gerrit den {presentatie}\n                 Knappert, Kitty (+ samenstelling) {regie}\n                 Lanting, John {presentatie}\n                 Peters, Pauline {productie}\nTECHN-GEGEVENS:  Materiaal: Kleur\nANNOTATIES:      TD45520/V17837 TC: 00:02:00-01:04:08\n                 TD45531/V17838 TC: 00:02:00-01:01:27\nBESCHRIJVING:    DUPES KIJKDAG zw/w en kleur: \n                 Caroline Kaart, 1971; Ramses Shaffy, 1967; Hadimassa, 1971;\n                 Conny Vandenbos, 1965; John Lantings Theater van de Lach,\n                 1980; Robert Kreis, 1981; Martine Bijl, 1967; John Woodhouse,\n                 1972; Gerard Cox en Frans Halsema, 1975; Willy en Willeke\n                 Alberti, 1969; Corrie van Gorp, 1965; Ad\u00e8le Bloemendaal, 1969;\n                 Lenny Kuhr, 1969; Jan Fillekers en Henk vd Horst, 1975; Herman\n                 van Veen 1978; Ton van Duinhoven, Annemarie Oster en Berend\n                 Boudewijn, 1971; Liesbeth List, Ramses Shaffy en Louis van\n                 Dijk, 1967. \n                 DUPES VEILING zw/w en kleur: \n                 Johnny en Rijk, 1964; Paul van Vliet, 1981; Tom Manders, \"Bij\n                 Dorus op schoot\", 1968; Herman van Veen, 1978; Gerard Cox en\n                 Frans Halsema, 1975; Wim Sonneveld, Corrie van Gorp en Willem\n                 Nijholt, 1976.\n"
+    },
+    "nisv.length": {
+        "value": "0"
+    },
+    "nisv.metadatastatushidden": {
+        "value": "approved",
+        "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/dictionary/~nisv-metadatastatus/approved",
+        "resolved_value": "Approved"
+    },
+    "nisv.currentbroadcaster": [
+        {
+            "currentbroadcaster.broadcaster": {
+                "value": "209284",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE30/209284",
+                "resolved_value": "NOS"
+            }
+        }
+    ],
+    "nisv.genre": [
+        {
+            "genre.name": {
+                "value": "237978",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE19/237978",
+                "resolved_value": "niet bekend"
+            }
+        }
+    ],
+    "nisv.corporation": [
+        {
+            "corporation.name": {
+                "value": "48994",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE25/48994",
+                "resolved_value": "Broeker Veiling"
+            }
+        },
+        {
+            "corporation.name": {
+                "value": "57759",
+                "origin": "https://studio.mam.beeldengeluid.nl/api/metadata/thesaurus/~THE25/57759",
+                "resolved_value": "Jeugd Rode Kruis"
+            }
+        }
+    ],
+    "nisv.pid": {
+        "value": "URN:NBN:NL:IN:20-PGM101753"
+    }
+}

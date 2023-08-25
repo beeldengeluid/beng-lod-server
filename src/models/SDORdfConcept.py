@@ -474,45 +474,52 @@ class SDORdfConcept(BaseRdfConcept):
         :param payload - the metadata of the series/season/program/scene description
         :param subject_name - the name of the entity we are looking for a role for
         :returns the role name (string), or None if no role is found"""
-
+        # print(used_path, subject_name)
+        # with open("payload_series_2101608030022634031.json", "wt") as f:
+        #     json.dump(payload, f, indent=4)
         # look two steps higher to get all the metadata of the thesaurus item
-        concept_metadata = []
-        role_field = ""
         if "," not in used_path:
             logger.debug(
                 f"Path {used_path} has no higher levels, cannot search for Role"
             )
             return None
-
-        path_parts = used_path.split(",")
+        path_parts = [x.strip() for x in used_path.split(",")]
 
         if len(path_parts) < 3:
             logger.debug(f"Path {used_path} is not long enough, cannot search for Role")
             return None
 
-        class_path = ",".join(path_parts[:-2])
+        class_path = path_parts[0]
         concept_metadata = BaseRdfConcept._get_metadata_value(payload, class_path)
-
-        # the value could be a list, so make sure it always is so can treat everything the same way
-        if type(concept_metadata) is not list:
+        if not isinstance(concept_metadata, list):
             concept_metadata = [concept_metadata]
 
-        # in flexstore, fields have prefixes. E.g. 'crew.name' and 'crew.role'.  To get the role field, we take
-        # the name field and replace 'name' with 'role
-        name_metadata_field = path_parts[-2].strip()
-        if "name" in name_metadata_field:
-            role_field = name_metadata_field.replace("name", "role")
-
         for concept in concept_metadata:
-            if (
-                concept[name_metadata_field][path_parts[-1].strip()] == subject_name
-            ):  # check we have the right subject
-                if role_field in concept:
-                    if "resolved_value" in concept[role_field]:
-                        return concept[role_field]["resolved_value"]
-                    elif "value" in concept[role_field]:
-                        return concept[role_field]["value"]
-
+            # flex store field name starts with 'nisv.'
+            field_parts = class_path.split("nisv.")
+            if len(field_parts) != 2:
+                return None
+            field_basename = field_parts[1]
+            if field_basename in (
+                "creator",
+                "crew",
+                "performer",
+            ):  # only the roles for MOZ
+                field_name = ".".join([field_basename, "name"])
+                field_role = ".".join([field_basename, "role"])
+                name_value_field = path_parts[2]
+                if (
+                    field_name in concept
+                    and field_role in concept
+                    and name_value_field in concept[field_name]
+                    and concept[field_name][name_value_field] == subject_name
+                ):  # check we have the right subject
+                    if "resolved_value" in concept[field_role]:
+                        # print(concept[field_role]["resolved_value"])
+                        return concept[field_role]["resolved_value"]
+                    elif "value" in concept[field_role]:
+                        # print(concept[field_role]["value"])
+                        return concept[field_role]["value"]
         return None
 
     def __create_skos_concept(
