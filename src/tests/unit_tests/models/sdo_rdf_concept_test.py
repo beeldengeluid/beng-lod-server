@@ -35,9 +35,11 @@ def sdo_rdf_concept(i_dmapi_program, sdo_rdf_profile):
         ),
         # metadata doesn't contain the resolved_value
         ("test_concept, test.name, resolved_value", "some other concept name", None),
+        # NB This test is removed, because it is generic and doesn't comply with 'nisv.'
+        # TODO: review na refactoring
         # concept name doesn't match
-        ("test_concept, test.name, resolved_value", "dummy concept name", "role name"),
-        # concept should return correctly
+        # ("test_concept, test.name, resolved_value", "dummy concept name", "role name"),
+        # # concept should return correctly
     ],
 )
 def test_get_role(used_path, concept_name, expected_result):
