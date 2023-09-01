@@ -26,7 +26,7 @@ DUMMY_STORAGE_DATA = {
     "media_start": 907.0,
     "media_duration": 82.0,
     "media_group": [],
-    "payload_model": "http://flexstore.beng.nl/model/api/metadata/form/nisv-lti-sel-film-sound/r1",
+    "payload_model": "http://flexstore.beng.example.com/model/api/metadata/form/nisv-lti-sel-film-sound/r1",
     "viz_type": "LOGTRACKITEM",
     "logtrack_type": "scenedesc",
     "program_ref_id": "2101608140120072331",

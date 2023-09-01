@@ -20,7 +20,7 @@
   </ns1:byArtist>
   <ns1:license rdf:resource="http://rightsstatements.org/vocab/CNE/1.0/"/>
   <ns1:name rdf:datatype="&xsd;string">Give Me Old Time Religion</ns1:name>
-  <ns1:url rdf:resource="https://zoeken.beng.nl/program/urn:vme:default:program:2101608190180567031/asset/urn:vme:default:asset:2101608250040043321/segment/urn:vme:default:logtrackitem:2101703020953254424"/>
+  <ns1:url rdf:resource="https://zoeken.beng.example.com/program/urn:vme:default:program:2101608190180567031/asset/urn:vme:default:asset:2101608250040043321/segment/urn:vme:default:logtrackitem:2101703020953254424"/>
 </rdf:Description>
 
 </rdf:RDF>

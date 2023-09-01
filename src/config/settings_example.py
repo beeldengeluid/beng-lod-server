@@ -12,7 +12,7 @@ class Config(object):
 
     LOG_LEVEL = "DEBUG"  # Levels: DEBUG - INFO - WARNING - ERROR - CRITICAL
 
-    STORAGE_BASE_URL = "http://flexstore.beng.nl:1234"
+    STORAGE_BASE_URL = "http://flexstore.beng.example.com:1234"
 
     ENABLED_ENDPOINTS = [
         "resource",

@@ -27,7 +27,7 @@ from util.ld_util import (
 DUMMY_BENG_DATA_DOMAIN = "http://data.beeldengeluid.nl/"  # see setting_example.py
 DUMMY_RESOURCE_ID = "1234"
 DUMMY_RESOURCE_URI = f"{DUMMY_BENG_DATA_DOMAIN}id/scene/{DUMMY_RESOURCE_ID}"  # must be used in scene_rdf_xml.xml!
-DUMMY_SPARQL_ENDPOINT = "http://sparql.beng.nl/sparql"
+DUMMY_SPARQL_ENDPOINT = "http://sparql.beng.example.com/sparql"
 DUMMY_URI_NISV_ORGANISATION = "https://www.beeldengeluid.nl/"  # see setting_example.py
 DUMMY_CONSTRUCT_QUERY = (
     "CONSTRUCT { ?s ?p ?o } WHERE { "
