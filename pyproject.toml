@@ -1,3 +1,6 @@
+[project]
+requires-python = "3.8"
+
 [tool.black]
 # we use all the defaults
 
