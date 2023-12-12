@@ -15,7 +15,9 @@ jobs:
   push-to-registry:
     uses: ./.github/workflows/ghcr.yml
     needs: [test]
-    secrets: inherit
+    permissions: 
+      contents: read
+      packages: write
 
   deploy-acc:
     uses: ./.github/workflows/deploy.yml
