@@ -27,6 +27,9 @@ def relative_from_repo_root(path: str) -> str:
 def validate_config(config, validate_file_paths=True):
     file_paths_to_check = []
     try:
+        assert __check_setting(config, "LOG_LEVEL", str), "LOG_LEVEL"
+        assert __check_log_level(config["LOG_LEVEL"]), "LOG_LEVEL"
+
         assert __check_setting(config, "APP_HOST", str), "APP_HOST"  # check  host
         assert __check_setting(config, "APP_PORT", int), "APP_PORT"
         assert __check_setting(config, "APP_VERSION", str), "APP_VERSION"
@@ -42,18 +45,21 @@ def validate_config(config, validate_file_paths=True):
             assert __check_setting(p, "prefix", str), "PROFILE.prefix"
 
             assert __check_setting(p, "schema", str), "PROFILE.schema"
-            file_paths_to_check.append(p["schema"])
+            file_paths_to_check.append(relative_from_repo_root(p["schema"]))
             assert __check_setting(p, "mapping", str), "PROFILE.mapping"
-            file_paths_to_check.append(p["mapping"])
+            file_paths_to_check.append(relative_from_repo_root(p["mapping"]))
 
-            assert __check_setting(
-                p, "storage_handler", type
-            ), "PROFILE.storage_handler"
+            assert __check_setting(p, "storage_handler", str), "PROFILE.storage_handler"
+            assert __check_storage_handler(
+                p["storage_handler"]
+            ), "PROFILE.storage_handler invalid"
             assert __check_setting(p, "ob_links", str, True), "PROFILE.ob_links"
+            if p.get("ob_links", None):
+                file_paths_to_check.append(relative_from_repo_root(p["ob_links"]))
+            assert __check_setting(p, "roles", str, True), "PROFILE.roles"
+            if p.get("roles", None):
+                file_paths_to_check.append(relative_from_repo_root(p["roles"]))
             assert __check_setting(p, "default", bool, True), "PROFILE.default"
-
-        assert __check_setting(config, "LOG_LEVEL", str), "LOG_LEVEL"
-        assert __check_log_level(config["LOG_LEVEL"])
 
         assert __check_setting(config, "STORAGE_BASE_URL", str), "STORAGE_BASE_URL"
         assert validators.url(
@@ -103,16 +109,19 @@ def validate_config(config, validate_file_paths=True):
             ), "invalid  paths in configuration"
 
     except AssertionError as e:
-        print(f"Configuration error: {str(e)}")
-        return False
-    return True
+        return False, e
+    return True, None
 
 
 def __check_setting(config, key, t, optional=False):
     setting = config.get(key, None)
-    return (type(setting) == t and optional is False) or (
-        optional and (setting is None or type(setting) == t)
+    return (isinstance(setting, t) and optional is False) or (
+        optional and (setting is None or isinstance(setting, t))
     )
+
+
+def __check_storage_handler(handler: str) -> bool:
+    return handler in ["DAANStorageLODHandler", "SDOStorageLODHandler"]
 
 
 def __check_log_level(level: str) -> bool:

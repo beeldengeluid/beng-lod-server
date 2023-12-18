@@ -159,7 +159,7 @@ def generate_candidate_queries(ob_source_list, result):  # noqa: C901 #TODO
         )
 
     if "dcterms:hasFormat" in result["_source"]["@graph"]:
-        if type(result["_source"]["@graph"]["dcterms:hasFormat"]) == list:
+        if isinstance(result["_source"]["@graph"]["dcterms:hasFormat"], list):
             format_list = result["_source"]["@graph"]["dcterms:hasFormat"]
         else:
             format_list = [result["_source"]["@graph"]["dcterms:hasFormat"]]
@@ -259,7 +259,7 @@ def generate_candidate_queries(ob_source_list, result):  # noqa: C901 #TODO
 def get_content_link(result):
     ob_link = ""
     if "dcterms:hasFormat" in result["_source"]["@graph"]:
-        if type(result["_source"]["@graph"]["dcterms:hasFormat"]) == list:
+        if isinstance(result["_source"]["@graph"]["dcterms:hasFormat"], list):
             format_list = result["_source"]["@graph"]["dcterms:hasFormat"]
         else:
             format_list = [result["_source"]["@graph"]["dcterms:hasFormat"]]
@@ -297,7 +297,7 @@ def get_source_list(result):
     ob_source_list = []
     if "dcterms:source" in result["_source"]["@graph"]:
         ob_source_json = result["_source"]["@graph"]["dcterms:source"]
-        if type(ob_source_json) == list:
+        if isinstance(ob_source_json, list):
             ob_source_list = [source_item["@value"] for source_item in ob_source_json]
         else:
             ob_source_list = [ob_source_json["@value"]]

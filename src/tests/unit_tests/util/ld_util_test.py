@@ -183,7 +183,7 @@ def test_get_lod_get_lod_resource_from_rdf_store_connection_error(
 def test_json_header_from_rdf_graph(scene_rdf_graph):
     try:
         ui_data = json_header_from_rdf_graph(scene_rdf_graph, DUMMY_RESOURCE_URI)
-        assert type(ui_data) == list
+        assert isinstance(ui_data, list)
         assert len(ui_data) == 1
         # assert "o" in ui_data[0]
         assert all(x in ui_data[0] for x in ["o", "title"])
@@ -203,7 +203,7 @@ def test_json_header_from_rdf_graph(scene_rdf_graph):
 def test_json_iri_iri_from_rdf_graph(scene_rdf_graph):
     try:
         ui_data = json_iri_iri_from_rdf_graph(scene_rdf_graph, DUMMY_RESOURCE_URI)
-        assert type(ui_data) == list
+        assert isinstance(ui_data, list)
         assert len(ui_data) == 2
         for item in ui_data:
             assert all(x in item for x in ["o", "p"])
@@ -235,7 +235,7 @@ def test_json_iri_iri_from_rdf_graph(scene_rdf_graph):
 def test_json_iri_lit_from_rdf_graph(scene_rdf_graph):
     try:
         ui_data = json_iri_lit_from_rdf_graph(scene_rdf_graph, DUMMY_RESOURCE_URI)
-        assert type(ui_data) == list
+        assert isinstance(ui_data, list)
         assert len(ui_data) == 1
         for item in ui_data:
             assert all(x in item for x in ["o", "p"])
@@ -269,7 +269,7 @@ def test_json_iri_bnode_from_rdf_graph(program_rdf_graph_with_bnodes):
         ui_data = json_iri_bnode_from_rdf_graph(
             program_rdf_graph_with_bnodes, DUMMY_RESOURCE_URI
         )
-        assert type(ui_data) == list
+        assert isinstance(ui_data, list)
         assert len(ui_data) == 31
         for item in ui_data:
             assert all(x in item for x in ["o", "p"])

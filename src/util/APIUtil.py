@@ -17,7 +17,7 @@ class APIUtil:
 
     @staticmethod
     def valueErrorContainsErrorId(valueError, errorId):
-        if not type(valueError) == ValueError:
+        if not isinstance(valueError, ValueError):
             return False
         errorMessage, explanation = APIUtil.parseErrorMessage(str(valueError))
         return errorMessage == errorId

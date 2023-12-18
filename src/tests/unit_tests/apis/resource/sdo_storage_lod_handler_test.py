@@ -179,7 +179,7 @@ def test_storage_2_lod(sdo_storage_lod_handler, storage_url, return_mime_type):
         serialized_data = sdo_storage_lod_handler._storage_2_lod(
             storage_url, return_mime_type.value
         )
-        assert type(serialized_data) == str
+        assert isinstance(serialized_data, str)
 
         # test deserialisation (includes json, xml parsing)
         Graph().parse(data=serialized_data, format=return_mime_type.value)
@@ -200,7 +200,7 @@ def test_transform_json_to_rdf(sdo_storage_lod_handler, storage_data, raised_exc
     try:
         concept = sdo_storage_lod_handler._transform_json_to_rdf(storage_data)
         if raised_exception is None:
-            assert type(concept) == SDORdfConcept
+            assert isinstance(concept, SDORdfConcept)
     except ValueError:
         assert raised_exception == ValueError
     finally:
