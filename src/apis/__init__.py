@@ -10,10 +10,12 @@ try:
 except ImportError:
     from config.settings_example import Config  # type: ignore
 
+SWAGGER_UI_PATH = Config.SWAGGER_UI_PATH
+
 apiVersion = "v0.3"
 base_path = "/"
 
-api = Api(version=apiVersion)
+api = Api(version=apiVersion, doc=SWAGGER_UI_PATH)
 
 try:
     enabled_endpoints = Config.ENABLED_ENDPOINTS
