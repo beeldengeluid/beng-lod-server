@@ -7,6 +7,7 @@ from apis.resource import DAANStorageLODHandler, SDOStorageLODHandler
 from util.base_util import relative_from_repo_root
 from config import cfg
 
+
 def get_active_profile(app):
     def_profile = app.config["PROFILES"][0]
     for p in app.config["PROFILES"]:

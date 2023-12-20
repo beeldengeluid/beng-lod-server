@@ -50,7 +50,9 @@ def test_get_storage_record__ob_scene_payload(application_settings, i_ob_scene_p
     try:
         profile = application_settings.get("ACTIVE_PROFILE")
         storage_base_url = application_settings.get("STORAGE_BASE_URL")
-        sdo_handler = globals()[profile["storage_handler"]](application_settings, profile)
+        sdo_handler = globals()[profile["storage_handler"]](
+            application_settings, profile
+        )
         when(sdo_handler)._prepare_storage_uri(
             storage_base_url, DUMMY_LEVEL, DUMMY_ID
         ).thenReturn(DUMMY_STORAGE_URL)
@@ -99,7 +101,9 @@ def test_get_storage_record__error_scene_payload(
     try:
         profile = application_settings.get("ACTIVE_PROFILE")
         storage_base_url = application_settings.get("STORAGE_BASE_URL")
-        sdo_handler = globals()[profile["storage_handler"]](application_settings, profile)
+        sdo_handler = globals()[profile["storage_handler"]](
+            application_settings, profile
+        )
         when(sdo_handler)._prepare_storage_uri(
             storage_base_url, "scene", "2101702260627885424"
         ).thenReturn(DUMMY_STORAGE_URL)
@@ -123,7 +127,9 @@ def test_get_storage_record__no_storage_data(application_settings):
     try:
         profile = application_settings.get("ACTIVE_PROFILE")
         storage_base_url = application_settings.get("STORAGE_BASE_URL")
-        sdo_handler = globals()[profile["storage_handler"]](application_settings, profile)
+        sdo_handler = globals()[profile["storage_handler"]](
+            application_settings, profile
+        )
         when(sdo_handler)._prepare_storage_uri(
             storage_base_url, "scene", "2101702260627885424"
         ).thenReturn(DUMMY_STORAGE_URL)
