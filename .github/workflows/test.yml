@@ -5,23 +5,27 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-20.04  # ubuntu-latest
 
     steps:
     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.0
-    - name: Set up Python 3.8
+    - name: Set up Python 3.11
       uses: actions/setup-python@3542bca2639a428e1796aaa6a2ffef0c0f575566 #v3.1.4
       with:
-        python-version: 3.8
-    - name: Install pipenv
-      run: pip install --user pipenv
-    - name: Install dependencies (including dev-packages)
-      run: pipenv install --dev
+        python-version: 3.11
+    - name: Install poetry
+      run: curl -sSL https://install.python-poetry.org | python3 -
+    - name: Install poetry env from pyproject.toml
+      run: poetry install
     - name: Run tests
-      run: pipenv run pytest
+      run: poetry run pytest src/tests --cov
     - name: Check lint rules
-      run: pipenv run flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        poetry run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        poetry run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Check code style
-      run: pipenv run black --check .
+      run: poetry run black --check .
     - name: Check type annotations
-      run: pipenv run mypy .
+      run: poetry run mypy .
