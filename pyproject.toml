@@ -70,7 +70,6 @@ module = [
   "elasticsearch",
   "flask_restx",
   "flask",
-  "flask_cors",
   "importer.*",
   "mockito",
   "models.*",
@@ -79,6 +78,5 @@ module = [
   "rdflib.*",
   "validators.*",
   "yaml.*",
-  "requests.*",
 ]
 ignore_missing_imports = true
