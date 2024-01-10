@@ -151,11 +151,13 @@ def test_get_storage_record__no_storage_data(application_settings):
 
 @pytest.fixture(scope="function")
 def sdo_storage_lod_handler(application_settings):
+    profile = {}
     for p in application_settings["PROFILES"]:
         if "uri" in p and p["uri"] == "https://schema.org/":
-            sdo_handler_class = import_class(p["storage_handler"])
-            yield sdo_handler_class(application_settings, p)
+            profile = p
             break
+    sdo_handler_class = import_class(profile["storage_handler"])
+    yield sdo_handler_class(application_settings, profile)
 
 
 def test_init(sdo_storage_lod_handler):
