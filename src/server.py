@@ -9,8 +9,9 @@ from config import cfg
 app = Flask(__name__)
 
 # merge config with app config
-app.config.update(cfg)
-
+app.config.update(
+    cfg
+)  # note: works als long as no existing nested config dict needs to be updated
 app.config["CORS_HEADERS"] = "Content-Type"
 app.config["RESTPLUS_VALIDATE"] = False
 app.config["GLOBAL_CACHE"] = {}  # just put the cache in here
