@@ -1,7 +1,9 @@
+import sys
 import logging
 import os.path
 import validators
 from pathlib import Path
+from importlib import import_module
 
 logger = logging.getLogger(__name__)
 LOG_FORMAT = "%(asctime)s|%(levelname)s|%(process)d|%(module)s|%(funcName)s|%(lineno)d|%(message)s"
@@ -121,7 +123,10 @@ def __check_setting(config, key, t, optional=False):
 
 
 def __check_storage_handler(handler: str) -> bool:
-    return handler in ["DAANStorageLODHandler", "SDOStorageLODHandler"]
+    return handler in [
+        "apis.resource.DAANStorageLODHandler.DAANStorageLODHandler",
+        "apis.resource.SDOStorageLODHandler.SDOStorageLODHandler",
+    ]
 
 
 def __check_log_level(level: str) -> bool:
@@ -138,3 +143,24 @@ def __validate_file_paths(paths: list) -> bool:
 
 def get_parent_dir(path: str) -> Path:
     return Path(path).parent
+
+
+def import_class(module_class_string: str):
+    """Returns an imported class, depending on the definition in the
+    module_class_string parameter, coming from the config file.
+    Calling method needs to create the class instance dynamically.
+    :param module_class_path: string containing "<module_path>.<class_name>".
+    """
+    try:
+        module_name, class_name = module_class_string.rsplit(".", 1)
+        module = import_module(module_name)
+        logger.debug(f"reading class {class_name} from module {module_name}")
+        return getattr(module, class_name)
+    except ValueError:
+        logger.exception("Module class string incorrect.")
+        sys.exit()
+    except ModuleNotFoundError:
+        logger.exception("Module path incorrectly configured")
+    except AttributeError:
+        logger.exception("Module class incorrectly configured")
+    return None

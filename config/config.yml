@@ -21,14 +21,14 @@ PROFILES: # profiles determine which schema is used for the linked data
     prefix: "nisv"  # based on @prefix nisv: <http://data.rdlabs.beeldengeluid.nl/schema/> .
     schema: "resource/bengSchema.ttl"
     mapping: "resource/daan-mapping-storage.ttl"
-    storage_handler: DAANStorageLODHandler
+    storage_handler: apis.resource.DAANStorageLODHandler.DAANStorageLODHandler
   - 
     title: "NISV Catalogue using schema.org ontology"
     uri: "https://schema.org/"
     prefix: "sdo"  # based on @prefix sdo: <https://schema.org/> .
     schema: "resource/schema-dot-org.ttl"
     mapping: "resource/daan-mapping-schema-org.ttl"
-    storage_handler: SDOStorageLODHandler
+    storage_handler: apis.resource.SDOStorageLODHandler.SDOStorageLODHandler
     ob_links: "resource/ob_link_matches.json"
     roles: "resource/music_roles.csv"
     default: True  # this profile is loaded in memory by default

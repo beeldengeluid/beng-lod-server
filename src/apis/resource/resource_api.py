@@ -14,10 +14,10 @@ from util.ld_util import (
     json_iri_lit_from_rdf_graph,
     json_iri_bnode_from_rdf_graph,
 )
-from apis.resource.DAANStorageLODHandler import DAANStorageLODHandler  # noqa: F401
-from apis.resource.SDOStorageLODHandler import SDOStorageLODHandler  # noqa: F401
+from util.base_util import import_class
 
 logger = logging.getLogger()
+
 
 api = Namespace(
     "resource",
@@ -155,9 +155,8 @@ class ResourceAPI(Resource):
             f"Getting requested resource with level: '{level}' and '{identifier}' from the flex store using profile '{profile_prefix}'."
         )
 
-        # make sure the approved lodhandlers are imported (then available in globals)
-        # for us, its the classes: DAANStorageLODHandler and SDOStorageLODHandler
-        resp, status_code, headers = globals()[profile["storage_handler"]](
+        storage_handler_class = import_class(profile["storage_handler"])
+        resp, status_code, headers = storage_handler_class(
             app_config, profile
         ).get_storage_record(level, identifier, mt.to_ld_format())
 
