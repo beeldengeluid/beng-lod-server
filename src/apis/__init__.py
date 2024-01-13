@@ -6,10 +6,12 @@ from .resource.resource_api import api as resource_api
 from .gtaa.gtaa_api import api as gtaa_api
 from config import cfg
 
+SWAGGER_UI_PATH = Config.SWAGGER_UI_PATH
+
 apiVersion = "v0.3"
 base_path = "/"
 
-api = Api(version=apiVersion)
+api = Api(version=apiVersion, doc=SWAGGER_UI_PATH)
 
 try:
     enabled_endpoints = cfg["ENABLED_ENDPOINTS"]
