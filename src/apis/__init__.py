@@ -6,7 +6,7 @@ from .resource.resource_api import api as resource_api
 from .gtaa.gtaa_api import api as gtaa_api
 from config import cfg
 
-SWAGGER_UI_PATH = Config.SWAGGER_UI_PATH
+SWAGGER_UI_PATH = cfg["SWAGGER_UI_PATH"]
 
 apiVersion = "v0.3"
 base_path = "/"
