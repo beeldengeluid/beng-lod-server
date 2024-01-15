@@ -110,7 +110,7 @@ class LODDatasetAPI(LODDataAPI):
                 current_app.config.get("URI_NISV_ORGANISATION"),
             )
             if html_page:
-                return make_response(html_page, 200)
+                return APIUtil.toSuccessResponse(html_page)
             else:
                 logger.error(f"Could not generate the HTML page for {dataset_uri}.")
                 return APIUtil.toErrorResponse(
@@ -193,7 +193,7 @@ class LODDataCatalogAPI(LODDataAPI):
                 current_app.config.get("URI_NISV_ORGANISATION"),
             )
             if html_page:
-                return make_response(html_page, 200)
+                return APIUtil.toSuccessResponse(html_page)
             else:
                 logger.error(
                     f"Could not generate proper HTML page for data catalog: {data_catalog_uri}."
