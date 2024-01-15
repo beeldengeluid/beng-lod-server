@@ -1,8 +1,8 @@
 import pytest
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
 from util.ld_util import generate_lod_resource_uri
-from models.DAANRdfModel import ResourceURILevel
-from apis.mime_type_util import MimeType
+from models.ResourceURILevel import ResourceURILevel
+from util.mime_type_util import MimeType
 from rdflib import Graph
 from rdflib.plugin import PluginException
 

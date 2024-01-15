@@ -3,18 +3,7 @@ import json
 import os
 import pytest
 
-from apis.resource import DAANStorageLODHandler, SDOStorageLODHandler
-from util.base_util import relative_from_repo_root
 from config import cfg
-
-
-def get_active_profile(app):
-    def_profile = app.config["PROFILES"][0]
-    for p in app.config["PROFILES"]:
-        if "default" in p and p["default"] is True:
-            def_profile = p
-            break
-    return def_profile
 
 
 """
@@ -80,7 +69,6 @@ def application_settings():
     """Returns the application settings."""
     app = Flask(__name__)
     app.config.update(cfg)  # merge config with app config
-    app.config["ACTIVE_PROFILE"] = get_active_profile(app)
     app.config["GLOBAL_CACHE"] = {}
     return app.config
 
@@ -163,31 +151,3 @@ def generic_client(http_test_client, flask_test_client):
 
     return GenericClient()
 
-
-@pytest.fixture(scope="function")
-def sdo_rdf_profile():
-    profile = {
-        "title": "NISV Catalogue using schema.org ontology",
-        "uri": "https://schema.org/",
-        "prefix": "sdo",  # based on @prefix sdo: <https://schema.org/> .
-        "schema": relative_from_repo_root("resource/schema-dot-org.ttl"),
-        "mapping": relative_from_repo_root("resource/daan-mapping-schema-org.ttl"),
-        "storage_handler": SDOStorageLODHandler,
-        "ob_links": relative_from_repo_root("resource/ob_link_matches.json"),
-        "roles": relative_from_repo_root("resource/music_roles.csv"),
-        "default": True,  # this profile is loaded in memory by default
-    }
-    yield profile
-
-
-@pytest.fixture(scope="function")
-def nisv_rdf_profile():
-    profile = {
-        "title": "NISV Catalogue schema",
-        "uri": "http://data.rdlabs.beeldengeluid.nl/schema/",
-        "prefix": "nisv",  # based on @prefix nisv: <http://data.rdlabs.beeldengeluid.nl/schema/> .
-        "schema": relative_from_repo_root("resource/bengSchema.ttl"),
-        "mapping": relative_from_repo_root("resource/daan-mapping-storage.ttl"),
-        "storage_handler": DAANStorageLODHandler,
-    }
-    yield profile

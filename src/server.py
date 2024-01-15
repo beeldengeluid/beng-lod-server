@@ -31,19 +31,6 @@ CORS(app)
 
 app.url_map.strict_slashes = False
 
-
-def get_active_profile():
-    def_profile = app.config["PROFILES"][0]
-    for p in app.config["PROFILES"]:
-        if "default" in p and p["default"] is True:
-            def_profile = p
-            break
-    return def_profile
-
-
-# TODO now the active profile is static and cannot be defined via the URL
-app.config["ACTIVE_PROFILE"] = get_active_profile()
-
 api.init_app(
     app,
     title="Open Data Lab API - Netherlands Institute for Sound and Vision",

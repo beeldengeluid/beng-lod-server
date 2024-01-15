@@ -4,8 +4,7 @@ from rdflib import Graph, URIRef, Literal, BNode, Namespace
 from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS
 import requests
 import json
-from json.decoder import JSONDecodeError
-from models.DAANRdfModel import ResourceURILevel
+from models.ResourceURILevel import ResourceURILevel
 from requests.exceptions import ConnectionError, HTTPError
 from typing import Optional, List
 import validators
@@ -489,32 +488,3 @@ def json_iri_bnode_from_rdf_graph(
         logger.error(json.dumps(json_iri_bnode, indent=4))
     return json_iri_bnode
 
-
-def is_public_resource(resource_url: str, sparql_endpoint: str) -> bool:
-    """Checks whether the resource is allowed public access by sending an ASK query to the public sparql endpoint.
-    :param resource_url: the resource to be checked.
-    :param sparql_endpoint: the public SPARQL endpoint.
-    :return True (yes, public access allowed), False (no, not allowed to dereference)
-    """
-    if resource_url is None:
-        return False
-    if sparql_endpoint is None or validators.url(sparql_endpoint) is False:
-        return False
-
-    try:
-        # get the SPARQL endpoint from the config
-        query_ask = "ASK {<%s> ?p ?o . }" % resource_url
-
-        # prepare and get the data from the triple store
-        resp = requests.get(  # receives {"head" : {}, "boolean" : true}
-            sparql_endpoint, params={"query": query_ask, "format": "json"}
-        )
-        if resp.status_code == 200:
-            json_data = json.loads(resp.text)
-            logger.debug(json_data)
-            return json_data.get("boolean", False) is True
-    except ConnectionError as e:
-        logger.exception(str(e))
-    except JSONDecodeError as e:
-        logger.exception(str(e))
-    return False

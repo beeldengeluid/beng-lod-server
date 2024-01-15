@@ -26,11 +26,3 @@ class MimeType(Enum):
             return "json-ld"
         elif self is MimeType.HTML:
             return None
-
-
-def get_profile_by_uri(profile_uri, app_config):
-    for p in app_config["PROFILES"]:
-        if p["uri"] == profile_uri:
-            return p
-    else:  # otherwise return the default profile
-        return app_config["ACTIVE_PROFILE"]

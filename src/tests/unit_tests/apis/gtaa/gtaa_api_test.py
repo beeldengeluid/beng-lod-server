@@ -5,7 +5,6 @@ from apis.gtaa.gtaa_api import GTAAAPI
 # DUMMY_SPARQL_ENDPOINT = "http://enhupasakee.nu/sparql"
 # DUMMY_NAMED_GRAPH = "http://watmoetjedaarnu.mee/thes"
 # DUMMY_ORGANISATION = "http://www.doordeplee.nl/"
-# DUMMY_PROFILE = "https://heelcomplexallemaal.nl/"
 # DUMMY_GTAA_URI = "http://data.beeldengeluid.nl/gtaa/123456"
 
 

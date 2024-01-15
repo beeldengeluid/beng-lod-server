@@ -2,8 +2,8 @@ import logging
 from flask import current_app, request, make_response, render_template, Response
 from flask_restx import Namespace, Resource
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
-from apis.mime_type_util import MimeType
-from models.DAANRdfModel import ResourceURILevel
+from util.mime_type_util import MimeType
+from models.ResourceURILevel import ResourceURILevel
 from util.ld_util import (
     generate_lod_resource_uri,
     get_lod_resource_from_rdf_store,

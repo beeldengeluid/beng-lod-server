@@ -1,7 +1,7 @@
 import logging
 from flask import current_app, request, Response, render_template, make_response
 from flask_restx import Namespace, Resource
-from apis.mime_type_util import MimeType
+from util.mime_type_util import MimeType
 from util.APIUtil import APIUtil
 from util.ld_util import (
     get_lod_resource_from_rdf_store,
