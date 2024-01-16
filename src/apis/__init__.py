@@ -4,13 +4,9 @@ from .health.health_api import api as health_api
 from .dataset.dataset_api import api as dataset_api
 from .resource.resource_api import api as resource_api
 from .gtaa.gtaa_api import api as gtaa_api
+from config import cfg
 
-try:
-    from config.settings import Config  # fails in unit test
-except ImportError:
-    from config.settings_example import Config  # type: ignore
-
-SWAGGER_UI_PATH = Config.SWAGGER_UI_PATH
+SWAGGER_UI_PATH = cfg["SWAGGER_UI_PATH"]
 
 apiVersion = "v0.3"
 base_path = "/"
@@ -18,7 +14,7 @@ base_path = "/"
 api = Api(version=apiVersion, doc=SWAGGER_UI_PATH)
 
 try:
-    enabled_endpoints = Config.ENABLED_ENDPOINTS
+    enabled_endpoints = cfg["ENABLED_ENDPOINTS"]
 except AttributeError:
     print(
         "Misconfiguration, please add ENABLED_ENDPOINTS, now disallowing all endpoints"

@@ -57,7 +57,7 @@ def test_get_data_catalog(data_catalog_lod_handler, data_catalog_uri, mime_type)
         # call get_data_catalog to test results
         resp = data_catalog_lod_handler.get_data_catalog(data_catalog_uri, mime_type)
 
-        assert type(resp) == str  # TODO: use type annotations instead
+        assert isinstance(resp, str)  # TODO: use type annotations instead
 
         # test if serialization is as expected
         if mime_type != "application/phony_mime_type":
@@ -85,7 +85,7 @@ def test_get_data_download(data_catalog_lod_handler, data_download_uri, mime_typ
         # call get_data_download to test results
         resp = data_catalog_lod_handler.get_data_download(data_download_uri, mime_type)
 
-        assert type(resp) == str  # TODO: use type annotations instead
+        assert isinstance(resp, str)  # TODO: use type annotations instead
 
         # test if serialization is as expected
         if mime_type != "application/phony_mime_type":
@@ -114,7 +114,7 @@ def test_get_dataset(data_catalog_lod_handler, dataset_uri, mime_type):
         resp = data_catalog_lod_handler.get_dataset(dataset_uri, mime_type)
 
         # test if result is expected
-        assert type(resp) == str  # TODO: use type annotations instead
+        assert isinstance(resp, str)  # TODO: use type annotations instead
 
         # general deserialization tests for supported rdf serializations
         if mime_type != "application/phony_mime_type":

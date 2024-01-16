@@ -1,15 +1,12 @@
-import os
 from util.base_util import validate_config
+from config import cfg
 
 """
-Tests everything related to the validity of the application settings (config/settings.py)
+Tests everything related to the validity of the application settings (config/config.yml)
 """
 
 
-def test_settings_exist(base_file_path):
-    assert os.path.exists(os.path.join(base_file_path, "config", "settings_example.py"))
-
-
-# validate the settings_example.py, but do not validate the file paths, since they do not have to exist
+# validate the config.yml
 def test_settings_valid(application_settings):
-    assert validate_config(application_settings, False)
+    config_valid, returned_error = validate_config(cfg)
+    assert False if returned_error else config_valid

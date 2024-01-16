@@ -1,7 +1,9 @@
+import sys
 import logging
 import os.path
 import validators
 from pathlib import Path
+from importlib import import_module
 
 logger = logging.getLogger(__name__)
 LOG_FORMAT = "%(asctime)s|%(levelname)s|%(process)d|%(module)s|%(funcName)s|%(lineno)d|%(message)s"
@@ -27,6 +29,9 @@ def relative_from_repo_root(path: str) -> str:
 def validate_config(config, validate_file_paths=True):
     file_paths_to_check = []
     try:
+        assert __check_setting(config, "LOG_LEVEL", str), "LOG_LEVEL"
+        assert __check_log_level(config["LOG_LEVEL"]), "LOG_LEVEL"
+
         assert __check_setting(config, "APP_HOST", str), "APP_HOST"  # check  host
         assert __check_setting(config, "APP_PORT", int), "APP_PORT"
         assert __check_setting(config, "APP_VERSION", str), "APP_VERSION"
@@ -42,18 +47,21 @@ def validate_config(config, validate_file_paths=True):
             assert __check_setting(p, "prefix", str), "PROFILE.prefix"
 
             assert __check_setting(p, "schema", str), "PROFILE.schema"
-            file_paths_to_check.append(p["schema"])
+            file_paths_to_check.append(relative_from_repo_root(p["schema"]))
             assert __check_setting(p, "mapping", str), "PROFILE.mapping"
-            file_paths_to_check.append(p["mapping"])
+            file_paths_to_check.append(relative_from_repo_root(p["mapping"]))
 
-            assert __check_setting(
-                p, "storage_handler", type
-            ), "PROFILE.storage_handler"
+            assert __check_setting(p, "storage_handler", str), "PROFILE.storage_handler"
+            assert __check_storage_handler(
+                p["storage_handler"]
+            ), "PROFILE.storage_handler invalid"
             assert __check_setting(p, "ob_links", str, True), "PROFILE.ob_links"
+            if p.get("ob_links", None):
+                file_paths_to_check.append(relative_from_repo_root(p["ob_links"]))
+            assert __check_setting(p, "roles", str, True), "PROFILE.roles"
+            if p.get("roles", None):
+                file_paths_to_check.append(relative_from_repo_root(p["roles"]))
             assert __check_setting(p, "default", bool, True), "PROFILE.default"
-
-        assert __check_setting(config, "LOG_LEVEL", str), "LOG_LEVEL"
-        assert __check_log_level(config["LOG_LEVEL"])
 
         assert __check_setting(config, "STORAGE_BASE_URL", str), "STORAGE_BASE_URL"
         assert validators.url(
@@ -103,16 +111,22 @@ def validate_config(config, validate_file_paths=True):
             ), "invalid  paths in configuration"
 
     except AssertionError as e:
-        print(f"Configuration error: {str(e)}")
-        return False
-    return True
+        return False, e
+    return True, None
 
 
 def __check_setting(config, key, t, optional=False):
     setting = config.get(key, None)
-    return (type(setting) == t and optional is False) or (
-        optional and (setting is None or type(setting) == t)
+    return (isinstance(setting, t) and optional is False) or (
+        optional and (setting is None or isinstance(setting, t))
     )
+
+
+def __check_storage_handler(handler: str) -> bool:
+    return handler in [
+        "apis.resource.DAANStorageLODHandler.DAANStorageLODHandler",
+        "apis.resource.SDOStorageLODHandler.SDOStorageLODHandler",
+    ]
 
 
 def __check_log_level(level: str) -> bool:
@@ -129,3 +143,24 @@ def __validate_file_paths(paths: list) -> bool:
 
 def get_parent_dir(path: str) -> Path:
     return Path(path).parent
+
+
+def import_class(module_class_string: str):
+    """Returns an imported class, depending on the definition in the
+    module_class_string parameter, coming from the config file.
+    Calling method needs to create the class instance dynamically.
+    :param module_class_path: string containing "<module_path>.<class_name>".
+    """
+    try:
+        module_name, class_name = module_class_string.rsplit(".", 1)
+        module = import_module(module_name)
+        logger.debug(f"reading class {class_name} from module {module_name}")
+        return getattr(module, class_name)
+    except ValueError:
+        logger.exception("Module class string incorrect.")
+        sys.exit()
+    except ModuleNotFoundError:
+        logger.exception("Module path incorrectly configured")
+    except AttributeError:
+        logger.exception("Module class incorrectly configured")
+    return None

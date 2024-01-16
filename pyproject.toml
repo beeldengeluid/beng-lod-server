@@ -1,5 +1,45 @@
+[tool.poetry]
+name = "beng-lod-server"
+version = "1.0"
+description = "Webserver serving LOD for the NISV catalogue items, datasets and GTAA."
+authors = [
+  "Willem Melder <wmelder@beeldengeluid.nl>", 
+  "Mari Wigham <mwigham@beeldengeluid.nl>", 
+  "Govert Brinkmann <gbrinkmann@beeldengeluid.nl>"
+  ]
+license = "MIT"
+readme = "README.md"
+packages = []
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "==2.31.0"
+rdflib = "==6.3.2"
+validators = "==0.22.0"
+pyyaml = "==6.0.1"
+Flask-Cors = "==3.0.10"
+flask = "==2.2.5"
+flask-restx = "==1.0.5"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "==7.2.1"
+pytest-cov = "==4.0.0"
+mockito = "==1.4.0"
+black = "==22.12.0"
+flake8 = "==6.0.0"
+flake8-bugbear = "==23.1.20"
+mypy = "==0.991"
+types-requests = "==2.28.11.8"
+types-flask-cors = "==3.0.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
 [project]
-requires-python = "3.8"
+requires-python = "3.11"
 
 [tool.black]
 # we use all the defaults
@@ -20,7 +60,7 @@ omit = [
 [tool.mypy]
 explicit_package_bases = true
 mypy_path = "src"
-python_version = "3.8"
+python_version = "3.11"
 
 [[tool.mypy.overrides]]
 module = [
@@ -36,5 +76,6 @@ module = [
   "pytest",
   "rdflib.*",
   "validators.*",
+  "yaml.*",
 ]
 ignore_missing_imports = true

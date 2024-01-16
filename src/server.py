@@ -1,20 +1,21 @@
 import sys
 import logging
-from util.base_util import LOG_FORMAT
 from flask import Flask
 from flask_cors import CORS
 from apis import api
-from util.base_util import validate_config
+from util.base_util import LOG_FORMAT
+from config import cfg
 
 app = Flask(__name__)
 
-# init the config
-app.config.from_object("config.settings.Config")
+# merge config with app config
+app.config.update(
+    cfg
+)  # note: works als long as no existing nested config dict needs to be updated
 app.config["CORS_HEADERS"] = "Content-Type"
 app.config["RESTPLUS_VALIDATE"] = False
 app.config["GLOBAL_CACHE"] = {}  # just put the cache in here
 
-# logger = init_logger(app)
 # initialises the root logger
 logging.basicConfig(
     level=app.config["LOG_LEVEL"],
@@ -23,10 +24,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger()
 
-
-if not validate_config(app.config):
-    logger.error("Invalid config, quitting")
-    quit()
 
 app.debug = app.config["DEBUG"]
 

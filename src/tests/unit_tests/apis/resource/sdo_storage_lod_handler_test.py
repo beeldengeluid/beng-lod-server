@@ -6,6 +6,7 @@ from rdflib.namespace import RDF, SDO
 from rdflib.plugin import PluginException
 from models.SDORdfConcept import SDORdfConcept
 from apis.mime_type_util import MimeType
+from util.base_util import import_class
 from apis.resource.SDOStorageLODHandler import SDOStorageLODHandler
 
 
@@ -50,7 +51,8 @@ def test_get_storage_record__ob_scene_payload(application_settings, i_ob_scene_p
     try:
         profile = application_settings.get("ACTIVE_PROFILE")
         storage_base_url = application_settings.get("STORAGE_BASE_URL")
-        sdo_handler = profile["storage_handler"](application_settings, profile)
+        sdo_handler_class = import_class(profile["storage_handler"])
+        sdo_handler = sdo_handler_class(application_settings, profile)
         when(sdo_handler)._prepare_storage_uri(
             storage_base_url, DUMMY_LEVEL, DUMMY_ID
         ).thenReturn(DUMMY_STORAGE_URL)
@@ -99,7 +101,8 @@ def test_get_storage_record__error_scene_payload(
     try:
         profile = application_settings.get("ACTIVE_PROFILE")
         storage_base_url = application_settings.get("STORAGE_BASE_URL")
-        sdo_handler = profile["storage_handler"](application_settings, profile)
+        sdo_handler_class = import_class(profile["storage_handler"])
+        sdo_handler = sdo_handler_class(application_settings, profile)
         when(sdo_handler)._prepare_storage_uri(
             storage_base_url, "scene", "2101702260627885424"
         ).thenReturn(DUMMY_STORAGE_URL)
@@ -123,7 +126,8 @@ def test_get_storage_record__no_storage_data(application_settings):
     try:
         profile = application_settings.get("ACTIVE_PROFILE")
         storage_base_url = application_settings.get("STORAGE_BASE_URL")
-        sdo_handler = profile["storage_handler"](application_settings, profile)
+        sdo_handler_class = import_class(profile["storage_handler"])
+        sdo_handler = sdo_handler_class(application_settings, profile)
         when(sdo_handler)._prepare_storage_uri(
             storage_base_url, "scene", "2101702260627885424"
         ).thenReturn(DUMMY_STORAGE_URL)
@@ -147,8 +151,13 @@ def test_get_storage_record__no_storage_data(application_settings):
 
 @pytest.fixture(scope="function")
 def sdo_storage_lod_handler(application_settings):
-    active_profile = application_settings.get("ACTIVE_PROFILE")
-    yield SDOStorageLODHandler(application_settings, active_profile)
+    profile = {}
+    for p in application_settings["PROFILES"]:
+        if "uri" in p and p["uri"] == "https://schema.org/":
+            profile = p
+            break
+    sdo_handler_class = import_class(profile["storage_handler"])
+    yield sdo_handler_class(application_settings, profile)
 
 
 def test_init(sdo_storage_lod_handler):
@@ -179,7 +188,7 @@ def test_storage_2_lod(sdo_storage_lod_handler, storage_url, return_mime_type):
         serialized_data = sdo_storage_lod_handler._storage_2_lod(
             storage_url, return_mime_type.value
         )
-        assert type(serialized_data) == str
+        assert isinstance(serialized_data, str)
 
         # test deserialisation (includes json, xml parsing)
         Graph().parse(data=serialized_data, format=return_mime_type.value)
@@ -200,7 +209,7 @@ def test_transform_json_to_rdf(sdo_storage_lod_handler, storage_data, raised_exc
     try:
         concept = sdo_storage_lod_handler._transform_json_to_rdf(storage_data)
         if raised_exception is None:
-            assert type(concept) == SDORdfConcept
+            assert isinstance(concept, SDORdfConcept)
     except ValueError:
         assert raised_exception == ValueError
     finally:

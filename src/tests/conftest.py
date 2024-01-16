@@ -5,6 +5,7 @@ import pytest
 
 from apis.resource import DAANStorageLODHandler, SDOStorageLODHandler
 from util.base_util import relative_from_repo_root
+from config import cfg
 
 
 def get_active_profile(app):
@@ -78,7 +79,7 @@ def open_file():
 def application_settings():
     """Returns the application settings."""
     app = Flask(__name__)
-    app.config.from_object("config.settings_example.Config")
+    app.config.update(cfg)  # merge config with app config
     app.config["ACTIVE_PROFILE"] = get_active_profile(app)
     app.config["GLOBAL_CACHE"] = {}
     return app.config
