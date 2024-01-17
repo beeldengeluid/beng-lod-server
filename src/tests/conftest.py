@@ -1,7 +1,9 @@
-from flask import Flask
 import json
 import os
 import pytest
+
+from flask import Flask
+from rdflib import Graph
 
 from config import cfg
 
@@ -48,6 +50,21 @@ def load_json_file():
 
 
 @pytest.fixture(scope="module")
+def load_json_file_as_graph():
+    def return_json_graph_from_file(test_path, fn):
+        path = test_path
+        tmp = test_path.split(os.sep)
+        if len(tmp) > 1:
+            path = os.sep.join(test_path.split(os.sep)[:-1])
+        full_path = os.path.join(path, fn)
+        if os.path.exists(full_path):
+            g = Graph()
+            return g.parse(full_path)
+        return None
+
+    return return_json_graph_from_file
+
+@pytest.fixture(scope="module")
 def open_file():
     """Returns the contents of a file that is in the test directory."""
 
@@ -62,16 +79,18 @@ def open_file():
 
 
 """------------------------ APPLICATION SETTINGS (VALID) ----------------------"""
-
-
 @pytest.fixture(scope="session")
-def application_settings():
-    """Returns the application settings."""
-    app = Flask(__name__)
+def application():
+    app = Flask(__name__, template_folder="../templates")
     app.config.update(cfg)  # merge config with app config
     app.config["GLOBAL_CACHE"] = {}
-    return app.config
 
+    return app
+
+@pytest.fixture(scope="session")
+def application_settings(application):
+    """Returns the application settings."""
+    return application.config
 
 """------------------------ APPLICATION CLIENT (VALID & INVALID) ----------------------"""
 
@@ -142,12 +161,19 @@ def generic_client(http_test_client, flask_test_client):
             else:
                 return http_test_client.post(path, data=data)
 
-        def get(self, mode, path):
+        def get(self, mode, path, headers=None):
             if mode == "offline":
-                r = flask_test_client.get(path)
+                r = flask_test_client.get(path, headers=headers)
                 return Response(r.data, r.status_code, r.headers)
             else:
                 return http_test_client.get(path)
 
     return GenericClient()
 
+
+@pytest.fixture(scope="module")
+def resource_query_url():
+    def genResourceURL(type, identifier):
+        return f"/id/{type}/{identifier}"
+
+    return genResourceURL
