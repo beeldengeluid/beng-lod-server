@@ -3,14 +3,7 @@ from flask import current_app, request, Response, render_template, make_response
 from flask_restx import Namespace, Resource
 from util.mime_type_util import MimeType
 from util.APIUtil import APIUtil
-from util.ld_util import (
-    get_lod_resource_from_rdf_store,
-    json_ld_structured_data_for_resource,
-    json_header_from_rdf_graph,
-    json_iri_iri_from_rdf_graph,
-    json_iri_lit_from_rdf_graph,
-    json_iri_bnode_from_rdf_graph,
-)
+import util.ld_util
 
 
 logger = logging.getLogger()
@@ -45,7 +38,7 @@ class GTAAAPI(Resource):
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
         )
-        mime_type = MimeType.JSON_LD
+        mime_type = None
         if best_match is not None:
             mime_type = MimeType(best_match)
 
@@ -70,14 +63,26 @@ class GTAAAPI(Resource):
             logger.info(
                 f"Getting the RDF in proper serialization format for GTAA resource: {gtaa_uri}."
             )
-            return self._get_lod_gtaa(
+            data = self._get_lod_gtaa(
                 gtaa_uri,
                 mime_type,
                 current_app.config.get("SPARQL_ENDPOINT"),
                 current_app.config.get("URI_NISV_ORGANISATION"),
             )
+            if data:
+                headers = {"Content-Type": mime_type.value}
+                return Response(data, mimetype=mime_type.value, headers=headers)
+            else:
+                logger.error(f"Could not generate LOD for resource {gtaa_uri}.")
+                return APIUtil.toErrorResponse(
+                    "internal_server_error",
+                    "Could not generate LOD for this resource",
+                )
         logger.error("Not a proper mime type in the request.")
-        return Response("Error: No mime type detected...")
+        return APIUtil.toErrorResponse(
+            "internal_server_error",
+            "Error: No mime type detected...",
+        )
 
     def _get_lod_gtaa(
         self,
@@ -91,19 +96,17 @@ class GTAAAPI(Resource):
         :param mime_type: the mime_type, or serialization the resource is requested in.
         :param sparql_endpoint: endpoint URL
         :param nisv_organisation_uri: URI for the publisher
-        :return: RDF data in a response object
+        :return: RDF data
         """
         mt_ld_format = mime_type.to_ld_format()
         ld_type = mt_ld_format if mt_ld_format is not None else "json-ld"
 
-        rdf_graph = get_lod_resource_from_rdf_store(
+        rdf_graph = util.ld_util.get_lod_resource_from_rdf_store(
             gtaa_uri, sparql_endpoint, nisv_organisation_uri
         )
-        if rdf_graph:
+        if rdf_graph is not None:
             # serialize using the mime_type
-            resp = rdf_graph.serialize(format=ld_type)
-            headers = {"Content-Type": mime_type.value}
-            return Response(resp, mimetype=mime_type.value, headers=headers)
+            return rdf_graph.serialize(format=ld_type)
         logger.error(
             f"Could not get the data for GTAA resource {gtaa_uri} from triple store at {sparql_endpoint}."
         )
@@ -115,20 +118,28 @@ class GTAAAPI(Resource):
         """Handler that, given a URI, gets RDF from the SPARQL endpoint and generates an HTML page.
         :param resource_url: The URI for the resource.
         """
-        rdf_graph = get_lod_resource_from_rdf_store(
+        rdf_graph = util.ld_util.get_lod_resource_from_rdf_store(
             resource_url, sparql_endpoint, nisv_organisation_uri
         )
         if rdf_graph:
             return render_template(
                 "resource.html",
                 resource_uri=resource_url,
-                structured_data=json_ld_structured_data_for_resource(
+                structured_data=util.ld_util.json_ld_structured_data_for_resource(
                     rdf_graph, resource_url
                 ),
-                json_header=json_header_from_rdf_graph(rdf_graph, resource_url),
-                json_iri_iri=json_iri_iri_from_rdf_graph(rdf_graph, resource_url),
-                json_iri_lit=json_iri_lit_from_rdf_graph(rdf_graph, resource_url),
-                json_iri_bnode=json_iri_bnode_from_rdf_graph(rdf_graph, resource_url),
+                json_header=util.ld_util.json_header_from_rdf_graph(
+                    rdf_graph, resource_url
+                ),
+                json_iri_iri=util.ld_util.json_iri_iri_from_rdf_graph(
+                    rdf_graph, resource_url
+                ),
+                json_iri_lit=util.ld_util.json_iri_lit_from_rdf_graph(
+                    rdf_graph, resource_url
+                ),
+                json_iri_bnode=util.ld_util.json_iri_bnode_from_rdf_graph(
+                    rdf_graph, resource_url
+                ),
                 nisv_sparql_endpoint=sparql_endpoint,
             )
         logger.error(

@@ -5,8 +5,6 @@ APP_PORT: 5309
 APP_VERSION: "v1.2"
 DEBUG: True
 
-STORAGE_BASE_URL: "http://flexstore.beng.example.com:1234"
-
 ENABLED_ENDPOINTS: # allow all by default
   - "resource"
   - "dataset"

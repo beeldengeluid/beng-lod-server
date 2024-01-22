@@ -1,6 +1,6 @@
 import logging
 
-from flask import current_app, request, render_template
+from flask import current_app, request, Response, render_template
 from flask_restx import Namespace, Resource
 
 import util.ld_util
@@ -23,7 +23,7 @@ api = Namespace(
         200: "Success",
         400: "Bad request.",
         404: "Resource does not exist.",
-        500: "Server error"
+        500: "Server error",
     }
 )
 @api.route(
@@ -66,10 +66,10 @@ class ResourceAPI(Resource):
             html_page = self._get_lod_view_resource(
                 lod_url,
                 current_app.config.get("SPARQL_ENDPOINT"),
-                current_app.config.get("URI_NISV_ORGANISATION")
+                current_app.config.get("URI_NISV_ORGANISATION"),
             )
             if html_page:
-                return APIUtil.toSuccessResponse(html_page)
+                return Response(html_page, mimetype=mime_type.value)
             else:
                 logger.error(
                     f"Could not generate an HTML view for {lod_url}.",
@@ -79,25 +79,30 @@ class ResourceAPI(Resource):
                     "Could not generate an HTML view for this resource.",
                 )
 
-        if mime_type:    
+        if mime_type:
             logger.info(
-            f"Getting the RDF in the proper serialization format for {lod_url}."
-        )
+                f"Getting the RDF in the proper serialization format for {lod_url}."
+            )
             rdf_graph = util.ld_util.get_lod_resource_from_rdf_store(
-            lod_url, 
-            current_app.config.get("SPARQL_ENDPOINT"),
-                current_app.config.get("URI_NISV_ORGANISATION")
+                lod_url,
+                current_app.config.get("SPARQL_ENDPOINT"),
+                current_app.config.get("URI_NISV_ORGANISATION"),
             )
             if rdf_graph is not None:
-                serialised_graph = rdf_graph.serialize(format=mime_type)
+                serialised_graph = rdf_graph.serialize(
+                    format=mime_type.to_ld_format(), auto_compact=True
+                )
                 if serialised_graph:
-                    return APIUtil.toSuccessResponse(serialised_graph)
+                    return Response(serialised_graph, mimetype=mime_type.value)
                 else:
                     return APIUtil.toErrorResponse(
-                    "internal_server_error","Serialisation failed")
+                        "internal_server_error", "Serialisation failed"
+                    )
             else:
                 return APIUtil.toErrorResponse(
-                    "internal_server_error","No graph created")
+                    "internal_server_error",
+                    "No graph created. Check your resource type and identifier",
+                )
 
         logger.error("No mime type was given.")
         return APIUtil.toErrorResponse("bad_request", "No mime type detected...")
@@ -127,14 +132,21 @@ class ResourceAPI(Resource):
                 structured_data=util.ld_util.json_ld_structured_data_for_resource(
                     rdf_graph, resource_url
                 ),
-                json_header=util.ld_util.json_header_from_rdf_graph(rdf_graph, resource_url),
-                json_iri_iri=util.ld_util.json_iri_iri_from_rdf_graph(rdf_graph, resource_url),
-                json_iri_lit=util.ld_util.json_iri_lit_from_rdf_graph(rdf_graph, resource_url),
-                json_iri_bnode=util.ld_util.json_iri_bnode_from_rdf_graph(rdf_graph, resource_url),
+                json_header=util.ld_util.json_header_from_rdf_graph(
+                    rdf_graph, resource_url
+                ),
+                json_iri_iri=util.ld_util.json_iri_iri_from_rdf_graph(
+                    rdf_graph, resource_url
+                ),
+                json_iri_lit=util.ld_util.json_iri_lit_from_rdf_graph(
+                    rdf_graph, resource_url
+                ),
+                json_iri_bnode=util.ld_util.json_iri_bnode_from_rdf_graph(
+                    rdf_graph, resource_url
+                ),
                 nisv_sparql_endpoint=sparql_endpoint,
             )
         logger.error(
             f"Triple data for lod view could not be retrieved from the triple store for {resource_url}."
         )
         return None
-     

@@ -87,6 +87,7 @@ def __check_setting(config, key, t, optional=False):
         optional and (setting is None or isinstance(setting, t))
     )
 
+
 def __check_log_level(level: str) -> bool:
     return level in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 
@@ -97,4 +98,3 @@ def __validate_file_paths(paths: list) -> bool:
 
 def get_parent_dir(path: str) -> Path:
     return Path(path).parent
-

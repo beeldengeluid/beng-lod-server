@@ -50,8 +50,8 @@ def load_json_file():
 
 
 @pytest.fixture(scope="module")
-def load_json_file_as_graph():
-    def return_json_graph_from_file(test_path, fn):
+def load_file_as_graph():
+    def return_graph_from_file(test_path, fn):
         path = test_path
         tmp = test_path.split(os.sep)
         if len(tmp) > 1:
@@ -62,7 +62,8 @@ def load_json_file_as_graph():
             return g.parse(full_path)
         return None
 
-    return return_json_graph_from_file
+    return return_graph_from_file
+
 
 @pytest.fixture(scope="module")
 def open_file():
@@ -79,6 +80,8 @@ def open_file():
 
 
 """------------------------ APPLICATION SETTINGS (VALID) ----------------------"""
+
+
 @pytest.fixture(scope="session")
 def application():
     app = Flask(__name__, template_folder="../templates")
@@ -87,10 +90,12 @@ def application():
 
     return app
 
+
 @pytest.fixture(scope="session")
 def application_settings(application):
     """Returns the application settings."""
     return application.config
+
 
 """------------------------ APPLICATION CLIENT (VALID & INVALID) ----------------------"""
 
@@ -169,11 +174,3 @@ def generic_client(http_test_client, flask_test_client):
                 return http_test_client.get(path)
 
     return GenericClient()
-
-
-@pytest.fixture(scope="module")
-def resource_query_url():
-    def genResourceURL(type, identifier):
-        return f"/id/{type}/{identifier}"
-
-    return genResourceURL
