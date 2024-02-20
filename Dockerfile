@@ -1,12 +1,25 @@
-FROM python:3.8
+FROM docker.io/python:3.11 as req
 
-COPY resource /resource
-COPY src /src
-COPY Pipfile Pipfile.lock /src/
+RUN python3 -m pip install pipx && \
+  python3 -m pipx ensurepath
 
-WORKDIR /src
+RUN pipx install poetry==1.7.1 && \
+  pipx inject poetry poetry-plugin-export && \
+  pipx run poetry config warnings.export false
 
-RUN pip install pipenv
-RUN pipenv install --system
+COPY ./poetry.lock ./poetry.lock
+COPY ./pyproject.toml ./pyproject.toml
+RUN pipx run poetry export --format requirements.txt --output requirements.txt
 
-CMD [ "python", "/src/server.py" ]
+FROM docker.io/python:3.11
+
+WORKDIR /usr/src/app
+
+COPY --from=req ./requirements.txt requirements.txt
+COPY ./config config
+COPY ./src src
+COPY ./resource resource
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+CMD [ "python", "-m", "gunicorn", "server:app" ]
