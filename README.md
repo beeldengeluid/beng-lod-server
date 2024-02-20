@@ -1,41 +1,31 @@
-[![Main branch](https://github.com/beeldengeluid/beng-lod-server/actions/workflows/main-branch.yml/badge.svg)](https://github.com/beeldengeluid/beng-lod-server/actions/workflows/main-branch.yml)  [![Manual deploy](https://github.com/beeldengeluid/beng-lod-server/actions/workflows/manual-deploy.yml/badge.svg)](https://github.com/beeldengeluid/beng-lod-server/actions/workflows/manual-deploy.yml)
 # beng-lod-server
+Works with Python 3.11
+
+## Prerequisites
+Get yourself the lovely [poetry](https://poetry-project.org/)
 
 
-Works with Python 3.8
+## Setup
 
-# Prerequisites
-Get yourself the lovely [pipenv](https://docs.pipenv.org/en/latest/)
-
-
-From your command line run this from the repository root. When developing,
-append the `--dev` flag to install the development dependencies as well:
-
-```sh
-pipenv install
-```
-
-# Create a settings file
-
-Copy the settings-example.py to settings.py:
+From your command line run this from the repository root:
 
 ```sh
-cp src/config/settings_example.py src/config/settings.py
+poetry install
 ```
 
-Then change the settings to your liking...
+and adjust `config/config.yml` to your liking...
 
-# Run the server
-Using pipenv you can start the virtual environment and the server from the command line like this:
+## Running the server
+Using poetry you can start the virtual environment and the server from the command line like this:
 
 ```sh
 cd src
-pipenv run python server.py
+poetry run python server.py
 ```
 
 When the server is started correctly, you can checkout the OpenAPI specification from your browser:
 
-`http://127.0.0.1:5309/`, or you can get RDF directly, for example:
+`http://127.0.0.1:5309/swagger`, or you can get RDF directly, for example:
 
 ```sh
 curl -L -H "Accept: application/ld+json" http://127.0.0.1:5309/id/program/2101608130117680531
@@ -47,6 +37,6 @@ By adding the data domain to your hosts.conf file you will be able to serve all 
 	127.0.0.1       data.beeldengeluid.nl
 ```
 This is especially convenient when you want to click items from the lod-view HTML pages. One more thing you need to do for this is change the application port in your settings.py:
-```python
-    APP_PORT = 80
+```yaml
+APP_PORT: 80
 ```
