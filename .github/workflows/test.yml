@@ -14,7 +14,9 @@ jobs:
       with:
         python-version-file: pyproject.toml
     - name: Install poetry
-      run: curl -sSL https://install.python-poetry.org | python3 -
+      run: pipx install poetry==1.7.1
+    - name: Check poetry.lock
+      run: poetry check
     - name: Install poetry env from pyproject.toml
       run: poetry install
     - name: Run tests
