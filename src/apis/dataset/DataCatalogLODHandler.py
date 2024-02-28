@@ -13,7 +13,6 @@ logger = logging.getLogger()
 class DataCatalogLODHandler:
     """Handles requests from the beng-lod server for data catalogs, datasets, datadownloads.
     The only data model/ontology this data is available in is schema.org.
-    The source for the data catalog is a (Turtle) file in /resource.
     """
 
     def __init__(self, config):
