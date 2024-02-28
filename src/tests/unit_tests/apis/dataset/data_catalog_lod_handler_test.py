@@ -64,13 +64,13 @@ def test_get_data_catalog(
     application_settings, data_catalog_uri, i_datacatalog, mime_type
 ):
     try:
-        with when(
-            apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler
-        )._get_data_catalog_from_store(
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("DATA_CATALOG_GRAPH"),
-        ).thenReturn(
-            i_datacatalog
+        with (
+            when(apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler)
+            ._get_data_catalog_from_store(
+                application_settings.get("SPARQL_ENDPOINT"),
+                application_settings.get("DATA_CATALOG_GRAPH"),
+            )
+            .thenReturn(i_datacatalog)
         ):
             data_catalog_lod_handler = (
                 apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler(
@@ -114,13 +114,13 @@ def test_get_data_download(
     application_settings, data_download_uri, i_datacatalog, i_datadownload, mime_type
 ):
     try:
-        with when(
-            apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler
-        )._get_data_catalog_from_store(
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("DATA_CATALOG_GRAPH"),
-        ).thenReturn(
-            i_datacatalog
+        with (
+            when(apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler)
+            ._get_data_catalog_from_store(
+                application_settings.get("SPARQL_ENDPOINT"),
+                application_settings.get("DATA_CATALOG_GRAPH"),
+            )
+            .thenReturn(i_datacatalog)
         ):
             data_catalog_lod_handler = (
                 apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler(
@@ -173,13 +173,13 @@ def test_get_dataset(
     application_settings, i_datacatalog, i_dataset, dataset_uri, mime_type
 ):
     try:
-        with when(
-            apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler
-        )._get_data_catalog_from_store(
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("DATA_CATALOG_GRAPH"),
-        ).thenReturn(
-            i_datacatalog
+        with (
+            when(apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler)
+            ._get_data_catalog_from_store(
+                application_settings.get("SPARQL_ENDPOINT"),
+                application_settings.get("DATA_CATALOG_GRAPH"),
+            )
+            .thenReturn(i_datacatalog)
         ):
             data_catalog_lod_handler = (
                 apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler(
