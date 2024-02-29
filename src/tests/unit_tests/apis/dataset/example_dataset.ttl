@@ -1,0 +1,34 @@
+@prefix sdo: <https://schema.org/> .
+
+<http://data.beeldengeluid.nl/id/dataset/0001> a sdo:Dataset ;
+    sdo:creator <https://www.beeldengeluid.nl> ;
+    sdo:description "Metadata for the catalogue objects from the Netherlands Institute for Sound and Vision."@en ;
+    sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0001> ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
+    sdo:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
+    sdo:mainEntityOfPage <https://www.beeldengeluid.nl/collectie> ;
+    sdo:name "Beeld en Geluid catalogus"@nl ;
+    sdo:publisher <https://www.beeldengeluid.nl> ;
+    sdo:size "2126454" ;
+    sdo:temporalCoverage "1877/2023" .
+
+<http://data.beeldengeluid.nl/id/datadownload/0001> a sdo:DataDownload ;
+    sdo:contentUrl <https://cat.apis.beeldengeluid.nl/sparql> ;
+    sdo:description "Bevraag de Beeld en Geluid media catalogus in schema.org formaat in SPARQL."@nl ;
+    sdo:encodingFormat "application/sparql-query" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
+    sdo:name "Beeld en Geluid Catalogus als Open Data"@nl ;
+    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
+
+<https://www.beeldengeluid.nl> a sdo:Organization ;
+    sdo:alternateName "Beeld en Geluid"@nl ;
+    sdo:name "Nederlands Instituut voor Beeld en Geluid"@nl ;
+    sdo:sameAs <http://www.openbeelden.nl/users/beeldengeluid>,
+        <http://www.wikidata.org/entity/Q1131877>,
+        <https://data.netwerkdigitaalerfgoed.nl/beeldengeluid>,
+        <https://data.overheid.nl/community/organization/beeld-en-geluid>,
+        <https://data.overheid.nl/community/organization/nlpo12345678>,
+        <https://grid.ac/institutes/grid.425952.d> .
+

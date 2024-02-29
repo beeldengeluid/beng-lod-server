@@ -1,0 +1,11 @@
+@prefix sdo: <https://schema.org/> .
+
+<http://data.beeldengeluid.nl/id/datadownload/0001> a sdo:DataDownload ;
+    sdo:contentUrl <https://cat.apis.beeldengeluid.nl/sparql> ;
+    sdo:description "Bevraag de Beeld en Geluid media catalogus in schema.org formaat in SPARQL."@nl ;
+    sdo:encodingFormat "application/sparql-query" ;
+    sdo:inLanguage "nl-NL" ;
+    sdo:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
+    sdo:name "Beeld en Geluid Catalogus als Open Data"@nl ;
+    sdo:usageInfo <https://www.w3.org/TR/rdf-sparql-query/> .
+
