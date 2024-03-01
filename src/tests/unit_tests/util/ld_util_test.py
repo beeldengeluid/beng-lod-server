@@ -8,8 +8,6 @@ from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import SDO, RDF
 from rdflib.compare import to_isomorphic
 import requests
-import json
-from json.decoder import JSONDecodeError
 from requests.exceptions import ConnectionError
 from mockito import when, unstub, mock, verify, KWARGS
 from models.ResourceURILevel import ResourceURILevel

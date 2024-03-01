@@ -1,5 +1,5 @@
 import logging
-from flask import current_app, request, make_response, render_template, Response
+from flask import current_app, request, render_template, Response
 from flask_restx import Namespace, Resource
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
 from util.mime_type_util import MimeType
@@ -30,7 +30,7 @@ class LODDataAPI(Resource):
         rdf_graph = util.ld_util.get_lod_resource_from_rdf_store(
             resource_url, sparql_endpoint, nisv_organisation_uri
         )
-        if rdf_graph != None:
+        if rdf_graph is not None:
             logger.info(f"Generating HTML page for {resource_url}.")
             return render_template(
                 "resource.html",

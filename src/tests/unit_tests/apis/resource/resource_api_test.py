@@ -131,7 +131,7 @@ def test_get_200_with_data(
             try:
                 g = Graph()
                 g.parse(data=resp.text, format=mime_type.to_ld_format())
-            except:
+            except Exception:
                 pytest.fail(f"Invalid {mime_type} output")
 
     finally:
@@ -154,11 +154,15 @@ def test_get_400(cause, generic_client, application_settings, resource_query_url
 
     elif cause == "generate_uri_failed":
         DUMMY_MIME_TYPE = "dummy mime type"
-        with when(util.ld_util).generate_lod_resource_uri(
-            ResourceURILevel(CAT_TYPE),
-            DUMMY_IDENTIFIER,
-            application_settings.get("BENG_DATA_DOMAIN"),
-        ).thenRaise(ValueError):
+        with (
+            when(util.ld_util)
+            .generate_lod_resource_uri(
+                ResourceURILevel(CAT_TYPE),
+                DUMMY_IDENTIFIER,
+                application_settings.get("BENG_DATA_DOMAIN"),
+            )
+            .thenRaise(ValueError)
+        ):
             response = generic_client.get(
                 "offline",
                 resource_query_url(CAT_TYPE, DUMMY_IDENTIFIER),
@@ -273,17 +277,23 @@ def test__get_lod_view_resource(
     DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
     resource_api = ResourceAPI()
 
-    with application.test_request_context():  # need to work within the app context as get_lod_view_resource() uses the render_template() van Flask
+    with (
+        application.test_request_context()
+    ):  # need to work within the app context as get_lod_view_resource() uses the render_template() van Flask
         if item_type:
             test_graph = locals()[f"i_{item_type}_graph"]
         else:
             test_graph = None
 
-        with when(util.ld_util).get_lod_resource_from_rdf_store(
-            DUMMY_URL,
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("URI_NISV_ORGANISATION"),
-        ).thenReturn(test_graph):
+        with (
+            when(util.ld_util)
+            .get_lod_resource_from_rdf_store(
+                DUMMY_URL,
+                application_settings.get("SPARQL_ENDPOINT"),
+                application_settings.get("URI_NISV_ORGANISATION"),
+            )
+            .thenReturn(test_graph)
+        ):
             html_result = resource_api._get_lod_view_resource(
                 DUMMY_URL,
                 application_settings.get("SPARQL_ENDPOINT"),

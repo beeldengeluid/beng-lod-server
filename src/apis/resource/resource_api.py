@@ -57,11 +57,10 @@ class ResourceAPI(Resource):
             return APIUtil.toErrorResponse(
                 "bad_request", "Invalid resource level supplied"
             )
-        except Exception as e:
+        except Exception:
             print("test")
 
         if mime_type is MimeType.HTML:
-            # note that data for HTML is requested from the RDF store, so no need to do is_public_resource
             logger.info(f"Generating HTML page for {lod_url}.")
             html_page = self._get_lod_view_resource(
                 lod_url,

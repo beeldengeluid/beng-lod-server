@@ -1,7 +1,7 @@
 import json
 import pytest
 
-from mockito import when, spy2, unstub, verify
+from mockito import when, unstub, verify
 from rdflib import Graph
 
 import util.ld_util
@@ -110,7 +110,7 @@ def test_get_200_with_data(
             try:
                 g = Graph()
                 g.parse(data=resp.text, format=mime_type.to_ld_format())
-            except:
+            except Exception:
                 pytest.fail(f"Invalid {mime_type} output")
 
     finally:
@@ -154,7 +154,7 @@ def test_get_500(mime_type, generic_client, application_settings, gtaa_url, capl
 
         assert resp.status_code == 500
 
-        if mime_type == None:
+        if mime_type is None:
             assert "Error: No mime type detected" in resp.text.decode()
             assert "Not a proper mime type in the request." in caplog.text
         elif mime_type is MimeType.HTML:
@@ -254,7 +254,7 @@ def test__get_lod_gtaa_error(mime_type, application_settings, caplog):
             application_settings.get("URI_NISV_ORGANISATION"),
         )
 
-        assert serialised_graph == None
+        assert serialised_graph is None
         assert (
             f"Could not get the data for GTAA resource {DUMMY_URL} from triple store at {application_settings.get('SPARQL_ENDPOINT')}."
             in caplog.text
@@ -296,7 +296,7 @@ def test__get_lod_gtaa_with_data(mime_type, application_settings, i_gtaa_graph):
         try:
             g = Graph()
             g.parse(data=serialised_graph, format=mime_type.to_ld_format())
-        except Exception as e:
+        except Exception:
             pytest.fail(f"Invalid {mime_type} output")
 
     finally:
@@ -308,13 +308,19 @@ def test__get_lod_view_gtaa(application, application_settings, i_gtaa_graph):
     DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
     gtaa_api = GTAAAPI()
 
-    with application.test_request_context():  # need to work within the app context as _get_lod_view_gtaa() uses the render_template() van Flask
+    with (
+        application.test_request_context()
+    ):  # need to work within the app context as _get_lod_view_gtaa() uses the render_template() van Flask
 
-        with when(util.ld_util).get_lod_resource_from_rdf_store(
-            DUMMY_URL,
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("URI_NISV_ORGANISATION"),
-        ).thenReturn(i_gtaa_graph):
+        with (
+            when(util.ld_util)
+            .get_lod_resource_from_rdf_store(
+                DUMMY_URL,
+                application_settings.get("SPARQL_ENDPOINT"),
+                application_settings.get("URI_NISV_ORGANISATION"),
+            )
+            .thenReturn(i_gtaa_graph)
+        ):
             html_result = gtaa_api._get_lod_view_gtaa(
                 DUMMY_URL,
                 application_settings.get("SPARQL_ENDPOINT"),
@@ -332,13 +338,19 @@ def test__get_lod_view_gtaa_error(application, application_settings, caplog):
     DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
     gtaa_api = GTAAAPI()
 
-    with application.test_request_context():  # need to work within the app context as _get_lod_view_gtaa() uses the render_template() van Flask
+    with (
+        application.test_request_context()
+    ):  # need to work within the app context as _get_lod_view_gtaa() uses the render_template() van Flask
 
-        with when(util.ld_util).get_lod_resource_from_rdf_store(
-            DUMMY_URL,
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("URI_NISV_ORGANISATION"),
-        ).thenReturn(None):
+        with (
+            when(util.ld_util)
+            .get_lod_resource_from_rdf_store(
+                DUMMY_URL,
+                application_settings.get("SPARQL_ENDPOINT"),
+                application_settings.get("URI_NISV_ORGANISATION"),
+            )
+            .thenReturn(None)
+        ):
             html_result = gtaa_api._get_lod_view_gtaa(
                 DUMMY_URL,
                 application_settings.get("SPARQL_ENDPOINT"),

@@ -1,9 +1,7 @@
-import sys
 import logging
 import os.path
 import validators
 from pathlib import Path
-from importlib import import_module
 
 logger = logging.getLogger(__name__)
 LOG_FORMAT = "%(asctime)s|%(levelname)s|%(process)d|%(module)s|%(funcName)s|%(lineno)d|%(message)s"
