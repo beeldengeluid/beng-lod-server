@@ -15,7 +15,7 @@ def test_init():
     )
 
 
-@pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType]) + [None]
+@pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType])
 def test_get_200(mime_type, application_settings, generic_client, datadownload_url):
     DUMMY_IDENTIFIER = 1234
     DUMMY_URI = f"http://{DUMMY_IDENTIFIER}"
@@ -138,7 +138,7 @@ def test_get_200_mime_type_None(application_settings, generic_client, datadownlo
         resp = generic_client.get(
             "offline",
             datadownload_url(DUMMY_IDENTIFIER),
-            headers={"Accept": input_mime_type.value},
+            headers={"Accept": input_mime_type},
         )
 
         assert resp.status_code == 200
@@ -370,9 +370,7 @@ def test_get_404(
         unstub()
 
 
-def test_get_500(
-    application_settings, generic_client, datadownload_url, caplog
-):
+def test_get_500(application_settings, generic_client, datadownload_url, caplog):
     DUMMY_IDENTIFIER = 1234
     DUMMY_URI = f"http://{DUMMY_IDENTIFIER}"
 
@@ -421,8 +419,7 @@ def test_get_500(
             apis.dataset.dataset_api.LODDataDownloadAPI, times=1
         ).is_valid_data_download(DUMMY_URI)
         verify(
-            apis.dataset.dataset_api.LODDataDownloadAPI,
-            times=1
+            apis.dataset.dataset_api.LODDataDownloadAPI, times=1
         )._get_lod_view_resource(
             DUMMY_URI,
             application_settings.get("SPARQL_ENDPOINT"),

@@ -97,7 +97,9 @@ class LODDatasetAPI(LODDataAPI):
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
         )
-        mime_type = MimeType.JSON_LD  # we choose to set a default if the user has not specified
+        mime_type = (
+            MimeType.JSON_LD
+        )  # we choose to set a default if the user has not specified
         if best_match is not None:
             mime_type = MimeType(best_match)
 
@@ -125,12 +127,8 @@ class LODDatasetAPI(LODDataAPI):
         )
         if res_string:
             return Response(res_string, mimetype=mime_type.value)
-        logger.error(
-            f"Could not fetch the serialization for dataset {dataset_uri}."
-        )
-        return APIUtil.toErrorResponse(
-            "bad_request", "Invalid URI or return format"
-        )
+        logger.error(f"Could not fetch the serialization for dataset {dataset_uri}.")
+        return APIUtil.toErrorResponse("bad_request", "Invalid URI or return format")
 
     def is_dataset(self, dataset_uri: str) -> bool:
         return DataCatalogLODHandler(current_app.config).is_dataset(dataset_uri)
@@ -184,7 +182,9 @@ class LODDataCatalogAPI(LODDataAPI):
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
         )
-        mime_type = MimeType.JSON_LD  # we choose to set a default if the user has not specified
+        mime_type = (
+            MimeType.JSON_LD
+        )  # we choose to set a default if the user has not specified
         if best_match is not None:
             mime_type = MimeType(best_match)
 
@@ -219,9 +219,7 @@ class LODDataCatalogAPI(LODDataAPI):
         logger.error(
             f"Error in fetching the serialization for data catalog: {data_catalog_uri}."
         )
-        return APIUtil.toErrorResponse(
-            "bad_request", "Invalid URI or return format"
-        )
+        return APIUtil.toErrorResponse("bad_request", "Invalid URI or return format")
 
     def is_data_catalog(self, data_catalog_uri: str) -> bool:
         return DataCatalogLODHandler(current_app.config).is_data_catalog(
@@ -274,7 +272,9 @@ class LODDataDownloadAPI(LODDataAPI):
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
         )
-        mime_type = MimeType.JSON_LD  # we choose to set a default if the user has not specified
+        mime_type = (
+            MimeType.JSON_LD
+        )  # we choose to set a default if the user has not specified
         if best_match is not None:
             mime_type = MimeType(best_match)
 
@@ -309,9 +309,7 @@ class LODDataDownloadAPI(LODDataAPI):
         logger.error(
             f"Error in fetching the serialization for data download: {data_download_uri}."
         )
-        return APIUtil.toErrorResponse(
-            "bad_request", "Invalid URI or return format"
-        )
+        return APIUtil.toErrorResponse("bad_request", "Invalid URI or return format")
 
     def is_data_download(self, data_download_uri: str) -> bool:
         return DataCatalogLODHandler(current_app.config).is_data_download(

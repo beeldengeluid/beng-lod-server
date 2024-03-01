@@ -173,7 +173,7 @@ def test_get_200_mime_type_None(application_settings, generic_client, datacatalo
         ).get_data_catalog(DUMMY_URI, mime_format=default_mimetype.to_ld_format())
         verify(
             apis.dataset.dataset_api.DataCatalogLODHandler,
-            times=1 if default_mimetype is not MimeType.HTML else 0
+            times=1 if default_mimetype is not MimeType.HTML else 0,
         )._get_data_catalog_from_store(
             application_settings.get("SPARQL_ENDPOINT"),
             application_settings.get("DATA_CATALOG_GRAPH"),
@@ -368,9 +368,7 @@ def test_get_404(
         unstub()
 
 
-def test_get_500(
-    application_settings, generic_client, datacatalog_url, caplog
-):
+def test_get_500(application_settings, generic_client, datacatalog_url, caplog):
     DUMMY_IDENTIFIER = 1234
     DUMMY_URI = f"http://{DUMMY_IDENTIFIER}"
 
@@ -419,8 +417,7 @@ def test_get_500(
             apis.dataset.dataset_api.LODDataCatalogAPI, times=1
         ).is_valid_data_catalog(DUMMY_URI)
         verify(
-            apis.dataset.dataset_api.LODDataCatalogAPI,
-            times=1
+            apis.dataset.dataset_api.LODDataCatalogAPI, times=1
         )._get_lod_view_resource(
             DUMMY_URI,
             application_settings.get("SPARQL_ENDPOINT"),

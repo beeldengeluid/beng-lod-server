@@ -1,4 +1,3 @@
-
 import json
 import logging
 import requests
@@ -38,7 +37,9 @@ def generate_lod_resource_uri(
     :param beng_data_domain: see BENG_DATA_DOMAIN in settings.py
     :returns: a proper URI as it should be listed in the LOD server.
     """
-    if not isinstance(level, DatasetApiUriLevel) and not isinstance(level, ResourceApiUriLevel):
+    if not isinstance(level, DatasetApiUriLevel) and not isinstance(
+        level, ResourceApiUriLevel
+    ):
         return None
     url_parts = urlparse(str(beng_data_domain))
     if url_parts.netloc is not None and url_parts.netloc != "":

@@ -1,6 +1,6 @@
 import json
 
-from mockito import when, verify
+from mockito import when
 
 import util.ld_util
 

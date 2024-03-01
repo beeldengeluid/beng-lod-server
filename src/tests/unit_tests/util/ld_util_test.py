@@ -1,14 +1,17 @@
 import pytest
+import requests
 
 # note:
 # the following SDO import generates a warning, see
 # https://github.com/RDFLib/rdflib/issues/1830
 
+from enum import Enum
 from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import SDO, RDF
 from rdflib.compare import to_isomorphic
-import requests
 from requests.exceptions import ConnectionError
+from typing import List, Tuple, Union
+
 from mockito import when, unstub, mock, verify, KWARGS
 from models.DatasetApiUriLevel import DatasetApiUriLevel
 from models.ResourceApiUriLevel import ResourceApiUriLevel
@@ -33,47 +36,53 @@ DUMMY_CONSTRUCT_QUERY = (
     "?s ?p ?o FILTER(!ISBLANK(?o)) }"
 )
 
+generate_lod_resource_uri_cases: List[
+    Tuple[Union[Enum, str], str, str, Union[str, None]]
+] = []
+generate_lod_resource_uri_cases += [
+    (
+        level,  # program, series, season, scene
+        DUMMY_RESOURCE_ID,
+        DUMMY_BENG_DATA_DOMAIN,
+        f"{DUMMY_BENG_DATA_DOMAIN}id/{level.value}/{DUMMY_RESOURCE_ID}",
+    )
+    for level in ResourceApiUriLevel
+]
+generate_lod_resource_uri_cases += [
+    (
+        level,  # datacatalog, dataset, datadownload
+        DUMMY_RESOURCE_ID,
+        DUMMY_BENG_DATA_DOMAIN,
+        f"{DUMMY_BENG_DATA_DOMAIN}id/{level.value}/{DUMMY_RESOURCE_ID}",
+    )
+    for level in DatasetApiUriLevel
+]
+
+generate_lod_resource_uri_cases += [
+    (
+        ResourceApiUriLevel.PROGRAM,
+        DUMMY_RESOURCE_ID,
+        "BROKEN_BENG_DATA_DOMAIN",
+        None,
+    ),  # invalid beng_data_domain
+    (
+        "dataset",
+        DUMMY_RESOURCE_ID,
+        DUMMY_RESOURCE_ID,
+        None,
+    ),  # invalid level param (no str allowed)
+    (
+        "program",
+        DUMMY_RESOURCE_ID,
+        DUMMY_RESOURCE_ID,
+        None,
+    ),  # another invalid level param
+]
+
 
 @pytest.mark.parametrize(
     "resource_level, resource_id, beng_data_domain, resource_uri",
-    [
-        [
-            (
-                level,  # program, series, season, scene
-                DUMMY_RESOURCE_ID,
-                DUMMY_BENG_DATA_DOMAIN,
-                f"{DUMMY_BENG_DATA_DOMAIN}id/{level.value}/{DUMMY_RESOURCE_ID}",
-            )
-            for level in ResourceApiUriLevel
-        ],
-        [
-            (
-                level,  # datacatalog, dataset, datadownload
-                DUMMY_RESOURCE_ID,
-                DUMMY_BENG_DATA_DOMAIN,
-                f"{DUMMY_BENG_DATA_DOMAIN}id/{level.value}/{DUMMY_RESOURCE_ID}",
-            )
-            for level in DatasetApiUriLevel
-        ],
-        (
-            ResourceApiUriLevel.PROGRAM,
-            DUMMY_RESOURCE_ID,
-            "BROKEN_BENG_DATA_DOMAIN",
-            None,
-        ),  # invalid beng_data_domain
-        (
-            "dataset",
-            DUMMY_RESOURCE_ID,
-            DUMMY_RESOURCE_ID,
-            None,
-        ),  # invalid level param (no str allowed)
-        (
-            "program",
-            DUMMY_RESOURCE_ID,
-            DUMMY_RESOURCE_ID,
-            None,
-        ),  # another invalid level param
-    ],
+    generate_lod_resource_uri_cases,
 )
 def test_generate_lod_resource_uri(
     resource_level, resource_id, beng_data_domain, resource_uri

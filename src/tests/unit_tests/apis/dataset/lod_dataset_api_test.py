@@ -395,10 +395,7 @@ def test_get_500(application_settings, generic_client, dataset_url, caplog):
         verify(apis.dataset.dataset_api.LODDatasetAPI, times=1).is_valid_dataset(
             DUMMY_URI
         )
-        verify(
-            apis.dataset.dataset_api.LODDatasetAPI,
-            times=1
-        )._get_lod_view_resource(
+        verify(apis.dataset.dataset_api.LODDatasetAPI, times=1)._get_lod_view_resource(
             DUMMY_URI,
             application_settings.get("SPARQL_ENDPOINT"),
             application_settings.get("URI_NISV_ORGANISATION"),
