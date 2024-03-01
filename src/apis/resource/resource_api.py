@@ -5,7 +5,7 @@ from flask_restx import Namespace, Resource
 
 import util.ld_util
 
-from models.ResourceURILevel import ResourceURILevel
+from models.ResourceApiUriLevel import ResourceApiUriLevel
 from util.APIUtil import APIUtil
 from util.mime_type_util import MimeType
 
@@ -39,14 +39,14 @@ class ResourceAPI(Resource):
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
         )
-        mime_type = None
+        mime_type = MimeType.JSON_LD
         if best_match is not None:
             mime_type = MimeType(best_match)
 
         lod_url = None
         try:
             lod_url = util.ld_util.generate_lod_resource_uri(
-                ResourceURILevel(cat_type),
+                ResourceApiUriLevel(cat_type),
                 identifier,
                 current_app.config.get("BENG_DATA_DOMAIN"),
             )
@@ -78,33 +78,29 @@ class ResourceAPI(Resource):
                     "Could not generate an HTML view for this resource.",
                 )
 
-        if mime_type:
-            logger.info(
-                f"Getting the RDF in the proper serialization format for {lod_url}."
+        logger.info(
+            f"Getting the RDF in the proper serialization format for {lod_url}."
+        )
+        rdf_graph = util.ld_util.get_lod_resource_from_rdf_store(
+            lod_url,
+            current_app.config.get("SPARQL_ENDPOINT"),
+            current_app.config.get("URI_NISV_ORGANISATION"),
+        )
+        if rdf_graph is not None:
+            serialised_graph = rdf_graph.serialize(
+                format=mime_type.to_ld_format(), auto_compact=True
             )
-            rdf_graph = util.ld_util.get_lod_resource_from_rdf_store(
-                lod_url,
-                current_app.config.get("SPARQL_ENDPOINT"),
-                current_app.config.get("URI_NISV_ORGANISATION"),
-            )
-            if rdf_graph is not None:
-                serialised_graph = rdf_graph.serialize(
-                    format=mime_type.to_ld_format(), auto_compact=True
-                )
-                if serialised_graph:
-                    return Response(serialised_graph, mimetype=mime_type.value)
-                else:
-                    return APIUtil.toErrorResponse(
-                        "internal_server_error", "Serialisation failed"
-                    )
+            if serialised_graph:
+                return Response(serialised_graph, mimetype=mime_type.value)
             else:
                 return APIUtil.toErrorResponse(
-                    "internal_server_error",
-                    "No graph created. Check your resource type and identifier",
+                    "internal_server_error", "Serialisation failed"
                 )
-
-        logger.error("No mime type was given.")
-        return APIUtil.toErrorResponse("bad_request", "No mime type detected...")
+        else:
+            return APIUtil.toErrorResponse(
+                "internal_server_error",
+                "No graph created. Check your resource type and identifier",
+            )
 
     def _get_lod_view_resource(
         self, resource_url: str, sparql_endpoint: str, nisv_organisation_uri: str

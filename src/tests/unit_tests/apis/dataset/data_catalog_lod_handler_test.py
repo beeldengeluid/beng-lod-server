@@ -6,7 +6,7 @@ import apis.dataset.DataCatalogLODHandler
 
 
 from util.ld_util import generate_lod_resource_uri
-from models.ResourceURILevel import ResourceURILevel
+from models.DatasetApiUriLevel import DatasetApiUriLevel
 from util.mime_type_util import MimeType
 from rdflib import Graph
 from rdflib.compare import to_isomorphic, graph_diff
@@ -21,18 +21,18 @@ DUMMY_BENG_DATA_DOMAIN = "http://data.beeldengeluid.nl/"
 
 DUMMY_DATA_DOWNLOAD_ID = "0001"
 DUMMY_DATA_DOWNLOAD_URI = generate_lod_resource_uri(
-    ResourceURILevel.DATADOWNLOAD, DUMMY_DATA_DOWNLOAD_ID, DUMMY_BENG_DATA_DOMAIN
+    DatasetApiUriLevel.DATADOWNLOAD, DUMMY_DATA_DOWNLOAD_ID, DUMMY_BENG_DATA_DOMAIN
 )
 
 
 DUMMY_DATASET_ID = "0001"
 DUMMY_DATASET_URI = generate_lod_resource_uri(
-    ResourceURILevel.DATASET, DUMMY_DATASET_ID, DUMMY_BENG_DATA_DOMAIN
+    DatasetApiUriLevel.DATASET, DUMMY_DATASET_ID, DUMMY_BENG_DATA_DOMAIN
 )
 
 DUMMY_DATA_CATALOG_ID = "0001"
 DUMMY_DATA_CATALOG_URI = generate_lod_resource_uri(
-    ResourceURILevel.DATACATALOG, DUMMY_DATA_CATALOG_ID, DUMMY_BENG_DATA_DOMAIN
+    DatasetApiUriLevel.DATACATALOG, DUMMY_DATA_CATALOG_ID, DUMMY_BENG_DATA_DOMAIN
 )
 
 XML_ENCODING_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>'

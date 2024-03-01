@@ -7,7 +7,7 @@ from rdflib import Graph
 import util.ld_util
 
 from apis.resource.resource_api import ResourceAPI
-from models.ResourceURILevel import ResourceURILevel
+from models.ResourceApiUriLevel import ResourceApiUriLevel
 from util.mime_type_util import MimeType
 
 
@@ -30,7 +30,7 @@ def test_get_200(mime_type, generic_client, application_settings, resource_query
 
     try:
         when(util.ld_util).generate_lod_resource_uri(
-            ResourceURILevel(CAT_TYPE),
+            ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
             application_settings.get("BENG_DATA_DOMAIN"),
         ).thenReturn(DUMMY_URL)
@@ -58,7 +58,7 @@ def test_get_200(mime_type, generic_client, application_settings, resource_query
         )
 
         verify(util.ld_util, times=1).generate_lod_resource_uri(
-            ResourceURILevel(CAT_TYPE),
+            ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
             application_settings.get("BENG_DATA_DOMAIN"),
         )
@@ -84,6 +84,78 @@ def test_get_200(mime_type, generic_client, application_settings, resource_query
         unstub()
 
 
+# Just tests the flow
+def test_get_200_mime_type_none(
+    generic_client, application_settings, resource_query_url
+):
+    """Tests the default behaviour for the mime type, which is currently to set it to JSON-LD if the input is None"""
+    DUMMY_IDENTIFIER = 1234
+    DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
+    DUMMY_PAGE = "<!DOCTYPE html> <html> just something pretending to be an interesting HTML page</html>"
+    DUMMY_GRAPH = Graph()
+    DUMMY_SERIALISED_GRAPH = (
+        "just something pretending to be a serialisation of a graph"
+    )
+    CAT_TYPE = "program"
+    input_mime_type = None
+    default_mimetype = MimeType.JSON_LD
+
+    try:
+        when(util.ld_util).generate_lod_resource_uri(
+            ResourceApiUriLevel(CAT_TYPE),
+            DUMMY_IDENTIFIER,
+            application_settings.get("BENG_DATA_DOMAIN"),
+        ).thenReturn(DUMMY_URL)
+
+        if default_mimetype is MimeType.HTML:
+            when(ResourceAPI)._get_lod_view_resource(
+                DUMMY_URL,
+                application_settings.get("SPARQL_ENDPOINT"),
+                application_settings.get("URI_NISV_ORGANISATION"),
+            ).thenReturn(DUMMY_PAGE)
+        else:
+            when(util.ld_util).get_lod_resource_from_rdf_store(
+                DUMMY_URL,
+                application_settings.get("SPARQL_ENDPOINT"),
+                application_settings.get("URI_NISV_ORGANISATION"),
+            ).thenReturn(DUMMY_GRAPH)
+            when(DUMMY_GRAPH).serialize(
+                format=default_mimetype.to_ld_format(), auto_compact=True
+            ).thenReturn(DUMMY_SERIALISED_GRAPH)
+
+        resp = generic_client.get(
+            "offline",
+            resource_query_url(CAT_TYPE, DUMMY_IDENTIFIER),
+            headers={"Accept": input_mime_type},
+        )
+
+        verify(util.ld_util, times=1).generate_lod_resource_uri(
+            ResourceApiUriLevel(CAT_TYPE),
+            DUMMY_IDENTIFIER,
+            application_settings.get("BENG_DATA_DOMAIN"),
+        )
+        if default_mimetype is MimeType.HTML:
+            verify(ResourceAPI, times=1)._get_lod_view_resource(
+                DUMMY_URL,
+                application_settings.get("SPARQL_ENDPOINT"),
+                application_settings.get("URI_NISV_ORGANISATION"),
+            )
+            assert resp.text.decode() == DUMMY_PAGE
+        else:
+            verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
+                DUMMY_URL,
+                application_settings.get("SPARQL_ENDPOINT"),
+                application_settings.get("URI_NISV_ORGANISATION"),
+            )
+            verify(DUMMY_GRAPH, times=1).serialize(
+                format=default_mimetype.to_ld_format(), auto_compact=True
+            )
+            assert resp.text.decode() == DUMMY_SERIALISED_GRAPH
+
+    finally:
+        unstub()
+
+
 # inserts a real data graph to check the conversions to the right format
 @pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType])
 def test_get_200_with_data(
@@ -95,7 +167,7 @@ def test_get_200_with_data(
 
     try:
         when(util.ld_util).generate_lod_resource_uri(
-            ResourceURILevel(CAT_TYPE),
+            ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
             application_settings.get("BENG_DATA_DOMAIN"),
         ).thenReturn(DUMMY_URL)
@@ -112,7 +184,7 @@ def test_get_200_with_data(
         )
 
         verify(util.ld_util, times=1).generate_lod_resource_uri(
-            ResourceURILevel(CAT_TYPE),
+            ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
             application_settings.get("BENG_DATA_DOMAIN"),
         )
@@ -138,39 +210,26 @@ def test_get_200_with_data(
         unstub()
 
 
-@pytest.mark.parametrize("cause", ["no_mime_type", "generate_uri_failed"])
-def test_get_400(cause, generic_client, application_settings, resource_query_url):
+def test_get_400(generic_client, application_settings, resource_query_url):
     DUMMY_IDENTIFIER = 1234
     CAT_TYPE = "program"
+    DUMMY_MIME_TYPE = "dummy mime type"
 
-    if cause == "no_mime_type":
-        BAD_MIME_TYPE = None
+    with (
+        when(util.ld_util)
+        .generate_lod_resource_uri(
+            ResourceApiUriLevel(CAT_TYPE),
+            DUMMY_IDENTIFIER,
+            application_settings.get("BENG_DATA_DOMAIN"),
+        )
+        .thenRaise(ValueError)
+    ):
         response = generic_client.get(
             "offline",
             resource_query_url(CAT_TYPE, DUMMY_IDENTIFIER),
-            headers={"Accept": BAD_MIME_TYPE},
+            headers={"Accept": DUMMY_MIME_TYPE},
         )
         assert response.status_code == 400
-
-    elif cause == "generate_uri_failed":
-        DUMMY_MIME_TYPE = "dummy mime type"
-        with (
-            when(util.ld_util)
-            .generate_lod_resource_uri(
-                ResourceURILevel(CAT_TYPE),
-                DUMMY_IDENTIFIER,
-                application_settings.get("BENG_DATA_DOMAIN"),
-            )
-            .thenRaise(ValueError)
-        ):
-            response = generic_client.get(
-                "offline",
-                resource_query_url(CAT_TYPE, DUMMY_IDENTIFIER),
-                headers={"Accept": DUMMY_MIME_TYPE},
-            )
-            assert response.status_code == 400
-    else:
-        raise ValueError("Bad test variable")
 
 
 @pytest.mark.parametrize(
@@ -191,7 +250,7 @@ def test_get_500(
 
     try:
         when(util.ld_util).generate_lod_resource_uri(
-            ResourceURILevel(CAT_TYPE),
+            ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
             application_settings.get("BENG_DATA_DOMAIN"),
         ).thenReturn(DUMMY_URL)
@@ -229,7 +288,7 @@ def test_get_500(
         )
 
         verify(util.ld_util, times=1).generate_lod_resource_uri(
-            ResourceURILevel(CAT_TYPE),
+            ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
             application_settings.get("BENG_DATA_DOMAIN"),
         )

@@ -1,13 +1,18 @@
+
+import json
 import logging
-from urllib.parse import urlparse, urlunparse
+import requests
+import validators
+
+from requests.exceptions import ConnectionError, HTTPError
 from rdflib import Graph, URIRef, Literal, BNode, Namespace
 from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS
-import requests
-import json
-from models.ResourceURILevel import ResourceURILevel
-from requests.exceptions import ConnectionError, HTTPError
 from typing import Optional, List
-import validators
+from urllib.parse import urlparse, urlunparse
+
+from enum import Enum
+from models.DatasetApiUriLevel import DatasetApiUriLevel
+from models.ResourceApiUriLevel import ResourceApiUriLevel
 
 logger = logging.getLogger()
 
@@ -24,16 +29,16 @@ DISCOGS = "https://api.discogs.com/artists/"
 
 
 def generate_lod_resource_uri(
-    level: ResourceURILevel, identifier: str, beng_data_domain: str
+    level: Enum, identifier: str, beng_data_domain: str
 ) -> Optional[str]:
-    """Constructs valid url using the data domain, the level (cat type) and the identifier:
+    """Constructs valid url using the data domain, the level (cat type or dataset type) and the identifier:
             {Beng data domain}/id/{cat_type}>/{identifier}
     :param level: the cat type
     :param identifier: the DAAN id
     :param beng_data_domain: see BENG_DATA_DOMAIN in settings.py
     :returns: a proper URI as it should be listed in the LOD server.
     """
-    if not isinstance(level, ResourceURILevel):
+    if not isinstance(level, DatasetApiUriLevel) and not isinstance(level, ResourceApiUriLevel):
         return None
     url_parts = urlparse(str(beng_data_domain))
     if url_parts.netloc is not None and url_parts.netloc != "":

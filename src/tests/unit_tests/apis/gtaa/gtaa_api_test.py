@@ -7,7 +7,7 @@ from rdflib import Graph
 import util.ld_util
 
 from apis.gtaa.gtaa_api import GTAAAPI
-from models.ResourceURILevel import ResourceURILevel
+from models.ResourceApiUriLevel import ResourceApiUriLevel
 from util.mime_type_util import MimeType
 
 
@@ -29,7 +29,7 @@ def test_get_200(mime_type, generic_client, application_settings, gtaa_url):
 
     try:
         when(util.ld_util).generate_lod_resource_uri(
-            ResourceURILevel(CAT_TYPE),
+            ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
             application_settings.get("BENG_DATA_DOMAIN"),
         ).thenReturn(DUMMY_URL)
@@ -128,7 +128,7 @@ def test_get_500(mime_type, generic_client, application_settings, gtaa_url, capl
 
     try:
         when(util.ld_util).generate_lod_resource_uri(
-            ResourceURILevel(CAT_TYPE),
+            ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
             application_settings.get("BENG_DATA_DOMAIN"),
         ).thenReturn(DUMMY_URL)

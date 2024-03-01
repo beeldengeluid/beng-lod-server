@@ -10,7 +10,8 @@ from rdflib.compare import to_isomorphic
 import requests
 from requests.exceptions import ConnectionError
 from mockito import when, unstub, mock, verify, KWARGS
-from models.ResourceURILevel import ResourceURILevel
+from models.DatasetApiUriLevel import DatasetApiUriLevel
+from models.ResourceApiUriLevel import ResourceApiUriLevel
 from util.ld_util import (
     generate_lod_resource_uri,
     get_lod_resource_from_rdf_store,
@@ -36,17 +37,26 @@ DUMMY_CONSTRUCT_QUERY = (
 @pytest.mark.parametrize(
     "resource_level, resource_id, beng_data_domain, resource_uri",
     [
-        *[
+        [
             (
-                level,  # program, series, season, scene, dataset, datacatalog, datadownload
+                level,  # program, series, season, scene
                 DUMMY_RESOURCE_ID,
                 DUMMY_BENG_DATA_DOMAIN,
                 f"{DUMMY_BENG_DATA_DOMAIN}id/{level.value}/{DUMMY_RESOURCE_ID}",
             )
-            for level in ResourceURILevel
+            for level in ResourceApiUriLevel
+        ],
+        [
+            (
+                level,  # datacatalog, dataset, datadownload
+                DUMMY_RESOURCE_ID,
+                DUMMY_BENG_DATA_DOMAIN,
+                f"{DUMMY_BENG_DATA_DOMAIN}id/{level.value}/{DUMMY_RESOURCE_ID}",
+            )
+            for level in DatasetApiUriLevel
         ],
         (
-            ResourceURILevel.PROGRAM,
+            ResourceApiUriLevel.PROGRAM,
             DUMMY_RESOURCE_ID,
             "BROKEN_BENG_DATA_DOMAIN",
             None,
