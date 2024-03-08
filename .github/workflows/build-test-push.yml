@@ -40,7 +40,7 @@ jobs:
 
       - name: Test image
         run: |
-          timeout --preserve-status 5s docker run ${{ steps.build.imageid }}
+          timeout --preserve-status 5s docker run ${{ steps.build.outputs.imageid }}
 
       - name: Push image
-        run: docker push --all-tags ${{ steps.build.imageid }}
+        run: docker push --all-tags ${{ steps.build.outputs.imageid }}
