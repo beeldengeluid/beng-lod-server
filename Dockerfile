@@ -22,4 +22,4 @@ COPY ./resource resource
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD [ "python", "-m", "gunicorn", "server:app" ]
+CMD [ "python", "-m", "gunicorn", "--chdir", "./src", "server:app" ]
