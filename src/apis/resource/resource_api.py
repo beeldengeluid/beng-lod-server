@@ -57,8 +57,11 @@ class ResourceAPI(Resource):
             return APIUtil.toErrorResponse(
                 "bad_request", "Invalid resource level supplied"
             )
-        except Exception:
-            print("test")
+        except Exception as e:
+            logger.exception(
+                f"Unknown error while generating lod resource uri for {ResourceApiUriLevel(cat_type)} and {identifier}."
+            )
+            return APIUtil.toErrorResponse("internal_server_error", e)
 
         if mime_type is MimeType.HTML:
             logger.info(f"Generating HTML page for {lod_url}.")
