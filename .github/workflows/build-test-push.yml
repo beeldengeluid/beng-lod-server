@@ -43,4 +43,4 @@ jobs:
           timeout --preserve-status 5s docker run ${{ steps.build.outputs.imageid }}
 
       - name: Push image
-        run: docker push --all-tags ${{ steps.build.outputs.imageid }}
+        run: docker push --all-tags ghcr.io/${{ github.repository }}
