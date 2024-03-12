@@ -35,7 +35,7 @@ def test___get_lod_view_resource(application, application_settings, i_dataset):
             assert str(item["@id"]) in html_result
 
 
-def test___get_lod_view_resource_error(application, application_settings, caplog):
+def test___get_lod_view_resource_error(application, application_settings):
     DUMMY_URL = "http://data.beeldengeluid.nl/id/dataset/0001"
     lod_data_api = LODDataAPI()
 

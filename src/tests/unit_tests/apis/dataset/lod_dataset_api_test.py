@@ -297,9 +297,7 @@ def test_get_404(mime_type, application_settings, generic_client, dataset_url, c
         when(apis.dataset.dataset_api.LODDatasetAPI).is_dataset(DUMMY_URI).thenReturn(
             False
         )
-        when(apis.dataset.dataset_api.LODDatasetAPI).is_valid_dataset(
-            DUMMY_URI
-        ).thenReturn(True)
+        when(apis.dataset.dataset_api.LODDatasetAPI).is_valid_dataset(DUMMY_URI)
         when(apis.dataset.dataset_api.LODDatasetAPI)._get_lod_view_resource(
             DUMMY_URI,
             application_settings.get("SPARQL_ENDPOINT"),

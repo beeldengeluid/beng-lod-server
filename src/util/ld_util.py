@@ -245,6 +245,7 @@ def get_skosxl_label_triples_for_skos_concept_from_rdf_store(
     :param sparql_endpoint: the location of the RDF store.
     """
     query_construct_skos_xl_labels = (
+        f"PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> "
         f"CONSTRUCT {{ ?s ?skos_label ?y . ?y skosxl:literalForm ?literal_form . "
         f"?y a skosxl:Label }} WHERE {{ "
         f"VALUES ?s {{ <{resource_url}> }} "

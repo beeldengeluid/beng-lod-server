@@ -322,6 +322,8 @@ def test_get_500(
         unstub()
 
 
+# Note: it may appear as if the graph arguments are not used. But this is not true, they are loaded dynamically
+# according to the program type
 @pytest.mark.parametrize("item_type", [None, "scene", "program", "season", "series"])
 def test__get_lod_view_resource(
     item_type,
