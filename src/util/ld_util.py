@@ -103,6 +103,24 @@ def get_lod_resource_from_rdf_store(
             if publisher_triple not in g:
                 g.add(publisher_triple)
 
+            # remove '?s sdo:additionalType skos:Concept' triple if
+            # '?s rdf:type skos:Concept' triple is also present
+            skos_concept_type_triple = (
+                URIRef(resource_url),
+                RDF.type,
+                SKOS.Concept,
+            )
+            skos_concept_additional_type_triple = (
+                URIRef(resource_url),
+                SDO.additionalType,
+                SKOS.Concept,
+            )
+            if (
+                skos_concept_type_triple in g
+                and skos_concept_additional_type_triple in g
+            ):
+                g.remove(skos_concept_additional_type_triple)
+
         # add the missing namespaces
         g.bind("skosxl", SKOSXL)
         g.bind("gtaa", GTAA)
@@ -455,21 +473,25 @@ def json_iri_lit_from_rdf_graph(
                     "property": rdf_graph.compute_qname(str(p))[2],
                 },
                 "o": {
-                    "literal_value": f"{str(o)} @{o.language}"
-                    if o.language
-                    else f"{str(o)}",
+                    "literal_value": (
+                        f"{str(o)} @{o.language}" if o.language else f"{str(o)}"
+                    ),
                     "datatype": str(o.datatype) if o.datatype is not None else "",
-                    "datatype_prefix": rdf_graph.compute_qname(str(o.datatype))[0]
-                    if o.datatype is not None
-                    else "",
-                    "datatype_namespace": str(
-                        rdf_graph.compute_qname(str(o.datatype))[1]
-                    )
-                    if o.datatype is not None
-                    else "",
-                    "datatype_property": rdf_graph.compute_qname(str(o.datatype))[2]
-                    if o.datatype is not None
-                    else "",
+                    "datatype_prefix": (
+                        rdf_graph.compute_qname(str(o.datatype))[0]
+                        if o.datatype is not None
+                        else ""
+                    ),
+                    "datatype_namespace": (
+                        str(rdf_graph.compute_qname(str(o.datatype))[1])
+                        if o.datatype is not None
+                        else ""
+                    ),
+                    "datatype_property": (
+                        rdf_graph.compute_qname(str(o.datatype))[2]
+                        if o.datatype is not None
+                        else ""
+                    ),
                 },
             }
             for p, o in rdf_graph.predicate_objects(subject=URIRef(resource_url))
@@ -501,26 +523,34 @@ def json_iri_bnode_from_rdf_graph(
                             ),
                             "property": rdf_graph.compute_qname(str(bnode_pred))[2],
                         },
-                        "obj": {
-                            "uri": str(bnode_obj),
-                            "prefix": rdf_graph.compute_qname(str(bnode_obj))[0],
-                            "namespace": str(
-                                rdf_graph.compute_qname(str(bnode_obj))[1]
-                            ),
-                            "property": rdf_graph.compute_qname(str(bnode_obj))[2],
-                            "pref_label": [
-                                f"{str(pl)} @{Literal(pl).language}"
-                                for pl in rdf_graph.objects(bnode_obj, SKOS.prefLabel)
-                            ],
-                        }
-                        if isinstance(bnode_obj, URIRef)
-                        else {
-                            "label": f"{str(bnode_obj)} @{bnode_obj.language}"
-                            if bnode_obj.language
-                            else f"{str(bnode_obj)}"
-                        }
-                        if isinstance(bnode_obj, Literal)
-                        else str(bnode_obj),
+                        "obj": (
+                            {
+                                "uri": str(bnode_obj),
+                                "prefix": rdf_graph.compute_qname(str(bnode_obj))[0],
+                                "namespace": str(
+                                    rdf_graph.compute_qname(str(bnode_obj))[1]
+                                ),
+                                "property": rdf_graph.compute_qname(str(bnode_obj))[2],
+                                "pref_label": [
+                                    f"{str(pl)} @{Literal(pl).language}"
+                                    for pl in rdf_graph.objects(
+                                        bnode_obj, SKOS.prefLabel
+                                    )
+                                ],
+                            }
+                            if isinstance(bnode_obj, URIRef)
+                            else (
+                                {
+                                    "label": (
+                                        f"{str(bnode_obj)} @{bnode_obj.language}"
+                                        if bnode_obj.language
+                                        else f"{str(bnode_obj)}"
+                                    )
+                                }
+                                if isinstance(bnode_obj, Literal)
+                                else str(bnode_obj)
+                            )
+                        ),
                     }
                     for (bnode_pred, bnode_obj) in rdf_graph.predicate_objects(
                         subject=o
