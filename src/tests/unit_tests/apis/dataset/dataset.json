@@ -1,0 +1,122 @@
+{
+    "@context": {
+      "brick": "https://brickschema.org/schema/Brick#",
+      "csvw": "http://www.w3.org/ns/csvw#",
+      "dc": "http://purl.org/dc/elements/1.1/",
+      "dcam": "http://purl.org/dc/dcam/",
+      "dcat": "http://www.w3.org/ns/dcat#",
+      "dcmitype": "http://purl.org/dc/dcmitype/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "doap": "http://usefulinc.com/ns/doap#",
+      "foaf": "http://xmlns.com/foaf/0.1/",
+      "geo": "http://www.opengis.net/ont/geosparql#",
+      "odrl": "http://www.w3.org/ns/odrl/2/",
+      "org": "http://www.w3.org/ns/org#",
+      "owl": "http://www.w3.org/2002/07/owl#",
+      "prof": "http://www.w3.org/ns/dx/prof/",
+      "prov": "http://www.w3.org/ns/prov#",
+      "qb": "http://purl.org/linked-data/cube#",
+      "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+      "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+      "sdo": "https://schema.org/",
+      "sh": "http://www.w3.org/ns/shacl#",
+      "skos": "http://www.w3.org/2004/02/skos/core#",
+      "sosa": "http://www.w3.org/ns/sosa/",
+      "ssn": "http://www.w3.org/ns/ssn/",
+      "time": "http://www.w3.org/2006/time#",
+      "vann": "http://purl.org/vocab/vann/",
+      "void": "http://rdfs.org/ns/void#",
+      "wgs": "https://www.w3.org/2003/01/geo/wgs84_pos#",
+      "xsd": "http://www.w3.org/2001/XMLSchema#"
+    },
+    "@graph": [
+      {
+        "@id": "http://data.beeldengeluid.nl/id/dataset/0001",
+        "@type": "sdo:Dataset",
+        "sdo:creator": {
+          "@id": "https://www.beeldengeluid.nl"
+        },
+        "sdo:description": {
+          "@language": "en",
+          "@value": "Metadata for the catalogue objects from the Netherlands Institute for Sound and Vision."
+        },
+        "sdo:distribution": {
+          "@id": "http://data.beeldengeluid.nl/id/datadownload/0001"
+        },
+        "sdo:inLanguage": "nl-NL",
+        "sdo:includedInDataCatalog": {
+          "@id": "http://data.beeldengeluid.nl/id/datacatalog/0001"
+        },
+        "sdo:license": {
+          "@id": "https://creativecommons.org/publicdomain/zero/1.0/"
+        },
+        "sdo:mainEntityOfPage": {
+          "@id": "https://www.beeldengeluid.nl/collectie"
+        },
+        "sdo:name": {
+          "@language": "nl",
+          "@value": "Beeld en Geluid catalogus"
+        },
+        "sdo:publisher": {
+          "@id": "https://www.beeldengeluid.nl"
+        },
+        "sdo:temporalCoverage": "1877/2023"
+      },
+      {
+        "@id": "http://data.beeldengeluid.nl/id/datadownload/0001",
+        "@type": "sdo:DataDownload",
+        "sdo:contentSize": "2126454",
+        "sdo:contentUrl": {
+          "@id": "https://cat.apis.beeldengeluid.nl/sparql"
+        },
+        "sdo:description": {
+          "@language": "nl",
+          "@value": "Bevraag de Beeld en Geluid media catalogus in schema.org formaat in SPARQL."
+        },
+        "sdo:encodingFormat": "application/sparql-query",
+        "sdo:inLanguage": "nl-NL",
+        "sdo:license": {
+          "@id": "https://creativecommons.org/publicdomain/zero/1.0/"
+        },
+        "sdo:name": {
+          "@language": "nl",
+          "@value": "Beeld en Geluid Catalogus als Open Data"
+        },
+        "sdo:usageInfo": {
+          "@id": "https://www.w3.org/TR/rdf-sparql-query/"
+        }
+      },
+      {
+        "@id": "https://www.beeldengeluid.nl",
+        "@type": "sdo:Organization",
+        "sdo:alternateName": {
+          "@language": "nl",
+          "@value": "Beeld en Geluid"
+        },
+        "sdo:name": {
+          "@language": "nl",
+          "@value": "Nederlands Instituut voor Beeld en Geluid"
+        },
+        "sdo:sameAs": [
+          {
+            "@id": "http://www.openbeelden.nl/users/beeldengeluid"
+          },
+          {
+            "@id": "http://www.wikidata.org/entity/Q1131877"
+          },
+          {
+            "@id": "https://data.overheid.nl/community/organization/nlpo12345678"
+          },
+          {
+            "@id": "https://data.netwerkdigitaalerfgoed.nl/beeldengeluid"
+          },
+          {
+            "@id": "https://data.overheid.nl/community/organization/beeld-en-geluid"
+          },
+          {
+            "@id": "https://grid.ac/institutes/grid.425952.d"
+          }
+        ]
+      }
+    ]
+  }

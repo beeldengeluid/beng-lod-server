@@ -1,6 +1,14 @@
 import pytest
 
 
+@pytest.fixture(scope="module")
+def resource_query_url():
+    def genResourceURL(type, identifier):
+        return f"/id/{type}/{identifier}"
+
+    return genResourceURL
+
+
 @pytest.fixture()
 def o_get_schema(open_file):
     """Returns an example version of the schema."""
@@ -8,26 +16,24 @@ def o_get_schema(open_file):
 
 
 @pytest.fixture()
-def i_ob_scene_payload(load_json_file):
-    """Returns payload metadata for Open Beelden item from Flex data store in JSON format."""
-    return load_json_file(__file__, "payload_ob_scene_2101703040124290024.json")
+def i_scene_graph(load_file_as_graph):
+    """Returns graph of an example NISV scene in JSON-LD."""
+    return load_file_as_graph(__file__, "rdf_scene_1635932280680.json")
 
 
 @pytest.fixture()
-def i_ob_scene_rdf(load_json_file):
-    """Returns RDF of an example Open Beelden item in JSON-LD."""
-    return load_json_file(__file__, "rdf_ob_scene_2101703040124290024.json")
+def i_program_graph(load_file_as_graph):
+    """Returns graph of an example NISV program in JSON-LD."""
+    return load_file_as_graph(__file__, "rdf_program_1635930242168.json")
 
 
 @pytest.fixture()
-def i_error_scene_payload(load_json_file):
-    """Returns payload metadata for Open Beelden item from Flex data store in JSON format."""
-    return load_json_file(__file__, "error_payload_scene_2101702260627885424.json")
+def i_season_graph(load_file_as_graph):
+    """Returns graph of an example NISV season in JSON-LD."""
+    return load_file_as_graph(__file__, "rdf_season_1635930556031.json")
 
 
 @pytest.fixture()
-def i_program_payload_material_type(load_json_file):
-    """Checks whether the payload contains the 'material type' information.
-    Returns payload metadata for Open Beelden item from Flex data store in JSON format.
-    """
-    return load_json_file(__file__, "payload_program_2101608170156857531.json")
+def i_series_graph(load_file_as_graph):
+    """Returns graph of an example NISV series in JSON-LD."""
+    return load_file_as_graph(__file__, "rdf_series_1635930663729.json")

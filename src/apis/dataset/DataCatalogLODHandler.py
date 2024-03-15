@@ -4,7 +4,7 @@ from typing import List, Optional
 from rdflib import Graph, URIRef
 from rdflib.namespace import RDF, SDO
 
-from apis.mime_type_util import MimeType
+from util.mime_type_util import MimeType
 from util.ld_util import sparql_construct_query
 
 logger = logging.getLogger()
@@ -12,9 +12,7 @@ logger = logging.getLogger()
 
 class DataCatalogLODHandler:
     """Handles requests from the beng-lod server for data catalogs, datasets, datadownloads.
-    The only data model/ontology this data is available in is schema.org. In contrast with the resource
-    endpoint it doesn't take the profile parameter from the Accept header into consideration.
-    The source for the data catalog is a (Turtle) file in /resource.
+    The only data model/ontology this data is available in is schema.org.
     """
 
     def __init__(self, config):

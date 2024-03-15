@@ -1,30 +1,5 @@
 @prefix sdo: <https://schema.org/> .
 
-<http://data.beeldengeluid.nl/id/datadownload/0002> a sdo:DataDownload ;
-    sdo:description "HDT file voor de Beeld en Geluid DAAN catalogus in schema.org formaat"@nl ;
-    sdo:encodingFormat "application/vnd.hdt" ;
-    sdo:inLanguage "nl-NL" ;
-    sdo:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
-    sdo:name "Beeld en Geluid Catalogus als Open Data"@nl ;
-    sdo:usageInfo <http://www.rdfhdt.org/hdt-binary-format/> .
-
-<http://data.beeldengeluid.nl/id/datadownload/0005> a sdo:DataDownload ;
-    sdo:contentSize "1589" ;
-    sdo:contentUrl <http://panic.image.ntua.gr:9000/euscreenxl-core/oai?verb=ListRecords&set=1019&metadataPrefix=rdf> ;
-    sdo:description "Publicatie van Beeld en Geluid materiaal op EUScreen"@nl ;
-    sdo:encodingFormat "text/xml" ;
-    sdo:inLanguage "nl-NL" ;
-    sdo:license <https://creativecommons.org/licenses/by-sa/3.0/> ;
-    sdo:name "Beeld en Geluid op EUScreen"@nl ;
-    sdo:usageInfo <http://www.openarchives.org/OAI/openarchivesprotocol.html> .
-
-<http://data.beeldengeluid.nl/id/datadownload/0011> a sdo:DataDownload ;
-    sdo:contentSize "2591" ;
-    sdo:contentUrl <https://soundcloud.com/beeldengeluid/sets> ;
-    sdo:encodingFormat "audio/wav" ;
-    sdo:inLanguage "nl-NL" ;
-    sdo:usageInfo <https://developers.soundcloud.com/docs/api/guide> .
-
 <http://data.beeldengeluid.nl/id/datadownload/0001> a sdo:DataDownload ;
     sdo:contentSize "2126454" ;
     sdo:contentUrl <https://cat.apis.beeldengeluid.nl/sparql> ;
@@ -64,16 +39,6 @@
     sdo:license <https://creativecommons.org/publicdomain/mark/1.0/> ;
     sdo:name "Radio Herrijzend Nederland op Soundcloud"@nl ;
     sdo:usageInfo <https://developers.soundcloud.com/docs/api/guide> .
-
-<http://data.beeldengeluid.nl/id/datadownload/0008> a sdo:DataDownload ;
-    sdo:contentSize "76" ;
-    sdo:contentUrl <https://commons.wikimedia.org/wiki/Category:Radio_broadcasts_by_Radio_Herrijzend_Nederland> ;
-    sdo:description "Radio uitzendingen Radio Herrijzend Nederland van Beeld en Geluid op Wikimedia Commons"@nl ;
-    sdo:encodingFormat "audio/wav" ;
-    sdo:inLanguage "nl-NL" ;
-    sdo:license <https://creativecommons.org/publicdomain/mark/1.0/> ;
-    sdo:name "Radio uitzendingen Radio Herrijzend Nederland van Beeld en Geluid op Wikimedia Commons"@nl ;
-    sdo:usageInfo <https://www.mediawiki.org/wiki/API:Tutorial> .
 
 <http://data.beeldengeluid.nl/id/datadownload/0010> a sdo:DataDownload ;
     sdo:contentSize "100" ;
@@ -240,7 +205,7 @@
 
 <http://data.beeldengeluid.nl/id/dataset/0001> a sdo:Dataset ;
     sdo:creator <https://www.beeldengeluid.nl> ;
-    sdo:description "Metadata for the catalogue objects that are provided by Netherlands Institue for Sound and Vision."@en ;
+    sdo:description "Metadata for the catalogue objects from the Netherlands Institute for Sound and Vision."@en ;
     sdo:distribution <http://data.beeldengeluid.nl/id/datadownload/0001> ;
     sdo:inLanguage "nl-NL" ;
     sdo:includedInDataCatalog <http://data.beeldengeluid.nl/id/datacatalog/0001> ;
@@ -248,7 +213,7 @@
     sdo:mainEntityOfPage <https://www.beeldengeluid.nl/collectie> ;
     sdo:name "Beeld en Geluid catalogus"@nl ;
     sdo:publisher <https://www.beeldengeluid.nl> ;
-    sdo:temporalCoverage "1877/2021" .
+    sdo:temporalCoverage "1877/2023" .
 
 <http://data.beeldengeluid.nl/id/dataset/0002> a sdo:Dataset ;
     sdo:creator <https://www.beeldengeluid.nl> ;

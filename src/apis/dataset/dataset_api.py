@@ -1,18 +1,10 @@
 import logging
-from flask import current_app, request, make_response, render_template, Response
+from flask import current_app, request, render_template, Response
 from flask_restx import Namespace, Resource
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
-from apis.mime_type_util import MimeType
-from models.DAANRdfModel import ResourceURILevel
-from util.ld_util import (
-    generate_lod_resource_uri,
-    get_lod_resource_from_rdf_store,
-    json_ld_structured_data_for_resource,
-    json_header_from_rdf_graph,
-    json_iri_iri_from_rdf_graph,
-    json_iri_lit_from_rdf_graph,
-    json_iri_bnode_from_rdf_graph,
-)
+from util.mime_type_util import MimeType
+from models.DatasetApiUriLevel import DatasetApiUriLevel
+import util.ld_util
 from util.APIUtil import APIUtil
 
 
@@ -35,21 +27,29 @@ class LODDataAPI(Resource):
         :param resource_url: The URI for the resource.
         """
         logger.info(f"Getting RDF for resource {resource_url} from triple store.")
-        rdf_graph = get_lod_resource_from_rdf_store(
+        rdf_graph = util.ld_util.get_lod_resource_from_rdf_store(
             resource_url, sparql_endpoint, nisv_organisation_uri
         )
-        if rdf_graph:
+        if rdf_graph is not None:
             logger.info(f"Generating HTML page for {resource_url}.")
             return render_template(
                 "resource.html",
                 resource_uri=resource_url,
-                structured_data=json_ld_structured_data_for_resource(
+                structured_data=util.ld_util.json_ld_structured_data_for_resource(
                     rdf_graph, resource_url
                 ),
-                json_header=json_header_from_rdf_graph(rdf_graph, resource_url),
-                json_iri_iri=json_iri_iri_from_rdf_graph(rdf_graph, resource_url),
-                json_iri_lit=json_iri_lit_from_rdf_graph(rdf_graph, resource_url),
-                json_iri_bnode=json_iri_bnode_from_rdf_graph(rdf_graph, resource_url),
+                json_header=util.ld_util.json_header_from_rdf_graph(
+                    rdf_graph, resource_url
+                ),
+                json_iri_iri=util.ld_util.json_iri_iri_from_rdf_graph(
+                    rdf_graph, resource_url
+                ),
+                json_iri_lit=util.ld_util.json_iri_lit_from_rdf_graph(
+                    rdf_graph, resource_url
+                ),
+                json_iri_bnode=util.ld_util.json_iri_bnode_from_rdf_graph(
+                    rdf_graph, resource_url
+                ),
                 nisv_sparql_endpoint=sparql_endpoint,
             )
         return None
@@ -80,8 +80,8 @@ class LODDatasetAPI(LODDataAPI):
         """Get the RDF for the Dataset, including its DataDownloads.
         All triples for the Dataset and its DataDownloads are included.
         """
-        dataset_uri = generate_lod_resource_uri(
-            ResourceURILevel.DATASET, number, current_app.config["BENG_DATA_DOMAIN"]
+        dataset_uri = util.ld_util.generate_lod_resource_uri(
+            DatasetApiUriLevel.DATASET, number, current_app.config["BENG_DATA_DOMAIN"]
         )
         # check if resource exists
         if self.is_dataset(dataset_uri) is False:
@@ -97,7 +97,9 @@ class LODDatasetAPI(LODDataAPI):
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
         )
-        mime_type = MimeType.JSON_LD
+        mime_type = (
+            MimeType.JSON_LD
+        )  # we choose to set a default if the user has not specified
         if best_match is not None:
             mime_type = MimeType(best_match)
 
@@ -110,7 +112,7 @@ class LODDatasetAPI(LODDataAPI):
                 current_app.config.get("URI_NISV_ORGANISATION"),
             )
             if html_page:
-                return make_response(html_page, 200)
+                return Response(html_page, mimetype=mime_type.value)
             else:
                 logger.error(f"Could not generate the HTML page for {dataset_uri}.")
                 return APIUtil.toErrorResponse(
@@ -160,8 +162,8 @@ class LODDataCatalogAPI(LODDataAPI):
         """Get the RDF for the DataCatalog, including its Datasets.
         All triples describing the DataCatalog and its Datasets are included.
         """
-        data_catalog_uri = generate_lod_resource_uri(
-            ResourceURILevel.DATACATALOG,
+        data_catalog_uri = util.ld_util.generate_lod_resource_uri(
+            DatasetApiUriLevel.DATACATALOG,
             number,
             current_app.config["BENG_DATA_DOMAIN"],
         )
@@ -180,7 +182,9 @@ class LODDataCatalogAPI(LODDataAPI):
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
         )
-        mime_type = MimeType.JSON_LD
+        mime_type = (
+            MimeType.JSON_LD
+        )  # we choose to set a default if the user has not specified
         if best_match is not None:
             mime_type = MimeType(best_match)
 
@@ -193,7 +197,7 @@ class LODDataCatalogAPI(LODDataAPI):
                 current_app.config.get("URI_NISV_ORGANISATION"),
             )
             if html_page:
-                return make_response(html_page, 200)
+                return Response(html_page, mimetype=mime_type.value)
             else:
                 logger.error(
                     f"Could not generate proper HTML page for data catalog: {data_catalog_uri}."
@@ -251,8 +255,8 @@ class LODDataDownloadAPI(LODDataAPI):
     @api.produces([mt.value for mt in MimeType])
     def get(self, number=None):
         """Get the RDF for the DataDownload."""
-        data_download_uri = generate_lod_resource_uri(
-            ResourceURILevel.DATADOWNLOAD,
+        data_download_uri = util.ld_util.generate_lod_resource_uri(
+            DatasetApiUriLevel.DATADOWNLOAD,
             number,
             current_app.config["BENG_DATA_DOMAIN"],
         )
@@ -268,7 +272,9 @@ class LODDataDownloadAPI(LODDataAPI):
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
         )
-        mime_type = MimeType.JSON_LD
+        mime_type = (
+            MimeType.JSON_LD
+        )  # we choose to set a default if the user has not specified
         if best_match is not None:
             mime_type = MimeType(best_match)
 
@@ -281,9 +287,9 @@ class LODDataDownloadAPI(LODDataAPI):
                 current_app.config.get("URI_NISV_ORGANISATION"),
             )
             if html_page:
-                return make_response(html_page, 200)
+                return Response(html_page, mimetype=mime_type.value)
             else:
-                logger.info(
+                logger.error(
                     f"Could not generate HTML page for data download: {data_download_uri}."
                 )
                 return APIUtil.toErrorResponse(

@@ -1,18 +1,20 @@
 import pytest
+import requests
 
 # note:
 # the following SDO import generates a warning, see
 # https://github.com/RDFLib/rdflib/issues/1830
 
+from enum import Enum
 from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import SDO, RDF
 from rdflib.compare import to_isomorphic
-import requests
-import json
-from json.decoder import JSONDecodeError
 from requests.exceptions import ConnectionError
+from typing import List, Tuple, Union
+
 from mockito import when, unstub, mock, verify, KWARGS
-from models.DAANRdfModel import ResourceURILevel
+from models.DatasetApiUriLevel import DatasetApiUriLevel
+from models.ResourceApiUriLevel import ResourceApiUriLevel
 from util.ld_util import (
     generate_lod_resource_uri,
     get_lod_resource_from_rdf_store,
@@ -20,7 +22,6 @@ from util.ld_util import (
     json_iri_iri_from_rdf_graph,
     json_iri_lit_from_rdf_graph,
     json_iri_bnode_from_rdf_graph,
-    is_public_resource,
     sparql_construct_query,
 )
 
@@ -35,38 +36,53 @@ DUMMY_CONSTRUCT_QUERY = (
     "?s ?p ?o FILTER(!ISBLANK(?o)) }"
 )
 
+generate_lod_resource_uri_cases: List[
+    Tuple[Union[Enum, str], str, str, Union[str, None]]
+] = []
+generate_lod_resource_uri_cases += [
+    (
+        level,  # program, series, season, scene
+        DUMMY_RESOURCE_ID,
+        DUMMY_BENG_DATA_DOMAIN,
+        f"{DUMMY_BENG_DATA_DOMAIN}id/{level.value}/{DUMMY_RESOURCE_ID}",
+    )
+    for level in ResourceApiUriLevel
+]
+generate_lod_resource_uri_cases += [
+    (
+        level,  # datacatalog, dataset, datadownload
+        DUMMY_RESOURCE_ID,
+        DUMMY_BENG_DATA_DOMAIN,
+        f"{DUMMY_BENG_DATA_DOMAIN}id/{level.value}/{DUMMY_RESOURCE_ID}",
+    )
+    for level in DatasetApiUriLevel
+]
+
+generate_lod_resource_uri_cases += [
+    (
+        ResourceApiUriLevel.PROGRAM,
+        DUMMY_RESOURCE_ID,
+        "BROKEN_BENG_DATA_DOMAIN",
+        None,
+    ),  # invalid beng_data_domain
+    (
+        "dataset",
+        DUMMY_RESOURCE_ID,
+        DUMMY_RESOURCE_ID,
+        None,
+    ),  # invalid level param (no str allowed)
+    (
+        "program",
+        DUMMY_RESOURCE_ID,
+        DUMMY_RESOURCE_ID,
+        None,
+    ),  # another invalid level param
+]
+
 
 @pytest.mark.parametrize(
     "resource_level, resource_id, beng_data_domain, resource_uri",
-    [
-        *[
-            (
-                level,  # program, series, season, scene, dataset, datacatalog, datadownload
-                DUMMY_RESOURCE_ID,
-                DUMMY_BENG_DATA_DOMAIN,
-                f"{DUMMY_BENG_DATA_DOMAIN}id/{level.value}/{DUMMY_RESOURCE_ID}",
-            )
-            for level in ResourceURILevel
-        ],
-        (
-            ResourceURILevel.PROGRAM,
-            DUMMY_RESOURCE_ID,
-            "BROKEN_BENG_DATA_DOMAIN",
-            None,
-        ),  # invalid beng_data_domain
-        (
-            "dataset",
-            DUMMY_RESOURCE_ID,
-            DUMMY_RESOURCE_ID,
-            None,
-        ),  # invalid level param (no str allowed)
-        (
-            "program",
-            DUMMY_RESOURCE_ID,
-            DUMMY_RESOURCE_ID,
-            None,
-        ),  # another invalid level param
-    ],
+    generate_lod_resource_uri_cases,
 )
 def test_generate_lod_resource_uri(
     resource_level, resource_id, beng_data_domain, resource_uri
@@ -302,89 +318,6 @@ def test_json_iri_bnode_from_rdf_graph(program_rdf_graph_with_bnodes):
                     if isinstance(bnode_content, Literal):
                         assert all(x in bnode_content["obj"] for x in ["label"])
 
-    finally:
-        unstub()
-
-
-@pytest.mark.parametrize(
-    "resource_url, sparql_endpoint, ask_output, exception, expected_output",
-    [
-        (
-            DUMMY_RESOURCE_URI,
-            DUMMY_SPARQL_ENDPOINT,
-            json.dumps({"head": {}, "boolean": True}),
-            None,
-            True,
-        ),
-        (
-            None,  # leave out the resource_url
-            DUMMY_SPARQL_ENDPOINT,
-            json.dumps({"head": {}, "boolean": True}),
-            None,
-            False,
-        ),
-        (
-            DUMMY_RESOURCE_URI,
-            None,  # leave out the sparql_endpoint
-            json.dumps({"head": {}, "boolean": True}),
-            None,
-            False,
-        ),
-        (
-            DUMMY_RESOURCE_URI,
-            DUMMY_SPARQL_ENDPOINT,
-            json.dumps({"head": {}, "boolean": False}),
-            None,
-            False,
-        ),
-        (
-            DUMMY_RESOURCE_URI,
-            DUMMY_SPARQL_ENDPOINT,
-            json.dumps({"head": {}, "boolean": False}),
-            JSONDecodeError,  # forcefully raise JSONDecodeError
-            False,
-        ),
-        (
-            DUMMY_RESOURCE_URI,
-            DUMMY_SPARQL_ENDPOINT,
-            json.dumps({"head": {}, "boolean": False}),
-            ConnectionError,  # forcefully raise ConnectionError
-            False,
-        ),
-        (
-            DUMMY_RESOURCE_URI,
-            DUMMY_SPARQL_ENDPOINT,
-            "{ CORRUPT JSON ]",  # corrupt the JSON to trigger exception
-            None,  # a JSONDecodeError will be raised
-            False,
-        ),
-    ],
-)
-def test_is_public_resource(
-    resource_url, sparql_endpoint, ask_output, exception, expected_output
-):
-    try:
-        query = "ASK {<%s> ?p ?o . }" % resource_url
-        if exception == ConnectionError:  # raise exception
-            when(requests).get(
-                DUMMY_SPARQL_ENDPOINT, params={"query": query, "format": "json"}
-            ).thenRaise(exception)
-        else:  # just return the ask_output
-            when(requests).get(
-                DUMMY_SPARQL_ENDPOINT, params={"query": query, "format": "json"}
-            ).thenReturn(mock({"text": ask_output, "status_code": 200}))
-
-        if exception == JSONDecodeError:  # raise JSONDecodeError on json.loads
-            when(json).loads(ask_output).thenRaise(
-                JSONDecodeError("error", ask_output, 0)
-            )
-
-        assert is_public_resource(resource_url, sparql_endpoint) is expected_output
-
-        # requests.get is only invoked with a valid resource_url and sparql_endpoint
-        verify(requests, times=1 if resource_url and sparql_endpoint else 0).get(
-            DUMMY_SPARQL_ENDPOINT, params={"query": query, "format": "json"}
-        )
     finally:
         unstub()
 

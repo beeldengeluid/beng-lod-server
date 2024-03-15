@@ -1,9 +1,7 @@
-import sys
 import logging
 import os.path
 import validators
 from pathlib import Path
-from importlib import import_module
 
 logger = logging.getLogger(__name__)
 LOG_FORMAT = "%(asctime)s|%(levelname)s|%(process)d|%(module)s|%(funcName)s|%(lineno)d|%(message)s"
@@ -37,37 +35,6 @@ def validate_config(config, validate_file_paths=True):
         assert __check_setting(config, "APP_VERSION", str), "APP_VERSION"
         assert __check_setting(config, "DEBUG", bool), "DEBUG"
 
-        # checking the list of profiles
-        assert __check_setting(config, "PROFILES", list), "PROFILES"  # check contents
-
-        for p in config["PROFILES"]:
-            assert __check_setting(p, "title", str), "PROFILE.title"
-            assert __check_setting(p, "uri", str), "PROFILE.uri"
-            assert validators.url(p["uri"]), "PROFILE.contentUrl invalid URL"
-            assert __check_setting(p, "prefix", str), "PROFILE.prefix"
-
-            assert __check_setting(p, "schema", str), "PROFILE.schema"
-            file_paths_to_check.append(relative_from_repo_root(p["schema"]))
-            assert __check_setting(p, "mapping", str), "PROFILE.mapping"
-            file_paths_to_check.append(relative_from_repo_root(p["mapping"]))
-
-            assert __check_setting(p, "storage_handler", str), "PROFILE.storage_handler"
-            assert __check_storage_handler(
-                p["storage_handler"]
-            ), "PROFILE.storage_handler invalid"
-            assert __check_setting(p, "ob_links", str, True), "PROFILE.ob_links"
-            if p.get("ob_links", None):
-                file_paths_to_check.append(relative_from_repo_root(p["ob_links"]))
-            assert __check_setting(p, "roles", str, True), "PROFILE.roles"
-            if p.get("roles", None):
-                file_paths_to_check.append(relative_from_repo_root(p["roles"]))
-            assert __check_setting(p, "default", bool, True), "PROFILE.default"
-
-        assert __check_setting(config, "STORAGE_BASE_URL", str), "STORAGE_BASE_URL"
-        assert validators.url(
-            config["STORAGE_BASE_URL"]
-        ), "STORAGE_BASE_URL invalid URL"
-
         assert __check_setting(config, "ENABLED_ENDPOINTS", list), "ENABLED_ENDPOINTS"
         for ep in config["ENABLED_ENDPOINTS"]:
             assert ep in [
@@ -98,9 +65,6 @@ def validate_config(config, validate_file_paths=True):
             config["BENG_DATA_DOMAIN"]
         ), "BENG_DATA_DOMAIN invalid URL"
 
-        assert __check_setting(config, "AUTH_USER", str), "AUTH_USER"
-        assert __check_setting(config, "AUTH_PASSWORD", str), "AUTH_PASSWORD"
-
         assert __check_setting(
             config, "HEALTH_TIMEOUT_SEC", float
         ), "HEALTH_TIMEOUT_SEC"
@@ -122,19 +86,8 @@ def __check_setting(config, key, t, optional=False):
     )
 
 
-def __check_storage_handler(handler: str) -> bool:
-    return handler in [
-        "apis.resource.DAANStorageLODHandler.DAANStorageLODHandler",
-        "apis.resource.SDOStorageLODHandler.SDOStorageLODHandler",
-    ]
-
-
 def __check_log_level(level: str) -> bool:
     return level in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
-
-
-def __validate_parent_dir(path: str) -> bool:
-    return os.path.exists(Path(path).parent.absolute())
 
 
 def __validate_file_paths(paths: list) -> bool:
@@ -143,24 +96,3 @@ def __validate_file_paths(paths: list) -> bool:
 
 def get_parent_dir(path: str) -> Path:
     return Path(path).parent
-
-
-def import_class(module_class_string: str):
-    """Returns an imported class, depending on the definition in the
-    module_class_string parameter, coming from the config file.
-    Calling method needs to create the class instance dynamically.
-    :param module_class_path: string containing "<module_path>.<class_name>".
-    """
-    try:
-        module_name, class_name = module_class_string.rsplit(".", 1)
-        module = import_module(module_name)
-        logger.debug(f"reading class {class_name} from module {module_name}")
-        return getattr(module, class_name)
-    except ValueError:
-        logger.exception("Module class string incorrect.")
-        sys.exit()
-    except ModuleNotFoundError:
-        logger.exception("Module path incorrectly configured")
-    except AttributeError:
-        logger.exception("Module class incorrectly configured")
-    return None

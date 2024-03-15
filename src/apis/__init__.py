@@ -8,7 +8,7 @@ from config import cfg
 
 SWAGGER_UI_PATH = cfg["SWAGGER_UI_PATH"]
 
-apiVersion = "v0.3"
+apiVersion = "v0.9"
 base_path = "/"
 
 api = Api(version=apiVersion, doc=SWAGGER_UI_PATH)

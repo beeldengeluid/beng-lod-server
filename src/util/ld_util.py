@@ -1,14 +1,17 @@
+import json
 import logging
-from urllib.parse import urlparse, urlunparse
+import requests
+import validators
+
+from requests.exceptions import ConnectionError, HTTPError
 from rdflib import Graph, URIRef, Literal, BNode, Namespace
 from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS
-import requests
-import json
-from json.decoder import JSONDecodeError
-from models.DAANRdfModel import ResourceURILevel
-from requests.exceptions import ConnectionError, HTTPError
 from typing import Optional, List
-import validators
+from urllib.parse import urlparse, urlunparse
+
+from enum import Enum
+from models.DatasetApiUriLevel import DatasetApiUriLevel
+from models.ResourceApiUriLevel import ResourceApiUriLevel
 
 logger = logging.getLogger()
 
@@ -25,16 +28,18 @@ DISCOGS = "https://api.discogs.com/artists/"
 
 
 def generate_lod_resource_uri(
-    level: ResourceURILevel, identifier: str, beng_data_domain: str
+    level: Enum, identifier: str, beng_data_domain: str
 ) -> Optional[str]:
-    """Constructs valid url using the data domain, the level (cat type) and the identifier:
+    """Constructs valid url using the data domain, the level (cat type or dataset type) and the identifier:
             {Beng data domain}/id/{cat_type}>/{identifier}
     :param level: the cat type
     :param identifier: the DAAN id
     :param beng_data_domain: see BENG_DATA_DOMAIN in settings.py
     :returns: a proper URI as it should be listed in the LOD server.
     """
-    if not isinstance(level, ResourceURILevel):
+    if not isinstance(level, DatasetApiUriLevel) and not isinstance(
+        level, ResourceApiUriLevel
+    ):
         return None
     url_parts = urlparse(str(beng_data_domain))
     if url_parts.netloc is not None and url_parts.netloc != "":
@@ -65,7 +70,10 @@ def get_lod_resource_from_rdf_store(
         g = Graph(bind_namespaces="core")
         g += get_triples_for_lod_resource_from_rdf_store(resource_url, sparql_endpoint)
         g += get_triple_for_is_part_of_relation(resource_url, sparql_endpoint)
-        g += get_preflabels_for_lod_resource_from_rdf_store(
+        g += get_preflabels_and_type_for_lod_resource_from_rdf_store(
+            resource_url, sparql_endpoint
+        )
+        g += get_label_triples_and_types_for_entities_and_roles_from_rdf_store(
             resource_url, sparql_endpoint
         )
         g += get_triples_for_blank_node_from_rdf_store(resource_url, sparql_endpoint)
@@ -82,8 +90,10 @@ def get_lod_resource_from_rdf_store(
                 resource_url, sparql_endpoint
             )
 
-        # the case where there are triples from sparql endpoint
-        if len(g) != 0:
+        if len(g) == 0:
+            logger.error("Graph was empty")
+            return None
+        else:
             # add the publisher triple (if not already present)
             publisher_triple = (
                 URIRef(resource_url),
@@ -92,6 +102,23 @@ def get_lod_resource_from_rdf_store(
             )
             if publisher_triple not in g:
                 g.add(publisher_triple)
+
+            # remove sdo:additionalType triple (for skos:Concepts)
+            skos_concept_type_triple = (
+                URIRef(resource_url),
+                RDF.type,
+                SKOS.Concept,
+            )
+            skos_concept_additional_type_triple = (
+                URIRef(resource_url),
+                SDO.additionalType,
+                SKOS.Concept,
+            )
+            if (
+                skos_concept_type_triple in g
+                and skos_concept_additional_type_triple in g
+            ):
+                g.remove(skos_concept_additional_type_triple)
 
         # add the missing namespaces
         g.bind("skosxl", SKOSXL)
@@ -126,29 +153,43 @@ def get_triples_for_lod_resource_from_rdf_store(
     return sparql_construct_query(sparql_endpoint, query_construct)
 
 
-def get_preflabels_for_lod_resource_from_rdf_store(
+def get_preflabels_and_type_for_lod_resource_from_rdf_store(
     resource_url: str, sparql_endpoint: str
 ) -> Graph:
     """Gets the preflabels for the SKOS Concepts linked to the LOD resource.
     The labels are derived from the SKOSXL labels in the thesaurus graph in the
     RDF store. Acquiring preferred labels this way, is referred to as 'dumbing down'.
+    Also retrieves the type and, if available, additionalType of the concept
     """
+    # first the labels and type
     query_construct_pref_labels = (
-        f"CONSTRUCT {{ ?s ?p ?o . ?o skos:prefLabel ?pref_label }}"
+        f"CONSTRUCT {{ ?s ?p ?o . ?o skos:prefLabel ?pref_label . ?o rdf:type ?t}}"
         f"WHERE {{ VALUES ?s {{ <{resource_url}> }} "
-        f'?s ?p ?o FILTER (!ISBLANK(?o)) ?o skosxl:prefLabel/skosxl:literalForm ?pref_label FILTER(LANG(?pref_label) = "nl") }}'
+        f'?s ?p ?o FILTER (!ISBLANK(?o)) ?o skosxl:prefLabel/skosxl:literalForm ?pref_label .?o rdf:type ?t FILTER(LANG(?pref_label) = "nl") }}'
     )
-    return sparql_construct_query(sparql_endpoint, query_construct_pref_labels)
+    g = sparql_construct_query(sparql_endpoint, query_construct_pref_labels)
+
+    # then the additional type
+    query_construct_additional_type = (
+        f"CONSTRUCT {{ ?s ?p ?o . ?o sdo:additionalType ?t}}"
+        f"WHERE {{ VALUES ?s {{ <{resource_url}> }} "
+        f"?s ?p ?o FILTER (!ISBLANK(?o)) . ?o sdo:additionalType ?t }}"
+    )
+    g += sparql_construct_query(sparql_endpoint, query_construct_additional_type)
+
+    return g
 
 
 def get_preflabel_for_gtaa_resource_from_rdf_store(
     resource_url: str, sparql_endpoint: str
 ) -> Graph:
-    """Gets the prefLabel, by using 'dumbing down' of the skos-xl prefLabel."""
+    """Gets the prefLabel, by using 'dumbing down' of the skos-xl prefLabel"""
+
+    # first the pref label and type
     query_construct_pref_label_dumbing_down = (
-        f"CONSTRUCT {{ ?s skos:prefLabel ?pref_label }} WHERE {{ "
+        f"CONSTRUCT {{ ?s skos:prefLabel ?pref_label}} WHERE {{ "
         f"VALUES ?s {{ <{resource_url}> }} "
-        f"GRAPH ?g {{ ?s skosxl:prefLabel/skosxl:literalForm ?pref_label }} }}"
+        f"GRAPH ?g {{ ?s skosxl:prefLabel/skosxl:literalForm ?pref_label}} }}"
     )
     return sparql_construct_query(
         sparql_endpoint, query_construct_pref_label_dumbing_down
@@ -158,7 +199,7 @@ def get_preflabel_for_gtaa_resource_from_rdf_store(
 def get_triples_for_blank_node_from_rdf_store(
     resource_url: str, sparql_endpoint: str
 ) -> Graph:
-    """Returns a graph with triples for blank nodes attached the LOD resource
+    """Returns a graph with triples for blank nodes attached to the LOD resource
     (including preflabels for the SKOS Concepts from the rdf store). We need
     to do that with two separate queries, because ClioPatria doesn't support
     CONSTRUCT queries with UNION.
@@ -177,6 +218,38 @@ def get_triples_for_blank_node_from_rdf_store(
         f"?o ?y ?z . ?z skos:prefLabel ?pref_label }}"
     )
     g += sparql_construct_query(sparql_endpoint, query_construct_bnodes_pref_labels)
+
+    return g
+
+
+def get_label_triples_and_types_for_entities_and_roles_from_rdf_store(
+    resource_url: str, sparql_endpoint: str
+) -> Graph:
+    """Returns a graph with label triples for the labels of entities
+     and roles attached to the LOD resource
+    (including preflabels for the SKOS Concepts from the rdf store).
+    """
+    # get the preflabels and types for the entities...
+    query_construct_person_pref_labels = (
+        f"PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> "
+        f"CONSTRUCT {{ ?z skos:prefLabel ?pref_label . ?z rdf:type ?t }} WHERE {{ "
+        f"VALUES ?s {{ <{resource_url}> }} . ?s ((sdo:creator/sdo:creator)|(sdo:byArtist/sdo:byArtist)|(sdo:actor/sdo:actor)|(sdo:contributor/sdo:contributor)|(sdo:mentions/sdo:mentions)|(sdo:productionCompany/sdo:productionCompany)) ?z . ?z skosxl:prefLabel/skosxl:literalForm ?pref_label .?z rdf:type ?t }}"
+    )
+    g = sparql_construct_query(sparql_endpoint, query_construct_person_pref_labels)
+
+    # get the additional types for the entities...
+    query_construct_person_pref_labels = (
+        f"PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> "
+        f"CONSTRUCT {{ ?z skos:prefLabel ?pref_label . ?z sdo:additionalType ?t}} WHERE {{ "
+        f"VALUES ?s {{ <{resource_url}> }} . ?s ((sdo:creator/sdo:creator)|(sdo:byArtist/sdo:byArtist)|(sdo:actor/sdo:actor)|(sdo:contributor/sdo:contributor|(sdo:mentions/sdo:mentions)|(sdo:productionCompany/sdo:productionCompany))) ?z . ?z skosxl:prefLabel/skosxl:literalForm ?pref_label .?z sdo:additionalType ?t}}"
+    )
+    g += sparql_construct_query(sparql_endpoint, query_construct_person_pref_labels)
+    # get the rdfs labels and types for the roles...
+    query_construct_role_pref_labels = (
+        f"CONSTRUCT {{ ?z rdfs:label ?label . ?z rdf:type ?t }} WHERE {{ "
+        f"VALUES ?s {{ <{resource_url}> }} . ?s (sdo:creator|sdo:byArtist|sdo:actor|sdo:contributor|sdo:mentions|sdo:productionCompany)/sdo:roleName ?z . ?z rdfs:label ?label . ?z rdf:type ?t }}"
+    )
+    g += sparql_construct_query(sparql_endpoint, query_construct_role_pref_labels)
 
     return g
 
@@ -399,21 +472,25 @@ def json_iri_lit_from_rdf_graph(
                     "property": rdf_graph.compute_qname(str(p))[2],
                 },
                 "o": {
-                    "literal_value": f"{str(o)} @{o.language}"
-                    if o.language
-                    else f"{str(o)}",
+                    "literal_value": (
+                        f"{str(o)} @{o.language}" if o.language else f"{str(o)}"
+                    ),
                     "datatype": str(o.datatype) if o.datatype is not None else "",
-                    "datatype_prefix": rdf_graph.compute_qname(str(o.datatype))[0]
-                    if o.datatype is not None
-                    else "",
-                    "datatype_namespace": str(
-                        rdf_graph.compute_qname(str(o.datatype))[1]
-                    )
-                    if o.datatype is not None
-                    else "",
-                    "datatype_property": rdf_graph.compute_qname(str(o.datatype))[2]
-                    if o.datatype is not None
-                    else "",
+                    "datatype_prefix": (
+                        rdf_graph.compute_qname(str(o.datatype))[0]
+                        if o.datatype is not None
+                        else ""
+                    ),
+                    "datatype_namespace": (
+                        str(rdf_graph.compute_qname(str(o.datatype))[1])
+                        if o.datatype is not None
+                        else ""
+                    ),
+                    "datatype_property": (
+                        rdf_graph.compute_qname(str(o.datatype))[2]
+                        if o.datatype is not None
+                        else ""
+                    ),
                 },
             }
             for p, o in rdf_graph.predicate_objects(subject=URIRef(resource_url))
@@ -445,26 +522,34 @@ def json_iri_bnode_from_rdf_graph(
                             ),
                             "property": rdf_graph.compute_qname(str(bnode_pred))[2],
                         },
-                        "obj": {
-                            "uri": str(bnode_obj),
-                            "prefix": rdf_graph.compute_qname(str(bnode_obj))[0],
-                            "namespace": str(
-                                rdf_graph.compute_qname(str(bnode_obj))[1]
-                            ),
-                            "property": rdf_graph.compute_qname(str(bnode_obj))[2],
-                            "pref_label": [
-                                f"{str(pl)} @{Literal(pl).language}"
-                                for pl in rdf_graph.objects(bnode_obj, SKOS.prefLabel)
-                            ],
-                        }
-                        if isinstance(bnode_obj, URIRef)
-                        else {
-                            "label": f"{str(bnode_obj)} @{bnode_obj.language}"
-                            if bnode_obj.language
-                            else f"{str(bnode_obj)}"
-                        }
-                        if isinstance(bnode_obj, Literal)
-                        else str(bnode_obj),
+                        "obj": (
+                            {
+                                "uri": str(bnode_obj),
+                                "prefix": rdf_graph.compute_qname(str(bnode_obj))[0],
+                                "namespace": str(
+                                    rdf_graph.compute_qname(str(bnode_obj))[1]
+                                ),
+                                "property": rdf_graph.compute_qname(str(bnode_obj))[2],
+                                "pref_label": [
+                                    f"{str(pl)} @{Literal(pl).language}"
+                                    for pl in rdf_graph.objects(
+                                        bnode_obj, SKOS.prefLabel
+                                    )
+                                ],
+                            }
+                            if isinstance(bnode_obj, URIRef)
+                            else (
+                                {
+                                    "label": (
+                                        f"{str(bnode_obj)} @{bnode_obj.language}"
+                                        if bnode_obj.language
+                                        else f"{str(bnode_obj)}"
+                                    )
+                                }
+                                if isinstance(bnode_obj, Literal)
+                                else str(bnode_obj)
+                            )
+                        ),
                     }
                     for (bnode_pred, bnode_obj) in rdf_graph.predicate_objects(
                         subject=o
@@ -488,33 +573,3 @@ def json_iri_bnode_from_rdf_graph(
         logger.exception(f"Error in json_iri_bnode_from_rdf_graph: {str(e)}")
         logger.error(json.dumps(json_iri_bnode, indent=4))
     return json_iri_bnode
-
-
-def is_public_resource(resource_url: str, sparql_endpoint: str) -> bool:
-    """Checks whether the resource is allowed public access by sending an ASK query to the public sparql endpoint.
-    :param resource_url: the resource to be checked.
-    :param sparql_endpoint: the public SPARQL endpoint.
-    :return True (yes, public access allowed), False (no, not allowed to dereference)
-    """
-    if resource_url is None:
-        return False
-    if sparql_endpoint is None or validators.url(sparql_endpoint) is False:
-        return False
-
-    try:
-        # get the SPARQL endpoint from the config
-        query_ask = "ASK {<%s> ?p ?o . }" % resource_url
-
-        # prepare and get the data from the triple store
-        resp = requests.get(  # receives {"head" : {}, "boolean" : true}
-            sparql_endpoint, params={"query": query_ask, "format": "json"}
-        )
-        if resp.status_code == 200:
-            json_data = json.loads(resp.text)
-            logger.debug(json_data)
-            return json_data.get("boolean", False) is True
-    except ConnectionError as e:
-        logger.exception(str(e))
-    except JSONDecodeError as e:
-        logger.exception(str(e))
-    return False
