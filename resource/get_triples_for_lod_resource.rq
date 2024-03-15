@@ -1,0 +1,12 @@
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX gtaa:<http://data.beeldengeluid.nl/gtaa/>
+
+CONSTRUCT { ?s ?p ?o }
+WHERE { 
+    VALUES ?s { gtaa:263093 }
+    ?s ?p ?o 
+    FILTER(!ISBLANK(?o)) 
+    FILTER(?p != skos:prefLabel) 
+    FILTER(?p != dcterms:dateAvailable)
+    }
