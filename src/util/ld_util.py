@@ -103,8 +103,7 @@ def get_lod_resource_from_rdf_store(
             if publisher_triple not in g:
                 g.add(publisher_triple)
 
-            # remove '?s sdo:additionalType skos:Concept' triple if
-            # '?s rdf:type skos:Concept' triple is also present
+            # remove sdo:additionalType triple (for skos:Concepts)
             skos_concept_type_triple = (
                 URIRef(resource_url),
                 RDF.type,
