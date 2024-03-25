@@ -1,0 +1,10 @@
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+CONSTRUCT { ?s ?p ?o . ?o skos:prefLabel ?pref_label }
+WHERE { 
+    VALUES ?s { <http://data.beeldengeluid.nl/id/program/2101608140128584431> }
+    ?s ?p ?o 
+    FILTER (!ISBLANK(?o)) 
+    ?o skos:prefLabel ?pref_label .
+    FILTER(LANG(?pref_label) = "nl") 
+}
