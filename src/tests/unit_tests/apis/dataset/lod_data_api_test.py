@@ -16,13 +16,19 @@ def test___get_lod_view_resource(application, application_settings, i_dataset):
     DUMMY_URL = "http://data.beeldengeluid.nl/id/dataset/0001"
     lod_data_api = LODDataAPI()
 
-    with application.test_request_context():  # need to work within the app context as _get_lod_view_gtaa() uses the render_template() van Flask
+    with (
+        application.test_request_context()
+    ):  # need to work within the app context as _get_lod_view_gtaa() uses the render_template() van Flask
 
-        with when(util.ld_util).get_lod_resource_from_rdf_store(
-            DUMMY_URL,
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("URI_NISV_ORGANISATION"),
-        ).thenReturn(i_dataset):
+        with (
+            when(util.ld_util)
+            .get_lod_resource_from_rdf_store(
+                DUMMY_URL,
+                application_settings.get("SPARQL_ENDPOINT"),
+                application_settings.get("URI_NISV_ORGANISATION"),
+            )
+            .thenReturn(i_dataset)
+        ):
             html_result = lod_data_api._get_lod_view_resource(
                 DUMMY_URL,
                 application_settings.get("SPARQL_ENDPOINT"),
@@ -39,13 +45,19 @@ def test___get_lod_view_resource_error(application, application_settings):
     DUMMY_URL = "http://data.beeldengeluid.nl/id/dataset/0001"
     lod_data_api = LODDataAPI()
 
-    with application.test_request_context():  # need to work within the app context as _get_lod_view_gtaa() uses the render_template() van Flask
+    with (
+        application.test_request_context()
+    ):  # need to work within the app context as _get_lod_view_gtaa() uses the render_template() van Flask
 
-        with when(util.ld_util).get_lod_resource_from_rdf_store(
-            DUMMY_URL,
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("URI_NISV_ORGANISATION"),
-        ).thenReturn(None):
+        with (
+            when(util.ld_util)
+            .get_lod_resource_from_rdf_store(
+                DUMMY_URL,
+                application_settings.get("SPARQL_ENDPOINT"),
+                application_settings.get("URI_NISV_ORGANISATION"),
+            )
+            .thenReturn(None)
+        ):
             html_result = lod_data_api._get_lod_view_resource(
                 DUMMY_URL,
                 application_settings.get("SPARQL_ENDPOINT"),
