@@ -26,7 +26,7 @@ gunicorn = "^21.2.0"
 [tool.poetry.group.dev.dependencies]
 pytest = "==7.2.1"
 pytest-cov = "==4.0.0"
-mockito = "==1.4.0"
+mockito = "==1.5.0"
 black = "==24.3.0"
 flake8 = "==6.0.0"
 flake8-bugbear = "==23.1.20"
