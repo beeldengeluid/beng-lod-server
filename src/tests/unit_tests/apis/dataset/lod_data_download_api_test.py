@@ -264,9 +264,11 @@ def test_get_400(
         ).is_valid_data_download(DUMMY_URI)
         verify(
             apis.dataset.dataset_api.LODDataDownloadAPI,
-            times=1
-            if mime_type is MimeType.HTML and error_cause != "invalid_datadownload"
-            else 0,
+            times=(
+                1
+                if mime_type is MimeType.HTML and error_cause != "invalid_datadownload"
+                else 0
+            ),
         )._get_lod_view_resource(
             DUMMY_URI,
             application_settings.get("SPARQL_ENDPOINT"),
@@ -274,15 +276,21 @@ def test_get_400(
         )
         verify(
             apis.dataset.dataset_api.DataCatalogLODHandler,
-            times=1
-            if mime_type is not MimeType.HTML and error_cause != "invalid_datadownload"
-            else 0,
+            times=(
+                1
+                if mime_type is not MimeType.HTML
+                and error_cause != "invalid_datadownload"
+                else 0
+            ),
         ).get_data_download(DUMMY_URI, mime_format=mime_type.to_ld_format())
         verify(
             apis.dataset.dataset_api.DataCatalogLODHandler,
-            times=1
-            if mime_type is not MimeType.HTML and error_cause != "invalid_datadownload"
-            else 0,
+            times=(
+                1
+                if mime_type is not MimeType.HTML
+                and error_cause != "invalid_datadownload"
+                else 0
+            ),
         )._get_data_catalog_from_store(
             application_settings.get("SPARQL_ENDPOINT"),
             application_settings.get("DATA_CATALOG_GRAPH"),
