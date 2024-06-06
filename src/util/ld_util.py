@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 import logging
 import requests
@@ -5,7 +6,7 @@ import validators
 
 from requests.exceptions import ConnectionError, HTTPError
 from rdflib import Graph, URIRef, Literal, BNode, Namespace
-from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS
+from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS, XSD
 from typing import Optional, List
 from urllib.parse import urlparse, urlunparse
 
@@ -48,6 +49,69 @@ def generate_lod_resource_uri(
         return urlunparse(parts)
     else:
         return None
+
+
+############# Add/remove triples from a graph ###################
+
+
+def add_publisher(resource_url: str, publisher_uri: str, rdf_graph: Graph):
+    """Adds the Organization that publishes the CreativeWork."""
+    g = rdf_graph
+    publisher_triple = (
+        URIRef(resource_url),
+        SDO.publisher,
+        URIRef(publisher_uri),
+    )
+    if publisher_triple not in g:
+        g.add(publisher_triple)
+
+
+def add_structured_data_publisher(
+    resource_uri: str, sd_publisher_uri: str, rdf_graph: Graph
+):
+    """Adds metadata about the structured data to the resource graph."""
+    g = rdf_graph
+    sdPublisher_triple = (
+        URIRef(resource_uri),
+        SDO.sdPublisher,
+        URIRef(sd_publisher_uri),
+    )
+    g.add(sdPublisher_triple)
+
+    cc0_license_uri = "https://creativecommons.org/publicdomain/zero/1.0/"
+    sd_license_triple = (
+        URIRef(resource_uri),
+        SDO.sdLicense,
+        URIRef(cc0_license_uri),
+    )
+    g.add(sd_license_triple)
+
+    sd_date_published_triple = (
+        URIRef(resource_uri),
+        SDO.sdDatePublished,
+        Literal(datetime.now().isoformat(timespec="seconds"), datatype=XSD.datetime),
+    )
+    g.add(sd_date_published_triple)
+
+
+def remove_additional_type_skos_concept(resource_uri: str, rdf_graph: Graph):
+    """Removes additionalType from the graph if type is already skos:Concept."""
+    g = rdf_graph
+    skos_concept_type_triple = (
+        URIRef(resource_uri),
+        RDF.type,
+        SKOS.Concept,
+    )
+    skos_concept_additional_type_triple = (
+        URIRef(resource_uri),
+        SDO.additionalType,
+        SKOS.Concept,
+    )
+    if skos_concept_type_triple in g and skos_concept_additional_type_triple in g:
+        g.remove(skos_concept_additional_type_triple)
+
+
+############### Functions that get data from the RDF store ##############
 
 
 def get_lod_resource_from_rdf_store(
@@ -95,30 +159,13 @@ def get_lod_resource_from_rdf_store(
             return None
         else:
             # add the publisher triple (if not already present)
-            publisher_triple = (
-                URIRef(resource_url),
-                SDO.publisher,
-                URIRef(nisv_organisation_uri),
-            )
-            if publisher_triple not in g:
-                g.add(publisher_triple)
+            add_publisher(resource_url, nisv_organisation_uri, g)
+
+            # add structured data triples
+            add_structured_data_publisher(resource_url, nisv_organisation_uri, g)
 
             # remove sdo:additionalType triple (for skos:Concepts)
-            skos_concept_type_triple = (
-                URIRef(resource_url),
-                RDF.type,
-                SKOS.Concept,
-            )
-            skos_concept_additional_type_triple = (
-                URIRef(resource_url),
-                SDO.additionalType,
-                SKOS.Concept,
-            )
-            if (
-                skos_concept_type_triple in g
-                and skos_concept_additional_type_triple in g
-            ):
-                g.remove(skos_concept_additional_type_triple)
+            remove_additional_type_skos_concept(resource_url, g)
 
         # add the missing namespaces
         g.bind("skosxl", SKOSXL)
@@ -346,6 +393,9 @@ def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
     if resp.status_code == 200:
         g.parse(data=resp.text, format="xml")
     return g
+
+
+######### JSON generator functions for lod-view ###############
 
 
 def json_header_from_rdf_graph(
