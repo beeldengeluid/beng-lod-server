@@ -51,7 +51,7 @@ def generate_lod_resource_uri(
         return None
 
 
-############# Add/remove triples from a graph ###################
+# ============ Add/remove triples from a graph ===========
 
 
 def add_publisher(resource_url: str, publisher_uri: str, rdf_graph: Graph):
@@ -111,7 +111,7 @@ def remove_additional_type_skos_concept(resource_uri: str, rdf_graph: Graph):
         g.remove(skos_concept_additional_type_triple)
 
 
-############### Functions that get data from the RDF store ##############
+# ========== Functions that get data from the RDF store ========
 
 
 def get_lod_resource_from_rdf_store(
@@ -395,7 +395,7 @@ def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
     return g
 
 
-######### JSON generator functions for lod-view ###############
+# ========= JSON generator functions for lod-view ==========
 
 
 def json_header_from_rdf_graph(
