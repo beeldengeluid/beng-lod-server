@@ -56,42 +56,42 @@ def generate_lod_resource_uri(
 
 def add_publisher(resource_url: str, publisher_uri: str, rdf_graph: Graph):
     """Adds the Organization that publishes the CreativeWork."""
-    g = rdf_graph
-    publisher_triple = (
-        URIRef(resource_url),
-        SDO.publisher,
-        URIRef(publisher_uri),
+    rdf_graph.add(
+        (
+            URIRef(resource_url),
+            SDO.publisher,
+            URIRef(publisher_uri),
+        )
     )
-    if publisher_triple not in g:
-        g.add(publisher_triple)
 
 
 def add_structured_data_publisher(
     resource_uri: str, sd_publisher_uri: str, rdf_graph: Graph
 ):
     """Adds metadata about the structured data to the resource graph."""
-    g = rdf_graph
-    sdPublisher_triple = (
-        URIRef(resource_uri),
-        SDO.sdPublisher,
-        URIRef(sd_publisher_uri),
+    rdf_graph.add(
+        (
+            URIRef(resource_uri),
+            SDO.sdPublisher,
+            URIRef(sd_publisher_uri),
+        )
     )
-    g.add(sdPublisher_triple)
-
-    cc0_license_uri = "https://creativecommons.org/publicdomain/zero/1.0/"
-    sd_license_triple = (
-        URIRef(resource_uri),
-        SDO.sdLicense,
-        URIRef(cc0_license_uri),
+    rdf_graph.add(
+        (
+            URIRef(resource_uri),
+            SDO.sdLicense,
+            URIRef("https://creativecommons.org/publicdomain/zero/1.0/"),  # CC0 license
+        )
     )
-    g.add(sd_license_triple)
-
-    sd_date_published_triple = (
-        URIRef(resource_uri),
-        SDO.sdDatePublished,
-        Literal(datetime.now().isoformat(timespec="seconds"), datatype=XSD.datetime),
+    rdf_graph.add(
+        (
+            URIRef(resource_uri),
+            SDO.sdDatePublished,
+            Literal(
+                datetime.now().isoformat(timespec="seconds"), datatype=XSD.datetime
+            ),
+        )
     )
-    g.add(sd_date_published_triple)
 
 
 def remove_additional_type_skos_concept(resource_uri: str, rdf_graph: Graph):
