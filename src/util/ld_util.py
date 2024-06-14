@@ -83,15 +83,16 @@ def add_structured_data_publisher(
             URIRef("https://creativecommons.org/publicdomain/zero/1.0/"),  # CC0 license
         )
     )
-    rdf_graph.add(
-        (
-            URIRef(resource_uri),
-            SDO.sdDatePublished,
-            Literal(
-                datetime.now().isoformat(timespec="seconds"), datatype=XSD.datetime
-            ),
-        )
-    )
+    # In comment, because we need to figure out another way to state the date published
+    # rdf_graph.add(
+    #     (
+    #         URIRef(resource_uri),
+    #         SDO.sdDatePublished,
+    #         Literal(
+    #             datetime.now().isoformat(timespec="seconds"), datatype=XSD.datetime
+    #         ),
+    #     )
+    # )
 
 
 def remove_additional_type_skos_concept(resource_uri: str, rdf_graph: Graph):
