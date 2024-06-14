@@ -1,4 +1,3 @@
-from datetime import datetime
 import json
 import logging
 import requests
@@ -6,7 +5,7 @@ import validators
 
 from requests.exceptions import ConnectionError, HTTPError
 from rdflib import Graph, URIRef, Literal, BNode, Namespace
-from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS, XSD
+from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS
 from typing import Optional, List
 from urllib.parse import urlparse, urlunparse
 
@@ -83,16 +82,6 @@ def add_structured_data_publisher(
             URIRef("https://creativecommons.org/publicdomain/zero/1.0/"),  # CC0 license
         )
     )
-    # In comment, because we need to figure out another way to state the date published
-    # rdf_graph.add(
-    #     (
-    #         URIRef(resource_uri),
-    #         SDO.sdDatePublished,
-    #         Literal(
-    #             datetime.now().isoformat(timespec="seconds"), datatype=XSD.datetime
-    #         ),
-    #     )
-    # )
 
 
 def remove_additional_type_skos_concept(resource_uri: str, rdf_graph: Graph):
