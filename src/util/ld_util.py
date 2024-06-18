@@ -50,6 +50,60 @@ def generate_lod_resource_uri(
         return None
 
 
+# ============ Add/remove triples from a graph ===========
+
+
+def add_publisher(resource_url: str, publisher_uri: str, rdf_graph: Graph):
+    """Adds the Organization that publishes the CreativeWork."""
+    rdf_graph.add(
+        (
+            URIRef(resource_url),
+            SDO.publisher,
+            URIRef(publisher_uri),
+        )
+    )
+
+
+def add_structured_data_publisher(
+    resource_uri: str, sd_publisher_uri: str, rdf_graph: Graph
+):
+    """Adds metadata about the structured data to the resource graph."""
+    rdf_graph.add(
+        (
+            URIRef(resource_uri),
+            SDO.sdPublisher,
+            URIRef(sd_publisher_uri),
+        )
+    )
+    rdf_graph.add(
+        (
+            URIRef(resource_uri),
+            SDO.sdLicense,
+            URIRef("https://creativecommons.org/publicdomain/zero/1.0/"),  # CC0 license
+        )
+    )
+
+
+def remove_additional_type_skos_concept(resource_uri: str, rdf_graph: Graph):
+    """Removes additionalType from the graph if type is already skos:Concept."""
+    g = rdf_graph
+    skos_concept_type_triple = (
+        URIRef(resource_uri),
+        RDF.type,
+        SKOS.Concept,
+    )
+    skos_concept_additional_type_triple = (
+        URIRef(resource_uri),
+        SDO.additionalType,
+        SKOS.Concept,
+    )
+    if skos_concept_type_triple in g and skos_concept_additional_type_triple in g:
+        g.remove(skos_concept_additional_type_triple)
+
+
+# ========== Functions that get data from the RDF store ========
+
+
 def get_lod_resource_from_rdf_store(
     resource_url: str,
     sparql_endpoint: str,
@@ -95,30 +149,13 @@ def get_lod_resource_from_rdf_store(
             return None
         else:
             # add the publisher triple (if not already present)
-            publisher_triple = (
-                URIRef(resource_url),
-                SDO.publisher,
-                URIRef(nisv_organisation_uri),
-            )
-            if publisher_triple not in g:
-                g.add(publisher_triple)
+            add_publisher(resource_url, nisv_organisation_uri, g)
+
+            # add structured data triples
+            add_structured_data_publisher(resource_url, nisv_organisation_uri, g)
 
             # remove sdo:additionalType triple (for skos:Concepts)
-            skos_concept_type_triple = (
-                URIRef(resource_url),
-                RDF.type,
-                SKOS.Concept,
-            )
-            skos_concept_additional_type_triple = (
-                URIRef(resource_url),
-                SDO.additionalType,
-                SKOS.Concept,
-            )
-            if (
-                skos_concept_type_triple in g
-                and skos_concept_additional_type_triple in g
-            ):
-                g.remove(skos_concept_additional_type_triple)
+            remove_additional_type_skos_concept(resource_url, g)
 
         # add the missing namespaces
         g.bind("skosxl", SKOSXL)
@@ -346,6 +383,9 @@ def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
     if resp.status_code == 200:
         g.parse(data=resp.text, format="xml")
     return g
+
+
+# ========= JSON generator functions for lod-view ==========
 
 
 def json_header_from_rdf_graph(
