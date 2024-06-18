@@ -1,0 +1,8 @@
+name: Check Project
+
+on:
+  push:
+
+jobs:
+  check-project:
+    uses: beeldengeluid/gha-workflows/.github/workflows/check-poetry-project.yml@dd25210e68fdf86f4df924850cdfcfc91931faf3
