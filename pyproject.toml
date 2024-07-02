@@ -15,7 +15,7 @@ packages = []
 python = "^3.11"
 requests = "==2.32.3"
 rdflib = "==6.3.2"
-validators = "==0.28.1"
+validators = "==0.29.0"
 pyyaml = "==6.0.1"
 Flask-Cors = "==4.0.1"
 flask = "==2.2.5"
