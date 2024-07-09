@@ -27,6 +27,11 @@ api = Namespace(
     }
 )
 @api.route(
+    "id/<any(program, series, season, scene):cat_type>/<int:identifier>",
+    defaults={"wemi": None},
+    endpoint="dereference",
+)
+@api.route(
     "id/<any(program, series, season, scene):cat_type>/<int:identifier>/<any(work, expression, manifestation, item):wemi>",
     endpoint="dereference",
 )
