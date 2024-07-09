@@ -33,8 +33,8 @@ app.url_map.strict_slashes = False
 
 api.init_app(
     app,
-    title="Open Data Lab API - Netherlands Institute for Sound and Vision",
-    description="Get RDF for open datasets and for resources in the NISV catalogue.",
+    title="Open Data API - Netherlands Institute for Sound and Vision",
+    description="Get RDF for NISV open datasets and resources.",
 )
 
 if __name__ == "__main__":
