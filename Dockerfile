@@ -11,7 +11,7 @@ COPY ./poetry.lock ./poetry.lock
 COPY ./pyproject.toml ./pyproject.toml
 RUN pipx run poetry export --format requirements.txt --output requirements.txt
 
-FROM docker.io/python:3.11@sha256:4d25a30d2943e5feb9c571b763936c843d7a6f45216f508bfe99741067f4ca06
+FROM docker.io/python:3.11@sha256:c5254471e6073d8942091227f469302f85b30d4b23077226f135360491f5226a
 
 WORKDIR /usr/src/app
 
