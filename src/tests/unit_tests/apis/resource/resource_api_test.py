@@ -234,6 +234,24 @@ def test_get_302(generic_client, application_settings, resource_query_url, wemi_
         assert response.headers["location"] == DUMMY_URL
 
 
+@pytest.mark.parametrize(
+    "wemi_entity", ["blabla", "some stuff with space and _ underscore etc."]
+)
+def test_get_400_wemi(
+    generic_client, application_settings, resource_query_url, wemi_entity
+):
+    DUMMY_IDENTIFIER = "1234"
+    DUMMY_URL = f"http://{DUMMY_IDENTIFIER}"
+    CAT_TYPE = "program"
+    DUMMY_WEMI_IDENTIFIER = f"{DUMMY_IDENTIFIER}_{wemi_entity}"
+
+    response = generic_client.get(
+        "offline",
+        resource_query_url(CAT_TYPE, DUMMY_WEMI_IDENTIFIER),
+    )
+    assert response.status_code == 400
+
+
 def test_get_400(generic_client, application_settings, resource_query_url):
     DUMMY_IDENTIFIER = "1234"
     CAT_TYPE = "program"
