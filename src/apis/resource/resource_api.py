@@ -21,20 +21,21 @@ api = Namespace(
 @api.doc(
     responses={
         200: "Success",
+        302: "Found",
         400: "Bad request.",
         404: "Resource does not exist.",
         500: "Server error",
     }
 )
 @api.route(
-    "id/<any(program, series, season, scene):cat_type>/<int:identifier>/<any(work, expression, manifestation, item):wemi>",
+    "id/<any(program, series, season, scene):cat_type>/<identifier>",
     endpoint="dereference",
 )
 class ResourceAPI(Resource):
     """Serve the RDF for the media catalog resources in the format that was requested."""
 
     @api.produces([mt.value for mt in MimeType])
-    def get(self, identifier, cat_type="program", wemi=None):
+    def get(self, identifier, cat_type="program"):
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
@@ -44,18 +45,40 @@ class ResourceAPI(Resource):
             mime_type = MimeType(best_match)
 
         lod_url = None
+        status = None
         try:
+            # replace the _<wemi>-postfix "_work", "_expression", "_manifestation"
+            identifier_list = identifier.split("_", 1)
+            identifier = identifier_list[0]
+            if len(identifier_list) == 2:
+                if identifier_list[1] in (
+                    "work",
+                    "expression",
+                    "manifestation",
+                ):
+                    status = 302
+                else:
+                    logger.error(
+                        "Identifier _WEMI postfix is not one of 'work', 'expression' or 'manifestation'."
+                    )
+                    raise ValueError
+
             lod_url = util.ld_util.generate_lod_resource_uri(
                 ResourceApiUriLevel(cat_type),
                 identifier,
                 current_app.config.get("BENG_DATA_DOMAIN"),
             )
+            if status == 302:
+                return Response(
+                    None,
+                    status=status,
+                    headers={"location": lod_url},
+                    mimetype=mime_type.value,
+                )
         except ValueError:
-            logger.error(
-                "Could not generate LOD resource URI. Invalid resource level supplied."
-            )
+            logger.error("Could not generate LOD resource URI.")
             return APIUtil.toErrorResponse(
-                "bad_request", "Invalid resource level supplied"
+                "bad_request", "Invalid catalog type or identifier supplied"
             )
         except Exception as e:
             logger.exception(
@@ -71,7 +94,7 @@ class ResourceAPI(Resource):
                 current_app.config.get("URI_NISV_ORGANISATION"),
             )
             if html_page:
-                return Response(html_page, mimetype=mime_type.value)
+                return Response(html_page, mimetype=mime_type.value, status=status)
             else:
                 logger.error(
                     f"Could not generate an HTML view for {lod_url}.",
@@ -94,7 +117,9 @@ class ResourceAPI(Resource):
                 format=mime_type.to_ld_format(), auto_compact=True
             )
             if serialised_graph:
-                return Response(serialised_graph, mimetype=mime_type.value)
+                return Response(
+                    serialised_graph, mimetype=mime_type.value, status=status
+                )
             else:
                 return APIUtil.toErrorResponse(
                     "internal_server_error", "Serialisation failed"

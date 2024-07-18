@@ -19,7 +19,7 @@ def test_init():
 # Just tests the flow
 @pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType])
 def test_get_200(mime_type, generic_client, application_settings, resource_query_url):
-    DUMMY_IDENTIFIER = 1234
+    DUMMY_IDENTIFIER = "1234"
     DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
     DUMMY_PAGE = "<!DOCTYPE html> <html> just something pretending to be an interesting HTML page</html>"
     DUMMY_GRAPH = Graph()
@@ -89,7 +89,7 @@ def test_get_200_mime_type_none(
     generic_client, application_settings, resource_query_url
 ):
     """Tests the default behaviour for the mime type, which is currently to set it to JSON-LD if the input is None"""
-    DUMMY_IDENTIFIER = 1234
+    DUMMY_IDENTIFIER = "1234"
     DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
     DUMMY_PAGE = "<!DOCTYPE html> <html> just something pretending to be an interesting HTML page</html>"
     DUMMY_GRAPH = Graph()
@@ -161,7 +161,7 @@ def test_get_200_mime_type_none(
 def test_get_200_with_data(
     mime_type, generic_client, application_settings, resource_query_url, i_program_graph
 ):
-    DUMMY_IDENTIFIER = 1234
+    DUMMY_IDENTIFIER = "1234"
     DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
     CAT_TYPE = "program"
 
@@ -210,8 +210,32 @@ def test_get_200_with_data(
         unstub()
 
 
+@pytest.mark.parametrize("wemi_entity", ["work", "manifestation", "expression"])
+def test_get_302(generic_client, application_settings, resource_query_url, wemi_entity):
+    DUMMY_IDENTIFIER = "1234"
+    DUMMY_URL = f"http://{DUMMY_IDENTIFIER}"
+    CAT_TYPE = "program"
+    DUMMY_WEMI_IDENTIFIER = f"{DUMMY_IDENTIFIER}_{wemi_entity}"
+
+    with (
+        when(util.ld_util)
+        .generate_lod_resource_uri(
+            ResourceApiUriLevel(CAT_TYPE),
+            DUMMY_IDENTIFIER,
+            application_settings.get("BENG_DATA_DOMAIN"),
+        )
+        .thenReturn(DUMMY_URL)
+    ):
+        response = generic_client.get(
+            "offline",
+            resource_query_url(CAT_TYPE, DUMMY_WEMI_IDENTIFIER),
+        )
+        assert response.status_code == 302
+        assert response.headers["location"] == DUMMY_URL
+
+
 def test_get_400(generic_client, application_settings, resource_query_url):
-    DUMMY_IDENTIFIER = 1234
+    DUMMY_IDENTIFIER = "1234"
     CAT_TYPE = "program"
     DUMMY_MIME_TYPE = "dummy mime type"
 
@@ -243,7 +267,7 @@ def test_get_400(generic_client, application_settings, resource_query_url):
 def test_get_500(
     mime_type, cause, generic_client, application_settings, resource_query_url
 ):
-    DUMMY_IDENTIFIER = 1234
+    DUMMY_IDENTIFIER = "1234"
     DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
     DUMMY_GRAPH = Graph()
     CAT_TYPE = "program"
