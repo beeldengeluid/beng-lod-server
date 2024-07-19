@@ -241,7 +241,6 @@ def test_get_400_wemi(
     generic_client, application_settings, resource_query_url, wemi_entity
 ):
     DUMMY_IDENTIFIER = "1234"
-    DUMMY_URL = f"http://{DUMMY_IDENTIFIER}"
     CAT_TYPE = "program"
     DUMMY_WEMI_IDENTIFIER = f"{DUMMY_IDENTIFIER}_{wemi_entity}"
 

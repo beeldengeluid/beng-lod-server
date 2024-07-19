@@ -45,24 +45,9 @@ class ResourceAPI(Resource):
             mime_type = MimeType(best_match)
 
         lod_url = None
-        status = None
         try:
-            # replace the _<wemi>-postfix "_work", "_expression", "_manifestation"
-            identifier_list = identifier.split("_", 1)
-            identifier = identifier_list[0]
-            if len(identifier_list) == 2:
-                if identifier_list[1] in (
-                    "work",
-                    "expression",
-                    "manifestation",
-                ):
-                    status = 302
-                else:
-                    logger.error(
-                        "Identifier _WEMI postfix is not one of 'work', 'expression' or 'manifestation'."
-                    )
-                    raise ValueError
-
+            # check for _<wemi>-postfix: "_work", "_expression", "_manifestation"
+            status, identifier = self.check_for_wemi_postfix(identifier)
             lod_url = util.ld_util.generate_lod_resource_uri(
                 ResourceApiUriLevel(cat_type),
                 identifier,
@@ -129,6 +114,30 @@ class ResourceAPI(Resource):
                 "internal_server_error",
                 "No graph created. Check your resource type and identifier",
             )
+
+    def check_for_wemi_postfix(self, identifier: str) -> tuple[int, str]:
+        """Try to split the identifier and detect the wemi entity postfix.
+        Always returns the DAAN ID without postfix or raises ValueError when
+        an unvalid postfix was found.
+        :param identifier: string with the DAAN ID, incl. postfix or without.
+        :returns: tuple containing 'status_code' 302 when postfix is included or 0,
+        and 'identifier', always the DAAN ID without postfix."""
+        status_code = 0
+        identifier_list = identifier.split("_", 1)
+        split_identifier = identifier_list[0]
+        if len(identifier_list) == 2:
+            if identifier_list[1] in (
+                "work",
+                "expression",
+                "manifestation",
+            ):
+                status_code = 302
+            else:
+                logger.error(
+                    "Identifier _WEMI postfix is not one of 'work', 'expression' or 'manifestation'."
+                )
+                raise ValueError
+        return (status_code, split_identifier)
 
     def _get_lod_view_resource(
         self, resource_url: str, sparql_endpoint: str, nisv_organisation_uri: str
