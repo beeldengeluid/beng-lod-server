@@ -21,13 +21,14 @@ api = Namespace(
 @api.doc(
     responses={
         200: "Success",
+        302: "Found",
         400: "Bad request.",
         404: "Resource does not exist.",
         500: "Server error",
     }
 )
 @api.route(
-    "id/<any(program, series, season, scene):cat_type>/<int:identifier>",
+    "id/<any(program, series, season, scene):cat_type>/<identifier>",
     endpoint="dereference",
 )
 class ResourceAPI(Resource):
@@ -45,17 +46,24 @@ class ResourceAPI(Resource):
 
         lod_url = None
         try:
+            # check for _<wemi>-postfix: "_work", "_expression", "_manifestation"
+            status, identifier = self.check_for_wemi_postfix(identifier)
             lod_url = util.ld_util.generate_lod_resource_uri(
                 ResourceApiUriLevel(cat_type),
                 identifier,
                 current_app.config.get("BENG_DATA_DOMAIN"),
             )
+            if status == 302:
+                return Response(
+                    None,
+                    status=status,
+                    headers={"location": lod_url},
+                    mimetype=mime_type.value,
+                )
         except ValueError:
-            logger.error(
-                "Could not generate LOD resource URI. Invalid resource level supplied."
-            )
+            logger.error("Could not generate LOD resource URI.")
             return APIUtil.toErrorResponse(
-                "bad_request", "Invalid resource level supplied"
+                "bad_request", "Invalid catalog type or identifier supplied"
             )
         except Exception as e:
             logger.exception(
@@ -71,7 +79,7 @@ class ResourceAPI(Resource):
                 current_app.config.get("URI_NISV_ORGANISATION"),
             )
             if html_page:
-                return Response(html_page, mimetype=mime_type.value)
+                return Response(html_page, mimetype=mime_type.value, status=status)
             else:
                 logger.error(
                     f"Could not generate an HTML view for {lod_url}.",
@@ -94,7 +102,9 @@ class ResourceAPI(Resource):
                 format=mime_type.to_ld_format(), auto_compact=True
             )
             if serialised_graph:
-                return Response(serialised_graph, mimetype=mime_type.value)
+                return Response(
+                    serialised_graph, mimetype=mime_type.value, status=status
+                )
             else:
                 return APIUtil.toErrorResponse(
                     "internal_server_error", "Serialisation failed"
@@ -104,6 +114,30 @@ class ResourceAPI(Resource):
                 "internal_server_error",
                 "No graph created. Check your resource type and identifier",
             )
+
+    def check_for_wemi_postfix(self, identifier: str) -> tuple[int, str]:
+        """Try to split the identifier and detect the wemi entity postfix.
+        Always returns the DAAN ID without postfix or raises ValueError when
+        an unvalid postfix was found.
+        :param identifier: string with the DAAN ID, incl. postfix or without.
+        :returns: tuple containing 'status_code' 302 when postfix is included or 200,
+        and 'identifier', always the DAAN ID without postfix."""
+        status_code = 200
+        identifier_list = identifier.split("_", 1)
+        split_identifier = identifier_list[0]
+        if len(identifier_list) == 2:
+            if identifier_list[1] in (
+                "work",
+                "expression",
+                "manifestation",
+            ):
+                status_code = 302
+            else:
+                logger.error(
+                    "Identifier _WEMI postfix is not one of 'work', 'expression' or 'manifestation'."
+                )
+                raise ValueError
+        return (status_code, split_identifier)
 
     def _get_lod_view_resource(
         self, resource_url: str, sparql_endpoint: str, nisv_organisation_uri: str
