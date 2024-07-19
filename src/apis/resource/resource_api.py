@@ -122,7 +122,7 @@ class ResourceAPI(Resource):
         :param identifier: string with the DAAN ID, incl. postfix or without.
         :returns: tuple containing 'status_code' 302 when postfix is included or 0,
         and 'identifier', always the DAAN ID without postfix."""
-        status_code = 0
+        status_code = 200
         identifier_list = identifier.split("_", 1)
         split_identifier = identifier_list[0]
         if len(identifier_list) == 2:
