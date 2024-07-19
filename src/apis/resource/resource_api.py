@@ -120,7 +120,7 @@ class ResourceAPI(Resource):
         Always returns the DAAN ID without postfix or raises ValueError when
         an unvalid postfix was found.
         :param identifier: string with the DAAN ID, incl. postfix or without.
-        :returns: tuple containing 'status_code' 302 when postfix is included or 0,
+        :returns: tuple containing 'status_code' 302 when postfix is included or 200,
         and 'identifier', always the DAAN ID without postfix."""
         status_code = 200
         identifier_list = identifier.split("_", 1)
