@@ -1,4 +1,4 @@
-FROM docker.io/python:3.11.9@sha256:16987d51aac9033d29e9a6df0293a90b95c05c68561b48283f6fb68d61452f1a AS req
+FROM docker.io/python:3.11.9@sha256:38b425945de90afd3c9159309bda02bef439a3331ee8b9f1a86b0edba328da4d AS req
 
 RUN python3 -m pip install pipx && \
   python3 -m pipx ensurepath
@@ -11,7 +11,7 @@ COPY ./poetry.lock ./poetry.lock
 COPY ./pyproject.toml ./pyproject.toml
 RUN pipx run poetry export --format requirements.txt --output requirements.txt
 
-FROM docker.io/python:3.11.9@sha256:16987d51aac9033d29e9a6df0293a90b95c05c68561b48283f6fb68d61452f1a
+FROM docker.io/python:3.11.9@sha256:38b425945de90afd3c9159309bda02bef439a3331ee8b9f1a86b0edba328da4d
 
 WORKDIR /usr/src/app
 
