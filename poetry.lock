@@ -1029,13 +1029,13 @@ files = [
 
 [[package]]
 name = "types-flask-cors"
-version = "4.0.0.20240806"
+version = "5.0.0.20240902"
 description = "Typing stubs for Flask-Cors"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "types-Flask-Cors-4.0.0.20240806.tar.gz", hash = "sha256:f2909056ff2e42f6a966735129d02a4c6a1379e1aee3dfbb3180ea31107699a1"},
-    {file = "types_Flask_Cors-4.0.0.20240806-py3-none-any.whl", hash = "sha256:536c41a7cd7094ef3a8a5626d2610a3d443fd1336d03d758fe898db6f362adfc"},
+    {file = "types-Flask-Cors-5.0.0.20240902.tar.gz", hash = "sha256:8921b273bf7cd9636df136b66408efcfa6338a935e5c8f53f5eff1cee03f3394"},
+    {file = "types_Flask_Cors-5.0.0.20240902-py3-none-any.whl", hash = "sha256:595e5f36056cd128ab905832e055f2e5d116fbdc685356eea4490bc77df82137"},
 ]
 
 [package.dependencies]
@@ -1117,4 +1117,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "7ed098b02758c7076eb54f0f1ff15f073ebd98fdc49bc53f6a2cca5cb53a5c00"
+content-hash = "f6556bb35e4b4c13b67afdfcca4e4b09ed36fb73f98a2b2d7f194d98e8b5f381"
