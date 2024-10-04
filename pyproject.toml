@@ -24,7 +24,7 @@ gunicorn = "^23.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
-pytest = "==8.3.2"
+pytest = "==8.3.3"
 pytest-cov = "==5.0.0"
 mockito = "==1.5.1"
 black = "==24.8.0"
