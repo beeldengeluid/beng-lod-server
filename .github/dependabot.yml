@@ -13,8 +13,12 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "pip"
+- package-ecosystem: "pip"
     insecure-external-code-execution: "deny"
     directory: "/"
+    groups:
+      patches:
+        update-types:
+        - patch
     schedule:
       interval: "daily"
