@@ -1,4 +1,4 @@
-name: Build & Push
+name: CICD
 
 on:
   push:
@@ -14,3 +14,5 @@ jobs:
       contents: read
       packages: write
       id-token: write
+  trigger-deployment:
+    uses: gb-beng/gha-workflows/.github/workflows/trigger-deployment.yml
