@@ -1,6 +1,6 @@
 import logging
 from flask import current_app, request, Response, render_template, make_response
-from flask_restx import Namespace, Resource, reqparse
+from flask_restx import Namespace, Resource
 from util.mime_type_util import MimeType
 from util.APIUtil import APIUtil
 import util.ld_util
@@ -33,10 +33,6 @@ class GTAAAPI(Resource):
 
     @api.produces([mt.value for mt in MimeType])
     def get(self, identifier):
-        # an error is thrown if the request includes arguments the parser does not define
-        parser = reqparse.RequestParser()
-        parser.parse_args(strict=True)
-
         gtaa_uri = f'{current_app.config.get("BENG_DATA_DOMAIN")}gtaa/{identifier}'
 
         # Do ASK request to triple store. Return 404 if resource doesn't exist.
