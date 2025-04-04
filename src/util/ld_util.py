@@ -105,10 +105,12 @@ def remove_additional_type_skos_concept(resource_uri: str, rdf_graph: Graph):
 
 # ========== Functions that get data from the RDF store ========
 
-def is_lod_resource(resource_url:str, sparql_endpoint:str)->bool:
-    """Check with the triple store whether the resource exists. """
+
+def is_lod_resource(resource_url: str, sparql_endpoint: str) -> bool:
+    """Check with the triple store whether the resource exists."""
     query_ask = f"ASK {{ <{resource_url}> ?p ?o }}"
     return sparql_ask_query(sparql_endpoint, query_ask)
+
 
 def get_lod_resource_from_rdf_store(
     resource_url: str,
@@ -392,15 +394,16 @@ def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
         g.parse(data=resp.text, format="xml")
     return g
 
+
 def sparql_ask_query(sparql_endpoint: str, query: str) -> bool:
     """Test whether or not a solution exists for resource_url."""
-    resp = requests.get(sparql_endpoint, params={'query': query, 'format': 'json'})
+    resp = requests.get(sparql_endpoint, params={"query": query, "format": "json"})
     resp.raise_for_status()
     if resp.status_code == 200:
-        if resp.json().get('boolean'):
+        if resp.json().get("boolean"):
             return True
-        else:
-            return False
+    return False
+
 
 # ========= JSON generator functions for lod-view ==========
 
