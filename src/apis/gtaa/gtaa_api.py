@@ -1,10 +1,10 @@
 import logging
 from flask import current_app, request, Response, render_template, make_response
-from flask_restx import Namespace, Resource
+from flask_restx import Namespace, Resource, reqparse
 from util.mime_type_util import MimeType
 from util.APIUtil import APIUtil
 import util.ld_util
-
+from util.ld_util import is_lod_resource
 
 logger = logging.getLogger()
 
@@ -33,7 +33,16 @@ class GTAAAPI(Resource):
 
     @api.produces([mt.value for mt in MimeType])
     def get(self, identifier):
+        # an error is thrown if the request includes arguments the parser does not define
+        parser = reqparse.RequestParser()
+        parser.parse_args(strict=True)
+
         gtaa_uri = f'{current_app.config.get("BENG_DATA_DOMAIN")}gtaa/{identifier}'
+
+        # Do ASK request to triple store. Return 404 if resource doesn't exist.
+        if not is_lod_resource(gtaa_uri, current_app.config.get("SPARQL_ENDPOINT")):
+            return APIUtil.toErrorResponse("not_found")
+
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
