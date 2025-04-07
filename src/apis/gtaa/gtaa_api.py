@@ -27,6 +27,7 @@ api = Namespace(
 @api.route(
     "gtaa/<identifier>",
     endpoint="gtaa_stuff",
+    doc={'params':{'identifier': 'skos:notation (an integer) value for GTAA Concepts or alphanumerical value for GTAA ConceptSchemes.'}},
 )
 class GTAAAPI(Resource):
     """Serve the RDF for the GTAA SKOS Concepts in the format that was requested."""
