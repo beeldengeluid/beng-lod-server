@@ -108,7 +108,7 @@ def remove_additional_type_skos_concept(resource_uri: str, rdf_graph: Graph):
 
 def is_lod_resource(resource_url: str, sparql_endpoint: str) -> bool:
     """Check with the triple store whether the resource exists."""
-    query = f"ASK {{ <{resource_url}> ?p ?o }}"
+    query = f"ASK {{ {{<{resource_url}> a skos:Concept}} UNION {{<{resource_url}> a skos:ConceptScheme}} }}"
     resp = requests.get(sparql_endpoint, params={"query": query, "format": "json"})
     resp.raise_for_status()
     if resp.status_code == 200:
