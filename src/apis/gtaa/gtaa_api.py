@@ -48,7 +48,7 @@ class GTAAAPI(Resource):
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
         )
-        mime_type = None
+        mime_type = MimeType.JSON_LD
         if best_match is not None:
             mime_type = MimeType(best_match)
 
