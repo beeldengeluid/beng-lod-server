@@ -106,7 +106,7 @@ def remove_additional_type_skos_concept(resource_uri: str, rdf_graph: Graph):
 # ========== Functions that get data from the RDF store ========
 
 
-def is_lod_resource(resource_url: str, sparql_endpoint: str) -> bool:
+def is_skos_resource(resource_url: str, sparql_endpoint: str) -> bool:
     """Check with the triple store whether the resource exists."""
     query = f"ASK {{ {{<{resource_url}> a skos:Concept}} UNION {{<{resource_url}> a skos:ConceptScheme}} }}"
     resp = requests.get(sparql_endpoint, params={"query": query, "format": "json"})

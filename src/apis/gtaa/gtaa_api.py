@@ -4,7 +4,7 @@ from flask_restx import Namespace, Resource
 from util.mime_type_util import MimeType
 from util.APIUtil import APIUtil
 import util.ld_util
-from util.ld_util import is_lod_resource
+from util.ld_util import is_skos_resource
 
 logger = logging.getLogger()
 
@@ -41,7 +41,7 @@ class GTAAAPI(Resource):
         gtaa_uri = f'{current_app.config.get("BENG_DATA_DOMAIN")}gtaa/{identifier}'
 
         # Do ASK request to triple store. Return 404 if resource doesn't exist.
-        if not is_lod_resource(gtaa_uri, current_app.config.get("SPARQL_ENDPOINT")):
+        if not is_skos_resource(gtaa_uri, current_app.config.get("SPARQL_ENDPOINT")):
             return APIUtil.toErrorResponse("not_found")
 
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
