@@ -4,7 +4,7 @@ from flask import current_app, request, Response, render_template
 from flask_restx import Namespace, Resource
 
 import util.ld_util
-
+from util.ld_util import is_nisv_cat_resource
 from models.ResourceApiUriLevel import ResourceApiUriLevel
 from util.APIUtil import APIUtil
 from util.mime_type_util import MimeType
@@ -70,6 +70,10 @@ class ResourceAPI(Resource):
                 f"Unknown error while generating lod resource uri for {ResourceApiUriLevel(cat_type)} and {identifier}."
             )
             return APIUtil.toErrorResponse("internal_server_error", e)
+
+        # Do ASK request to triple store. Return 404 if resource doesn't exist.
+        if not is_nisv_cat_resource(lod_url, current_app.config.get("SPARQL_ENDPOINT")):
+            return APIUtil.toErrorResponse("not_found")
 
         if mime_type is MimeType.HTML:
             logger.info(f"Generating HTML page for {lod_url}.")
