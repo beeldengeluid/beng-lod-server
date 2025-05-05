@@ -10,6 +10,7 @@ authors = [
 license = "MIT"
 readme = "README.md"
 packages = []
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "~=3.11.0"
@@ -40,6 +41,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [project]
+name = "beng-lod-server"
 requires-python = "~=3.11.0"
 
 [tool.black]
