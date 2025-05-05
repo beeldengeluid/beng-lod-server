@@ -3,16 +3,17 @@ name = "beng-lod-server"
 version = "1.0"
 description = "Webserver serving LOD for the NISV catalogue items, datasets and GTAA."
 authors = [
-  "Willem Melder <wmelder@beeldengeluid.nl>", 
-  "Mari Wigham <mwigham@beeldengeluid.nl>", 
+  "Willem Melder <wmelder@beeldengeluid.nl>",
+  "Mari Wigham <mwigham@beeldengeluid.nl>",
   "Govert Brinkmann <gbrinkmann@beeldengeluid.nl>"
   ]
 license = "MIT"
 readme = "README.md"
 packages = []
+package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "~=3.11.0"
 requests = "==2.32.3"
 rdflib = "==6.3.2"
 validators = "==0.34.0"
@@ -24,9 +25,9 @@ gunicorn = "^23.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
-pytest = "==8.3.4"
-pytest-cov = "==5.0.0"
-mockito = "==1.5.3"
+pytest = "==8.3.5"
+pytest-cov = "==6.1.1"
+mockito = "==1.5.4"
 black = "==24.10.0"
 flake8 = "==7.1.1"
 flake8-bugbear = "==24.10.31"
@@ -40,7 +41,8 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [project]
-requires-python = "3.11"
+name = "beng-lod-server"
+requires-python = "~=3.11.0"
 
 [tool.black]
 # we use all the defaults
@@ -61,7 +63,7 @@ omit = [
 [tool.mypy]
 explicit_package_bases = true
 mypy_path = "src"
-python_version = "3.11"
+python_version = "~=3.11.0"
 
 [[tool.mypy.overrides]]
 module = [

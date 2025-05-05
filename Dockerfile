@@ -3,9 +3,9 @@ FROM docker.io/python:3.11.11@sha256:22b74e4ddf04c2f72b3bfa53e2ad46e4a32be8e170c
 ENV POETRY_HOME=/opt/poetry
 RUN <<EOF
 python3 -m venv $POETRY_HOME
-$POETRY_HOME/bin/pip install poetry==1.8.3
+$POETRY_HOME/bin/pip install poetry==2.1.2
 EOF
-
+RUN $POETRY_HOME/bin/poetry self add poetry-plugin-export==1.9.0
 COPY ./poetry.lock ./poetry.lock
 COPY ./pyproject.toml ./pyproject.toml
 RUN $POETRY_HOME/bin/poetry export --format requirements.txt --output requirements.txt
