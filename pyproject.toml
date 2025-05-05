@@ -63,7 +63,7 @@ omit = [
 [tool.mypy]
 explicit_package_bases = true
 mypy_path = "src"
-python_version = "~=3.11.0"
+python_version = "~=3.11"
 
 [[tool.mypy.overrides]]
 module = [
