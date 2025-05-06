@@ -6,6 +6,10 @@ on:
     - main
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-push-image:
     uses: beeldengeluid/gha-workflows/.github/workflows/build-push-image.yml@b4e5d97323dd3d84c0b00960acb94bed82cc0f41 # v2025.05.01
