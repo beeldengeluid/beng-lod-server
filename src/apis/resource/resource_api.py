@@ -36,14 +36,15 @@ class ResourceAPI(Resource):
 
     @api.produces([mt.value for mt in MimeType])
     def get(self, identifier, cat_type="program"):
+        # TODO: further reduce complexity
+        # determine and set the mimetype
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(
-            lod_server_supported_mime_types
+            lod_server_supported_mime_types, MimeType.JSON_LD
         )
-        mime_type = MimeType.JSON_LD
-        if best_match is not None:
-            mime_type = MimeType(best_match)
+        mime_type = MimeType(best_match)
 
+        # 2) create the lod_url and 302 redirect when it's a RDA postfix
         lod_url = None
         try:
             # check for _<wemi>-postfix: "_work", "_expression", "_manifestation"
@@ -71,10 +72,13 @@ class ResourceAPI(Resource):
             )
             return APIUtil.toErrorResponse("internal_server_error", e)
 
+        # 3) check if resource exists and return 404
+
         # Do ASK request to triple store. Return 404 if resource doesn't exist.
         if not is_nisv_cat_resource(lod_url, current_app.config.get("SPARQL_ENDPOINT")):
             return APIUtil.toErrorResponse("not_found")
 
+        # 4) check if it's HTML and ru that path if so
         if mime_type is MimeType.HTML:
             logger.info(f"Generating HTML page for {lod_url}.")
             html_page = self._get_lod_view_resource(
@@ -93,6 +97,7 @@ class ResourceAPI(Resource):
                     "Could not generate an HTML view for this resource.",
                 )
 
+        # 5) when we end up here, it's getting and returning lod data
         logger.info(
             f"Getting the RDF in the proper serialization format for {lod_url}."
         )
