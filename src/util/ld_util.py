@@ -106,9 +106,27 @@ def remove_additional_type_skos_concept(resource_uri: str, rdf_graph: Graph):
 # ========== Functions that get data from the RDF store ========
 
 
-def is_lod_resource(resource_url: str, sparql_endpoint: str) -> bool:
+def is_skos_resource(resource_url: str, sparql_endpoint: str) -> bool:
     """Check with the triple store whether the resource exists."""
     query = f"ASK {{ {{<{resource_url}> a skos:Concept}} UNION {{<{resource_url}> a skos:ConceptScheme}} }}"
+    resp = requests.get(sparql_endpoint, params={"query": query, "format": "json"})
+    resp.raise_for_status()
+    if resp.status_code == 200:
+        if resp.json().get("boolean"):
+            return True
+    return False
+
+
+def is_nisv_cat_resource(resource_url: str, sparql_endpoint: str) -> bool:
+    """Check with the triple store whether the resource exists."""
+    query = (
+        f"ASK {{ "
+        f" {{ <{resource_url}> a sdo:CreativeWork }}"
+        f" UNION {{ <{resource_url}> a sdo:CreativeWorkSeries }}"
+        f" UNION {{ <{resource_url}> a sdo:CreativeWorkSeason }}"
+        f" UNION {{ <{resource_url}> a sdo:Clip }}"
+        f" }}"
+    )
     resp = requests.get(sparql_endpoint, params={"query": query, "format": "json"})
     resp.raise_for_status()
     if resp.status_code == 200:
