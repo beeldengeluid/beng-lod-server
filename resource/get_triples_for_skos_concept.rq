@@ -1,0 +1,23 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX gtaa:<http://data.beeldengeluid.nl/gtaa/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+
+SELECT *
+WHERE {
+  VALUES ?uri {gtaa:263093}
+  ?uri skosxl:prefLabel/skosxl:literalForm ?pref_label .
+  OPTIONAL {
+    ?uri skosxl:altLabel/skosxl:literalForm ?alt_label .
+  }
+  OPTIONAL {
+    ?uri skos:scopeNote ?scope_note .
+  }
+  OPTIONAL {
+    ?uri skos:inScheme ?concept_scheme
+  }
+  OPTIONAL {
+    ?uri rdf:type ?type
+  }
+}
