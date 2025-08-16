@@ -1,4 +1,4 @@
-FROM docker.io/python:3.11@sha256:c1239cb82bf08176c4c90421ab425a1696257b098d9ce21e68de9319c255a47d AS req
+FROM docker.io/python:3.11@sha256:ef1a087ab1b49fd2789169e483bacead126dbc8d1cf4c91eefb656b1a5dd5edc AS req
 
 ENV POETRY_HOME=/opt/poetry
 RUN <<EOF
@@ -10,7 +10,7 @@ COPY ./poetry.lock ./poetry.lock
 COPY ./pyproject.toml ./pyproject.toml
 RUN $POETRY_HOME/bin/poetry export --format requirements.txt --output requirements.txt
 
-FROM docker.io/python:3.11@sha256:c1239cb82bf08176c4c90421ab425a1696257b098d9ce21e68de9319c255a47d
+FROM docker.io/python:3.11@sha256:ef1a087ab1b49fd2789169e483bacead126dbc8d1cf4c91eefb656b1a5dd5edc
 
 WORKDIR /usr/src/app
 
