@@ -12,6 +12,14 @@ from util.mime_type_util import MimeType
 logger = logging.getLogger()
 
 
+def preprocess_identifier(identifier: str) -> str:
+    """fix of the identifier param"""
+    if identifier != identifier.strip():
+        logger.info(f"Stripping space from identifier:'{identifier}'")
+        identifier = identifier.strip()
+    return identifier
+
+
 api = Namespace(
     "resource",
     description="Resources in RDF for Netherlands Institute for Sound and Vision.",
@@ -35,7 +43,7 @@ class ResourceAPI(Resource):
     """Serve the RDF for the media catalog resources in the format that was requested."""
 
     @api.produces([mt.value for mt in MimeType])
-    def get(self, identifier: str, cat_type="program"):
+    def get(self, identifier, cat_type="program"):
         # TODO: further reduce complexity
         # determine and set the mimetype
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
@@ -43,11 +51,7 @@ class ResourceAPI(Resource):
             lod_server_supported_mime_types, MimeType.JSON_LD
         )
         mime_type = MimeType(best_match)
-
-        # fix of the identifier param
-        if identifier != identifier.strip():
-            logger.info(f"Stripping space from identifier:'{identifier}'")
-            identifier = identifier.strip()
+        identifier = preprocess_identifier(identifier)
 
         # 2) create the lod_url and 302 redirect when it's a RDA postfix
         lod_url = None
