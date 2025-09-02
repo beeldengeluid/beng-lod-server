@@ -40,7 +40,7 @@ class ResourceAPI(Resource):
         # determine and set the mimetype
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(
-            lod_server_supported_mime_types, MimeType.JSON_LD
+            lod_server_supported_mime_types, MimeType.JSON_LD.value
         )
         mime_type = MimeType(best_match)
 
@@ -57,7 +57,7 @@ class ResourceAPI(Resource):
             lod_url = util.ld_util.generate_lod_resource_uri(
                 ResourceApiUriLevel(cat_type),
                 identifier,
-                current_app.config.get("BENG_DATA_DOMAIN"),
+                current_app.config.get("BENG_DATA_DOMAIN", ""),
             )
             if status == 302:
                 return Response(
@@ -80,7 +80,9 @@ class ResourceAPI(Resource):
         # 3) check if resource exists and return 404
 
         # Do ASK request to triple store. Return 404 if resource doesn't exist.
-        if not is_nisv_cat_resource(lod_url, current_app.config.get("SPARQL_ENDPOINT")):
+        if not is_nisv_cat_resource(
+            lod_url, current_app.config.get("SPARQL_ENDPOINT", "")
+        ):
             return APIUtil.toErrorResponse("not_found")
 
         # 4) check if it's HTML and ru that path if so
