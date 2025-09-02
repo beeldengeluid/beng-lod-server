@@ -45,7 +45,9 @@ class ResourceAPI(Resource):
         mime_type = MimeType(best_match)
 
         if not identifier.isdigit():
-            return APIUtil.toErrorResponse("bad_request")
+            return APIUtil.toErrorResponse(
+                "bad_request", "Invalid daan identifier supplied."
+            )
 
         # 2) create the lod_url and 302 redirect when it's a RDA postfix
         lod_url = None
