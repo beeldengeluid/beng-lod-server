@@ -85,22 +85,7 @@ class ResourceAPI(Resource):
 
         # 4) check if it's HTML and ru that path if so
         if mime_type is MimeType.HTML:
-            logger.info(f"Generating HTML page for {lod_url}.")
-            html_page = self._get_lod_view_resource(
-                lod_url,
-                current_app.config.get("SPARQL_ENDPOINT"),
-                current_app.config.get("URI_NISV_ORGANISATION"),
-            )
-            if html_page:
-                return Response(html_page, mimetype=mime_type.value, status=status)
-            else:
-                logger.error(
-                    f"Could not generate an HTML view for {lod_url}.",
-                )
-                return APIUtil.toErrorResponse(
-                    "internal_server_error",
-                    "Could not generate an HTML view for this resource.",
-                )
+            self.generate_html_page(lod_url, mime_type, status)
 
         # 5) when we end up here, it's getting and returning lod data
         logger.info(
@@ -108,8 +93,8 @@ class ResourceAPI(Resource):
         )
         rdf_graph = util.ld_util.get_lod_resource_from_rdf_store(
             lod_url,
-            current_app.config.get("SPARQL_ENDPOINT"),
-            current_app.config.get("URI_NISV_ORGANISATION"),
+            current_app.config.get("SPARQL_ENDPOINT", ""),
+            current_app.config.get("URI_NISV_ORGANISATION", ""),
         )
         if rdf_graph is not None:
             serialised_graph = rdf_graph.serialize(
@@ -127,6 +112,24 @@ class ResourceAPI(Resource):
             return APIUtil.toErrorResponse(
                 "internal_server_error",
                 "No graph created. Check your resource type and identifier",
+            )
+
+    def generate_html_page(self, lod_url: str, mime_type: MimeType, status: int):
+        logger.info(f"Generating HTML page for {lod_url}.")
+        html_page = self._get_lod_view_resource(
+            lod_url,
+            current_app.config.get("SPARQL_ENDPOINT", ""),
+            current_app.config.get("URI_NISV_ORGANISATION", ""),
+        )
+        if html_page:
+            return Response(html_page, mimetype=mime_type.value, status=status)
+        else:
+            logger.error(
+                f"Could not generate an HTML view for {lod_url}.",
+            )
+            return APIUtil.toErrorResponse(
+                "internal_server_error",
+                "Could not generate an HTML view for this resource.",
             )
 
     def check_for_wemi_postfix(self, identifier: str) -> tuple[int, str]:
