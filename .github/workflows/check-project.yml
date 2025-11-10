@@ -8,3 +8,5 @@ jobs:
     uses: beeldengeluid/gha-workflows/.github/workflows/check-poetry-project.yml@7f4a3ae880d7852a493d460aa88d79f10af0e7a7 # v2025.09.05
     with:
       poetry-version: 2.1.4
+    permissions:
+      contents: read
