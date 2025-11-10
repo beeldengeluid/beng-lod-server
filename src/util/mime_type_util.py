@@ -1,5 +1,4 @@
 from enum import Enum
-from typing import Optional
 
 
 class MimeType(Enum):
@@ -11,7 +10,7 @@ class MimeType(Enum):
     JSON = "application/json"
     HTML = "text/html"
 
-    def to_ld_format(self) -> Optional[str]:
+    def to_ld_format(self) -> str:
         if self is MimeType.JSON_LD:
             return "json-ld"
         elif self is MimeType.RDF_XML:
@@ -25,4 +24,6 @@ class MimeType(Enum):
         elif self is MimeType.JSON:
             return "json-ld"
         elif self is MimeType.HTML:
-            return None
+            return ""
+        else:
+            return ""

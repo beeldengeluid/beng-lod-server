@@ -63,19 +63,19 @@ generate_lod_resource_uri_cases += [
         ResourceApiUriLevel.PROGRAM,
         DUMMY_RESOURCE_ID,
         "BROKEN_BENG_DATA_DOMAIN",
-        None,
+        "",
     ),  # invalid beng_data_domain
     (
         "dataset",
         DUMMY_RESOURCE_ID,
         DUMMY_RESOURCE_ID,
-        None,
+        "",
     ),  # invalid level param (no str allowed)
     (
         "program",
         DUMMY_RESOURCE_ID,
         DUMMY_RESOURCE_ID,
-        None,
+        "",
     ),  # another invalid level param
 ]
 
