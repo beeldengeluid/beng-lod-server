@@ -40,9 +40,14 @@ class ResourceAPI(Resource):
         # determine and set the mimetype
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(
-            lod_server_supported_mime_types, MimeType.JSON_LD
+            lod_server_supported_mime_types, MimeType.JSON_LD.value
         )
         mime_type = MimeType(best_match)
+
+        if not identifier.isdigit():
+            return APIUtil.toErrorResponse(
+                "bad_request", "Invalid daan identifier supplied."
+            )
 
         # 2) create the lod_url and 302 redirect when it's a RDA postfix
         lod_url = None
@@ -52,7 +57,7 @@ class ResourceAPI(Resource):
             lod_url = util.ld_util.generate_lod_resource_uri(
                 ResourceApiUriLevel(cat_type),
                 identifier,
-                current_app.config.get("BENG_DATA_DOMAIN"),
+                current_app.config.get("BENG_DATA_DOMAIN", ""),
             )
             if status == 302:
                 return Response(
@@ -75,27 +80,14 @@ class ResourceAPI(Resource):
         # 3) check if resource exists and return 404
 
         # Do ASK request to triple store. Return 404 if resource doesn't exist.
-        if not is_nisv_cat_resource(lod_url, current_app.config.get("SPARQL_ENDPOINT")):
+        if not is_nisv_cat_resource(
+            lod_url, current_app.config.get("SPARQL_ENDPOINT", "")
+        ):
             return APIUtil.toErrorResponse("not_found")
 
         # 4) check if it's HTML and ru that path if so
         if mime_type is MimeType.HTML:
-            logger.info(f"Generating HTML page for {lod_url}.")
-            html_page = self._get_lod_view_resource(
-                lod_url,
-                current_app.config.get("SPARQL_ENDPOINT"),
-                current_app.config.get("URI_NISV_ORGANISATION"),
-            )
-            if html_page:
-                return Response(html_page, mimetype=mime_type.value, status=status)
-            else:
-                logger.error(
-                    f"Could not generate an HTML view for {lod_url}.",
-                )
-                return APIUtil.toErrorResponse(
-                    "internal_server_error",
-                    "Could not generate an HTML view for this resource.",
-                )
+            self.generate_html_page(lod_url, mime_type, status)
 
         # 5) when we end up here, it's getting and returning lod data
         logger.info(
@@ -103,8 +95,8 @@ class ResourceAPI(Resource):
         )
         rdf_graph = util.ld_util.get_lod_resource_from_rdf_store(
             lod_url,
-            current_app.config.get("SPARQL_ENDPOINT"),
-            current_app.config.get("URI_NISV_ORGANISATION"),
+            current_app.config.get("SPARQL_ENDPOINT", ""),
+            current_app.config.get("URI_NISV_ORGANISATION", ""),
         )
         if rdf_graph is not None:
             serialised_graph = rdf_graph.serialize(
@@ -122,6 +114,24 @@ class ResourceAPI(Resource):
             return APIUtil.toErrorResponse(
                 "internal_server_error",
                 "No graph created. Check your resource type and identifier",
+            )
+
+    def generate_html_page(self, lod_url: str, mime_type: MimeType, status: int):
+        logger.info(f"Generating HTML page for {lod_url}.")
+        html_page = self._get_lod_view_resource(
+            lod_url,
+            current_app.config.get("SPARQL_ENDPOINT", ""),
+            current_app.config.get("URI_NISV_ORGANISATION", ""),
+        )
+        if html_page:
+            return Response(html_page, mimetype=mime_type.value, status=status)
+        else:
+            logger.error(
+                f"Could not generate an HTML view for {lod_url}.",
+            )
+            return APIUtil.toErrorResponse(
+                "internal_server_error",
+                "Could not generate an HTML view for this resource.",
             )
 
     def check_for_wemi_postfix(self, identifier: str) -> tuple[int, str]:

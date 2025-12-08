@@ -31,7 +31,7 @@ MUZIEKSCHATTEN = "https://data.muziekschatten.nl/som/"
 
 def generate_lod_resource_uri(
     level: Enum, identifier: str, beng_data_domain: str
-) -> Optional[str]:
+) -> str:
     """Constructs valid url using the data domain, the level (cat type or dataset type) and the identifier:
             {Beng data domain}/id/{cat_type}>/{identifier}
     :param level: the cat type
@@ -42,14 +42,14 @@ def generate_lod_resource_uri(
     if not isinstance(level, DatasetApiUriLevel) and not isinstance(
         level, ResourceApiUriLevel
     ):
-        return None
+        return ""
     url_parts = urlparse(str(beng_data_domain))
     if url_parts.netloc is not None and url_parts.netloc != "":
         path = "/".join(["id", level.value, str(identifier)])
         parts = (url_parts.scheme, url_parts.netloc, path, "", "", "")
         return urlunparse(parts)
     else:
-        return None
+        return ""
 
 
 # ============ Add/remove triples from a graph ===========
