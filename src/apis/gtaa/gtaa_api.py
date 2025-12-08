@@ -41,7 +41,9 @@ class GTAAAPI(Resource):
         gtaa_uri = f'{current_app.config.get("BENG_DATA_DOMAIN")}gtaa/{identifier}'
 
         # Do ASK request to triple store. Return 404 if resource doesn't exist.
-        if not is_skos_resource(gtaa_uri, current_app.config.get("SPARQL_ENDPOINT")):
+        if not is_skos_resource(
+            gtaa_uri, current_app.config.get("SPARQL_ENDPOINT", "")
+        ):
             return APIUtil.toErrorResponse("not_found")
 
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
@@ -56,8 +58,8 @@ class GTAAAPI(Resource):
             logger.info(f"Generating HTML page for resource {gtaa_uri}.")
             html_page = self._get_lod_view_gtaa(
                 gtaa_uri,
-                current_app.config.get("SPARQL_ENDPOINT"),
-                current_app.config.get("URI_NISV_ORGANISATION"),
+                current_app.config.get("SPARQL_ENDPOINT", ""),
+                current_app.config.get("URI_NISV_ORGANISATION", ""),
             )
             if html_page:
                 return make_response(html_page, 200)
@@ -76,8 +78,8 @@ class GTAAAPI(Resource):
             data = self._get_lod_gtaa(
                 gtaa_uri,
                 mime_type,
-                current_app.config.get("SPARQL_ENDPOINT"),
-                current_app.config.get("URI_NISV_ORGANISATION"),
+                current_app.config.get("SPARQL_ENDPOINT", ""),
+                current_app.config.get("URI_NISV_ORGANISATION", ""),
             )
             if data:
                 headers = {"Content-Type": mime_type.value}
