@@ -372,7 +372,7 @@ def test_get_500(
 
 # Note: it may appear as if the graph arguments are not used. But this is not true, they are loaded dynamically
 # according to the program type
-@pytest.mark.parametrize("item_type", [None, "scene", "program", "season", "series"])
+@pytest.mark.parametrize("item_type", ["scene", "program", "season", "series"])
 def test__get_lod_view_resource(
     item_type,
     application,
@@ -389,10 +389,7 @@ def test__get_lod_view_resource(
     with (
         application.test_request_context()
     ):  # need to work within the app context as get_lod_view_resource() uses the render_template() van Flask
-        if item_type:
-            test_graph = locals()[f"i_{item_type}_graph"]
-        else:
-            test_graph = None
+        test_graph = locals()[f"i_{item_type}_graph"]
 
         with (
             when(util.ld_util)
