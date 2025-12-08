@@ -87,7 +87,7 @@ class ResourceAPI(Resource):
 
         # 4) check if it's HTML and ru that path if so
         if mime_type is MimeType.HTML:
-            self.generate_html_page(lod_url, mime_type, status)
+            return self.generate_html_page(lod_url, mime_type, status)
 
         # 5) when we end up here, it's getting and returning lod data
         logger.info(
