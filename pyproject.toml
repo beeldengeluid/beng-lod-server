@@ -1,28 +1,32 @@
-[tool.poetry]
+[project]
 name = "beng-lod-server"
-version = "1.0"
 description = "Webserver serving LOD for the NISV catalogue items, datasets and GTAA."
-authors = [
-  "Willem Melder <wmelder@beeldengeluid.nl>",
-  "Mari Wigham <mwigham@beeldengeluid.nl>",
-  "Govert Brinkmann <gbrinkmann@beeldengeluid.nl>"
-  ]
-license = "MIT"
+version = "2.1.2"
+requires-python = "~=3.11.0"
 readme = "README.md"
+license = "MIT"
+authors = [
+  {name = "Willem Melder", email = "wmelder@beeldengeluid.nl"},
+  {name = "Govert Brinkmann", email = "gbrinkmann@beeldengeluid.nl"},
+]
+dependencies = [
+  "requests (==2.32.4)",
+  "rdflib (==7.1.4)",
+  "validators (==0.35.0)",
+  "pyyaml (==6.0.2)",
+  "Flask-Cors (==6.0.1)",
+  "flask (==3.1.1)",
+  "flask-restx (==1.3.0)",
+  "gunicorn (>=23.0.0)",
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
 packages = []
 package-mode = false
-
-[tool.poetry.dependencies]
-python = "~=3.11.0"
-requests = "==2.32.4"
-rdflib = "==7.1.4"
-validators = "==0.35.0"
-pyyaml = "==6.0.2"
-Flask-Cors = "==6.0.1"
-flask = "==3.1.1"
-flask-restx = "==1.3.0"
-gunicorn = "^23.0.0"
-
 
 [tool.poetry.group.dev.dependencies]
 pytest = "==8.4.1"
@@ -34,15 +38,6 @@ flake8-bugbear = "==24.12.12"
 mypy = "==1.17.1"
 types-requests = "==2.32.4.20250611"
 types-flask-cors = "==6.0.0.20250520"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[project]
-name = "beng-lod-server"
-requires-python = "~=3.11.0"
 
 [tool.black]
 # we use all the defaults
