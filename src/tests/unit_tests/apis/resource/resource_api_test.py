@@ -1,10 +1,14 @@
 import json
 import pytest
+from flask import Response
 from mockito import when, unstub, verify
-from rdflib import Graph
-import util.ld_util
+from rdflib import Graph, URIRef
+from rdflib.namespace._RDF import RDF
+from rdflib.namespace._SDO import SDO
+from rdflib.compare import to_isomorphic
 from apis.resource.resource_api import ResourceAPI
 from models.ResourceApiUriLevel import ResourceApiUriLevel
+import util.ld_util
 from util.mime_type_util import MimeType
 import util.lodview_util
 
@@ -14,89 +18,110 @@ def test_init():
     assert isinstance(resource_api, ResourceAPI)
 
 
-@pytest.mark.skip(reason="lodview is moved to util. test functions need to be updated.")
-@pytest.mark.skip(reason="verification needs to be updated")
-# Just tests the flow
 @pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType])
-def test_get_200(mime_type, generic_client, application_settings, resource_query_url):
-    DUMMY_IDENTIFIER = "1234"
-    DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
-    DUMMY_PAGE = "<!DOCTYPE html> <html> just something pretending to be an interesting HTML page</html>"
-    DUMMY_GRAPH = Graph()
-    DUMMY_SERIALISED_GRAPH = (
-        "just something pretending to be a serialisation of a graph"
-    )
+def test_get_200(
+    mime_type,
+    generic_client,
+    application_settings,
+    i_program_graph_2,
+):
+    """Given a flask test client, application settings, mime_type and a fixture for
+    a program, a request is handled and the response is tested."""
+
     CAT_TYPE = "program"
+    IDENTIFIER = "123456"
+    PATH = f"/id/{CAT_TYPE}/{IDENTIFIER}"
+    # get the URL from the fixture
+    URL_NODE = i_program_graph_2.value(predicate=RDF.type, object=SDO.CreativeWork)
+    URL = str(URL_NODE)
 
     try:
+        # stub the invocations
+        when(ResourceAPI).check_for_wemi_postfix(IDENTIFIER).thenReturn(
+            (200, IDENTIFIER)
+        )
         when(util.ld_util).generate_lod_resource_uri(
             ResourceApiUriLevel(CAT_TYPE),
-            DUMMY_IDENTIFIER,
-            application_settings.get("BENG_DATA_DOMAIN"),
-        ).thenReturn(DUMMY_URL)
+            IDENTIFIER,
+            application_settings.get("BENG_DATA_DOMAIN", ""),
+        ).thenReturn(URL)
+        when(util.ld_util).is_nisv_cat_resource(
+            URL, application_settings.get("SPARQL_ENDPOINT", "")
+        ).thenReturn(True)
+        when(util.ld_util).get_lod_resource_from_rdf_store(
+            URL,
+            application_settings.get("SPARQL_ENDPOINT", ""),
+            application_settings.get("URI_NISV_ORGANISATION", ""),
+        ).thenReturn(
+            i_program_graph_2
+        )  # invocation returns Graph object from fixture
 
-        if mime_type is MimeType.HTML:
-            when(util.lodview_util).get_lod_view_resource(
-                DUMMY_GRAPH,
-                DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT", ""),
-            ).thenReturn(DUMMY_PAGE)
-        else:
-            when(util.ld_util).get_lod_resource_from_rdf_store(
-                DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
-            ).thenReturn(DUMMY_GRAPH)
-            when(DUMMY_GRAPH).serialize(
-                format=mime_type.to_ld_format(), auto_compact=True
-            ).thenReturn(DUMMY_SERIALISED_GRAPH)
-
+        # do the actual request
         resp = generic_client.get(
             "offline",
-            resource_query_url(CAT_TYPE, DUMMY_IDENTIFIER),
+            PATH,
             headers={"Accept": mime_type.value},
         )
+        assert resp.status_code == 200
 
-        verify(util.ld_util, times=1).generate_lod_resource_uri(
-            ResourceApiUriLevel(CAT_TYPE),
-            DUMMY_IDENTIFIER,
-            application_settings.get("BENG_DATA_DOMAIN"),
+        verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
+            URL,
+            application_settings.get("SPARQL_ENDPOINT", ""),
+            application_settings.get("URI_NISV_ORGANISATION", ""),
         )
+
+        # test what comes out
         if mime_type is MimeType.HTML:
-            verify(util.lodview_util, times=1).get_lod_view_resource(
-                DUMMY_GRAPH,
-                DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT", ""),
+            html_content = resp.text.decode("utf-8")
+            assert "<!doctype html>" in html_content
+            assert "<html" in html_content
+            assert "</html>" in html_content
+            assert (
+                "LOD View" in html_content
+            )  # assuming this text is present in the template
+
+            resource_iri_node = i_program_graph_2.value(
+                predicate=RDF.type, object=SDO.CreativeWork
             )
-            assert resp.text.decode() == DUMMY_PAGE
+            resource_iri = str(resource_iri_node)
+            title_node = i_program_graph_2.value(
+                subject=resource_iri_node, predicate=SDO.name
+            )
+            title = str(title_node)
+            assert f"<h1>{title}</h1>" in html_content  # title should be in h1 tag
+            resource_id_in_header = f"""<a class="link-light" title="&lt;{resource_iri}&gt;" href="{resource_iri}" target="_blank">&lt;{resource_iri}&gt;</a>"""
+            assert (
+                resource_id_in_header in html_content
+            )  # resource IRI should be in header
+
         else:
-            verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
-                DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
-            )
-            verify(DUMMY_GRAPH, times=1).serialize(
-                format=mime_type.to_ld_format(), auto_compact=True
-            )
-            assert resp.text.decode() == DUMMY_SERIALISED_GRAPH
+            g = Graph()
+            try:
+                g.parse(data=resp.text, format=mime_type.to_ld_format())
+            except Exception:
+                pytest.fail(f"Invalid {mime_type} output")
+            iso1 = to_isomorphic(i_program_graph_2)
+            iso2 = to_isomorphic(g)
+            assert iso1 == iso2
 
     finally:
         unstub()
 
 
-@pytest.mark.skip(reason="lodview is moved to util. test functions need to be updated.")
-@pytest.mark.skip(reason="verification needs to be updated")
-# Just tests the flow
 def test_get_200_mime_type_none(
     generic_client, application_settings, resource_query_url
 ):
-    """Tests the default behaviour for the mime type, which is currently to set it to JSON-LD if the input is None"""
+    """Given a generic client and application settings, send a get request
+    with no mime_type. Test that the response is what is expected (default mime_type).
+    """
+    # """Tests the default behaviour for the mime type, which is currently to set it to JSON-LD if the input is None"""
     DUMMY_IDENTIFIER = "1234"
     DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
     DUMMY_PAGE = "<!DOCTYPE html> <html> just something pretending to be an interesting HTML page</html>"
-    DUMMY_GRAPH = Graph()
-    DUMMY_SERIALISED_GRAPH = (
-        "just something pretending to be a serialisation of a graph"
+    DUMMY_GRAPH = Graph(bind_namespaces="core")
+    DUMMY_GRAPH.add((URIRef(DUMMY_URL), RDF.type, SDO.CreativeWork))
+    DUMMY_SERIALISED_GRAPH = DUMMY_GRAPH.serialize(
+        format=MimeType.JSON_LD.to_ld_format(), auto_compact=True
     )
     CAT_TYPE = "program"
     input_mime_type = None
@@ -108,22 +133,29 @@ def test_get_200_mime_type_none(
             DUMMY_IDENTIFIER,
             application_settings.get("BENG_DATA_DOMAIN"),
         ).thenReturn(DUMMY_URL)
+        when(util.ld_util).is_nisv_cat_resource(
+            DUMMY_URL, application_settings.get("SPARQL_ENDPOINT", "")
+        ).thenReturn(True)
+        when(util.ld_util).get_lod_resource_from_rdf_store(
+            DUMMY_URL,
+            application_settings.get("SPARQL_ENDPOINT"),
+            application_settings.get("URI_NISV_ORGANISATION"),
+        ).thenReturn(DUMMY_GRAPH)
 
         if default_mimetype is MimeType.HTML:
-            when(ResourceAPI)._get_lod_view_resource(
+            when(util.lodview_util).generate_html_page(
+                DUMMY_GRAPH,
                 DUMMY_URL,
                 application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
-            ).thenReturn(DUMMY_PAGE)
+            ).thenReturn(Response(DUMMY_PAGE, mimetype=MimeType.HTML.value))
         else:
-            when(util.ld_util).get_lod_resource_from_rdf_store(
-                DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
-            ).thenReturn(DUMMY_GRAPH)
-            when(DUMMY_GRAPH).serialize(
-                format=default_mimetype.to_ld_format(), auto_compact=True
-            ).thenReturn(DUMMY_SERIALISED_GRAPH)
+            when(util.lodview_util).get_serialised_graph(
+                DUMMY_GRAPH, default_mimetype
+            ).thenReturn(
+                Response(
+                    DUMMY_SERIALISED_GRAPH, mimetype=default_mimetype.value, status=200
+                )
+            )
 
         resp = generic_client.get(
             "offline",
@@ -136,61 +168,8 @@ def test_get_200_mime_type_none(
             DUMMY_IDENTIFIER,
             application_settings.get("BENG_DATA_DOMAIN"),
         )
-        if default_mimetype is MimeType.HTML:
-            verify(ResourceAPI, times=1)._get_lod_view_resource(
-                DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
-            )
-            assert resp.text.decode() == DUMMY_PAGE
-        else:
-            verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
-                DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
-            )
-            verify(DUMMY_GRAPH, times=1).serialize(
-                format=default_mimetype.to_ld_format(), auto_compact=True
-            )
-            assert resp.text.decode() == DUMMY_SERIALISED_GRAPH
-
-    finally:
-        unstub()
-
-
-@pytest.mark.skip(reason="lodview is moved to util. test functions need to be updated.")
-@pytest.mark.skip(reason="verification needs to be updated")
-# inserts a real data graph to check the conversions to the right format
-@pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType])
-def test_get_200_with_data(
-    mime_type, generic_client, application_settings, resource_query_url, i_program_graph
-):
-    DUMMY_IDENTIFIER = "1234"
-    DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
-    CAT_TYPE = "program"
-
-    try:
-        when(util.ld_util).generate_lod_resource_uri(
-            ResourceApiUriLevel(CAT_TYPE),
-            DUMMY_IDENTIFIER,
-            application_settings.get("BENG_DATA_DOMAIN"),
-        ).thenReturn(DUMMY_URL)
-        when(util.ld_util).get_lod_resource_from_rdf_store(
-            DUMMY_URL,
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("URI_NISV_ORGANISATION"),
-        ).thenReturn(i_program_graph)
-
-        resp = generic_client.get(
-            "offline",
-            resource_query_url(CAT_TYPE, DUMMY_IDENTIFIER),
-            headers={"Accept": mime_type.value},
-        )
-
-        verify(util.ld_util, times=1).generate_lod_resource_uri(
-            ResourceApiUriLevel(CAT_TYPE),
-            DUMMY_IDENTIFIER,
-            application_settings.get("BENG_DATA_DOMAIN"),
+        verify(util.ld_util, times=1).is_nisv_cat_resource(
+            DUMMY_URL, application_settings.get("SPARQL_ENDPOINT", "")
         )
         verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
             DUMMY_URL,
@@ -198,17 +177,18 @@ def test_get_200_with_data(
             application_settings.get("URI_NISV_ORGANISATION"),
         )
 
-        if mime_type is MimeType.HTML:
-            try:
-                resp.text.decode()
-            except (UnicodeDecodeError, AttributeError):
-                pytest.fail("HTML output undecodable")
+        if default_mimetype is MimeType.HTML:
+            verify(util.lodview_util, times=1).generate_html_page(
+                DUMMY_GRAPH,
+                DUMMY_URL,
+                application_settings.get("SPARQL_ENDPOINT"),
+            )
+            assert resp.text.decode() == DUMMY_PAGE
         else:
-            try:
-                g = Graph()
-                g.parse(data=resp.text, format=mime_type.to_ld_format())
-            except Exception:
-                pytest.fail(f"Invalid {mime_type} output")
+            verify(util.lodview_util, times=1).get_serialised_graph(
+                DUMMY_GRAPH, default_mimetype
+            )
+            assert resp.text.decode("utf-8") == DUMMY_SERIALISED_GRAPH
 
     finally:
         unstub()

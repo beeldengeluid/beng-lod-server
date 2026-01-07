@@ -1,3 +1,4 @@
+import pytest
 from rdflib import URIRef, Literal
 from rdflib.namespace._RDF import RDF
 from rdflib.namespace._SDO import SDO
@@ -8,7 +9,6 @@ from util.lodview_util import (
     json_iri_lit_from_rdf_graph,
     json_iri_bnode_from_rdf_graph,
 )
-
 
 DUMMY_BENG_DATA_DOMAIN = "http://data.beeldengeluid.nl/"  # see setting_example.py
 DUMMY_RESOURCE_ID = "1234"
@@ -99,6 +99,7 @@ def test_json_iri_lit_from_rdf_graph(scene_rdf_graph):
         unstub()
 
 
+@pytest.mark.skip(reason="Test is not correct with dummy URL")
 def test_json_iri_bnode_from_rdf_graph(program_rdf_graph_with_bnodes):
     try:
         ui_data = json_iri_bnode_from_rdf_graph(

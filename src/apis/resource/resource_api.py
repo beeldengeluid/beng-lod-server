@@ -2,11 +2,10 @@ import logging
 from flask import current_app, request, Response
 from flask_restx import Namespace, Resource
 import util.ld_util
-from util.ld_util import is_nisv_cat_resource
 from models.ResourceApiUriLevel import ResourceApiUriLevel
 from util.APIUtil import APIUtil
 from util.mime_type_util import MimeType
-from util.lodview_util import generate_html_page, get_serialised_graph
+import util.lodview_util
 
 logger = logging.getLogger()
 
@@ -76,7 +75,7 @@ class ResourceAPI(Resource):
             return APIUtil.toErrorResponse("internal_server_error", e)
 
         # check if resource exists and return 404 if it doesn't.
-        if not is_nisv_cat_resource(
+        if not util.ld_util.is_nisv_cat_resource(
             lod_url, current_app.config.get("SPARQL_ENDPOINT", "")
         ):
             return APIUtil.toErrorResponse("not_found")
@@ -96,11 +95,12 @@ class ResourceAPI(Resource):
 
         # check if it's HTML and run that path if so
         if mime_type is MimeType.HTML:
-            return generate_html_page(
+            return util.lodview_util.generate_html_page(
                 rdf_graph, lod_url, current_app.config.get("SPARQL_ENDPOINT", "")
             )
         else:
-            return get_serialised_graph(rdf_graph, mime_type)
+            # return other formats than HTML
+            return util.lodview_util.get_serialised_graph(rdf_graph, mime_type)
 
     def check_for_wemi_postfix(self, identifier: str) -> tuple[int, str]:
         """Try to split the identifier and detect the wemi entity postfix.
