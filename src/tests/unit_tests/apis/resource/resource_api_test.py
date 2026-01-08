@@ -112,9 +112,9 @@ def test_get_200_mime_type_none(
     generic_client, application_settings, resource_query_url
 ):
     """Given a generic client and application settings, send a get request
-    with no mime_type. Test that the response is what is expected (default mime_type).
+    with no mime_type.
+    Tests the default behaviour for the mime type, which is currently to set it to JSON-LD (default mime_type)
     """
-    # """Tests the default behaviour for the mime type, which is currently to set it to JSON-LD if the input is None"""
     DUMMY_IDENTIFIER = "1234"
     DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
     DUMMY_PAGE = "<!DOCTYPE html> <html> just something pretending to be an interesting HTML page</html>"
@@ -194,12 +194,13 @@ def test_get_200_mime_type_none(
         unstub()
 
 
-@pytest.mark.skip(reason="lodview is moved to util. test functions need to be updated.")
-@pytest.mark.skip(
-    reason="test needs to be updated because the identifier is now validated."
-)
 @pytest.mark.parametrize("wemi_entity", ["work", "manifestation", "expression"])
 def test_get_302(generic_client, application_settings, resource_query_url, wemi_entity):
+    """Given a generic client and application settings, send a get request for a resource
+    that includes a wemi postfix.
+    Tests the behaviour for the _<wemi_entity>, which should be a redirect to the B&G resource,
+    from which the WEMI entity is derived.
+    """
     DUMMY_IDENTIFIER = "1234"
     DUMMY_URL = f"http://{DUMMY_IDENTIFIER}"
     CAT_TYPE = "program"
@@ -225,9 +226,10 @@ def test_get_302(generic_client, application_settings, resource_query_url, wemi_
 @pytest.mark.parametrize(
     "wemi_entity", ["blabla", "some stuff with space and _ underscore etc."]
 )
-def test_get_400_wemi(
-    generic_client, application_settings, resource_query_url, wemi_entity
-):
+def test_get_400_wemi(generic_client, resource_query_url, wemi_entity):
+    """Given a generic client, send a get request for a resource, with a fake wemi postfix.
+    Tests the behaviour for the fake _<wemi_entity>, which should be a bad request response.
+    """
     DUMMY_IDENTIFIER = "1234"
     CAT_TYPE = "program"
     DUMMY_WEMI_IDENTIFIER = f"{DUMMY_IDENTIFIER}_{wemi_entity}"
@@ -261,22 +263,24 @@ def test_get_400(generic_client, application_settings, resource_query_url):
         assert response.status_code == 400
 
 
-@pytest.mark.skip(reason="lodview is moved to util. test functions need to be updated.")
-@pytest.mark.skip(reason="test needs to be updated because some resources get 404")
 @pytest.mark.parametrize(
     "mime_type, cause",
     [
         (MimeType.JSON_LD, "not_rdf_graph"),
         (MimeType.JSON_LD, "no_serialized_graph"),
-        (MimeType.HTML, "no_html_page"),
     ],
 )
 def test_get_500(
     mime_type, cause, generic_client, application_settings, resource_query_url
 ):
+    """Given a generic client, application settings, dummy variables and stubbed
+    invocations, send a get request, using mime_type value and error cause
+    An empty graph will trigger 500 and the error response is tested.
+    """
     DUMMY_IDENTIFIER = "1234"
     DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
     DUMMY_GRAPH = Graph()
+    DUMMY_GRAPH.add((URIRef(DUMMY_URL), RDF.type, SDO.CreativeWork))
     CAT_TYPE = "program"
 
     try:
@@ -285,13 +289,11 @@ def test_get_500(
             DUMMY_IDENTIFIER,
             application_settings.get("BENG_DATA_DOMAIN"),
         ).thenReturn(DUMMY_URL)
-        if mime_type is MimeType.HTML and cause == "no_html_page":
-            when(ResourceAPI)._get_lod_view_resource(
-                DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
-            ).thenReturn(None)
-        elif mime_type is MimeType.JSON_LD and cause == "not_rdf_graph":
+        when(util.ld_util).is_nisv_cat_resource(
+            DUMMY_URL, application_settings.get("SPARQL_ENDPOINT", "")
+        ).thenReturn(True)
+
+        if mime_type is MimeType.JSON_LD and cause == "not_rdf_graph":
             when(util.ld_util).get_lod_resource_from_rdf_store(
                 DUMMY_URL,
                 application_settings.get("SPARQL_ENDPOINT"),
@@ -307,7 +309,9 @@ def test_get_500(
                 DUMMY_URL,
                 application_settings.get("SPARQL_ENDPOINT"),
                 application_settings.get("URI_NISV_ORGANISATION"),
-            ).thenReturn(DUMMY_GRAPH)
+            ).thenReturn(
+                DUMMY_GRAPH
+            )  # note dummy graph is not empty
             when(DUMMY_GRAPH).serialize(
                 format=mime_type.to_ld_format(), auto_compact=True
             ).thenReturn(None)
@@ -317,38 +321,106 @@ def test_get_500(
             resource_query_url(CAT_TYPE, DUMMY_IDENTIFIER),
             headers={"Accept": mime_type.value},
         )
+        assert response.status_code == 500
 
         verify(util.ld_util, times=1).generate_lod_resource_uri(
             ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
             application_settings.get("BENG_DATA_DOMAIN"),
         )
+        verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
+            DUMMY_URL,
+            application_settings.get("SPARQL_ENDPOINT"),
+            application_settings.get("URI_NISV_ORGANISATION"),
+        )
+        verify(DUMMY_GRAPH, times=0 if cause == "not_rdf_graph" else 1).serialize(
+            format=mime_type.to_ld_format(), auto_compact=True
+        )
+        if cause == "not_rdf_graph":
+            assert "No graph created" in str(response.text)
+        elif cause == "no_serialized_graph":
+            assert "Serialisation failed" in str(response.text)
+    finally:
+        unstub()
 
+
+@pytest.mark.parametrize("cause", ["not_rdf_graph", "no_html_page"])
+def test_get_500_html(cause, generic_client, application_settings, resource_query_url):
+    """Given a generic client, application settings, dummy variables and
+    stubbed invocations, send a get request with mime_type HTML.
+    No HTML page will be returned, but an error response that is tested.
+    """
+    DUMMY_IDENTIFIER = "1234"
+    DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
+    DUMMY_EMPTY_GRAPH = Graph()
+    DUMMY_GRAPH = Graph()
+    DUMMY_GRAPH.add((URIRef(DUMMY_URL), RDF.type, SDO.CreativeWork))
+
+    CAT_TYPE = "program"
+    mime_type = MimeType.HTML
+
+    try:
+        when(util.ld_util).generate_lod_resource_uri(
+            ResourceApiUriLevel(CAT_TYPE),
+            DUMMY_IDENTIFIER,
+            application_settings.get("BENG_DATA_DOMAIN"),
+        ).thenReturn(DUMMY_URL)
+        when(util.ld_util).is_nisv_cat_resource(
+            DUMMY_URL, application_settings.get("SPARQL_ENDPOINT", "")
+        ).thenReturn(True)
+
+        if cause == "not_rdf_graph":
+            when(util.ld_util).get_lod_resource_from_rdf_store(
+                DUMMY_URL,
+                application_settings.get("SPARQL_ENDPOINT"),
+                application_settings.get("URI_NISV_ORGANISATION"),
+            ).thenReturn(
+                DUMMY_EMPTY_GRAPH
+            )  # empty graph will cause 500
+        elif cause == "no_html_page":
+            when(util.ld_util).get_lod_resource_from_rdf_store(
+                DUMMY_URL,
+                application_settings.get("SPARQL_ENDPOINT"),
+                application_settings.get("URI_NISV_ORGANISATION"),
+            ).thenReturn(DUMMY_GRAPH)
+
+        when(util.lodview_util).get_lod_view_resource(
+            DUMMY_GRAPH,
+            DUMMY_URL,
+            application_settings.get("SPARQL_ENDPOINT"),
+        ).thenReturn(
+            ""
+        )  # empty HTML page.
+
+        response = generic_client.get(
+            "offline",
+            resource_query_url(CAT_TYPE, DUMMY_IDENTIFIER),
+            headers={"Accept": mime_type.value},
+        )
         assert response.status_code == 500
 
-        if mime_type is MimeType.HTML:
-            verify(ResourceAPI, times=1)._get_lod_view_resource(
-                DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
-            )
-            if cause == "no_html_page":
-                assert "Could not generate an HTML view for this resource" in str(
-                    response.text
-                )
-        else:
-            verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
-                DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
-            )
-            verify(DUMMY_GRAPH, times=0 if cause == "not_rdf_graph" else 1).serialize(
-                format=mime_type.to_ld_format(), auto_compact=True
-            )
-            if cause == "not_rdf_graph":
-                assert "No graph created" in str(response.text)
-            elif cause == "no_serialized_graph":
-                assert "Serialisation failed" in str(response.text)
+        verify(util.ld_util, times=1).generate_lod_resource_uri(
+            ResourceApiUriLevel(CAT_TYPE),
+            DUMMY_IDENTIFIER,
+            application_settings.get("BENG_DATA_DOMAIN"),
+        )
+        verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
+            DUMMY_URL,
+            application_settings.get("SPARQL_ENDPOINT", ""),
+            application_settings.get("URI_NISV_ORGANISATION", ""),
+        )
+        verify(
+            util.lodview_util, times=0 if cause == "not_rdf_graph" else 1
+        ).get_lod_view_resource(
+            DUMMY_GRAPH,
+            DUMMY_URL,
+            application_settings.get("SPARQL_ENDPOINT"),
+        )
+        if cause == "not_rdf_graph":
+            assert "No graph created." in response.text.decode("utf-8")
+        elif cause == "no_html_page":
+            assert "Could not generate an HTML view" in response.text.decode("utf-8")
+
     finally:
         unstub()
 

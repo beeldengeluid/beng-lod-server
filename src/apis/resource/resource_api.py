@@ -41,12 +41,7 @@ class ResourceAPI(Resource):
         )
         mime_type = MimeType(best_match)
 
-        if not identifier.isdigit():
-            return APIUtil.toErrorResponse(
-                "bad_request", "Invalid daan identifier supplied."
-            )
-
-        # 2) create the lod_url and 302 redirect when it's a RDA postfix
+        # create the lod_url and 302 redirect when it's a RDA postfix
         lod_url = None
         try:
             # check for _<wemi>-postfix: "_work", "_expression", "_manifestation"
@@ -74,6 +69,12 @@ class ResourceAPI(Resource):
             )
             return APIUtil.toErrorResponse("internal_server_error", e)
 
+        # check if identifier is proper digit string, return 400 if not.
+        if not identifier.isdigit():
+            return APIUtil.toErrorResponse(
+                "bad_request", "Invalid daan identifier supplied."
+            )
+
         # check if resource exists and return 404 if it doesn't.
         if not util.ld_util.is_nisv_cat_resource(
             lod_url, current_app.config.get("SPARQL_ENDPOINT", "")
@@ -87,19 +88,20 @@ class ResourceAPI(Resource):
             current_app.config.get("SPARQL_ENDPOINT", ""),
             current_app.config.get("URI_NISV_ORGANISATION", ""),
         )
+        # check if graph contains data and return 500 if not.
         if not rdf_graph:
             return APIUtil.toErrorResponse(
                 "internal_server_error",
                 "No graph created. Check your resource type and identifier",
             )
 
-        # check if it's HTML and run that path if so
+        # check if mime_type is HTML and generate HTML page and 200 if so.
         if mime_type is MimeType.HTML:
             return util.lodview_util.generate_html_page(
                 rdf_graph, lod_url, current_app.config.get("SPARQL_ENDPOINT", "")
             )
         else:
-            # return other formats than HTML
+            # return other formats than HTML. Returns data and 200 status.
             return util.lodview_util.get_serialised_graph(rdf_graph, mime_type)
 
     def check_for_wemi_postfix(self, identifier: str) -> tuple[int, str]:
