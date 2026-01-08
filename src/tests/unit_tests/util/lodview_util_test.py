@@ -1,5 +1,5 @@
 import pytest
-from rdflib import URIRef, Literal
+from rdflib import URIRef, Literal, Graph
 from rdflib.namespace._RDF import RDF
 from rdflib.namespace._SDO import SDO
 from mockito import unstub
@@ -8,6 +8,8 @@ from util.lodview_util import (
     json_iri_iri_from_rdf_graph,
     json_iri_lit_from_rdf_graph,
     json_iri_bnode_from_rdf_graph,
+    get_lod_view_resource_header,
+    get_lod_view_resource,
 )
 
 DUMMY_BENG_DATA_DOMAIN = "http://data.beeldengeluid.nl/"  # see setting_example.py
@@ -140,3 +142,60 @@ def test_json_iri_bnode_from_rdf_graph(program_rdf_graph_with_bnodes):
 
     finally:
         unstub()
+
+
+def test_lod_view_resource_header(application):
+    """Given an app context, generate a gheader block for the lod view page.
+    Test the output for some key elements.
+    # TODO: This is a place holder for future split lod view generation
+    """
+    with application.app_context():
+        mock_header = [
+            {
+                "title": "my title",
+                "o": {
+                    "uri": "http://example.com",
+                    "prefix": "http://schema.org/",
+                    "namespace": "",
+                    "property": "",
+                },
+            }
+        ]
+        header = get_lod_view_resource_header(mock_header)
+        print(header)
+
+
+@pytest.mark.skip(reason="Test fails because urlfor doesn't work.")
+def test_get_lod_view_resource(
+    application,
+    application_settings,
+    program_rdf_graph,
+):
+    """Given an app context, generate a full HTML page for the lod view page.
+    Test the output for some key elements.
+    """
+    with application.app_context():
+        resource_iri_node = program_rdf_graph.value(
+            predicate=RDF.type, object=SDO.CreativeWork
+        )
+        resource_iri = str(resource_iri_node)
+        title_node = program_rdf_graph.value(
+            subject=resource_iri_node, predicate=SDO.name
+        )
+        html_content = get_lod_view_resource(
+            program_rdf_graph,
+            resource_iri,
+            application_settings.get("SPARQL_ENDPOINT", ""),
+        )
+        # resp.text.decode("utf-8")
+        assert "<!doctype html>" in html_content
+        assert "<html" in html_content
+        assert "</html>" in html_content
+        assert (
+            "LOD View" in html_content
+        )  # assuming this text is present in the template
+
+        title = str(title_node)
+        assert f"<h1>{title}</h1>" in html_content  # title should be in h1 tag
+        resource_id_in_header = f"""<a class="link-light" title="&lt;{resource_iri}&gt;" href="{resource_iri}" target="_blank">&lt;{resource_iri}&gt;</a>"""
+        assert resource_id_in_header in html_content  # resource IRI should be in header

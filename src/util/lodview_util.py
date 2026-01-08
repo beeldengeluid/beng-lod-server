@@ -310,3 +310,13 @@ def get_serialised_graph(rdf_graph: Graph, mime_type: MimeType = MimeType.JSON_L
         return Response(serialised_graph, mimetype=mime_type.value, status=200)
     else:
         return APIUtil.toErrorResponse("internal_server_error", "Serialisation failed")
+
+
+def get_lod_view_resource_header(rdf_graph_header_json: List[dict]) -> str:
+    """Handler that, given a Graph generates a block for an HTML page.
+    # TODO: This is a place holder for future split lod view generation
+    """
+    return render_template(
+        "resource_header.html",
+        rdf_graph_header_json=rdf_graph_header_json,
+    )
