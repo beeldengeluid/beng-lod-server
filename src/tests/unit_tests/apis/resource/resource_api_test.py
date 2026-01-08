@@ -263,6 +263,38 @@ def test_get_400(generic_client, application_settings, resource_query_url):
         assert response.status_code == 400
 
 
+def test_get_404(generic_client, application_settings, resource_query_url):
+    """Given a generic client, application settings, dummy variables and stubbed
+    invocations, send a get request that will trigger a 404 not found response.
+    """
+    DUMMY_IDENTIFIER = "1234"
+    CAT_TYPE = "program"
+    DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
+
+    try:
+        when(util.ld_util).generate_lod_resource_uri(
+            ResourceApiUriLevel(CAT_TYPE),
+            DUMMY_IDENTIFIER,
+            application_settings.get("BENG_DATA_DOMAIN"),
+        ).thenReturn(DUMMY_URL)
+        when(util.ld_util).is_nisv_cat_resource(
+            DUMMY_URL, application_settings.get("SPARQL_ENDPOINT", "")
+        ).thenReturn(False)
+
+        response = generic_client.get(
+            "offline",
+            resource_query_url(CAT_TYPE, DUMMY_IDENTIFIER),
+        )
+        assert response.status_code == 404
+
+        verify(util.ld_util, times=1).is_nisv_cat_resource(
+            DUMMY_URL, application_settings.get("SPARQL_ENDPOINT", "")
+        )
+
+    finally:
+        unstub()
+
+
 @pytest.mark.parametrize(
     "mime_type, cause",
     [
