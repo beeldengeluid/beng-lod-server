@@ -272,7 +272,16 @@ def generate_html_page(rdf_graph: Graph, resource_iri: str, sparql_endpoint: str
         return APIUtil.toErrorResponse(
             "internal_server_error",
             "Could not generate an HTML view for this resource",
-        )
+
+def get_lod_view_resource_header(rdf_graph_header_json: List[dict]) -> str:
+    """Handler that, given a Graph and a URI generates an HTML page.
+    :param rdf_graph: A Graph for the resource.
+    :param resource_url: The URI for the resource.
+    """
+    return render_template(
+        "resource_header.html",
+        rdf_graph_header_json=rdf_graph_header_json,
+    )
 
 
 def get_lod_view_resource(

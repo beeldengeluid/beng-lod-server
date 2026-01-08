@@ -3,6 +3,7 @@ from rdflib.namespace._RDF import RDF
 from rdflib.namespace._SDO import SDO
 from mockito import unstub
 from util.lodview_util import (
+    get_lod_view_resource_header,
     json_header_from_rdf_graph,
     json_iri_iri_from_rdf_graph,
     json_iri_lit_from_rdf_graph,
@@ -12,7 +13,25 @@ from util.lodview_util import (
 
 DUMMY_BENG_DATA_DOMAIN = "http://data.beeldengeluid.nl/"  # see setting_example.py
 DUMMY_RESOURCE_ID = "1234"
-DUMMY_RESOURCE_URI = f"{DUMMY_BENG_DATA_DOMAIN}id/scene/{DUMMY_RESOURCE_ID}"  # must be used in scene_rdf_xml.xml!
+# must be used in scene_rdf_xml.xml!
+DUMMY_RESOURCE_URI = f"{DUMMY_BENG_DATA_DOMAIN}id/scene/{DUMMY_RESOURCE_ID}"
+
+
+def test_lod_view_resource_header(application):
+    with application.app_context():
+        mock_header = [
+            {
+                "title": "my title",
+                "o": {
+                    "uri": "http://example.com",
+                    "prefix": "http://schema.org/",
+                    "namespace": "",
+                    "property": "",
+                },
+            }
+        ]
+        header = get_lod_view_resource_header(mock_header)
+        print(header)
 
 
 def test_json_header_from_rdf_graph(scene_rdf_graph):
