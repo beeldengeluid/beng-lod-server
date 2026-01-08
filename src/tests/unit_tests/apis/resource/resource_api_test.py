@@ -1,14 +1,12 @@
 import json
 import pytest
-
 from mockito import when, unstub, verify
 from rdflib import Graph
-
 import util.ld_util
-
 from apis.resource.resource_api import ResourceAPI
 from models.ResourceApiUriLevel import ResourceApiUriLevel
 from util.mime_type_util import MimeType
+import util.lodview_util
 
 
 def test_init():
@@ -16,6 +14,7 @@ def test_init():
     assert isinstance(resource_api, ResourceAPI)
 
 
+@pytest.mark.skip(reason="lodview is moved to util. test functions need to be updated.")
 @pytest.mark.skip(reason="verification needs to be updated")
 # Just tests the flow
 @pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType])
@@ -37,10 +36,10 @@ def test_get_200(mime_type, generic_client, application_settings, resource_query
         ).thenReturn(DUMMY_URL)
 
         if mime_type is MimeType.HTML:
-            when(ResourceAPI)._get_lod_view_resource(
+            when(util.lodview_util).get_lod_view_resource(
+                DUMMY_GRAPH,
                 DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
+                application_settings.get("SPARQL_ENDPOINT", ""),
             ).thenReturn(DUMMY_PAGE)
         else:
             when(util.ld_util).get_lod_resource_from_rdf_store(
@@ -64,10 +63,10 @@ def test_get_200(mime_type, generic_client, application_settings, resource_query
             application_settings.get("BENG_DATA_DOMAIN"),
         )
         if mime_type is MimeType.HTML:
-            verify(ResourceAPI, times=1)._get_lod_view_resource(
+            verify(util.lodview_util, times=1).get_lod_view_resource(
+                DUMMY_GRAPH,
                 DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
+                application_settings.get("SPARQL_ENDPOINT", ""),
             )
             assert resp.text.decode() == DUMMY_PAGE
         else:
@@ -85,6 +84,7 @@ def test_get_200(mime_type, generic_client, application_settings, resource_query
         unstub()
 
 
+@pytest.mark.skip(reason="lodview is moved to util. test functions need to be updated.")
 @pytest.mark.skip(reason="verification needs to be updated")
 # Just tests the flow
 def test_get_200_mime_type_none(
@@ -158,6 +158,7 @@ def test_get_200_mime_type_none(
         unstub()
 
 
+@pytest.mark.skip(reason="lodview is moved to util. test functions need to be updated.")
 @pytest.mark.skip(reason="verification needs to be updated")
 # inserts a real data graph to check the conversions to the right format
 @pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType])
@@ -213,6 +214,7 @@ def test_get_200_with_data(
         unstub()
 
 
+@pytest.mark.skip(reason="lodview is moved to util. test functions need to be updated.")
 @pytest.mark.skip(
     reason="test needs to be updated because the identifier is now validated."
 )
@@ -279,6 +281,7 @@ def test_get_400(generic_client, application_settings, resource_query_url):
         assert response.status_code == 400
 
 
+@pytest.mark.skip(reason="lodview is moved to util. test functions need to be updated.")
 @pytest.mark.skip(reason="test needs to be updated because some resources get 404")
 @pytest.mark.parametrize(
     "mime_type, cause",
@@ -400,10 +403,10 @@ def test__get_lod_view_resource(
             )
             .thenReturn(test_graph)
         ):
-            html_result = resource_api._get_lod_view_resource(
+            html_result = util.lodview_util.get_lod_view_resource(
+                test_graph,
                 DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
+                application_settings.get("SPARQL_ENDPOINT", ""),
             )
 
             if item_type:

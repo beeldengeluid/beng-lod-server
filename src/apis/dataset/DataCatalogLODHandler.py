@@ -1,9 +1,8 @@
 import logging
 from typing import List, Optional
-
 from rdflib import Graph, URIRef
-from rdflib.namespace import RDF, SDO
-
+from rdflib.namespace._RDF import RDF
+from rdflib.namespace._SDO import SDO
 from util.mime_type_util import MimeType
 from util.ld_util import sparql_construct_query
 
@@ -210,7 +209,8 @@ class DataCatalogLODHandler:
 
         # add triples for the publisher
         publisher_id = self.get_publisher_for_data_catalog(URIRef(data_catalog_uri))
-        g += self.get_organization_triples(publisher_id)
+        if isinstance(publisher_id, URIRef):
+            g += self.get_organization_triples(publisher_id)
 
         # add triples for each dataset
         for dataset_uri in self.get_datasets_for_data_catalog(URIRef(data_catalog_uri)):
