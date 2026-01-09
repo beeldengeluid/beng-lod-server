@@ -1,11 +1,11 @@
 import json
 import pytest
-
 from mockito import when, unstub, verify
-from rdflib import Graph
-
+from rdflib import Graph, URIRef
+from rdflib.namespace._RDF import RDF
+from rdflib.namespace._SKOS import SKOS
 import util.ld_util
-
+import util.lodview_util
 from apis.gtaa.gtaa_api import GTAAAPI
 from models.ResourceApiUriLevel import ResourceApiUriLevel
 from util.mime_type_util import MimeType
@@ -16,59 +16,67 @@ def test_init():
     assert isinstance(gtaa_api, GTAAAPI)
 
 
-@pytest.mark.skip(reason="the dummy value is now raising a 404")
 # Just tests the flow
 @pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType])
 def test_get_200(mime_type, generic_client, application_settings, gtaa_url):
     DUMMY_IDENTIFIER = 1234
-    DUMMY_URL = f'{application_settings.get("BENG_DATA_DOMAIN")}gtaa/{DUMMY_IDENTIFIER}'
+    PATH = f"gtaa/{DUMMY_IDENTIFIER}"
+    DUMMY_URL = f"""{application_settings.get("BENG_DATA_DOMAIN")}{PATH}"""
     DUMMY_PAGE = "<!DOCTYPE html> <html> just something pretending to be an interesting HTML page</html>"
     DUMMY_SERIALISED_GRAPH = (
         "just something pretending to be a serialisation of a graph"
     )
-    CAT_TYPE = "program"
+    DUMMY_GRAPH = Graph(bind_namespaces="core")
+    DUMMY_GRAPH.add((URIRef(DUMMY_URL), RDF.type, SKOS.Concept))
 
     try:
-        when(util.ld_util).generate_lod_resource_uri(
-            ResourceApiUriLevel(CAT_TYPE),
-            DUMMY_IDENTIFIER,
-            application_settings.get("BENG_DATA_DOMAIN"),
-        ).thenReturn(DUMMY_URL)
+        when(util.ld_util).is_skos_resource(
+            DUMMY_URL, application_settings.get("SPARQL_ENDPOINT", "")
+        ).thenReturn(True)
+        when(util.ld_util).get_lod_resource_from_rdf_store(
+            DUMMY_URL,
+            application_settings.get("SPARQL_ENDPOINT"),
+            application_settings.get("URI_NISV_ORGANISATION"),
+        ).thenReturn(DUMMY_GRAPH)
+
         if mime_type is MimeType.HTML:
-            when(GTAAAPI)._get_lod_view_gtaa(
+            when(util.lodview_util).generate_html_page(
+                DUMMY_GRAPH,
                 DUMMY_URL,
                 application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
             ).thenReturn(DUMMY_PAGE)
         else:
-            when(GTAAAPI)._get_lod_gtaa(
-                DUMMY_URL,
+            when(util.lodview_util).get_serialised_graph(
+                DUMMY_GRAPH,
                 mime_type,
-                application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
             ).thenReturn(DUMMY_SERIALISED_GRAPH)
 
         resp = generic_client.get(
             "offline",
-            gtaa_url(CAT_TYPE, DUMMY_IDENTIFIER),
+            PATH,
             headers={"Accept": mime_type.value},
         )
+        assert resp.status_code == 200
 
+        verify(util.ld_util, times=1).is_skos_resource(
+            DUMMY_URL, application_settings.get("SPARQL_ENDPOINT", "")
+        )
+        verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
+            DUMMY_URL,
+            application_settings.get("SPARQL_ENDPOINT"),
+            application_settings.get("URI_NISV_ORGANISATION"),
+        )
         if mime_type is MimeType.HTML:
-            verify(GTAAAPI, times=1)._get_lod_view_gtaa(
+            verify(util.lodview_util, times=1).generate_html_page(
+                DUMMY_GRAPH,
                 DUMMY_URL,
                 application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
             )
-            assert resp.text.decode() == DUMMY_PAGE
         else:
-            verify(GTAAAPI)._get_lod_gtaa(
-                DUMMY_URL,
+            verify(util.lodview_util, times=1).get_serialised_graph(
+                DUMMY_GRAPH,
                 mime_type,
-                application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
             )
-            assert resp.text.decode() == DUMMY_SERIALISED_GRAPH
 
     finally:
         unstub()

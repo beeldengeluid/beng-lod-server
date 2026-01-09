@@ -4,8 +4,7 @@ from flask_restx import Namespace, Resource
 from util.mime_type_util import MimeType
 from util.APIUtil import APIUtil
 import util.ld_util
-from util.ld_util import is_skos_resource
-from util.lodview_util import generate_html_page, get_serialised_graph
+import util.lodview_util
 
 logger = logging.getLogger()
 
@@ -42,7 +41,7 @@ class GTAAAPI(Resource):
         gtaa_uri = f'{current_app.config.get("BENG_DATA_DOMAIN")}gtaa/{identifier}'
 
         # Do ASK request to triple store. Return 404 if resource doesn't exist.
-        if not is_skos_resource(
+        if not util.ld_util.is_skos_resource(
             gtaa_uri, current_app.config.get("SPARQL_ENDPOINT", "")
         ):
             return APIUtil.toErrorResponse("not_found")
@@ -66,11 +65,11 @@ class GTAAAPI(Resource):
                 "internal_server_error",
                 "Could not generate LOD for this resource",
             )
+
+        if mime_type is MimeType.HTML:
+            return util.lodview_util.generate_html_page(
+                rdf_graph, gtaa_uri, current_app.config.get("SPARQL_ENDPOINT", "")
+            )
         else:
-            if mime_type is MimeType.HTML:
-                return generate_html_page(
-                    rdf_graph, gtaa_uri, current_app.config.get("SPARQL_ENDPOINT", "")
-                )
-            else:
-                # another serialisation than HTML
-                return get_serialised_graph(rdf_graph, mime_type)
+            # another serialisation than HTML
+            return util.lodview_util.get_serialised_graph(rdf_graph, mime_type)
