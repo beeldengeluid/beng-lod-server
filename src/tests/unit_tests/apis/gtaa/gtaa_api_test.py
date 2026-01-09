@@ -138,6 +138,29 @@ def test_get_200_with_data(
         unstub()
 
 
+@pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType])
+def test_get_404(mime_type, generic_client, application_settings):
+    """Given a generic_client, application settings, a mime_type and stubbed
+    invocations, do a GET request and check the status.
+    """
+    DUMMY_IDENTIFIER = 1234
+    PATH = f"gtaa/{DUMMY_IDENTIFIER}"
+    DUMMY_URL = f'{application_settings.get("BENG_DATA_DOMAIN")}{PATH}'
+
+    try:
+        when(util.ld_util).is_skos_resource(
+            DUMMY_URL, application_settings.get("SPARQL_ENDPOINT", "")
+        ).thenReturn(False)
+        resp = generic_client.get(
+            "offline",
+            PATH,
+            headers={"Accept": mime_type.value},
+        )
+        assert resp.status_code == 404
+    finally:
+        unstub()
+
+
 @pytest.mark.skip(reason="lodview is moved to util. test functions need to be updated.")
 @pytest.mark.skip(reason="the 404 check is better than raising the 500")
 @pytest.mark.parametrize(
