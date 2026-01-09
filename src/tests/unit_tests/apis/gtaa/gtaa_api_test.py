@@ -82,7 +82,6 @@ def test_get_200(mime_type, generic_client, application_settings, gtaa_url):
         unstub()
 
 
-@pytest.mark.skip(reason="the new 404 check prevents the verify from being run")
 # inserts a real data graph to check the conversions to the right format
 @pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType])
 def test_get_200_with_data(
@@ -93,6 +92,9 @@ def test_get_200_with_data(
     CAT_TYPE = "program"
 
     try:
+        when(util.ld_util).is_skos_resource(
+            DUMMY_URL, application_settings.get("SPARQL_ENDPOINT", "")
+        ).thenReturn(True)
         when(util.ld_util).get_lod_resource_from_rdf_store(
             DUMMY_URL,
             application_settings.get("SPARQL_ENDPOINT"),
