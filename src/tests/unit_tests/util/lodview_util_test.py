@@ -1,5 +1,5 @@
 import pytest
-from rdflib import URIRef, Literal, Graph
+from rdflib import URIRef, Literal
 from rdflib.namespace._RDF import RDF
 from rdflib.namespace._SDO import SDO
 from mockito import unstub
