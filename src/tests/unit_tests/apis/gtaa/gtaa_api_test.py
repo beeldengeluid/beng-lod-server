@@ -16,9 +16,13 @@ def test_init():
     assert isinstance(gtaa_api, GTAAAPI)
 
 
-# Just tests the flow
 @pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType])
-def test_get_200(mime_type, generic_client, application_settings, gtaa_url):
+def test_get_200(mime_type, generic_client, application_settings):
+    """Given a generic_client, application settings, a mime_type and stubbed
+    invocations, do a GET request.
+    Check the status and whether the expected functions are called.
+    Note that dummy graph can not be empty, because an error will be raised.
+    """
     DUMMY_IDENTIFIER = 1234
     PATH = f"gtaa/{DUMMY_IDENTIFIER}"
     DUMMY_URL = f"""{application_settings.get("BENG_DATA_DOMAIN")}{PATH}"""
@@ -82,14 +86,18 @@ def test_get_200(mime_type, generic_client, application_settings, gtaa_url):
         unstub()
 
 
-# inserts a real data graph to check the conversions to the right format
 @pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType])
 def test_get_200_with_data(
-    mime_type, generic_client, application_settings, gtaa_url, i_gtaa_graph
+    mime_type, generic_client, application_settings, i_gtaa_graph
 ):
+    """Given a generic_client, application settings, a mime_type and stubbed
+    invocations, do a GET request. A graph will be loaded from a fixture.
+    Check the status, whether the expected functions are called and check that
+    the output is in valid format.
+    """
     DUMMY_IDENTIFIER = 1234
-    DUMMY_URL = f'{application_settings.get("BENG_DATA_DOMAIN")}gtaa/{DUMMY_IDENTIFIER}'
-    CAT_TYPE = "program"
+    PATH = f"gtaa/{DUMMY_IDENTIFIER}"
+    DUMMY_URL = f'{application_settings.get("BENG_DATA_DOMAIN")}{PATH}'
 
     try:
         when(util.ld_util).is_skos_resource(
@@ -103,9 +111,10 @@ def test_get_200_with_data(
 
         resp = generic_client.get(
             "offline",
-            gtaa_url(CAT_TYPE, DUMMY_IDENTIFIER),
+            PATH,
             headers={"Accept": mime_type.value},
         )
+        assert resp.status_code == 200
 
         verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
             DUMMY_URL,
@@ -117,13 +126,13 @@ def test_get_200_with_data(
             try:
                 resp.text.decode()
             except (UnicodeDecodeError, AttributeError):
-                pytest.fail("HTML output undecodable")
+                pytest.fail("HTML output undecodable.")
         else:
             try:
                 g = Graph()
                 g.parse(data=resp.text, format=mime_type.to_ld_format())
             except Exception:
-                pytest.fail(f"Invalid {mime_type} output")
+                pytest.fail(f"Invalid {mime_type} output.")
 
     finally:
         unstub()
