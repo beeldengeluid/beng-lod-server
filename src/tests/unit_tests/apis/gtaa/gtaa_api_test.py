@@ -1,4 +1,3 @@
-import json
 import pytest
 from mockito import when, unstub, verify
 from rdflib import Graph, URIRef
