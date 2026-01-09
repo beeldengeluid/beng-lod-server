@@ -165,7 +165,7 @@ def test_lod_view_resource_header(application):
         print(header)
 
 
-@pytest.mark.skip(reason="Test fails because urlfor doesn't work.")
+@pytest.mark.skip(reason="Test fails because url_for doesn't work outside request.")
 def test_get_lod_view_resource(
     application,
     application_settings,
@@ -173,6 +173,7 @@ def test_get_lod_view_resource(
 ):
     """Given an app context, generate a full HTML page for the lod view page.
     Test the output for some key elements.
+    # TODO: This is a place holder for future lod view testing
     """
     with application.app_context():
         resource_iri_node = program_rdf_graph.value(

@@ -31,7 +31,7 @@ def test_get_200(
     CAT_TYPE = "program"
     IDENTIFIER = "123456"
     PATH = f"/id/{CAT_TYPE}/{IDENTIFIER}"
-    # get the URL from the fixture
+    # get the IRI from the fixture
     URL_NODE = i_program_graph_2.value(predicate=RDF.type, object=SDO.CreativeWork)
     URL = str(URL_NODE)
 
@@ -70,7 +70,7 @@ def test_get_200(
             application_settings.get("URI_NISV_ORGANISATION", ""),
         )
 
-        # test what comes out
+        # test what comes out. Ideally, this is moved to lodview_util tests.
         if mime_type is MimeType.HTML:
             html_content = resp.text.decode("utf-8")
             assert "<!doctype html>" in html_content
@@ -183,7 +183,7 @@ def test_get_200_mime_type_none(
                 DUMMY_URL,
                 application_settings.get("SPARQL_ENDPOINT"),
             )
-            assert resp.text.decode() == DUMMY_PAGE
+            assert resp.text.decode("utf-8") == DUMMY_PAGE
         else:
             verify(util.lodview_util, times=1).get_serialised_graph(
                 DUMMY_GRAPH, default_mimetype
