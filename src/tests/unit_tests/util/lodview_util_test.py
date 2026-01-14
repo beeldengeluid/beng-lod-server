@@ -165,9 +165,8 @@ def test_lod_view_resource_header(application):
         print(header)
 
 
-@pytest.mark.skip(reason="Test fails because url_for doesn't work outside request.")
 def test_get_lod_view_resource(
-    application,
+    flask_test_client,
     application_settings,
     program_rdf_graph,
 ):
@@ -175,7 +174,7 @@ def test_get_lod_view_resource(
     Test the output for some key elements.
     # TODO: This is a place holder for future lod view testing
     """
-    with application.app_context():
+    with flask_test_client.application.app_context():
         resource_iri_node = program_rdf_graph.value(
             predicate=RDF.type, object=SDO.CreativeWork
         )
