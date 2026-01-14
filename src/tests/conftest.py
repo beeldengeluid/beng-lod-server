@@ -1,7 +1,6 @@
 import json
 import os
 import pytest
-
 from flask import Flask
 from rdflib import Graph
 
@@ -118,6 +117,10 @@ def invalid_application_client():
 def flask_test_client():
     """Returns a basic Flask test client."""
     from server import app
+
+    app.config["TESTING"] = True
+    app.config["GLOBAL_CACHE"] = {}
+    app.config["SERVER_NAME"] = "localhost:5000"
 
     return app.test_client()
 
