@@ -1,5 +1,4 @@
-import pytest
-from rdflib import URIRef, Literal
+from rdflib import URIRef, Literal, BNode
 from rdflib.namespace._RDF import RDF
 from rdflib.namespace._SDO import SDO
 from mockito import unstub
@@ -101,14 +100,27 @@ def test_json_iri_lit_from_rdf_graph(scene_rdf_graph):
         unstub()
 
 
-@pytest.mark.skip(reason="Test is not correct with dummy URL")
 def test_json_iri_bnode_from_rdf_graph(program_rdf_graph_with_bnodes):
     try:
+        # extract the IRI from the graph
+        resource_iri_node = program_rdf_graph_with_bnodes.value(
+            predicate=RDF.type, object=SDO.CreativeWork
+        )
+        resource_iri = str(resource_iri_node)
+        # count the number of blank nodes as object value of the resource
+        bnode_count_nodes = sum(
+            1
+            for p, o in program_rdf_graph_with_bnodes.predicate_objects(
+                subject=URIRef(resource_iri)
+            )
+            if p != RDF.type and isinstance(o, BNode)
+        )
         ui_data = json_iri_bnode_from_rdf_graph(
-            program_rdf_graph_with_bnodes, DUMMY_RESOURCE_URI
+            program_rdf_graph_with_bnodes, resource_iri
         )
         assert isinstance(ui_data, list)
-        assert len(ui_data) == 31
+        assert len(ui_data) == bnode_count_nodes
+
         for item in ui_data:
             assert all(x in item for x in ["o", "p"])
             assert all(
@@ -172,7 +184,6 @@ def test_get_lod_view_resource(
 ):
     """Given an app context, generate a full HTML page for the lod view page.
     Test the output for some key elements.
-    # TODO: This is a place holder for future lod view testing
     """
     with flask_test_client.application.app_context():
         resource_iri_node = program_rdf_graph.value(
@@ -187,7 +198,6 @@ def test_get_lod_view_resource(
             resource_iri,
             application_settings.get("SPARQL_ENDPOINT", ""),
         )
-        # resp.text.decode("utf-8")
         assert "<!doctype html>" in html_content
         assert "<html" in html_content
         assert "</html>" in html_content
