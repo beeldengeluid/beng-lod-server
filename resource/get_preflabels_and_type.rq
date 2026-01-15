@@ -1,0 +1,14 @@
+PREFIX sdo: <https://schema.org/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+
+CONSTRUCT { ?s ?p ?o . ?o skos:prefLabel ?pref_label . ?o rdf:type ?t}
+WHERE { 
+    VALUES ?s { <http://data.beeldengeluid.nl/id/program/2101608140128584431> }
+    ?s ?p ?o 
+    FILTER (!ISBLANK(?o)) 
+    ?o skosxl:prefLabel/skosxl:literalForm ?pref_label .
+    ?o rdf:type ?t FILTER(LANG(?pref_label) = "nl") 
+}
