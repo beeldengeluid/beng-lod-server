@@ -377,9 +377,9 @@ def test_get_500(
 
 
 @pytest.mark.parametrize("cause", ["not_rdf_graph", "no_html_page"])
-def test_get_500_html(cause, generic_client, application_settings, resource_query_url):
-    """Given a generic client, application settings, dummy variables and
-    stubbed invocations, send a get request with mime_type HTML.
+def test_get_500_html(cause, flask_test_client, resource_query_url):
+    """Given a flask test client, dummy variables and stubbed invocations,
+    send a get request with mime_type HTML.
     No HTML page will be returned, but an error response that is tested.
     """
     DUMMY_IDENTIFIER = "1234"
@@ -390,42 +390,42 @@ def test_get_500_html(cause, generic_client, application_settings, resource_quer
 
     CAT_TYPE = "program"
     mime_type = MimeType.HTML
+    config = flask_test_client.application.config
 
     try:
         when(util.ld_util).generate_lod_resource_uri(
             ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
-            application_settings.get("BENG_DATA_DOMAIN"),
+            config.get("BENG_DATA_DOMAIN"),
         ).thenReturn(DUMMY_URL)
         when(util.ld_util).is_nisv_cat_resource(
-            DUMMY_URL, application_settings.get("SPARQL_ENDPOINT", "")
+            DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         ).thenReturn(True)
 
         if cause == "not_rdf_graph":
             when(util.ld_util).get_lod_resource_from_rdf_store(
                 DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
+                config.get("SPARQL_ENDPOINT"),
+                config.get("URI_NISV_ORGANISATION"),
             ).thenReturn(
                 DUMMY_EMPTY_GRAPH
             )  # empty graph will cause 500
         elif cause == "no_html_page":
             when(util.ld_util).get_lod_resource_from_rdf_store(
                 DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
+                config.get("SPARQL_ENDPOINT"),
+                config.get("URI_NISV_ORGANISATION"),
             ).thenReturn(DUMMY_GRAPH)
 
         when(util.lodview_util).get_lod_view_resource(
             DUMMY_GRAPH,
             DUMMY_URL,
-            application_settings.get("SPARQL_ENDPOINT"),
+            config.get("SPARQL_ENDPOINT"),
         ).thenReturn(
             ""
         )  # empty HTML page.
 
-        response = generic_client.get(
-            "offline",
+        response = flask_test_client.get(
             resource_query_url(CAT_TYPE, DUMMY_IDENTIFIER),
             headers={"Accept": mime_type.value},
         )
@@ -434,24 +434,24 @@ def test_get_500_html(cause, generic_client, application_settings, resource_quer
         verify(util.ld_util, times=1).generate_lod_resource_uri(
             ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
-            application_settings.get("BENG_DATA_DOMAIN"),
+            config.get("BENG_DATA_DOMAIN"),
         )
         verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
             DUMMY_URL,
-            application_settings.get("SPARQL_ENDPOINT", ""),
-            application_settings.get("URI_NISV_ORGANISATION", ""),
+            config.get("SPARQL_ENDPOINT", ""),
+            config.get("URI_NISV_ORGANISATION", ""),
         )
         verify(
             util.lodview_util, times=0 if cause == "not_rdf_graph" else 1
         ).get_lod_view_resource(
             DUMMY_GRAPH,
             DUMMY_URL,
-            application_settings.get("SPARQL_ENDPOINT"),
+            config.get("SPARQL_ENDPOINT"),
         )
         if cause == "not_rdf_graph":
-            assert "No graph created." in response.text.decode("utf-8")
+            assert "No graph created." in response.text
         elif cause == "no_html_page":
-            assert "Could not generate an HTML view" in response.text.decode("utf-8")
+            assert "Could not generate an HTML view" in response.text
 
     finally:
         unstub()
@@ -459,6 +459,7 @@ def test_get_500_html(cause, generic_client, application_settings, resource_quer
 
 # Note: it may appear as if the graph arguments are not used. But this is not
 # true, they are loaded dynamically according to the program type.
+# TODO: move this test to lodview_util tests?
 @pytest.mark.parametrize("item_type", ["scene", "program", "season", "series"])
 def test__get_lod_view_resource(
     item_type,
