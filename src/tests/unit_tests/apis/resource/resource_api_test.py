@@ -21,19 +21,19 @@ def test_init():
 @pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType])
 def test_get_200(
     mime_type,
-    generic_client,
-    application_settings,
+    flask_test_client,
     i_program_graph_2,
 ):
-    """Given a flask test client, application settings, mime_type and a fixture for
-    a program, a request is handled and the response is tested."""
-
+    """Given a flask test client, mime_type and a fixture for a program,
+    send a get request and test the response.
+    """
     CAT_TYPE = "program"
     IDENTIFIER = "123456"
     PATH = f"/id/{CAT_TYPE}/{IDENTIFIER}"
     # get the IRI from the fixture
     URL_NODE = i_program_graph_2.value(predicate=RDF.type, object=SDO.CreativeWork)
     URL = str(URL_NODE)
+    config = flask_test_client.application.config
 
     try:
         # stub the invocations
@@ -43,22 +43,21 @@ def test_get_200(
         when(util.ld_util).generate_lod_resource_uri(
             ResourceApiUriLevel(CAT_TYPE),
             IDENTIFIER,
-            application_settings.get("BENG_DATA_DOMAIN", ""),
+            config.get("BENG_DATA_DOMAIN", ""),
         ).thenReturn(URL)
         when(util.ld_util).is_nisv_cat_resource(
-            URL, application_settings.get("SPARQL_ENDPOINT", "")
+            URL, config.get("SPARQL_ENDPOINT", "")
         ).thenReturn(True)
         when(util.ld_util).get_lod_resource_from_rdf_store(
             URL,
-            application_settings.get("SPARQL_ENDPOINT", ""),
-            application_settings.get("URI_NISV_ORGANISATION", ""),
+            config.get("SPARQL_ENDPOINT", ""),
+            config.get("URI_NISV_ORGANISATION", ""),
         ).thenReturn(
             i_program_graph_2
         )  # invocation returns Graph object from fixture
 
         # do the actual request
-        resp = generic_client.get(
-            "offline",
+        resp = flask_test_client.get(
             PATH,
             headers={"Accept": mime_type.value},
         )
@@ -66,13 +65,13 @@ def test_get_200(
 
         verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
             URL,
-            application_settings.get("SPARQL_ENDPOINT", ""),
-            application_settings.get("URI_NISV_ORGANISATION", ""),
+            config.get("SPARQL_ENDPOINT", ""),
+            config.get("URI_NISV_ORGANISATION", ""),
         )
 
-        # test what comes out. Ideally, this is moved to lodview_util tests.
+        # test what comes out. TODO: move this to lodview_util tests.
         if mime_type is MimeType.HTML:
-            html_content = resp.text.decode("utf-8")
+            html_content = resp.text
             assert "<!doctype html>" in html_content
             assert "<html" in html_content
             assert "</html>" in html_content
@@ -108,12 +107,9 @@ def test_get_200(
         unstub()
 
 
-def test_get_200_mime_type_none(
-    generic_client, application_settings, resource_query_url
-):
-    """Given a generic client and application settings, send a get request
-    with no mime_type.
-    Tests the default behaviour for the mime type, which is currently to set it to JSON-LD (default mime_type)
+def test_get_200_mime_type_none(flask_test_client, resource_query_url):
+    """Given a flask test client, send a get request with no mime_type.
+    Tests the default behaviour for the mime type (JSON-LD is the default).
     """
     DUMMY_IDENTIFIER = "1234"
     DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
@@ -126,27 +122,28 @@ def test_get_200_mime_type_none(
     CAT_TYPE = "program"
     input_mime_type = None
     default_mimetype = MimeType.JSON_LD
+    config = flask_test_client.application.config
 
     try:
         when(util.ld_util).generate_lod_resource_uri(
             ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
-            application_settings.get("BENG_DATA_DOMAIN"),
+            config.get("BENG_DATA_DOMAIN"),
         ).thenReturn(DUMMY_URL)
         when(util.ld_util).is_nisv_cat_resource(
-            DUMMY_URL, application_settings.get("SPARQL_ENDPOINT", "")
+            DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         ).thenReturn(True)
         when(util.ld_util).get_lod_resource_from_rdf_store(
             DUMMY_URL,
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("URI_NISV_ORGANISATION"),
+            config.get("SPARQL_ENDPOINT"),
+            config.get("URI_NISV_ORGANISATION"),
         ).thenReturn(DUMMY_GRAPH)
 
         if default_mimetype is MimeType.HTML:
             when(util.lodview_util).generate_html_page(
                 DUMMY_GRAPH,
                 DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT"),
+                config.get("SPARQL_ENDPOINT"),
             ).thenReturn(Response(DUMMY_PAGE, mimetype=MimeType.HTML.value))
         else:
             when(util.lodview_util).get_serialised_graph(
@@ -157,8 +154,7 @@ def test_get_200_mime_type_none(
                 )
             )
 
-        resp = generic_client.get(
-            "offline",
+        resp = flask_test_client.get(
             resource_query_url(CAT_TYPE, DUMMY_IDENTIFIER),
             headers={"Accept": input_mime_type},
         )
@@ -166,38 +162,38 @@ def test_get_200_mime_type_none(
         verify(util.ld_util, times=1).generate_lod_resource_uri(
             ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
-            application_settings.get("BENG_DATA_DOMAIN"),
+            config.get("BENG_DATA_DOMAIN"),
         )
         verify(util.ld_util, times=1).is_nisv_cat_resource(
-            DUMMY_URL, application_settings.get("SPARQL_ENDPOINT", "")
+            DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         )
         verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
             DUMMY_URL,
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("URI_NISV_ORGANISATION"),
+            config.get("SPARQL_ENDPOINT"),
+            config.get("URI_NISV_ORGANISATION"),
         )
 
         if default_mimetype is MimeType.HTML:
             verify(util.lodview_util, times=1).generate_html_page(
                 DUMMY_GRAPH,
                 DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT"),
+                config.get("SPARQL_ENDPOINT"),
             )
-            assert resp.text.decode("utf-8") == DUMMY_PAGE
+            assert resp.text == DUMMY_PAGE
         else:
             verify(util.lodview_util, times=1).get_serialised_graph(
                 DUMMY_GRAPH, default_mimetype
             )
-            assert resp.text.decode("utf-8") == DUMMY_SERIALISED_GRAPH
+            assert resp.text == DUMMY_SERIALISED_GRAPH
 
     finally:
         unstub()
 
 
 @pytest.mark.parametrize("wemi_entity", ["work", "manifestation", "expression"])
-def test_get_302(generic_client, application_settings, resource_query_url, wemi_entity):
-    """Given a generic client and application settings, send a get request for a resource
-    that includes a wemi postfix.
+def test_get_302(flask_test_client, resource_query_url, wemi_entity):
+    """Given a flask test client , send a get request for a resource that
+    includes a wemi postfix.
     Tests the behaviour for the _<wemi_entity>, which should be a redirect to the B&G resource,
     from which the WEMI entity is derived.
     """
@@ -205,20 +201,21 @@ def test_get_302(generic_client, application_settings, resource_query_url, wemi_
     DUMMY_URL = f"http://{DUMMY_IDENTIFIER}"
     CAT_TYPE = "program"
     DUMMY_WEMI_IDENTIFIER = f"{DUMMY_IDENTIFIER}_{wemi_entity}"
+    config = flask_test_client.application.config
 
     with (
         when(util.ld_util)
         .generate_lod_resource_uri(
             ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
-            application_settings.get("BENG_DATA_DOMAIN"),
+            config.get("BENG_DATA_DOMAIN"),
         )
         .thenReturn(DUMMY_URL)
     ):
-        response = generic_client.get(
-            "offline",
+        response = flask_test_client.get(
             resource_query_url(CAT_TYPE, DUMMY_WEMI_IDENTIFIER),
         )
+
         assert response.status_code == 302
         assert response.headers["location"] == DUMMY_URL
 
@@ -226,69 +223,71 @@ def test_get_302(generic_client, application_settings, resource_query_url, wemi_
 @pytest.mark.parametrize(
     "wemi_entity", ["blabla", "some stuff with space and _ underscore etc."]
 )
-def test_get_400_wemi(generic_client, resource_query_url, wemi_entity):
-    """Given a generic client, send a get request for a resource, with a fake wemi postfix.
+def test_get_400_wemi(flask_test_client, resource_query_url, wemi_entity):
+    """Given a flask test client, send a get request for a resource, with a fake wemi postfix.
     Tests the behaviour for the fake _<wemi_entity>, which should be a bad request response.
     """
     DUMMY_IDENTIFIER = "1234"
     CAT_TYPE = "program"
     DUMMY_WEMI_IDENTIFIER = f"{DUMMY_IDENTIFIER}_{wemi_entity}"
 
-    response = generic_client.get(
-        "offline",
+    response = flask_test_client.get(
         resource_query_url(CAT_TYPE, DUMMY_WEMI_IDENTIFIER),
     )
     assert response.status_code == 400
 
 
-def test_get_400(generic_client, application_settings, resource_query_url):
+def test_get_400(flask_test_client, resource_query_url):
+    """Given a flask test client, dummy variables and stubbed invocations,
+    send a get request that will trigger a 400 bad request response.
+    """
     DUMMY_IDENTIFIER = "1234"
     CAT_TYPE = "program"
     DUMMY_MIME_TYPE = "dummy mime type"
+    config = flask_test_client.application.config
 
     with (
         when(util.ld_util)
         .generate_lod_resource_uri(
             ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
-            application_settings.get("BENG_DATA_DOMAIN"),
+            config.get("BENG_DATA_DOMAIN"),
         )
         .thenRaise(ValueError)
     ):
-        response = generic_client.get(
-            "offline",
+        response = flask_test_client.get(
             resource_query_url(CAT_TYPE, DUMMY_IDENTIFIER),
             headers={"Accept": DUMMY_MIME_TYPE},
         )
         assert response.status_code == 400
 
 
-def test_get_404(generic_client, application_settings, resource_query_url):
-    """Given a generic client, application settings, dummy variables and stubbed
-    invocations, send a get request that will trigger a 404 not found response.
+def test_get_404(flask_test_client, resource_query_url):
+    """Given a flask test client, dummy variables and stubbed invocations,
+    send a get request that will trigger a 404 not found response.
     """
     DUMMY_IDENTIFIER = "1234"
     CAT_TYPE = "program"
     DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
+    config = flask_test_client.application.config
 
     try:
         when(util.ld_util).generate_lod_resource_uri(
             ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
-            application_settings.get("BENG_DATA_DOMAIN"),
+            config.get("BENG_DATA_DOMAIN"),
         ).thenReturn(DUMMY_URL)
         when(util.ld_util).is_nisv_cat_resource(
-            DUMMY_URL, application_settings.get("SPARQL_ENDPOINT", "")
+            DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         ).thenReturn(False)
 
-        response = generic_client.get(
-            "offline",
+        response = flask_test_client.get(
             resource_query_url(CAT_TYPE, DUMMY_IDENTIFIER),
         )
         assert response.status_code == 404
 
         verify(util.ld_util, times=1).is_nisv_cat_resource(
-            DUMMY_URL, application_settings.get("SPARQL_ENDPOINT", "")
+            DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         )
 
     finally:
@@ -302,11 +301,9 @@ def test_get_404(generic_client, application_settings, resource_query_url):
         (MimeType.JSON_LD, "no_serialized_graph"),
     ],
 )
-def test_get_500(
-    mime_type, cause, generic_client, application_settings, resource_query_url
-):
-    """Given a generic client, application settings, dummy variables and stubbed
-    invocations, send a get request, using mime_type value and error cause
+def test_get_500(mime_type, cause, flask_test_client, resource_query_url):
+    """Given a flask test client, dummy variables and stubbed invocations,
+    send a get request, using mime_type value and error cause.
     An empty graph will trigger 500 and the error response is tested.
     """
     DUMMY_IDENTIFIER = "1234"
@@ -314,22 +311,23 @@ def test_get_500(
     DUMMY_GRAPH = Graph()
     DUMMY_GRAPH.add((URIRef(DUMMY_URL), RDF.type, SDO.CreativeWork))
     CAT_TYPE = "program"
+    config = flask_test_client.application.config
 
     try:
         when(util.ld_util).generate_lod_resource_uri(
             ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
-            application_settings.get("BENG_DATA_DOMAIN"),
+            config.get("BENG_DATA_DOMAIN"),
         ).thenReturn(DUMMY_URL)
         when(util.ld_util).is_nisv_cat_resource(
-            DUMMY_URL, application_settings.get("SPARQL_ENDPOINT", "")
+            DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         ).thenReturn(True)
 
         if mime_type is MimeType.JSON_LD and cause == "not_rdf_graph":
             when(util.ld_util).get_lod_resource_from_rdf_store(
                 DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
+                config.get("SPARQL_ENDPOINT"),
+                config.get("URI_NISV_ORGANISATION"),
             ).thenReturn(None)
             when(DUMMY_GRAPH).serialize(
                 format=mime_type.to_ld_format(), auto_compact=True
@@ -339,8 +337,8 @@ def test_get_500(
         elif mime_type is MimeType.JSON_LD and cause == "no_serialized_graph":
             when(util.ld_util).get_lod_resource_from_rdf_store(
                 DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
+                config.get("SPARQL_ENDPOINT"),
+                config.get("URI_NISV_ORGANISATION"),
             ).thenReturn(
                 DUMMY_GRAPH
             )  # note dummy graph is not empty
@@ -348,8 +346,7 @@ def test_get_500(
                 format=mime_type.to_ld_format(), auto_compact=True
             ).thenReturn(None)
 
-        response = generic_client.get(
-            "offline",
+        response = flask_test_client.get(
             resource_query_url(CAT_TYPE, DUMMY_IDENTIFIER),
             headers={"Accept": mime_type.value},
         )
@@ -358,12 +355,12 @@ def test_get_500(
         verify(util.ld_util, times=1).generate_lod_resource_uri(
             ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
-            application_settings.get("BENG_DATA_DOMAIN"),
+            config.get("BENG_DATA_DOMAIN"),
         )
         verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
             DUMMY_URL,
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("URI_NISV_ORGANISATION"),
+            config.get("SPARQL_ENDPOINT"),
+            config.get("URI_NISV_ORGANISATION"),
         )
         verify(DUMMY_GRAPH, times=0 if cause == "not_rdf_graph" else 1).serialize(
             format=mime_type.to_ld_format(), auto_compact=True

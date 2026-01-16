@@ -156,12 +156,12 @@ def test_json_iri_bnode_from_rdf_graph(program_rdf_graph_with_bnodes):
         unstub()
 
 
-def test_lod_view_resource_header(application):
-    """Given an app context, generate a gheader block for the lod view page.
+def test_lod_view_resource_header(flask_test_client):
+    """Given a flask_test_client, generate a header block for the lod view page.
     Test the output for some key elements.
     # TODO: This is a place holder for future split lod view generation
     """
-    with application.app_context():
+    with flask_test_client.application.app_context():
         mock_header = [
             {
                 "title": "my title",

@@ -1,16 +1,12 @@
 import pytest
-
 from mockito import when
-
-import apis.dataset.DataCatalogLODHandler
-
-
-from util.ld_util import generate_lod_resource_uri
-from models.DatasetApiUriLevel import DatasetApiUriLevel
-from util.mime_type_util import MimeType
 from rdflib import Graph
 from rdflib.compare import to_isomorphic, graph_diff
 from rdflib.plugin import PluginException
+from util.ld_util import generate_lod_resource_uri
+from util.mime_type_util import MimeType
+from models.DatasetApiUriLevel import DatasetApiUriLevel
+import apis.dataset.DataCatalogLODHandler
 
 # this "dummy data" relies on the ./resources/daan-catalog_unit_test.ttl
 # which is loaded in memory (as rdflib graph) on DataCatalogLODHandler init
