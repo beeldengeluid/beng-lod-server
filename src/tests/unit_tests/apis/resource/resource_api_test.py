@@ -457,13 +457,12 @@ def test_get_500_html(cause, generic_client, application_settings, resource_quer
         unstub()
 
 
-# Note: it may appear as if the graph arguments are not used. But this is not true, they are loaded dynamically
-# according to the program type
+# Note: it may appear as if the graph arguments are not used. But this is not
+# true, they are loaded dynamically according to the program type.
 @pytest.mark.parametrize("item_type", ["scene", "program", "season", "series"])
 def test__get_lod_view_resource(
     item_type,
-    application,
-    application_settings,
+    flask_test_client,
     i_scene_graph,
     i_program_graph,
     i_season_graph,
@@ -471,26 +470,25 @@ def test__get_lod_view_resource(
 ):
     DUMMY_IDENTIFIER = "dummy-identifier"
     DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
-    resource_api = ResourceAPI()
+    config = flask_test_client.application.config
 
-    with (
-        application.test_request_context()
-    ):  # need to work within the app context as get_lod_view_resource() uses the render_template() van Flask
+    # app context because get_lod_view_resource() uses Flask render_template()
+    with flask_test_client.application.app_context():
         test_graph = locals()[f"i_{item_type}_graph"]
 
         with (
             when(util.ld_util)
             .get_lod_resource_from_rdf_store(
                 DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT"),
-                application_settings.get("URI_NISV_ORGANISATION"),
+                config.get("SPARQL_ENDPOINT"),
+                config.get("URI_NISV_ORGANISATION"),
             )
             .thenReturn(test_graph)
         ):
             html_result = util.lodview_util.get_lod_view_resource(
                 test_graph,
                 DUMMY_URL,
-                application_settings.get("SPARQL_ENDPOINT", ""),
+                config.get("SPARQL_ENDPOINT", ""),
             )
 
             if item_type:

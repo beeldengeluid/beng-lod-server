@@ -118,6 +118,7 @@ def flask_test_client():
     """Returns a basic Flask test client."""
     from server import app
 
+    app.config.update(cfg)  # merge config with app config
     app.config["TESTING"] = True
     app.config["GLOBAL_CACHE"] = {}
     app.config["SERVER_NAME"] = "localhost:5000"
