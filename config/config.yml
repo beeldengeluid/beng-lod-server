@@ -11,6 +11,7 @@ ENABLED_ENDPOINTS: # allow all by default
   - "gtaa"
   - "pong"
   - "health"
+  - "link"
 
 DATA_CATALOG_GRAPH: "http://data.rdlabs.beeldengeluid.nl/datacatalog/"
 
@@ -19,6 +20,9 @@ URI_NISV_ORGANISATION: "https://www.beeldengeluid.nl/"
 
 SPARQL_ENDPOINT: "https://cat.apis.beeldengeluid.nl/sparql"
 SPARQL_ENDPOINT_HEALTH_URL: "https://cat.apis.beeldengeluid.nl/sparql"
+
+MUZIEKWEB_DATA_DOMAIN: "https://data.muziekweb.nl/"
+MUZIEKWEB_SPARQL_ENDPOINT: "https://api.data.muziekweb.nl/datasets/MuziekwebOrganization/Muziekweb/services/Muziekweb/sparql"
 
 SWAGGER_UI_PATH: "/swagger"
 
