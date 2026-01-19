@@ -162,29 +162,36 @@ def test_lod_view_resource_header(flask_test_client):
     # TODO: This is a place holder for future split lod view generation
     """
     with flask_test_client.application.app_context():
+        mock_title = "my title"
+        mock_uri = "http://example.com/resource/1"
         mock_header = [
             {
-                "title": "my title",
+                "title": [
+                    str(mock_title),
+                ],
                 "o": {
-                    "uri": "http://example.com",
-                    "prefix": "http://schema.org/",
-                    "namespace": "",
+                    "uri": mock_uri,
+                    "prefix": "sdo",
+                    "namespace": "http://schema.org/",
                     "property": "",
                 },
             }
         ]
-        header = get_lod_view_resource_header(mock_header)
-        print(header)
+        header = get_lod_view_resource_header(mock_header, mock_uri)
+        assert "<header" in header
+        assert "</header>" in header
+        assert f"<h1>{mock_title}</h1>" in header
+        assert f'href="{mock_uri}"' in header
 
 
 def test_get_lod_view_resource(
     flask_test_client,
-    application_settings,
     program_rdf_graph,
 ):
     """Given an app context, generate a full HTML page for the lod view page.
     Test the output for some key elements.
     """
+    config = flask_test_client.application.config
     with flask_test_client.application.app_context():
         resource_iri_node = program_rdf_graph.value(
             predicate=RDF.type, object=SDO.CreativeWork
@@ -196,7 +203,7 @@ def test_get_lod_view_resource(
         html_content = get_lod_view_resource(
             program_rdf_graph,
             resource_iri,
-            application_settings.get("SPARQL_ENDPOINT", ""),
+            config.get("SPARQL_ENDPOINT", ""),
         )
         assert "<!doctype html>" in html_content
         assert "<html" in html_content

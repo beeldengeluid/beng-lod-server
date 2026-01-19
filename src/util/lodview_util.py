@@ -312,11 +312,15 @@ def get_serialised_graph(rdf_graph: Graph, mime_type: MimeType = MimeType.JSON_L
         return APIUtil.toErrorResponse("internal_server_error", "Serialisation failed")
 
 
-def get_lod_view_resource_header(rdf_graph_header_json: List[dict]) -> str:
-    """Handler that, given a Graph generates a block for an HTML page.
-    # TODO: This is a place holder for future split lod view generation
+def get_lod_view_resource_header(
+    rdf_graph_header_json: List[dict], resource_uri: str
+) -> str:
+    """Given a list of dicts containing the header information for the lod view page,
+    a call to flask's render_template renders the template and outputs (partial HTML).
+    This output is included in the lod view page.
     """
     return render_template(
-        "resource_header.html",
+        "resource_lod_view_header.html",
+        resource_uri=resource_uri,
         rdf_graph_header_json=rdf_graph_header_json,
     )
