@@ -1,0 +1,20 @@
+<footer class="py-2 text-white">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-8">
+				<nav class="navbar navbar-dark bg-transparent">
+					<span class="navbar-brand">
+						<img src="{{url_for('static', filename='images/mw_logo_header_white.png')}}" alt="Muziekweb.nl logo" width="240" height="30" class="d-inline-block align-text-top">
+						<strong>lod</strong> view
+					</span>
+				</nav>
+			</div>
+			<div class="col-4">
+				<div class="py-2">
+					data from: <a class="text-white" title="{{ sparql_endpoint }}" href="{{ sparql_endpoint }}" target="_blank">{{ nisv_sparql_endpoint }}</a><br>
+<!--					view as: <a class="text-white" title="application/ld+json" href="{{resource_uri}}" target="_blank">ld+json</a>-->
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>

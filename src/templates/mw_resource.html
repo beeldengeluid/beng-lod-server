@@ -1,0 +1,18 @@
+{% extends "mw_base.html" %}
+
+{% block header %}
+{% block title %}Muziekweb LOD View{% endblock %}
+{% block structured_data %}{{structured_data|safe}}{% endblock %}
+{% endblock %}
+
+{% block mw_resource_lod_view_header %}
+{% include 'mw_resource_lod_view_header.html' %}
+{% endblock %}
+
+{% block resource_lod_view %}
+{% include 'mw_resource_lod_view.html' %}
+{% endblock %}
+
+{% block resource_lod_view_footer %}
+{% include 'mw_resource_lod_view_footer.html' %}
+{% endblock %}

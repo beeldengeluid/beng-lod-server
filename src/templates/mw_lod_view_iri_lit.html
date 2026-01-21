@@ -1,0 +1,11 @@
+	{% for item in json_iri_lit %}
+	<div class="row">
+		<div class="col-3 py-2 text-truncate">
+			<a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">{{item.p.prefix}}:<span class="fw-bold">{{item.p.property}}</span></a>
+		</div>
+		<div class="col-6 py-2 border-bottom text-truncate">{{item.o.literal_value}}</div>
+		{% if item.o.datatype|length %}
+			<div class="col-3 py-2 border-bottom text-end text-truncate">{{item.o.datatype_prefix}}:<span class="fw-bold">{{item.o.datatype_property}}</span></div>
+		{% endif %}
+	</div>
+	{% endfor %}

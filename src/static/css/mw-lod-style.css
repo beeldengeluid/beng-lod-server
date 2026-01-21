@@ -1,0 +1,82 @@
+body {
+	color: #1690c6;
+	font-size: 0.80rem;
+	font-family: "Raleway",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
+.navbar-light .navbar-brand {
+    color: #1690c6;
+}
+
+a {
+	color: #1690c6;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+header {
+	background-color: #1690c6;
+    min-height: 210px;
+}
+
+header .row {
+	min-height: 150px;
+    font-size: 1.125rem;
+}
+
+#header_rdf_type {
+    color: #ffffff;
+}
+
+h1 {
+    color: #ffffff;
+}
+
+footer {
+	background-color: #212121;
+	padding: 20px;
+}
+
+footer .row {
+	min-height: 150px;
+}
+
+/* TODO: replace below when testable */
+
+#inverses {
+	padding: 24px;
+	background: #d4d4d4;
+	color: #212121;
+	line-height: 20px;
+	font-size: 14px;
+}
+
+#bnodes {
+	padding: 24px;
+	background: #eee;
+	color: #212121;
+	line-height: 20px;
+	font-size: 14px;
+}
+
+#lodCloud {
+	padding: 24px 24px 16px 24px;
+	background: #fafafa;
+	color: #212121;
+	line-height: 16px;
+	font-size: 12px;
+	min-height: 64px;
+}
+
+aside.empty, #bnodes.empty, #directs.empty, #inverses.empty, #abstract.empty {
+	padding: 0;
+	min-height: 10px;
+}
+
+#lodCloud.empty {
+	padding: 0;
+	min-height: 5px;
+}

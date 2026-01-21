@@ -1,0 +1,28 @@
+<header class="py-2 mb-2">
+	<div class="container-fluid">
+		<div class="row align-items-end">
+			<!-- <div class="col-6"> -->
+				{% if (json_header|first) is defined %}
+					{% if (json_header|first).title %}
+						<h1>{{ ((json_header|first).title|first) }}</h1>
+					{% endif %}
+				{% endif %}
+				{% if album_art is not none %}
+					<div ><img src="{{album_art}}" class="rounded float-left" alt="Album cover"></div>
+				{% endif %}
+				<div class="col-6 text-truncate">
+					<a class="link-light" title="&lt;{{resource_uri}}&gt;" href="{{resource_uri}}" target="_blank">&lt;{{resource_uri}}&gt;</a>
+				</div>
+			<!-- </div> -->
+			<div class="col-6 text-end text-truncate">
+				{% for item in json_header %}
+					{% if item.o.prefix|length %}
+						<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank" id="header_rdf_type">{{item.o.prefix}}:<span class="fw-bold">{{item.o.property}}</span></a>
+					{% else %}
+						<a class="link-light" title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">&lt;{{item.o.namespace}}<span class="fw-bold">{{item.o.property}}</span>&gt;</a><br>
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</header>

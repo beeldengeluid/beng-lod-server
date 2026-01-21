@@ -1,0 +1,28 @@
+	{% for item in json_iri_bnode %}
+	<div class="row">
+		<div class="col-3 py-2 text-truncate">
+			<a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">{{item.p.prefix}}:<span class="fw-bold">{{item.p.property}}</span></a>
+		</div>
+		<div class="col-9 py-2 border-bottom text-truncate">
+			{% for bnode in item.o %}
+				<div class="row">
+					<div class="col py-2 border-bottom text-truncate">
+						<a title="&lt;{{bnode.pred.uri}}&gt;" href="{{bnode.pred.uri}}" target="_blank">{{bnode.pred.prefix}}:<span class="fw-bold">{{bnode.pred.property}}</span></a>
+					</div>
+					{% if bnode.obj.uri is defined %}
+						<div class="col py-2 border-bottom text-truncate">
+							{% if bnode.obj.uri.startswith('http://data.beeldengeluid.nl/gtaa/') and bnode.obj.pref_label|length %}
+								<a title="&lt;{{bnode.obj.uri}}&gt;" href="{{bnode.obj.uri}}" target="_blank">{{bnode.obj.pref_label|first}}</a>
+							{% else %}
+								<a title="&lt;{{bnode.obj.uri}}&gt;" href="{{bnode.obj.uri}}" target="_blank">{{bnode.obj.prefix}}:<span class="fw-bold">{{bnode.obj.property}}</span></a>
+							{% endif %}
+						</div>
+					{% endif %}
+					{% if bnode.obj.label is defined and bnode.obj.label|length %}
+						<div class="col-6 py-2 border-bottom text-truncate">{{bnode.obj.label}}</div>
+					{% endif %}
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	{% endfor %}
