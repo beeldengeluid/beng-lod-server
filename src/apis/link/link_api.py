@@ -60,22 +60,30 @@ class Link(Resource):
 
         # getting and returning lod data
         logger.info(f"Getting the graph from the triple store for resource {lod_url}.")
-        rdf_graph = util.mw_ld_util.get_lod_resource_from_rdf_store(
+        rdf_graph = util.mw_ld_util.get_resource_from_rdf_store(
             lod_url,
             current_app.config.get("MUZIEKWEB_SPARQL_ENDPOINT", ""),
-            current_app.config.get("URI_NISV_ORGANISATION", ""),
+            current_app.config.get("MUZIEKWEB_LOD_RESOURCE_QUERY", ""),
+            current_app.config.get("MUZIEKWEB_ORGANISATION_URI", ""),
         )
         # check if graph contains data and return 500 if not.
         if not rdf_graph:
             return APIUtil.toErrorResponse(
                 "internal_server_error",
-                "No graph created. Check your resource type and identifier",
+                "No graph created. Check your identifier",
             )
 
         # check if mime_type is HTML and generate HTML page and 200 if so.
         if mime_type is MimeType.HTML:
+            logger.debug("Generating HTML page.")
+            muziekweb_html_template = current_app.config.get(
+                "MUZIEKWEB_HTML_TEMPLATE", ""
+            )
             return util.lodview_util.generate_html_page(
-                rdf_graph, lod_url, current_app.config.get("SPARQL_ENDPOINT", "")
+                rdf_graph,
+                lod_url,
+                current_app.config.get("MUZIEKWEB_SPARQL_ENDPOINT", ""),
+                muziekweb_html_template,
             )
         else:
             # return other formats than HTML. Returns data and 200 status.
