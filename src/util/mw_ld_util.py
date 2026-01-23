@@ -12,13 +12,16 @@ logger = logging.getLogger()
 # declare namespaces
 SCHEMA = "http://schema.org/"
 WIKIDATA = "http://www.wikidata.org/entity/"
+WIKIDATA_WWW = "http://www.wikidata.org/wiki/"
 SKOS_NS = "http://www.w3.org/2004/02/skos/core#"
 DCTERMS_NS = "http://purl.org/dc/terms/"
-DISCOGS = "https://api.discogs.com/artists/"
+DISCOGS_ARTIST = "https://api.discogs.com/artists/"
+DISCOGS_RELEASE = "https://www.discogs.com/release/"
 MUZIEKWEB = "https://data.muziekweb.nl/Link/"
 MUZIEKWEB_VOCAB = "https://data.muziekweb.nl/vocab/"
 MUZIEKSCHATTEN = "https://data.muziekschatten.nl/som/"
 RDFS = "http://www.w3.org/2000/01/rdf-schema#"
+MUSICBRAINZ_RELEASE = "https://musicbrainz.org/release/"
 
 
 def generate_muziekweb_lod_resource_uri(
@@ -85,17 +88,8 @@ def get_resource_from_rdf_store(
         results = json.loads(query_result)
         logger.debug(f"SPARQL query results: {results}")
 
-        for row in results["results"]["bindings"]:
-            logger.debug(f"Row: {row}")
-            try:
-                s, p, o = result_binding_to_triple(row)
-                if not s:
-                    # Handle cases where 's' is missing in the row
-                    g.add((URIRef(resource_url), p, o))
-                else:
-                    g.add((s, p, o))
-            except Exception as exc:
-                logger.error(str(exc))
+        # Note we have to add the resource_url for the triples that miss the subject 's'
+        g += convert_results_to_graph(results, resource_url)
 
         if len(g) == 0:
             logger.error("Graph was empty")
@@ -104,12 +98,17 @@ def get_resource_from_rdf_store(
         # TODO: check the namespaces that are actually used in the graph
         g.bind("schema", SCHEMA)
         g.bind("wd", WIKIDATA)
+        g.bind("wikidata", WIKIDATA_WWW)
         g.bind("skos", SKOS_NS)
         g.bind("dcterms", DCTERMS_NS)
-        g.bind("discogs", DISCOGS)
+        g.bind("discogs-artist", DISCOGS_ARTIST)
+        g.bind("discogs-release", DISCOGS_RELEASE)
         g.bind("muziekweb", MUZIEKWEB)
         g.bind("som", MUZIEKSCHATTEN)
         g.bind("vocab", MUZIEKWEB_VOCAB)
+        g.bind("rdfs", RDFS)
+        g.bind("mb-release", MUSICBRAINZ_RELEASE)
+
         logger.debug(f"TODO: do something with the organisation uri {organisation_uri}")
 
         return g
@@ -170,9 +169,9 @@ def result_binding_to_triple(result_binding: dict) -> tuple:
     :param result_binding: the SPARQL result binding as a dictionary.
     :returns: a tuple (s, p, o) representing the RDF triple.
     """
-    s = None
-    p = None
-    o = None
+    s: URIRef | BNode | None = None
+    p: URIRef | None = None
+    o: URIRef | BNode | Literal | None = None
 
     # subject
     s_value = result_binding.get("s", {}).get("value", "")
@@ -204,6 +203,26 @@ def result_binding_to_triple(result_binding: dict) -> tuple:
             o = Literal(o_value)
 
     return (s, p, o)
+
+
+def convert_results_to_graph(results: dict, resource_url: str) -> Graph:
+    """Convert SPARQL SELECT query results to an RDF Graph.
+    :param results: the SPARQL SELECT query results as a dictionary.
+    :param resource_url: the main resource URL to use when subject 's' is missing.
+    :returns: an RDF Graph containing the triples.
+    """
+    g = Graph()
+    for row in results.get("results", {}).get("bindings", []):
+        try:
+            s, p, o = result_binding_to_triple(row)
+            if not s:
+                # Handle cases where 's' is missing in the row
+                g.add((URIRef(resource_url), p, o))
+            else:
+                g.add((s, p, o))
+        except Exception as exc:
+            logger.error(str(exc))
+    return g
 
 
 def get_album_art_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional[str]:
