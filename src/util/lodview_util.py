@@ -344,5 +344,5 @@ def get_lod_view_resource_header(
     return render_template(
         "resource_lod_view_header.html",
         resource_uri=resource_uri,
-        rdf_graph_header_json=rdf_graph_header_json,
+        json_header=rdf_graph_header_json,
     )
