@@ -23,7 +23,7 @@ api = Namespace("Link", description="Endpoint for the Muziekweb resources.")
 @api.route("Link/<identifier>", endpoint="muziekweb")
 @api.route("vocab/<identifier>", endpoint="muziekweb_vocab")
 @api.doc(params={"identifier": "Muziekweb ID"})
-class Link(Resource):
+class LinkAPI(Resource):
     @api.produces([mt.value for mt in MimeType])
     def get(self, identifier):
         # determine and set the mimetype
