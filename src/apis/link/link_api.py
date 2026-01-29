@@ -21,6 +21,8 @@ api = Namespace("Link", description="Endpoint for the Muziekweb resources.")
     }
 )
 @api.route("Link/<identifier>", endpoint="muziekweb")
+@api.route("vocab/<identifier>", endpoint="muziekweb_vocab")
+@api.doc(params={"identifier": "Muziekweb ID"})
 class Link(Resource):
     @api.produces([mt.value for mt in MimeType])
     def get(self, identifier):
@@ -34,7 +36,7 @@ class Link(Resource):
         lod_url = None
         try:
             lod_url = util.mw_ld_util.generate_muziekweb_lod_resource_uri(
-                identifier,
+                request.path,
                 current_app.config.get("MUZIEKWEB_DATA_DOMAIN", ""),
             )
         except ValueError:

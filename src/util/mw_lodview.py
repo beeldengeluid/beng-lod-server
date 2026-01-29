@@ -11,11 +11,9 @@ from typing import Optional, List
 from util.mime_type_util import MimeType
 from util.APIUtil import APIUtil
 import util.mw_ld_util
+from util.ns_util import SCHEMA, MUZIEKWEB_VOCAB
 
 logger = logging.getLogger()
-
-SKOSXL_NS = "http://www.w3.org/2008/05/skos-xl#"
-SCHEMA = Namespace("http://schema.org/")  # Note the difference with SDO above (http:).
 
 
 def json_ld_structured_data_for_resource(rdf_graph: Graph, resource_url: str) -> str:
@@ -49,6 +47,7 @@ def json_parts_from_IRI(rdf_graph: Graph, iri: str) -> dict:
 
 def json_label_for_iri(rdf_graph: Graph, iri: str) -> List[str]:
     """Generates a list of labels for a given IRI."""
+    # TODO: handle language preferences for the UI
     return (
         [
             str(label)
@@ -106,7 +105,7 @@ def json_header_from_rdf_graph(
                 subject=URIRef(resource_url), predicate=URIRef(RDF.type)
             )
             if json_parts_from_IRI(rdf_graph, str(o)).get("namespace", "")
-            in (str(SDO), str(SKOS), str(SCHEMA))
+            in (str(SDO), str(SKOS), str(SCHEMA), str(MUZIEKWEB_VOCAB))
         ]
         return json_header
     except Exception as e:
@@ -172,6 +171,7 @@ def json_iri_bnode_from_rdf_graph(
                         "pred": json_parts_from_IRI(rdf_graph, str(bnode_pred)),
                         "obj": (
                             {
+                                # TODO: replace the code with the function json_parts_from_IRI
                                 "uri": str(bnode_obj),
                                 "prefix": rdf_graph.compute_qname(str(bnode_obj))[0],
                                 "namespace": str(

@@ -6,36 +6,33 @@ from typing import Optional
 from requests.exceptions import ConnectionError, HTTPError
 from urllib.parse import urlparse, urlunparse
 from rdflib import Graph, URIRef, BNode, Literal
+from util.ns_util import (
+    SCHEMA,
+    SDO,
+    WIKIDATA,
+    WIKIDATA_WWW,
+    SKOS_NS,
+    DCTERMS_NS,
+    DISCOGS_ARTIST,
+    DISCOGS_RELEASE,
+    MUZIEKWEB,
+    MUZIEKWEB_VOCAB,
+    MUZIEKSCHATTEN,
+    RDFS,
+    MUSICBRAINZ_RELEASE,
+)
 
 logger = logging.getLogger()
 
-# declare namespaces
-SCHEMA = "http://schema.org/"
-WIKIDATA = "http://www.wikidata.org/entity/"
-WIKIDATA_WWW = "http://www.wikidata.org/wiki/"
-SKOS_NS = "http://www.w3.org/2004/02/skos/core#"
-DCTERMS_NS = "http://purl.org/dc/terms/"
-DISCOGS_ARTIST = "https://api.discogs.com/artists/"
-DISCOGS_RELEASE = "https://www.discogs.com/release/"
-MUZIEKWEB = "https://data.muziekweb.nl/Link/"
-MUZIEKWEB_VOCAB = "https://data.muziekweb.nl/vocab/"
-MUZIEKSCHATTEN = "https://data.muziekschatten.nl/som/"
-RDFS = "http://www.w3.org/2000/01/rdf-schema#"
-MUSICBRAINZ_RELEASE = "https://musicbrainz.org/release/"
 
-
-def generate_muziekweb_lod_resource_uri(
-    identifier: str, muziekweb_data_domain: str
-) -> str:
-    """Constructs valid url using the data domain and the identifier:
-            {Muziekweb data domain}/Link/{identifier}
-    :param identifier: the Muziekweb id (moslty Person or Album)
+def generate_muziekweb_lod_resource_uri(path: str, muziekweb_data_domain: str) -> str:
+    """Constructs valid url using the data domain and the path.
+    :param path: the Muziekweb path (both /Link and /vocab are supported)
     :param muziekweb_data_domain: see MUZIEKWEB_DATA_DOMAIN in config.yml
     :returns: a proper URI as it should be listed in the LOD server.
     """
     url_parts = urlparse(str(muziekweb_data_domain))
     if url_parts.netloc is not None and url_parts.netloc != "":
-        path = "/".join(["Link", str(identifier)])
         parts = (url_parts.scheme, url_parts.netloc, path, "", "", "")
         return urlunparse(parts)
     else:
@@ -44,8 +41,9 @@ def generate_muziekweb_lod_resource_uri(
 
 def is_muziekweb_resource(resource_url: str, sparql_endpoint: str) -> bool:
     """Check with the triple store whether the resource exists."""
-    query = f"ASK {{ {{ <{resource_url}> a ?type }} }}"
-    resp = requests.get(sparql_endpoint, params={"query": query, "format": "json"})
+    query = f"ASK {{ {{ <{resource_url}> ?p ?o }} }}"
+    params = {"query": query, "format": "application/json"}
+    resp = requests.get(sparql_endpoint, params=params)
     resp.raise_for_status()
     if resp.status_code == 200:
         if resp.json().get("boolean"):
@@ -77,10 +75,7 @@ def get_resource_from_rdf_store(
 
     try:
         query_str = get_query_from_file(query_fname)
-        query_str_service: str = query_str.replace(
-            "<?service_url>", f"<{sparql_endpoint}>"
-        )
-        query = query_str_service.replace("?resource_iri", f"<{resource_url}>")
+        query = query_str.replace("?resource_iri", f"<{resource_url}>")
         logger.debug(f"SPARQL query to get the resource:\n{query}")
 
         # get the results
@@ -95,8 +90,8 @@ def get_resource_from_rdf_store(
             logger.error("Graph was empty")
 
         # add the missing namespaces
-        # TODO: check the namespaces that are actually used in the graph
         g.bind("schema", SCHEMA)
+        g.bind("sdo", SDO)
         g.bind("wd", WIKIDATA)
         g.bind("wikidata", WIKIDATA_WWW)
         g.bind("skos", SKOS_NS)
@@ -147,7 +142,7 @@ def sparql_select_query(
             url=sparql_endpoint,
             params={"query": query},
             headers={
-                "Accept": f"{'application/sparql-results+json' if format == 'json' else 'application/rdf+xml'}"
+                "Accept": f"{'application/sparql-results+json' if format == 'json' else 'application/sparql-results+xml'}"
             },
         )
     else:
@@ -155,7 +150,7 @@ def sparql_select_query(
             sparql_endpoint,
             params={"query": query},
             headers={
-                "Accept": f"{'application/sparql-results+json' if format == 'json' else 'application/rdf+xml'}"
+                "Accept": f"{'application/sparql-results+json' if format == 'json' else 'application/sparql-results+xml'}"
             },
         )
     resp.raise_for_status()

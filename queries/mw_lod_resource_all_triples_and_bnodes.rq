@@ -5,7 +5,6 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX schema: <http://schema.org/>
 
 select distinct ?s ?p ?o WHERE {
-  SERVICE <?service_url> {
     # Select all properties values and labels for properties, incl. blank nodes
     {
       { # triples for the resource
@@ -25,6 +24,5 @@ select distinct ?s ?p ?o WHERE {
         ?resource_iri ?p1 ?s1 . ?s1 ?p2 ?s . FILTER(isblank(?s)) ?s ?p ?o . 
       }
     }
-  }
 }
 LIMIT 10000
