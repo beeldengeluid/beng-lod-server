@@ -11,7 +11,7 @@
 			</div>
 			<div class="col-6 text-end">
 				{% for item in json_header %}
-					{% if item.o.prefix|length %}
+src/tests/__pycache__					{% if item.o.prefix|length %}
 						<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank" id="header_rdf_type">{{item.o.prefix}}:<span class="fw-bold">{{item.o.property}}</span></a>
 					{% else %}
 						<a class="link-light" title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">&lt;{{item.o.namespace}}<span class="fw-bold">{{item.o.property}}</span>&gt;</a><br>

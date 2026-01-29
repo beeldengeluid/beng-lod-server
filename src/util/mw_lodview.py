@@ -1,7 +1,7 @@
 import logging
 import json
 from flask import render_template, Response
-from rdflib import Graph, URIRef, Literal, BNode, Namespace
+from rdflib import Graph, URIRef, Literal, BNode
 from rdflib.namespace._RDF import RDF
 from rdflib.namespace._RDFS import RDFS
 from rdflib.namespace._SDO import SDO
