@@ -1,10 +1,7 @@
 import json
 import os
 import pytest
-
-from flask import Flask
 from rdflib import Graph
-
 from config import cfg
 
 
@@ -83,35 +80,12 @@ def open_file():
 
 
 @pytest.fixture(scope="session")
-def application():
-    app = Flask(__name__, template_folder="../templates")
-    app.config.update(cfg)  # merge config with app config
-    app.config["GLOBAL_CACHE"] = {}
-
-    return app
-
-
-@pytest.fixture(scope="session")
-def application_settings(application):
+def application_settings(flask_test_client):
     """Returns the application settings."""
-    return application.config
+    return flask_test_client.application.config
 
 
-"""------------------------ APPLICATION CLIENT (VALID & INVALID) ----------------------"""
-
-
-@pytest.fixture(scope="session")
-def application_client():
-    """Returns the token and id that should be available in the application settings."""
-    return {"id": "unit_test", "token": "hahahahahahWAT_EEN_TEST"}
-
-
-@pytest.fixture(scope="session")
-def invalid_application_client():
-    return {"id": "FAKE", "token": "FAKE"}
-
-
-"""------------------------ API CLIENTS FOR ON & OFFLINE TESTING ----------------------"""
+"""------------------------ API CLIENT ----------------------"""
 
 
 @pytest.fixture(scope="session")
@@ -119,58 +93,9 @@ def flask_test_client():
     """Returns a basic Flask test client."""
     from server import app
 
+    app.config.update(cfg)  # merge config with app config
+    app.config["TESTING"] = True
+    app.config["GLOBAL_CACHE"] = {}
+    app.config["SERVER_NAME"] = "localhost:5000"
+
     return app.test_client()
-
-
-@pytest.fixture(scope="session")
-def http_test_client(application_settings):
-    """Returns an HTTP client that can send requests to local server."""
-    import requests
-
-    class HTTPClient:
-        def post(self, path, data=None):
-            return requests.post(
-                "http://localhost:%s%s" % (application_settings["APP_PORT"], path),
-                json=data,
-            )
-
-        def get(self, path):
-            return requests.get(
-                "http://localhost:%s%s" % (application_settings["APP_PORT"], path)
-            )
-
-    return HTTPClient()
-
-
-@pytest.fixture(scope="session")
-def generic_client(http_test_client, flask_test_client):
-    """Returns a GenericClient instance that either:
-    returns the response from an HTTP client that sends requests to a Flask server,
-    or, when offline, returns the response from a Flask test client that sends
-    requests to a local Flask server.
-    """
-
-    class Response(object):
-        def __init__(self, text, status_code, headers):
-            self.text = text
-            self.status_code = status_code
-            self.headers = headers
-
-    class GenericClient:
-        def post(self, mode, path, data=None):
-            if mode == "offline":
-                r = flask_test_client.post(
-                    path, data=json.dumps(data), content_type="application/json"
-                )
-                return Response(r.data, r.status_code, r.headers)
-            else:
-                return http_test_client.post(path, data=data)
-
-        def get(self, mode, path, headers=None):
-            if mode == "offline":
-                r = flask_test_client.get(path, headers=headers)
-                return Response(r.data, r.status_code, r.headers)
-            else:
-                return http_test_client.get(path)
-
-    return GenericClient()
