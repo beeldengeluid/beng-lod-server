@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   build-push-image:
-    uses: beeldengeluid/gha-workflows/.github/workflows/build-push-image.yml@c2ef18304765f1682ffced8a3d5679ae7d40087a # v2025.12.04
+    uses: beeldengeluid/gha-workflows/.github/workflows/build-push-image.yml@4f838fab72113ee5f113cd98fb8e9899dad9d009 # v2025.12.30
     secrets: inherit
     permissions:
       contents: read
