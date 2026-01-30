@@ -43,6 +43,7 @@ def validate_config(config, validate_file_paths=True):
                 "gtaa",
                 "pong",
                 "health",
+                "link",
             ], "ENABLED_ENDPOINTS: invalid endpoint ID"
 
         assert __check_setting(config, "DATA_CATALOG_GRAPH", str), "DATA_CATALOG_GRAPH"

@@ -1,0 +1,75 @@
+<div class="container-fluid">
+	{% for item in json_iri_lit %}
+	<div class="row">
+		<div class="col-3 py-2 text-truncate">
+			<a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">{{item.p.prefix}}:<span class="fw-bold">{{item.p.property}}</span></a>
+		</div>
+		<div class="col-6 py-2 border-bottom text-truncate">{{item.o.literal_value}}</div>
+		{% if item.o.datatype|length %}
+			<div class="col-3 py-2 border-bottom text-end text-truncate">{{item.o.datatype_prefix}}:<span class="fw-bold">{{item.o.datatype_property}}</span></div>
+		{% endif %}
+	</div>
+	{% endfor %}
+	{% for item in json_iri_iri %}
+	<div class="row">
+		<div class="col-3 py-2">
+			<a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">{{item.p.prefix}}:<span class="fw-bold">{{item.p.property}}</span></a>
+		</div>
+		<div class="col-9 py-2 border-bottom">
+			{% if item.o.pref_label|length %}
+				{% if item.o.uri.startswith('http://data.beeldengeluid.nl/gtaa/') %}
+					<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{ item.o.pref_label|first }}</a>
+				{% endif %}
+			{% elif item.o.literal_form|length %}
+				<div class="row">
+					<div class="col py-2 border-bottom">
+						<a title="&lt;http://www.w3.org/2008/05/skos-xl#literalForm&gt;" href="http://www.w3.org/2008/05/skos-xl#literalForm" target="_blank">skosxl:<span class="fw-bold">literalForm</span></a>
+					</div>
+					<div class="col py-2 border-bottom">{{item.o.literal_form|first}}</div>
+				</div>
+			{% elif item.p.uri == 'https://schema.org/license' %}
+				<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.uri}}</a>
+			{% elif item.p.uri == 'https://schema.org/partOfSeason' or item.p.uri == 'https://schema.org/partOfSeries' or item.p.uri == 'https://schema.org/isPartOf' or item.p.uri == 'https://schema.org/includedInDataCatalog' or item.p.uri == 'https://schema.org/distribution' %}
+				<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.parent_label|first}}</a>
+			{% elif item.p.uri == 'https://schema.org/hasPart' or item.p.uri == 'https://schema.org/distribution' or item.p.uri == 'https://schema.org/dataset' %}
+				<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.part_label|first}}</a>
+			{% elif 'data.beeldengeluid.nl/id/' in item.o.uri or 'zoeken.beeldengeluid' in item.o.uri or 'www.beeldengeluid'in item.o.uri or 'apis.beeldengeluid' in item.o.uri or item.o.uri|last == '/' %}
+				<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.uri}}</a>
+			{% else %}
+				<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.prefix}}:<span class="fw-bold">{{item.o.property}}</span></a>
+			{% endif %}
+		</div>
+	</div>
+	{% endfor %}
+	{% for item in json_iri_bnode %}
+	<div class="row">
+		<div class="col-3 py-2">
+			<a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">{{item.p.prefix}}:<span class="fw-bold">{{item.p.property}}</span></a>
+		</div>
+		<div class="col-9 py-2 border-bottom">
+			{% for bnode in item.o %}
+				<div class="row">
+					<div class="col py-2 border-bottom">
+						<a title="&lt;{{bnode.pred.uri}}&gt;" href="{{bnode.pred.uri}}" target="_blank">{{bnode.pred.prefix}}:<span class="fw-bold">{{bnode.pred.property}}</span></a>
+					</div>
+					{% if bnode.obj.uri is defined %}
+						<div class="col py-2 border-bottom">
+							{% if bnode.obj.uri.startswith('http://data.beeldengeluid.nl/gtaa/') and bnode.obj.pref_label|length %}
+								<a title="&lt;{{bnode.obj.uri}}&gt;" href="{{bnode.obj.uri}}" target="_blank">{{bnode.obj.pref_label|first}}</a>
+							{% else %}
+								<a title="&lt;{{bnode.obj.uri}}&gt;" href="{{bnode.obj.uri}}" target="_blank">{{bnode.obj.prefix}}:<span class="fw-bold">{{bnode.obj.property}}</span></a>
+							{% endif %}
+						</div>
+					{% endif %}
+					{% if bnode.obj.label is defined and bnode.obj.label|length %}
+						<div class="col-6 py-2 border-bottom">{{bnode.obj.label}}</div>
+					{% endif %}
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	{% endfor %}
+</div>
+<div id="bnodes" class="empty"></div>
+<div id="inverses"></div>
+<div id="lodCloud" class="empty"></div>
