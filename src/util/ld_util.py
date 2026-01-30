@@ -2,7 +2,7 @@ import logging
 import requests
 import validators
 from requests.exceptions import ConnectionError, HTTPError
-from rdflib import Graph, URIRef, Namespace
+from rdflib import Graph, URIRef
 from rdflib.namespace._RDF import RDF
 from rdflib.namespace._SDO import SDO
 from rdflib.namespace._SKOS import SKOS
@@ -11,21 +11,19 @@ from urllib.parse import urlparse, urlunparse
 from enum import Enum
 from models.DatasetApiUriLevel import DatasetApiUriLevel
 from models.ResourceApiUriLevel import ResourceApiUriLevel
+from util.ns_util import (
+    SKOSXL,
+    QUDT,
+    GTAA,
+    BENGTHES,
+    WIKIDATA,
+    DCTERMS,
+    DISCOGS_ARTIST,
+    MUZIEKWEB,
+    MUZIEKSCHATTEN,
+)
 
 logger = logging.getLogger()
-
-# declare namespaces
-SKOSXL_NS = "http://www.w3.org/2008/05/skos-xl#"
-SKOSXL = Namespace(URIRef(SKOSXL_NS))
-GTAA = Namespace(URIRef("http://data.beeldengeluid.nl/gtaa/"))
-SDOTORG = "https://schema.org/"
-BENGTHES = "http://data.beeldengeluid.nl/schema/thes#"
-WIKIDATA = "http://www.wikidata.org/entity/"
-SKOS_NS = "http://www.w3.org/2004/02/skos/core#"
-DCTERMS_NS = "http://purl.org/dc/terms/"
-DISCOGS = "https://api.discogs.com/artists/"
-MUZIEKWEB = "https://data.muziekweb.nl/Link/"
-MUZIEKSCHATTEN = "https://data.muziekschatten.nl/som/"
 
 
 def generate_lod_resource_uri(
@@ -190,14 +188,15 @@ def get_lod_resource_from_rdf_store(
         # add the missing namespaces
         g.bind("skosxl", SKOSXL)
         g.bind("gtaa", GTAA)
-        g.bind("sdo", SDOTORG)
+        g.bind("sdo", SDO)
         g.bind("bengthes", BENGTHES)
         g.bind("wd", WIKIDATA)
-        g.bind("skos", SKOS_NS)
-        g.bind("dcterms", DCTERMS_NS)
-        g.bind("discogs", DISCOGS)
+        g.bind("skos", SKOS)
+        g.bind("dcterms", DCTERMS)
+        g.bind("discogs", DISCOGS_ARTIST)
         g.bind("muziekweb", MUZIEKWEB)
         g.bind("som", MUZIEKSCHATTEN)
+        g.bind("qudt", QUDT)
 
         return g
     except ConnectionError as e:

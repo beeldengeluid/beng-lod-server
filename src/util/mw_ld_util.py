@@ -11,8 +11,8 @@ from util.ns_util import (
     SDO,
     WIKIDATA,
     WIKIDATA_WWW,
-    SKOS_NS,
-    DCTERMS_NS,
+    SKOS,
+    DCTERMS,
     DISCOGS_ARTIST,
     DISCOGS_RELEASE,
     MUZIEKWEB,
@@ -20,6 +20,7 @@ from util.ns_util import (
     MUZIEKSCHATTEN,
     RDFS,
     MUSICBRAINZ_RELEASE,
+    QUDT,
 )
 
 logger = logging.getLogger()
@@ -94,8 +95,8 @@ def get_resource_from_rdf_store(
         g.bind("sdo", SDO)
         g.bind("wd", WIKIDATA)
         g.bind("wikidata", WIKIDATA_WWW)
-        g.bind("skos", SKOS_NS)
-        g.bind("dcterms", DCTERMS_NS)
+        g.bind("skos", SKOS)
+        g.bind("dcterms", DCTERMS)
         g.bind("discogs-artist", DISCOGS_ARTIST)
         g.bind("discogs-release", DISCOGS_RELEASE)
         g.bind("muziekweb", MUZIEKWEB)
@@ -103,6 +104,7 @@ def get_resource_from_rdf_store(
         g.bind("vocab", MUZIEKWEB_VOCAB)
         g.bind("rdfs", RDFS)
         g.bind("mb-release", MUSICBRAINZ_RELEASE)
+        g.bind("qudt", QUDT)
 
         logger.debug(f"TODO: do something with the organisation uri {organisation_uri}")
 

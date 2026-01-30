@@ -45,18 +45,36 @@ def json_parts_from_IRI(rdf_graph: Graph, iri: str) -> dict:
         }
 
 
-def json_label_for_iri(rdf_graph: Graph, iri: str) -> List[str]:
-    """Generates a list of labels for a given IRI."""
+def json_label_for_node(
+    rdf_graph: Graph, node: URIRef | BNode, lang: str = ""
+) -> List[str]:
+    """Generates a list of labels for a given IRI or BNode."""
     # TODO: handle language preferences for the UI
     return (
         [
-            str(label)
-            for label in rdf_graph.objects(URIRef(iri), SKOS.prefLabel)
-            if Literal(label).language == "nl"
+            f"{str(label)} @{Literal(label).language}"
+            for label in rdf_graph.objects(node, SKOS.prefLabel)
+            if Literal(label).language == lang
         ]
-        + [str(name) for name in rdf_graph.objects(URIRef(iri), SDO.name)]
-        + [str(name) for name in rdf_graph.objects(URIRef(iri), DCTERMS.title)]
-        + [str(label) for label in rdf_graph.objects(URIRef(iri), RDFS.label)]
+        + [
+            str(label)
+            for label in rdf_graph.objects(node, SKOS.prefLabel)
+            if Literal(label).language and lang == ""
+        ]
+        + [
+            str(name)
+            for name in rdf_graph.objects(node, SDO.name)
+            if Literal(name).language == lang or lang == ""
+        ]
+        + [str(title) for title in rdf_graph.objects(node, DCTERMS.title)]
+        + [str(label) for label in rdf_graph.objects(node, RDFS.label)]
+    )
+
+
+def json_for_literal(rdf_graph: Graph, literal: Literal, lang: str = "") -> dict:
+    """Generates JSON parts for a given Literal."""
+    return json_label_for_literal(literal, lang) | json_for_datatype(
+        rdf_graph, literal.datatype
     )
 
 
@@ -65,29 +83,41 @@ def json_for_datatype(rdf_graph: Graph, datatype_iri: URIRef | None) -> dict:
     if datatype_iri:
         prefix, namespace, name = rdf_graph.compute_qname(str(datatype_iri))
         return {
-            "datatype_uri": str(datatype_iri),
-            "datatype_prefix": prefix,
-            "datatype_namespace": str(namespace),
-            "datatype_property": name,
+            "datatype": {
+                "uri": str(datatype_iri),
+                "prefix": prefix,
+                "namespace": str(namespace),
+                "property": name,
+            }
         }
     else:
-        return {
-            "datatype_uri": "",
-            "datatype_prefix": "",
-            "datatype_namespace": "",
-            "datatype_property": "",
-        }
+        return {}
 
 
-def json_for_literal(rdf_graph: Graph, literal: Literal) -> dict:
-    """Generates JSON parts for a given Literal."""
+def json_label_for_literal(literal: Literal, lang: str = "") -> dict:
+    """Generates a list of labels for a given Literal.
+    A language preference can be given.
+    """
     return {
-        "literal_value": (
-            f"{str(literal)} @{literal.language}"
-            if literal.language
-            else f"{str(literal)}"
-        )
-    } | json_for_datatype(rdf_graph, literal.datatype)
+        "labels": [
+            (
+                f"{str(literal)} @{literal.language}"
+                if literal.language and literal.language == lang
+                else (
+                    f"{str(literal)} @{literal.language}"
+                    if literal.language and lang == ""
+                    else str(literal)
+                )
+            )
+        ]
+    }
+
+    # | json_for_datatype(literal.graph, literal.datatype)
+
+    # return {
+    #     "literal_value": f"{str(literal)} @{literal.language}"
+    #         if literal.language and literal.language == lang else f"{str(literal)} @{literal.language}"if literal.language and lang == "" else str(literal) if lang == ""
+    # } | json_for_datatype(rdf_graph, literal.datatype)
 
 
 def json_header_from_rdf_graph(
@@ -98,7 +128,9 @@ def json_header_from_rdf_graph(
     try:
         json_header = [
             {
-                "title": json_label_for_iri(rdf_graph, resource_url),
+                "title": json_label_for_node(
+                    rdf_graph, URIRef(resource_url), lang="nl"
+                ),
                 "o": json_parts_from_IRI(rdf_graph, str(o)),
             }
             for o in rdf_graph.objects(
@@ -124,7 +156,7 @@ def json_iri_iri_from_rdf_graph(
             {
                 "p": json_parts_from_IRI(rdf_graph, str(p)),
                 "o": json_parts_from_IRI(rdf_graph, str(o))
-                | {"labels": json_label_for_iri(rdf_graph, str(o))},
+                | {"labels": json_label_for_node(rdf_graph, o)},
             }
             for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url))
             if p != RDF.type and isinstance(o, URIRef)
@@ -145,7 +177,12 @@ def json_iri_lit_from_rdf_graph(
         json_iri_lit = [
             {
                 "p": json_parts_from_IRI(rdf_graph, str(p)),
-                "o": json_for_literal(rdf_graph, o),
+                "o": (
+                    json_label_for_literal(o)
+                    if o.datatype is None
+                    else json_label_for_literal(o)
+                    | json_for_datatype(rdf_graph, o.datatype)
+                ),
             }
             for p, o in rdf_graph.predicate_objects(subject=URIRef(resource_url))
             if isinstance(o, Literal)
@@ -170,30 +207,11 @@ def json_iri_bnode_from_rdf_graph(
                     {
                         "pred": json_parts_from_IRI(rdf_graph, str(bnode_pred)),
                         "obj": (
-                            {
-                                # TODO: replace the code with the function json_parts_from_IRI
-                                "uri": str(bnode_obj),
-                                "prefix": rdf_graph.compute_qname(str(bnode_obj))[0],
-                                "namespace": str(
-                                    rdf_graph.compute_qname(str(bnode_obj))[1]
-                                ),
-                                "property": rdf_graph.compute_qname(str(bnode_obj))[2],
-                                "pref_label": [
-                                    f"{str(pl)} @{Literal(pl).language}"
-                                    for pl in rdf_graph.objects(
-                                        bnode_obj, SKOS.prefLabel
-                                    )
-                                ],
-                            }
+                            json_parts_from_IRI(rdf_graph, str(bnode_obj))
+                            | {"labels": json_label_for_node(rdf_graph, bnode_obj)}
                             if isinstance(bnode_obj, URIRef)
                             else (
-                                {
-                                    "label": (
-                                        f"{str(bnode_obj)} @{bnode_obj.language}"
-                                        if bnode_obj.language
-                                        else f"{str(bnode_obj)}"
-                                    )
-                                }
+                                json_for_literal(rdf_graph, bnode_obj)
                                 if isinstance(bnode_obj, Literal)
                                 else str(bnode_obj)
                             )
