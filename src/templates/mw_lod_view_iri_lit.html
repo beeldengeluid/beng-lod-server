@@ -6,6 +6,8 @@
 		<div class="col-6 py-2 border-bottom text-truncate">{{item.o.labels|first}}</div>
 		{% if item.o.datatype|length %}
 			<div class="col-3 py-2 border-bottom text-end text-truncate">{{item.o.datatype.prefix}}:<span class="fw-bold">{{item.o.datatype.property}}</span></div>
+		{% else %}
+			<div class="col-3 py-2 border-bottom"></div>
 		{% endif %}
 	</div>
 	{% endfor %}

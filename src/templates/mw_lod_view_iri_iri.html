@@ -6,7 +6,7 @@
 		<div class="col-9 py-2 border-bottom text-truncate">
 			{% if item.o.labels|length %}
                 <a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{ item.o.labels|first }}</a>
-`			{% else %}
+			{% else %}
 				<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.prefix}}:<span class="fw-bold">{{item.o.property}}</span></a>
 			{% endif %}
 		</div>
