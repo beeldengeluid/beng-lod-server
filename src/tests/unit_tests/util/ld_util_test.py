@@ -1,13 +1,7 @@
 import pytest
 import requests
-
-# note:
-# the following SDO import generates a warning, see
-# https://github.com/RDFLib/rdflib/issues/1830
-
 from enum import Enum
-from rdflib import Graph, URIRef, Literal
-from rdflib.namespace import SDO, RDF
+from rdflib import Graph
 from rdflib.compare import to_isomorphic
 from requests.exceptions import ConnectionError
 from typing import List, Tuple, Union
@@ -18,10 +12,6 @@ from models.ResourceApiUriLevel import ResourceApiUriLevel
 from util.ld_util import (
     generate_lod_resource_uri,
     get_lod_resource_from_rdf_store,
-    json_header_from_rdf_graph,
-    json_iri_iri_from_rdf_graph,
-    json_iri_lit_from_rdf_graph,
-    json_iri_bnode_from_rdf_graph,
     sparql_construct_query,
 )
 
@@ -196,132 +186,6 @@ def test_get_lod_get_lod_resource_from_rdf_store_connection_error(
         unstub()
 
 
-def test_json_header_from_rdf_graph(scene_rdf_graph):
-    try:
-        ui_data = json_header_from_rdf_graph(scene_rdf_graph, DUMMY_RESOURCE_URI)
-        assert isinstance(ui_data, list)
-        assert len(ui_data) == 1
-        # assert "o" in ui_data[0]
-        assert all(x in ui_data[0] for x in ["o", "title"])
-        assert all(
-            x in ui_data[0]["o"] for x in ["uri", "prefix", "namespace", "property"]
-        )
-
-        # only schema.org types (SDO) types are returned
-        assert ui_data[0]["o"]["uri"] == f"{str(SDO)}Clip"
-        assert ui_data[0]["o"]["namespace"] == str(SDO)
-        assert ui_data[0]["o"]["property"] == "Clip"
-
-    finally:
-        unstub()
-
-
-def test_json_iri_iri_from_rdf_graph(scene_rdf_graph):
-    try:
-        ui_data = json_iri_iri_from_rdf_graph(scene_rdf_graph, DUMMY_RESOURCE_URI)
-        assert isinstance(ui_data, list)
-        assert len(ui_data) == 2
-        for item in ui_data:
-            assert all(x in item for x in ["o", "p"])
-            # there should be no RDF:type resources
-            assert not (
-                item["p"]["namespace"] == str(RDF) and item["p"]["property"] == "type"
-            )
-            # all objects should be IRIs
-            assert item["o"]["uri"].find("http") != -1
-            assert all(
-                x in ui_data[0]["p"] for x in ["uri", "prefix", "namespace", "property"]
-            )
-            assert all(
-                x in ui_data[0]["o"]
-                for x in [
-                    "uri",
-                    "literal_form",
-                    "prefix",
-                    "namespace",
-                    "property",
-                    "pref_label",
-                ]
-            )
-
-    finally:
-        unstub()
-
-
-def test_json_iri_lit_from_rdf_graph(scene_rdf_graph):
-    try:
-        ui_data = json_iri_lit_from_rdf_graph(scene_rdf_graph, DUMMY_RESOURCE_URI)
-        assert isinstance(ui_data, list)
-        assert len(ui_data) == 1
-        for item in ui_data:
-            assert all(x in item for x in ["o", "p"])
-            assert all(
-                x in item["p"] for x in ["uri", "prefix", "namespace", "property"]
-            )
-            assert all(
-                x in item["o"]
-                for x in [
-                    "literal_value",
-                    "datatype",
-                    "datatype_prefix",
-                    "datatype_namespace",
-                    "datatype_property",
-                ]
-            )
-
-            # there should be no RDF:type resources
-            assert not (
-                item["p"]["namespace"] == str(RDF) and item["p"]["property"] == "type"
-            )
-            assert (
-                item["o"]["literal_value"].find("http") == -1
-            )  # all objects should be Literals
-    finally:
-        unstub()
-
-
-def test_json_iri_bnode_from_rdf_graph(program_rdf_graph_with_bnodes):
-    try:
-        ui_data = json_iri_bnode_from_rdf_graph(
-            program_rdf_graph_with_bnodes, DUMMY_RESOURCE_URI
-        )
-        assert isinstance(ui_data, list)
-        assert len(ui_data) == 31
-        for item in ui_data:
-            assert all(x in item for x in ["o", "p"])
-            assert all(
-                x in item["p"] for x in ["uri", "prefix", "namespace", "property"]
-            )
-
-            for bnode_content in item["o"]:
-                print(bnode_content)
-                assert all(x in bnode_content for x in ["pred", "obj"])
-                assert all(
-                    x in bnode_content["pred"]
-                    for x in ["uri", "prefix", "namespace", "property"]
-                )
-                assert isinstance(bnode_content["obj"], str) or isinstance(
-                    bnode_content["obj"], dict
-                )
-                if isinstance(bnode_content["obj"], dict):
-                    if isinstance(bnode_content, URIRef):
-                        assert all(
-                            x in bnode_content["obj"]
-                            for x in [
-                                "uri",
-                                "prefix",
-                                "namespace",
-                                "property",
-                                "pref_label",
-                            ]
-                        )
-                    if isinstance(bnode_content, Literal):
-                        assert all(x in bnode_content["obj"] for x in ["label"])
-
-    finally:
-        unstub()
-
-
 @pytest.mark.parametrize(
     "sparql_endpoint, query", [(DUMMY_SPARQL_ENDPOINT, DUMMY_CONSTRUCT_QUERY)]
 )
@@ -332,7 +196,7 @@ def test_sparql_construct_query(program_rdf_xml, sparql_endpoint, query):
         when(requests).get(sparql_endpoint, **KWARGS).thenReturn(resp)
         g1 = sparql_construct_query(sparql_endpoint, query)
         g2 = Graph()
-        g2.parse(data=resp.text, format="xml")
+        g2.parse(data=program_rdf_xml, format="xml")
         assert to_isomorphic(g1) == to_isomorphic(g2)
     finally:
         unstub()
