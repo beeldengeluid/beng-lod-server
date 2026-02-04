@@ -1,0 +1,372 @@
+{
+  "@context": {
+    "bengthes": "http://data.beeldengeluid.nl/schema/thes#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "discogs": "https://api.discogs.com/artists/",
+    "gtaa": "http://data.beeldengeluid.nl/gtaa/",
+    "muziekweb": "https://data.muziekweb.nl/Link/",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "sdo": "https://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "skosxl": "http://www.w3.org/2008/05/skos-xl#",
+    "som": "https://data.muziekschatten.nl/som/",
+    "wd": "http://www.wikidata.org/entity/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544983424",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544995024",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544990624",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544985724",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250545001624",
+      "sdo:name": "FLORIS"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544991824",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250545001724",
+      "sdo:name": "FLORIS"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544992824",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544986424",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544997024",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544988224",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "gtaa:223534",
+      "@type": [
+        "sdo:Organization",
+        "skos:Concept",
+        "rdfs:Resource"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "NTR"
+      }
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544984024",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544980924",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544978024",
+      "sdo:name": "FLORIS"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544996624",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544978924",
+      "sdo:name": "FLORIS"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544985224",
+      "sdo:name": "FLORIS"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544977724",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544976824",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544983024",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544987724",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544988724",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544977324",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544984724",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544993524",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/series/2101608030021485831",
+      "sdo:additionalType": {
+        "@type": "sdo:Text",
+        "@value": "Bewegend beeld - TV - Publieke omroep - Overige programma's"
+      },
+      "sdo:name": "FLORIS"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/program/2101608060047830331",
+      "@type": [
+        "rdfs:Resource",
+        "sdo:CreativeWork"
+      ],
+      "sdo:alternativeHeadline": {
+        "@language": "nl",
+        "@value": "Deel 2: De genezing"
+      },
+      "sdo:associatedMedia": {
+        "@id": "_:Nd6cd20b3fe4b4cc4af461b8367ea5aa9"
+      },
+      "sdo:datePublished": {
+        "@type": "xsd:date",
+        "@value": "1969-12-21"
+      },
+      "sdo:hasPart": [
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544986424"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544992124"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544983024"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250545001624"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544979224"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544980924"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544978024"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544994724"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544977324"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544976824"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544977724"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544991824"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544990124"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544979724"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544978924"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544993524"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250545001924"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544978324"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544992824"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544989224"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544983424"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544984024"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544979424"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544988224"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250545001724"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544977124"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544977524"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544989624"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544980724"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544995024"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544996624"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544997024"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544987724"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544992424"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544984724"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544988724"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544990624"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544985224"
+        },
+        {
+          "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544985724"
+        }
+      ],
+      "sdo:identifier": {
+        "@id": "https://persistent-identifier.nl/URN:NBN:NL:IN:20-PGM221441"
+      },
+      "sdo:license": {
+        "@id": "http://rightsstatements.org/vocab/InC/1.0/"
+      },
+      "sdo:name": {
+        "@language": "nl",
+        "@value": "De Byzantijnse beker"
+      },
+      "sdo:partOfSeries": {
+        "@id": "http://data.beeldengeluid.nl/id/series/2101608030021485831"
+      },
+      "sdo:provider": {
+        "@id": "gtaa:223534"
+      },
+      "sdo:publisher": {
+        "@id": "https://www.beeldengeluid.nl/"
+      },
+      "sdo:sdLicense": {
+        "@id": "https://creativecommons.org/publicdomain/zero/1.0/"
+      },
+      "sdo:sdPublisher": {
+        "@id": "https://www.beeldengeluid.nl/"
+      },
+      "sdo:url": {
+        "@id": "https://zoeken.beeldengeluid.nl/program/urn:vme:default:program:2101608060047830331"
+      }
+    },
+    {
+      "@id": "_:Nd6cd20b3fe4b4cc4af461b8367ea5aa9",
+      "@type": [
+        "sdo:VideoObject",
+        "rdfs:Resource"
+      ],
+      "sdo:encodingFormat": "video/mp4"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544990124",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544979424",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544989224",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544980724",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544978324",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544977124",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544979224",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544989624",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544992424",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544992124",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544979724",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250545001924",
+      "sdo:name": "FLORIS"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544977524",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/scene/2101702250544994724",
+      "sdo:name": "Afl. 12: De byzantijnse beker (afl. 2: De genezing)"
+    }
+  ]
+}

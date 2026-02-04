@@ -1,0 +1,586 @@
+{
+  "@context": {
+    "bengthes": "http://data.beeldengeluid.nl/schema/thes#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "discogs": "https://api.discogs.com/artists/",
+    "gtaa": "http://data.beeldengeluid.nl/gtaa/",
+    "muziekweb": "https://data.muziekweb.nl/Link/",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "sdo": "https://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "skosxl": "http://www.w3.org/2008/05/skos-xl#",
+    "som": "https://data.muziekschatten.nl/som/",
+    "wd": "http://www.wikidata.org/entity/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "gtaa:25054",
+      "@type": [
+        "skos:Concept",
+        "rdfs:Resource",
+        "sdo:Thing"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "bruiloften"
+      }
+    },
+    {
+      "@id": "gtaa:251010",
+      "@type": [
+        "sdo:Person",
+        "sdo:Thing",
+        "rdfs:Resource",
+        "skos:Concept"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "Millecam, Ed F."
+      }
+    },
+    {
+      "@id": "gtaa:26127",
+      "@type": [
+        "sdo:Thing",
+        "rdfs:Resource",
+        "skos:Concept"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "kussen"
+      }
+    },
+    {
+      "@id": "gtaa:27133",
+      "@type": [
+        "skos:Concept",
+        "sdo:Thing",
+        "rdfs:Resource"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "poppen"
+      }
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/program/2101608050034634431",
+      "@type": [
+        "sdo:CreativeWork",
+        "rdfs:Resource"
+      ],
+      "sdo:about": [
+        {
+          "@id": "gtaa:26773"
+        },
+        {
+          "@id": "gtaa:25213"
+        },
+        {
+          "@id": "gtaa:26887"
+        },
+        {
+          "@id": "gtaa:28046"
+        },
+        {
+          "@id": "gtaa:28250"
+        },
+        {
+          "@id": "gtaa:29535"
+        },
+        {
+          "@id": "gtaa:26774"
+        },
+        {
+          "@id": "gtaa:41687"
+        },
+        {
+          "@id": "gtaa:29238"
+        },
+        {
+          "@id": "gtaa:26127"
+        },
+        {
+          "@id": "gtaa:29577"
+        },
+        {
+          "@id": "gtaa:28253"
+        },
+        {
+          "@id": "gtaa:31300"
+        },
+        {
+          "@id": "gtaa:29801"
+        },
+        {
+          "@id": "gtaa:25054"
+        },
+        {
+          "@id": "gtaa:27197"
+        },
+        {
+          "@id": "gtaa:39742"
+        },
+        {
+          "@id": "gtaa:28452"
+        },
+        {
+          "@id": "gtaa:27133"
+        },
+        {
+          "@id": "gtaa:28699"
+        },
+        {
+          "@id": "gtaa:28043"
+        },
+        {
+          "@id": "gtaa:25494"
+        },
+        {
+          "@id": "gtaa:28305"
+        }
+      ],
+      "sdo:abstract": {
+        "@language": "nl",
+        "@value": "Amateurfilm van Ed F. Millecam uit de jaren 1949-1952 met o.a. beelden van de vredesdemonstratie op het Afrikaanderplein in Rotterdam op 1 mei 1949, een bruidspaar op hun huwelijksdag op 18 april 1952 en beelden van spelende kinderen."
+      },
+      "sdo:associatedMedia": {
+        "@id": "_:Nf82bca0f4ab04dbc922a177fc5603eb4"
+      },
+      "sdo:conditionsOfAccess": "View/listen to media online at the item's URL: True",
+      "sdo:creator": {
+        "@id": "_:N22ae9588dbe449388b596a9663d5a167"
+      },
+      "sdo:datePublished": {
+        "@type": "xsd:date",
+        "@value": "1949-05-01"
+      },
+      "sdo:description": {
+        "@language": "nl",
+        "@value": "00:19:46 '1 MEI 1949'\nSHOTS:\n00:19:46 '1 mei 1949'; voorpagina krant 'De Waarheid' over de massademonstratie voor de vrede op 1 mei op het Afrikaanderplein (met als spreker: Jan Schalker); vredesdemonstratie, toespraak, koor zingt lied op het podium;\n00:20:46 'Uut en Ber in actie': optreden, publiek applaudisseert; bord met tekst 'Vrede en brood'; optreden orkest;\n00:21:58 'Sijmen met zijn kreupele rijmen': voordracht door dichter; toespraak door (vermoedelijk) Jan Schalker;\n00:23:25 'De demonstratie': vredesdemonstranten lopen in lange stoet, muziekkapel voorop; vlaggendragers, spandoeken ('Vrede met Indonesië', 'Vrede en socialisme zijn een' en 'Leve de rode mei'); man draagt communistische vlag (hamer en sikkel).\n*\n00:25:32 'KLEINE KINDEREN... WORDEN GROOT, NOG MAAR WEINIGE JAREN GELEDEN...'\nSHOTS:\n00:25:32 vrouw schuift raam omhoog, meisje komt binnen; meisjes aan tafel aan het handwerken (een pop in bruidskleed), meisjes krijgen een kopje thee.\n*\n00:26:23 'EN TOEN, 18 APRIL 1952, EEN STRALENDE VOORJAARSDAG'\nSHOTS:\n00:26:28 bomen in bloei, cu bloesem; bruidspaar, in donkere kleding, wandelt vanuit huis naar auto; gasten (met bloemcorsages) wandelen vanuit huis richting auto's; rijer van auto's achter elkaar; bruidspaar stapt uit; bij de burgerlijke stand, ondertekenen akte; bruidspaar loopt weer naar buiten; lachend bruidspaar komt weer thuis aan en wordt opgewacht door gasten; felicitaties, handen schudden en een zoen; bruidspaar kust elkaar achter het bruidsboeket.\n*\n00:30:40 'DAAGJE BIJ LOES EN FRANS'\nSHOTS:\n00:30:44 kinderen op speelpleintje; meisjes hangen aan klimrek en stappen op paaltjes; pingpongspel; peuter zet stapjes; meisje op fiets; kind op rolschaatsen is gevallen en wordt opgetild; kind aan het rolschaatsen op de stoep."
+      },
+      "sdo:duration": "867",
+      "sdo:identifier": {
+        "@id": "https://persistent-identifier.nl/URN:NBN:NL:IN:20-PGM81547"
+      },
+      "sdo:keywords": {
+        "@language": "nl",
+        "@value": "bruidsparen"
+      },
+      "sdo:license": {
+        "@id": "http://rightsstatements.org/vocab/InC/1.0/"
+      },
+      "sdo:locationCreated": {
+        "@id": "_:N3c3b8addc948405b8129bbbebc3fa2e2"
+      },
+      "sdo:name": {
+        "@language": "nl",
+        "@value": "TROUWFILM 1952 EN RENEE ROLSCHAATS"
+      },
+      "sdo:partOfSeries": {
+        "@id": "http://data.beeldengeluid.nl/id/series/2102207260340870931"
+      },
+      "sdo:provider": {
+        "@id": "gtaa:263086"
+      },
+      "sdo:publisher": {
+        "@id": "https://www.beeldengeluid.nl/"
+      },
+      "sdo:sdLicense": {
+        "@id": "https://creativecommons.org/publicdomain/zero/1.0/"
+      },
+      "sdo:sdPublisher": {
+        "@id": "https://www.beeldengeluid.nl/"
+      },
+      "sdo:url": {
+        "@id": "https://zoeken.beeldengeluid.nl/program/urn:vme:default:program:2101608050034634431"
+      }
+    },
+    {
+      "@id": "_:N3c3b8addc948405b8129bbbebc3fa2e2",
+      "@type": [
+        "sdo:Place",
+        "rdfs:Resource"
+      ],
+      "rdfs:label": {
+        "@language": "nl",
+        "@value": "o.a. Rotterdam"
+      }
+    },
+    {
+      "@id": "_:N22ae9588dbe449388b596a9663d5a167",
+      "@type": [
+        "rdfs:Resource",
+        "sdo:Role"
+      ],
+      "sdo:creator": {
+        "@id": "gtaa:251010"
+      },
+      "sdo:roleName": {
+        "@id": "wd:Q1208175"
+      }
+    },
+    {
+      "@id": "_:Nf82bca0f4ab04dbc922a177fc5603eb4",
+      "@type": [
+        "rdfs:Resource",
+        "sdo:VideoObject"
+      ],
+      "sdo:encodingFormat": "video/mp4"
+    },
+    {
+      "@id": "http://data.beeldengeluid.nl/id/series/2102207260340870931",
+      "sdo:additionalType": {
+        "@type": "sdo:Text",
+        "@value": "Bewegend beeld - Smalfilm"
+      },
+      "sdo:name": "Amateurfilms Ed. F. Millecam"
+    },
+    {
+      "@id": "gtaa:26773",
+      "@type": [
+        "sdo:Thing",
+        "rdfs:Resource",
+        "skos:Concept"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "speelplaatsen"
+      }
+    },
+    {
+      "@id": "gtaa:29577",
+      "@type": [
+        "skos:Concept",
+        "sdo:Thing",
+        "rdfs:Resource"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "handen schudden"
+      }
+    },
+    {
+      "@id": "gtaa:28046",
+      "@type": [
+        "rdfs:Resource",
+        "skos:Concept",
+        "sdo:Thing"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "socialisme"
+      }
+    },
+    {
+      "@id": "gtaa:26887",
+      "@type": [
+        "rdfs:Resource",
+        "sdo:Thing",
+        "skos:Concept"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "tafeltennis"
+      }
+    },
+    {
+      "@id": "gtaa:26774",
+      "@type": [
+        "skos:Concept",
+        "rdfs:Resource",
+        "sdo:Thing"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "spelen"
+      }
+    },
+    {
+      "@id": "gtaa:27197",
+      "@type": [
+        "rdfs:Resource",
+        "sdo:Thing",
+        "skos:Concept"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "kinderen"
+      }
+    },
+    {
+      "@id": "gtaa:29535",
+      "@type": [
+        "sdo:Thing",
+        "rdfs:Resource",
+        "skos:Concept"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "dagelijks leven"
+      }
+    },
+    {
+      "@id": "gtaa:28250",
+      "@type": [
+        "rdfs:Resource",
+        "sdo:Thing",
+        "skos:Concept"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "toespraken"
+      }
+    },
+    {
+      "@id": "gtaa:25494",
+      "@type": [
+        "skos:Concept",
+        "rdfs:Resource",
+        "sdo:Thing"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "betogingen"
+      }
+    },
+    {
+      "@id": "gtaa:263086",
+      "@type": [
+        "rdfs:Resource",
+        "sdo:Organization",
+        "skos:Concept"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "NEDERLANDS INSTITUUT VOOR BEELD EN GELUID"
+      }
+    },
+    {
+      "@id": "gtaa:28253",
+      "@type": [
+        "skos:Concept",
+        "rdfs:Resource",
+        "sdo:Thing"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "vrede"
+      }
+    },
+    {
+      "@id": "gtaa:29238",
+      "@type": [
+        "sdo:Thing",
+        "rdfs:Resource",
+        "skos:Concept"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "straatbeelden"
+      }
+    },
+    {
+      "@id": "gtaa:28452",
+      "@type": [
+        "rdfs:Resource",
+        "sdo:Thing",
+        "skos:Concept"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "huwelijken"
+      }
+    },
+    {
+      "@id": "wd:Q1208175",
+      "@type": [
+        "wd:Q28640",
+        "rdfs:Resource"
+      ],
+      "rdfs:label": [
+        {
+          "@language": "nl",
+          "@value": "cameraman"
+        },
+        {
+          "@language": "en",
+          "@value": "camera operator"
+        }
+      ]
+    },
+    {
+      "@id": "gtaa:39742",
+      "@type": [
+        "sdo:Thing",
+        "rdfs:Resource",
+        "skos:Concept"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "Nederland"
+      }
+    },
+    {
+      "@id": "gtaa:28305",
+      "@type": [
+        "sdo:Thing",
+        "skos:Concept",
+        "rdfs:Resource"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "handwerken"
+      }
+    },
+    {
+      "@id": "gtaa:25213",
+      "@type": [
+        "sdo:Thing",
+        "skos:Concept",
+        "rdfs:Resource"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "rolschaatsen"
+      }
+    },
+    {
+      "@id": "gtaa:29801",
+      "@type": [
+        "sdo:Thing",
+        "rdfs:Resource",
+        "skos:Concept"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "spandoeken"
+      }
+    },
+    {
+      "@id": "gtaa:41687",
+      "@type": [
+        "sdo:Thing",
+        "rdfs:Resource",
+        "skos:Concept"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "Rotterdam"
+      }
+    },
+    {
+      "@id": "gtaa:31300",
+      "@type": [
+        "rdfs:Resource",
+        "sdo:Thing",
+        "skos:Concept"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "Afrikaanderwijk"
+      }
+    },
+    {
+      "@id": "gtaa:28043",
+      "@type": [
+        "rdfs:Resource",
+        "sdo:Thing",
+        "skos:Concept"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "communisme"
+      }
+    },
+    {
+      "@id": "gtaa:28699",
+      "@type": [
+        "rdfs:Resource",
+        "sdo:Thing",
+        "skos:Concept"
+      ],
+      "sdo:additionalType": {
+        "@id": "skos:Concept"
+      },
+      "skos:prefLabel": {
+        "@language": "nl",
+        "@value": "vlaggen"
+      }
+    }
+  ]
+}

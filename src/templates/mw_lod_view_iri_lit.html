@@ -1,0 +1,17 @@
+	{% for item in json_iri_lit %}
+	<div class="row">
+		{% if loop.previtem and loop.previtem.p.uri == item.p.uri %}
+			<div class="col-3 py-2"></div>
+		{% else %}
+		<div class="col-3 py-2 text-truncate">
+			<a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">{{item.p.prefix}}:<span class="fw-bold">{{item.p.property}}</span></a>
+		</div>
+		{% endif %}
+		<div class="col-6 py-2 border-bottom text-truncate">{{item.o.labels|first}}</div>
+		{% if item.o.datatype|length %}
+			<div class="col-3 py-2 border-bottom text-end text-truncate">{{item.o.datatype.prefix}}:{{item.o.datatype.property}}</div>
+		{% else %}
+			<div class="col-3 py-2 border-bottom"></div>
+		{% endif %}
+	</div>
+	{% endfor %}

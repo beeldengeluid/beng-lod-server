@@ -1,0 +1,30 @@
+#+ summary: Get all triples for LOD resource, incl. blank node triples.
+#+ endpoint: https://api.data.muziekweb.nl/datasets/MuziekwebOrganization/Muziekweb/services/Muziekweb/sparql
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <http://schema.org/>
+PREFIX sdo: <https://schema.org/>
+
+select distinct ?s ?p ?o WHERE {
+    # Select all properties values and labels for properties, incl. blank nodes
+    {
+      { # triples for the resource
+        ?resource_iri ?p ?o
+      }
+      UNION 
+      { # labels for related resources
+        ?resource_iri ?p1 ?s . FILTER(isiri(?s)) ?s ?p ?o . 
+        FILTER(?p in (skos:prefLabel,rdfs:label,schema:name,sdo:name,rdf:type,sdo:additionalType))
+      }
+      UNION
+      { # triples for blank nodes (considered part of the resource)
+        ?resource_iri ?p1 ?s . FILTER(isblank(?s)) ?s ?p ?o . 
+      }
+      UNION
+      { # triples for blank nodes within blank nodes
+        ?resource_iri ?p1 ?s1 . ?s1 ?p2 ?s . FILTER(isblank(?s)) ?s ?p ?o . 
+      }
+    }
+}
+LIMIT 10000
