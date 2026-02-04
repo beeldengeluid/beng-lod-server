@@ -2,17 +2,19 @@ import logging
 from flask import current_app, request, Response
 from flask_restx import Namespace, Resource
 import util.ld_util
+import util.mw_ld_util
 from models.ResourceApiUriLevel import ResourceApiUriLevel
 from util.APIUtil import APIUtil
 from util.mime_type_util import MimeType
 import util.lodview_util
+import util.mw_lodview_util
 
 logger = logging.getLogger()
 
 
 api = Namespace(
     "resource",
-    description="Resources in RDF for Netherlands Institute for Sound and Vision.",
+    description="Audiovisual catalog items in RDF.",
 )
 
 
@@ -88,6 +90,16 @@ class ResourceAPI(Resource):
             current_app.config.get("SPARQL_ENDPOINT", ""),
             current_app.config.get("URI_NISV_ORGANISATION", ""),
         )
+        # TODO: add the mw_ld_util version here and compare graphs (DEVELOPMENT ONLY)
+        rdf_graph_mw = util.mw_ld_util.get_resource_from_rdf_store(
+            lod_url,
+            current_app.config.get("SPARQL_ENDPOINT", ""),
+            current_app.config.get("MUZIEKWEB_LOD_RESOURCE_QUERY", ""),
+            current_app.config.get("URI_NISV_ORGANISATION", ""),
+        )
+        # TODO: comparison of both graphs here (DEVELOPMENT ONLY)
+        util.ld_util.compare_graphs(rdf_graph, rdf_graph_mw)
+
         # check if graph contains data and return 500 if not.
         if not rdf_graph:
             return APIUtil.toErrorResponse(
@@ -97,9 +109,13 @@ class ResourceAPI(Resource):
 
         # check if mime_type is HTML and generate HTML page and 200 if so.
         if mime_type is MimeType.HTML:
-            return util.lodview_util.generate_html_page(
+            # TODO: switch to mw_lodview_util when ready
+            return util.mw_lodview_util.generate_html_page(
                 rdf_graph, lod_url, current_app.config.get("SPARQL_ENDPOINT", "")
             )
+            # return util.lodview_util.generate_html_page(
+            #     rdf_graph, lod_url, current_app.config.get("SPARQL_ENDPOINT", "")
+            # )
         else:
             # return other formats than HTML. Returns data and 200 status.
             return util.lodview_util.get_serialised_graph(rdf_graph, mime_type)

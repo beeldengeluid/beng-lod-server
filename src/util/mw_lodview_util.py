@@ -7,6 +7,7 @@ from rdflib.namespace._RDFS import RDFS
 from rdflib.namespace._SDO import SDO
 from rdflib.namespace._SKOS import SKOS
 from rdflib.namespace._DCTERMS import DCTERMS
+from rdflib.namespace._OWL import OWL
 from typing import Optional, List
 from util.mime_type_util import MimeType
 from util.APIUtil import APIUtil
@@ -137,7 +138,7 @@ def json_header_from_rdf_graph(
                 subject=URIRef(resource_url), predicate=URIRef(RDF.type)
             )
             if json_parts_from_IRI(rdf_graph, str(o)).get("namespace", "")
-            in (str(SDO), str(SKOS), str(SCHEMA), str(MUZIEKWEB_VOCAB))
+            in (str(SDO), str(SKOS), str(SCHEMA), str(MUZIEKWEB_VOCAB), str(OWL))
         ]
         return json_header
     except Exception as e:
@@ -159,7 +160,7 @@ def json_iri_iri_from_rdf_graph(
                 | {"labels": json_label_for_node(rdf_graph, o)},
             }
             for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url))
-            if p != RDF.type and isinstance(o, URIRef)
+            if isinstance(o, URIRef)  # p != RDF.type and
         ]
         return json_iri_iri
     except Exception as e:

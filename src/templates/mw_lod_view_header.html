@@ -1,7 +1,6 @@
 <header class="py-2 mb-2">
 	<div class="container-fluid">
 		<div class="row align-items-end">
-			<!-- <div class="col-6"> -->
 				{% if (json_header|first) is defined %}
 					{% if (json_header|first).title %}
 						<h1>{{ ((json_header|first).title|first) }}</h1>
@@ -13,7 +12,6 @@
 				<div class="col-6 text-truncate">
 					<a class="link-light" title="&lt;{{resource_uri}}&gt;" href="{{resource_uri}}" target="_blank">&lt;{{resource_uri}}&gt;</a>
 				</div>
-			<!-- </div> -->
 			<div class="col-6 text-end">
 				{% for item in json_header %}
 					{% if item.o.prefix|length %}

@@ -1,8 +1,12 @@
 	{% for item in json_iri_bnode %}
 	<div class="row">
+		{% if loop.previtem and loop.previtem.p.uri == item.p.uri %}
+			<div class="col-3 py-2 text-truncate"></div>
+		{% else %}
 		<div class="col-3 py-2 text-truncate">
 			<a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">{{item.p.prefix}}:<span class="fw-bold">{{item.p.property}}</span></a>
 		</div>
+		{% endif %}
 		<div class="col-9 py-2 border-bottom text-truncate">
 			{% for bnode in item.o %}
 				<div class="row">

@@ -1,6 +1,7 @@
 import sys
 import logging
-from flask import Flask
+from unicodedata import name
+from flask import Flask, render_template
 from flask_cors import CORS
 from apis import api
 from util.base_util import LOG_FORMAT
@@ -30,6 +31,15 @@ app.debug = app.config["DEBUG"]
 CORS(app)
 
 app.url_map.strict_slashes = False
+
+
+@app.route("/yasgui")
+def yasgui():
+    return render_template(
+        "mw_sparql.html",
+        sparql_endpoint=app.config.get("MUZIEKWEB_SPARQL_ENDPOINT"),
+    )
+
 
 api.init_app(
     app,

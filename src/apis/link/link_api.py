@@ -4,7 +4,7 @@ from flask_restx import Namespace, Resource
 from util.mime_type_util import MimeType
 from util.APIUtil import APIUtil
 import util.mw_ld_util
-import util.mw_lodview
+import util.mw_lodview_util
 
 logger = logging.getLogger()
 
@@ -81,7 +81,7 @@ class LinkAPI(Resource):
             muziekweb_html_template = current_app.config.get(
                 "MUZIEKWEB_HTML_TEMPLATE", ""
             )
-            return util.mw_lodview.generate_html_page(
+            return util.mw_lodview_util.generate_html_page(
                 rdf_graph,
                 lod_url,
                 current_app.config.get("MUZIEKWEB_SPARQL_ENDPOINT", ""),
@@ -89,4 +89,4 @@ class LinkAPI(Resource):
             )
         else:
             # return other formats than HTML. Returns data and 200 status.
-            return util.mw_lodview.get_serialised_graph(rdf_graph, mime_type)
+            return util.mw_lodview_util.get_serialised_graph(rdf_graph, mime_type)

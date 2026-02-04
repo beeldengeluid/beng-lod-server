@@ -6,6 +6,7 @@ from rdflib import Graph, URIRef
 from rdflib.namespace._RDF import RDF
 from rdflib.namespace._SDO import SDO
 from rdflib.namespace._SKOS import SKOS
+from rdflib.compare import graph_diff
 from typing import Optional
 from urllib.parse import urlparse, urlunparse
 from enum import Enum
@@ -21,6 +22,8 @@ from util.ns_util import (
     DISCOGS_ARTIST,
     MUZIEKWEB,
     MUZIEKSCHATTEN,
+    QUDT,
+    PID,
 )
 
 logger = logging.getLogger()
@@ -197,6 +200,7 @@ def get_lod_resource_from_rdf_store(
         g.bind("muziekweb", MUZIEKWEB)
         g.bind("som", MUZIEKSCHATTEN)
         g.bind("qudt", QUDT)
+        g.bind("pid", PID)
 
         return g
     except ConnectionError as e:
@@ -398,7 +402,32 @@ def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
     raises an HTTPError when the request was not successful."""
     g = Graph()
     resp = requests.get(sparql_endpoint, params={"query": query})
+    logger.debug(f"Request took: {resp.elapsed.total_seconds()} seconds.")
     resp.raise_for_status()
     if resp.status_code == 200:
         g.parse(data=resp.text, format="xml")
     return g
+
+
+def dump_nt_sorted(g):
+    for l in sorted(g.serialize(format="nt").splitlines()):
+        print(l)
+
+
+def compare_graphs(g1, g2):
+    # iso1 = to_isomorphic(g1)
+    # iso2 = to_isomorphic(g2)
+    # if iso1 == iso2:
+    #     logger.info("Graphs are isomorphic (equal).")
+    # else:
+    #     logger.warning("Graphs are NOT isomorphic (NOT equal).")
+
+    in_both, in_first, in_second = graph_diff(g1, g2)
+    logger.warning(
+        f"In both graphs: {len(in_both)} triples. In first graph only: {len(in_first)} triples. In second graph only: {len(in_second)} triples."
+    )
+
+    logger.warning(f"{len(in_first)} triples only in first graph:\n")
+    dump_nt_sorted(in_first)
+    logger.warning(f"{len(in_second)} triples only in second graph:\n")
+    dump_nt_sorted(in_second)

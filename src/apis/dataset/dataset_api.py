@@ -14,7 +14,7 @@ logger = logging.getLogger()
 
 api = Namespace(
     "dataset",
-    description="Datasets in RDF for Netherlands Institute for Sound and Vision.",
+    description="Audiovisual open datasets (collections) in RDF.",
 )
 
 

@@ -1,6 +1,6 @@
 body {
 	color: #1690c6;
-	font-size: 0.80rem;
+	font-size: 0.90rem;
 	font-family: "Raleway",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
 
@@ -19,7 +19,7 @@ a:hover {
 
 header {
 	background-color: #1690c6;
-    min-height: 210px;
+    /* min-height: 210px; */
 }
 
 header .row {
@@ -36,12 +36,13 @@ h1 {
 }
 
 footer {
-	background-color: #212121;
+	/* background-color: #212121; */
+	background-color: #1690c6;
 	padding: 20px;
 }
 
 footer .row {
-	min-height: 150px;
+	min-height: 50px;
 }
 
 /* TODO: replace below when testable */
@@ -80,3 +81,22 @@ aside.empty, #bnodes.empty, #directs.empty, #inverses.empty, #abstract.empty {
 	padding: 0;
 	min-height: 5px;
 }
+
+
+.yasgui .autocompleteWrapper {
+display: none !important;
+}
+
+.yasgui .tabContextButton {
+display: none !important;
+}
+
+.yasr .yasr_btn.yasr_external_ref_btn {
+	display: none !important;
+}
+
+/* 
+button {
+	color: #1690c6;
+	text-decoration: none;
+} */

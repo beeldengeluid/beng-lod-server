@@ -6,21 +6,22 @@ from typing import Optional
 from requests.exceptions import ConnectionError, HTTPError
 from urllib.parse import urlparse, urlunparse
 from rdflib import Graph, URIRef, BNode, Literal
+from rdflib.namespace._RDF import RDF
+from rdflib.namespace._SDO import SDO
+from rdflib.namespace._SKOS import SKOS
 from util.ns_util import (
     SCHEMA,
-    SDO,
     WIKIDATA,
     WIKIDATA_WWW,
-    SKOS,
     DCTERMS,
     DISCOGS_ARTIST,
     DISCOGS_RELEASE,
     MUZIEKWEB,
     MUZIEKWEB_VOCAB,
     MUZIEKSCHATTEN,
-    RDFS,
     MUSICBRAINZ_RELEASE,
     QUDT,
+    PID,
 )
 
 logger = logging.getLogger()
@@ -50,6 +51,57 @@ def is_muziekweb_resource(resource_url: str, sparql_endpoint: str) -> bool:
         if resp.json().get("boolean"):
             return True
     return False
+
+
+# ============ Add/remove triples from a graph ===========
+
+
+def add_publisher(resource_url: str, publisher_uri: str, rdf_graph: Graph):
+    """Adds the Organization that publishes the CreativeWork."""
+    rdf_graph.add(
+        (
+            URIRef(resource_url),
+            SDO.publisher,
+            URIRef(publisher_uri),
+        )
+    )
+
+
+def add_structured_data_publisher(
+    resource_uri: str, sd_publisher_uri: str, rdf_graph: Graph
+):
+    """Adds metadata about the structured data to the resource graph."""
+    rdf_graph.add(
+        (
+            URIRef(resource_uri),
+            SDO.sdPublisher,
+            URIRef(sd_publisher_uri),
+        )
+    )
+    rdf_graph.add(
+        (
+            URIRef(resource_uri),
+            SDO.sdLicense,
+            URIRef("https://creativecommons.org/publicdomain/zero/1.0/"),  # CC0 license
+        )
+    )
+
+
+def remove_additional_type_skos_concept(resource_uri: str, rdf_graph: Graph):
+    """Removes additionalType from the graph if type is already skos:Concept."""
+    g = rdf_graph
+    skos_concept_type_triple = (
+        URIRef(resource_uri),
+        RDF.type,
+        SKOS.Concept,
+    )
+    skos_concept_additional_type_triple = (
+        URIRef(resource_uri),
+        SDO.additionalType,
+        SKOS.Concept,
+    )
+    if skos_concept_type_triple in g and skos_concept_additional_type_triple in g:
+        g.remove(skos_concept_additional_type_triple)
 
 
 def get_resource_from_rdf_store(
@@ -89,6 +141,15 @@ def get_resource_from_rdf_store(
 
         if len(g) == 0:
             logger.error("Graph was empty")
+        else:
+            # add the publisher triple (if not already present)
+            add_publisher(resource_url, organisation_uri, g)
+
+            # add structured data triples
+            add_structured_data_publisher(resource_url, organisation_uri, g)
+
+            # remove sdo:additionalType triple (for skos:Concepts)
+            remove_additional_type_skos_concept(resource_url, g)
 
         # add the missing namespaces
         g.bind("schema", SCHEMA)
@@ -102,11 +163,9 @@ def get_resource_from_rdf_store(
         g.bind("muziekweb", MUZIEKWEB)
         g.bind("som", MUZIEKSCHATTEN)
         g.bind("vocab", MUZIEKWEB_VOCAB)
-        g.bind("rdfs", RDFS)
         g.bind("mb-release", MUSICBRAINZ_RELEASE)
         g.bind("qudt", QUDT)
-
-        logger.debug(f"TODO: do something with the organisation uri {organisation_uri}")
+        g.bind("pid", PID)
 
         return g
     except ConnectionError as e:
@@ -155,6 +214,7 @@ def sparql_select_query(
                 "Accept": f"{'application/sparql-results+json' if format == 'json' else 'application/sparql-results+xml'}"
             },
         )
+    logger.debug(f"Request took: {resp.elapsed.total_seconds()} seconds.")
     resp.raise_for_status()
     if resp.status_code == 200:
         return resp.text
