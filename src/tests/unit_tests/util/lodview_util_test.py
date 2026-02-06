@@ -1,6 +1,5 @@
 from rdflib import URIRef, Literal, BNode
-from rdflib.namespace._RDF import RDF
-from rdflib.namespace._SDO import SDO
+from rdflib.namespace import RDF, SDO  # type: ignore
 from mockito import unstub
 from util.lodview_util import (
     json_header_from_rdf_graph,

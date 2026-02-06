@@ -1,8 +1,7 @@
 import logging
 from typing import List, Optional
 from rdflib import Graph, URIRef
-from rdflib.namespace._RDF import RDF
-from rdflib.namespace._SDO import SDO
+from rdflib.namespace import RDF, SDO  # type: ignore
 from util.mime_type_util import MimeType
 from util.ld_util import sparql_construct_query
 

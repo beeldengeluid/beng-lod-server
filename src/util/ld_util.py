@@ -3,9 +3,7 @@ import requests
 import validators
 from requests.exceptions import ConnectionError, HTTPError
 from rdflib import Graph, URIRef, Namespace
-from rdflib.namespace._RDF import RDF
-from rdflib.namespace._SDO import SDO
-from rdflib.namespace._SKOS import SKOS
+from rdflib.namespace import RDF, SDO, SKOS  # type: ignore
 from typing import Optional
 from urllib.parse import urlparse, urlunparse
 from enum import Enum

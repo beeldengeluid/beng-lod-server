@@ -2,11 +2,7 @@ import logging
 import json
 from flask import render_template, Response
 from rdflib import Graph, URIRef, Literal, BNode
-from rdflib.namespace._RDF import RDF
-from rdflib.namespace._RDFS import RDFS
-from rdflib.namespace._SDO import SDO
-from rdflib.namespace._SKOS import SKOS
-from rdflib.namespace._DCTERMS import DCTERMS
+from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS  # type: ignore
 from typing import Optional, List
 from util.mime_type_util import MimeType
 from util.APIUtil import APIUtil
