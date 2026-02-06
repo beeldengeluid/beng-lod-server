@@ -1,13 +1,11 @@
 import logging
-
-from flask import current_app, request, Response, render_template
+from flask import current_app, request, Response
 from flask_restx import Namespace, Resource
-
 import util.ld_util
-from util.ld_util import is_nisv_cat_resource
 from models.ResourceApiUriLevel import ResourceApiUriLevel
 from util.APIUtil import APIUtil
 from util.mime_type_util import MimeType
+import util.lodview_util
 
 logger = logging.getLogger()
 
@@ -36,7 +34,6 @@ class ResourceAPI(Resource):
 
     @api.produces([mt.value for mt in MimeType])
     def get(self, identifier, cat_type="program"):
-        # TODO: further reduce complexity
         # determine and set the mimetype
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(
@@ -44,12 +41,7 @@ class ResourceAPI(Resource):
         )
         mime_type = MimeType(best_match)
 
-        if not identifier.isdigit():
-            return APIUtil.toErrorResponse(
-                "bad_request", "Invalid daan identifier supplied."
-            )
-
-        # 2) create the lod_url and 302 redirect when it's a RDA postfix
+        # create the lod_url and 302 redirect when it's a RDA postfix
         lod_url = None
         try:
             # check for _<wemi>-postfix: "_work", "_expression", "_manifestation"
@@ -77,62 +69,40 @@ class ResourceAPI(Resource):
             )
             return APIUtil.toErrorResponse("internal_server_error", e)
 
-        # 3) check if resource exists and return 404
+        # check if identifier is proper digit string, return 400 if not.
+        if not identifier.isdigit():
+            return APIUtil.toErrorResponse(
+                "bad_request", "Invalid daan identifier supplied."
+            )
 
-        # Do ASK request to triple store. Return 404 if resource doesn't exist.
-        if not is_nisv_cat_resource(
+        # check if resource exists and return 404 if it doesn't.
+        if not util.ld_util.is_nisv_cat_resource(
             lod_url, current_app.config.get("SPARQL_ENDPOINT", "")
         ):
             return APIUtil.toErrorResponse("not_found")
 
-        # 4) check if it's HTML and ru that path if so
-        if mime_type is MimeType.HTML:
-            return self.generate_html_page(lod_url, mime_type, status)
-
-        # 5) when we end up here, it's getting and returning lod data
-        logger.info(
-            f"Getting the RDF in the proper serialization format for {lod_url}."
-        )
+        # getting and returning lod data
+        logger.info(f"Getting the graph from the triple store for resource {lod_url}.")
         rdf_graph = util.ld_util.get_lod_resource_from_rdf_store(
             lod_url,
             current_app.config.get("SPARQL_ENDPOINT", ""),
             current_app.config.get("URI_NISV_ORGANISATION", ""),
         )
-        if rdf_graph is not None:
-            serialised_graph = rdf_graph.serialize(
-                format=mime_type.to_ld_format(), auto_compact=True
-            )
-            if serialised_graph:
-                return Response(
-                    serialised_graph, mimetype=mime_type.value, status=status
-                )
-            else:
-                return APIUtil.toErrorResponse(
-                    "internal_server_error", "Serialisation failed"
-                )
-        else:
+        # check if graph contains data and return 500 if not.
+        if not rdf_graph:
             return APIUtil.toErrorResponse(
                 "internal_server_error",
                 "No graph created. Check your resource type and identifier",
             )
 
-    def generate_html_page(self, lod_url: str, mime_type: MimeType, status: int):
-        logger.info(f"Generating HTML page for {lod_url}.")
-        html_page = self._get_lod_view_resource(
-            lod_url,
-            current_app.config.get("SPARQL_ENDPOINT", ""),
-            current_app.config.get("URI_NISV_ORGANISATION", ""),
-        )
-        if html_page:
-            return Response(html_page, mimetype=mime_type.value, status=status)
+        # check if mime_type is HTML and generate HTML page and 200 if so.
+        if mime_type is MimeType.HTML:
+            return util.lodview_util.generate_html_page(
+                rdf_graph, lod_url, current_app.config.get("SPARQL_ENDPOINT", "")
+            )
         else:
-            logger.error(
-                f"Could not generate an HTML view for {lod_url}.",
-            )
-            return APIUtil.toErrorResponse(
-                "internal_server_error",
-                "Could not generate an HTML view for this resource.",
-            )
+            # return other formats than HTML. Returns data and 200 status.
+            return util.lodview_util.get_serialised_graph(rdf_graph, mime_type)
 
     def check_for_wemi_postfix(self, identifier: str) -> tuple[int, str]:
         """Try to split the identifier and detect the wemi entity postfix.
@@ -157,47 +127,3 @@ class ResourceAPI(Resource):
                 )
                 raise ValueError
         return (status_code, split_identifier)
-
-    def _get_lod_view_resource(
-        self, resource_url: str, sparql_endpoint: str, nisv_organisation_uri: str
-    ):
-        """Handler that, given a URI, gets RDF from the SPARQL endpoint and generates an HTML page.
-        :param resource_url: The URI for the resource.
-        :param sparql_endpoint - the SPARQL endpoint to get the resource from
-        :param nisv_organisation_uri - the URI identifying the NISV organisation, for provenance
-        """
-        logger.info(
-            f"Getting the graph from the triple store for resource {resource_url}."
-        )
-        rdf_graph = util.ld_util.get_lod_resource_from_rdf_store(
-            resource_url, sparql_endpoint, nisv_organisation_uri
-        )
-        if rdf_graph:
-            logger.info(
-                f"A valid graph ({len(rdf_graph)} triples) was retrieved from the RDF store. "
-                "Returning a rendered HTML template 'resource.html'."
-            )
-            return render_template(
-                "resource.html",
-                resource_uri=resource_url,
-                structured_data=util.ld_util.json_ld_structured_data_for_resource(
-                    rdf_graph, resource_url
-                ),
-                json_header=util.ld_util.json_header_from_rdf_graph(
-                    rdf_graph, resource_url
-                ),
-                json_iri_iri=util.ld_util.json_iri_iri_from_rdf_graph(
-                    rdf_graph, resource_url
-                ),
-                json_iri_lit=util.ld_util.json_iri_lit_from_rdf_graph(
-                    rdf_graph, resource_url
-                ),
-                json_iri_bnode=util.ld_util.json_iri_bnode_from_rdf_graph(
-                    rdf_graph, resource_url
-                ),
-                nisv_sparql_endpoint=sparql_endpoint,
-            )
-        logger.error(
-            f"Triple data for lod view could not be retrieved from the triple store for {resource_url}."
-        )
-        return None
