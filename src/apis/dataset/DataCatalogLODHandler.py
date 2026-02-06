@@ -4,6 +4,7 @@ from rdflib import Graph, URIRef
 from rdflib.namespace import RDF, SDO  # type: ignore
 from util.mime_type_util import MimeType
 from util.ld_util import sparql_construct_query
+from config import cfg
 
 logger = logging.getLogger()
 
@@ -13,9 +14,9 @@ class DataCatalogLODHandler:
     The only data model/ontology this data is available in is schema.org.
     """
 
-    def __init__(self, config):
+    def __init__(self):
         self._data_catalog = self._get_data_catalog_from_store(
-            config["SPARQL_ENDPOINT"], config["DATA_CATALOG_GRAPH"]
+            cfg["SPARQL_ENDPOINT"], cfg["DATA_CATALOG_GRAPH"]
         )
 
     def _get_data_catalog_from_store(self, sparql_endpoint, catalog_graph) -> Graph:
@@ -265,7 +266,8 @@ class DataCatalogLODHandler:
 
         # add the triples for the publisher
         publisher_id = self.get_publisher_for_dataset(dataset_uri)
-        g += self.get_organization_triples(publisher_id)
+        if publisher_id is not None:
+            g += self.get_organization_triples(publisher_id)
 
         # if the dataset has a creator, add the triples for the creator organization
         creator_id = self.get_creator_for_dataset(dataset_uri)
@@ -341,10 +343,28 @@ class DataCatalogLODHandler:
             g.add(triple)
         return g
 
-    def get_publisher_for_dataset(self, dataset_id: URIRef) -> URIRef:
+    def get_publisher_for_dataset(self, dataset_id: URIRef) -> Optional[URIRef]:
         """Return the URI for the organization that is the publisher of the Dataset."""
-        return self._data_catalog.value(dataset_id, SDO.publisher)
+        objects = self._data_catalog.objects(dataset_id, SDO.publisher)
+        for obj in objects:
+            if isinstance(obj, URIRef):
+                return obj
+            else:
+                logger.warning(
+                    f"Publisher for dataset {dataset_id} is not a URIRef: {obj}"
+                )
+                return None
+        return None
 
-    def get_creator_for_dataset(self, dataset_id: URIRef) -> URIRef:
+    def get_creator_for_dataset(self, dataset_id: URIRef) -> Optional[URIRef]:
         """Return the URI for the Organization that is the creator of the Dataset."""
-        return self._data_catalog.value(dataset_id, SDO.creator)
+        objects = self._data_catalog.objects(dataset_id, SDO.creator)
+        for obj in objects:
+            if isinstance(obj, URIRef):
+                return obj
+            else:
+                logger.warning(
+                    f"Creator for dataset {dataset_id} is not a URIRef: {obj}"
+                )
+                return None
+        return None
