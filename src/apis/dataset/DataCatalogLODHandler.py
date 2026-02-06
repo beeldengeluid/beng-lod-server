@@ -323,6 +323,7 @@ class DataCatalogLODHandler:
                     f"Publisher for data catalog {data_catalog_id} is not a URIRef: {obj}"
                 )
                 return None
+        return None
 
     def is_organization(self, organization_id: URIRef) -> bool:
         """Check whether organization exists in data catalog."""
