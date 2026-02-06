@@ -35,8 +35,8 @@ XML_ENCODING_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>'
 
 
 def test_init(application_settings):
-    data_catalog_lod_handler = apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler(
-        application_settings
+    data_catalog_lod_handler = (
+        apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler()
     )
     assert isinstance(
         data_catalog_lod_handler,
@@ -68,9 +68,7 @@ def test_get_data_catalog(
             .thenReturn(i_datacatalog)
         ):
             data_catalog_lod_handler = (
-                apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler(
-                    application_settings
-                )
+                apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler()
             )
 
             # call get_data_catalog to test results
@@ -125,9 +123,7 @@ def test_get_data_download(
             .thenReturn(i_datacatalog)
         ):
             data_catalog_lod_handler = (
-                apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler(
-                    application_settings
-                )
+                apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler()
             )
             # call get_data_download to test results
             resp = data_catalog_lod_handler.get_data_download(
@@ -174,9 +170,7 @@ def test_get_dataset(
             .thenReturn(i_datacatalog)
         ):
             data_catalog_lod_handler = (
-                apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler(
-                    application_settings
-                )
+                apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler()
             )
 
         # call get_dataset to test results
