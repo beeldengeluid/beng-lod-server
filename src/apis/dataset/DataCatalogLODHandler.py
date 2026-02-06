@@ -208,7 +208,7 @@ class DataCatalogLODHandler:
 
         # add triples for the publisher
         publisher_id = self.get_publisher_for_data_catalog(URIRef(data_catalog_uri))
-        if isinstance(publisher_id, URIRef):
+        if publisher_id is not None:
             g += self.get_organization_triples(publisher_id)
 
         # add triples for each dataset
@@ -312,7 +312,17 @@ class DataCatalogLODHandler:
         self, data_catalog_id: URIRef
     ) -> Optional[URIRef]:
         """Return the URI for the organization that is the publisher of the DataCatalog."""
-        return self._data_catalog.value(URIRef(data_catalog_id), SDO.publisher)
+        objects = self._data_catalog.objects(
+            subject=URIRef(data_catalog_id), predicate=SDO.publisher
+        )
+        for obj in objects:
+            if isinstance(obj, URIRef):
+                return obj
+            else:
+                logger.warning(
+                    f"Publisher for data catalog {data_catalog_id} is not a URIRef: {obj}"
+                )
+                return None
 
     def is_organization(self, organization_id: URIRef) -> bool:
         """Check whether organization exists in data catalog."""
