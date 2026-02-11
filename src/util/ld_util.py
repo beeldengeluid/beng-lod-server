@@ -399,7 +399,7 @@ def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
     raises an HTTPError when the request was not successful."""
     g = Graph()
     resp = requests.get(sparql_endpoint, params={"query": query})
-    logger.debug(f"Request took: {resp.elapsed.total_seconds()} seconds.")
+    # logger.debug(f"Request took: {resp.elapsed.total_seconds()} seconds.")
     resp.raise_for_status()
     if resp.status_code == 200:
         g.parse(data=resp.text, format="xml")
