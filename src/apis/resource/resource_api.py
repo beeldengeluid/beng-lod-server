@@ -90,15 +90,15 @@ class ResourceAPI(Resource):
             current_app.config.get("SPARQL_ENDPOINT", ""),
             current_app.config.get("URI_NISV_ORGANISATION", ""),
         )
-        # TODO: add the mw_ld_util version here and compare graphs (DEVELOPMENT ONLY)
-        rdf_graph_mw = util.mw_ld_util.get_resource_from_rdf_store(
-            lod_url,
-            current_app.config.get("SPARQL_ENDPOINT", ""),
-            current_app.config.get("MUZIEKWEB_LOD_RESOURCE_QUERY", ""),
-            current_app.config.get("URI_NISV_ORGANISATION", ""),
-        )
-        # TODO: comparison of both graphs here (DEVELOPMENT ONLY)
-        util.ld_util.compare_graphs(rdf_graph, rdf_graph_mw)
+        # # TODO: add the mw_ld_util version here and compare graphs (DEVELOPMENT ONLY)
+        # rdf_graph_mw = util.mw_ld_util.get_resource_from_rdf_store(
+        #     lod_url,
+        #     current_app.config.get("SPARQL_ENDPOINT", ""),
+        #     current_app.config.get("MUZIEKWEB_LOD_RESOURCE_QUERY", ""),
+        #     current_app.config.get("URI_NISV_ORGANISATION", ""),
+        # )
+        # # TODO: comparison of both graphs here (DEVELOPMENT ONLY)
+        # util.ld_util.compare_graphs(rdf_graph, rdf_graph_mw)
 
         # check if graph contains data and return 500 if not.
         if not rdf_graph:
