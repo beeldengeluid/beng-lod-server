@@ -1,12 +1,13 @@
 import logging
-from flask import current_app, request, render_template, Response
+from flask import current_app, request
 from flask_restx import Namespace, Resource
+from rdflib import Graph
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
 from util.mime_type_util import MimeType
 from models.DatasetApiUriLevel import DatasetApiUriLevel
-import util.ld_util
 from util.APIUtil import APIUtil
-
+import util.ld_util
+from util.lodview_util import generate_html_page, get_serialised_graph
 
 logger = logging.getLogger()
 
@@ -15,44 +16,6 @@ api = Namespace(
     "dataset",
     description="Datasets in RDF for Netherlands Institute for Sound and Vision.",
 )
-
-
-class LODDataAPI(Resource):
-    """Class that implements the shared (core) functionality for the data catalog."""
-
-    def _get_lod_view_resource(
-        self, resource_url: str, sparql_endpoint: str, nisv_organisation_uri: str
-    ):
-        """Handler that, given a URI, gets RDF from the SPARQL endpoint and generates an HTML page.
-        :param resource_url: The URI for the resource.
-        """
-        logger.info(f"Getting RDF for resource {resource_url} from triple store.")
-        rdf_graph = util.ld_util.get_lod_resource_from_rdf_store(
-            resource_url, sparql_endpoint, nisv_organisation_uri
-        )
-        if rdf_graph is not None:
-            logger.info(f"Generating HTML page for {resource_url}.")
-            return render_template(
-                "resource.html",
-                resource_uri=resource_url,
-                structured_data=util.ld_util.json_ld_structured_data_for_resource(
-                    rdf_graph, resource_url
-                ),
-                json_header=util.ld_util.json_header_from_rdf_graph(
-                    rdf_graph, resource_url
-                ),
-                json_iri_iri=util.ld_util.json_iri_iri_from_rdf_graph(
-                    rdf_graph, resource_url
-                ),
-                json_iri_lit=util.ld_util.json_iri_lit_from_rdf_graph(
-                    rdf_graph, resource_url
-                ),
-                json_iri_bnode=util.ld_util.json_iri_bnode_from_rdf_graph(
-                    rdf_graph, resource_url
-                ),
-                nisv_sparql_endpoint=sparql_endpoint,
-            )
-        return None
 
 
 @api.doc(
@@ -72,14 +35,20 @@ class LODDataAPI(Resource):
         }
     }
 )
-class LODDatasetAPI(LODDataAPI):
+class LODDatasetAPI(Resource):
     """Serve the RDF for the dataset in the format that was requested. A dataset contains distributions."""
 
     @api.produces([mt.value for mt in MimeType])
-    def get(self, number=None):
+    def get(self, number: str = ""):
         """Get the RDF for the Dataset, including its DataDownloads.
         All triples for the Dataset and its DataDownloads are included.
         """
+        # check if number is an integer value
+        if not number.isdigit():
+            return APIUtil.toErrorResponse(
+                "bad_request", f"Invalid identifier supplied: {number}"
+            )
+        # generate B&G dataset IRI
         dataset_uri = util.ld_util.generate_lod_resource_uri(
             DatasetApiUriLevel.DATASET, number, current_app.config["BENG_DATA_DOMAIN"]
         )
@@ -93,6 +62,7 @@ class LODDatasetAPI(LODDataAPI):
             logger.error(f"Dataset is not valid: {dataset_uri}.")
             return APIUtil.toErrorResponse("bad_request", "Invalid Dataset")
 
+        # determine mime_type
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
@@ -103,38 +73,32 @@ class LODDatasetAPI(LODDataAPI):
         if best_match is not None:
             mime_type = MimeType(best_match)
 
-        if mime_type is MimeType.HTML:
-            # note that data for HTML are delivered from the RDF store
-            logger.info(f"Generating HTML page for {dataset_uri}.")
-            html_page = self._get_lod_view_resource(
-                dataset_uri,
-                current_app.config.get("SPARQL_ENDPOINT"),
-                current_app.config.get("URI_NISV_ORGANISATION"),
-            )
-            if html_page:
-                return Response(html_page, mimetype=mime_type.value)
-            else:
-                logger.error(f"Could not generate the HTML page for {dataset_uri}.")
-                return APIUtil.toErrorResponse(
-                    "internal_server_error",
-                    "Could not generate an HTML view for this resource",
-                )
-
-        # other content formats
-        logger.info(f"Get the serialization for dataset {dataset_uri}.")
-        res_string = DataCatalogLODHandler(current_app.config).get_dataset(
-            dataset_uri, mime_format=mime_type.to_ld_format()
+        # get rdf
+        logger.info(f"Getting RDF for resource {dataset_uri} from triple store.")
+        rdf_graph = Graph()
+        ds_data = DataCatalogLODHandler().get_dataset(
+            dataset_uri, MimeType.TURTLE.value
         )
-        if res_string:
-            return Response(res_string, mimetype=mime_type.value)
-        logger.error(f"Could not fetch the serialization for dataset {dataset_uri}.")
-        return APIUtil.toErrorResponse("bad_request", "Invalid URI or return format")
+        rdf_graph.parse(data=ds_data, format=MimeType.TURTLE.value)
+        if not rdf_graph:
+            return APIUtil.toErrorResponse(
+                "internal_server_error",
+                f"No graph created. Check resource type and identifier for {dataset_uri}",
+            )
+        # generate and return response
+        if mime_type is MimeType.HTML:
+            return generate_html_page(
+                rdf_graph, dataset_uri, current_app.config.get("SPARQL_ENDPOINT", "")
+            )
+        else:
+            # another serialisation than HTML
+            return get_serialised_graph(rdf_graph, mime_type)
 
     def is_dataset(self, dataset_uri: str) -> bool:
-        return DataCatalogLODHandler(current_app.config).is_dataset(dataset_uri)
+        return DataCatalogLODHandler().is_dataset(dataset_uri)
 
     def is_valid_dataset(self, dataset_uri: str) -> bool:
-        return DataCatalogLODHandler(current_app.config).is_valid_dataset(dataset_uri)
+        return DataCatalogLODHandler().is_valid_dataset(dataset_uri)
 
 
 @api.doc(
@@ -154,14 +118,20 @@ class LODDatasetAPI(LODDataAPI):
         }
     }
 )
-class LODDataCatalogAPI(LODDataAPI):
+class LODDataCatalogAPI(Resource):
     """Serve the RDF for the data catalog in the format that was requested. A data catalog contains datasets."""
 
     @api.produces([mt.value for mt in MimeType])
-    def get(self, number=None):
+    def get(self, number: str = ""):
         """Get the RDF for the DataCatalog, including its Datasets.
         All triples describing the DataCatalog and its Datasets are included.
         """
+        # check if number is an integer value
+        if not number.isdigit():
+            return APIUtil.toErrorResponse(
+                "bad_request", f"Invalid identifier supplied: {number}"
+            )
+        # get B&G lod resource iri
         data_catalog_uri = util.ld_util.generate_lod_resource_uri(
             DatasetApiUriLevel.DATACATALOG,
             number,
@@ -178,6 +148,7 @@ class LODDataCatalogAPI(LODDataAPI):
             logger.error(f"The data catalog is invalid: {data_catalog_uri}.")
             return APIUtil.toErrorResponse("bad_request", "Invalid DataCatalog")
 
+        # get the mime_type
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
@@ -188,48 +159,34 @@ class LODDataCatalogAPI(LODDataAPI):
         if best_match is not None:
             mime_type = MimeType(best_match)
 
-        if mime_type is MimeType.HTML:
-            # note that data for HTML are delivered from the RDF store
-            logger.info(f"Generating HTML page for data catalog: {data_catalog_uri}.")
-            html_page = self._get_lod_view_resource(
-                data_catalog_uri,
-                current_app.config.get("SPARQL_ENDPOINT"),
-                current_app.config.get("URI_NISV_ORGANISATION"),
+        # get rdf
+        logger.info(f"Getting RDF for resource {data_catalog_uri} from triple store.")
+        rdf_graph = Graph()
+        dc_data = DataCatalogLODHandler().get_data_catalog(
+            data_catalog_uri, MimeType.TURTLE.value
+        )
+        rdf_graph.parse(data=dc_data, format=MimeType.TURTLE.value)
+        if not rdf_graph:
+            return APIUtil.toErrorResponse(
+                "internal_server_error",
+                f"No graph created. Check resource type and identifier for {data_catalog_uri}",
             )
-            if html_page:
-                return Response(html_page, mimetype=mime_type.value)
-            else:
-                logger.error(
-                    f"Could not generate proper HTML page for data catalog: {data_catalog_uri}."
-                )
-                return APIUtil.toErrorResponse(
-                    "internal_server_error",
-                    "Could not generate an HTML view for this resource",
-                )
-
-        # other mime types
-        logger.info(
-            f"Getting the RDF in proper serialization format for data catalog: {data_catalog_uri}."
-        )
-        res_string = DataCatalogLODHandler(current_app.config).get_data_catalog(
-            data_catalog_uri, mime_format=mime_type.to_ld_format()
-        )
-        if res_string:
-            return Response(res_string, mimetype=mime_type.value)
-        logger.error(
-            f"Error in fetching the serialization for data catalog: {data_catalog_uri}."
-        )
-        return APIUtil.toErrorResponse("bad_request", "Invalid URI or return format")
+        # generate and return response
+        if mime_type is MimeType.HTML:
+            return generate_html_page(
+                rdf_graph,
+                data_catalog_uri,
+                current_app.config.get("SPARQL_ENDPOINT", ""),
+            )
+        else:
+            # another serialisation than HTML
+            return get_serialised_graph(rdf_graph, mime_type)
 
     def is_data_catalog(self, data_catalog_uri: str) -> bool:
-        return DataCatalogLODHandler(current_app.config).is_data_catalog(
-            data_catalog_uri
-        )
+        return DataCatalogLODHandler().is_data_catalog(data_catalog_uri)
 
     def is_valid_data_catalog(self, data_catalog_uri: str) -> bool:
-        return DataCatalogLODHandler(current_app.config).is_valid_data_catalog(
-            data_catalog_uri
-        )
+        return DataCatalogLODHandler().is_valid_data_catalog(data_catalog_uri)
 
 
 @api.doc(
@@ -249,25 +206,37 @@ class LODDataCatalogAPI(LODDataAPI):
         }
     }
 )
-class LODDataDownloadAPI(LODDataAPI):
+class LODDataDownloadAPI(Resource):
     """Serve the RDF for the data downloads in the format that was requested."""
 
     @api.produces([mt.value for mt in MimeType])
-    def get(self, number=None):
+    def get(self, number: str = ""):
         """Get the RDF for the DataDownload."""
+
+        # check if number is an integer value
+        if not number.isdigit():
+            return APIUtil.toErrorResponse(
+                "bad_request", f"Invalid identifier supplied: {number}"
+            )
+
+        # get B&G lod resource iri
         data_download_uri = util.ld_util.generate_lod_resource_uri(
             DatasetApiUriLevel.DATADOWNLOAD,
             number,
             current_app.config["BENG_DATA_DOMAIN"],
         )
+
+        # check if resource exists
         if self.is_data_download(data_download_uri) is False:
             logger.error(f"Data download does not exist: {data_download_uri}")
             return APIUtil.toErrorResponse("not_found")
 
+        # check if data download is valid
         if not self.is_valid_data_download(data_download_uri):
             logger.error(f"Invalid data download: {data_download_uri}")
             return APIUtil.toErrorResponse("bad_request", "Invalid DataDownload")
 
+        # get the requested mime_type
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(
             lod_server_supported_mime_types
@@ -278,45 +247,32 @@ class LODDataDownloadAPI(LODDataAPI):
         if best_match is not None:
             mime_type = MimeType(best_match)
 
-        if mime_type is MimeType.HTML:
-            # note that data for HTML are delivered from the RDF store
-            logger.info(f"Generating HTML page for data download: {data_download_uri}.")
-            html_page = self._get_lod_view_resource(
-                data_download_uri,
-                current_app.config.get("SPARQL_ENDPOINT"),
-                current_app.config.get("URI_NISV_ORGANISATION"),
+        # get rdf
+        logger.info(f"Getting RDF for resource {data_download_uri} from triple store.")
+        rdf_graph = Graph()
+        dd_data = DataCatalogLODHandler().get_data_download(
+            data_download_uri, MimeType.TURTLE.value
+        )
+        rdf_graph.parse(data=dd_data, format=MimeType.TURTLE.value)
+        if not rdf_graph:
+            return APIUtil.toErrorResponse(
+                "internal_server_error",
+                f"No graph created. Check resource type and identifier for {data_download_uri}",
             )
-            if html_page:
-                return Response(html_page, mimetype=mime_type.value)
-            else:
-                logger.error(
-                    f"Could not generate HTML page for data download: {data_download_uri}."
-                )
-                return APIUtil.toErrorResponse(
-                    "internal_server_error",
-                    "Could not generate an HTML view for this resource",
-                )
 
-        # other return formats
-        logger.info(
-            f"Getting the RDF in proper serialization format for data download: {data_download_uri}."
-        )
-        res_string = DataCatalogLODHandler(current_app.config).get_data_download(
-            data_download_uri, mime_format=mime_type.to_ld_format()
-        )
-        if res_string:
-            return Response(res_string, mimetype=mime_type.value)
-        logger.error(
-            f"Error in fetching the serialization for data download: {data_download_uri}."
-        )
-        return APIUtil.toErrorResponse("bad_request", "Invalid URI or return format")
+        # generate and return response
+        if mime_type is MimeType.HTML:
+            return generate_html_page(
+                rdf_graph,
+                data_download_uri,
+                current_app.config.get("SPARQL_ENDPOINT", ""),
+            )
+        else:
+            # another serialisation than HTML
+            return get_serialised_graph(rdf_graph, mime_type)
 
     def is_data_download(self, data_download_uri: str) -> bool:
-        return DataCatalogLODHandler(current_app.config).is_data_download(
-            data_download_uri
-        )
+        return DataCatalogLODHandler().is_data_download(data_download_uri)
 
     def is_valid_data_download(self, data_download_uri: str) -> bool:
-        return DataCatalogLODHandler(current_app.config).is_valid_data_download(
-            data_download_uri
-        )
+        return DataCatalogLODHandler().is_valid_data_download(data_download_uri)
