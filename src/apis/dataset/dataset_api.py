@@ -1,6 +1,8 @@
 import logging
 from flask import current_app, request
+from flask import current_app, request
 from flask_restx import Namespace, Resource
+from rdflib import Graph
 from rdflib import Graph
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
 from util.mime_type_util import MimeType
@@ -76,11 +78,10 @@ class LODDatasetAPI(Resource):
         # get rdf
         logger.info(f"Getting RDF for resource {dataset_uri} from triple store.")
         rdf_graph = Graph()
-        rdf_graph.parse(
-            data=DataCatalogLODHandler(current_app.config).get_dataset(
-                dataset_uri, "turtle"
-            )
+        ds_data = DataCatalogLODHandler().get_dataset(
+            dataset_uri, MimeType.TURTLE.value
         )
+        rdf_graph.parse(data=ds_data, format=MimeType.TURTLE.value)
         if not rdf_graph:
             return APIUtil.toErrorResponse(
                 "internal_server_error",
@@ -96,10 +97,10 @@ class LODDatasetAPI(Resource):
             return get_serialised_graph(rdf_graph, mime_type)
 
     def is_dataset(self, dataset_uri: str) -> bool:
-        return DataCatalogLODHandler(current_app.config).is_dataset(dataset_uri)
+        return DataCatalogLODHandler().is_dataset(dataset_uri)
 
     def is_valid_dataset(self, dataset_uri: str) -> bool:
-        return DataCatalogLODHandler(current_app.config).is_valid_dataset(dataset_uri)
+        return DataCatalogLODHandler().is_valid_dataset(dataset_uri)
 
 
 @api.doc(
@@ -163,11 +164,10 @@ class LODDataCatalogAPI(Resource):
         # get rdf
         logger.info(f"Getting RDF for resource {data_catalog_uri} from triple store.")
         rdf_graph = Graph()
-        rdf_graph.parse(
-            data=DataCatalogLODHandler(current_app.config).get_data_catalog(
-                data_catalog_uri, "turtle"
-            )
+        dc_data = DataCatalogLODHandler().get_data_catalog(
+            data_catalog_uri, MimeType.TURTLE.value
         )
+        rdf_graph.parse(data=dc_data, format=MimeType.TURTLE.value)
         if not rdf_graph:
             return APIUtil.toErrorResponse(
                 "internal_server_error",
@@ -185,14 +185,10 @@ class LODDataCatalogAPI(Resource):
             return get_serialised_graph(rdf_graph, mime_type)
 
     def is_data_catalog(self, data_catalog_uri: str) -> bool:
-        return DataCatalogLODHandler(current_app.config).is_data_catalog(
-            data_catalog_uri
-        )
+        return DataCatalogLODHandler().is_data_catalog(data_catalog_uri)
 
     def is_valid_data_catalog(self, data_catalog_uri: str) -> bool:
-        return DataCatalogLODHandler(current_app.config).is_valid_data_catalog(
-            data_catalog_uri
-        )
+        return DataCatalogLODHandler().is_valid_data_catalog(data_catalog_uri)
 
 
 @api.doc(
@@ -256,11 +252,10 @@ class LODDataDownloadAPI(Resource):
         # get rdf
         logger.info(f"Getting RDF for resource {data_download_uri} from triple store.")
         rdf_graph = Graph()
-        rdf_graph.parse(
-            data=DataCatalogLODHandler(current_app.config).get_data_download(
-                data_download_uri, "turtle"
-            )
+        dd_data = DataCatalogLODHandler().get_data_download(
+            data_download_uri, MimeType.TURTLE.value
         )
+        rdf_graph.parse(data=dd_data, format=MimeType.TURTLE.value)
         if not rdf_graph:
             return APIUtil.toErrorResponse(
                 "internal_server_error",
@@ -279,11 +274,7 @@ class LODDataDownloadAPI(Resource):
             return get_serialised_graph(rdf_graph, mime_type)
 
     def is_data_download(self, data_download_uri: str) -> bool:
-        return DataCatalogLODHandler(current_app.config).is_data_download(
-            data_download_uri
-        )
+        return DataCatalogLODHandler().is_data_download(data_download_uri)
 
     def is_valid_data_download(self, data_download_uri: str) -> bool:
-        return DataCatalogLODHandler(current_app.config).is_valid_data_download(
-            data_download_uri
-        )
+        return DataCatalogLODHandler().is_valid_data_download(data_download_uri)

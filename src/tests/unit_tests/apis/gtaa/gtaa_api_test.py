@@ -1,8 +1,7 @@
 import pytest
 from mockito import when, unstub, verify
 from rdflib import Graph, URIRef
-from rdflib.namespace._RDF import RDF
-from rdflib.namespace._SKOS import SKOS
+from rdflib.namespace import RDF, SKOS  # type: ignore
 import util.ld_util
 import util.lodview_util
 from apis.gtaa.gtaa_api import GTAAAPI

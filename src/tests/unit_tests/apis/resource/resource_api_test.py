@@ -3,8 +3,7 @@ import pytest
 from flask import Response
 from mockito import when, unstub, verify
 from rdflib import Graph, URIRef
-from rdflib.namespace._RDF import RDF
-from rdflib.namespace._SDO import SDO
+from rdflib.namespace import RDF, SDO  # type: ignore
 from rdflib.compare import to_isomorphic
 from apis.resource.resource_api import ResourceAPI
 from models.ResourceApiUriLevel import ResourceApiUriLevel

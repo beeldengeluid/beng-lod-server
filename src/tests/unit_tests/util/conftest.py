@@ -19,7 +19,6 @@ def scene_rdf_graph(scene_rdf_xml):
 def program_json_ld(open_file):
     """Returns an example JSON-LD of a program"""
     return open_file(__file__, "rdf_graph_program_2101608060047830331.json")
-    # return open_file(__file__, "response_1654249468282.json")
 
 
 @pytest.fixture()
