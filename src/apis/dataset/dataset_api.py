@@ -1,8 +1,6 @@
 import logging
 from flask import current_app, request
-from flask import current_app, request
 from flask_restx import Namespace, Resource
-from rdflib import Graph
 from rdflib import Graph
 from apis.dataset.DataCatalogLODHandler import DataCatalogLODHandler
 from util.mime_type_util import MimeType

@@ -1,6 +1,5 @@
 import sys
 import logging
-from unicodedata import name
 from flask import Flask, render_template
 from flask_cors import CORS
 from apis import api

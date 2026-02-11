@@ -2,8 +2,9 @@ import logging
 import requests
 import validators
 from requests.exceptions import ConnectionError, HTTPError
-from rdflib import Graph, URIRef, Namespace
+from rdflib import Graph, URIRef
 from rdflib.namespace import RDF, SDO, SKOS  # type: ignore
+from rdflib.compare import graph_diff
 from typing import Optional
 from urllib.parse import urlparse, urlunparse
 from enum import Enum
@@ -19,7 +20,6 @@ from util.ns_util import (
     DISCOGS_ARTIST,
     MUZIEKWEB,
     MUZIEKSCHATTEN,
-    QUDT,
     PID,
 )
 
@@ -407,8 +407,8 @@ def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
 
 
 def dump_nt_sorted(g):
-    for l in sorted(g.serialize(format="nt").splitlines()):
-        print(l)
+    for line in sorted(g.serialize(format="nt").splitlines()):
+        print(line)
 
 
 def compare_graphs(g1, g2):
