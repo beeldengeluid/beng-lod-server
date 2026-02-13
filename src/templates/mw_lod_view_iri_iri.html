@@ -1,0 +1,31 @@
+	{% for item in json_iri_iri %}
+	<div class="row">
+		{% if loop.previtem and loop.previtem.p.uri == item.p.uri %}
+			<div class="col-3 py-2"></div>
+		{% else %}
+		<div class="col-3 py-2 text-truncate">
+			<a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">{{item.p.prefix}}:<span class="fw-bold">{{item.p.property}}</span></a>
+		</div>
+		{% endif %}
+		<div class="col-9 py-2 border-bottom text-truncate">
+			<!-- {% if json_iri_iri | selectattr("p.uri", "equalto", item.p.uri) | list | count > 5 %}
+				{% if json_iri_iri[:loop.index] | selectattr("p.uri", "equalto", item.p.uri) | list | count == 5 %}
+					<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">See more</a>
+					<div class="collapse" id="collapseExample">
+				{% endif %}
+			{% endif %} -->
+			{% if item.o.labels|length %}
+                <a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{ item.o.labels|first }}</a>
+			{% elif item.o.prefix and item.o.property %}
+				<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.prefix}}:<span class="fw-bold">{{item.o.property}}</span></a>
+			{% else %}
+				<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.uri}}</a>
+			{% endif %}
+			<!-- {% if json_iri_iri | selectattr("p.uri", "equalto", item.p.uri) | list | count > 5 %}
+				{% if json_iri_iri[:loop.index + 1] | selectattr("p.uri", "equalto", item.p.uri) | list | count == 5 %}
+					</div>
+				{% endif %}
+			{% endif %} -->
+		</div>
+	</div>
+	{% endfor %}

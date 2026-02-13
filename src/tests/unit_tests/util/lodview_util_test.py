@@ -172,7 +172,7 @@ def test_lod_view_resource_header(flask_test_client):
                 },
             }
         ]
-        header = get_lod_view_resource_header(mock_header)
+        header = get_lod_view_resource_header(mock_header, "http://example.com")
         print(header)
 
 

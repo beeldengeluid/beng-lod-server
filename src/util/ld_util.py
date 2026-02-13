@@ -2,28 +2,28 @@ import logging
 import requests
 import validators
 from requests.exceptions import ConnectionError, HTTPError
-from rdflib import Graph, URIRef, Namespace
+from rdflib import Graph, URIRef
 from rdflib.namespace import RDF, SDO, SKOS  # type: ignore
+from rdflib.compare import graph_diff
 from typing import Optional
 from urllib.parse import urlparse, urlunparse
 from enum import Enum
 from models.DatasetApiUriLevel import DatasetApiUriLevel
 from models.ResourceApiUriLevel import ResourceApiUriLevel
+from util.ns_util import (
+    SKOSXL,
+    QUDT,
+    GTAA,
+    BENGTHES,
+    WIKIDATA,
+    DCTERMS,
+    DISCOGS_ARTIST,
+    MUZIEKWEB,
+    MUZIEKSCHATTEN,
+    PID,
+)
 
 logger = logging.getLogger()
-
-# declare namespaces
-SKOSXL_NS = "http://www.w3.org/2008/05/skos-xl#"
-SKOSXL = Namespace(URIRef(SKOSXL_NS))
-GTAA = Namespace(URIRef("http://data.beeldengeluid.nl/gtaa/"))
-SDOTORG = "https://schema.org/"
-BENGTHES = "http://data.beeldengeluid.nl/schema/thes#"
-WIKIDATA = "http://www.wikidata.org/entity/"
-SKOS_NS = "http://www.w3.org/2004/02/skos/core#"
-DCTERMS_NS = "http://purl.org/dc/terms/"
-DISCOGS = "https://api.discogs.com/artists/"
-MUZIEKWEB = "https://data.muziekweb.nl/Link/"
-MUZIEKSCHATTEN = "https://data.muziekschatten.nl/som/"
 
 
 def generate_lod_resource_uri(
@@ -188,14 +188,16 @@ def get_lod_resource_from_rdf_store(
         # add the missing namespaces
         g.bind("skosxl", SKOSXL)
         g.bind("gtaa", GTAA)
-        g.bind("sdo", SDOTORG)
+        g.bind("sdo", SDO)
         g.bind("bengthes", BENGTHES)
         g.bind("wd", WIKIDATA)
-        g.bind("skos", SKOS_NS)
-        g.bind("dcterms", DCTERMS_NS)
-        g.bind("discogs", DISCOGS)
+        g.bind("skos", SKOS)
+        g.bind("dcterms", DCTERMS)
+        g.bind("discogs", DISCOGS_ARTIST)
         g.bind("muziekweb", MUZIEKWEB)
         g.bind("som", MUZIEKSCHATTEN)
+        g.bind("qudt", QUDT)
+        g.bind("pid", PID)
 
         return g
     except ConnectionError as e:
@@ -397,7 +399,32 @@ def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
     raises an HTTPError when the request was not successful."""
     g = Graph()
     resp = requests.get(sparql_endpoint, params={"query": query})
+    # logger.debug(f"Request took: {resp.elapsed.total_seconds()} seconds.")
     resp.raise_for_status()
     if resp.status_code == 200:
         g.parse(data=resp.text, format="xml")
     return g
+
+
+def dump_nt_sorted(g):
+    for line in sorted(g.serialize(format="nt").splitlines()):
+        print(line)
+
+
+def compare_graphs(g1, g2):
+    # iso1 = to_isomorphic(g1)
+    # iso2 = to_isomorphic(g2)
+    # if iso1 == iso2:
+    #     logger.info("Graphs are isomorphic (equal).")
+    # else:
+    #     logger.warning("Graphs are NOT isomorphic (NOT equal).")
+
+    in_both, in_first, in_second = graph_diff(g1, g2)
+    logger.warning(
+        f"In both graphs: {len(in_both)} triples. In first graph only: {len(in_first)} triples. In second graph only: {len(in_second)} triples."
+    )
+
+    logger.warning(f"{len(in_first)} triples only in first graph:\n")
+    dump_nt_sorted(in_first)
+    logger.warning(f"{len(in_second)} triples only in second graph:\n")
+    dump_nt_sorted(in_second)

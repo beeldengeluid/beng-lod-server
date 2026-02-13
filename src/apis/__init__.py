@@ -4,11 +4,12 @@ from .health.health_api import api as health_api
 from .dataset.dataset_api import api as dataset_api
 from .resource.resource_api import api as resource_api
 from .gtaa.gtaa_api import api as gtaa_api
+from .link.link_api import api as link_api
 from config import cfg
 
 SWAGGER_UI_PATH = cfg["SWAGGER_UI_PATH"]
 
-apiVersion = "v0.9"
+apiVersion = "v0.9.1"
 base_path = "/"
 
 api = Api(version=apiVersion, doc=SWAGGER_UI_PATH)
@@ -35,3 +36,6 @@ if "pong" in enabled_endpoints:
 
 if "health" in enabled_endpoints:
     api.add_namespace(health_api, path="%s" % base_path)
+
+if "link" in enabled_endpoints:
+    api.add_namespace(link_api, path="%s" % base_path)

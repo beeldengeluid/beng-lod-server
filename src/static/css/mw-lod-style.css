@@ -1,15 +1,15 @@
 body {
-	color: #0f238c;
+	color: #1690c6;
 	font-size: 0.90rem;
 	font-family: "Raleway",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
 
 .navbar-light .navbar-brand {
-    color: #ff00bc;
+    color: #1690c6;
 }
 
 a {
-	color: #0f238c;
+	color: #1690c6;
 	text-decoration: none;
 }
 
@@ -18,7 +18,7 @@ a:hover {
 }
 
 header {
-	background-color: #0f238c;
+	background-color: #1690c6;
     /* min-height: 210px; */
 }
 
@@ -36,12 +36,13 @@ h1 {
 }
 
 footer {
-	background-color: #212121;
+	/* background-color: #212121; */
+	background-color: #1690c6;
 	padding: 20px;
 }
 
 footer .row {
-	min-height: 150px;
+	min-height: 50px;
 }
 
 /* TODO: replace below when testable */
@@ -59,7 +60,7 @@ footer .row {
 	background: #eee;
 	color: #212121;
 	line-height: 20px;
-	font-size: 0.80rem;
+	font-size: 14px;
 }
 
 #lodCloud {
@@ -80,3 +81,22 @@ aside.empty, #bnodes.empty, #directs.empty, #inverses.empty, #abstract.empty {
 	padding: 0;
 	min-height: 5px;
 }
+
+
+.yasgui .autocompleteWrapper {
+display: none !important;
+}
+
+.yasgui .tabContextButton {
+display: none !important;
+}
+
+.yasr .yasr_btn.yasr_external_ref_btn {
+	display: none !important;
+}
+
+/* 
+button {
+	color: #1690c6;
+	text-decoration: none;
+} */

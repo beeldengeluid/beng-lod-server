@@ -1,15 +1,17 @@
 import logging
 import json
 from flask import render_template, Response
-from rdflib import Graph, URIRef, Literal, BNode
+from rdflib import Graph, URIRef, Literal, BNode, Namespace
 from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS  # type: ignore
 from typing import Optional, List
 from util.mime_type_util import MimeType
 from util.APIUtil import APIUtil
+import util.mw_ld_util
 
 logger = logging.getLogger()
 
 SKOSXL_NS = "http://www.w3.org/2008/05/skos-xl#"
+SCHEMA = Namespace("http://schema.org/")  # Note the difference with SDO above (http:).
 
 
 def json_ld_structured_data_for_resource(rdf_graph: Graph, resource_url: str) -> str:
@@ -47,6 +49,10 @@ def json_header_from_rdf_graph(
                 + [
                     str(name)
                     for name in rdf_graph.objects(URIRef(resource_url), DCTERMS.title)
+                ]
+                + [
+                    str(label)
+                    for label in rdf_graph.objects(URIRef(resource_url), RDFS.label)
                 ],
                 "o": {
                     "uri": str(o),
@@ -58,7 +64,8 @@ def json_header_from_rdf_graph(
             for o in rdf_graph.objects(
                 subject=URIRef(resource_url), predicate=URIRef(RDF.type)
             )
-            if str(rdf_graph.compute_qname(str(o))[1]) in (str(SDO), str(SKOS))
+            if str(rdf_graph.compute_qname(str(o))[1])
+            in (str(SDO), str(SKOS), str(SCHEMA))
         ]
         return json_header
     except Exception as e:
@@ -254,12 +261,18 @@ def json_iri_bnode_from_rdf_graph(
     return json_iri_bnode
 
 
-def generate_html_page(rdf_graph: Graph, resource_iri: str, sparql_endpoint: str):
+def generate_html_page(
+    rdf_graph: Graph,
+    resource_iri: str,
+    sparql_endpoint: str,
+    template: str = "resource.html",
+):
     logger.info(f"Generating HTML page for {resource_iri}.")
     html_page = get_lod_view_resource(
         rdf_graph,
         resource_iri,
         sparql_endpoint,
+        html_template=template,
     )
     if html_page:
         return Response(html_page, mimetype=MimeType.HTML.value)
@@ -272,18 +285,24 @@ def generate_html_page(rdf_graph: Graph, resource_iri: str, sparql_endpoint: str
 
 
 def get_lod_view_resource(
-    rdf_graph: Graph, resource_url: str, sparql_endpoint: str
+    rdf_graph: Graph,
+    resource_url: str,
+    sparql_endpoint: str,
+    html_template: str = "resource.html",
 ) -> str:
-    """Handler that, given a Graph and a URI generates an HTML page.
+    """Given a Graph, a URI and an HTML template, return an HTML page.
     :param rdf_graph: A Graph for the resource.
     :param resource_url: The URI for the resource.
+    :param sparql_endpoint: The SPARQL endpoint URL.
+    :param html_template: The HTML template to be used.
+    :returns: rendered HTML page as string.
     """
     if rdf_graph:
         logger.info(
-            f"Rendering an html page for graph ({len(rdf_graph)} triples) using template 'resource.html'."
+            f"Rendering an html page for graph ({len(rdf_graph)} triples) using template '{html_template}'."
         )
         return render_template(
-            "resource.html",
+            html_template,
             resource_uri=resource_url,
             structured_data=json_ld_structured_data_for_resource(
                 rdf_graph, resource_url
@@ -292,7 +311,10 @@ def get_lod_view_resource(
             json_iri_iri=json_iri_iri_from_rdf_graph(rdf_graph, resource_url),
             json_iri_lit=json_iri_lit_from_rdf_graph(rdf_graph, resource_url),
             json_iri_bnode=json_iri_bnode_from_rdf_graph(rdf_graph, resource_url),
-            nisv_sparql_endpoint=sparql_endpoint,
+            sparql_endpoint=sparql_endpoint,
+            album_art=util.mw_ld_util.get_album_art_from_rdf_graph(
+                rdf_graph, resource_url
+            ),
         )
     return ""
 
@@ -308,11 +330,15 @@ def get_serialised_graph(rdf_graph: Graph, mime_type: MimeType = MimeType.JSON_L
         return APIUtil.toErrorResponse("internal_server_error", "Serialisation failed")
 
 
-def get_lod_view_resource_header(rdf_graph_header_json: List[dict]) -> str:
-    """Handler that, given a Graph generates a block for an HTML page.
-    # TODO: This is a place holder for future split lod view generation
+def get_lod_view_resource_header(
+    rdf_graph_header_json: List[dict], resource_uri: str
+) -> str:
+    """Given a list of dicts containing the header information for the lod view page,
+    a call to flask's render_template renders the template and outputs (partial HTML).
+    This output is included in the lod view page.
     """
     return render_template(
-        "resource_header.html",
-        rdf_graph_header_json=rdf_graph_header_json,
+        "resource_lod_view_header.html",
+        resource_uri=resource_uri,
+        json_header=rdf_graph_header_json,
     )

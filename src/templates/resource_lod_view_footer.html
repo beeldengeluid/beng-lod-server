@@ -1,0 +1,20 @@
+<footer class="py-2 text-white">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-8">
+				<nav class="navbar navbar-dark bg-transparent">
+					<span class="navbar-brand">
+						<img src="{{url_for('static', filename='images/B&G_logo_RGB_liggend_RL_Blauw.svg')}}" alt="Beeld & Geluid logo" width="142" height="30" class="d-inline-block align-text-top">
+						<strong>lod</strong> view
+					</span>
+				</nav>
+			</div>
+			<div class="col-4">
+				<div class="py-2">
+					data from: <a class="text-white" title="{{ nisv_sparql_endpoint }}" href="{{ nisv_sparql_endpoint }}" target="_blank">{{ sparql_endpoint }}</a><br>
+<!--					view as: <a class="text-white" title="application/ld+json" href="{{resource_uri}}" target="_blank">ld+json</a>-->
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>

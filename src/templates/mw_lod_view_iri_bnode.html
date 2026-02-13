@@ -1,0 +1,32 @@
+	{% for item in json_iri_bnode %}
+	<div class="row">
+		{% if loop.previtem and loop.previtem.p.uri == item.p.uri %}
+			<div class="col-3 py-2 text-truncate"></div>
+		{% else %}
+		<div class="col-3 py-2 text-truncate">
+			<a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">{{item.p.prefix}}:<span class="fw-bold">{{item.p.property}}</span></a>
+		</div>
+		{% endif %}
+		<div class="col-9 py-2 border-bottom text-truncate">
+			{% for bnode in item.o %}
+				<div class="row">
+					<div class="col py-2 border-bottom text-truncate">
+						<a title="&lt;{{bnode.pred.uri}}&gt;" href="{{bnode.pred.uri}}" target="_blank">{{bnode.pred.prefix}}:<span class="fw-bold">{{bnode.pred.property}}</span></a>
+					</div>
+					{% if bnode.obj.uri is defined %}
+						<div class="col py-2 border-bottom text-truncate">
+							{% if bnode.obj.labels|length %}
+								<a title="&lt;{{bnode.obj.uri}}&gt;" href="{{bnode.obj.uri}}" target="_blank">{{bnode.obj.labels|first}}</a>
+							{% else %}
+								<a title="&lt;{{bnode.obj.uri}}&gt;" href="{{bnode.obj.uri}}" target="_blank">{{bnode.obj.prefix}}:<span class="fw-bold">{{bnode.obj.property}}</span></a>
+							{% endif %}
+						</div>
+					{% endif %}
+					{% if bnode.obj.labels|length %}
+						<div class="col-6 py-2 border-bottom text-truncate">{{bnode.obj.labels|first}}</div>
+					{% endif %}
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	{% endfor %}

@@ -11,7 +11,7 @@ logger = logging.getLogger()
 
 api = Namespace(
     "gtaa",
-    description="Thesaurus resources coming from the GTAA in RDF for Netherlands Institute for Sound and Vision.",
+    description="GTAA thesaurus terms as SKOS Concepts.",
 )
 
 

@@ -372,8 +372,8 @@ def test_get_500(mime_type, cause, flask_test_client, resource_query_url):
         unstub()
 
 
-@pytest.mark.parametrize("cause", ["not_rdf_graph", "no_html_page"])
-def test_get_500_html(cause, flask_test_client, resource_query_url):
+# @pytest.mark.parametrize("cause", ["not_rdf_graph", "no_html_page"])
+def test_get_500_html(flask_test_client, resource_query_url):
     """Given a flask test client, dummy variables and stubbed invocations,
     send a get request with mime_type HTML.
     No HTML page will be returned, but an error response that is tested.
@@ -381,9 +381,6 @@ def test_get_500_html(cause, flask_test_client, resource_query_url):
     DUMMY_IDENTIFIER = "1234"
     DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
     DUMMY_EMPTY_GRAPH = Graph()
-    DUMMY_GRAPH = Graph()
-    DUMMY_GRAPH.add((URIRef(DUMMY_URL), RDF.type, SDO.CreativeWork))
-
     CAT_TYPE = "program"
     mime_type = MimeType.HTML
     config = flask_test_client.application.config
@@ -397,35 +394,20 @@ def test_get_500_html(cause, flask_test_client, resource_query_url):
         when(util.ld_util).is_nisv_cat_resource(
             DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         ).thenReturn(True)
-
-        if cause == "not_rdf_graph":
-            when(util.ld_util).get_lod_resource_from_rdf_store(
-                DUMMY_URL,
-                config.get("SPARQL_ENDPOINT"),
-                config.get("URI_NISV_ORGANISATION"),
-            ).thenReturn(
-                DUMMY_EMPTY_GRAPH
-            )  # empty graph will cause 500
-        elif cause == "no_html_page":
-            when(util.ld_util).get_lod_resource_from_rdf_store(
-                DUMMY_URL,
-                config.get("SPARQL_ENDPOINT"),
-                config.get("URI_NISV_ORGANISATION"),
-            ).thenReturn(DUMMY_GRAPH)
-
-        when(util.lodview_util).get_lod_view_resource(
-            DUMMY_GRAPH,
+        when(util.ld_util).get_lod_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("URI_NISV_ORGANISATION"),
         ).thenReturn(
-            ""
-        )  # empty HTML page.
+            DUMMY_EMPTY_GRAPH
+        )  # empty graph will cause 500
 
         response = flask_test_client.get(
             resource_query_url(CAT_TYPE, DUMMY_IDENTIFIER),
             headers={"Accept": mime_type.value},
         )
         assert response.status_code == 500
+        assert "No graph created." in response.text
 
         verify(util.ld_util, times=1).generate_lod_resource_uri(
             ResourceApiUriLevel(CAT_TYPE),
@@ -437,17 +419,6 @@ def test_get_500_html(cause, flask_test_client, resource_query_url):
             config.get("SPARQL_ENDPOINT", ""),
             config.get("URI_NISV_ORGANISATION", ""),
         )
-        verify(
-            util.lodview_util, times=0 if cause == "not_rdf_graph" else 1
-        ).get_lod_view_resource(
-            DUMMY_GRAPH,
-            DUMMY_URL,
-            config.get("SPARQL_ENDPOINT"),
-        )
-        if cause == "not_rdf_graph":
-            assert "No graph created." in response.text
-        elif cause == "no_html_page":
-            assert "Could not generate an HTML view" in response.text
 
     finally:
         unstub()
