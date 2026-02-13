@@ -117,13 +117,21 @@ def json_header_from_rdf_graph(
                     URIRef(resource_url),
                     lang=cfg.get("UI_LANGUAGE_PREFERENCE", "nl"),
                 ),
-                "o": json_parts_from_IRI(rdf_graph, str(o)),
+                "o": [
+                    json_parts_from_IRI(rdf_graph, str(o))
+                    for o in rdf_graph.objects(
+                        subject=URIRef(resource_url), predicate=URIRef(RDF.type)
+                    )
+                    if json_parts_from_IRI(rdf_graph, str(o)).get("namespace", "")
+                    in (
+                        str(SDO),
+                        str(SKOS),
+                        str(SCHEMA),
+                        str(MUZIEKWEB_VOCAB),
+                        str(OWL),
+                    )
+                ],
             }
-            for o in rdf_graph.objects(
-                subject=URIRef(resource_url), predicate=URIRef(RDF.type)
-            )
-            if json_parts_from_IRI(rdf_graph, str(o)).get("namespace", "")
-            in (str(SDO), str(SKOS), str(SCHEMA), str(MUZIEKWEB_VOCAB), str(OWL))
         ]
         return json_header
     except Exception as e:
