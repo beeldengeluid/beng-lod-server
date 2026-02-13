@@ -6,9 +6,7 @@ from typing import Optional
 from requests.exceptions import ConnectionError, HTTPError
 from urllib.parse import urlparse, urlunparse
 from rdflib import Graph, URIRef, BNode, Literal
-from rdflib.namespace._RDF import RDF
-from rdflib.namespace._SDO import SDO
-from rdflib.namespace._SKOS import SKOS
+from rdflib.namespace import RDF, SDO, SKOS  # type:ignore
 from util.ns_util import (
     SCHEMA,
     WIKIDATA,

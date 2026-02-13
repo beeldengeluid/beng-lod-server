@@ -2,17 +2,13 @@ import logging
 import json
 from flask import render_template, Response
 from rdflib import Graph, URIRef, Literal, BNode
-from rdflib.namespace._RDF import RDF
-from rdflib.namespace._RDFS import RDFS
-from rdflib.namespace._SDO import SDO
-from rdflib.namespace._SKOS import SKOS
-from rdflib.namespace._DCTERMS import DCTERMS
-from rdflib.namespace._OWL import OWL
+from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS, OWL  # type:ignore
 from typing import Optional, List
 from util.mime_type_util import MimeType
 from util.APIUtil import APIUtil
 import util.mw_ld_util
 from util.ns_util import SCHEMA, MUZIEKWEB_VOCAB
+from config import cfg
 
 logger = logging.getLogger()
 
@@ -49,27 +45,31 @@ def json_parts_from_IRI(rdf_graph: Graph, iri: str) -> dict:
 def json_label_for_node(
     rdf_graph: Graph, node: URIRef | BNode, lang: str = ""
 ) -> List[str]:
-    """Generates a list of labels for a given IRI or BNode."""
-    # TODO: handle language preferences for the UI
-    return (
-        [
-            f"{str(label)} @{Literal(label).language}"
-            for label in rdf_graph.objects(node, SKOS.prefLabel)
-            if Literal(label).language == lang
-        ]
-        + [
-            str(label)
-            for label in rdf_graph.objects(node, SKOS.prefLabel)
-            if Literal(label).language and lang == ""
-        ]
-        + [
-            str(name)
-            for name in rdf_graph.objects(node, SDO.name)
-            if Literal(name).language == lang or lang == ""
-        ]
-        + [str(title) for title in rdf_graph.objects(node, DCTERMS.title)]
-        + [str(label) for label in rdf_graph.objects(node, RDFS.label)]
+    """Generates a list of all possible labels for a given IRI or BNode.
+    This list is used for the visualisation of the resource in the LOD view.
+    :param lang: the language preference for the labels.
+    """
+    my_literal_list = (
+        [Literal(label) for label in rdf_graph.objects(node, SKOS.prefLabel)]
+        + [Literal(name) for name in rdf_graph.objects(node, SDO.name)]
+        + [Literal(title) for title in rdf_graph.objects(node, DCTERMS.title)]
+        + [Literal(label) for label in rdf_graph.objects(node, RDFS.label)]
     )
+    return [get_string_for_langstring(label, lang) for label in my_literal_list]
+
+
+def get_string_for_langstring(literal: Literal, lang: str = "") -> str:
+    """Returns the string value of a Literal, taking into account the
+    language preference. If the literal has a language tag that matches
+    the preferred language, the string value is returned without the language
+    tag. If the literal has a language tag that does not match the preferred
+    language, the string value is returned with the language tag."""
+    if literal.language and literal.language == lang:
+        return str(literal)
+    else:
+        return (
+            f"{str(literal)} @{literal.language}" if literal.language else str(literal)
+        )
 
 
 def json_for_literal(rdf_graph: Graph, literal: Literal, lang: str = "") -> dict:
@@ -96,29 +96,12 @@ def json_for_datatype(rdf_graph: Graph, datatype_iri: URIRef | None) -> dict:
 
 
 def json_label_for_literal(literal: Literal, lang: str = "") -> dict:
-    """Generates a list of labels for a given Literal.
-    A language preference can be given.
+    """Generates a list of labels for a given Literal, taking language
+    preference into account.
+    :param lang: the language preference for the labels.
     """
-    return {
-        "labels": [
-            (
-                f"{str(literal)} @{literal.language}"
-                if literal.language and literal.language == lang
-                else (
-                    f"{str(literal)} @{literal.language}"
-                    if literal.language and lang == ""
-                    else str(literal)
-                )
-            )
-        ]
-    }
-
+    return {"labels": [get_string_for_langstring(literal, lang)]}
     # | json_for_datatype(literal.graph, literal.datatype)
-
-    # return {
-    #     "literal_value": f"{str(literal)} @{literal.language}"
-    #         if literal.language and literal.language == lang else f"{str(literal)} @{literal.language}"if literal.language and lang == "" else str(literal) if lang == ""
-    # } | json_for_datatype(rdf_graph, literal.datatype)
 
 
 def json_header_from_rdf_graph(
@@ -130,7 +113,9 @@ def json_header_from_rdf_graph(
         json_header = [
             {
                 "title": json_label_for_node(
-                    rdf_graph, URIRef(resource_url), lang="nl"
+                    rdf_graph,
+                    URIRef(resource_url),
+                    lang=cfg.get("UI_LANGUAGE_PREFERENCE", "nl"),
                 ),
                 "o": json_parts_from_IRI(rdf_graph, str(o)),
             }
@@ -157,7 +142,11 @@ def json_iri_iri_from_rdf_graph(
             {
                 "p": json_parts_from_IRI(rdf_graph, str(p)),
                 "o": json_parts_from_IRI(rdf_graph, str(o))
-                | {"labels": json_label_for_node(rdf_graph, o)},
+                | {
+                    "labels": json_label_for_node(
+                        rdf_graph, o, lang=cfg.get("UI_LANGUAGE_PREFERENCE", "nl")
+                    )
+                },
             }
             for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url))
             if isinstance(o, URIRef)  # p != RDF.type and
@@ -179,9 +168,14 @@ def json_iri_lit_from_rdf_graph(
             {
                 "p": json_parts_from_IRI(rdf_graph, str(p)),
                 "o": (
-                    json_label_for_literal(o)
+                    json_label_for_literal(
+                        o,
+                        lang=cfg.get("UI_LANGUAGE_PREFERENCE", "nl"),
+                    )
                     if o.datatype is None
-                    else json_label_for_literal(o)
+                    else json_label_for_literal(
+                        o, lang=cfg.get("UI_LANGUAGE_PREFERENCE", "nl")
+                    )
                     | json_for_datatype(rdf_graph, o.datatype)
                 ),
             }
@@ -209,10 +203,20 @@ def json_iri_bnode_from_rdf_graph(
                         "pred": json_parts_from_IRI(rdf_graph, str(bnode_pred)),
                         "obj": (
                             json_parts_from_IRI(rdf_graph, str(bnode_obj))
-                            | {"labels": json_label_for_node(rdf_graph, bnode_obj)}
+                            | {
+                                "labels": json_label_for_node(
+                                    rdf_graph,
+                                    bnode_obj,
+                                    lang=cfg.get("UI_LANGUAGE_PREFERENCE", "nl"),
+                                )
+                            }
                             if isinstance(bnode_obj, URIRef)
                             else (
-                                json_for_literal(rdf_graph, bnode_obj)
+                                json_for_literal(
+                                    rdf_graph,
+                                    bnode_obj,
+                                    lang=cfg.get("UI_LANGUAGE_PREFERENCE", "nl"),
+                                )
                                 if isinstance(bnode_obj, Literal)
                                 else str(bnode_obj)
                             )
@@ -291,6 +295,7 @@ def get_lod_view_resource(
             album_art=util.mw_ld_util.get_album_art_from_rdf_graph(
                 rdf_graph, resource_url
             ),
+            pref_language=cfg.get("UI_LANGUAGE_PREFERENCE", "nl").upper(),
         )
     return ""
 
