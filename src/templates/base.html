@@ -19,6 +19,9 @@
 					<img src="{{url_for('static', filename='images/B&G_logo_RGB_liggend_RL.svg')}}" alt="Beeld & Geluid logo" width="142" height="30" class="d-inline-block align-text-top">
 					<strong>lod</strong> view
 				</span>
+				<span class="navbar-text">
+					<strong>{% block pref_language %}{% endblock %}</strong>
+				</span>
 			</div>
 		</nav>
 		{% block resource_lod_view_header %}{% endblock %}

@@ -19,6 +19,9 @@
 					<img src="{{url_for('static', filename='images/mw_logo_footer.png')}}" alt="Muziekweb.nl logo" width="220" height="28" class="d-inline-block align-text-top">
 					<strong>lod</strong> view
 				</span>
+				<span class="navbar-text">
+					<strong>{% block pref_language %}{% endblock %}</strong>
+				</span>
 			</div>
 		</nav>
 		{% block mw_lod_view_header %}{% endblock %}

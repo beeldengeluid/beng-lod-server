@@ -27,6 +27,8 @@ MUZIEKWEB_LOD_RESOURCE_QUERY: "queries/mw_lod_resource_all_triples_and_bnodes.rq
 MUZIEKWEB_ORGANISATION_URI: "https://www.muziekweb.nl/"
 MUZIEKWEB_HTML_TEMPLATE: "mw_resource.html"
 
+UI_LANGUAGE_PREFERENCE: "nl"  # "en", "de", "fr" or "nl"
+
 SWAGGER_UI_PATH: "/swagger"
 
 HEALTH_TIMEOUT_SEC: 5.0
