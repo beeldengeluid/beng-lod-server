@@ -177,7 +177,7 @@ def get_lod_resource_from_rdf_store(
             return None
         else:
             # add the publisher triple (if not already present)
-            add_publisher(resource_url, nisv_organisation_uri, g)
+            # add_publisher(resource_url, nisv_organisation_uri, g)
 
             # add structured data triples
             add_structured_data_publisher(resource_url, nisv_organisation_uri, g)
