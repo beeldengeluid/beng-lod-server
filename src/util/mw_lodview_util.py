@@ -7,7 +7,7 @@ from typing import Optional, List
 from util.mime_type_util import MimeType
 from util.APIUtil import APIUtil
 import util.mw_ld_util
-from util.ns_util import SCHEMA, MUZIEKWEB_VOCAB
+from util.ns_util import SCHEMA, MUZIEKWEB_VOCAB, SKOSXL
 from config import cfg
 
 logger = logging.getLogger()
@@ -54,6 +54,10 @@ def json_label_for_node(
         + [Literal(name) for name in rdf_graph.objects(node, SDO.name)]
         + [Literal(title) for title in rdf_graph.objects(node, DCTERMS.title)]
         + [Literal(label) for label in rdf_graph.objects(node, RDFS.label)]
+        + [
+            Literal(lf)
+            for lf in rdf_graph.objects(node, URIRef(f"{SKOSXL}literalForm"))
+        ]
     )
     return [get_string_for_langstring(label, lang) for label in my_literal_list]
 
@@ -157,7 +161,7 @@ def json_iri_iri_from_rdf_graph(
                 },
             }
             for (p, o) in rdf_graph.predicate_objects(subject=URIRef(resource_url))
-            if isinstance(o, URIRef)  # p != RDF.type and
+            if isinstance(o, URIRef)
         ]
         return json_iri_iri
     except Exception as e:
