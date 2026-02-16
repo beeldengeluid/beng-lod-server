@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE rdf:RDF [
+    <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+    <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
+    <!ENTITY sdo 'https://schema.org/'>
+    <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
+]>
+
+<rdf:RDF
+    xmlns:rdf="&rdf;"
+    xmlns:rdfs="&rdfs;"
+    xmlns:sdo="&sdo;"
+    xmlns:xsd="&xsd;"
+>
+<rdf:Description rdf:about="http://data.beeldengeluid.nl/id/program/2102501280372628531">
+  <rdf:type rdf:resource="&rdfs;Resource"/>
+  <rdf:type rdf:resource="&sdo;CreativeWork"/>
+  <sdo:about rdf:resource="http://data.beeldengeluid.nl/gtaa/25467"/>
+  <sdo:about rdf:resource="http://data.beeldengeluid.nl/gtaa/25641"/>
+  <sdo:about rdf:resource="http://data.beeldengeluid.nl/gtaa/25985"/>
+  <sdo:about rdf:resource="http://data.beeldengeluid.nl/gtaa/26386"/>
+  <sdo:about rdf:resource="http://data.beeldengeluid.nl/gtaa/26466"/>
+  <sdo:about rdf:resource="http://data.beeldengeluid.nl/gtaa/27112"/>
+  <sdo:about rdf:resource="http://data.beeldengeluid.nl/gtaa/28251"/>
+  <sdo:about rdf:resource="http://data.beeldengeluid.nl/gtaa/36677"/>
+  <sdo:about rdf:resource="http://data.beeldengeluid.nl/gtaa/37371"/>
+  <sdo:about rdf:resource="http://data.beeldengeluid.nl/gtaa/38491"/>
+  <sdo:about rdf:resource="http://data.beeldengeluid.nl/gtaa/38921"/>
+  <sdo:about rdf:resource="http://data.beeldengeluid.nl/gtaa/39742"/>
+  <sdo:about rdf:resource="http://data.beeldengeluid.nl/gtaa/39744"/>
+  <sdo:about rdf:resource="http://data.beeldengeluid.nl/gtaa/42318"/>
+  <sdo:about rdf:resource="http://data.beeldengeluid.nl/gtaa/58937"/>
+  <sdo:about rdf:resource="http://data.beeldengeluid.nl/gtaa/75039"/>
+  <sdo:about rdf:resource="https://data.indischherinneringscentrum.nl/ied/100005"/>
+  <sdo:about rdf:resource="https://data.indischherinneringscentrum.nl/ied/111043"/>
+  <sdo:about rdf:resource="https://data.indischherinneringscentrum.nl/ied/111240"/>
+  <sdo:about rdf:resource="https://data.indischherinneringscentrum.nl/ied/112898"/>
+  <sdo:about rdf:resource="https://data.indischherinneringscentrum.nl/ied/113344"/>
+  <sdo:about rdf:resource="https://data.indischherinneringscentrum.nl/ied/113479"/>
+  <sdo:provider rdf:resource="http://data.beeldengeluid.nl/gtaa/223534"/>
+  <sdo:provider rdf:resource="http://data.beeldengeluid.nl/gtaa/263086"/>
+  <sdo:conditionsOfAccess rdf:datatype="&xsd;string">Media is not available for viewing/listening online</sdo:conditionsOfAccess>
+  <sdo:datePublished rdf:datatype="&xsd;date">1987-06-08</sdo:datePublished>
+  <sdo:genre rdf:resource="http://data.beeldengeluid.nl/gtaa/30260"/>
+  <sdo:identifier rdf:resource="https://persistent-identifier.nl/URN:NBN:NL:IN:20-PGMGMM250128026GJ"/>
+  <sdo:inLanguage rdf:datatype="&xsd;string">Maleisisch</sdo:inLanguage>
+  <sdo:license rdf:resource="http://rightsstatements.org/vocab/InC/1.0/"/>
+  <sdo:name xml:lang="nl">Interview met echtpaar Sahetapy door Mary Hehuat over het leven in Nederland na hun komst in 1951 uit de Molukken voor het programma Medelanders Nederlanders</sdo:name>
+  <sdo:publisher rdf:resource="https://www.beeldengeluid.nl/"/>
+  <sdo:url rdf:resource="https://zoeken.beeldengeluid.nl/program/urn:vme:default:program:2102501280372628531"/>
+</rdf:Description>
+
+</rdf:RDF>

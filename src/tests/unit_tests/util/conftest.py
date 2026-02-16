@@ -44,3 +44,9 @@ def program_rdf_graph(load_file_as_graph):
 def program_12_entity_problem_xml(open_file):
     """Returns an example RDF/XML of a program with entity/DTD problem."""
     return open_file(__file__, "program_12_entity_problem.xml")
+
+
+@pytest.fixture()
+def program_12_parsing_ok_xml(open_file):
+    """Returns RDF/XML of a program where the entity/DTD problem doesn't occur."""
+    return open_file(__file__, "program_12_parsing_ok.xml")

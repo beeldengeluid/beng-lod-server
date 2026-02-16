@@ -208,6 +208,11 @@ def test_sparql_construct_query(program_rdf_xml, sparql_endpoint, query):
 def test_sparql_construct_entity_parsing_error(
     program_12_entity_problem_xml, sparql_endpoint, query
 ):
+    """Given an RDF/XML with an entity/DTD problem, when the sparql_construct_query
+    function is called, then a SAXParseException should be raised.
+    This is caused by namespaces that are added to the triple store, but that
+    are not added as entity to the DTD. This is a triple store issue.
+    """
     from xml.sax import SAXParseException
 
     with pytest.raises(SAXParseException) as e_info:
@@ -217,3 +222,29 @@ def test_sparql_construct_entity_parsing_error(
         g = sparql_construct_query(sparql_endpoint, query)
 
     assert "undefined entity" in str(e_info.value)
+
+
+@pytest.mark.parametrize(
+    "sparql_endpoint, query", [(DUMMY_SPARQL_ENDPOINT, DUMMY_CONSTRUCT_QUERY)]
+)
+def test_sparql_construct_entity_parsing_ok(
+    program_12_parsing_ok_xml, sparql_endpoint, query
+):
+    """This is an anti pattern of the previous test. Given an RDF/XML
+    that doesn't have an entity/DTD problem, when the sparql_construct_query
+    function is called, then no exception should be raised.
+    """
+    try:
+        resp = mock(
+            {
+                "status_code": 200,
+                "text": program_12_parsing_ok_xml,
+            }
+        )
+        when(resp).raise_for_status().thenReturn(None)
+        when(requests).get(sparql_endpoint, **KWARGS).thenReturn(resp)
+        g = sparql_construct_query(sparql_endpoint, query)
+        assert len(g) > 0
+
+    finally:
+        unstub()
