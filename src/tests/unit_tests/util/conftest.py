@@ -38,3 +38,9 @@ def program_rdf_xml(open_file):
 def program_rdf_graph(load_file_as_graph):
     """Returns graph of an example NISV program in JSON-LD."""
     return load_file_as_graph(__file__, "rdf_graph_program_2101608060047830331.json")
+
+
+@pytest.fixture()
+def program_12_entity_problem_xml(open_file):
+    """Returns an example RDF/XML of a program with entity/DTD problem."""
+    return open_file(__file__, "program_12_entity_problem.xml")
