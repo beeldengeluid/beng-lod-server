@@ -208,13 +208,12 @@ def test_sparql_construct_query(program_rdf_xml, sparql_endpoint, query):
 def test_sparql_construct_entity_parsing_error(
     program_12_entity_problem_xml, sparql_endpoint, query
 ):
-    try:
-        # mock a response with invalid XML that causes an entity parsing error
-        # invalid_xml = "<rdf:RDF><rdf:Description><invalid></rdf:Description></rdf:RDF>"
+    from xml.sax import SAXParseException
+
+    with pytest.raises(SAXParseException) as e_info:
         resp = mock({"status_code": 200, "text": program_12_entity_problem_xml})
         when(resp).raise_for_status().thenReturn(None)
         when(requests).get(sparql_endpoint, **KWARGS).thenReturn(resp)
         g = sparql_construct_query(sparql_endpoint, query)
-        assert len(g) == 0  # should return an empty graph on parsing error
-    finally:
-        unstub()
+
+    assert "undefined entity" in str(e_info.value)
