@@ -5,7 +5,7 @@ on:
 
 jobs:
   check-project:
-    uses: beeldengeluid/gha-workflows/.github/workflows/check-poetry-project.yml@f96114651b1976bf74f358a35e58336da0cce5ab # v2026.01.29
+    uses: beeldengeluid/gha-workflows/.github/workflows/check-poetry-project.yml@e31d931ba3f3d174c3ccd4c489a739a529d2db7d # v2026.02.20
     with:
       poetry-version: 2.1.4
     permissions:
