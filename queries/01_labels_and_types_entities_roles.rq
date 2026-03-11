@@ -1,0 +1,11 @@
+PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sdo: <https://schema.org/>
+#CONSTRUCT { ?z skos:prefLabel ?pref_label . ?z rdf:type ?t } 
+SELECT ?z ?pref_label ?t
+WHERE { 
+	VALUES ?s { <http://data.beeldengeluid.nl/id/program/2102501280372631431> } . 
+	?s ((sdo:creator/sdo:creator)|(sdo:byArtist/sdo:byArtist)|(sdo:actor/sdo:actor)|(sdo:contributor/sdo:contributor)|(sdo:productionCompany/sdo:productionCompany)) ?z . 
+	?z skosxl:prefLabel/skosxl:literalForm ?pref_label .?z rdf:type ?t 
+}

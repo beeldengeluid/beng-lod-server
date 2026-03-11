@@ -20,6 +20,7 @@ from util.ns_util import (
     MUSICBRAINZ_RELEASE,
     QUDT,
     PID,
+    IED,
 )
 
 logger = logging.getLogger()
@@ -127,12 +128,12 @@ def get_resource_from_rdf_store(
     try:
         query_str = get_query_from_file(query_fname)
         query = query_str.replace("?resource_iri", f"<{resource_url}>")
-        logger.debug(f"SPARQL query to get the resource:\n{query}")
+        # logger.debug(f"SPARQL query to get the resource:\n{query}")
 
         # get the results
         query_result = sparql_select_query(sparql_endpoint, query, format="json")
         results = json.loads(query_result)
-        logger.debug(f"SPARQL query results: {results}")
+        # logger.debug(f"SPARQL query results: {results}")
 
         # Note we have to add the resource_url for the triples that miss the subject 's'
         g += convert_results_to_graph(results, resource_url)
@@ -141,7 +142,7 @@ def get_resource_from_rdf_store(
             logger.error("Graph was empty")
         else:
             # add the publisher triple (if not already present)
-            add_publisher(resource_url, organisation_uri, g)
+            # add_publisher(resource_url, organisation_uri, g)
 
             # add structured data triples
             add_structured_data_publisher(resource_url, organisation_uri, g)
@@ -161,9 +162,10 @@ def get_resource_from_rdf_store(
         g.bind("muziekweb", MUZIEKWEB)
         g.bind("som", MUZIEKSCHATTEN)
         g.bind("vocab", MUZIEKWEB_VOCAB)
-        g.bind("mb-release", MUSICBRAINZ_RELEASE)
+        g.bind("musicbrainz-release", MUSICBRAINZ_RELEASE)
         g.bind("qudt", QUDT)
         g.bind("pid", PID)
+        g.bind("ied", IED)
 
         return g
     except ConnectionError as e:
@@ -250,9 +252,9 @@ def result_binding_to_triple(result_binding: dict) -> tuple:
     elif o_type == "literal":
         lang = result_binding.get("o", {}).get("xml:lang", None)
         datatype = result_binding.get("o", {}).get("datatype", None)
-        if lang:
+        if lang is not None:
             o = Literal(o_value, lang=lang)
-        elif datatype:
+        elif datatype is not None:
             o = Literal(o_value, datatype=URIRef(datatype))
         else:
             o = Literal(o_value)

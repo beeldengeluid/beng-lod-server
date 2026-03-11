@@ -1,0 +1,23 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<http://data.beeldengeluid.nl/gtaa/105778> a rdfs:Resource,
+        skos:Concept,
+        schema:Person,
+        schema:Thing ;
+    skos:prefLabel "Hehuat, Mary"@nl ;
+    schema:additionalType skos:Concept .
+
+<http://data.beeldengeluid.nl/gtaa/132257> a rdfs:Resource,
+        skos:Concept,
+        schema:Person,
+        schema:Thing ;
+    skos:prefLabel "Metiarij, Semuel"@nl ;
+    schema:additionalType skos:Concept .
+
+<http://www.wikidata.org/entity/Q3455803> a rdfs:Resource,
+        <http://www.wikidata.org/entity/Q28640> ;
+    rdfs:label "director"@en,
+        "regisseur"@nl .
+

@@ -5,6 +5,7 @@ from util.mime_type_util import MimeType
 from util.APIUtil import APIUtil
 import util.ld_util
 import util.lodview_util
+import util.mw_lodview_util
 
 logger = logging.getLogger()
 
@@ -67,7 +68,7 @@ class GTAAAPI(Resource):
             )
 
         if mime_type is MimeType.HTML:
-            return util.lodview_util.generate_html_page(
+            return util.mw_lodview_util.generate_html_page(
                 rdf_graph, gtaa_uri, current_app.config.get("SPARQL_ENDPOINT", "")
             )
         else:

@@ -17,6 +17,7 @@ DATA_CATALOG_GRAPH: "http://data.rdlabs.beeldengeluid.nl/datacatalog/"
 
 BENG_DATA_DOMAIN: "http://data.beeldengeluid.nl/"
 URI_NISV_ORGANISATION: "https://www.beeldengeluid.nl/"
+BENG_LOD_RESOURCE_QUERY: "queries/bg_lod_resource_all_triples_and_bnodes.rq"
 
 SPARQL_ENDPOINT: "https://cat.apis.beeldengeluid.nl/sparql"
 SPARQL_ENDPOINT_HEALTH_URL: "https://cat.apis.beeldengeluid.nl/sparql"

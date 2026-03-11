@@ -67,13 +67,31 @@ def get_string_for_langstring(literal: Literal, lang: str = "") -> str:
     language preference. If the literal has a language tag that matches
     the preferred language, the string value is returned without the language
     tag. If the literal has a language tag that does not match the preferred
-    language, the string value is returned with the language tag."""
-    if literal.language and literal.language == lang:
+    language, the string value is returned with the language tag. For other
+    cases (e.g. no language tag defined), the string value is returned without
+    the language tag.
+    :param lang: the language preference for the labels.
+    """
+    if literal.language is None:
+        # no language tag defined: return the string value
         return str(literal)
+    elif literal.language and lang == "":
+        # no preferred language defined but language tag defined:
+        # return the string value including language tag, to make it clear that
+        # there is a language tag defined
+        return f"{str(literal)} @{literal.language}"
+    elif literal.language and lang != "" and literal.language == lang:
+        # language tag defined, there is a preferred language and it matches the
+        # literal's language: return the string value (because the UI is all
+        # in that preferred language, no need to add the language tag)
+        return str(literal)
+    elif literal.language and literal.language != lang:
+        # language tag defined but does not match the preferred language:
+        # return the string value with the language tag
+        return f"{str(literal)} @{literal.language}"
     else:
-        return (
-            f"{str(literal)} @{literal.language}" if literal.language else str(literal)
-        )
+        # this should not happen, but in case it does, return the empty string
+        return ""
 
 
 def json_for_literal(rdf_graph: Graph, literal: Literal, lang: str = "") -> dict:

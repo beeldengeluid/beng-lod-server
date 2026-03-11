@@ -68,6 +68,9 @@ class LinkAPI(Resource):
             current_app.config.get("MUZIEKWEB_LOD_RESOURCE_QUERY", ""),
             current_app.config.get("MUZIEKWEB_ORGANISATION_URI", ""),
         )
+        rdf_graph.serialize(
+            "../../../tests/unit_tests/util/mw_compare_graph.ttl", format="turtle"
+        )
         # check if graph contains data and return 500 if not.
         if not rdf_graph:
             return APIUtil.toErrorResponse(

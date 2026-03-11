@@ -85,20 +85,28 @@ class ResourceAPI(Resource):
 
         # getting and returning lod data
         logger.info(f"Getting the graph from the triple store for resource {lod_url}.")
-        rdf_graph = util.ld_util.get_lod_resource_from_rdf_store(
+        old_rdf_graph = util.ld_util.get_lod_resource_from_rdf_store(
             lod_url,
             current_app.config.get("SPARQL_ENDPOINT", ""),
             current_app.config.get("URI_NISV_ORGANISATION", ""),
         )
-        # # TODO: add the mw_ld_util version here and compare graphs (DEVELOPMENT ONLY)
-        # rdf_graph_mw = util.mw_ld_util.get_resource_from_rdf_store(
-        #     lod_url,
-        #     current_app.config.get("SPARQL_ENDPOINT", ""),
-        #     current_app.config.get("MUZIEKWEB_LOD_RESOURCE_QUERY", ""),
-        #     current_app.config.get("URI_NISV_ORGANISATION", ""),
+        rdf_graph = util.mw_ld_util.get_resource_from_rdf_store(
+            lod_url,
+            current_app.config.get("SPARQL_ENDPOINT", ""),
+            current_app.config.get("MUZIEKWEB_LOD_RESOURCE_QUERY", ""),
+            current_app.config.get("URI_NISV_ORGANISATION", ""),
+        )
+        # # === TODO: remove debug serialization
+        # if old_rdf_graph is not None:
+        #     old_rdf_graph.serialize(
+        #         destination="ldutil_compare_program_2102501280372631431.ttl",
+        #         format="turtle",
+        #     )
+        # rdf_graph.serialize(
+        #     destination="mw_ldutil_compare_program_2102501280372631431.ttl",
+        #     format="turtle",
         # )
-        # # TODO: comparison of both graphs here (DEVELOPMENT ONLY)
-        # util.ld_util.compare_graphs(rdf_graph, rdf_graph_mw)
+        # === end of debug code
 
         # check if graph contains data and return 500 if not.
         if not rdf_graph:
@@ -109,13 +117,9 @@ class ResourceAPI(Resource):
 
         # check if mime_type is HTML and generate HTML page and 200 if so.
         if mime_type is MimeType.HTML:
-            # TODO: switch to mw_lodview_util when ready
             return util.mw_lodview_util.generate_html_page(
                 rdf_graph, lod_url, current_app.config.get("SPARQL_ENDPOINT", "")
             )
-            # return util.lodview_util.generate_html_page(
-            #     rdf_graph, lod_url, current_app.config.get("SPARQL_ENDPOINT", "")
-            # )
         else:
             # return other formats than HTML. Returns data and 200 status.
             return util.lodview_util.get_serialised_graph(rdf_graph, mime_type)

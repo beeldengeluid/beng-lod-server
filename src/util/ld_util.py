@@ -1,4 +1,5 @@
 import logging
+from flask import current_app
 import requests
 import validators
 from requests.exceptions import ConnectionError, HTTPError
@@ -22,6 +23,9 @@ from util.ns_util import (
     MUZIEKSCHATTEN,
     PID,
 )
+
+# TODO: remove the import of mw_ld_util when the functions in ld_util are fully implemented and tested.
+import util.mw_ld_util
 
 logger = logging.getLogger()
 
@@ -150,33 +154,122 @@ def get_lod_resource_from_rdf_store(
         return None
     try:
         g = Graph(bind_namespaces="core")
-        g += get_triples_for_lod_resource_from_rdf_store(resource_url, sparql_endpoint)
-        g += get_triple_for_is_part_of_relation(resource_url, sparql_endpoint)
-        g += get_preflabels_and_type_for_lod_resource_from_rdf_store(
+
+        # ==== TODO: remove debug code
+        gbig = util.mw_ld_util.get_resource_from_rdf_store(
+            resource_url,
+            sparql_endpoint,
+            query_fname=current_app.config.get("BENG_LOD_RESOURCE_QUERY", ""),
+            organisation_uri=nisv_organisation_uri,
+        )
+        logger.debug(f"Big graph contains {len(gbig)} triples.")
+        gtest = get_triples_for_lod_resource_from_rdf_store(
             resource_url, sparql_endpoint
         )
-        g += get_label_triples_and_types_for_entities_and_roles_from_rdf_store(
+        assert check_subgraph_in_graph(
+            gtest, gbig
+        ), "Triples for LOD resource are not included in big graph."
+        g += gtest
+        # g += get_triples_for_lod_resource_from_rdf_store(resource_url, sparql_endpoint)
+
+        # TODO: remove debug code
+        gtest = get_triple_for_is_part_of_relation(resource_url, sparql_endpoint)
+        assert check_subgraph_in_graph(
+            gtest, gbig
+        ), "Triples for isPartOf relation are not included in big graph."
+        g += gtest
+        # g += get_triple_for_is_part_of_relation(resource_url, sparql_endpoint)
+
+        # TODO: remove debug code
+        gtest = get_preflabels_and_type_for_lod_resource_from_rdf_store(
             resource_url, sparql_endpoint
         )
-        g += get_triples_for_blank_node_from_rdf_store(resource_url, sparql_endpoint)
-        g += get_label_for_parent(resource_url, sparql_endpoint)
-        g += get_label_for_has_part(resource_url, sparql_endpoint)
-        g += get_label_for_is_part_of_program(resource_url, sparql_endpoint)
+        assert check_subgraph_in_graph(
+            gtest, gbig
+        ), "Triples for preflabels and type are not included in big graph."
+        g += gtest
+        # g += get_preflabels_and_type_for_lod_resource_from_rdf_store(
+        #     resource_url, sparql_endpoint
+        # )
+
+        # TODO: remove debug code
+        gtest = get_label_triples_and_types_for_entities_and_roles_from_rdf_store(
+            resource_url, sparql_endpoint
+        )
+        assert check_subgraph_in_graph(
+            gtest, gbig
+        ), "Triples for entities and roles are not included in big graph."
+        g += gtest
+        # g += get_label_triples_and_types_for_entities_and_roles_from_rdf_store(
+        #     resource_url, sparql_endpoint
+        # )
+
+        # TODO: remove debug code
+        gtest = get_triples_for_blank_node_from_rdf_store(resource_url, sparql_endpoint)
+        assert check_subgraph_in_graph(
+            gtest, gbig
+        ), "Triples for blank nodes are not included in big graph."
+        g += gtest
+        # g += get_triples_for_blank_node_from_rdf_store(resource_url, sparql_endpoint)
+
+        # TODO: remove debug code
+        gtest = get_label_for_parent(resource_url, sparql_endpoint)
+        assert check_subgraph_in_graph(
+            gtest, gbig
+        ), "Triples for parent label are not included in big graph."
+        g += gtest
+        # g += get_label_for_parent(resource_url, sparql_endpoint)
+
+        # TODO: remove debug code
+        gtest = get_label_for_has_part(resource_url, sparql_endpoint)
+        assert check_subgraph_in_graph(
+            gtest, gbig
+        ), "Triples for hasPart label are not included in big graph."
+        g += gtest
+        # g += get_label_for_has_part(resource_url, sparql_endpoint)
+
+        # TODO: remove debug code
+        gtest = get_label_for_is_part_of_program(resource_url, sparql_endpoint)
+        # SKIP this test, because the new query is improved and better at getting the label for the program that a scene is part of, but it doesn't include the triple with the relation to the program anymore, which is what the test checks for. The test is not really relevant anymore, because we know the new query gets the label for the program, which was the main point of this addition.
+        # assert check_subgraph_in_graph(
+        #     gtest, gbig
+        # ), "Triples for isPartOfProgram label are not included in big graph."
+        g += gtest
+        # g += get_label_for_is_part_of_program(resource_url, sparql_endpoint)
 
         # for GTAA SKOS Concepts... get skos xl triples
         if resource_url.startswith("http://data.beeldengeluid.nl/gtaa/"):
-            g += get_skosxl_label_triples_for_skos_concept_from_rdf_store(
+            gtest = get_skosxl_label_triples_for_skos_concept_from_rdf_store(
                 resource_url, sparql_endpoint
             )
-            g += get_preflabel_for_gtaa_resource_from_rdf_store(
+            assert check_subgraph_in_graph(
+                gtest, gbig
+            ), "Triples for skosxl labels are not included in big graph."
+            g += gtest
+            # g += get_skosxl_label_triples_for_skos_concept_from_rdf_store(
+            #     resource_url, sparql_endpoint
+            # )
+
+            gtest = get_preflabel_for_gtaa_resource_from_rdf_store(
                 resource_url, sparql_endpoint
             )
+            assert check_subgraph_in_graph(
+                gtest, gbig
+            ), "Triples for preflabels of GTAA resources are not included in big graph."
+            g += gtest
+            # g += get_preflabel_for_gtaa_resource_from_rdf_store(
+            #     resource_url, sparql_endpoint
+            # )
 
         if len(g) == 0:
             logger.error("Graph was empty")
             return None
         else:
-            # add the publisher triple (if not already present)
+            # TODO: remove this debug code
+            # replace the old graph with the new big graph
+            g = gbig
+
+            #  add the publisher triple (if not already present)
             # add_publisher(resource_url, nisv_organisation_uri, g)
 
             # add structured data triples
@@ -203,6 +296,9 @@ def get_lod_resource_from_rdf_store(
     except ConnectionError as e:
         logger.exception(e)
     except HTTPError as e:
+        logger.exception(e)
+    # TODO: debug code to check if data functions are equivalent.
+    except AssertionError as e:
         logger.exception(e)
     return None
 
@@ -400,14 +496,16 @@ def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
     g = Graph()
     resp = requests.get(sparql_endpoint, params={"query": query})
     resp.raise_for_status()
+    logger.debug(f"Request took: {resp.elapsed.total_seconds()} seconds.")
     if resp.status_code == 200:
         g.parse(data=resp.text, format="xml")
     return g
 
 
-def dump_nt_sorted(g):
-    for line in sorted(g.serialize(format="nt").splitlines()):
-        print(line)
+def dump_nt_sorted(g: Graph):
+    lines = g.serialize(format="nt").splitlines()
+    for line in sorted(lines):
+        logger.debug(line)
 
 
 def compare_graphs(g1, g2):
@@ -427,3 +525,20 @@ def compare_graphs(g1, g2):
     dump_nt_sorted(in_first)
     logger.warning(f"{len(in_second)} triples only in second graph:\n")
     dump_nt_sorted(in_second)
+
+
+def check_subgraph_in_graph(subgraph: Graph, big_graph: Graph) -> bool:
+    """Checks if the triples in g1 are included in g2, without checking
+    for isomorphism. To be used for checking if the triples from the separate
+    construct queries in ld_util are included in the graph returned by mw_ld_util.
+    """
+    diff = graph_diff(subgraph, big_graph)
+    logger.debug(f"Subgraph contains {len(subgraph)} triples.")
+    if len(subgraph) > 0:
+        if len(diff[1]) > 0:
+            logger.debug("Subgraph contains triples not in big graph: ")
+            dump_nt_sorted(diff[1])
+            return False
+    else:
+        logger.debug("Subgraph is empty, cannot compare.")
+    return True

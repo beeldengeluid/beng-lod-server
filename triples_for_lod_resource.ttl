@@ -1,0 +1,61 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://data.beeldengeluid.nl/id/program/2102501280372629231> a rdfs:Resource,
+        schema:CreativeWork ;
+    schema:about <http://data.beeldengeluid.nl/gtaa/25467>,
+        <http://data.beeldengeluid.nl/gtaa/25529>,
+        <http://data.beeldengeluid.nl/gtaa/25641>,
+        <http://data.beeldengeluid.nl/gtaa/25985>,
+        <http://data.beeldengeluid.nl/gtaa/26386>,
+        <http://data.beeldengeluid.nl/gtaa/27112>,
+        <http://data.beeldengeluid.nl/gtaa/27143>,
+        <http://data.beeldengeluid.nl/gtaa/28215>,
+        <http://data.beeldengeluid.nl/gtaa/28222>,
+        <http://data.beeldengeluid.nl/gtaa/28251>,
+        <http://data.beeldengeluid.nl/gtaa/28712>,
+        <http://data.beeldengeluid.nl/gtaa/36677>,
+        <http://data.beeldengeluid.nl/gtaa/39742>,
+        <http://data.beeldengeluid.nl/gtaa/39744>,
+        <http://data.beeldengeluid.nl/gtaa/45292>,
+        <http://data.beeldengeluid.nl/gtaa/47328>,
+        <http://data.beeldengeluid.nl/gtaa/67688>,
+        <http://data.beeldengeluid.nl/gtaa/75039>,
+        <https://data.indischherinneringscentrum.nl/ied/100005>,
+        <https://data.indischherinneringscentrum.nl/ied/100567>,
+        <https://data.indischherinneringscentrum.nl/ied/103979>,
+        <https://data.indischherinneringscentrum.nl/ied/110743>,
+        <https://data.indischherinneringscentrum.nl/ied/111240>,
+        <https://data.indischherinneringscentrum.nl/ied/112898>,
+        <https://data.indischherinneringscentrum.nl/ied/113344>,
+        <https://data.indischherinneringscentrum.nl/ied/113479>,
+        <https://data.indischherinneringscentrum.nl/ied/113844> ;
+    schema:abstract """Ruw materiaal van een interview door Mary Hehuat met de heer ds. Metiarij, leider en geestelijk verzorger van de Molukse gemeenschap in Nederland. Het interview is gebruikt in de 8-delige televisieserie Sedjarah Kesabaran (de geschiedenis van het geduld) van het programma Medelanders Nederlanders van omroep FEDUCO. Medelanders Nederlanders is een serie programma's voor en over etnische minderheden in Nederland, waarin wordt ingegaan op culturele achtergronden en actuele zaken. Sedjarah Kesabaran gaat over de geschiedenis van Molukkers in Nederland vanaf WO II. Het interview is afgenomen in het Moluks Maleis en gaat over de organisatie van geestelijke zorg na de aankomst van de Molukkers, de politieke en sociale uitdagingen, en het streven naar eenheid binnen de gemeenschap gedurende de jaren ’60. Het interview is in het Moluks Maleis, aan het einde  beeld zonder geluid.
+[Zie voor uitzending programma ID: PGM126451; PGM89874; PGM138237; PGM126706; PGM141829; PGM126700; PGM126699; PGM126697.]
+"""@nl ;
+    schema:conditionsOfAccess "Media is not available for viewing/listening online"^^xsd:string ;
+    schema:description """Na aankomst van de Molukse ex-KNIL soldaten in Nederland in 1951, was er grote noodzaak voor geestelijke verzorging. De Nederlandse overheid had in elk woonoord Nederlandse predikanten geplaatst, maar daarnaast waren er ook zeven Molukse legerpredikanten waaronder Metiarij. Samen organiseerden zij de pastorale zorg voor 71 woonoorden. Naast de heer Metiarij waren dat de predikanten: Sahetapy, Pesulima, Uneputty, Keiluhu, Hattu, Supusepa en Leatomu. Zij moesten grote inspanningen leveren en konden niet aan alle behoeften voldoen.
+
+Veel Molukkers wilden geen geestelijke zorg van Nederlandse predikanten vanwege politieke redenen en wantrouwen. Dit was gerelateerd aan de gevoelige politieke situatie en het streven van de Molukkers om hun onafhankelijkheidsstrijd voort te zetten, wat door de Nederlandse overheid als politiek gevaar werd gezien.
+
+Naast geestelijke zorg ontstonden ook politieke organisaties binnen de gemeenschap. De Badan Persatuan, de Eenheidspartij, werd op 20 juni 1966 opgericht met Metiarij als voorzitter, die verschillende partijen en leiders samenbracht, ondanks interne spanningen en moeilijkheden. De organisatie had als doel de eenheid van het Molukse volk te bewaren en de strijd voor onafhankelijkheid voort te zetten, ook in Nederland.
+
+Metiarij benadrukt dat leiderschap inhoudt dat men verantwoordelijkheid neemt voor alle leden, ook jongeren, en dat samenwerking en geduld essentieel zijn voor het overwinnen van conflicten binnen de gemeenschap. Hoewel de Molukse gemeenschap in Nederland verdeeld was door partijpolitiek, bleef de wens voor eenheid en het behoud van identiteit sterk aanwezig.
+
+Verder reflecteert Metiarij op de moeilijkheden die de gemeenschap ervaart, zoals de afwijzing door de Nederlandse overheid en sociale problemen binnen de Molukse groep zelf, zoals verslaving. Hij onderstreept het verlangen om uiteindelijk terug te keren naar een vrij en onafhankelijk Moluks thuisland.
+Hij reageert ook op de buitenstaanders die hem en zijn organisatie als radicaal of agressief bestempelen, en benadrukt dat leiderschap verantwoordelijkheid betekent voor het welzijn en de gedragingen van de gemeenschap, ook al leidt dit soms tot misverstanden van buitenaf.
+
+Aan de orde komen de volgende persoonsnamen en organisaties:
+Diverse leiders: de heer Matocea, de heer Putrai, de heer Salamor, de heer Hitipeuw, de heer Sapulette, de heer T Sengaji, de heer Tunyluhulima, de heer Marasabessy, de heer Dalima, de heer Pattikawa, de heer Max O'Mele, de heer Talapessy, de heer Lopulua, de heer Tehupuring, de heer Satumalaij, de heer Seth Malawauw, de heer Pattiselanno. Leiders genoemd op de foto’s die ten tijde van het interview reeds overleden waren: de heer Lopulalan, de heer Kuhuayang, de heer Marasabessy, de heer Wattimena, de heer Tunyluhulima, de heer Tomasoa. Genoemde politiek partijen: BPRMS, PPMS, PPL, PAMSA, MARINE, CRAMS,  BONES KNIL (Bataljon Opleidings en Steunpunten KNIL)."""@nl ;
+    schema:genre <http://data.beeldengeluid.nl/gtaa/30260> ;
+    schema:identifier <https://persistent-identifier.nl/URN:NBN:NL:IN:20-PGMGMM250128003UX> ;
+    schema:inLanguage "Maleisisch"^^xsd:string ;
+    schema:license <http://rightsstatements.org/vocab/CNE/1.0/> ;
+    schema:name "Interview met de heer ds. Metiarij door Mary Hehuat over de geestelijke zorg voor Molukkers voor het programma Medelanders Nederlanders"@nl ;
+    schema:provider <http://data.beeldengeluid.nl/gtaa/223534>,
+        <http://data.beeldengeluid.nl/gtaa/263086> ;
+    schema:publisher <https://www.beeldengeluid.nl/> ;
+    schema:url <https://zoeken.beeldengeluid.nl/program/urn:vme:default:program:2102501280372629231> ;
+    schema:workExample <https://peertube.beeldengeluid.nl/w/arEUroMkSugwK2gq4kTSFt> .
+
