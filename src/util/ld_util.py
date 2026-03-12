@@ -532,13 +532,29 @@ def check_subgraph_in_graph(subgraph: Graph, big_graph: Graph) -> bool:
     for isomorphism. To be used for checking if the triples from the separate
     construct queries in ld_util are included in the graph returned by mw_ld_util.
     """
-    diff = graph_diff(subgraph, big_graph)
+    (in_both, in_first, in_second) = graph_diff_fix(subgraph, big_graph)
     logger.debug(f"Subgraph contains {len(subgraph)} triples.")
     if len(subgraph) > 0:
-        if len(diff[1]) > 0:
+        if len(in_first) > 0:
             logger.debug("Subgraph contains triples not in big graph: ")
-            dump_nt_sorted(diff[1])
+            dump_nt_sorted(in_first)
+            logger.debug("Triples in big graph, but not in subgraph: ")
+            dump_nt_sorted(in_second)
             return False
-    else:
-        logger.debug("Subgraph is empty, cannot compare.")
     return True
+
+
+## Fix for the graph_diff function that fails when grpah contains just one blank node
+def graph_diff_fix(g1: Graph, g2: Graph) -> tuple[Graph, Graph, Graph]:
+    """workaround for blank node bug in rdflib.compare.graph_diff.
+    The dummy graph contains a blank node, that is added before the comparison
+    and removed from the resulting graph afterwards.
+    """
+    dummyg = Graph()
+    dummy = URIRef("http://dummy.fix")
+    dummyg.parse(data=" [] <http://dummy.fix> [] . ", format="turtle")
+    b, f, s = graph_diff(g1 + dummyg, g2 + dummyg)
+    #  clean out dummy node
+    for bmn in b.subjects(predicate=dummy):
+        b.remove((bmn, None, None))
+    return (b, f, s)
