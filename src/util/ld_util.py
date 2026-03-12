@@ -471,7 +471,7 @@ def get_label_for_parent(resource_uri: str, sparql_endpoint: str) -> Graph:
         f"CONSTRUCT {{ ?o sdo:name ?parent_name }}"
         f"WHERE {{ <{resource_uri}> (sdo:partOfSeries|sdo:partOfSeason|sdo:includedInDataCatalog|^sdo:distribution) ?o FILTER(!ISBLANK(?o)) "
         f"OPTIONAL {{ ?o sdo:name ?o_name }}"
-        f'BIND( COALESCE( IF(STR(?o_name), STR(?o_name), 1/0), "UNTITLED"^^xsd:string )'
+        f'BIND( COALESCE( IF(isLiteral(?o_name), ?o_name, 1/0), "UNTITLED"^^xsd:string )'
         f" AS ?parent_name)}}"
     )
     return sparql_construct_query(sparql_endpoint, query_construct_labels_for_parent)
@@ -544,7 +544,6 @@ def check_subgraph_in_graph(subgraph: Graph, big_graph: Graph) -> bool:
     return True
 
 
-## Fix for the graph_diff function that fails when grpah contains just one blank node
 def graph_diff_fix(g1: Graph, g2: Graph) -> tuple[Graph, Graph, Graph]:
     """workaround for blank node bug in rdflib.compare.graph_diff.
     The dummy graph contains a blank node, that is added before the comparison
