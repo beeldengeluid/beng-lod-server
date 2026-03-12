@@ -459,7 +459,7 @@ def get_label_for_is_part_of_program(resource_uri: str, sparql_endpoint: str) ->
         f"CONSTRUCT {{ ?program sdo:name ?program_name }}"
         f"WHERE {{ ?program sdo:hasPart <{resource_uri}> "
         f"OPTIONAL {{ ?program sdo:name ?p_name }}"
-        f'BIND( COALESCE( IF(?p_name, ?p_name, 1/0), "UNTITLED"^^xsd:string )'
+        f'BIND( COALESCE( IF(isLiteral(?p_name), ?p_name, 1/0), "UNTITLED"^^xsd:string )'
         f" AS ?program_name)}}"
     )
     return sparql_construct_query(sparql_endpoint, query_construct_label_for_program)
