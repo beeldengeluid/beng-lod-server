@@ -508,25 +508,6 @@ def dump_nt_sorted(g: Graph):
         logger.debug(line)
 
 
-def compare_graphs(g1, g2):
-    # iso1 = to_isomorphic(g1)
-    # iso2 = to_isomorphic(g2)
-    # if iso1 == iso2:
-    #     logger.info("Graphs are isomorphic (equal).")
-    # else:
-    #     logger.warning("Graphs are NOT isomorphic (NOT equal).")
-
-    in_both, in_first, in_second = graph_diff(g1, g2)
-    logger.warning(
-        f"In both graphs: {len(in_both)} triples. In first graph only: {len(in_first)} triples. In second graph only: {len(in_second)} triples."
-    )
-
-    logger.warning(f"{len(in_first)} triples only in first graph:\n")
-    dump_nt_sorted(in_first)
-    logger.warning(f"{len(in_second)} triples only in second graph:\n")
-    dump_nt_sorted(in_second)
-
-
 def check_subgraph_in_graph(subgraph: Graph, big_graph: Graph) -> bool:
     """Checks if the triples in g1 are included in g2, without checking
     for isomorphism. To be used for checking if the triples from the separate
