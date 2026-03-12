@@ -483,7 +483,7 @@ def get_label_for_has_part(resource_uri: str, sparql_endpoint: str) -> Graph:
         f"CONSTRUCT {{ ?o sdo:name ?part_name }}"
         f"WHERE {{ <{resource_uri}> (sdo:hasPart|sdo:dataset|sdo:distribution) ?o FILTER(!ISBLANK(?o)) "
         f"OPTIONAL {{ ?o sdo:name ?o_name }}"
-        f'BIND( COALESCE( IF(STR(?o_name), STR(?o_name), 1/0), "UNTITLED"^^xsd:string )'
+        f'BIND( COALESCE( IF(isLiteral(?o_name), ?o_name, 1/0), "UNTITLED"^^xsd:string )'
         f" AS ?part_name)}}"
     )
     return sparql_construct_query(sparql_endpoint, query_construct_labels_for_has_part)
