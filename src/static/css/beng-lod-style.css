@@ -35,6 +35,15 @@ h1 {
     color: #ffffff;
 }
 
+h3 {
+	/* for the title in blank nodes */
+    text-transform: uppercase;
+    letter-spacing: .7;
+    font-weight: 300;
+    color: #0f238c;
+    font-size: 11px;
+}
+
 footer {
 	background-color: #212121;
 	padding: 20px;
@@ -59,7 +68,7 @@ footer .row {
 	background: #eee;
 	color: #0f238c;
 	line-height: 20px;
-	font-size: 0.80rem;
+	/* font-size: 0.80rem; */
 }
 
 #lodCloud {
