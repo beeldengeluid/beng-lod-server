@@ -85,28 +85,12 @@ class ResourceAPI(Resource):
 
         # getting and returning lod data
         logger.info(f"Getting the graph from the triple store for resource {lod_url}.")
-        old_rdf_graph = util.ld_util.get_lod_resource_from_rdf_store(
-            lod_url,
-            current_app.config.get("SPARQL_ENDPOINT", ""),
-            current_app.config.get("URI_NISV_ORGANISATION", ""),
-        )
         rdf_graph = util.mw_ld_util.get_resource_from_rdf_store(
             lod_url,
             current_app.config.get("SPARQL_ENDPOINT", ""),
             current_app.config.get("MUZIEKWEB_LOD_RESOURCE_QUERY", ""),
             current_app.config.get("URI_NISV_ORGANISATION", ""),
         )
-        # # === TODO: remove debug serialization
-        # if old_rdf_graph is not None:
-        #     old_rdf_graph.serialize(
-        #         destination="ldutil_compare_program_2102501280372631431.ttl",
-        #         format="turtle",
-        #     )
-        # rdf_graph.serialize(
-        #     destination="mw_ldutil_compare_program_2102501280372631431.ttl",
-        #     format="turtle",
-        # )
-        # === end of debug code
 
         # check if graph contains data and return 500 if not.
         if not rdf_graph:

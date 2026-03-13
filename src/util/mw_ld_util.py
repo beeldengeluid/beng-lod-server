@@ -128,12 +128,10 @@ def get_resource_from_rdf_store(
     try:
         query_str = get_query_from_file(query_fname)
         query = query_str.replace("?resource_iri", f"<{resource_url}>")
-        # logger.debug(f"SPARQL query to get the resource:\n{query}")
 
         # get the results
         query_result = sparql_select_query(sparql_endpoint, query, format="json")
         results = json.loads(query_result)
-        # logger.debug(f"SPARQL query results: {results}")
 
         # Note we have to add the resource_url for the triples that miss the subject 's'
         g += convert_results_to_graph(results, resource_url)
