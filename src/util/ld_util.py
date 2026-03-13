@@ -261,11 +261,28 @@ def get_lod_resource_from_rdf_store(
             #     resource_url, sparql_endpoint
             # )
 
+        # DEBUG GTEST is old graph
+        gtest = g
+        add_structured_data_publisher(resource_url, nisv_organisation_uri, gtest)
+        remove_additional_type_skos_concept(resource_url, gtest)
+        ## DEBUG
+
+        # first test for missing triples
+        in_both, in_first, in_second = graph_diff_fix(gtest, gbig)
+        if len(in_first) > 0:
+            logger.debug("Triples in gtest, but not in big graph: ")
+            dump_nt_sorted(in_first)
+            raise AssertionError("Missing triples from gtest in big graph.")
+        if len(in_second) > 0:
+            logger.debug("Triples in big graph, but not in gtest: ")
+            dump_nt_sorted(in_second)
+
         if len(g) == 0:
             logger.error("Graph was empty")
             return None
         else:
             # TODO: remove this debug code
+
             # replace the old graph with the new big graph
             g = gbig
 
@@ -496,7 +513,6 @@ def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
     g = Graph()
     resp = requests.get(sparql_endpoint, params={"query": query})
     resp.raise_for_status()
-    logger.debug(f"Request took: {resp.elapsed.total_seconds()} seconds.")
     if resp.status_code == 200:
         g.parse(data=resp.text, format="xml")
     return g
