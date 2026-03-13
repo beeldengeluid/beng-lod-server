@@ -49,7 +49,7 @@ footer .row {
 #inverses {
 	padding: 24px;
 	background: #d4d4d4;
-	color: #212121;
+	color:#0f238c;
 	line-height: 20px;
 	font-size: 14px;
 }
@@ -57,7 +57,7 @@ footer .row {
 #bnodes {
 	padding: 24px;
 	background: #eee;
-	color: #212121;
+	color: #0f238c;
 	line-height: 20px;
 	font-size: 0.80rem;
 }
@@ -65,7 +65,7 @@ footer .row {
 #lodCloud {
 	padding: 24px 24px 16px 24px;
 	background: #fafafa;
-	color: #212121;
+	color: #0f238c;
 	line-height: 16px;
 	font-size: 12px;
 	min-height: 64px;
