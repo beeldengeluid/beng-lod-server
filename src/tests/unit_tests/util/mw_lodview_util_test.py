@@ -1,5 +1,3 @@
-from unittest import result
-
 import pytest
 from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import RDFS, SKOS, SDO, DCTERMS  # type: ignore
