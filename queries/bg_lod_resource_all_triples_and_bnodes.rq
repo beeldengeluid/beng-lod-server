@@ -15,7 +15,7 @@ select distinct ?s ?p ?o WHERE {
       UNION 
       { # labels for related resources
         ?resource_iri ?p1 ?s . FILTER(isiri(?s)) ?s ?p ?o . 
-        FILTER(?p in (skos:prefLabel,rdfs:label,schema:name,sdo:name,rdf:type,sdo:additionalType))
+        #FILTER(?p in (skos:prefLabel,rdfs:label,schema:name,sdo:name,rdf:type,sdo:additionalType))
       }
       UNION
       { # triples for blank nodes (considered part of the resource)
@@ -28,7 +28,7 @@ select distinct ?s ?p ?o WHERE {
       UNION
       { # triples for entities within blank nodes (in role)
         ?resource_iri ?p1 ?s1 . FILTER(isblank(?s1)) ?s1 ?p2 ?s . FILTER(isiri(?s)) ?s ?p ?o .
-        FILTER(?p in (skos:prefLabel,rdfs:label,schema:name,sdo:name,rdf:type,sdo:additionalType))
+        #FILTER(?p in (skos:prefLabel,rdfs:label,schema:name,sdo:name,rdf:type,sdo:additionalType))
       }
       UNION
       { # Only applicable for sdo:Clip. Adds the sdo:isPartOf relation, making it possible
