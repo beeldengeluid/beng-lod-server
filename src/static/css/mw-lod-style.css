@@ -35,6 +35,15 @@ h1 {
     color: #ffffff;
 }
 
+h3 {
+	/* for the title in blank nodes */
+    text-transform: uppercase;
+    letter-spacing: .7;
+    font-weight: 300;
+    color: #1690c6;
+    font-size: 11px;
+}
+
 footer {
 	/* background-color: #212121; */
 	background-color: #1690c6;
