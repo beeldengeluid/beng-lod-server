@@ -7,7 +7,7 @@ from util.mime_type_util import MimeType
 from models.DatasetApiUriLevel import DatasetApiUriLevel
 from util.APIUtil import APIUtil
 import util.ld_util
-from util.lodview_util import generate_html_page, get_serialised_graph
+import util.lodview_util
 
 logger = logging.getLogger()
 
@@ -87,12 +87,12 @@ class LODDatasetAPI(Resource):
             )
         # generate and return response
         if mime_type is MimeType.HTML:
-            return generate_html_page(
+            return util.lodview_util.generate_html_page(
                 rdf_graph, dataset_uri, current_app.config.get("SPARQL_ENDPOINT", "")
             )
         else:
             # another serialisation than HTML
-            return get_serialised_graph(rdf_graph, mime_type)
+            return util.lodview_util.get_serialised_graph(rdf_graph, mime_type)
 
     def is_dataset(self, dataset_uri: str) -> bool:
         return DataCatalogLODHandler().is_dataset(dataset_uri)
@@ -173,14 +173,14 @@ class LODDataCatalogAPI(Resource):
             )
         # generate and return response
         if mime_type is MimeType.HTML:
-            return generate_html_page(
+            return util.lodview_util.generate_html_page(
                 rdf_graph,
                 data_catalog_uri,
                 current_app.config.get("SPARQL_ENDPOINT", ""),
             )
         else:
             # another serialisation than HTML
-            return get_serialised_graph(rdf_graph, mime_type)
+            return util.lodview_util.get_serialised_graph(rdf_graph, mime_type)
 
     def is_data_catalog(self, data_catalog_uri: str) -> bool:
         return DataCatalogLODHandler().is_data_catalog(data_catalog_uri)
@@ -262,14 +262,14 @@ class LODDataDownloadAPI(Resource):
 
         # generate and return response
         if mime_type is MimeType.HTML:
-            return generate_html_page(
+            return util.lodview_util.generate_html_page(
                 rdf_graph,
                 data_download_uri,
                 current_app.config.get("SPARQL_ENDPOINT", ""),
             )
         else:
             # another serialisation than HTML
-            return get_serialised_graph(rdf_graph, mime_type)
+            return util.lodview_util.get_serialised_graph(rdf_graph, mime_type)
 
     def is_data_download(self, data_download_uri: str) -> bool:
         return DataCatalogLODHandler().is_data_download(data_download_uri)

@@ -4,8 +4,9 @@ from flask_restx import Namespace, Resource
 from util.mime_type_util import MimeType
 from util.APIUtil import APIUtil
 import util.ld_util
+import util.mw_ld_util
 import util.lodview_util
-import util.mw_lodview_util
+import util.lodview_util
 
 logger = logging.getLogger()
 
@@ -55,9 +56,10 @@ class GTAAAPI(Resource):
         if best_match is not None:
             mime_type = MimeType(best_match)
 
-        rdf_graph = util.ld_util.get_lod_resource_from_rdf_store(
+        rdf_graph = util.mw_ld_util.get_resource_from_rdf_store(
             gtaa_uri,
             current_app.config.get("SPARQL_ENDPOINT", ""),
+            current_app.config.get("BENG_LOD_RESOURCE_QUERY", ""),
             current_app.config.get("URI_NISV_ORGANISATION", ""),
         )
         if not rdf_graph:
@@ -68,7 +70,7 @@ class GTAAAPI(Resource):
             )
 
         if mime_type is MimeType.HTML:
-            return util.mw_lodview_util.generate_html_page(
+            return util.lodview_util.generate_html_page(
                 rdf_graph, gtaa_uri, current_app.config.get("SPARQL_ENDPOINT", "")
             )
         else:

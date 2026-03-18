@@ -7,7 +7,7 @@ from models.ResourceApiUriLevel import ResourceApiUriLevel
 from util.APIUtil import APIUtil
 from util.mime_type_util import MimeType
 import util.lodview_util
-import util.mw_lodview_util
+import util.lodview_util
 
 logger = logging.getLogger()
 
@@ -88,7 +88,7 @@ class ResourceAPI(Resource):
         rdf_graph = util.mw_ld_util.get_resource_from_rdf_store(
             lod_url,
             current_app.config.get("SPARQL_ENDPOINT", ""),
-            current_app.config.get("MUZIEKWEB_LOD_RESOURCE_QUERY", ""),
+            current_app.config.get("BENG_LOD_RESOURCE_QUERY", ""),
             current_app.config.get("URI_NISV_ORGANISATION", ""),
         )
 
@@ -101,7 +101,7 @@ class ResourceAPI(Resource):
 
         # check if mime_type is HTML and generate HTML page and 200 if so.
         if mime_type is MimeType.HTML:
-            return util.mw_lodview_util.generate_html_page(
+            return util.lodview_util.generate_html_page(
                 rdf_graph, lod_url, current_app.config.get("SPARQL_ENDPOINT", "")
             )
         else:
