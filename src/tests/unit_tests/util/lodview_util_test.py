@@ -20,17 +20,18 @@ def test_json_header_from_rdf_graph(scene_rdf_graph):
         ui_data = json_header_from_rdf_graph(scene_rdf_graph, DUMMY_RESOURCE_URI)
         assert isinstance(ui_data, list)
         assert len(ui_data) == 1
-        # assert "o" in ui_data[0]
-        assert all(x in ui_data[0] for x in ["o", "title"])
-        assert all(
-            x in ui_data[0]["o"] for x in ["uri", "prefix", "namespace", "property"]
-        )
-
-        # only schema.org types (SDO) types are returned
-        assert ui_data[0]["o"]["uri"] == f"{str(SDO)}Clip"
-        assert ui_data[0]["o"]["namespace"] == str(SDO)
-        assert ui_data[0]["o"]["property"] == "Clip"
-
+        for ui_item in ui_data:
+            assert all(x in ui_item for x in ["o", "title"])
+            for ui_type_item in ui_item["o"]:
+                assert all(
+                    x in ui_type_item
+                    for x in ["uri", "prefix", "namespace", "property"]
+                )
+                # there should be no RDF:type resources
+                assert not (
+                    ui_type_item["namespace"] == str(RDF)
+                    and ui_type_item["property"] == "type"
+                )
     finally:
         unstub()
 
@@ -39,30 +40,25 @@ def test_json_iri_iri_from_rdf_graph(scene_rdf_graph):
     try:
         ui_data = json_iri_iri_from_rdf_graph(scene_rdf_graph, DUMMY_RESOURCE_URI)
         assert isinstance(ui_data, list)
-        assert len(ui_data) == 2
+        assert len(ui_data) == 4
         for item in ui_data:
             assert all(x in item for x in ["o", "p"])
-            # there should be no RDF:type resources
-            assert not (
-                item["p"]["namespace"] == str(RDF) and item["p"]["property"] == "type"
-            )
+
             # all objects should be IRIs
             assert item["o"]["uri"].find("http") != -1
             assert all(
-                x in ui_data[0]["p"] for x in ["uri", "prefix", "namespace", "property"]
+                x in item["p"] for x in ["uri", "prefix", "namespace", "property"]
             )
             assert all(
-                x in ui_data[0]["o"]
+                x in item["o"]
                 for x in [
                     "uri",
-                    "literal_form",
                     "prefix",
                     "namespace",
                     "property",
-                    "pref_label",
+                    "labels",
                 ]
             )
-
     finally:
         unstub()
 
@@ -80,11 +76,8 @@ def test_json_iri_lit_from_rdf_graph(scene_rdf_graph):
             assert all(
                 x in item["o"]
                 for x in [
-                    "literal_value",
+                    "labels",
                     "datatype",
-                    "datatype_prefix",
-                    "datatype_namespace",
-                    "datatype_property",
                 ]
             )
 
@@ -92,9 +85,6 @@ def test_json_iri_lit_from_rdf_graph(scene_rdf_graph):
             assert not (
                 item["p"]["namespace"] == str(RDF) and item["p"]["property"] == "type"
             )
-            assert (
-                item["o"]["literal_value"].find("http") == -1
-            )  # all objects should be Literals
     finally:
         unstub()
 

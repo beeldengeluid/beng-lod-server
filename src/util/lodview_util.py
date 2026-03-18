@@ -188,9 +188,7 @@ def json_iri_iri_from_rdf_graph(
     return json_iri_iri
 
 
-def json_iri_lit_from_rdf_graph(
-    rdf_graph: Graph, resource_url: str
-) -> Optional[List[dict]]:
+def json_iri_lit_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> List[dict]:
     """Generates JSON structured data (<uri> <uri> literal) to be used in the LOD view templates."""
     json_iri_lit = []
     try:
