@@ -16,6 +16,12 @@ def scene_rdf_graph(scene_rdf_xml):
 
 
 @pytest.fixture()
+def query_results_select(open_file):
+    """Returns SPARQL result in JSON format"""
+    return open_file(__file__, "sparql_results_select_query.json")
+
+
+@pytest.fixture()
 def program_json_ld(open_file):
     """Returns an example JSON-LD of a program"""
     return open_file(__file__, "rdf_graph_program_2101608060047830331.json")

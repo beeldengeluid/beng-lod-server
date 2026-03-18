@@ -2,11 +2,9 @@ import logging
 from flask import current_app, request, Response
 from flask_restx import Namespace, Resource
 import util.ld_util
-import util.mw_ld_util
 from models.ResourceApiUriLevel import ResourceApiUriLevel
 from util.APIUtil import APIUtil
 from util.mime_type_util import MimeType
-import util.lodview_util
 import util.lodview_util
 
 logger = logging.getLogger()
@@ -85,7 +83,7 @@ class ResourceAPI(Resource):
 
         # getting and returning lod data
         logger.info(f"Getting the graph from the triple store for resource {lod_url}.")
-        rdf_graph = util.mw_ld_util.get_resource_from_rdf_store(
+        rdf_graph = util.ld_util.get_resource_from_rdf_store(
             lod_url,
             current_app.config.get("SPARQL_ENDPOINT", ""),
             current_app.config.get("BENG_LOD_RESOURCE_QUERY", ""),

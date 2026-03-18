@@ -1,11 +1,10 @@
 import logging
-from flask import current_app
 import requests
 import validators
+import json
 from requests.exceptions import ConnectionError, HTTPError
-from rdflib import Graph, URIRef
+from rdflib import Graph, URIRef, BNode, Literal
 from rdflib.namespace import RDF, SDO, SKOS  # type: ignore
-from rdflib.compare import graph_diff
 from typing import Optional
 from urllib.parse import urlparse, urlunparse
 from enum import Enum
@@ -17,15 +16,19 @@ from util.ns_util import (
     GTAA,
     BENGTHES,
     WIKIDATA,
+    WIKIDATA_WWW,
     DCTERMS,
     DISCOGS_ARTIST,
+    DISCOGS_RELEASE,
     MUZIEKWEB,
+    MUZIEKWEB_VOCAB,
     MUZIEKSCHATTEN,
+    MUSICBRAINZ_RELEASE,
     PID,
+    SCHEMA,
+    QUDT,
+    IED,
 )
-
-# TODO: remove the import of mw_ld_util when the functions in ld_util are fully implemented and tested.
-import util.mw_ld_util
 
 logger = logging.getLogger()
 
@@ -51,6 +54,32 @@ def generate_lod_resource_uri(
         return urlunparse(parts)
     else:
         return ""
+
+
+def generate_muziekweb_lod_resource_uri(path: str, muziekweb_data_domain: str) -> str:
+    """Constructs valid url using the data domain and the path.
+    :param path: the Muziekweb path (both /Link and /vocab are supported)
+    :param muziekweb_data_domain: see MUZIEKWEB_DATA_DOMAIN in config.yml
+    :returns: a proper URI as it should be listed in the LOD server.
+    """
+    url_parts = urlparse(str(muziekweb_data_domain))
+    if url_parts.netloc is not None and url_parts.netloc != "":
+        parts = (url_parts.scheme, url_parts.netloc, path, "", "", "")
+        return urlunparse(parts)
+    else:
+        return ""
+
+
+def is_muziekweb_resource(resource_url: str, sparql_endpoint: str) -> bool:
+    """Check with the triple store whether the resource exists."""
+    query = f"ASK {{ {{ <{resource_url}> ?p ?o }} }}"
+    params = {"query": query, "format": "application/json"}
+    resp = requests.get(sparql_endpoint, params=params)
+    resp.raise_for_status()
+    if resp.status_code == 200:
+        if resp.json().get("boolean"):
+            return True
+    return False
 
 
 # ============ Add/remove triples from a graph ===========
@@ -136,161 +165,47 @@ def is_nisv_cat_resource(resource_url: str, sparql_endpoint: str) -> bool:
     return False
 
 
-def get_lod_resource_from_rdf_store(
+def get_resource_from_rdf_store(
     resource_url: str,
     sparql_endpoint: str,
-    nisv_organisation_uri: str,
-) -> Optional[Graph]:
-    """Given a resource URI, the data is retrieved from the SPARQL endpoint using a CONSTRUCT query.
-    Currently, only SDO modelled data in endpoint.
+    query_fname: str,
+    organisation_uri: str,
+) -> Graph:
+    """Given a resource URI, the data is retrieved from the SPARQL endpoint.
+    This is done as generic as possible by using the lodview pattern of getting
+    all triples and triples for blank nodes associated with the resource, in one query.
+
     :param resource_url: the resource URI to be retrieved.
     :param sparql_endpoint: the SPARQL endpoint URL.
-    :param nisv_organisation_uri: URI for the publishing organisation.
+    :param query_fname: filename of the query to be used.
+    :param organisation_uri: URI for the publishing organisation.
     :returns: the RDF data as a GRAPH (merged graph for core triples and bnode triples).
     """
-    if resource_url is None:
-        return None
-    if sparql_endpoint is None or validators.url(sparql_endpoint) is False:
-        return None
+    g = Graph(bind_namespaces="core")
+    if not resource_url:
+        return g
+    if not sparql_endpoint or validators.url(sparql_endpoint) is False:
+        return g
+
     try:
-        g = Graph(bind_namespaces="core")
+        query_str = get_query_from_file(query_fname)
+        query = query_str.replace("?resource_iri", f"<{resource_url}>")
 
-        # ==== TODO: remove debug code
-        gbig = util.mw_ld_util.get_resource_from_rdf_store(
-            resource_url,
-            sparql_endpoint,
-            query_fname=current_app.config.get("BENG_LOD_RESOURCE_QUERY", ""),
-            organisation_uri=nisv_organisation_uri,
-        )
-        logger.debug(f"Big graph contains {len(gbig)} triples.")
-        gtest = get_triples_for_lod_resource_from_rdf_store(
-            resource_url, sparql_endpoint
-        )
-        assert check_subgraph_in_graph(
-            gtest, gbig
-        ), "Triples for LOD resource are not included in big graph."
-        g += gtest
-        # g += get_triples_for_lod_resource_from_rdf_store(resource_url, sparql_endpoint)
+        # get the results
+        query_result = sparql_select_query(sparql_endpoint, query, format="json")
+        results = json.loads(query_result)
 
-        # TODO: remove debug code
-        gtest = get_triple_for_is_part_of_relation(resource_url, sparql_endpoint)
-        assert check_subgraph_in_graph(
-            gtest, gbig
-        ), "Triples for isPartOf relation are not included in big graph."
-        g += gtest
-        # g += get_triple_for_is_part_of_relation(resource_url, sparql_endpoint)
-
-        # TODO: remove debug code
-        gtest = get_preflabels_and_type_for_lod_resource_from_rdf_store(
-            resource_url, sparql_endpoint
-        )
-        assert check_subgraph_in_graph(
-            gtest, gbig
-        ), "Triples for preflabels and type are not included in big graph."
-        g += gtest
-        # g += get_preflabels_and_type_for_lod_resource_from_rdf_store(
-        #     resource_url, sparql_endpoint
-        # )
-
-        # TODO: remove debug code
-        gtest = get_label_triples_and_types_for_entities_and_roles_from_rdf_store(
-            resource_url, sparql_endpoint
-        )
-        assert check_subgraph_in_graph(
-            gtest, gbig
-        ), "Triples for entities and roles are not included in big graph."
-        g += gtest
-        # g += get_label_triples_and_types_for_entities_and_roles_from_rdf_store(
-        #     resource_url, sparql_endpoint
-        # )
-
-        # TODO: remove debug code
-        gtest = get_triples_for_blank_node_from_rdf_store(resource_url, sparql_endpoint)
-        assert check_subgraph_in_graph(
-            gtest, gbig
-        ), "Triples for blank nodes are not included in big graph."
-        g += gtest
-        # g += get_triples_for_blank_node_from_rdf_store(resource_url, sparql_endpoint)
-
-        # TODO: remove debug code
-        gtest = get_label_for_parent(resource_url, sparql_endpoint)
-        assert check_subgraph_in_graph(
-            gtest, gbig
-        ), "Triples for parent label are not included in big graph."
-        g += gtest
-        # g += get_label_for_parent(resource_url, sparql_endpoint)
-
-        # TODO: remove debug code
-        gtest = get_label_for_has_part(resource_url, sparql_endpoint)
-        assert check_subgraph_in_graph(
-            gtest, gbig
-        ), "Triples for hasPart label are not included in big graph."
-        g += gtest
-        # g += get_label_for_has_part(resource_url, sparql_endpoint)
-
-        # TODO: remove debug code
-        gtest = get_label_for_is_part_of_program(resource_url, sparql_endpoint)
-        # SKIP this test, because the new query is improved and better at getting the label for the program that a scene is part of, but it doesn't include the triple with the relation to the program anymore, which is what the test checks for. The test is not really relevant anymore, because we know the new query gets the label for the program, which was the main point of this addition.
-        # assert check_subgraph_in_graph(
-        #     gtest, gbig
-        # ), "Triples for isPartOfProgram label are not included in big graph."
-        g += gtest
-        # g += get_label_for_is_part_of_program(resource_url, sparql_endpoint)
-
-        # for GTAA SKOS Concepts... get skos xl triples
-        if resource_url.startswith("http://data.beeldengeluid.nl/gtaa/"):
-            gtest = get_skosxl_label_triples_for_skos_concept_from_rdf_store(
-                resource_url, sparql_endpoint
-            )
-            assert check_subgraph_in_graph(
-                gtest, gbig
-            ), "Triples for skosxl labels are not included in big graph."
-            g += gtest
-            # g += get_skosxl_label_triples_for_skos_concept_from_rdf_store(
-            #     resource_url, sparql_endpoint
-            # )
-
-            gtest = get_preflabel_for_gtaa_resource_from_rdf_store(
-                resource_url, sparql_endpoint
-            )
-            assert check_subgraph_in_graph(
-                gtest, gbig
-            ), "Triples for preflabels of GTAA resources are not included in big graph."
-            g += gtest
-            # g += get_preflabel_for_gtaa_resource_from_rdf_store(
-            #     resource_url, sparql_endpoint
-            # )
-
-        # DEBUG GTEST is old graph
-        gtest = g
-        add_structured_data_publisher(resource_url, nisv_organisation_uri, gtest)
-        remove_additional_type_skos_concept(resource_url, gtest)
-        ## DEBUG
-
-        # first test for missing triples
-        in_both, in_first, in_second = graph_diff_fix(gtest, gbig)
-        if len(in_first) > 0:
-            logger.debug("Triples in gtest, but not in big graph: ")
-            dump_nt_sorted(in_first)
-            raise AssertionError("Missing triples from gtest in big graph.")
-        if len(in_second) > 0:
-            logger.debug("Triples in big graph, but not in gtest: ")
-            dump_nt_sorted(in_second)
+        # Note we have to add the resource_url for the triples that miss the subject 's'
+        g += convert_results_to_graph(results, resource_url)
 
         if len(g) == 0:
             logger.error("Graph was empty")
-            return None
         else:
-            # TODO: remove this debug code
-
-            # replace the old graph with the new big graph
-            g = gbig
-
-            #  add the publisher triple (if not already present)
-            # add_publisher(resource_url, nisv_organisation_uri, g)
+            # add the publisher triple (if not already present)
+            # add_publisher(resource_url, organisation_uri, g)
 
             # add structured data triples
-            add_structured_data_publisher(resource_url, nisv_organisation_uri, g)
+            add_structured_data_publisher(resource_url, organisation_uri, g)
 
             # remove sdo:additionalType triple (for skos:Concepts)
             remove_additional_type_skos_concept(resource_url, g)
@@ -301,209 +216,71 @@ def get_lod_resource_from_rdf_store(
         g.bind("sdo", SDO)
         g.bind("bengthes", BENGTHES)
         g.bind("wd", WIKIDATA)
+        g.bind("wikidata", WIKIDATA_WWW)
         g.bind("skos", SKOS)
         g.bind("dcterms", DCTERMS)
-        g.bind("discogs", DISCOGS_ARTIST)
+        g.bind("discogs-artist", DISCOGS_ARTIST)
+        g.bind("discogs-release", DISCOGS_RELEASE)
         g.bind("muziekweb", MUZIEKWEB)
         g.bind("som", MUZIEKSCHATTEN)
+        g.bind("vocab", MUZIEKWEB_VOCAB)
+        g.bind("musicbrainz-release", MUSICBRAINZ_RELEASE)
         g.bind("qudt", QUDT)
         g.bind("pid", PID)
+        g.bind("ied", IED)
+        g.bind("schema", SCHEMA)
 
         return g
     except ConnectionError as e:
         logger.exception(e)
     except HTTPError as e:
         logger.exception(e)
-    # TODO: debug code to check if data functions are equivalent.
-    except AssertionError as e:
-        logger.exception(e)
-    return None
-
-
-def get_triples_for_lod_resource_from_rdf_store(
-    resource_url: str, sparql_endpoint: str
-) -> Graph:
-    """Returns a graph with the triples for the LOD resource loaded, using a construct
-    query to get the triples from the rdf store.
-    To be used in association with the other functions that get triples for blank nodes.
-    """
-    query_construct = (
-        f"CONSTRUCT {{ ?s ?p ?o }} WHERE {{ VALUES ?s {{ <{resource_url}> }} "
-        f"?s ?p ?o FILTER(!ISBLANK(?o)) FILTER(?p != skos:prefLabel) FILTER(?p != dcterms:dateAvailable)}}"
-    )
-
-    return sparql_construct_query(sparql_endpoint, query_construct)
-
-
-def get_preflabels_and_type_for_lod_resource_from_rdf_store(
-    resource_url: str, sparql_endpoint: str
-) -> Graph:
-    """Gets the preflabels for the SKOS Concepts linked to the LOD resource.
-    The labels are derived from the SKOSXL labels in the thesaurus graph in the
-    RDF store. Acquiring preferred labels this way, is referred to as 'dumbing down'.
-    Also retrieves the type and, if available, additionalType of the concept
-    """
-    # first the labels and type
-    query_construct_pref_labels = (
-        f"CONSTRUCT {{ ?s ?p ?o . ?o skos:prefLabel ?pref_label . ?o rdf:type ?t}}"
-        f"WHERE {{ VALUES ?s {{ <{resource_url}> }} "
-        f'?s ?p ?o FILTER (!ISBLANK(?o)) ?o skosxl:prefLabel/skosxl:literalForm ?pref_label .?o rdf:type ?t FILTER(LANG(?pref_label) = "nl") }}'
-    )
-    g = sparql_construct_query(sparql_endpoint, query_construct_pref_labels)
-
-    # then the additional type
-    query_construct_additional_type = (
-        f"CONSTRUCT {{ ?s ?p ?o . ?o sdo:additionalType ?t}}"
-        f"WHERE {{ VALUES ?s {{ <{resource_url}> }} "
-        f"?s ?p ?o FILTER (!ISBLANK(?o)) . ?o sdo:additionalType ?t }}"
-    )
-    g += sparql_construct_query(sparql_endpoint, query_construct_additional_type)
-
     return g
 
 
-def get_preflabel_for_gtaa_resource_from_rdf_store(
-    resource_url: str, sparql_endpoint: str
-) -> Graph:
-    """Gets the prefLabel, by using 'dumbing down' of the skos-xl prefLabel"""
-
-    # first the pref label and type
-    query_construct_pref_label_dumbing_down = (
-        f"CONSTRUCT {{ ?s skos:prefLabel ?pref_label}} WHERE {{ "
-        f"VALUES ?s {{ <{resource_url}> }} "
-        f"GRAPH ?g {{ ?s skosxl:prefLabel/skosxl:literalForm ?pref_label}} }}"
-    )
-    return sparql_construct_query(
-        sparql_endpoint, query_construct_pref_label_dumbing_down
-    )
+def get_query_from_file(filepath: str) -> str:
+    """Return the query read from the query file."""
+    query_string = ""
+    with open(filepath, encoding="utf-8") as qf:
+        query_string = qf.read()
+    return query_string
 
 
-def get_triples_for_blank_node_from_rdf_store(
-    resource_url: str, sparql_endpoint: str
-) -> Graph:
-    """Returns a graph with triples for blank nodes attached to the LOD resource
-    (including preflabels for the SKOS Concepts from the rdf store). We need
-    to do that with two separate queries, because ClioPatria doesn't support
-    CONSTRUCT queries with UNION.
-    """
-    # first we get all the triples for the blank nodes...
-    query_construct_bnodes = (
-        f"CONSTRUCT {{ ?s ?p ?o . ?o ?y ?z }} WHERE {{ VALUES ?s {{ <{resource_url}> }} "
-        f"?s ?p ?o FILTER ISBLANK(?o) ?o ?y ?z }}"
-    )
-    g = sparql_construct_query(sparql_endpoint, query_construct_bnodes)
+def sparql_select_query(
+    sparql_endpoint: str,
+    query: str,
+    format: str = "xml",
+    session: Optional[requests.Session] = None,
+) -> str:
+    """Sends a SPARQL SELECT query to the SPARQL endpoint and returns the result in a string in the specified format
+    raises a ConnectionError when the sparql endpoint can not be reached, or
+    raises an HTTPError when the request was not successful.
+    :param sparql_endpoint - the endpoint to be queried
+    :param query - the SELECT query
+    :param format - the format to retrun the data in, default is 'xml'
+    :param session - optional, a session to reuse when querying the endpoint"""
+    result_string = ""
 
-    # .. then we get the preflabels for the concepts...
-    query_construct_bnodes_pref_labels = (
-        f"CONSTRUCT {{ ?z skos:prefLabel ?pref_label }} WHERE {{ "
-        f"VALUES ?s {{ <{resource_url}> }} ?s ?p ?o FILTER ISBLANK(?o) "
-        f"?o ?y ?z . ?z skos:prefLabel ?pref_label }}"
-    )
-    g += sparql_construct_query(sparql_endpoint, query_construct_bnodes_pref_labels)
-
-    return g
-
-
-def get_label_triples_and_types_for_entities_and_roles_from_rdf_store(
-    resource_url: str, sparql_endpoint: str
-) -> Graph:
-    """Returns a graph with label triples for the labels of entities
-     and roles attached to the LOD resource
-    (including preflabels for the SKOS Concepts from the rdf store).
-    """
-    # get the preflabels and types for the entities...
-    query_construct_person_pref_labels = (
-        f"PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> "
-        f"CONSTRUCT {{ ?z skos:prefLabel ?pref_label . ?z rdf:type ?t }} WHERE {{ "
-        f"VALUES ?s {{ <{resource_url}> }} . ?s ((sdo:creator/sdo:creator)|(sdo:byArtist/sdo:byArtist)|(sdo:actor/sdo:actor)|(sdo:contributor/sdo:contributor)|(sdo:productionCompany/sdo:productionCompany)) ?z . ?z skosxl:prefLabel/skosxl:literalForm ?pref_label .?z rdf:type ?t }}"
-    )
-    g = sparql_construct_query(sparql_endpoint, query_construct_person_pref_labels)
-
-    # get the additional types for the entities...
-    query_construct_person_pref_labels = (
-        f"PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> "
-        f"CONSTRUCT {{ ?z skos:prefLabel ?pref_label . ?z sdo:additionalType ?t}} WHERE {{ "
-        f"VALUES ?s {{ <{resource_url}> }} . ?s ((sdo:creator/sdo:creator)|(sdo:byArtist/sdo:byArtist)|(sdo:actor/sdo:actor)|(sdo:contributor/sdo:contributor|(sdo:productionCompany/sdo:productionCompany))) ?z . ?z skosxl:prefLabel/skosxl:literalForm ?pref_label .?z sdo:additionalType ?t}}"
-    )
-    g += sparql_construct_query(sparql_endpoint, query_construct_person_pref_labels)
-    # get the rdfs labels and types for the roles...
-    query_construct_role_pref_labels = (
-        f"CONSTRUCT {{ ?z rdfs:label ?label . ?z rdf:type ?t }} WHERE {{ "
-        f"VALUES ?s {{ <{resource_url}> }} . ?s (sdo:creator|sdo:byArtist|sdo:actor|sdo:contributor|sdo:productionCompany)/sdo:roleName ?z . ?z rdfs:label ?label . ?z rdf:type ?t }}"
-    )
-    g += sparql_construct_query(sparql_endpoint, query_construct_role_pref_labels)
-
-    return g
-
-
-def get_skosxl_label_triples_for_skos_concept_from_rdf_store(
-    resource_url: str, sparql_endpoint: str
-) -> Graph:
-    """Returns a graph with triples for skos-xl labels for SKOS Concepts from the rdf store.
-    :param resource_url: URI of a SKOS Concept.
-    :param sparql_endpoint: the location of the RDF store.
-    """
-    query_construct_skos_xl_labels = (
-        f"PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> "
-        f"CONSTRUCT {{ ?s ?skos_label ?y . ?y skosxl:literalForm ?literal_form . "
-        f"?y a skosxl:Label }} WHERE {{ "
-        f"VALUES ?s {{ <{resource_url}> }} "
-        f"?s ?skos_label ?y . ?y a skosxl:Label . "
-        f"?y skosxl:literalForm ?literal_form }}"
-    )
-    return sparql_construct_query(sparql_endpoint, query_construct_skos_xl_labels)
-
-
-def get_triple_for_is_part_of_relation(
-    resource_uri: str, sparql_endpoint: str
-) -> Graph:
-    """Only applicable for sdo:Clip. Adds the sdo:isPartOf relation, making it possible
-    to refer back (upwards) to the program from a scene.
-    Note: Only the inverse of this relation is available in the triple store.
-    """
-    query_construct_triple_for_part_of = (
-        f"CONSTRUCT {{  ?clip sdo:isPartOf ?program }}"
-        f"WHERE {{ VALUES ?clip {{<{resource_uri}>}} ?program sdo:hasPart ?clip }}"
-    )
-    return sparql_construct_query(sparql_endpoint, query_construct_triple_for_part_of)
-
-
-def get_label_for_is_part_of_program(resource_uri: str, sparql_endpoint: str) -> Graph:
-    """Returns a graph with the triple for the label/title for the program
-    that a scene is part of with sdo:isPartOf relation.
-    """
-    query_construct_label_for_program = (
-        f"CONSTRUCT {{ ?program sdo:name ?program_name }}"
-        f"WHERE {{ ?program sdo:hasPart <{resource_uri}> "
-        f"OPTIONAL {{ ?program sdo:name ?p_name }}"
-        f'BIND( COALESCE( IF(isLiteral(?p_name), ?p_name, 1/0), "UNTITLED"^^xsd:string )'
-        f" AS ?program_name)}}"
-    )
-    return sparql_construct_query(sparql_endpoint, query_construct_label_for_program)
-
-
-def get_label_for_parent(resource_uri: str, sparql_endpoint: str) -> Graph:
-    """Returns a graph with the triple for the label/title of the parent object."""
-    query_construct_labels_for_parent = (
-        f"CONSTRUCT {{ ?o sdo:name ?parent_name }}"
-        f"WHERE {{ <{resource_uri}> (sdo:partOfSeries|sdo:partOfSeason|sdo:includedInDataCatalog|^sdo:distribution) ?o FILTER(!ISBLANK(?o)) "
-        f"OPTIONAL {{ ?o sdo:name ?o_name }}"
-        f'BIND( COALESCE( IF(isLiteral(?o_name), ?o_name, 1/0), "UNTITLED"^^xsd:string )'
-        f" AS ?parent_name)}}"
-    )
-    return sparql_construct_query(sparql_endpoint, query_construct_labels_for_parent)
-
-
-def get_label_for_has_part(resource_uri: str, sparql_endpoint: str) -> Graph:
-    """Returns a graph with the triples for the label/title for sdo:hasPart"""
-    query_construct_labels_for_has_part = (
-        f"CONSTRUCT {{ ?o sdo:name ?part_name }}"
-        f"WHERE {{ <{resource_uri}> (sdo:hasPart|sdo:dataset|sdo:distribution) ?o FILTER(!ISBLANK(?o)) "
-        f"OPTIONAL {{ ?o sdo:name ?o_name }}"
-        f'BIND( COALESCE( IF(isLiteral(?o_name), ?o_name, 1/0), "UNTITLED"^^xsd:string )'
-        f" AS ?part_name)}}"
-    )
-    return sparql_construct_query(sparql_endpoint, query_construct_labels_for_has_part)
+    if session:
+        resp = session.get(
+            url=sparql_endpoint,
+            params={"query": query},
+            headers={
+                "Accept": f"{'application/sparql-results+json' if format == 'json' else 'application/sparql-results+xml'}"
+            },
+        )
+    else:
+        resp = requests.get(
+            sparql_endpoint,
+            params={"query": query},
+            headers={
+                "Accept": f"{'application/sparql-results+json' if format == 'json' else 'application/sparql-results+xml'}"
+            },
+        )
+    resp.raise_for_status()
+    if resp.status_code == 200:
+        return resp.text
+    return result_string
 
 
 def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
@@ -518,39 +295,121 @@ def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
     return g
 
 
-def dump_nt_sorted(g: Graph):
-    lines = g.serialize(format="nt").splitlines()
-    for line in sorted(lines):
-        logger.debug(line)
-
-
-def check_subgraph_in_graph(subgraph: Graph, big_graph: Graph) -> bool:
-    """Checks if the triples in g1 are included in g2, without checking
-    for isomorphism. To be used for checking if the triples from the separate
-    construct queries in ld_util are included in the graph returned by mw_ld_util.
+def result_binding_to_triple(result_binding: dict) -> tuple:
+    """Convert a SPARQL result binding to an RDF triple (s, p, o).
+    :param result_binding: the SPARQL result binding as a dictionary.
+    :returns: a tuple (s, p, o) representing the RDF triple.
     """
-    (in_both, in_first, in_second) = graph_diff_fix(subgraph, big_graph)
-    logger.debug(f"Subgraph contains {len(subgraph)} triples.")
-    if len(subgraph) > 0:
-        if len(in_first) > 0:
-            logger.debug("Subgraph contains triples not in big graph: ")
-            dump_nt_sorted(in_first)
-            logger.debug("Triples in big graph, but not in subgraph: ")
-            dump_nt_sorted(in_second)
-            return False
-    return True
+    s: URIRef | BNode | None = None
+    p: URIRef | None = None
+    o: URIRef | BNode | Literal | None = None
+
+    # subject
+    s_value = result_binding.get("s", {}).get("value", "")
+    s_type = result_binding.get("s", {}).get("type", "")
+    if s_type == "uri":
+        s = URIRef(s_value)
+    elif s_type == "bnode":
+        s = BNode(s_value)
+
+    # predicate
+    p_value = result_binding.get("p", {}).get("value", "")
+    p = URIRef(p_value)
+
+    # object
+    o_value = result_binding.get("o", {}).get("value", "")
+    o_type = result_binding.get("o", {}).get("type", "")
+    if o_type == "uri":
+        o = URIRef(o_value)
+    elif o_type == "bnode":
+        o = BNode(o_value)
+    elif o_type == "literal":
+        lang = result_binding.get("o", {}).get("xml:lang", None)
+        datatype = result_binding.get("o", {}).get("datatype", None)
+        if lang is not None:
+            o = Literal(o_value, lang=lang)
+        elif datatype is not None:
+            o = Literal(o_value, datatype=URIRef(datatype))
+        else:
+            o = Literal(o_value)
+
+    return (s, p, o)
 
 
-def graph_diff_fix(g1: Graph, g2: Graph) -> tuple[Graph, Graph, Graph]:
-    """workaround for blank node bug in rdflib.compare.graph_diff.
-    The dummy graph contains a blank node, that is added before the comparison
-    and removed from the resulting graph afterwards.
+def convert_results_to_graph(results: dict, resource_url: str) -> Graph:
+    """Convert SPARQL SELECT query results to an RDF Graph.
+    :param results: the SPARQL SELECT query results as a dictionary.
+    :param resource_url: the main resource URL to use when subject 's' is missing.
+    :returns: an RDF Graph containing the triples.
     """
-    dummyg = Graph()
-    dummy = URIRef("http://dummy.fix")
-    dummyg.parse(data=" [] <http://dummy.fix> [] . ", format="turtle")
-    b, f, s = graph_diff(g1 + dummyg, g2 + dummyg)
-    #  clean out dummy node
-    for bmn in b.subjects(predicate=dummy):
-        b.remove((bmn, None, None))
-    return (b, f, s)
+    g = Graph()
+    for row in results.get("results", {}).get("bindings", []):
+        try:
+            s, p, o = result_binding_to_triple(row)
+            if not s:
+                # Handle cases where 's' is missing in the row
+                g.add((URIRef(resource_url), p, o))
+            else:
+                g.add((s, p, o))
+        except Exception as exc:
+            logger.error(str(exc))
+    return g
+
+
+def get_album_art_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optional[str]:
+    """Extracts the album art URL from the RDF graph for the given resource.
+    :param rdf_graph: Graph object containing the triples.
+    :param resource_url: the main resource for which the album art URL is extracted.
+    :returns: URL of the album art as a string, or None if not found.
+    """
+    try:
+        album_art_url = rdf_graph.value(
+            subject=URIRef(resource_url),
+            predicate=URIRef("https://data.muziekweb.nl/vocab/fullCover"),
+        )
+        if album_art_url:
+            return str(album_art_url)
+    except Exception as e:
+        logger.exception(f"Error in get_album_art_from_rdf_graph: {str(e)}")
+    return None
+
+
+## DEBUG FUNCTIONS
+# def dump_nt_sorted(g: Graph):
+#     lines = g.serialize(format="nt").splitlines()
+#     for line in sorted(lines):
+#         print(line)
+#         # logger.debug(line)
+
+
+# def check_subgraph_in_graph(subgraph: Graph, big_graph: Graph) -> bool:
+#     """Checks if the triples in g1 are included in g2, without checking
+#     for isomorphism. To be used for checking if the triples from the separate
+#     construct queries in ld_util are included in the graph returned by mw_ld_util.
+#     """
+#     (in_both, in_first, in_second) = graph_diff_fix(subgraph, big_graph)
+#     logger.debug(f"Subgraph contains {len(subgraph)} triples.")
+#     if len(subgraph) > 0:
+#         if len(in_first) > 0:
+#             logger.debug("Subgraph contains triples not in big graph: ")
+#             dump_nt_sorted(in_first)
+#             # logger.debug("Triples in big graph, but not in subgraph: ")
+#             # dump_nt_sorted(in_second)
+#             return False
+#     return True
+
+
+# def graph_diff_fix(g1: Graph, g2: Graph) -> tuple[Graph, Graph, Graph]:
+#     """workaround for blank node bug in rdflib.compare.graph_diff.
+#     The dummy graph contains a blank node, that is added before the comparison
+#     and removed from the resulting graph afterwards.
+#     """
+# from rdflib.compare import graph_diff
+#     dummyg = Graph()
+#     dummy = URIRef("http://dummy.fix")
+#     dummyg.parse(data=" [] <http://dummy.fix> [] . ", format="turtle")
+#     b, f, s = graph_diff(g1 + dummyg, g2 + dummyg)
+#     #  clean out dummy node
+#     for bmn in b.subjects(predicate=dummy):
+#         b.remove((bmn, None, None))
+#     return (b, f, s)
