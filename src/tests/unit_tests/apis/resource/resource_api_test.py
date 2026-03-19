@@ -17,9 +17,6 @@ def test_init():
     assert isinstance(resource_api, ResourceAPI)
 
 
-@pytest.mark.skip(
-    reason="test fails because testing and debugging the lod-view components."
-)
 @pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType])
 def test_get_200(
     mime_type,
@@ -50,9 +47,10 @@ def test_get_200(
         when(util.ld_util).is_nisv_cat_resource(
             URL, config.get("SPARQL_ENDPOINT", "")
         ).thenReturn(True)
-        when(util.ld_util).get_lod_resource_from_rdf_store(
+        when(util.ld_util).get_resource_from_rdf_store(
             URL,
             config.get("SPARQL_ENDPOINT", ""),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION", ""),
         ).thenReturn(
             i_program_graph_2
@@ -65,9 +63,18 @@ def test_get_200(
         )
         assert resp.status_code == 200
 
-        verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
+        verify(util.ld_util, times=1).generate_lod_resource_uri(
+            ResourceApiUriLevel(CAT_TYPE),
+            IDENTIFIER,
+            config.get("BENG_DATA_DOMAIN", ""),
+        )
+        verify(util.ld_util, times=1).is_nisv_cat_resource(
+            URL, config.get("SPARQL_ENDPOINT", "")
+        )
+        verify(util.ld_util, times=1).get_resource_from_rdf_store(
             URL,
             config.get("SPARQL_ENDPOINT", ""),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION", ""),
         )
 
@@ -109,9 +116,6 @@ def test_get_200(
         unstub()
 
 
-@pytest.mark.skip(
-    reason="test fails because testing and debugging the lod-view components."
-)
 def test_get_200_mime_type_none(flask_test_client, resource_query_url):
     """Given a flask test client, send a get request with no mime_type.
     Tests the default behaviour for the mime type (JSON-LD is the default).
@@ -138,9 +142,10 @@ def test_get_200_mime_type_none(flask_test_client, resource_query_url):
         when(util.ld_util).is_nisv_cat_resource(
             DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         ).thenReturn(True)
-        when(util.ld_util).get_lod_resource_from_rdf_store(
+        when(util.ld_util).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION"),
         ).thenReturn(DUMMY_GRAPH)
 
@@ -172,9 +177,10 @@ def test_get_200_mime_type_none(flask_test_client, resource_query_url):
         verify(util.ld_util, times=1).is_nisv_cat_resource(
             DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         )
-        verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
+        verify(util.ld_util, times=1).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION"),
         )
 
@@ -299,9 +305,6 @@ def test_get_404(flask_test_client, resource_query_url):
         unstub()
 
 
-@pytest.mark.skip(
-    reason="test fails because testing and debugging the lod-view components."
-)
 @pytest.mark.parametrize(
     "mime_type, cause",
     [
@@ -332,9 +335,10 @@ def test_get_500(mime_type, cause, flask_test_client, resource_query_url):
         ).thenReturn(True)
 
         if mime_type is MimeType.JSON_LD and cause == "not_rdf_graph":
-            when(util.ld_util).get_lod_resource_from_rdf_store(
+            when(util.ld_util).get_resource_from_rdf_store(
                 DUMMY_URL,
                 config.get("SPARQL_ENDPOINT"),
+                config.get("BENG_LOD_RESOURCE_QUERY", ""),
                 config.get("URI_NISV_ORGANISATION"),
             ).thenReturn(None)
             when(DUMMY_GRAPH).serialize(
@@ -343,9 +347,10 @@ def test_get_500(mime_type, cause, flask_test_client, resource_query_url):
                 None
             )  # shouldn't be called, but we want to check this
         elif mime_type is MimeType.JSON_LD and cause == "no_serialized_graph":
-            when(util.ld_util).get_lod_resource_from_rdf_store(
+            when(util.ld_util).get_resource_from_rdf_store(
                 DUMMY_URL,
                 config.get("SPARQL_ENDPOINT"),
+                config.get("BENG_LOD_RESOURCE_QUERY", ""),
                 config.get("URI_NISV_ORGANISATION"),
             ).thenReturn(
                 DUMMY_GRAPH
@@ -365,9 +370,10 @@ def test_get_500(mime_type, cause, flask_test_client, resource_query_url):
             DUMMY_IDENTIFIER,
             config.get("BENG_DATA_DOMAIN"),
         )
-        verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
+        verify(util.ld_util, times=1).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION"),
         )
         verify(DUMMY_GRAPH, times=0 if cause == "not_rdf_graph" else 1).serialize(
@@ -381,9 +387,6 @@ def test_get_500(mime_type, cause, flask_test_client, resource_query_url):
         unstub()
 
 
-@pytest.mark.skip(
-    reason="test fails because testing and debugging the lod-view components."
-)
 def test_get_500_html(flask_test_client, resource_query_url):
     """Given a flask test client, dummy variables and stubbed invocations,
     send a get request with mime_type HTML.
@@ -405,9 +408,10 @@ def test_get_500_html(flask_test_client, resource_query_url):
         when(util.ld_util).is_nisv_cat_resource(
             DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         ).thenReturn(True)
-        when(util.ld_util).get_lod_resource_from_rdf_store(
+        when(util.ld_util).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION"),
         ).thenReturn(
             DUMMY_EMPTY_GRAPH
@@ -425,9 +429,10 @@ def test_get_500_html(flask_test_client, resource_query_url):
             DUMMY_IDENTIFIER,
             config.get("BENG_DATA_DOMAIN"),
         )
-        verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
+        verify(util.ld_util, times=1).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT", ""),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION", ""),
         )
 
@@ -457,9 +462,10 @@ def test__get_lod_view_resource(
 
         with (
             when(util.ld_util)
-            .get_lod_resource_from_rdf_store(
+            .get_resource_from_rdf_store(
                 DUMMY_URL,
                 config.get("SPARQL_ENDPOINT"),
+                config.get("BENG_LOD_RESOURCE_QUERY", ""),
                 config.get("URI_NISV_ORGANISATION"),
             )
             .thenReturn(test_graph)

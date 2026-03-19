@@ -13,9 +13,6 @@ def test_init():
     assert isinstance(gtaa_api, GTAAAPI)
 
 
-@pytest.mark.skip(
-    reason="This test is not working because of the way the GTAAAPI is implemented. The get method is not easily testable because it relies on the Flask request context and the current_app context, which are not easily mocked. To properly test this method, we would need to refactor the code to separate the logic from the Flask context, or use a testing framework that allows for better mocking of Flask contexts."
-)
 @pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType])
 def test_get_200(mime_type, flask_test_client):
     """Given a flask_test_client, a mime_type and stubbed invocations, do a
@@ -37,9 +34,10 @@ def test_get_200(mime_type, flask_test_client):
         when(util.ld_util).is_skos_resource(
             DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         ).thenReturn(True)
-        when(util.ld_util).get_lod_resource_from_rdf_store(
+        when(util.ld_util).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION"),
         ).thenReturn(DUMMY_GRAPH)
 
@@ -64,9 +62,10 @@ def test_get_200(mime_type, flask_test_client):
         verify(util.ld_util, times=1).is_skos_resource(
             DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         )
-        verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
+        verify(util.ld_util, times=1).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION"),
         )
         if mime_type is MimeType.HTML:
@@ -101,9 +100,10 @@ def test_get_200_with_data(mime_type, flask_test_client, i_gtaa_graph):
         when(util.ld_util).is_skos_resource(
             DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         ).thenReturn(True)
-        when(util.ld_util).get_lod_resource_from_rdf_store(
+        when(util.ld_util).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION"),
         ).thenReturn(i_gtaa_graph)
 
@@ -113,9 +113,10 @@ def test_get_200_with_data(mime_type, flask_test_client, i_gtaa_graph):
         )
         assert resp.status_code == 200
 
-        verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
+        verify(util.ld_util, times=1).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION"),
         )
 
@@ -178,9 +179,10 @@ def test_get_500(mime_type, flask_test_client, caplog):
         when(util.ld_util).is_skos_resource(
             DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         ).thenReturn(True)
-        when(util.ld_util).get_lod_resource_from_rdf_store(
+        when(util.ld_util).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION"),
         ).thenReturn(DUMMY_EMPTY_GRAPH)
 

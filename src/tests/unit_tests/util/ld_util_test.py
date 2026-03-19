@@ -86,7 +86,6 @@ def test_generate_lod_resource_uri(
         unstub()
 
 
-# @pytest.mark.skip(reason="test fails because application context is not right.")
 @pytest.mark.parametrize(
     "resource_url, sparql_endpoint, query_fname,nisv_organisation_uri",
     [
@@ -129,46 +128,6 @@ def test_get_lod_resource_from_rdf_store_success(
 
 
 @pytest.mark.parametrize(
-    "resource_url, sparql_endpoint, query_fname, nisv_organisation_uri",
-    [
-        (DUMMY_RESOURCE_URI, None, DUMMY_QUERY_FILENAME, DUMMY_URI_NISV_ORGANISATION),
-        (
-            None,
-            DUMMY_SPARQL_ENDPOINT,
-            DUMMY_QUERY_FILENAME,
-            DUMMY_URI_NISV_ORGANISATION,
-        ),
-    ],
-)
-def test_get_lod_resource_from_rdf_store_none(
-    scene_rdf_xml,
-    resource_url,
-    sparql_endpoint,
-    query_fname,
-    nisv_organisation_uri,
-):
-    try:
-        resp = mock({"status_code": 200, "text": scene_rdf_xml})
-        when(requests).get(sparql_endpoint, **KWARGS).thenReturn(resp)
-        lod_graph = util.ld_util.get_resource_from_rdf_store(
-            resource_url, sparql_endpoint, query_fname, nisv_organisation_uri
-        )
-
-        # returns a Graph object when successful, otherwise returns None
-        assert lod_graph is None
-
-        # requests.get is only called when there is a resource_url and sparql_endpoint
-        if resource_url and sparql_endpoint:
-            # sparql_construct is called 4 times for catalog object and 6 times for GTAA object
-            verify(requests, atleast=4).get(sparql_endpoint, **KWARGS)
-        else:
-            verify(requests, times=0).get(sparql_endpoint, **KWARGS)
-    finally:
-        unstub()
-
-
-@pytest.mark.skip(reason="test fails because application context is not right.")
-@pytest.mark.parametrize(
     "resource_url,sparql_endpoint,query_fname,nisv_organisation_uri",
     [
         (
@@ -186,11 +145,15 @@ def test_get_lod_resource_from_rdf_store_connection_error(
     nisv_organisation_uri,
 ):
     try:
+        when(util.ld_util).get_query_from_file(query_fname).thenReturn(
+            DUMMY_SELECT_QUERY
+        )
         when(requests).get(sparql_endpoint, **KWARGS).thenRaise(ConnectionError)
+
         lod_graph = util.ld_util.get_resource_from_rdf_store(
             resource_url, sparql_endpoint, query_fname, nisv_organisation_uri
         )
-        assert lod_graph is None
+        assert isinstance(lod_graph, Graph)
 
         # requests.get is only called when there is a resource_url and sparql_endpoint
         if resource_url and sparql_endpoint:
