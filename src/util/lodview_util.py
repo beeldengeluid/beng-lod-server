@@ -347,7 +347,7 @@ def get_lod_view_resource_header(
     This output is included in the lod view page.
     """
     return render_template(
-        "resource_lod_view_header.html",
+        "lod_view_header.html",
         resource_uri=resource_uri,
         rdf_graph_header_json=rdf_graph_header_json,
     )
