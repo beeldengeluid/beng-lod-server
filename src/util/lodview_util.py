@@ -273,7 +273,7 @@ def generate_html_page(
     rdf_graph: Graph,
     resource_iri: str,
     sparql_endpoint: str,
-    template: str = "resource.html",
+    template: str = "bg_resource.html",
 ):
     logger.info(f"Generating HTML page for {resource_iri}.")
     html_page = get_lod_view_resource(
@@ -296,7 +296,7 @@ def get_lod_view_resource(
     rdf_graph: Graph,
     resource_url: str,
     sparql_endpoint: str,
-    html_template: str = "resource.html",
+    html_template: str = "bg_resource.html",
 ) -> str:
     """Given a Graph, a URI and an HTML template, return an HTML page.
     :param rdf_graph: A Graph for the resource.
