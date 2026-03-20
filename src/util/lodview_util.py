@@ -59,6 +59,12 @@ def json_label_for_node(
             for lf in rdf_graph.objects(node, URIRef(f"{SKOSXL}literalForm"))
         ]
     )
+    my_literal_list = sorted(
+        my_literal_list,
+        key=lambda lit: (
+            0 if lit.language == lang else 1
+        ),  # preferred language first, then the rest
+    )
     return [get_string_for_langstring(label, lang) for label in my_literal_list]
 
 
