@@ -64,11 +64,3 @@ def rdf_from_ld_util(load_file_as_graph):
     return load_file_as_graph(
         __file__, "ldutil_compare_program_2102501280372631431.ttl"
     )
-
-
-@pytest.fixture()
-def rdf_from_mw_ld_util(load_file_as_graph):
-    """Returns RDF graph of a program from the mw_ld_util function."""
-    return load_file_as_graph(
-        __file__, "mw_ldutil_compare_program_2102501280372631431.ttl"
-    )

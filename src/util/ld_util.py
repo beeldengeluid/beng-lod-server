@@ -17,16 +17,20 @@ from util.ns_util import (
     BENGTHES,
     WIKIDATA,
     WIKIDATA_WWW,
+    WIKIDATA_WWW_S,
     DCTERMS,
+    DISCOGS,
     DISCOGS_ARTIST,
     DISCOGS_RELEASE,
     MUZIEKWEB,
     MUZIEKWEB_VOCAB,
     MUZIEKSCHATTEN,
+    MUSICBRAINZ_ARTIST,
     MUSICBRAINZ_RELEASE,
     PID,
     SCHEMA,
     IED,
+    ALLMUSIC_ARTIST,
 )
 
 logger = logging.getLogger()
@@ -216,18 +220,22 @@ def get_resource_from_rdf_store(
         g.bind("bengthes", BENGTHES)
         g.bind("wd", WIKIDATA)
         g.bind("wikidata", WIKIDATA_WWW)
+        g.bind("wikidata-s", WIKIDATA_WWW_S)
         g.bind("skos", SKOS)
         g.bind("dcterms", DCTERMS)
+        g.bind("discogs", DISCOGS)
         g.bind("discogs-artist", DISCOGS_ARTIST)
         g.bind("discogs-release", DISCOGS_RELEASE)
         g.bind("muziekweb", MUZIEKWEB)
         g.bind("som", MUZIEKSCHATTEN)
         g.bind("vocab", MUZIEKWEB_VOCAB)
+        g.bind("musicbrainz-artist", MUSICBRAINZ_ARTIST)
         g.bind("musicbrainz-release", MUSICBRAINZ_RELEASE)
         g.bind("qudt", QUDT)
         g.bind("pid", PID)
         g.bind("ied", IED)
         g.bind("schema", SCHEMA)
+        g.bind("allmusic-artist", ALLMUSIC_ARTIST)
 
         return g
     except ConnectionError as e:

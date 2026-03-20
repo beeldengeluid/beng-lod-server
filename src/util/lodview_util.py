@@ -2,11 +2,11 @@ import logging
 import json
 from flask import render_template, Response
 from rdflib import Graph, URIRef, Literal, BNode
-from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS, OWL  # type:ignore
+from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS, OWL  # type: ignore
 from typing import Optional, List
 from util.mime_type_util import MimeType
 from util.APIUtil import APIUtil
-import util.mw_ld_util
+import util.ld_util
 from util.ns_util import SCHEMA, MUZIEKWEB_VOCAB, SKOSXL
 from config import cfg
 
@@ -320,7 +320,7 @@ def get_lod_view_resource(
             json_iri_lit=json_iri_lit_from_rdf_graph(rdf_graph, resource_url),
             json_iri_bnode=json_iri_bnode_from_rdf_graph(rdf_graph, resource_url),
             sparql_endpoint=sparql_endpoint,
-            album_art=util.mw_ld_util.get_album_art_from_rdf_graph(
+            album_art=util.ld_util.get_album_art_from_rdf_graph(
                 rdf_graph, resource_url
             ),
             pref_language=cfg.get("UI_LANGUAGE_PREFERENCE", "nl").upper(),

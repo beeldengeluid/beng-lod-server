@@ -3,7 +3,7 @@ from flask import request, current_app  # , Response
 from flask_restx import Namespace, Resource
 from util.mime_type_util import MimeType
 from util.APIUtil import APIUtil
-import util.mw_ld_util
+import util.ld_util
 import util.lodview_util
 
 logger = logging.getLogger()
@@ -35,7 +35,7 @@ class LinkAPI(Resource):
 
         lod_url = None
         try:
-            lod_url = util.mw_ld_util.generate_muziekweb_lod_resource_uri(
+            lod_url = util.ld_util.generate_muziekweb_lod_resource_uri(
                 request.path,
                 current_app.config.get("MUZIEKWEB_DATA_DOMAIN", ""),
             )
@@ -55,14 +55,14 @@ class LinkAPI(Resource):
             )
 
         # check if resource exists and return 404 if it doesn't.
-        if not util.mw_ld_util.is_muziekweb_resource(
+        if not util.ld_util.is_muziekweb_resource(
             lod_url, current_app.config.get("MUZIEKWEB_SPARQL_ENDPOINT", "")
         ):
             return APIUtil.toErrorResponse("not_found")
 
         # getting and returning lod data
         logger.info(f"Getting the graph from the triple store for resource {lod_url}.")
-        rdf_graph = util.mw_ld_util.get_resource_from_rdf_store(
+        rdf_graph = util.ld_util.get_resource_from_rdf_store(
             lod_url,
             current_app.config.get("MUZIEKWEB_SPARQL_ENDPOINT", ""),
             current_app.config.get("MUZIEKWEB_LOD_RESOURCE_QUERY", ""),

@@ -15,7 +15,6 @@ from requests.exceptions import (
 import apis.health.DependencyHealth
 from apis.health.DependencyHealth import Dependency, DependencyHealth
 
-
 TEST_CONFIG_KEY = "EXAMPLE_HEALTH_ENDPOINT"
 TEST_HEALTH_URL = "https://example.com/health"
 TEST_HEALTH_TIMEOUT_SEC = 5.0
