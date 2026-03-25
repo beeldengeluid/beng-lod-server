@@ -44,6 +44,10 @@ h3 {
     font-size: 11px;
 }
 
+.btn-primary {
+	background-color: #1690c6;
+}
+
 footer {
 	/* background-color: #212121; */
 	background-color: #1690c6;

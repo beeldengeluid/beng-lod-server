@@ -1,31 +1,50 @@
 	{% for item in json_iri_iri %}
-	<div class="row">
-		{% if loop.previtem and loop.previtem.p.uri == item.p.uri %}
-			<div class="col-3 py-2"></div>
-		{% else %}
-		<div class="col-3 py-2 text-truncate">
-			<a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">{{item.p.prefix}}:<span class="fw-bold">{{item.p.property}}</span></a>
-		</div>
+		{% if json_iri_iri | selectattr("p.uri", "equalto", item.p.uri) | list | count > 5 %}
+			{% if loop.index == 1 %}
+			<!-- # add div for short list -->
+			<div id="short-list-{{item.p.property}}" class="short-list">
+			{% endif %}	
 		{% endif %}
-		<div class="col-9 py-2 border-bottom text-truncate">
-			<!-- {% if json_iri_iri | selectattr("p.uri", "equalto", item.p.uri) | list | count > 5 %}
-				{% if json_iri_iri[:loop.index] | selectattr("p.uri", "equalto", item.p.uri) | list | count == 5 %}
-					<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">See more</a>
-					<div class="collapse" id="collapseExample">
-				{% endif %}
-			{% endif %} -->
-			{% if item.o.labels|length %}
-                <a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{ item.o.labels|first }}</a>
-			{% elif item.o.prefix and item.o.property %}
-				<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.prefix}}:<span class="fw-bold">{{item.o.property}}</span></a>
+		<div class="row">
+			{% if loop.previtem and loop.previtem.p.uri == item.p.uri %}
+				<div class="col-3 py-2"></div>
 			{% else %}
-				<a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.uri}}</a>
+			<div class="col-3 py-2 text-truncate">
+				<a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">{{item.p.prefix}}:<span class="fw-bold">{{item.p.property}}</span></a>
+			</div>
 			{% endif %}
-			<!-- {% if json_iri_iri | selectattr("p.uri", "equalto", item.p.uri) | list | count > 5 %}
-				{% if json_iri_iri[:loop.index + 1] | selectattr("p.uri", "equalto", item.p.uri) | list | count == 5 %}
-					</div>
+			<div class="col-9 py-2 border-bottom text-truncate">
+				{% if json_iri_iri | selectattr("p.uri", "equalto", item.p.uri) | list | count > 5 %}
+					{% if json_iri_iri[:loop.index] | selectattr("p.uri", "equalto", item.p.uri) | list | count <= 5 %}
+						{% include "lod_view_iri_iri_object.html" %}
+					{% else %}
+						<div class="collapse show" aria-expanded="false" data-bs-parent="#rest-list-{{item.p.property}}">
+						{% include "lod_view_iri_iri_object.html" %}
+						</div>
+					{% endif %}
+				{% else %}
+					{% include "lod_view_iri_iri_object.html" %}
 				{% endif %}
-			{% endif %} -->
+			</div>
 		</div>
-	</div>
+		{% if json_iri_iri | selectattr("p.uri", "equalto", item.p.uri) | list | count > 5 %}
+			{% if json_iri_iri[:loop.index] | selectattr("p.uri", "equalto", item.p.uri) | list | count == 5 %}
+				<!-- end short list -->
+				</div>
+				<!-- and add the rest list div -->
+				<div class="collapse" id="rest-list-{{item.p.property}}">
+			{% elif json_iri_iri[:loop.index] | selectattr("p.uri", "equalto", item.p.uri) | list | count == json_iri_iri | selectattr("p.uri", "equalto", item.p.uri) | list | count %}
+				<!-- end of rest list plus the show more button-->
+				</div>
+				<div class="row">
+					<div class="col-3 py-2"></div>
+					<div class="col-9 py-2 border-bottom text-truncate">
+						<button id="button-{{item.p.property}}" class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#rest-list-{{item.p.property}},#more-{{item.p.property}},#less-{{item.p.property}}" aria-controls="rest-list-{{item.p.property}}">Show 
+							<span id="more-{{item.p.property}}" class="collapse show" >more...</span>
+							<span id="less-{{item.p.property}}" class="collapse" >less...</span>
+						</button>
+					</div>
+				</div>
+			{% endif %}
+		{% endif %}
 	{% endfor %}
