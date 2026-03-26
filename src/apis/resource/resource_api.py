@@ -41,12 +41,6 @@ class ResourceAPI(Resource):
         )
         mime_type = MimeType(best_match)
 
-        # check if identifier is proper digit string, return 400 if not.
-        if not identifier.isdigit():
-            return APIUtil.toErrorResponse(
-                "bad_request", "Invalid DAAN identifier supplied."
-            )
-
         # create the lod_url and 302 redirect when it's a RDA postfix
         lod_url = None
         try:
@@ -74,6 +68,12 @@ class ResourceAPI(Resource):
                 f"Unknown error while generating lod resource uri for {ResourceApiUriLevel(cat_type)} and {identifier}."
             )
             return APIUtil.toErrorResponse("internal_server_error", e)
+
+        # check if identifier is proper digit string, return 400 if not.
+        if not identifier.isdigit():
+            return APIUtil.toErrorResponse(
+                "bad_request", "Invalid DAAN identifier supplied."
+            )
 
         # check if resource exists and return 404 if it doesn't.
         if not util.ld_util.is_nisv_cat_resource(
