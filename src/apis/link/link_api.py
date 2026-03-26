@@ -33,6 +33,12 @@ class LinkAPI(Resource):
         )
         mime_type = MimeType(best_match)
 
+        # check if identifier is proper digit string, return 400 if not.
+        if not identifier.isalnum():
+            return APIUtil.toErrorResponse(
+                "bad_request", "Invalid Muziekweb identifier supplied."
+            )
+
         lod_url = None
         try:
             lod_url = util.ld_util.generate_muziekweb_lod_resource_uri(
@@ -47,12 +53,6 @@ class LinkAPI(Resource):
                 f"Unknown error while generating lod resource uri for {identifier}."
             )
             return APIUtil.toErrorResponse("internal_server_error", e)
-
-        # check if identifier is proper digit string, return 400 if not.
-        if not identifier.isalnum():
-            return APIUtil.toErrorResponse(
-                "bad_request", "Invalid daan identifier supplied."
-            )
 
         # check if resource exists and return 404 if it doesn't.
         if not util.ld_util.is_muziekweb_resource(

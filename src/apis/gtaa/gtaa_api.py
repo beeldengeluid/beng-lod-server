@@ -38,6 +38,12 @@ class GTAAAPI(Resource):
 
     @api.produces([mt.value for mt in MimeType])
     def get(self, identifier):
+        # check if identifier is proper digit string, return 400 if not.
+        if not identifier.isalnum():
+            return APIUtil.toErrorResponse(
+                "bad_request", "Invalid GTAA identifier supplied."
+            )
+
         gtaa_uri = f'{current_app.config.get("BENG_DATA_DOMAIN")}gtaa/{identifier}'
 
         # Do ASK request to triple store. Return 404 if resource doesn't exist.
