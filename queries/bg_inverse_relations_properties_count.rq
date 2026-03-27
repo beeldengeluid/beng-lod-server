@@ -1,0 +1,6 @@
+#+ summary: Get distinct counts for inverse relations for resource grouped by property.
+#+ endpoint: https://cat.apis.beeldengeluid.nl/sparql
+select (count(distinct ?s) AS ?o) ?p 
+{ ?s ?p ?resource_iri. FILTER(!isBlank(?s)) }
+GROUP BY ?p 
+LIMIT 100

@@ -17,15 +17,23 @@ DATA_CATALOG_GRAPH: "http://data.rdlabs.beeldengeluid.nl/datacatalog/"
 
 BENG_DATA_DOMAIN: "http://data.beeldengeluid.nl/"
 URI_NISV_ORGANISATION: "https://www.beeldengeluid.nl/"
-BENG_LOD_RESOURCE_QUERY: "queries/bg_lod_resource_all_triples_and_bnodes.rq"
 
 SPARQL_ENDPOINT: "https://cat.apis.beeldengeluid.nl/sparql"
 SPARQL_ENDPOINT_HEALTH_URL: "https://cat.apis.beeldengeluid.nl/sparql"
 
+BENG_LOD_RESOURCE_QUERY: "queries/bg_lod_resource_all_triples_and_bnodes.rq"
+BENG_IS_CAT_NISV_RESOURCE: "queries/bg_is_nisv_cat_resource.rq"
+BENG_IS_SKOS_RESOURCE: "queries/bg_is_skos_resource.rq"
+
+INVERSE_RELATIONS_ASK: "queries/bg_inverse_relations_ask.rq"
+INVERSE_RELATIONS_QUERY: "queries/bg_inverse_relations.rq"
+INVERSE_RELATIONS_PROPERTIES_COUNT: "queries/bg_inverse_relations_properties_count.rq"
+
 MUZIEKWEB_DATA_DOMAIN: "https://data.muziekweb.nl/"
 MUZIEKWEB_SPARQL_ENDPOINT: "https://api.data.muziekweb.nl/datasets/MuziekwebOrganization/Muziekweb/services/Muziekweb/sparql"
-MUZIEKWEB_LOD_RESOURCE_QUERY: "queries/mw_lod_resource_all_triples_and_bnodes.rq"
 MUZIEKWEB_ORGANISATION_URI: "https://www.muziekweb.nl/"
+
+MUZIEKWEB_LOD_RESOURCE_QUERY: "queries/mw_lod_resource_all_triples_and_bnodes.rq"
 MUZIEKWEB_HTML_TEMPLATE: "mw_resource.html"
 
 UI_LANGUAGE_PREFERENCE: "nl"  # "en", "de", "fr" or "nl"
