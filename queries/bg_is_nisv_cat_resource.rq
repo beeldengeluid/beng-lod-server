@@ -1,0 +1,5 @@
+ASK {     { ?resource_iri a sdo:CreativeWork }
+    UNION { ?resource_iri a sdo:CreativeWorkSeries }
+    UNION { ?resource_iri a sdo:CreativeWorkSeason }
+    UNION { ?resource_iri a sdo:Clip }
+}

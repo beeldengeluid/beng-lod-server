@@ -12,7 +12,10 @@
 	{% include "lod_view_iri_bnode.html" %}
 	{% endblock %}
 </div>
-<div id="inverses">
+<div id="inverses" class="container-fluid">
 	<h3>Inverse relations</h3>
+	{% block json_inverse_relations %}
+	{% include "lod_view_inverse_relations.html" %}
+	{% endblock %}
 </div>
 <div id="lodCloud" class="empty"></div>

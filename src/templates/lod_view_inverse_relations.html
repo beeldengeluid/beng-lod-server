@@ -1,0 +1,25 @@
+{% for item in json_inverse_relations %}
+	<div class="row">
+        <div class="col-4 py-2 text-truncate">
+            <span>is <a title="&lt;{{item.property}}&gt;" href="{{item.property}}" target="_blank">{{item.property}}</a> of</span>
+        </div>
+		<div class="col-8 py-2 border-bottom text-truncate">
+            <details>
+                <summary>
+                    {% if item.count == 1 %}
+                    <span>{{ item.count }} resource</span>
+                    {% else %}
+                    <span>{{ item.count }} resources</span>
+                    {% endif %}
+                </summary>
+                <p>
+                    <ul class="list-group" >
+                    {% for s in item.resources %}
+                        <li class="list-group-item"><a title="&lt;{{s}}&gt;" href="{{s}}" target="_blank">{{s}}</a></li>
+                    {% endfor %}
+                    </ul>
+                </p>
+            </details>
+        </div>
+    </div>
+{% endfor %}

@@ -227,7 +227,6 @@ def json_iri_bnode_from_rdf_graph(
     rdf_graph: Graph, resource_url: str
 ) -> Optional[List[dict]]:
     """Generates part of the LOD view data for resource.html matching: (<uri> <uri> [bnode])"""
-    # TODO: make sure that we also handle bnodes that have a type and a property with a value.
     json_iri_bnode = []
     try:
         for p, o in rdf_graph.predicate_objects(subject=URIRef(resource_url)):
@@ -273,6 +272,32 @@ def json_iri_bnode_from_rdf_graph(
         logger.exception(f"Error in json_iri_bnode_from_rdf_graph: {str(e)}")
         logger.error(json.dumps(json_iri_bnode, indent=4))
     return json_iri_bnode
+
+
+def json_inverse_relations_for_resource(
+    resource_url: str, sparql_endpoint: str
+) -> list:
+    """Create a JSON structure that is used in the lod view inverse relations."""
+    if util.ld_util.ask_for_inverse_relations(resource_url, sparql_endpoint):
+        ld_prop_counts = util.ld_util.get_inverse_relation_counts(
+            resource_url, sparql_endpoint
+        )
+        ld_prop_rels = util.ld_util.get_inverse_relations_for_resource(
+            resource_url, sparql_endpoint
+        )
+        return [
+            {
+                "property": d.get("property", ""),
+                "count": d.get("count", 0),
+                "resources": [
+                    str(item["subject"])
+                    for item in ld_prop_rels
+                    if d.get("property", "") == item["property"]
+                ],
+            }
+            for d in ld_prop_counts
+        ]
+    return []
 
 
 def generate_html_page(
@@ -325,6 +350,9 @@ def get_lod_view_resource(
             json_iri_iri=json_iri_iri_from_rdf_graph(rdf_graph, resource_url),
             json_iri_lit=json_iri_lit_from_rdf_graph(rdf_graph, resource_url),
             json_iri_bnode=json_iri_bnode_from_rdf_graph(rdf_graph, resource_url),
+            json_inverse_relations=json_inverse_relations_for_resource(
+                resource_url, sparql_endpoint
+            ),
             sparql_endpoint=sparql_endpoint,
             album_art=util.ld_util.get_album_art_from_rdf_graph(
                 rdf_graph, resource_url

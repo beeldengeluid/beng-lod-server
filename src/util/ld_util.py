@@ -10,6 +10,7 @@ from urllib.parse import urlparse, urlunparse
 from enum import Enum
 from models.DatasetApiUriLevel import DatasetApiUriLevel
 from models.ResourceApiUriLevel import ResourceApiUriLevel
+from config import cfg
 from util.ns_util import (
     SKOSXL,
     QUDT,
@@ -141,31 +142,16 @@ def remove_additional_type_skos_concept(resource_uri: str, rdf_graph: Graph):
 
 def is_skos_resource(resource_url: str, sparql_endpoint: str) -> bool:
     """Check with the triple store whether the resource exists."""
-    query = f"ASK {{ {{<{resource_url}> a skos:Concept}} UNION {{<{resource_url}> a skos:ConceptScheme}} }}"
-    resp = requests.get(sparql_endpoint, params={"query": query, "format": "json"})
-    resp.raise_for_status()
-    if resp.status_code == 200:
-        if resp.json().get("boolean"):
-            return True
-    return False
+    query_str = get_query_from_file(cfg.get("BENG_IS_SKOS_RESOURCE", ""))
+    query = query_str.replace("?resource_iri", f"<{resource_url}>")
+    return sparql_ask_query(sparql_endpoint, query)
 
 
 def is_nisv_cat_resource(resource_url: str, sparql_endpoint: str) -> bool:
     """Check with the triple store whether the resource exists."""
-    query = (
-        f"ASK {{ "
-        f" {{ <{resource_url}> a sdo:CreativeWork }}"
-        f" UNION {{ <{resource_url}> a sdo:CreativeWorkSeries }}"
-        f" UNION {{ <{resource_url}> a sdo:CreativeWorkSeason }}"
-        f" UNION {{ <{resource_url}> a sdo:Clip }}"
-        f" }}"
-    )
-    resp = requests.get(sparql_endpoint, params={"query": query, "format": "json"})
-    resp.raise_for_status()
-    if resp.status_code == 200:
-        if resp.json().get("boolean"):
-            return True
-    return False
+    query_str = get_query_from_file(cfg.get("BENG_IS_CAT_NISV_RESOURCE", ""))
+    query = query_str.replace("?resource_iri", f"<{resource_url}>")
+    return sparql_ask_query(sparql_endpoint, query)
 
 
 def get_resource_from_rdf_store(
@@ -199,7 +185,7 @@ def get_resource_from_rdf_store(
         results = json.loads(query_result)
 
         # Note we have to add the resource_url for the triples that miss the subject 's'
-        g += convert_results_to_graph(results, resource_url)
+        g += _convert_results_to_graph(results, resource_url)
 
         if len(g) == 0:
             logger.error("Graph was empty")
@@ -302,7 +288,19 @@ def sparql_construct_query(sparql_endpoint: str, query: str) -> Graph:
     return g
 
 
-def result_binding_to_triple(result_binding: dict) -> tuple:
+def sparql_ask_query(sparql_endpoint: str, query: str) -> bool:
+    """Sends a SPARQL ASK query to the SPARQL endpoint and returns True or False.
+    raises a ConnectionError when the sparql endpoint can not be reached, or
+    raises an HTTPError when the request was not successful."""
+    resp = requests.get(sparql_endpoint, params={"query": query, "format": "json"})
+    resp.raise_for_status()
+    if resp.status_code == 200:
+        if resp.json().get("boolean"):
+            return True
+    return False
+
+
+def _result_binding_to_triple(result_binding: dict) -> tuple:
     """Convert a SPARQL result binding to an RDF triple (s, p, o).
     :param result_binding: the SPARQL result binding as a dictionary.
     :returns: a tuple (s, p, o) representing the RDF triple.
@@ -343,7 +341,37 @@ def result_binding_to_triple(result_binding: dict) -> tuple:
     return (s, p, o)
 
 
-def convert_results_to_graph(results: dict, resource_url: str) -> Graph:
+def _result_binding_counts(results: dict) -> list[dict]:
+    """Convert a SPARQL result binding for counts to a dict.
+    :param result_binding: the SPARQL result binding as a dictionary.
+    :returns: a list of dicts with a property and a count value.
+    """
+    d_prop_count = []
+    for row in results.get("results", {}).get("bindings", []):
+        try:
+            s, p, o = _result_binding_to_triple(row)
+            d_prop_count.append({"property": p, "count": o})
+        except Exception as exc:
+            logger.error(str(exc))
+    return d_prop_count
+
+
+def _result_binding_inverse_relations(results: dict) -> list:
+    """Convert a SPARQL result binding for relations for a property to a dict.
+    :param results: SPARQL result binding as a dictionary.
+    :returns: a list of dicts with a property and a subject resource.
+    """
+    d_prop_rel = []
+    for row in results.get("results", {}).get("bindings", []):
+        try:
+            s, p, o = _result_binding_to_triple(row)
+            d_prop_rel.append({"property": p, "subject": s})
+        except Exception as exc:
+            logger.error(str(exc))
+    return d_prop_rel
+
+
+def _convert_results_to_graph(results: dict, resource_url: str) -> Graph:
     """Convert SPARQL SELECT query results to an RDF Graph.
     :param results: the SPARQL SELECT query results as a dictionary.
     :param resource_url: the main resource URL to use when subject 's' is missing.
@@ -352,7 +380,7 @@ def convert_results_to_graph(results: dict, resource_url: str) -> Graph:
     g = Graph()
     for row in results.get("results", {}).get("bindings", []):
         try:
-            s, p, o = result_binding_to_triple(row)
+            s, p, o = _result_binding_to_triple(row)
             if not s:
                 # Handle cases where 's' is missing in the row
                 g.add((URIRef(resource_url), p, o))
@@ -379,6 +407,31 @@ def get_album_art_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optiona
     except Exception as e:
         logger.exception(f"Error in get_album_art_from_rdf_graph: {str(e)}")
     return None
+
+
+# INVERSE RELATIONS FUNCTIONS
+def ask_for_inverse_relations(resource_url: str, sparql_endpoint: str) -> bool:
+    """Ask the endpoint whether or not there are inverse relations."""
+    query_str = get_query_from_file(cfg.get("INVERSE_RELATIONS_ASK", ""))
+    query = query_str.replace("?resource_iri", f"<{resource_url}>")
+    return sparql_ask_query(sparql_endpoint, query)
+
+
+def get_inverse_relation_counts(resource_url: str, sparql_endpoint: str) -> list:
+    """Gets the inverse relations count. Returns a list of dicts with properties and counts."""
+    query_str = get_query_from_file(cfg.get("INVERSE_RELATIONS_PROPERTIES_COUNT", ""))
+    query = query_str.replace("?resource_iri", f"<{resource_url}>")
+    query_result = sparql_select_query(sparql_endpoint, query, format="json")
+    return _result_binding_counts(json.loads(query_result))
+
+
+def get_inverse_relations_for_resource(resource_url: str, sparql_endpoint: str) -> list:
+    """Gets the inverse relations. Returns a list containing dicts with: property and
+    subject that refer to the resource."""
+    query_str = get_query_from_file(cfg.get("INVERSE_RELATIONS_QUERY", ""))
+    query = query_str.replace("?resource_iri", f"<{resource_url}>")
+    query_result = sparql_select_query(sparql_endpoint, query, format="json")
+    return _result_binding_inverse_relations(json.loads(query_result))
 
 
 # DEBUG FUNCTIONS
