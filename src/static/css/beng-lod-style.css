@@ -57,7 +57,9 @@ footer .row {
 	min-height: 150px;
 }
 
-/* TODO: replace below when testable */
+.list-group-item { 
+	background-color: #d4d4d4;
+}
 
 #inverses {
 	padding: 24px;
@@ -74,6 +76,8 @@ footer .row {
 	line-height: 20px;
 	/* font-size: 0.80rem; */
 }
+
+/* TODO: replace below when testable */
 
 #lodCloud {
 	padding: 24px 24px 16px 24px;

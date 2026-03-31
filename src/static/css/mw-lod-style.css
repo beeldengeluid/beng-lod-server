@@ -57,12 +57,14 @@ footer .row {
 	min-height: 50px;
 }
 
-/* TODO: replace below when testable */
+.list-group-item { 
+	background-color: #d4d4d4;
+}
 
 #inverses {
 	padding: 24px;
 	background: #d4d4d4;
-	color: #212121;
+	color: #1690c6;
 	line-height: 20px;
 	font-size: 14px;
 }
@@ -70,10 +72,12 @@ footer .row {
 #bnodes {
 	padding: 24px;
 	background: #eee;
-	color: #212121;
+	color: #1690c6;
 	line-height: 20px;
 	font-size: 14px;
 }
+
+/* TODO: replace below when testable */
 
 #lodCloud {
 	padding: 24px 24px 16px 24px;
