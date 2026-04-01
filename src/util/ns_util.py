@@ -1,3 +1,5 @@
+from rdflib import Graph
+
 # declare namespaces
 SCHEMA = "http://schema.org/"
 SDO = "https://schema.org/"
@@ -22,3 +24,33 @@ BENGTHES = "http://data.beeldengeluid.nl/schema/thes#"
 PID = "https://persistent-identifier.nl/"
 IED = "https://data.indischherinneringscentrum.nl/ied/"
 ALLMUSIC_ARTIST = "https://www.allmusic.com/artist/"
+WIKIDATA_PROP_DIRECT_NORMALIZED = "http://www.wikidata.org/prop/direct-normalized/"
+
+
+def bind_namespaces_to_graph(g: Graph) -> Graph:
+    """Binds namespaces to the graph."""
+    # add the missing namespaces
+    g.bind("skosxl", SKOSXL)
+    g.bind("gtaa", GTAA)
+    g.bind("sdo", SDO)
+    g.bind("bengthes", BENGTHES)
+    g.bind("wd", WIKIDATA)
+    g.bind("wikidata", WIKIDATA_WWW)
+    g.bind("wikidata-s", WIKIDATA_WWW_S)
+    g.bind("wikidata-pd", WIKIDATA_PROP_DIRECT_NORMALIZED)
+    g.bind("skos", SKOS)
+    g.bind("dcterms", DCTERMS)
+    g.bind("discogs", DISCOGS)
+    g.bind("discogs-artist", DISCOGS_ARTIST)
+    g.bind("discogs-release", DISCOGS_RELEASE)
+    g.bind("muziekweb", MUZIEKWEB)
+    g.bind("som", MUZIEKSCHATTEN)
+    g.bind("vocab", MUZIEKWEB_VOCAB)
+    g.bind("musicbrainz-artist", MUSICBRAINZ_ARTIST)
+    g.bind("musicbrainz-release", MUSICBRAINZ_RELEASE)
+    g.bind("qudt", QUDT)
+    g.bind("pid", PID)
+    g.bind("ied", IED)
+    g.bind("schema", SCHEMA)
+    g.bind("allmusic-artist", ALLMUSIC_ARTIST)
+    return g

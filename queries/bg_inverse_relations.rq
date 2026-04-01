@@ -1,8 +1,0 @@
-#+ summary: Get all triples for inverse relations for resource
-#+ endpoint: https://cat.apis.beeldengeluid.nl/sparql
-SELECT DISTINCT ?s ?p
-{
-  ?s ?p ?resource_iri . 
-  FILTER(!isBlank(?s))
-}
-LIMIT 100

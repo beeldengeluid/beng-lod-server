@@ -1,0 +1,20 @@
+#+ summary: Get all triples for inverse relations for resource
+#+ endpoint: https://cat.apis.beeldengeluid.nl/sparql
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <http://schema.org/>
+PREFIX sdo: <https://schema.org/>
+SELECT DISTINCT ?s ?p ?o
+{
+  {
+    ?s ?p ?resource_iri . 
+    FILTER(!isBlank(?s))
+  }
+  UNION
+  {
+    # get the labels for the subjects
+    ?s ?p1 ?resource_iri . FILTER(isiri(?s)) ?s ?p ?o . 
+    FILTER(?p in (skos:prefLabel,rdfs:label,schema:name,sdo:name))
+  }
+}
+LIMIT 1000

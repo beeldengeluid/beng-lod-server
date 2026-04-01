@@ -11,28 +11,7 @@ from enum import Enum
 from models.DatasetApiUriLevel import DatasetApiUriLevel
 from models.ResourceApiUriLevel import ResourceApiUriLevel
 from config import cfg
-from util.ns_util import (
-    SKOSXL,
-    QUDT,
-    GTAA,
-    BENGTHES,
-    WIKIDATA,
-    WIKIDATA_WWW,
-    WIKIDATA_WWW_S,
-    DCTERMS,
-    DISCOGS,
-    DISCOGS_ARTIST,
-    DISCOGS_RELEASE,
-    MUZIEKWEB,
-    MUZIEKWEB_VOCAB,
-    MUZIEKSCHATTEN,
-    MUSICBRAINZ_ARTIST,
-    MUSICBRAINZ_RELEASE,
-    PID,
-    SCHEMA,
-    IED,
-    ALLMUSIC_ARTIST,
-)
+import util.ns_util
 
 logger = logging.getLogger()
 
@@ -199,31 +178,50 @@ def get_resource_from_rdf_store(
             # remove sdo:additionalType triple (for skos:Concepts)
             remove_additional_type_skos_concept(resource_url, g)
 
-        # add the missing namespaces
-        g.bind("skosxl", SKOSXL)
-        g.bind("gtaa", GTAA)
-        g.bind("sdo", SDO)
-        g.bind("bengthes", BENGTHES)
-        g.bind("wd", WIKIDATA)
-        g.bind("wikidata", WIKIDATA_WWW)
-        g.bind("wikidata-s", WIKIDATA_WWW_S)
-        g.bind("skos", SKOS)
-        g.bind("dcterms", DCTERMS)
-        g.bind("discogs", DISCOGS)
-        g.bind("discogs-artist", DISCOGS_ARTIST)
-        g.bind("discogs-release", DISCOGS_RELEASE)
-        g.bind("muziekweb", MUZIEKWEB)
-        g.bind("som", MUZIEKSCHATTEN)
-        g.bind("vocab", MUZIEKWEB_VOCAB)
-        g.bind("musicbrainz-artist", MUSICBRAINZ_ARTIST)
-        g.bind("musicbrainz-release", MUSICBRAINZ_RELEASE)
-        g.bind("qudt", QUDT)
-        g.bind("pid", PID)
-        g.bind("ied", IED)
-        g.bind("schema", SCHEMA)
-        g.bind("allmusic-artist", ALLMUSIC_ARTIST)
+        # add the missing namespaces and return the graph
+        return util.ns_util.bind_namespaces_to_graph(g)
 
+    except ConnectionError as e:
+        logger.exception(e)
+    except HTTPError as e:
+        logger.exception(e)
+    return g
+
+
+def get_inverse_relations_from_rdf_store(
+    resource_url: str, sparql_endpoint: str
+) -> Graph:
+    """Given a resource URI, inverse relations ?s ?p <resource_url> are retrieved.
+    Given the query, the graph includes labels.
+    :param resource_url: the resource URI as object of a relation.
+    :param sparql_endpoint: the SPARQL endpoint URL.
+    :returns: RDF data as a Graph.
+    """
+    g = Graph(bind_namespaces="core")
+    if not resource_url:
         return g
+    if not sparql_endpoint or validators.url(sparql_endpoint) is False:
+        return g
+
+    try:
+        query_str = get_query_from_file(cfg.get("INVERSE_RELATIONS_QUERY", ""))
+        query = query_str.replace("?resource_iri", f"<{resource_url}>")
+        query_result = sparql_select_query(sparql_endpoint, query, format="json")
+        results = json.loads(query_result)
+
+        # Note we have to add the resource_url for the triples that miss the object 'o'
+        g += _convert_inverse_relations_results_to_graph(results, resource_url)
+
+        if len(g) == 0:
+            logger.error("Graph was empty")
+        else:
+            logger.debug(
+                f"Graph contains {len(g)} triples for inverse relations of {resource_url}"
+            )
+
+        # add the missing namespaces and return the graph
+        return util.ns_util.bind_namespaces_to_graph(g)
+
     except ConnectionError as e:
         logger.exception(e)
     except HTTPError as e:
@@ -341,36 +339,6 @@ def _result_binding_to_triple(result_binding: dict) -> tuple:
     return (s, p, o)
 
 
-def _result_binding_counts(results: dict) -> list[dict]:
-    """Convert a SPARQL result binding for counts to a dict.
-    :param result_binding: the SPARQL result binding as a dictionary.
-    :returns: a list of dicts with a property and a count value.
-    """
-    d_prop_count = []
-    for row in results.get("results", {}).get("bindings", []):
-        try:
-            s, p, o = _result_binding_to_triple(row)
-            d_prop_count.append({"property": p, "count": o})
-        except Exception as exc:
-            logger.error(str(exc))
-    return d_prop_count
-
-
-def _result_binding_inverse_relations(results: dict) -> list:
-    """Convert a SPARQL result binding for relations for a property to a dict.
-    :param results: SPARQL result binding as a dictionary.
-    :returns: a list of dicts with a property and a subject resource.
-    """
-    d_prop_rel = []
-    for row in results.get("results", {}).get("bindings", []):
-        try:
-            s, p, o = _result_binding_to_triple(row)
-            d_prop_rel.append({"property": p, "subject": s})
-        except Exception as exc:
-            logger.error(str(exc))
-    return d_prop_rel
-
-
 def _convert_results_to_graph(results: dict, resource_url: str) -> Graph:
     """Convert SPARQL SELECT query results to an RDF Graph.
     :param results: the SPARQL SELECT query results as a dictionary.
@@ -384,6 +352,28 @@ def _convert_results_to_graph(results: dict, resource_url: str) -> Graph:
             if not s:
                 # Handle cases where 's' is missing in the row
                 g.add((URIRef(resource_url), p, o))
+            else:
+                g.add((s, p, o))
+        except Exception as exc:
+            logger.error(str(exc))
+    return g
+
+
+def _convert_inverse_relations_results_to_graph(
+    results: dict, resource_url: str
+) -> Graph:
+    """Convert SPARQL SELECT query results to an RDF Graph.
+    :param results: the SPARQL SELECT query results as a dictionary.
+    :param resource_url: the resource URL to use when object 'o' is missing.
+    :returns: an RDF Graph containing the triples.
+    """
+    g = Graph()
+    for row in results.get("results", {}).get("bindings", []):
+        try:
+            s, p, o = _result_binding_to_triple(row)
+            if not o:
+                # Handle cases where 'o' is missing in the row
+                g.add((s, p, URIRef(resource_url)))
             else:
                 g.add((s, p, o))
         except Exception as exc:
@@ -409,29 +399,11 @@ def get_album_art_from_rdf_graph(rdf_graph: Graph, resource_url: str) -> Optiona
     return None
 
 
-# INVERSE RELATIONS FUNCTIONS
 def ask_for_inverse_relations(resource_url: str, sparql_endpoint: str) -> bool:
     """Ask the endpoint whether or not there are inverse relations."""
     query_str = get_query_from_file(cfg.get("INVERSE_RELATIONS_ASK", ""))
     query = query_str.replace("?resource_iri", f"<{resource_url}>")
     return sparql_ask_query(sparql_endpoint, query)
-
-
-def get_inverse_relation_counts(resource_url: str, sparql_endpoint: str) -> list:
-    """Gets the inverse relations count. Returns a list of dicts with properties and counts."""
-    query_str = get_query_from_file(cfg.get("INVERSE_RELATIONS_PROPERTIES_COUNT", ""))
-    query = query_str.replace("?resource_iri", f"<{resource_url}>")
-    query_result = sparql_select_query(sparql_endpoint, query, format="json")
-    return _result_binding_counts(json.loads(query_result))
-
-
-def get_inverse_relations_for_resource(resource_url: str, sparql_endpoint: str) -> list:
-    """Gets the inverse relations. Returns a list containing dicts with: property and
-    subject that refer to the resource."""
-    query_str = get_query_from_file(cfg.get("INVERSE_RELATIONS_QUERY", ""))
-    query = query_str.replace("?resource_iri", f"<{resource_url}>")
-    query_result = sparql_select_query(sparql_endpoint, query, format="json")
-    return _result_binding_inverse_relations(json.loads(query_result))
 
 
 # DEBUG FUNCTIONS

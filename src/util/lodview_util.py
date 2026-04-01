@@ -1,5 +1,7 @@
+import itertools
 import logging
 import json
+from collections import Counter
 from flask import render_template, Response
 from rdflib import Graph, URIRef, Literal, BNode
 from rdflib.namespace import RDF, RDFS, SDO, SKOS, DCTERMS, OWL  # type: ignore
@@ -36,7 +38,7 @@ def json_parts_from_IRI(rdf_graph: Graph, iri: str) -> dict:
         prefix, namespace, name = rdf_graph.compute_qname(str(iri))
         return {
             "uri": iri,
-            "prefix": prefix,
+            "prefix": prefix if not prefix.startswith("ns") else "",
             "namespace": str(namespace),
             "property": name,
         }
@@ -52,6 +54,7 @@ def json_label_for_node(
     my_literal_list = (
         [Literal(label) for label in rdf_graph.objects(node, SKOS.prefLabel)]
         + [Literal(name) for name in rdf_graph.objects(node, SDO.name)]
+        + [Literal(name) for name in rdf_graph.objects(node, SDO.alternativeHeadline)]
         + [Literal(title) for title in rdf_graph.objects(node, DCTERMS.title)]
         + [Literal(label) for label in rdf_graph.objects(node, RDFS.label)]
         + [
@@ -277,25 +280,40 @@ def json_iri_bnode_from_rdf_graph(
 def json_inverse_relations_for_resource(
     resource_url: str, sparql_endpoint: str
 ) -> list:
-    """Create a JSON structure that is used in the lod view inverse relations."""
+    """Query the sparql endpoint for inverse relations and create a JSON structure
+    that is used in the lod view inverse relations."""
     if util.ld_util.ask_for_inverse_relations(resource_url, sparql_endpoint):
-        ld_prop_counts = util.ld_util.get_inverse_relation_counts(
+        g = util.ld_util.get_inverse_relations_from_rdf_store(
             resource_url, sparql_endpoint
         )
-        ld_prop_rels = util.ld_util.get_inverse_relations_for_resource(
-            resource_url, sparql_endpoint
-        )
+
+        # Count occurrences of each predicate (property) for a given resource URI.
+        property_counts = Counter(p for p in g.predicates(None, URIRef(resource_url)))
+        for prop, count in property_counts.items():
+            logger.debug(f"{prop}: {count}")
+
         return [
             {
-                "property": d.get("property", ""),
-                "count": d.get("count", 0),
+                "p": json_parts_from_IRI(g, str(property)),
+                "count": count,
                 "resources": [
-                    str(item["subject"])
-                    for item in ld_prop_rels
-                    if d.get("property", "") == item["property"]
+                    {
+                        "s": json_parts_from_IRI(g, str(s))
+                        | {
+                            "labels": json_label_for_node(
+                                g,
+                                s,
+                                lang=cfg.get("UI_LANGUAGE_PREFERENCE", "nl"),
+                            )
+                        }
+                    }
+                    for s in itertools.islice(
+                        g.subjects(property, URIRef(resource_url), unique=True), 0, 100
+                    )
+                    if isinstance(s, URIRef)
                 ],
             }
-            for d in ld_prop_counts
+            for property, count in property_counts.items()
         ]
     return []
 

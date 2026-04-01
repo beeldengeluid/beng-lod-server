@@ -1,21 +1,21 @@
 {% for item in json_inverse_relations %}
 	<div class="row">
-        <div class="col-4 py-2 text-truncate">
-            <span>is <a title="&lt;{{item.property}}&gt;" href="{{item.property}}" target="_blank">&lt;{{item.property}}&gt;</a> of</span>
-        </div>
-		<div class="col-8 py-2 border-bottom text-truncate">
+        <div class="col-3 py-2 text-truncate">is <a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">&lt;{{item.p.prefix}}:<span class="fw-bold">{{item.p.property}}</span>&gt;</a>  of</div>
+		<div class="col-9 py-2 border-bottom text-truncate">
             <details>
                 <summary>
                     {% if item.count == 1 %}
                     <span>{{ item.count }} resource</span>
+                    {% elif item.count > 100 %}
+                    <span>100 of {{ item.count }} resources</span>
                     {% else %}
                     <span>{{ item.count }} resources</span>
                     {% endif %}
                 </summary>
                 <p>
                     <ul class="list-group" >
-                    {% for s in item.resources %}
-                        <li class="list-group-item"><a title="&lt;{{s}}&gt;" href="{{s}}" target="_blank">&lt;{{s}}&gt;</a></li>
+                    {% for subject in item.resources %}
+                        <li class="list-group-item">{% include 'lod_view_inverse_relations_subject.html' %}</li>
                     {% endfor %}
                     </ul>
                 </p>
