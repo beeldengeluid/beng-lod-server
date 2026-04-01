@@ -31,7 +31,6 @@ INVERSE_RELATIONS_QUERY: "queries/inverse_relations.rq"
 MUZIEKWEB_DATA_DOMAIN: "https://data.muziekweb.nl/"
 MUZIEKWEB_SPARQL_ENDPOINT: "https://api.data.muziekweb.nl/datasets/MuziekwebOrganization/Muziekweb/services/Muziekweb/sparql"
 MUZIEKWEB_ORGANISATION_URI: "https://www.muziekweb.nl/"
-
 MUZIEKWEB_LOD_RESOURCE_QUERY: "queries/mw_lod_resource_all_triples_and_bnodes.rq"
 MUZIEKWEB_HTML_TEMPLATE: "mw_resource.html"
 

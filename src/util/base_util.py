@@ -70,6 +70,49 @@ def validate_config(config, validate_file_paths=True):
             config, "HEALTH_TIMEOUT_SEC", float
         ), "HEALTH_TIMEOUT_SEC"
 
+        if "link" in config["ENABLED_ENDPOINTS"]:
+            # MUZIEKWEB IS ACTIVATED
+            assert __check_setting(
+                config, "MUZIEKWEB_DATA_DOMAIN", str
+            ), "MUZIEKWEB_DATA_DOMAIN"
+            assert validators.url(
+                config["MUZIEKWEB_DATA_DOMAIN"]
+            ), "MUZIEKWEB_DATA_DOMAIN invalid URL"
+
+            assert __check_setting(
+                config, "MUZIEKWEB_SPARQL_ENDPOINT", str
+            ), "MUZIEKWEB_SPARQL_ENDPOINT"
+            assert validators.url(
+                config["MUZIEKWEB_SPARQL_ENDPOINT"]
+            ), "MUZIEKWEB_SPARQL_ENDPOINT invalid URL"
+
+            assert __check_setting(
+                config, "MUZIEKWEB_ORGANISATION_URI", str
+            ), "MUZIEKWEB_ORGANISATION_URI"
+            assert validators.url(
+                config["MUZIEKWEB_ORGANISATION_URI"]
+            ), "MUZIEKWEB_ORGANISATION_URI invalid URL"
+
+            assert __check_setting(
+                config, "MUZIEKWEB_ORGANISATION_URI", str
+            ), "MUZIEKWEB_ORGANISATION_URI"
+            assert validators.url(
+                config["MUZIEKWEB_ORGANISATION_URI"]
+            ), "MUZIEKWEB_ORGANISATION_URI invalid URL"
+
+            assert __check_setting(
+                config, "MUZIEKWEB_LOD_RESOURCE_QUERY", str
+            ), "MUZIEKWEB_LOD_RESOURCE_QUERY"
+            file_paths_to_check.append(
+                relative_from_repo_root(config["MUZIEKWEB_LOD_RESOURCE_QUERY"])
+            )
+            assert __check_setting(
+                config, "MUZIEKWEB_HTML_TEMPLATE", str
+            ), "MUZIEKWEB_HTML_TEMPLATE"
+            file_paths_to_check.append(
+                "src/templates/" + config.get("MUZIEKWEB_HTML_TEMPLATE", "")
+            )
+
         if validate_file_paths:
             assert __validate_file_paths(
                 file_paths_to_check

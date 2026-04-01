@@ -32,12 +32,14 @@ CORS(app)
 app.url_map.strict_slashes = False
 
 
-@app.route("/muziekweb/sparql")
-def muziekweb_yasgui():
-    return render_template(
-        "mw_sparql.html",
-        sparql_endpoint=app.config.get("MUZIEKWEB_SPARQL_ENDPOINT"),
-    )
+if "link" in cfg["ENABLED_ENDPOINTS"]:
+    # application is configured for serving muziekweb
+    @app.route("/muziekweb/sparql")
+    def muziekweb_yasgui():
+        return render_template(
+            "mw_sparql.html",
+            sparql_endpoint=app.config.get("MUZIEKWEB_SPARQL_ENDPOINT"),
+        )
 
 
 api.init_app(
