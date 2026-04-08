@@ -289,8 +289,9 @@ def json_inverse_relations_for_resource(
 
         # Count occurrences of each predicate (property) for a given resource URI.
         property_counts = Counter(p for p in g.predicates(None, URIRef(resource_url)))
-        for prop, count in property_counts.items():
-            logger.debug(f"{prop}: {count}")
+        if logger.getEffectiveLevel() == logging.DEBUG:
+            for prop, count in property_counts.items():
+                logger.debug(f"{prop}: {count}")
 
         return [
             {
