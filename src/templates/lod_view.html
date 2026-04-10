@@ -7,13 +7,17 @@
 	{% endblock %}
 </div>
 <div id="bnodes" class="container-fluid">
+	{% if (json_iri_bnode|first) is defined %}
 	<h3>Blank nodes</h3>
+	{% endif %}
 	{% block json_iri_bnode %}
 	{% include "lod_view_iri_bnode.html" %}
 	{% endblock %}
 </div>
 <div id="inverses" class="container-fluid">
+	{% if (json_inverse_relations|first) is defined %}
 	<h3>Inverse relations</h3>
+	{% endif %}
 	{% block json_inverse_relations %}
 	{% include "lod_view_inverse_relations.html" %}
 	{% endblock %}
