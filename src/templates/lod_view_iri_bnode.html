@@ -1,4 +1,4 @@
-	{% for item in json_iri_bnode %}
+	{% for item in json_iri_bnode | sort(attribute='p.uri') %}
 	<div class="row">
 		{% if loop.previtem and loop.previtem.p.uri == item.p.uri %}
 			<div class="col-3 py-2 text-truncate"></div>

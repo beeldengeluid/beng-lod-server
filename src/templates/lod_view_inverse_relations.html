@@ -14,7 +14,7 @@
                 </summary>
                 <p>
                     <ul class="list-group" >
-                    {% for subject in item.resources %}
+                    {% for subject in item.resources | sort(attribute='s.labels') %}
                         <li class="list-group-item">{% include 'lod_view_inverse_relations_subject.html' %}</li>
                     {% endfor %}
                     </ul>
