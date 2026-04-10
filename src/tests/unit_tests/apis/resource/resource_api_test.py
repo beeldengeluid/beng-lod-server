@@ -95,8 +95,10 @@ def test_get_200(
             title_node = i_program_graph_2.value(
                 subject=resource_iri_node, predicate=SDO.name
             )
-            title = str(title_node)
-            assert f"<h1>{title}</h1>" in html_content  # title should be in h1 tag
+            lang_title = util.lodview_util.get_string_for_langstring(
+                title_node, config.get("UI_LANGUAGE_PREFERENCE", "nl")
+            )
+            assert f"<h1>{lang_title}</h1>" in html_content  # title should be in h1 tag
             resource_id_in_header = f"""<a class="link-light" title="&lt;{resource_iri}&gt;" href="{resource_iri}" target="_blank">&lt;{resource_iri}&gt;</a>"""
             assert (
                 resource_id_in_header in html_content
