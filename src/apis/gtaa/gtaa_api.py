@@ -37,7 +37,7 @@ class GTAAAPI(Resource):
     """Serve the RDF for the GTAA SKOS Concepts in the format that was requested."""
 
     @api.produces([mt.value for mt in MimeType])
-    def get(self, identifier):
+    def get(self, identifier: str):
         # check if identifier is proper digit string, return 400 if not.
         if not identifier.isalnum():
             return APIUtil.toErrorResponse(

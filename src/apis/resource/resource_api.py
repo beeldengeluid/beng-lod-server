@@ -33,7 +33,7 @@ class ResourceAPI(Resource):
     """Serve the RDF for the media catalog resources in the format that was requested."""
 
     @api.produces([mt.value for mt in MimeType])
-    def get(self, identifier, cat_type="program"):
+    def get(self, identifier: str, cat_type="program"):
         # determine and set the mimetype
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(

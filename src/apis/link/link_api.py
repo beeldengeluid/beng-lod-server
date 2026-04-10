@@ -25,7 +25,7 @@ api = Namespace("Link", description="Endpoint for the Muziekweb resources.")
 @api.doc(params={"identifier": "Muziekweb ID"})
 class LinkAPI(Resource):
     @api.produces([mt.value for mt in MimeType])
-    def get(self, identifier):
+    def get(self, identifier: str):
         # determine and set the mimetype
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(
