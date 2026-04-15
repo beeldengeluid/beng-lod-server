@@ -384,7 +384,7 @@ def get_lod_view_resource(
 def get_serialised_graph(rdf_graph: Graph, mime_type: MimeType = MimeType.JSON_LD):
     """Generate a response, either the serialized graph or an error response."""
     serialised_graph = rdf_graph.serialize(
-        format=mime_type.to_ld_format(), auto_compact=True
+        format=mime_type.to_ld_format()  # , auto_compact=True
     )
     if serialised_graph:
         return Response(serialised_graph, mimetype=mime_type.value, status=200)
