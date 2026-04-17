@@ -1,6 +1,7 @@
 #+ summary: Get all triples for LOD resource, incl. blank node triples.
 #+ endpoint: https://api.data.muziekweb.nl/datasets/MuziekwebOrganization/Muziekweb/services/Muziekweb/sparql
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX schema: <http://schema.org/>
@@ -15,11 +16,11 @@ select distinct ?s ?p ?o WHERE {
       UNION 
       { # labels for related resources
         ?resource_iri ?p1 ?s . FILTER(isiri(?s)) ?s ?p ?o . 
-        #FILTER(?p in (skos:prefLabel,rdfs:label,schema:name,sdo:name,rdf:type,sdo:additionalType))
+        FILTER(?p in (skos:prefLabel,rdfs:label,schema:name,sdo:name,rdf:type,sdo:additionalType,skosxl:literalForm))
       }
       UNION
       { # triples for blank nodes (considered part of the resource)
-        ?resource_iri ?p1 ?s . FILTER(isblank(?s)) ?s ?p ?o . 
+        ?resource_iri ?p1 ?s . FILTER(isblank(?s)) ?s ?p ?o .
       }
       UNION
       { # triples for blank nodes within nodes
@@ -28,7 +29,7 @@ select distinct ?s ?p ?o WHERE {
       UNION
       { # triples for entities within blank nodes (in role)
         ?resource_iri ?p1 ?s1 . FILTER(isblank(?s1)) ?s1 ?p2 ?s . FILTER(isiri(?s)) ?s ?p ?o .
-        #FILTER(?p in (skos:prefLabel,rdfs:label,schema:name,sdo:name,rdf:type,sdo:additionalType))
+        FILTER(?p in (skos:prefLabel,rdfs:label,schema:name,sdo:name,rdf:type,sdo:additionalType))
       }
       UNION
       { # Only applicable for sdo:Clip. Adds the sdo:isPartOf relation, making it possible
