@@ -6,12 +6,14 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX schema: <http://schema.org/>
 PREFIX sdo: <https://schema.org/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
 
 select distinct ?s ?p ?o WHERE {
     # Select all properties values and labels for properties, incl. blank nodes
     {
       { # triples for the resource
         ?resource_iri ?p ?o
+        FILTER(?p != dcterms:dateAvailable)
       }
       UNION 
       { # labels for related resources
