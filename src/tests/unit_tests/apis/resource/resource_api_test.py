@@ -343,9 +343,7 @@ def test_get_500(mime_type, cause, flask_test_client, resource_query_url):
                 config.get("BENG_LOD_RESOURCE_QUERY", ""),
                 config.get("URI_NISV_ORGANISATION"),
             ).thenReturn(None)
-            when(DUMMY_GRAPH).serialize(
-                format=mime_type.to_ld_format()
-            ).thenReturn(
+            when(DUMMY_GRAPH).serialize(format=mime_type.to_ld_format()).thenReturn(
                 None
             )  # shouldn't be called, but we want to check this
         elif mime_type is MimeType.JSON_LD and cause == "no_serialized_graph":
@@ -357,9 +355,9 @@ def test_get_500(mime_type, cause, flask_test_client, resource_query_url):
             ).thenReturn(
                 DUMMY_GRAPH
             )  # note dummy graph is not empty
-            when(DUMMY_GRAPH).serialize(
-                format=mime_type.to_ld_format()
-            ).thenReturn(None)
+            when(DUMMY_GRAPH).serialize(format=mime_type.to_ld_format()).thenReturn(
+                None
+            )
 
         response = flask_test_client.get(
             resource_query_url(CAT_TYPE, DUMMY_IDENTIFIER),
