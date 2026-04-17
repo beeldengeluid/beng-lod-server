@@ -1,10 +1,4 @@
 	{% for item in json_iri_iri | sort(attribute='o.labels') | sort(attribute='p.uri') %}
-		{% if json_iri_iri | selectattr("p.uri", "equalto", item.p.uri) | list | count > 5 %}
-			{% if loop.index == 1 %}
-			<!-- # add div for short list -->
-			<div id="short-list-{{item.p.property}}" class="short-list">
-			{% endif %}	
-		{% endif %}
 		<div class="row">
 			{% if loop.previtem and loop.previtem.p.uri == item.p.uri %}
 				<div class="col-3 py-2"></div>
@@ -29,8 +23,6 @@
 		</div>
 		{% if json_iri_iri | selectattr("p.uri", "equalto", item.p.uri) | list | count > 5 %}
 			{% if (json_iri_iri| sort(attribute='o.labels') | sort(attribute='p.uri'))[:loop.index] | selectattr("p.uri", "equalto", item.p.uri) | list | count == 5 %}
-				<!-- end short list -->
-				</div>
 				<!-- and add the rest list div -->
 				<div class="collapse" id="rest-list-{{item.p.property}}">
 			{% elif (json_iri_iri| sort(attribute='o.labels') | sort(attribute='p.uri'))[:loop.index] | selectattr("p.uri", "equalto", item.p.uri) | list | count == json_iri_iri | selectattr("p.uri", "equalto", item.p.uri) | list | count %}
