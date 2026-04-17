@@ -61,8 +61,15 @@ footer .row {
 	background-color: #d4d4d4;
 }
 
+#directs {
+	padding: 16px;
+	background: #ffffff;
+	color:#0f238c;
+	line-height: 20px;
+	font-size: 14px;
+}
 #inverses {
-	padding: 24px;
+	padding: 16px;
 	background: #d4d4d4;
 	color:#0f238c;
 	line-height: 20px;
@@ -70,7 +77,7 @@ footer .row {
 }
 
 #bnodes {
-	padding: 24px;
+	padding: 16px;
 	background: #eee;
 	color: #0f238c;
 	line-height: 20px;
