@@ -344,7 +344,7 @@ def test_get_500(mime_type, cause, flask_test_client, resource_query_url):
                 config.get("URI_NISV_ORGANISATION"),
             ).thenReturn(None)
             when(DUMMY_GRAPH).serialize(
-                format=mime_type.to_ld_format(), auto_compact=True
+                format=mime_type.to_ld_format()
             ).thenReturn(
                 None
             )  # shouldn't be called, but we want to check this
@@ -358,7 +358,7 @@ def test_get_500(mime_type, cause, flask_test_client, resource_query_url):
                 DUMMY_GRAPH
             )  # note dummy graph is not empty
             when(DUMMY_GRAPH).serialize(
-                format=mime_type.to_ld_format(), auto_compact=True
+                format=mime_type.to_ld_format()
             ).thenReturn(None)
 
         response = flask_test_client.get(
@@ -379,7 +379,7 @@ def test_get_500(mime_type, cause, flask_test_client, resource_query_url):
             config.get("URI_NISV_ORGANISATION"),
         )
         verify(DUMMY_GRAPH, times=0 if cause == "not_rdf_graph" else 1).serialize(
-            format=mime_type.to_ld_format(), auto_compact=True
+            format=mime_type.to_ld_format()
         )
         if cause == "not_rdf_graph":
             assert "No graph created" in str(response.text)
