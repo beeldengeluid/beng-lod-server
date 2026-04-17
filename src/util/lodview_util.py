@@ -48,10 +48,6 @@ def json_label_for_node(
     """
     my_literal_list = (
         [Literal(label) for label in rdf_graph.objects(node, SKOS.prefLabel)]
-        + [
-            Literal(label)
-            for label in rdf_graph.objects(node, URIRef(f"{SKOSXL}literalForm"))
-        ]
         + [Literal(name) for name in rdf_graph.objects(node, SDO.name)]
         + [Literal(name) for name in rdf_graph.objects(node, SDO.alternativeHeadline)]
         + [Literal(title) for title in rdf_graph.objects(node, DCTERMS.title)]
