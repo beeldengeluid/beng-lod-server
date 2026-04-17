@@ -15,16 +15,11 @@ from config import cfg
 logger = logging.getLogger()
 
 
-def json_ld_structured_data_for_resource(rdf_graph: Graph, resource_url: str) -> str:
+def json_ld_structured_data_for_resource(rdf_graph: Graph) -> str:
     """Returns a serialized graph in JSON_LD format with triples for the resource.
     :param rdf_graph: Graph object containing the triples.
-    :param resource_url: the main resource for which the structured data is returned.
     """
-    return rdf_graph.serialize(
-        format="json-ld",
-        context=dict(rdf_graph.namespaces()),
-        auto_compact=True,
-    )
+    return rdf_graph.serialize(format="json-ld")
 
 
 # ========= JSON generator functions for lod-view ==========
@@ -366,9 +361,7 @@ def get_lod_view_resource(
         return render_template(
             html_template,
             resource_uri=resource_url,
-            structured_data=json_ld_structured_data_for_resource(
-                rdf_graph, resource_url
-            ),
+            structured_data=json_ld_structured_data_for_resource(rdf_graph),
             json_header=json_header_from_rdf_graph(rdf_graph, resource_url),
             json_iri_iri=json_iri_iri_from_rdf_graph(rdf_graph, resource_url),
             json_iri_lit=json_iri_lit_from_rdf_graph(rdf_graph, resource_url),
