@@ -18,6 +18,7 @@ COPY --from=req ./requirements.txt requirements.txt
 COPY ./config config
 COPY ./src src
 COPY ./resource resource
+COPY ./queries queries
 
 RUN pip install --no-cache-dir -r requirements.txt
 
