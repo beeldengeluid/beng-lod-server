@@ -1,0 +1,7 @@
+                {% if item.o.labels|length %}
+                    <a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.labels|first}}</a>
+                {% elif item.o.prefix and item.o.property %}
+                    <a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.prefix}}:<span class="fw-bold">{{item.o.property}}</span></a>
+                {% else %}
+                    <a title="&lt;{{item.o.uri}}&gt;" href="{{item.o.uri}}" target="_blank">{{item.o.uri}}</a>
+                {% endif %}

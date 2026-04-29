@@ -1,0 +1,19 @@
+<footer class="py-2 text-white">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-6">
+				<nav class="navbar navbar-dark bg-transparent">
+					<span class="navbar-brand">
+						<img src="{{url_for('static', filename='images/mw_logo_header_white.png')}}" alt="Muziekweb.nl logo" width="240" height="30" class="d-inline-block align-text-top">
+						<strong>sparql</strong>
+					</span>
+				</nav>
+			</div>
+			<div class="col-6 text-end">
+				<div class="py-2">
+					<a class="text-white" title="{{ sparql_endpoint }}" href="{{ sparql_endpoint }}" target="_blank">{{ sparql_endpoint }}</a><br>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>

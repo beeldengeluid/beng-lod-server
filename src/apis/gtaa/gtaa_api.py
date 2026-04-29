@@ -11,7 +11,7 @@ logger = logging.getLogger()
 
 api = Namespace(
     "gtaa",
-    description="Thesaurus resources coming from the GTAA in RDF for Netherlands Institute for Sound and Vision.",
+    description="GTAA thesaurus terms as SKOS Concepts.",
 )
 
 
@@ -37,7 +37,13 @@ class GTAAAPI(Resource):
     """Serve the RDF for the GTAA SKOS Concepts in the format that was requested."""
 
     @api.produces([mt.value for mt in MimeType])
-    def get(self, identifier):
+    def get(self, identifier: str):
+        # check if identifier is proper digit string, return 400 if not.
+        if not identifier.isalnum():
+            return APIUtil.toErrorResponse(
+                "bad_request", "Invalid GTAA identifier supplied."
+            )
+
         gtaa_uri = f'{current_app.config.get("BENG_DATA_DOMAIN")}gtaa/{identifier}'
 
         # Do ASK request to triple store. Return 404 if resource doesn't exist.
@@ -54,9 +60,10 @@ class GTAAAPI(Resource):
         if best_match is not None:
             mime_type = MimeType(best_match)
 
-        rdf_graph = util.ld_util.get_lod_resource_from_rdf_store(
+        rdf_graph = util.ld_util.get_resource_from_rdf_store(
             gtaa_uri,
             current_app.config.get("SPARQL_ENDPOINT", ""),
+            current_app.config.get("BENG_LOD_RESOURCE_QUERY", ""),
             current_app.config.get("URI_NISV_ORGANISATION", ""),
         )
         if not rdf_graph:

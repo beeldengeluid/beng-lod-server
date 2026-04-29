@@ -1,0 +1,7 @@
+		 <div id="yasgui"></div>
+		<script>
+			const yasgui = new Yasgui(document.getElementById("yasgui"), {
+			requestConfig: { endpoint: "{{ sparql_endpoint }}" },
+			copyEndpointOnNewTab: true,
+			});
+		</script>

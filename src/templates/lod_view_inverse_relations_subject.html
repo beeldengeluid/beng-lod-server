@@ -1,0 +1,7 @@
+                {% if subject.s.labels|length %}
+                    <a title="&lt;{{subject.s.uri}}&gt;" href="{{subject.s.uri}}" target="_blank">{{subject.s.labels|first}}</a>
+                {% elif subject.s.prefix and subject.s.property %}
+                    <a title="&lt;{{subject.s.uri}}&gt;" href="{{subject.s.uri}}" target="_blank">{{subject.s.prefix}}:<span class="fw-bold">{{subject.s.property}}</span></a>
+                {% else %}
+                    <a title="&lt;{{subject.s.uri}}&gt;" href="{{subject.s.uri}}" target="_blank">{{subject.s.uri}}</a>
+                {% endif %}

@@ -47,9 +47,10 @@ def test_get_200(
         when(util.ld_util).is_nisv_cat_resource(
             URL, config.get("SPARQL_ENDPOINT", "")
         ).thenReturn(True)
-        when(util.ld_util).get_lod_resource_from_rdf_store(
+        when(util.ld_util).get_resource_from_rdf_store(
             URL,
             config.get("SPARQL_ENDPOINT", ""),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION", ""),
         ).thenReturn(
             i_program_graph_2
@@ -62,9 +63,18 @@ def test_get_200(
         )
         assert resp.status_code == 200
 
-        verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
+        verify(util.ld_util, times=1).generate_lod_resource_uri(
+            ResourceApiUriLevel(CAT_TYPE),
+            IDENTIFIER,
+            config.get("BENG_DATA_DOMAIN", ""),
+        )
+        verify(util.ld_util, times=1).is_nisv_cat_resource(
+            URL, config.get("SPARQL_ENDPOINT", "")
+        )
+        verify(util.ld_util, times=1).get_resource_from_rdf_store(
             URL,
             config.get("SPARQL_ENDPOINT", ""),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION", ""),
         )
 
@@ -85,8 +95,10 @@ def test_get_200(
             title_node = i_program_graph_2.value(
                 subject=resource_iri_node, predicate=SDO.name
             )
-            title = str(title_node)
-            assert f"<h1>{title}</h1>" in html_content  # title should be in h1 tag
+            lang_title = util.lodview_util.get_string_for_langstring(
+                title_node, config.get("UI_LANGUAGE_PREFERENCE", "nl")
+            )
+            assert f"<h1>{lang_title}</h1>" in html_content  # title should be in h1 tag
             resource_id_in_header = f"""<a class="link-light" title="&lt;{resource_iri}&gt;" href="{resource_iri}" target="_blank">&lt;{resource_iri}&gt;</a>"""
             assert (
                 resource_id_in_header in html_content
@@ -132,9 +144,10 @@ def test_get_200_mime_type_none(flask_test_client, resource_query_url):
         when(util.ld_util).is_nisv_cat_resource(
             DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         ).thenReturn(True)
-        when(util.ld_util).get_lod_resource_from_rdf_store(
+        when(util.ld_util).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION"),
         ).thenReturn(DUMMY_GRAPH)
 
@@ -166,9 +179,10 @@ def test_get_200_mime_type_none(flask_test_client, resource_query_url):
         verify(util.ld_util, times=1).is_nisv_cat_resource(
             DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         )
-        verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
+        verify(util.ld_util, times=1).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION"),
         )
 
@@ -323,27 +337,27 @@ def test_get_500(mime_type, cause, flask_test_client, resource_query_url):
         ).thenReturn(True)
 
         if mime_type is MimeType.JSON_LD and cause == "not_rdf_graph":
-            when(util.ld_util).get_lod_resource_from_rdf_store(
+            when(util.ld_util).get_resource_from_rdf_store(
                 DUMMY_URL,
                 config.get("SPARQL_ENDPOINT"),
+                config.get("BENG_LOD_RESOURCE_QUERY", ""),
                 config.get("URI_NISV_ORGANISATION"),
             ).thenReturn(None)
-            when(DUMMY_GRAPH).serialize(
-                format=mime_type.to_ld_format(), auto_compact=True
-            ).thenReturn(
+            when(DUMMY_GRAPH).serialize(format=mime_type.to_ld_format()).thenReturn(
                 None
             )  # shouldn't be called, but we want to check this
         elif mime_type is MimeType.JSON_LD and cause == "no_serialized_graph":
-            when(util.ld_util).get_lod_resource_from_rdf_store(
+            when(util.ld_util).get_resource_from_rdf_store(
                 DUMMY_URL,
                 config.get("SPARQL_ENDPOINT"),
+                config.get("BENG_LOD_RESOURCE_QUERY", ""),
                 config.get("URI_NISV_ORGANISATION"),
             ).thenReturn(
                 DUMMY_GRAPH
             )  # note dummy graph is not empty
-            when(DUMMY_GRAPH).serialize(
-                format=mime_type.to_ld_format(), auto_compact=True
-            ).thenReturn(None)
+            when(DUMMY_GRAPH).serialize(format=mime_type.to_ld_format()).thenReturn(
+                None
+            )
 
         response = flask_test_client.get(
             resource_query_url(CAT_TYPE, DUMMY_IDENTIFIER),
@@ -356,13 +370,14 @@ def test_get_500(mime_type, cause, flask_test_client, resource_query_url):
             DUMMY_IDENTIFIER,
             config.get("BENG_DATA_DOMAIN"),
         )
-        verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
+        verify(util.ld_util, times=1).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION"),
         )
         verify(DUMMY_GRAPH, times=0 if cause == "not_rdf_graph" else 1).serialize(
-            format=mime_type.to_ld_format(), auto_compact=True
+            format=mime_type.to_ld_format()
         )
         if cause == "not_rdf_graph":
             assert "No graph created" in str(response.text)
@@ -372,8 +387,7 @@ def test_get_500(mime_type, cause, flask_test_client, resource_query_url):
         unstub()
 
 
-@pytest.mark.parametrize("cause", ["not_rdf_graph", "no_html_page"])
-def test_get_500_html(cause, flask_test_client, resource_query_url):
+def test_get_500_html(flask_test_client, resource_query_url):
     """Given a flask test client, dummy variables and stubbed invocations,
     send a get request with mime_type HTML.
     No HTML page will be returned, but an error response that is tested.
@@ -381,9 +395,6 @@ def test_get_500_html(cause, flask_test_client, resource_query_url):
     DUMMY_IDENTIFIER = "1234"
     DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"
     DUMMY_EMPTY_GRAPH = Graph()
-    DUMMY_GRAPH = Graph()
-    DUMMY_GRAPH.add((URIRef(DUMMY_URL), RDF.type, SDO.CreativeWork))
-
     CAT_TYPE = "program"
     mime_type = MimeType.HTML
     config = flask_test_client.application.config
@@ -397,57 +408,33 @@ def test_get_500_html(cause, flask_test_client, resource_query_url):
         when(util.ld_util).is_nisv_cat_resource(
             DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         ).thenReturn(True)
-
-        if cause == "not_rdf_graph":
-            when(util.ld_util).get_lod_resource_from_rdf_store(
-                DUMMY_URL,
-                config.get("SPARQL_ENDPOINT"),
-                config.get("URI_NISV_ORGANISATION"),
-            ).thenReturn(
-                DUMMY_EMPTY_GRAPH
-            )  # empty graph will cause 500
-        elif cause == "no_html_page":
-            when(util.ld_util).get_lod_resource_from_rdf_store(
-                DUMMY_URL,
-                config.get("SPARQL_ENDPOINT"),
-                config.get("URI_NISV_ORGANISATION"),
-            ).thenReturn(DUMMY_GRAPH)
-
-        when(util.lodview_util).get_lod_view_resource(
-            DUMMY_GRAPH,
+        when(util.ld_util).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
+            config.get("URI_NISV_ORGANISATION"),
         ).thenReturn(
-            ""
-        )  # empty HTML page.
+            DUMMY_EMPTY_GRAPH
+        )  # empty graph will cause 500
 
         response = flask_test_client.get(
             resource_query_url(CAT_TYPE, DUMMY_IDENTIFIER),
             headers={"Accept": mime_type.value},
         )
         assert response.status_code == 500
+        assert "No graph created." in response.text
 
         verify(util.ld_util, times=1).generate_lod_resource_uri(
             ResourceApiUriLevel(CAT_TYPE),
             DUMMY_IDENTIFIER,
             config.get("BENG_DATA_DOMAIN"),
         )
-        verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
+        verify(util.ld_util, times=1).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT", ""),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION", ""),
         )
-        verify(
-            util.lodview_util, times=0 if cause == "not_rdf_graph" else 1
-        ).get_lod_view_resource(
-            DUMMY_GRAPH,
-            DUMMY_URL,
-            config.get("SPARQL_ENDPOINT"),
-        )
-        if cause == "not_rdf_graph":
-            assert "No graph created." in response.text
-        elif cause == "no_html_page":
-            assert "Could not generate an HTML view" in response.text
 
     finally:
         unstub()
@@ -475,9 +462,10 @@ def test__get_lod_view_resource(
 
         with (
             when(util.ld_util)
-            .get_lod_resource_from_rdf_store(
+            .get_resource_from_rdf_store(
                 DUMMY_URL,
                 config.get("SPARQL_ENDPOINT"),
+                config.get("BENG_LOD_RESOURCE_QUERY", ""),
                 config.get("URI_NISV_ORGANISATION"),
             )
             .thenReturn(test_graph)

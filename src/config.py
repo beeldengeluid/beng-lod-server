@@ -7,7 +7,6 @@ from yaml import load, FullLoader
 from yaml.scanner import ScannerError
 from util.base_util import validate_config
 
-
 logger = logging.getLogger(f"beng-lod-server.{__name__}")
 
 

@@ -12,7 +12,7 @@ logger = logging.getLogger()
 
 api = Namespace(
     "resource",
-    description="Resources in RDF for Netherlands Institute for Sound and Vision.",
+    description="Audiovisual catalog items in RDF.",
 )
 
 
@@ -33,7 +33,7 @@ class ResourceAPI(Resource):
     """Serve the RDF for the media catalog resources in the format that was requested."""
 
     @api.produces([mt.value for mt in MimeType])
-    def get(self, identifier, cat_type="program"):
+    def get(self, identifier: str, cat_type="program"):
         # determine and set the mimetype
         lod_server_supported_mime_types = [mt.value for mt in MimeType]
         best_match = request.accept_mimetypes.best_match(
@@ -72,7 +72,7 @@ class ResourceAPI(Resource):
         # check if identifier is proper digit string, return 400 if not.
         if not identifier.isdigit():
             return APIUtil.toErrorResponse(
-                "bad_request", "Invalid daan identifier supplied."
+                "bad_request", "Invalid DAAN identifier supplied."
             )
 
         # check if resource exists and return 404 if it doesn't.
@@ -83,11 +83,13 @@ class ResourceAPI(Resource):
 
         # getting and returning lod data
         logger.info(f"Getting the graph from the triple store for resource {lod_url}.")
-        rdf_graph = util.ld_util.get_lod_resource_from_rdf_store(
+        rdf_graph = util.ld_util.get_resource_from_rdf_store(
             lod_url,
             current_app.config.get("SPARQL_ENDPOINT", ""),
+            current_app.config.get("BENG_LOD_RESOURCE_QUERY", ""),
             current_app.config.get("URI_NISV_ORGANISATION", ""),
         )
+
         # check if graph contains data and return 500 if not.
         if not rdf_graph:
             return APIUtil.toErrorResponse(

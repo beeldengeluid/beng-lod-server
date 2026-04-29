@@ -1,0 +1,3 @@
+ASK {	{ ?resource_iri a skos:Concept} 
+  UNION { ?resource_iri a skos:ConceptScheme}
+}

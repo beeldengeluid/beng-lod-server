@@ -34,9 +34,10 @@ def test_get_200(mime_type, flask_test_client):
         when(util.ld_util).is_skos_resource(
             DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         ).thenReturn(True)
-        when(util.ld_util).get_lod_resource_from_rdf_store(
+        when(util.ld_util).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION"),
         ).thenReturn(DUMMY_GRAPH)
 
@@ -61,9 +62,10 @@ def test_get_200(mime_type, flask_test_client):
         verify(util.ld_util, times=1).is_skos_resource(
             DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         )
-        verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
+        verify(util.ld_util, times=1).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION"),
         )
         if mime_type is MimeType.HTML:
@@ -98,9 +100,10 @@ def test_get_200_with_data(mime_type, flask_test_client, i_gtaa_graph):
         when(util.ld_util).is_skos_resource(
             DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         ).thenReturn(True)
-        when(util.ld_util).get_lod_resource_from_rdf_store(
+        when(util.ld_util).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION"),
         ).thenReturn(i_gtaa_graph)
 
@@ -110,9 +113,10 @@ def test_get_200_with_data(mime_type, flask_test_client, i_gtaa_graph):
         )
         assert resp.status_code == 200
 
-        verify(util.ld_util, times=1).get_lod_resource_from_rdf_store(
+        verify(util.ld_util, times=1).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION"),
         )
 
@@ -175,9 +179,10 @@ def test_get_500(mime_type, flask_test_client, caplog):
         when(util.ld_util).is_skos_resource(
             DUMMY_URL, config.get("SPARQL_ENDPOINT", "")
         ).thenReturn(True)
-        when(util.ld_util).get_lod_resource_from_rdf_store(
+        when(util.ld_util).get_resource_from_rdf_store(
             DUMMY_URL,
             config.get("SPARQL_ENDPOINT"),
+            config.get("BENG_LOD_RESOURCE_QUERY", ""),
             config.get("URI_NISV_ORGANISATION"),
         ).thenReturn(DUMMY_EMPTY_GRAPH)
 

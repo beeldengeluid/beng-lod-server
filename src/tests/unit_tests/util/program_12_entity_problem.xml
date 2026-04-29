@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE rdf:RDF [
+    <!ENTITY pid 'https://persistent-identifier.nl/'>
+    <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+    <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
+    <!ENTITY sdo 'https://schema.org/'>
+    <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
+]>
+
+<rdf:RDF
+    xmlns:pid="&pid;"
+    xmlns:rdf="&rdf;"
+    xmlns:rdfs="&rdfs;"
+    xmlns:sdo="&sdo;"
+    xmlns:xsd="&xsd;"
+>
+<rdf:Description rdf:about="http://data.beeldengeluid.nl/id/program/2102501280372628531">
+  <rdf:type rdf:resource="&rdfs;Resource"/>
+  <rdf:type rdf:resource="&sdo;CreativeWork"/>
+  <sdo:about rdf:resource="&gtaa;25467"/>
+  <sdo:about rdf:resource="&gtaa;25641"/>
+  <sdo:about rdf:resource="&gtaa;25985"/>
+  <sdo:about rdf:resource="&gtaa;26386"/>
+  <sdo:about rdf:resource="&gtaa;26466"/>
+  <sdo:about rdf:resource="&gtaa;27112"/>
+  <sdo:about rdf:resource="&gtaa;28251"/>
+  <sdo:about rdf:resource="&gtaa;36677"/>
+  <sdo:about rdf:resource="&gtaa;37371"/>
+  <sdo:about rdf:resource="&gtaa;38491"/>
+  <sdo:about rdf:resource="&gtaa;38921"/>
+  <sdo:about rdf:resource="&gtaa;39742"/>
+  <sdo:about rdf:resource="&gtaa;39744"/>
+  <sdo:about rdf:resource="&gtaa;42318"/>
+  <sdo:about rdf:resource="&gtaa;58937"/>
+  <sdo:about rdf:resource="&gtaa;75039"/>
+  <sdo:about rdf:resource="&ied;100005"/>
+  <sdo:about rdf:resource="&ied;111043"/>
+  <sdo:about rdf:resource="&ied;111240"/>
+  <sdo:about rdf:resource="&ied;112898"/>
+  <sdo:about rdf:resource="&ied;113344"/>
+  <sdo:about rdf:resource="&ied;113479"/>
+  <sdo:provider rdf:resource="&gtaa;223534"/>
+  <sdo:provider rdf:resource="&gtaa;263086"/>
+  <sdo:abstract xml:lang="nl">Ruw materiaal van een interview door Mary Hehuat met echtpaar Sahetapy. Het interview is gebruikt in de aflevering Maluhati/Malu Hati (Het verlegen hart) van het programma Medelanders Nederlanders van omroep FEDUCO. Medelanders Nederlanders is een serie programma's voor en over etnische minderheden in Nederland, waarin wordt ingegaan op culturele achtergronden en actuele zaken. Maluhati gaat over de problematiek die Molukse bejaarden in Nederland ondervinden In dit interview  blikt het oudere Molukse echtpaar Sahetapy terug op hun aankomst in Nederland in 1951, hun verblijf in verschillende woonoorden, en de moeilijke omstandigheden waarin zij verkeerden. De spreker bespreekt onderwerpen als migratie, werk, inhouding van inkomen, solidariteit, en gevoelens van geluk of berusting ondanks de beperkingen. Het interview is in het Ambon-Maleis, standaard Hoog-Maleis en gebruik van enkele Nederlandse verwijzingen, zoals ‘zakgeld’, ‘gelukkig’ en ‘boer’.
+[Zie voor uitzending programma ID: PGM138215.]</sdo:abstract>
+  <sdo:conditionsOfAccess rdf:datatype="&xsd;string">Media is not available for viewing/listening online</sdo:conditionsOfAccess>
+  <sdo:datePublished rdf:datatype="&xsd;date">1987-06-08</sdo:datePublished>
+  <sdo:description xml:lang="nl">Echtpaar Sahetapy arriveerde in Nederland in 1951 vanuit Semarang en verbleef eerst in woonoord Lunetten te Vught, daarna vanaf 1962 in Leerdam. De heer Sahetapy vertelt over het beetje leefgeld (‘zakgeld’) dat zij kregen en over zijn zwarte bijbaan bij de aardappelboer die hij aanhield om dit aan te vullen. Als men er van zou weten, zou er 60% van worden ingehouden. Dit gebeurde op een gegeven moment en zo droeg hij 60% af tot op het moment van het interview. Er was voedselvoorziening in een gaarkeuken en ze kregen kleding van het leger. Er wordt gerefereerd aan sociale ongelijkheid: sommigen betaalden minder of niets, terwijl de spreker alles moest afdragen. Ondanks deze omstandigheden spreekt men van berusting en zelfs geluk, hoewel ook frustraties aan bod komen, vooral rond financiële ongelijkheid.
+
+Onderwerpen:
+-Aankomst Molukkers in Nederland (1951)
+-woonoorden: Voormalig Duits concentratiekamp Vught
+-Arbeid en vroege werktijden bij de aardappelboer (05.00 uur)
+-Looninhouding (60%)
+-Militaire voedselvoorziening
+-Solidariteit en ongelijkheid
+-Persoonlijke reflectie op verleden
+-Armoede, plichtsbesef en overleving
+-Rol van vrouwen in gezin en keuken
+
+Persoonsnamen:
+-Mami, mevrouw Sahetapy (aanspreekvorm/verwijzing voor de moeder des huizes)
+-Papi, de heer Sahetapy (aanspreekvorm/verwijzing voor de vader des huizes)
+-Tante Iping (dezelfde persoon als mevrouw Sahetapy; genoemd in een anekdote over financiële afdrachten).</sdo:description>
+  <sdo:genre rdf:resource="&gtaa;30260"/>
+  <sdo:identifier rdf:resource="&pid;URN:NBN:NL:IN:20-PGMGMM250128026GJ"/>
+  <sdo:inLanguage rdf:datatype="&xsd;string">Maleisisch</sdo:inLanguage>
+  <sdo:license rdf:resource="http://rightsstatements.org/vocab/InC/1.0/"/>
+  <sdo:name xml:lang="nl">Interview met echtpaar Sahetapy door Mary Hehuat over het leven in Nederland na hun komst in 1951 uit de Molukken voor het programma Medelanders Nederlanders</sdo:name>
+  <sdo:publisher rdf:resource="https://www.beeldengeluid.nl/"/>
+  <sdo:url rdf:resource="https://zoeken.beeldengeluid.nl/program/urn:vme:default:program:2102501280372628531"/>
+  <sdo:workExample rdf:resource="&pt;1KmcZyq5H8ziEDusfBw8wu"/>
+</rdf:Description>
+
+</rdf:RDF>

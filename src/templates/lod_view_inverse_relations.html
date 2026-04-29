@@ -1,0 +1,25 @@
+{% for item in json_inverse_relations %}
+	<div class="row">
+        <div class="col-3 py-2 text-truncate">is <a title="&lt;{{item.p.uri}}&gt;" href="{{item.p.uri}}" target="_blank">&lt;{{item.p.prefix}}:<span class="fw-bold">{{item.p.property}}</span>&gt;</a>  of</div>
+		<div class="col-9 py-2 border-bottom text-truncate">
+            <details>
+                <summary>
+                    {% if item.count == 1 %}
+                    <span>{{ item.count }} resource</span>
+                    {% elif item.count > 100 %}
+                    <span>100 of {{ item.count }} resources</span>
+                    {% else %}
+                    <span>{{ item.count }} resources</span>
+                    {% endif %}
+                </summary>
+                <p>
+                    <ul class="list-group" >
+                    {% for subject in item.resources | sort(attribute='s.labels') %}
+                        <li class="list-group-item">{% include 'lod_view_inverse_relations_subject.html' %}</li>
+                    {% endfor %}
+                    </ul>
+                </p>
+            </details>
+        </div>
+    </div>
+{% endfor %}

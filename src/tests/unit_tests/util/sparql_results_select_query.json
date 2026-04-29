@@ -1,0 +1,645 @@
+{
+  "head": {
+    "vars": [
+      "s",
+      "p",
+      "o",
+      "label"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/workExample"
+        },
+        "o": {
+          "type": "uri",
+          "value": "https://peertube.beeldengeluid.nl/w/pt34fjVBax5dzF5z5fcGvz"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/description"
+        },
+        "o": {
+          "type": "literal",
+          "value": "Ruw materiaal van een interview met de heer G.A. (Garmt) Kieft, specialist wat betreft Nieuw-Guinea in de ARP Tweede Kamerfractie ten tijde van de ommezwaai van Bruins Slot. De heer Kieft liet alles aan Bruins Slot zien wat hij over Nieuw-Guinea schreef. Bruins Slot ging daar altijd mee akkoord. \"Het doel was de verheffing van de Papoea's met als doelstelling het bestuur in handen van de Papoea's te geven. De bevolking van Nieuw-Guinea had een ander soort karakter dan de Indonesiërs. Ze waren niet ondergeschikt aan het Westerse gezag.\"",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/abstract"
+        },
+        "o": {
+          "type": "literal",
+          "value": "Ruw materiaal van een interview uit 1983 met de heer G.A. (Garmt) Kieft, vanaf 1963 financieel woordvoerder van de ARP-Tweede Kamerfractie. Deel van een serie van vijf interviews gehouden door drs. L.A. (Leo) Kaan ten behoeve van zijn doctoraalscriptie geschiedenis (RUU) over de houding van de ARP ten opzichte van de Nieuw-Guinea kwestie in 1961, ook bekend als de 'ommezwaai'. De geïnterviewden waren in die tijd ARP-politici of anderszins aan de ARP gelieerd.",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://data.beeldengeluid.nl/gtaa/36677"
+        },
+        "label": {
+          "type": "literal",
+          "value": "Indonesië",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/associatedMedia"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "_:http://data.rdlabs.beeldengeluid.nl/cat/Nfa5a10654a2647c9bfda8ac2620c7bfc"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://data.beeldengeluid.nl/gtaa/28050"
+        },
+        "label": {
+          "type": "literal",
+          "value": "christendom",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/name"
+        },
+        "o": {
+          "type": "literal",
+          "value": "Interview met de heer G.A. Kieft door Leo Kaan over de Nieuw-Guinea Kwestie",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/license"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://rightsstatements.org/vocab/CNE/1.0/"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/conditionsOfAccess"
+        },
+        "o": {
+          "type": "literal",
+          "value": "View/listen to media online at the item's URL: True",
+          "datatype": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/creator"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "_:http://data.rdlabs.beeldengeluid.nl/cat/Na0f188a9b7004856a0c3644496dab648"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://data.beeldengeluid.nl/gtaa/46916"
+        },
+        "label": {
+          "type": "literal",
+          "value": "ARP",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/provider"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://data.beeldengeluid.nl/gtaa/263086"
+        },
+        "label": {
+          "type": "literal",
+          "value": "NEDERLANDS INSTITUUT VOOR BEELD EN GELUID",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/inLanguage"
+        },
+        "o": {
+          "type": "literal",
+          "value": "Nederlands",
+          "datatype": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/genre"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://data.beeldengeluid.nl/gtaa/30260"
+        },
+        "label": {
+          "type": "literal",
+          "value": "oral history",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/identifier"
+        },
+        "o": {
+          "type": "uri",
+          "value": "https://persistent-identifier.nl/URN:NBN:NL:IN:20-PGMGSFWA240910C15042WW"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://data.beeldengeluid.nl/gtaa/1713826"
+        },
+        "label": {
+          "type": "literal",
+          "value": "Nederlands-Nieuw-Guinea",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+        },
+        "o": {
+          "type": "uri",
+          "value": "https://schema.org/CreativeWork"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "https://data.indischherinneringscentrum.nl/ied/111205"
+        },
+        "label": {
+          "type": "literal",
+          "value": "soevereiniteitsoverdracht",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "https://data.indischherinneringscentrum.nl/ied/111205"
+        },
+        "label": {
+          "type": "literal",
+          "value": "Soevereiniteitsoverdracht",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/publisher"
+        },
+        "o": {
+          "type": "uri",
+          "value": "https://www.beeldengeluid.nl/"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://data.beeldengeluid.nl/gtaa/86855"
+        },
+        "label": {
+          "type": "literal",
+          "value": "Bruins Slot, J.A.H.J.S.",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://data.beeldengeluid.nl/gtaa/28044"
+        },
+        "label": {
+          "type": "literal",
+          "value": "politiek",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/datePublished"
+        },
+        "o": {
+          "type": "literal",
+          "value": "1983-03-09",
+          "datatype": "http://www.w3.org/2001/XMLSchema#date"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://data.beeldengeluid.nl/gtaa/25491"
+        },
+        "label": {
+          "type": "literal",
+          "value": "dekolonisatie",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "https://data.indischherinneringscentrum.nl/ied/112997"
+        },
+        "label": {
+          "type": "literal",
+          "value": "Indonesische Onafhankelijkheidsoorlog",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "https://data.indischherinneringscentrum.nl/ied/112997"
+        },
+        "label": {
+          "type": "literal",
+          "value": "Nieuw-Guinea Kwestie",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/contributor"
+        },
+        "o": {
+          "type": "bnode",
+          "value": "_:http://data.rdlabs.beeldengeluid.nl/cat/N226e12c8e66b469d9673c6c3b77084b7"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/url"
+        },
+        "o": {
+          "type": "uri",
+          "value": "https://zoeken.beeldengeluid.nl/program/urn:vme:default:program:2102409170367871831"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://data.beeldengeluid.nl/gtaa/27121"
+        },
+        "label": {
+          "type": "literal",
+          "value": "politici",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://data.beeldengeluid.nl/gtaa/28712"
+        },
+        "label": {
+          "type": "literal",
+          "value": "politieke partijen",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://data.beeldengeluid.nl/gtaa/39742"
+        },
+        "label": {
+          "type": "literal",
+          "value": "Nederland",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://data.beeldengeluid.nl/gtaa/39744"
+        },
+        "label": {
+          "type": "literal",
+          "value": "Nederlands-Indië",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://data.beeldengeluid.nl/gtaa/39900"
+        },
+        "label": {
+          "type": "literal",
+          "value": "Nieuw-Guinea",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "https://data.indischherinneringscentrum.nl/ied/111006"
+        },
+        "label": {
+          "type": "literal",
+          "value": "Nieuw-Guinea Kwestie",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "https://data.indischherinneringscentrum.nl/ied/111006"
+        },
+        "label": {
+          "type": "literal",
+          "value": "Indonesische Onafhankelijkheidsoorlog ",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/about"
+        },
+        "o": {
+          "type": "uri",
+          "value": "https://data.indischherinneringscentrum.nl/ied/111006"
+        },
+        "label": {
+          "type": "literal",
+          "value": "Indonesische Onafhankelijkheidsoorlog",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "p": {
+          "type": "uri",
+          "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://www.w3.org/2000/01/rdf-schema#Resource"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "_:http://data.rdlabs.beeldengeluid.nl/cat/Nfa5a10654a2647c9bfda8ac2620c7bfc"
+        },
+        "p": {
+          "type": "uri",
+          "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+        },
+        "o": {
+          "type": "uri",
+          "value": "https://schema.org/AudioObject"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "_:http://data.rdlabs.beeldengeluid.nl/cat/Nfa5a10654a2647c9bfda8ac2620c7bfc"
+        },
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/encodingFormat"
+        },
+        "o": {
+          "type": "literal",
+          "value": "audio/mp3"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "_:http://data.rdlabs.beeldengeluid.nl/cat/Nfa5a10654a2647c9bfda8ac2620c7bfc"
+        },
+        "p": {
+          "type": "uri",
+          "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://www.w3.org/2000/01/rdf-schema#Resource"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "_:http://data.rdlabs.beeldengeluid.nl/cat/Na0f188a9b7004856a0c3644496dab648"
+        },
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/roleName"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q46034607"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "_:http://data.rdlabs.beeldengeluid.nl/cat/Na0f188a9b7004856a0c3644496dab648"
+        },
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/creator"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://data.beeldengeluid.nl/gtaa/1751509"
+        },
+        "label": {
+          "type": "literal",
+          "value": "Kaan, L.A.",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "_:http://data.rdlabs.beeldengeluid.nl/cat/Na0f188a9b7004856a0c3644496dab648"
+        },
+        "p": {
+          "type": "uri",
+          "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+        },
+        "o": {
+          "type": "uri",
+          "value": "https://schema.org/Role"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "_:http://data.rdlabs.beeldengeluid.nl/cat/Na0f188a9b7004856a0c3644496dab648"
+        },
+        "p": {
+          "type": "uri",
+          "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://www.w3.org/2000/01/rdf-schema#Resource"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "_:http://data.rdlabs.beeldengeluid.nl/cat/N226e12c8e66b469d9673c6c3b77084b7"
+        },
+        "p": {
+          "type": "uri",
+          "value": "https://schema.org/contributor"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://data.beeldengeluid.nl/gtaa/118672"
+        },
+        "label": {
+          "type": "literal",
+          "value": "Kieft, G.A.",
+          "xml:lang": "nl"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "_:http://data.rdlabs.beeldengeluid.nl/cat/N226e12c8e66b469d9673c6c3b77084b7"
+        },
+        "p": {
+          "type": "uri",
+          "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+        },
+        "o": {
+          "type": "uri",
+          "value": "https://schema.org/PerformanceRole"
+        }
+      },
+      {
+        "s": {
+          "type": "bnode",
+          "value": "_:http://data.rdlabs.beeldengeluid.nl/cat/N226e12c8e66b469d9673c6c3b77084b7"
+        },
+        "p": {
+          "type": "uri",
+          "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+        },
+        "o": {
+          "type": "uri",
+          "value": "http://www.w3.org/2000/01/rdf-schema#Resource"
+        }
+      }
+    ]
+  }
+}

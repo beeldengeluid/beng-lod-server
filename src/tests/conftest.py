@@ -4,7 +4,6 @@ import pytest
 from rdflib import Graph
 from config import cfg
 
-
 """
 Basic fixtures that are useful for most of the test modules
 """
