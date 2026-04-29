@@ -25,10 +25,6 @@ select distinct ?s ?p ?o WHERE {
         ?resource_iri ?p1 ?s . FILTER(isblank(?s)) ?s ?p ?o .
       }
       UNION
-      { # triples for blank nodes within nodes
-        ?resource_iri ?p1 ?s1 . ?s1 ?p2 ?s . FILTER(isblank(?s)) ?s ?p ?o .
-      }
-      UNION
       { # triples for entities within blank nodes (in role)
         ?resource_iri ?p1 ?s1 . FILTER(isblank(?s1)) ?s1 ?p2 ?s . FILTER(isiri(?s)) ?s ?p ?o .
         FILTER(?p in (skos:prefLabel,rdfs:label,schema:name,sdo:name,rdf:type,sdo:additionalType))
