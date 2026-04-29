@@ -12,6 +12,7 @@ from models.DatasetApiUriLevel import DatasetApiUriLevel
 from models.ResourceApiUriLevel import ResourceApiUriLevel
 from config import cfg
 import util.ns_util
+from util.base_util import relative_from_repo_root
 
 logger = logging.getLogger()
 
@@ -232,7 +233,7 @@ def get_inverse_relations_from_rdf_store(
 def get_query_from_file(filepath: str) -> str:
     """Return the query read from the query file."""
     query_string = ""
-    with open(filepath, encoding="utf-8") as qf:
+    with open(relative_from_repo_root(filepath), encoding="utf-8") as qf:
         query_string = qf.read()
     return query_string
 
