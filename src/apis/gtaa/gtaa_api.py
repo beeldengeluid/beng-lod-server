@@ -48,7 +48,7 @@ class GTAAAPI(Resource):
 
         # Do ASK request to triple store. Return 404 if resource doesn't exist.
         if not util.ld_util.is_skos_resource(
-            gtaa_uri, current_app.config.get("SPARQL_ENDPOINT", "")
+            gtaa_uri, current_app.config.get("GTAA_SPARQL_ENDPOINT", "")
         ):
             return APIUtil.toErrorResponse("not_found")
 
@@ -62,8 +62,8 @@ class GTAAAPI(Resource):
 
         rdf_graph = util.ld_util.get_resource_from_rdf_store(
             gtaa_uri,
-            current_app.config.get("SPARQL_ENDPOINT", ""),
-            current_app.config.get("BENG_LOD_RESOURCE_QUERY", ""),
+            current_app.config.get("GTAA_SPARQL_ENDPOINT", ""),
+            current_app.config.get("GTAA_LOD_RESOURCE_QUERY", ""),
             current_app.config.get("URI_NISV_ORGANISATION", ""),
         )
         if not rdf_graph:
@@ -75,7 +75,7 @@ class GTAAAPI(Resource):
 
         if mime_type is MimeType.HTML:
             return util.lodview_util.generate_html_page(
-                rdf_graph, gtaa_uri, current_app.config.get("SPARQL_ENDPOINT", "")
+                rdf_graph, gtaa_uri, current_app.config.get("GTAA_SPARQL_ENDPOINT", "")
             )
         else:
             # another serialisation than HTML
