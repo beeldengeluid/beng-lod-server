@@ -12,7 +12,7 @@ select distinct ?s ?p ?o WHERE {
       { # triples for the resource
         ?resource_iri ?p ?o
         FILTER(?p != dcterms:dateAvailable)
-        FILTER(?p NOT IN (bengthes:tenant,bengthes:inSet, bengthes:revision))
+        FILTER(?p NOT IN (bengthes:tenant,bengthes:inSet,bengthes:revision,bengthes:icon,bengthes:code,bengthes:isHierarchical))
       }
       UNION 
       { # labels for related resources
