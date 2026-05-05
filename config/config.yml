@@ -28,6 +28,9 @@ BENG_IS_SKOS_RESOURCE: "queries/bg_is_skos_resource.rq"
 INVERSE_RELATIONS_ASK: "queries/inverse_relations_ask.rq"
 INVERSE_RELATIONS_QUERY: "queries/inverse_relations.rq"
 
+GTAA_SPARQL_ENDPOINT: "https://gtaa.apis.beeldengeluid.nl/sparql"
+GTAA_LOD_RESOURCE_QUERY: "queries/gtaa_lod_resource_all_triples_and_bnodes.rq"
+
 MUZIEKWEB_DATA_DOMAIN: "https://data.muziekweb.nl/"
 MUZIEKWEB_SPARQL_ENDPOINT: "https://api.data.muziekweb.nl/datasets/MuziekwebOrganization/Muziekweb/services/Muziekweb/sparql"
 MUZIEKWEB_ORGANISATION_URI: "https://www.muziekweb.nl/"
