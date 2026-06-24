@@ -5,6 +5,7 @@ import json
 from requests.exceptions import ConnectionError, HTTPError
 from rdflib import Graph, URIRef, BNode, Literal
 from rdflib.namespace import RDF, SDO, SKOS  # type: ignore
+from rdflib.namespace import is_ncname
 from typing import Optional
 from urllib.parse import urlparse, urlunparse
 from enum import Enum
@@ -314,6 +315,9 @@ def _result_binding_to_triple(result_binding: dict) -> tuple:
     if s_type == "uri":
         s = URIRef(s_value)
     elif s_type == "bnode":
+        if is_ncname(s_value) == 0:
+            # log it but no exception. nodeids are handled later.
+            logger.debug(f"is_ncname: s_value is invalid nodeID: {s_value}")
         s = BNode(s_value)
 
     # predicate
@@ -326,6 +330,9 @@ def _result_binding_to_triple(result_binding: dict) -> tuple:
     if o_type == "uri":
         o = URIRef(o_value)
     elif o_type == "bnode":
+        if is_ncname(o_value) == 0:
+            # log it but no exception. nodeids are handled later.
+            logger.debug(f"is_ncname: o_value is invalid nodeID: {o_value}")
         o = BNode(o_value)
     elif o_type == "literal":
         lang = result_binding.get("o", {}).get("xml:lang", None)
@@ -357,7 +364,9 @@ def _convert_results_to_graph(results: dict, resource_url: str) -> Graph:
                 g.add((s, p, o))
         except Exception as exc:
             logger.error(str(exc))
-    return g
+
+    logger.debug("serialize to turtle and parse, to remove invalid blank node ids.")
+    return Graph().parse(data=g.serialize(format="turtle"), format="turtle")
 
 
 def _convert_inverse_relations_results_to_graph(
