@@ -1,5 +1,5 @@
 #+ summary: Get all triples for LOD resource, incl. blank node triples.
-#+ endpoint: https://api.data.muziekweb.nl/datasets/MuziekwebOrganization/Muziekweb/services/Muziekweb/sparql
+#+ endpoint: https://cat.apis.beeldengeluid.nl/sparql
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -28,20 +28,6 @@ select distinct ?s ?p ?o WHERE {
       { # triples for entities within blank nodes (in role)
         ?resource_iri ?p1 ?s1 . FILTER(isblank(?s1)) ?s1 ?p2 ?s . FILTER(isiri(?s)) ?s ?p ?o .
         FILTER(?p in (skos:prefLabel,rdfs:label,schema:name,sdo:name,rdf:type,sdo:additionalType))
-      }
-      UNION
-      { # Only applicable for sdo:Clip. Adds the sdo:isPartOf relation, making it possible
-        # to refer back (upwards) to the program from a scene.
-        # TODO: Only the inverse of this relation is available in the triple store.
-        ?program sdo:hasPart ?resource_iri . 
-        BIND(?program AS ?o)
-        BIND(sdo:isPartOf AS ?p)
-      }
-      UNION
-      { # Returns a triple the title for the program that a scene is part of with 
-        # sdo:isPartOf relation.
-        ?s sdo:hasPart ?resource_iri ; sdo:name ?o .
-        BIND(sdo:name AS ?p)
       }
     }
 } 
