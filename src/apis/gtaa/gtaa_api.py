@@ -38,8 +38,8 @@ class GTAAAPI(Resource):
 
     @api.produces([mt.value for mt in MimeType])
     def get(self, identifier: str):
-        # check if identifier is proper digit string, return 400 if not.
-        if not identifier.isalnum():
+        # check if identifier contains only alphanumeric characters or underscore. return 400 if not.
+        if not identifier.replace("_", "").isalnum():
             return APIUtil.toErrorResponse(
                 "bad_request", "Invalid GTAA identifier supplied."
             )
