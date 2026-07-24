@@ -30,7 +30,7 @@ package-mode = false
 requires-poetry = ">=2.1.2"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "==8.4.1"
+pytest = "==9.0.2"
 pytest-cov = "==6.2.1"
 mockito = "==1.5.4"
 black = "==25.1.0"
