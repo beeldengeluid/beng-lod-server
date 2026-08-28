@@ -34,14 +34,22 @@ DUMMY_DATA_CATALOG_URI = generate_lod_resource_uri(
 XML_ENCODING_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>'
 
 
-def test_init(application_settings):
-    data_catalog_lod_handler = (
-        apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler()
-    )
-    assert isinstance(
-        data_catalog_lod_handler,
-        apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler,
-    )
+def test_init(application_settings, i_datacatalog):
+    with (
+        when(apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler)
+        ._get_data_catalog_from_store(
+            application_settings.get("SPARQL_ENDPOINT"),
+            application_settings.get("DATA_CATALOG_GRAPH"),
+        )
+        .thenReturn(i_datacatalog)
+    ):
+        data_catalog_lod_handler = (
+            apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler()
+        )
+        assert isinstance(
+            data_catalog_lod_handler,
+            apis.dataset.DataCatalogLODHandler.DataCatalogLODHandler,
+        )
 
 
 @pytest.mark.parametrize(
