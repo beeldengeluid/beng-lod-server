@@ -22,6 +22,7 @@ def test_get_200(
     mime_type,
     flask_test_client,
     i_program_graph_2,
+    no_inverse_relations,
 ):
     """Given a flask test client, mime_type and a fixture for a program,
     send a get request and test the response.
@@ -451,6 +452,7 @@ def test__get_lod_view_resource(
     i_program_graph,
     i_season_graph,
     i_series_graph,
+    no_inverse_relations,
 ):
     DUMMY_IDENTIFIER = "dummy-identifier"
     DUMMY_URL = f"https://{DUMMY_IDENTIFIER}"

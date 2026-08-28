@@ -174,6 +174,7 @@ def test_get_lod_view_resource(
     flask_test_client,
     application_settings,
     program_rdf_graph,
+    no_inverse_relations,
 ):
     """Given an app context, generate a full HTML page for the lod view page.
     Test the output for some key elements.
@@ -285,30 +286,24 @@ def test_get_string_for_langstring(literal: Literal, lang: str, expected: str):
     assert result == expected
 
 
-def test_generate_html_page(flask_test_client, application_settings, program_rdf_graph):
+def test_generate_html_page(
+    flask_test_client, application_settings, program_rdf_graph, no_inverse_relations
+):
     """Given a graph for a resource, an HTML response for the lod view is generated."""
     resource_iri = str(
         program_rdf_graph.value(predicate=RDF.type, object=SDO.CreativeWork)
     )
 
-    try:
-        # no inverse relations, so the SPARQL endpoint is not queried
-        when(util.ld_util).ask_for_inverse_relations(
-            resource_iri, application_settings.get("SPARQL_ENDPOINT", "")
-        ).thenReturn(False)
+    with flask_test_client.application.app_context():
+        resp = util.lodview_util.generate_html_page(
+            program_rdf_graph,
+            resource_iri,
+            application_settings.get("SPARQL_ENDPOINT", ""),
+        )
 
-        with flask_test_client.application.app_context():
-            resp = util.lodview_util.generate_html_page(
-                program_rdf_graph,
-                resource_iri,
-                application_settings.get("SPARQL_ENDPOINT", ""),
-            )
-
-        assert resp.status_code == 200
-        assert resp.mimetype == MimeType.HTML.value
-        assert "<!doctype html>" in resp.get_data(as_text=True)
-    finally:
-        unstub()
+    assert resp.status_code == 200
+    assert resp.mimetype == MimeType.HTML.value
+    assert "<!doctype html>" in resp.get_data(as_text=True)
 
 
 def test_generate_html_page_no_graph(flask_test_client, application_settings):

@@ -1,8 +1,10 @@
 import json
 import os
 import pytest
+from mockito import ANY, when, unstub
 from rdflib import Graph
 from config import cfg
+import util.ld_util
 
 """
 Basic fixtures that are useful for most of the test modules
@@ -98,3 +100,17 @@ def flask_test_client():
     app.config["SERVER_NAME"] = "localhost:5000"
 
     return app.test_client()
+
+
+"""------------------------ SPARQL ENDPOINT STUBS ----------------------"""
+
+
+@pytest.fixture()
+def no_inverse_relations():
+    """Stubs the ASK for inverse relations, so that rendering a LOD view page
+    does not require a live SPARQL endpoint. The resource under test simply has
+    no inverse relations.
+    """
+    when(util.ld_util).ask_for_inverse_relations(ANY, ANY).thenReturn(False)
+    yield
+    unstub()

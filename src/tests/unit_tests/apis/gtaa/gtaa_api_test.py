@@ -85,7 +85,9 @@ def test_get_200(mime_type, flask_test_client):
 
 
 @pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType])
-def test_get_200_with_data(mime_type, flask_test_client, i_gtaa_graph):
+def test_get_200_with_data(
+    mime_type, flask_test_client, i_gtaa_graph, no_inverse_relations
+):
     """Given a flask_test_client, a mime_type and stubbed invocations, do a
     GET request. A graph will be loaded from a fixture.
     Check the status, whether the expected functions are called and check that
