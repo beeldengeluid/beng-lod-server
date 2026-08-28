@@ -1,7 +1,7 @@
 import pytest
 from rdflib import Graph, URIRef, Literal, BNode
 from rdflib.namespace import RDF, RDFS, SKOS, SDO, DCTERMS  # type: ignore
-from mockito import unstub, when
+from mockito import ANY, unstub, when
 import util.ld_util
 import util.lodview_util
 from util.mime_type_util import MimeType
@@ -356,3 +356,63 @@ def test_get_serialised_graph_serialisation_failed(
         assert "Serialisation failed" in body["error"]
     finally:
         unstub()
+
+
+@pytest.fixture()
+def inverse_relations():
+    """Returns a function that stubs the SPARQL calls for the inverse relations of
+    a given resource, so no live SPARQL endpoint is needed. The stubbed relations
+    are returned, so that a test can assert on what should end up in the page.
+    """
+    subject_uri = URIRef("http://data.beeldengeluid.nl/id/season/1234")
+    subject_label = "A season the resource is part of"
+
+    def stub(resource_uri: str) -> tuple:
+        rdf_graph = Graph(bind_namespaces="core")
+        rdf_graph.add((subject_uri, SDO.isPartOf, URIRef(resource_uri)))
+        rdf_graph.add((subject_uri, SDO.name, Literal(subject_label)))
+
+        when(util.ld_util).ask_for_inverse_relations(resource_uri, ANY).thenReturn(True)
+        when(util.ld_util).get_inverse_relations_from_rdf_store(
+            resource_uri, ANY
+        ).thenReturn(rdf_graph)
+
+        return subject_uri, subject_label
+
+    yield stub
+    unstub()
+
+
+def test_get_lod_view_resource_inverse_relations(
+    flask_test_client, application_settings, program_rdf_graph, inverse_relations
+):
+    """Given a resource that other resources point at, the inverse relations are
+    rendered in the lod view page."""
+    resource_iri = str(
+        program_rdf_graph.value(predicate=RDF.type, object=SDO.CreativeWork)
+    )
+    subject_uri, subject_label = inverse_relations(resource_iri)
+
+    with flask_test_client.application.app_context():
+        html_content = util.lodview_util.get_lod_view_resource(
+            program_rdf_graph,
+            resource_iri,
+            application_settings.get("SPARQL_ENDPOINT", ""),
+        )
+
+    assert "<h3>Inverse relations</h3>" in html_content
+    assert "<span>1 resource</span>" in html_content  # a single inverse relation
+    assert str(SDO.isPartOf) in html_content
+    assert f'href="{subject_uri}"' in html_content
+    assert subject_label in html_content
+
+
+def test_json_inverse_relations_for_resource_none(no_inverse_relations):
+    """When the resource has no inverse relations, an empty list is returned and
+    no relations are fetched."""
+    assert (
+        util.lodview_util.json_inverse_relations_for_resource(
+            DUMMY_RESOURCE_URI, "https://dummy-endpoint/sparql"
+        )
+        == []
+    )

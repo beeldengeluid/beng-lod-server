@@ -109,7 +109,8 @@ def flask_test_client():
 def no_inverse_relations():
     """Stubs the ASK for inverse relations, so that rendering a LOD view page
     does not require a live SPARQL endpoint. The resource under test simply has
-    no inverse relations.
+    no inverse relations. Use inverse_relations (see lodview_util_test) to test
+    the rendering of inverse relations themselves.
     """
     when(util.ld_util).ask_for_inverse_relations(ANY, ANY).thenReturn(False)
     yield
