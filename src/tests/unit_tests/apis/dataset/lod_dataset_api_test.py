@@ -1,11 +1,38 @@
 import pytest
-from mockito import when, verify, unstub
-from rdflib import Graph
+from flask import Response
+from mockito import ANY, when, verify, unstub
+from rdflib import Graph, Literal, URIRef
+from rdflib.namespace import RDF, SDO  # type: ignore
+from rdflib.compare import to_isomorphic
 import util.ld_util
 import apis.dataset.dataset_api
 from models.DatasetApiUriLevel import DatasetApiUriLevel
 from util.mime_type_util import MimeType
 import util.lodview_util
+
+DUMMY_IDENTIFIER = "1234"
+DUMMY_URI = f"http://{DUMMY_IDENTIFIER}"
+DUMMY_PAGE = (
+    "<!DOCTYPE html> <html> just something pretending to be an interesting "
+    "HTML page</html>"
+)
+
+
+def dummy_dataset_graph() -> Graph:
+    """Returns a minimal graph describing a dataset."""
+    rdf_graph = Graph()
+    rdf_graph.add((URIRef(DUMMY_URI), RDF.type, SDO.Dataset))
+    rdf_graph.add((URIRef(DUMMY_URI), SDO.name, Literal("Dummy dataset")))
+    return rdf_graph
+
+
+def stub_data_catalog(application_settings):
+    """Stub the data catalog that the DataCatalogLODHandler loads on construction,
+    so no SPARQL endpoint is queried."""
+    when(apis.dataset.dataset_api.DataCatalogLODHandler)._get_data_catalog_from_store(
+        application_settings.get("SPARQL_ENDPOINT"),
+        application_settings.get("DATA_CATALOG_GRAPH"),
+    ).thenReturn(Graph())
 
 
 def test_init():
@@ -13,19 +40,17 @@ def test_init():
     assert isinstance(lod_dataset_api, apis.dataset.dataset_api.LODDatasetAPI)
 
 
-@pytest.mark.skip(reason="lodview is moved to util. test functions need to be updated.")
 @pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType])
-def test_get_200(mime_type, application_settings, generic_client, dataset_url):
-    DUMMY_IDENTIFIER = 1234
-    DUMMY_URI = f"http://{DUMMY_IDENTIFIER}"
-    DUMMY_PAGE = "<!DOCTYPE html> <html> just something pretending to be an interesting HTML page</html>"
-    DUMMY_SERIALISATION = "just something pretending to be a serialisation of a graph"
-    DUMMY_GRAPH = Graph()
+def test_get_200(mime_type, application_settings, flask_test_client, dataset_url):
+    """Given a valid dataset, a get request should return the dataset in the
+    requested serialisation, or an HTML page when HTML is requested."""
+    dataset_graph = dummy_dataset_graph()
 
     try:
+        stub_data_catalog(application_settings)
         when(util.ld_util).generate_lod_resource_uri(
             DatasetApiUriLevel.DATASET,
-            str(DUMMY_IDENTIFIER),
+            DUMMY_IDENTIFIER,
             application_settings.get("BENG_DATA_DOMAIN"),
         ).thenReturn(DUMMY_URI)
         when(apis.dataset.dataset_api.LODDatasetAPI).is_dataset(DUMMY_URI).thenReturn(
@@ -34,23 +59,16 @@ def test_get_200(mime_type, application_settings, generic_client, dataset_url):
         when(apis.dataset.dataset_api.LODDatasetAPI).is_valid_dataset(
             DUMMY_URI
         ).thenReturn(True)
+        when(apis.dataset.dataset_api.DataCatalogLODHandler).get_dataset(
+            DUMMY_URI, MimeType.TURTLE.value
+        ).thenReturn(dataset_graph.serialize(format=MimeType.TURTLE.to_ld_format()))
         when(util.lodview_util).generate_html_page(
-            DUMMY_GRAPH,
+            ANY,
             DUMMY_URI,
             application_settings.get("SPARQL_ENDPOINT", ""),
-        ).thenReturn(DUMMY_PAGE)
-        when(apis.dataset.dataset_api.DataCatalogLODHandler).get_dataset(
-            DUMMY_URI, "turtle"
-        ).thenReturn(DUMMY_SERIALISATION)
-        when(
-            apis.dataset.dataset_api.DataCatalogLODHandler
-        )._get_data_catalog_from_store(
-            application_settings.get("SPARQL_ENDPOINT", ""),
-            application_settings.get("DATA_CATALOG_GRAPH", ""),
-        ).thenReturn()
+        ).thenReturn(Response(DUMMY_PAGE, mimetype=MimeType.HTML.value))
 
-        resp = generic_client.get(
-            "offline",
+        resp = flask_test_client.get(
             dataset_url(DUMMY_IDENTIFIER),
             headers={"Accept": mime_type.value},
         )
@@ -58,53 +76,51 @@ def test_get_200(mime_type, application_settings, generic_client, dataset_url):
         assert resp.status_code == 200
 
         if mime_type is MimeType.HTML:
-            assert (
-                DUMMY_PAGE in resp.text.decode()
-            )  # client adds a newline at the end of the response for some reason
+            assert resp.text == DUMMY_PAGE
         else:
-            assert resp.text.decode() == DUMMY_SERIALISATION
+            served_graph = Graph()
+            try:
+                served_graph.parse(data=resp.text, format=mime_type.to_ld_format())
+            except Exception:
+                pytest.fail(f"Invalid {mime_type} output")
+            assert to_isomorphic(served_graph) == to_isomorphic(dataset_graph)
 
         verify(util.ld_util, times=1).generate_lod_resource_uri(
             DatasetApiUriLevel.DATASET,
-            str(DUMMY_IDENTIFIER),
+            DUMMY_IDENTIFIER,
             application_settings.get("BENG_DATA_DOMAIN"),
         )
         verify(apis.dataset.dataset_api.LODDatasetAPI, times=1).is_dataset(DUMMY_URI)
         verify(apis.dataset.dataset_api.LODDatasetAPI, times=1).is_valid_dataset(
             DUMMY_URI
         )
+        verify(apis.dataset.dataset_api.DataCatalogLODHandler, times=1).get_dataset(
+            DUMMY_URI, MimeType.TURTLE.value
+        )
         verify(
-            apis.dataset.dataset_api.DataCatalogLODHandler,
-            times=1 if mime_type is not MimeType.HTML else 0,
-        ).get_dataset(DUMMY_URI, mime_format=mime_type.to_ld_format())
-        verify(
-            apis.dataset.dataset_api.DataCatalogLODHandler,
-            times=1 if mime_type is not MimeType.HTML else 0,
-        )._get_data_catalog_from_store(
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("DATA_CATALOG_GRAPH"),
+            util.lodview_util, times=1 if mime_type is MimeType.HTML else 0
+        ).generate_html_page(
+            ANY,
+            DUMMY_URI,
+            application_settings.get("SPARQL_ENDPOINT", ""),
         )
 
     finally:
         unstub()
 
 
-@pytest.mark.skip(
-    reason="lodview is removed from object. This needs to be updated in test."
-)
-def test_get_200_mime_type_None(application_settings, generic_client, dataset_url):
-    """Tests the default behaviour for the mime type, which is currently to set it to JSON-LD if the input is None"""
-    DUMMY_IDENTIFIER = 1234
-    DUMMY_URI = f"http://{DUMMY_IDENTIFIER}"
-    DUMMY_PAGE = "<!DOCTYPE html> <html> just something pretending to be an interesting HTML page</html>"
-    DUMMY_SERIALISATION = "just something pretending to be a serialisation of a graph"
+def test_get_200_mime_type_none(application_settings, flask_test_client, dataset_url):
+    """Tests the default behaviour for the mime type, which is currently to set it
+    to JSON-LD if the input is None"""
+    dataset_graph = dummy_dataset_graph()
     input_mime_type = None
-    default_mimetype = MimeType.JSON_LD
+    default_mime_type = MimeType.JSON_LD
 
     try:
+        stub_data_catalog(application_settings)
         when(util.ld_util).generate_lod_resource_uri(
             DatasetApiUriLevel.DATASET,
-            str(DUMMY_IDENTIFIER),
+            DUMMY_IDENTIFIER,
             application_settings.get("BENG_DATA_DOMAIN"),
         ).thenReturn(DUMMY_URI)
         when(apis.dataset.dataset_api.LODDatasetAPI).is_dataset(DUMMY_URI).thenReturn(
@@ -113,92 +129,48 @@ def test_get_200_mime_type_None(application_settings, generic_client, dataset_ur
         when(apis.dataset.dataset_api.LODDatasetAPI).is_valid_dataset(
             DUMMY_URI
         ).thenReturn(True)
-        when(apis.dataset.dataset_api.LODDatasetAPI)._get_lod_view_resource(
-            DUMMY_URI,
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("URI_NISV_ORGANISATION"),
-        ).thenReturn(DUMMY_PAGE)
         when(apis.dataset.dataset_api.DataCatalogLODHandler).get_dataset(
-            DUMMY_URI, mime_format=default_mimetype.to_ld_format()
-        ).thenReturn(DUMMY_SERIALISATION)
-        when(
-            apis.dataset.dataset_api.DataCatalogLODHandler
-        )._get_data_catalog_from_store(
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("DATA_CATALOG_GRAPH"),
-        ).thenReturn()
+            DUMMY_URI, MimeType.TURTLE.value
+        ).thenReturn(dataset_graph.serialize(format=MimeType.TURTLE.to_ld_format()))
 
-        resp = generic_client.get(
-            "offline",
+        resp = flask_test_client.get(
             dataset_url(DUMMY_IDENTIFIER),
             headers={"Accept": input_mime_type},
         )
 
         assert resp.status_code == 200
+        assert resp.mimetype == default_mime_type.value
 
-        if default_mimetype is MimeType.HTML:
-            assert (
-                DUMMY_PAGE in resp.text.decode()
-            )  # client adds a newline at the end of the response for some reason
-        else:
-            assert resp.text.decode() == DUMMY_SERIALISATION
+        served_graph = Graph()
+        served_graph.parse(data=resp.text, format=default_mime_type.to_ld_format())
+        assert to_isomorphic(served_graph) == to_isomorphic(dataset_graph)
 
-        verify(util.ld_util, times=1).generate_lod_resource_uri(
-            DatasetApiUriLevel.DATASET,
-            str(DUMMY_IDENTIFIER),
-            application_settings.get("BENG_DATA_DOMAIN"),
-        )
-        verify(apis.dataset.dataset_api.LODDatasetAPI, times=1).is_dataset(DUMMY_URI)
-        verify(apis.dataset.dataset_api.LODDatasetAPI, times=1).is_valid_dataset(
-            DUMMY_URI
-        )
-        verify(
-            apis.dataset.dataset_api.LODDatasetAPI,
-            times=1 if default_mimetype is MimeType.HTML else 0,
-        )._get_lod_view_resource(
-            DUMMY_URI,
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("URI_NISV_ORGANISATION"),
-        )
-        verify(
-            apis.dataset.dataset_api.DataCatalogLODHandler,
-            times=1 if default_mimetype is not MimeType.HTML else 0,
-        ).get_dataset(DUMMY_URI, mime_format=default_mimetype.to_ld_format())
-        verify(
-            apis.dataset.dataset_api.DataCatalogLODHandler,
-            times=1 if default_mimetype is not MimeType.HTML else 0,
-        )._get_data_catalog_from_store(
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("DATA_CATALOG_GRAPH"),
+        verify(apis.dataset.dataset_api.DataCatalogLODHandler, times=1).get_dataset(
+            DUMMY_URI, MimeType.TURTLE.value
         )
 
     finally:
         unstub()
 
 
-@pytest.mark.skip(
-    reason="lodview is removed from object. This needs to be updated in test."
-)
-@pytest.mark.parametrize(
-    "mime_type, error_cause",
-    [
-        (MimeType.HTML, "invalid_dataset"),
-        (MimeType.JSON_LD, "invalid_dataset"),
-        (MimeType.JSON_LD, "serialisation_failed"),
-    ],
-)
-def test_get_400(
-    mime_type, error_cause, application_settings, generic_client, dataset_url, caplog
-):
-    DUMMY_IDENTIFIER = 1234
-    DUMMY_URI = f"http://{DUMMY_IDENTIFIER}"
-    DUMMY_PAGE = "<!DOCTYPE html> <html> just something pretending to be an interesting HTML page</html>"
-    DUMMY_SERIALISATION = "just something pretending to be a serialisation of a graph"
+@pytest.mark.parametrize("identifier", ["not-a-number", "12a4"])
+def test_get_400_invalid_identifier(flask_test_client, dataset_url, identifier):
+    """A dataset identifier that is not a number results in a bad request response."""
+    resp = flask_test_client.get(dataset_url(identifier))
 
+    assert resp.status_code == 400
+    assert f"Invalid identifier supplied: {identifier}" in resp.text
+
+
+@pytest.mark.parametrize("mime_type", [MimeType.HTML, MimeType.JSON_LD])
+def test_get_400_invalid_dataset(
+    mime_type, application_settings, flask_test_client, dataset_url, caplog
+):
+    """An existing, but invalid dataset results in a bad request response."""
     try:
         when(util.ld_util).generate_lod_resource_uri(
             DatasetApiUriLevel.DATASET,
-            str(DUMMY_IDENTIFIER),
+            DUMMY_IDENTIFIER,
             application_settings.get("BENG_DATA_DOMAIN"),
         ).thenReturn(DUMMY_URI)
         when(apis.dataset.dataset_api.LODDatasetAPI).is_dataset(DUMMY_URI).thenReturn(
@@ -206,170 +178,71 @@ def test_get_400(
         )
         when(apis.dataset.dataset_api.LODDatasetAPI).is_valid_dataset(
             DUMMY_URI
-        ).thenReturn(False if error_cause == "invalid_dataset" else True)
-        when(apis.dataset.dataset_api.LODDatasetAPI)._get_lod_view_resource(
-            DUMMY_URI,
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("URI_NISV_ORGANISATION"),
-        ).thenReturn(DUMMY_PAGE)
-        when(apis.dataset.dataset_api.DataCatalogLODHandler).get_dataset(
-            DUMMY_URI, mime_format=mime_type.to_ld_format()
-        ).thenReturn(
-            None if error_cause == "serialisation_failed" else DUMMY_SERIALISATION
-        )
-        when(
-            apis.dataset.dataset_api.DataCatalogLODHandler
-        )._get_data_catalog_from_store(
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("DATA_CATALOG_GRAPH"),
-        ).thenReturn()
+        ).thenReturn(False)
 
-        resp = generic_client.get(
-            "offline",
+        resp = flask_test_client.get(
             dataset_url(DUMMY_IDENTIFIER),
             headers={"Accept": mime_type.value},
         )
 
         assert resp.status_code == 400
+        assert f"Dataset is not valid: {DUMMY_URI}." in caplog.text
 
-        if error_cause == "invalid_dataset":
-            assert f"Dataset is not valid: {DUMMY_URI}." in caplog.text
-        else:
-            assert (
-                f"Could not fetch the serialization for dataset {DUMMY_URI}."
-                in caplog.text
-            )
-
-        verify(util.ld_util, times=1).generate_lod_resource_uri(
-            DatasetApiUriLevel.DATASET,
-            str(DUMMY_IDENTIFIER),
-            application_settings.get("BENG_DATA_DOMAIN"),
-        )
         verify(apis.dataset.dataset_api.LODDatasetAPI, times=1).is_dataset(DUMMY_URI)
         verify(apis.dataset.dataset_api.LODDatasetAPI, times=1).is_valid_dataset(
             DUMMY_URI
-        )
-        verify(
-            apis.dataset.dataset_api.LODDatasetAPI,
-            times=(
-                1
-                if mime_type is MimeType.HTML and error_cause != "invalid_dataset"
-                else 0
-            ),
-        )._get_lod_view_resource(
-            DUMMY_URI,
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("URI_NISV_ORGANISATION"),
-        )
-        verify(
-            apis.dataset.dataset_api.DataCatalogLODHandler,
-            times=(
-                1
-                if mime_type is not MimeType.HTML and error_cause != "invalid_dataset"
-                else 0
-            ),
-        ).get_dataset(DUMMY_URI, mime_format=mime_type.to_ld_format())
-        verify(
-            apis.dataset.dataset_api.DataCatalogLODHandler,
-            times=(
-                1
-                if mime_type is not MimeType.HTML and error_cause != "invalid_dataset"
-                else 0
-            ),
-        )._get_data_catalog_from_store(
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("DATA_CATALOG_GRAPH"),
         )
 
     finally:
         unstub()
 
 
-@pytest.mark.skip(
-    reason="lodview is removed from object. This needs to be updated in test."
-)
 @pytest.mark.parametrize("mime_type", [mime_type for mime_type in MimeType])
-def test_get_404(mime_type, application_settings, generic_client, dataset_url, caplog):
-    DUMMY_IDENTIFIER = 1234
-    DUMMY_URI = f"http://{DUMMY_IDENTIFIER}"
-    DUMMY_PAGE = "<!DOCTYPE html> <html> just something pretending to be an interesting HTML page</html>"
-    DUMMY_SERIALISATION = "just something pretending to be a serialisation of a graph"
-
+def test_get_404(
+    mime_type, application_settings, flask_test_client, dataset_url, caplog
+):
+    """A dataset that doesn't exist results in a not found response."""
     try:
         when(util.ld_util).generate_lod_resource_uri(
             DatasetApiUriLevel.DATASET,
-            str(DUMMY_IDENTIFIER),
+            DUMMY_IDENTIFIER,
             application_settings.get("BENG_DATA_DOMAIN"),
         ).thenReturn(DUMMY_URI)
         when(apis.dataset.dataset_api.LODDatasetAPI).is_dataset(DUMMY_URI).thenReturn(
             False
         )
-        when(apis.dataset.dataset_api.LODDatasetAPI).is_valid_dataset(DUMMY_URI)
-        when(apis.dataset.dataset_api.LODDatasetAPI)._get_lod_view_resource(
-            DUMMY_URI,
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("URI_NISV_ORGANISATION"),
-        ).thenReturn(DUMMY_PAGE)
-        when(apis.dataset.dataset_api.DataCatalogLODHandler).get_dataset(
-            DUMMY_URI, mime_format=mime_type.to_ld_format()
-        ).thenReturn(DUMMY_SERIALISATION)
-        when(
-            apis.dataset.dataset_api.DataCatalogLODHandler
-        )._get_data_catalog_from_store(
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("DATA_CATALOG_GRAPH"),
-        ).thenReturn()
+        when(apis.dataset.dataset_api.LODDatasetAPI).is_valid_dataset(
+            DUMMY_URI
+        ).thenReturn(True)
 
-        resp = generic_client.get(
-            "offline",
+        resp = flask_test_client.get(
             dataset_url(DUMMY_IDENTIFIER),
             headers={"Accept": mime_type.value},
         )
 
         assert resp.status_code == 404
-
         assert f"Dataset doesn't exist: {DUMMY_URI}." in caplog.text
 
-        verify(util.ld_util, times=1).generate_lod_resource_uri(
-            DatasetApiUriLevel.DATASET,
-            str(DUMMY_IDENTIFIER),
-            application_settings.get("BENG_DATA_DOMAIN"),
-        )
         verify(apis.dataset.dataset_api.LODDatasetAPI, times=1).is_dataset(DUMMY_URI)
         verify(apis.dataset.dataset_api.LODDatasetAPI, times=0).is_valid_dataset(
             DUMMY_URI
-        )
-        verify(apis.dataset.dataset_api.LODDatasetAPI, times=0)._get_lod_view_resource(
-            DUMMY_URI,
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("URI_NISV_ORGANISATION"),
-        )
-        verify(apis.dataset.dataset_api.DataCatalogLODHandler, times=0).get_dataset(
-            DUMMY_URI, mime_format=mime_type.to_ld_format()
-        )
-        verify(
-            apis.dataset.dataset_api.DataCatalogLODHandler, times=0
-        )._get_data_catalog_from_store(
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("DATA_CATALOG_GRAPH"),
         )
 
     finally:
         unstub()
 
 
-@pytest.mark.skip(
-    reason="lodview is removed from object. This needs to be updated in test."
-)
-def test_get_500(application_settings, generic_client, dataset_url, caplog):
-    DUMMY_IDENTIFIER = 1234
-    DUMMY_URI = f"http://{DUMMY_IDENTIFIER}"
-    mime_type = MimeType.HTML
-
+@pytest.mark.parametrize("mime_type", [MimeType.HTML, MimeType.JSON_LD])
+def test_get_500(
+    mime_type, application_settings, flask_test_client, dataset_url, caplog
+):
+    """When no triples are returned for the dataset, no graph can be created and
+    an internal server error response is returned."""
     try:
+        stub_data_catalog(application_settings)
         when(util.ld_util).generate_lod_resource_uri(
             DatasetApiUriLevel.DATASET,
-            str(DUMMY_IDENTIFIER),
+            DUMMY_IDENTIFIER,
             application_settings.get("BENG_DATA_DOMAIN"),
         ).thenReturn(DUMMY_URI)
         when(apis.dataset.dataset_api.LODDatasetAPI).is_dataset(DUMMY_URI).thenReturn(
@@ -378,35 +251,22 @@ def test_get_500(application_settings, generic_client, dataset_url, caplog):
         when(apis.dataset.dataset_api.LODDatasetAPI).is_valid_dataset(
             DUMMY_URI
         ).thenReturn(True)
-        when(apis.dataset.dataset_api.LODDatasetAPI)._get_lod_view_resource(
-            DUMMY_URI,
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("URI_NISV_ORGANISATION"),
-        ).thenReturn(None)
+        when(apis.dataset.dataset_api.DataCatalogLODHandler).get_dataset(
+            DUMMY_URI, MimeType.TURTLE.value
+        ).thenReturn(
+            Graph().serialize(format=MimeType.TURTLE.to_ld_format())
+        )  # empty graph will cause 500
 
-        resp = generic_client.get(
-            "offline",
+        resp = flask_test_client.get(
             dataset_url(DUMMY_IDENTIFIER),
-            headers={"Accept": mime_type.value if mime_type else None},
+            headers={"Accept": mime_type.value},
         )
 
         assert resp.status_code == 500
+        assert "No graph created" in resp.text
 
-        assert f"Could not generate the HTML page for {DUMMY_URI}." in caplog.text
-
-        verify(util.ld_util, times=1).generate_lod_resource_uri(
-            DatasetApiUriLevel.DATASET,
-            str(DUMMY_IDENTIFIER),
-            application_settings.get("BENG_DATA_DOMAIN"),
-        )
-        verify(apis.dataset.dataset_api.LODDatasetAPI, times=1).is_dataset(DUMMY_URI)
-        verify(apis.dataset.dataset_api.LODDatasetAPI, times=1).is_valid_dataset(
-            DUMMY_URI
-        )
-        verify(apis.dataset.dataset_api.LODDatasetAPI, times=1)._get_lod_view_resource(
-            DUMMY_URI,
-            application_settings.get("SPARQL_ENDPOINT"),
-            application_settings.get("URI_NISV_ORGANISATION"),
+        verify(apis.dataset.dataset_api.DataCatalogLODHandler, times=1).get_dataset(
+            DUMMY_URI, MimeType.TURTLE.value
         )
 
     finally:

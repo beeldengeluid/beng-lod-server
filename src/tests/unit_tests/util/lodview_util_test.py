@@ -1,8 +1,10 @@
 import pytest
 from rdflib import Graph, URIRef, Literal, BNode
 from rdflib.namespace import RDF, RDFS, SKOS, SDO, DCTERMS  # type: ignore
-from mockito import unstub
+from mockito import unstub, when
+import util.ld_util
 import util.lodview_util
+from util.mime_type_util import MimeType
 
 DUMMY_BENG_DATA_DOMAIN = "http://data.beeldengeluid.nl/"  # see setting_example.py
 DUMMY_RESOURCE_ID = "1234"
@@ -281,3 +283,81 @@ def test_get_string_for_langstring(literal: Literal, lang: str, expected: str):
     """
     result = util.lodview_util.get_string_for_langstring(literal, lang)
     assert result == expected
+
+
+def test_generate_html_page(flask_test_client, application_settings, program_rdf_graph):
+    """Given a graph for a resource, an HTML response for the lod view is generated."""
+    resource_iri = str(
+        program_rdf_graph.value(predicate=RDF.type, object=SDO.CreativeWork)
+    )
+
+    try:
+        # no inverse relations, so the SPARQL endpoint is not queried
+        when(util.ld_util).ask_for_inverse_relations(
+            resource_iri, application_settings.get("SPARQL_ENDPOINT", "")
+        ).thenReturn(False)
+
+        with flask_test_client.application.app_context():
+            resp = util.lodview_util.generate_html_page(
+                program_rdf_graph,
+                resource_iri,
+                application_settings.get("SPARQL_ENDPOINT", ""),
+            )
+
+        assert resp.status_code == 200
+        assert resp.mimetype == MimeType.HTML.value
+        assert "<!doctype html>" in resp.get_data(as_text=True)
+    finally:
+        unstub()
+
+
+def test_generate_html_page_no_graph(flask_test_client, application_settings):
+    """Given an empty graph, no HTML page can be rendered and an error response
+    is returned."""
+    with flask_test_client.application.app_context():
+        body, status_code, _ = util.lodview_util.generate_html_page(
+            Graph(),
+            DUMMY_RESOURCE_URI,
+            application_settings.get("SPARQL_ENDPOINT", ""),
+        )
+
+    assert status_code == 500
+    assert "Could not generate an HTML view for this resource" in body["error"]
+
+
+@pytest.mark.parametrize(
+    "mime_type", [mime_type for mime_type in MimeType if mime_type is not MimeType.HTML]
+)
+def test_get_serialised_graph(flask_test_client, program_rdf_graph, mime_type):
+    """Given a graph, a response with the serialised graph is returned."""
+    with flask_test_client.application.app_context():
+        resp = util.lodview_util.get_serialised_graph(program_rdf_graph, mime_type)
+
+    assert resp.status_code == 200
+    assert resp.mimetype == mime_type.value
+
+    served_graph = Graph()
+    served_graph.parse(
+        data=resp.get_data(as_text=True), format=mime_type.to_ld_format()
+    )
+    assert len(served_graph) == len(program_rdf_graph)
+
+
+def test_get_serialised_graph_serialisation_failed(
+    flask_test_client, program_rdf_graph
+):
+    """When the graph can not be serialised, an error response is returned."""
+    try:
+        when(program_rdf_graph).serialize(
+            format=MimeType.JSON_LD.to_ld_format()
+        ).thenReturn(None)
+
+        with flask_test_client.application.app_context():
+            body, status_code, _ = util.lodview_util.get_serialised_graph(
+                program_rdf_graph, MimeType.JSON_LD
+            )
+
+        assert status_code == 500
+        assert "Serialisation failed" in body["error"]
+    finally:
+        unstub()
