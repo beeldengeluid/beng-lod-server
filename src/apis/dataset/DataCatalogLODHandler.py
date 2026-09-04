@@ -12,6 +12,7 @@ logger = logging.getLogger()
 class DataCatalogLODHandler:
     """Handles requests from the beng-lod server for data catalogs, datasets, datadownloads.
     The only data model/ontology this data is available in is schema.org.
+    NOTE: This class has a duplicate in the beng-dataset-importer.
     """
 
     def __init__(self):
@@ -39,14 +40,16 @@ class DataCatalogLODHandler:
         A DataDownload has a minimal definition:
           - an IRI
           - contentUrl
-          - encodingFormat
+          - encodingFormat (if the distribution is an RDF dump)
           - usageInfo (if the distribution is non-standard API)
         """
         if (
             self.is_data_download(data_download_id)
             and self.has_content_url(data_download_id)
-            and self.has_encoding_format(data_download_id)
-            and self.has_usage_info(data_download_id)
+            and (
+                self.has_encoding_format(data_download_id)
+                or self.has_usage_info(data_download_id)
+            )
         ):
             return True
         return False
