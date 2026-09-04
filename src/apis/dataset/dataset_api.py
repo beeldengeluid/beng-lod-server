@@ -180,7 +180,11 @@ class LODDataCatalogAPI(Resource):
             )
         else:
             # another serialisation than HTML
-            return util.lodview_util.get_serialised_graph(rdf_graph, mime_type)
+            return util.lodview_util.get_serialised_graph(
+                rdf_graph,
+                mime_type,
+                autocompact=True,  # this setting is for the website data catalog fetch
+            )
 
     def is_data_catalog(self, data_catalog_uri: str) -> bool:
         return DataCatalogLODHandler().is_data_catalog(data_catalog_uri)
