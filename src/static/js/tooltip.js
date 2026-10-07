@@ -14,17 +14,22 @@ items.forEach(el => {
         el.setAttribute('data-bs-title', el.textContent.trim());
         
         // 4. Initialize and immediately show the Bootstrap tooltip
-        const tooltip = bootstrap.Tooltip.getOrCreateInstance(el);
-        tooltip.show();
+        if (typeof bootstrap !== 'undefined') {
+            const tooltip = bootstrap.Tooltip.getOrCreateInstance(el);
+            tooltip.show();
+        }
+
     }
     });
 
     // 5. Clean up the tooltip when the mouse leaves
     el.addEventListener('mouseleave', () => {
-    const tooltip = bootstrap.Tooltip.getInstance(el);
-    if (tooltip) {
-        tooltip.dispose(); // Removes the tooltip completely from memory
-        el.removeAttribute('data-bs-title');
+        if (typeof bootstrap !== 'undefined') {
+            const tooltip = bootstrap.Tooltip.getInstance(el);
+            if (tooltip) {
+                tooltip.dispose(); // Removes the tooltip completely from memory
+                el.removeAttribute('data-bs-title');
+        }
     }
     });
 });
